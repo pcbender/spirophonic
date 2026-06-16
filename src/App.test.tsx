@@ -9,6 +9,6 @@ describe('App', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: 'Spirophonic' }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/Vite, React, and TypeScript/)).toBeInTheDocument()
+    expect(screen.getByLabelText('Relationship controls')).toBeInTheDocument()
   })
 })
