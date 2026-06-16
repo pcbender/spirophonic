@@ -32,6 +32,27 @@ describe('mapping utilities', () => {
     expect(frequency).toBeLessThanOrEqual(defaultModel.sound.maxFrequencyHz)
   })
 
+  it('uses base frequency as the pitch anchor for mapped modes', () => {
+    const lowBase = pointToFrequency(
+      points[120],
+      {
+        ...defaultModel,
+        sound: { ...defaultModel.sound, baseFrequencyHz: 160 },
+      },
+      points,
+    )
+    const highBase = pointToFrequency(
+      points[120],
+      {
+        ...defaultModel,
+        sound: { ...defaultModel.sound, baseFrequencyHz: 440 },
+      },
+      points,
+    )
+
+    expect(highBase).not.toBe(lowBase)
+  })
+
   it('maps pan to -1 through 1', () => {
     const pan = pointToPan(points[10], points)
 
@@ -50,4 +71,3 @@ describe('mapping utilities', () => {
     expect(approximateVelocity(points, 10)).toBeGreaterThanOrEqual(0)
   })
 })
-

@@ -8,9 +8,13 @@ type PresetPickerProps = {
 
 export function PresetPicker({ model, onSelect }: PresetPickerProps) {
   return (
-    <label className="preset-picker">
+    <label
+      className="preset-picker"
+      title="Load a complete relationship model with geometry, sound, color, and timing values."
+    >
       <span>Preset</span>
       <select
+        title="Load a complete relationship model with geometry, sound, color, and timing values."
         value={model.id}
         onChange={(event) => {
           const preset = presets.find(
@@ -30,4 +34,3 @@ export function PresetPicker({ model, onSelect }: PresetPickerProps) {
     </label>
   )
 }
-

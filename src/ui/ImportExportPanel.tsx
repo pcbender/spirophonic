@@ -39,13 +39,25 @@ export function ImportExportPanel({
 
   return (
     <div className="import-export" aria-label="Import and export">
-      <button type="button" onClick={() => downloadModelJson(model)}>
+      <button
+        type="button"
+        title="Download the current relationship model as JSON."
+        onClick={() => downloadModelJson(model)}
+      >
         Export JSON
       </button>
-      <button type="button" onClick={() => inputRef.current?.click()}>
+      <button
+        type="button"
+        title="Load a saved Spirophonic v0.1 JSON model."
+        onClick={() => inputRef.current?.click()}
+      >
         Import JSON
       </button>
-      <button type="button" onClick={() => downloadTraceSvg(model, points)}>
+      <button
+        type="button"
+        title="Download the current trace as an SVG path."
+        onClick={() => downloadTraceSvg(model, points)}
+      >
         Export SVG
       </button>
       <input

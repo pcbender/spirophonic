@@ -27,7 +27,11 @@ export function StrudelExportPanel({
     <section className="strudel-panel" aria-label="Strudel snippet export">
       <div className="panel-header">
         <h2>Strudel</h2>
-        <button type="button" onClick={() => void handleCopy()}>
+        <button
+          type="button"
+          title="Copy an experimental Strudel-style snippet derived from this model."
+          onClick={() => void handleCopy()}
+        >
           Copy
         </button>
       </div>
@@ -36,4 +40,3 @@ export function StrudelExportPanel({
     </section>
   )
 }
-

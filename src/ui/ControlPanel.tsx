@@ -5,6 +5,7 @@ import type {
   SpirophonicModel,
   Waveform,
 } from '../core/model'
+import { formatCycleSetting } from '../core/time'
 
 type ControlPanelProps = {
   model: SpirophonicModel
@@ -17,6 +18,8 @@ type NumberFieldProps = {
   min: number
   max: number
   step?: number
+  help: string
+  formatValue?: (value: number) => string
   onChange: (value: number) => void
 }
 
@@ -42,6 +45,7 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
         <h2>Geometry</h2>
         <NumberField
           label="Fixed radius"
+          help="Radius of the fixed circle that the moving circle rolls around."
           value={model.geometry.fixedRadius}
           min={40}
           max={320}
@@ -49,6 +53,7 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
         />
         <NumberField
           label="Moving radius"
+          help="Radius of the rolling circle. Different ratios create different trace symmetries."
           value={model.geometry.movingRadius}
           min={10}
           max={180}
@@ -56,6 +61,7 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
         />
         <NumberField
           label="Pen offset"
+          help="Distance of the drawing point from the center of the moving circle."
           value={model.geometry.penOffset}
           min={0}
           max={220}
@@ -63,6 +69,7 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
         />
         <NumberField
           label="Phase"
+          help="Rotates the relationship through its cycle without changing the ratios."
           value={model.geometry.phase}
           min={0}
           max={Math.PI * 2}
@@ -71,13 +78,17 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
         />
         <NumberField
           label="Samples"
+          help="Number of points used to draw and map the trace. Higher values are smoother."
           value={model.geometry.samples}
           min={120}
           max={2400}
           step={10}
           onChange={(samples) => updateGeometry({ samples })}
         />
-        <label className="field">
+        <label
+          className="field"
+          title="Inside creates a hypotrochoid; outside creates an epitrochoid."
+        >
           <span>Rotation</span>
           <select
             value={model.geometry.rotation}
@@ -97,10 +108,12 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
         <h2>Time</h2>
         <NumberField
           label="Cycles per second"
+          help="Negative values mean seconds per loop; positive values mean cycles per second."
           value={model.time.cyclesPerSecond}
-          min={0.03}
-          max={1.5}
+          min={-5}
+          max={2}
           step={0.01}
+          formatValue={formatCycleSetting}
           onChange={(cyclesPerSecond) => updateTime({ cyclesPerSecond })}
         />
       </section>
@@ -109,6 +122,7 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
         <h2>Sound</h2>
         <NumberField
           label="Base frequency"
+          help="Anchor pitch for the sound mapping. At the midpoint of a mapping, the sound lands here."
           value={model.sound.baseFrequencyHz}
           min={55}
           max={880}
@@ -116,6 +130,7 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
         />
         <NumberField
           label="Minimum Hz"
+          help="Lowest frequency the generated sound can use."
           value={model.sound.minFrequencyHz}
           min={40}
           max={1200}
@@ -123,12 +138,16 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
         />
         <NumberField
           label="Maximum Hz"
+          help="Highest frequency the generated sound can use."
           value={model.sound.maxFrequencyHz}
           min={80}
           max={1800}
           onChange={(maxFrequencyHz) => updateSound({ maxFrequencyHz })}
         />
-        <label className="field">
+        <label
+          className="field"
+          title="Chooses which geometric value controls oscillator frequency."
+        >
           <span>Frequency mode</span>
           <select
             value={model.sound.frequencyMode}
@@ -145,7 +164,7 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
             <option value="ratio">Ratio</option>
           </select>
         </label>
-        <label className="field">
+        <label className="field" title="Oscillator waveform used by WebAudio.">
           <span>Waveform</span>
           <select
             value={model.sound.waveform}
@@ -163,7 +182,10 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
 
       <section>
         <h2>Color</h2>
-        <label className="field">
+        <label
+          className="field"
+          title="Chooses which geometric value controls trace hue."
+        >
           <span>Hue source</span>
           <select
             value={model.color.hueSource}
@@ -188,6 +210,8 @@ function NumberField({
   min,
   max,
   step = 1,
+  help,
+  formatValue = formatNumber,
   onChange,
 }: NumberFieldProps) {
   const handleChange = (nextValue: string) => {
@@ -195,12 +219,13 @@ function NumberField({
   }
 
   return (
-    <label className="field">
+    <label className="field" title={help}>
       <span>
         {label}
-        <strong>{formatNumber(value)}</strong>
+        <strong title={help}>{formatValue(value)}</strong>
       </span>
       <input
+        title={help}
         type="range"
         min={min}
         max={max}
@@ -213,5 +238,4 @@ function NumberField({
 }
 
 const formatNumber = (value: number) =>
-  Number.isInteger(value) ? value : value.toFixed(2)
-
+  Number.isInteger(value) ? String(value) : value.toFixed(2)

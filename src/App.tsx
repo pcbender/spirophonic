@@ -4,6 +4,7 @@ import { WebAudioEngine } from './audio/webAudioEngine'
 import { defaultModel } from './core/defaultModel'
 import type { SpirophonicModel } from './core/model'
 import { generateSpiroPoints } from './core/spirograph'
+import { getEffectiveCyclesPerSecond } from './core/time'
 import { CanvasView } from './ui/CanvasView'
 import { ControlPanel } from './ui/ControlPanel'
 import { ImportExportPanel } from './ui/ImportExportPanel'
@@ -36,7 +37,8 @@ function App() {
 
       setProgress((currentProgress) => {
         const nextProgress =
-          currentProgress + deltaSeconds * model.time.cyclesPerSecond
+          currentProgress +
+          deltaSeconds * getEffectiveCyclesPerSecond(model.time.cyclesPerSecond)
 
         return nextProgress % 1
       })

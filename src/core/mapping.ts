@@ -48,14 +48,13 @@ export const pointToFrequency = (
   const bounds = getPointBounds(points)
   const { minFrequencyHz, maxFrequencyHz, baseFrequencyHz, frequencyMode } =
     model.sound
+  const lowerFrequency = Math.min(minFrequencyHz, maxFrequencyHz)
+  const upperFrequency = Math.max(minFrequencyHz, maxFrequencyHz)
+  const anchorFrequency = clamp(baseFrequencyHz, lowerFrequency, upperFrequency)
 
   if (frequencyMode === 'ratio') {
     const ratio = 1 + normalize(point.radius, bounds.minRadius, bounds.maxRadius)
-    return clamp(
-      baseFrequencyHz * ratio,
-      Math.min(minFrequencyHz, maxFrequencyHz),
-      Math.max(minFrequencyHz, maxFrequencyHz),
-    )
+    return clamp(baseFrequencyHz * ratio, lowerFrequency, upperFrequency)
   }
 
   const normalized =
@@ -67,7 +66,11 @@ export const pointToFrequency = (
           ? normalizeAngle(point.angle)
           : normalize(point.radius, bounds.minRadius, bounds.maxRadius)
 
-  return mapRange(normalized, 0, 1, minFrequencyHz, maxFrequencyHz)
+  if (normalized <= 0.5) {
+    return mapRange(normalized, 0, 0.5, lowerFrequency, anchorFrequency)
+  }
+
+  return mapRange(normalized, 0.5, 1, anchorFrequency, upperFrequency)
 }
 
 export const pointToPan = (point: SpiroPoint, points: Array<SpiroPoint>) => {
@@ -153,4 +156,3 @@ const normalizeSignedAngle = (angle: number) => {
 
   return ((angle + Math.PI) % tau) - Math.PI
 }
-

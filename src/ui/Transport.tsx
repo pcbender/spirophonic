@@ -19,13 +19,24 @@ export function Transport({
 }: TransportProps) {
   return (
     <div className="transport" aria-label="Animation transport">
-      <button type="button" onClick={isPlaying ? onPause : onPlay}>
+      <button
+        type="button"
+        title="Start or pause the animated trace."
+        onClick={isPlaying ? onPause : onPlay}
+      >
         {isPlaying ? 'Pause' : 'Play'}
       </button>
-      <button type="button" onClick={onReset}>
+      <button
+        type="button"
+        title="Return animation progress to the beginning."
+        onClick={onReset}
+      >
         Reset
       </button>
-      <label className="sound-toggle">
+      <label
+        className="sound-toggle"
+        title="Enable a quiet WebAudio oscillator controlled by the current trace point."
+      >
         <input
           type="checkbox"
           checked={soundEnabled}
