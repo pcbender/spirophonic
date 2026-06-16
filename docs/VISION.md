@@ -47,7 +47,8 @@ Relationship Engine
   modulation
   tension
 
-        ↓
+        |
+        v
 
 Renderers
   shape
@@ -75,10 +76,10 @@ The first goal is to prove the loop:
 
 ```text
 Choose cyclic relationships
-→ see a trace
-→ hear a pattern
-→ change the relationship
-→ hear and see the change immediately
+-> see a trace
+-> hear a pattern
+-> change the relationship
+-> hear and see the change immediately
 ```
 
 ## Non-medical Boundary
@@ -114,7 +115,7 @@ Recommended stack:
 TypeScript
 Vite
 React
-Canvas or SVG rendering
+Canvas rendering
 WebAudio for sound preview
 Vitest for tests
 ```
@@ -147,7 +148,7 @@ TidalCycles is the Haskell live-coding system that inspired part of this thinkin
 
 Spirophonic should eventually support two directions:
 
-### Direction A: Spirophonic → Strudel/Tidal
+### Direction A: Spirophonic -> Strudel/Tidal
 
 User builds cyclic relationships in the UI.
 
@@ -164,7 +165,7 @@ note("<c2 g2 c3 e3>")
   .cutoff(cosine.range(300, 3000).slow(7))
 ```
 
-### Direction B: Strudel/Tidal → Spirophonic
+### Direction B: Strudel/Tidal -> Spirophonic
 
 User writes live-code patterns.
 
@@ -185,76 +186,48 @@ That is Spirophonic v0.1.
 ### Must Have
 
 - Browser app runs locally with `npm install` and `npm run dev`.
-
 - User can adjust basic relationship parameters:
-  
   - fixed radius
-  
   - moving radius
-  
   - pen offset
-  
   - phase
-  
   - speed
-  
   - sample count
-
 - App renders a live trace.
-
 - App can animate the trace over time.
-
 - App can generate simple audio using WebAudio.
-
 - App maps geometry to color.
-
-- App can save/export the current relationship model as JSON.
-
+- App can save/export and reload the current relationship model as JSON.
 - Core math is separated from UI.
-
 - Core math has tests.
 
-### Should Have
+### Stretch for v0.1
 
 - Presets for a few interesting patterns.
-
-- SVG export.
-
-- Basic Strudel snippet export.
-
 - Frequency mode:
-  
   - direct Hz
-  
   - ratio-from-base-frequency
-
 - Simple scale mode:
-  
   - chromatic
-  
   - pentatonic
-  
   - harmonic ratio mode
 
-### Not Yet
+### Post-v0.1
 
-- No full Strudel dependency.
+- SVG export.
+- Basic Strudel snippet export.
+- MIDI routing or MIDI file export.
+- Full Strudel dependency.
+- Full Tidal/Haskell integration.
+- SuperCollider integration.
+- Electron desktop app.
+- Login/account system.
+- Database.
+- Canto integration.
 
-- No full Tidal/Haskell integration.
+### Never
 
-- No SuperCollider integration.
-
-- No MIDI routing.
-
-- No Electron desktop app.
-
-- No login/account system.
-
-- No database.
-
-- No Canto integration.
-
-- No medical/healing claims.
+- Medical or healing claims.
 
 ## Conceptual Model
 
@@ -282,7 +255,7 @@ type SpirophonicModel = {
   sound: {
     enabled: boolean
     baseFrequencyHz: number
-    frequencyMode: "radius" | "y" | "angle" | "ratio"
+    frequencyMode: "radius" | "x" | "y" | "angle" | "ratio"
     minFrequencyHz: number
     maxFrequencyHz: number
     waveform: "sine" | "triangle" | "square" | "sawtooth"
@@ -380,30 +353,18 @@ A beautiful small demo beats an overdesigned architecture.
 
 After v0.1:
 
-- Strudel export
-
-- SVG export
-
-- MIDI file export
-
-- Reaper workflow
-
-- OSC bridge
-
-- SuperCollider/Tidal bridge
-
-- Pattern import from Strudel
-
-- Color palette systems
-
-- Multi-voice relationship layers
-
 - Preset library
-
+- SVG export
+- Strudel export
+- MIDI file export
+- Reaper workflow
+- OSC bridge
+- SuperCollider/Tidal bridge
+- Pattern import from Strudel
+- Color palette systems
+- Multi-voice relationship layers
 - Recording/export of audio/video
-
 - Lingua Aeternum mode
-
 - Album/visualizer mode for PCBender/Lingua Aeternum works
 
 ## Long-term Dream

@@ -17,10 +17,10 @@ WebAudio
 Vitest
 ```
 
-Primary goal:
+Prototype v0.1 goal:
 
 ```text
-A local browser app that renders animated Spirophonic traces and produces simple sound from the same relationship model.
+A local browser app that renders animated Spirophonic traces, maps color from the same relationship model, produces simple sound from that model, and can save/reload the model as JSON.
 ```
 
 The prototype should run with:
@@ -34,24 +34,24 @@ npm test
 ## WBS Overview
 
 ```text
-0. Repo and project setup
-1. Core relationship model
-2. Spirograph math engine
-3. Geometry-derived mapping layer
-4. Canvas rendering
-5. UI control panel
-6. Animation transport
-7. WebAudio sound preview
-8. Color mapping
-9. Presets
-10. JSON export/import
-11. SVG export
-12. Strudel snippet export
-13. Tests
-14. Documentation polish
+CP-001. Repo and project setup
+CP-002. Core relationship model
+CP-003. Spirograph math engine
+CP-004. Geometry-derived mapping layer
+CP-005. Canvas rendering
+CP-006. UI control panel
+CP-007. Animation transport
+CP-008. WebAudio sound preview
+CP-009. Color mapping
+CP-010. JSON export/import
+CP-011. Testing pass for v0.1
+CP-012. README and demo polish for v0.1
+CP-013. Presets
+CP-014. SVG export
+CP-015. Strudel snippet export
 ```
 
-## CP-001 — Scaffold Vite React TypeScript App
+## CP-001 - Scaffold Vite React TypeScript App
 
 ### Goal
 
@@ -60,15 +60,10 @@ Create the initial Spirophonic web app scaffold.
 ### Scope
 
 - Initialize Vite React TypeScript project.
-
 - Add Vitest.
-
 - Add basic app layout.
-
 - Add docs folder.
-
 - Add placeholder README.
-
 - Confirm app runs locally.
 
 ### Suggested Commands
@@ -96,26 +91,20 @@ docs/INITIAL-WBS-AND-CP-PACKETS.md
 ### Acceptance Criteria
 
 - `npm install` succeeds.
-
 - `npm run dev` starts the app.
-
 - `npm test` runs successfully.
-
 - Browser shows a simple Spirophonic landing screen.
-
 - README includes local setup commands.
 
 ### Constraints
 
 - Do not add backend.
-
 - Do not add Strudel dependency yet.
-
 - Do not add styling frameworks unless necessary.
 
 ---
 
-## CP-002 — Define Core Model Types
+## CP-002 - Define Core Model Types
 
 ### Goal
 
@@ -126,13 +115,9 @@ Create a typed model for Spirophonic relationship data.
 Add TypeScript types for:
 
 - geometry
-
 - time/playback
-
 - sound mapping
-
 - color mapping
-
 - full document/model
 
 ### Suggested Files
@@ -188,16 +173,13 @@ export type SpirophonicModel = {
 ### Acceptance Criteria
 
 - Types compile.
-
 - Default model is exported.
-
 - No UI logic in model files.
-
 - No rendering logic in model files.
 
 ---
 
-## CP-003 — Implement Spirograph Math Engine
+## CP-003 - Implement Spirograph Math Engine
 
 ### Goal
 
@@ -210,11 +192,8 @@ Create pure functions that convert model geometry into sampled points.
 Support:
 
 - inside rotation/hypotrochoid
-
 - outside rotation/epitrochoid
-
 - phase
-
 - sample count
 
 ### Suggested Files
@@ -239,24 +218,17 @@ export type SpiroPoint = {
 ### Acceptance Criteria
 
 - `generateSpiroPoints(model)` returns deterministic points.
-
 - Points include `t`, `x`, `y`, `radius`, and `angle`.
-
 - Function does not touch DOM, Canvas, WebAudio, or React.
-
 - Tests cover:
-  
   - point count
-  
   - deterministic output
-  
   - inside vs outside mode produce different traces
-  
   - phase changes output
 
 ---
 
-## CP-004 — Add Mapping Utilities
+## CP-004 - Add Mapping Utilities
 
 ### Goal
 
@@ -267,19 +239,12 @@ Convert geometry values into normalized musical and color control values.
 Add utility functions:
 
 - normalize
-
 - clamp
-
 - mapRange
-
 - point to frequency
-
 - point to pan
-
 - point to hue
-
 - approximate velocity
-
 - optional curvature placeholder
 
 ### Suggested Files
@@ -292,18 +257,14 @@ tests/mapping.test.ts
 ### Acceptance Criteria
 
 - Mapping utilities are pure and tested.
-
 - Frequency mapping respects min/max Hz.
-
 - Pan mapping produces values in expected range.
-
-- Hue mapping produces 0–360.
-
+- Hue mapping produces 0-360.
 - No WebAudio or Canvas dependency.
 
 ---
 
-## CP-005 — Implement Canvas Trace Renderer
+## CP-005 - Implement Canvas Trace Renderer
 
 ### Goal
 
@@ -316,13 +277,9 @@ Create a Canvas component that draws the Spirophonic trace.
 Support:
 
 - auto-fit to canvas
-
 - line drawing
-
 - color per point or segment
-
 - dark neutral background
-
 - resize handling if practical
 
 ### Suggested Files
@@ -336,16 +293,13 @@ src/ui/CanvasView.tsx
 ### Acceptance Criteria
 
 - Browser displays the trace from the default model.
-
 - Changing model values changes the trace.
-
 - Rendering code is separated from math generation.
-
 - Trace fits inside the visible canvas.
 
 ---
 
-## CP-006 — Build Basic Control Panel
+## CP-006 - Build Basic Control Panel
 
 ### Goal
 
@@ -356,25 +310,15 @@ Allow users to change the relationship model interactively.
 Add sliders/inputs for:
 
 - fixed radius
-
 - moving radius
-
 - pen offset
-
 - phase
-
 - samples
-
 - rotation mode
-
 - cycles per second
-
 - base frequency
-
 - min/max frequency
-
 - waveform
-
 - hue source
 
 ### Suggested Files
@@ -387,16 +331,13 @@ src/App.tsx
 ### Acceptance Criteria
 
 - Controls update React state.
-
 - Canvas updates immediately.
-
 - Values are visible to the user.
-
 - Controls are simple and reliable, not fancy.
 
 ---
 
-## CP-007 — Add Animation Transport
+## CP-007 - Add Animation Transport
 
 ### Goal
 
@@ -407,13 +348,9 @@ Animate the trace so the relationship feels alive.
 Add playback controls:
 
 - play
-
 - pause
-
 - reset
-
 - current progress/cycle
-
 - animation speed tied to model time
 
 Animation may reveal the trace progressively or show a moving point along the trace.
@@ -428,16 +365,13 @@ src/ui/CanvasView.tsx
 ### Acceptance Criteria
 
 - User can play/pause animation.
-
 - Moving point follows the generated trace.
-
 - Reset returns to beginning.
-
 - Animation does not break static rendering.
 
 ---
 
-## CP-008 — Add WebAudio Sound Preview
+## CP-008 - Add WebAudio Sound Preview
 
 ### Goal
 
@@ -450,11 +384,8 @@ Use WebAudio to play a simple oscillator-based preview.
 First implementation can be intentionally basic:
 
 - oscillator waveform from model
-
 - frequency from current trace point
-
 - gain envelope to avoid clicks
-
 - pan if practical
 
 ### Suggested Files
@@ -467,26 +398,20 @@ src/ui/Transport.tsx
 ### Acceptance Criteria
 
 - User can enable sound.
-
 - Sound starts/stops cleanly.
-
 - Frequency changes based on trace position.
-
 - No runaway audio nodes.
-
 - No sound starts automatically before user interaction.
 
 ### Constraints
 
 - Keep volume conservative.
-
 - Avoid harsh default frequencies.
-
 - Do not add Tone.js unless absolutely necessary.
 
 ---
 
-## CP-009 — Add Color Mapping
+## CP-009 - Add Color Mapping
 
 ### Goal
 
@@ -499,10 +424,10 @@ Map geometry-derived values to color.
 Initial mappings:
 
 ```text
-angle    → hue
-radius   → hue
-velocity → hue
-curvature placeholder → hue
+angle    -> hue
+radius   -> hue
+velocity -> hue
+curvature placeholder -> hue
 ```
 
 ### Suggested Files
@@ -515,53 +440,12 @@ src/core/mapping.ts
 ### Acceptance Criteria
 
 - User can select hue source.
-
 - Trace color changes according to selected mapping.
-
 - Color comes from relationship data, not arbitrary decoration.
 
 ---
 
-## CP-010 — Add Presets
-
-### Goal
-
-Provide a few interesting starting points.
-
-### Scope
-
-Add preset models:
-
-- Simple Flower
-
-- Orbit Knot
-
-- Slow Breather
-
-- Fibonacci-ish
-
-- Lingua Wheel Echo
-
-### Suggested Files
-
-```text
-src/core/presets.ts
-src/ui/PresetPicker.tsx
-```
-
-### Acceptance Criteria
-
-- User can select presets.
-
-- Presets update the full model.
-
-- Presets are named and documented briefly in code.
-
-- Default preset is visually and sonically pleasant.
-
----
-
-## CP-011 — JSON Export and Import
+## CP-010 - JSON Export and Import
 
 ### Goal
 
@@ -572,9 +456,7 @@ Allow users to save and reload Spirophonic relationship models.
 Add:
 
 - export current model as `.json`
-
 - import `.json`
-
 - basic version validation
 
 ### Suggested Files
@@ -588,16 +470,101 @@ tests/export.test.ts
 ### Acceptance Criteria
 
 - Export downloads a JSON file.
-
 - Import restores model state.
-
 - Invalid JSON fails gracefully.
-
 - Version field is checked.
 
 ---
 
-## CP-012 — SVG Export
+## CP-011 - Testing Pass for v0.1
+
+### Goal
+
+Improve reliability of the core prototype.
+
+### Scope
+
+Add or improve tests for:
+
+- spirograph point generation
+- mapping functions
+- JSON export/import
+- default model validity
+
+### Acceptance Criteria
+
+- `npm test` passes.
+- Core math has meaningful coverage.
+- Tests avoid brittle UI snapshots.
+
+---
+
+## CP-012 - README and Demo Polish for v0.1
+
+### Goal
+
+Make the prototype understandable to a new contributor or reviewer.
+
+### Scope
+
+Update README with:
+
+- project description
+- setup
+- scripts
+- current features
+- non-goals
+- roadmap
+- safety/non-medical note
+- screenshots placeholder
+
+### Acceptance Criteria
+
+README answers:
+
+```text
+What is Spirophonic?
+How do I run it?
+What can it do now?
+What is deliberately out of scope?
+What comes next?
+```
+
+---
+
+## CP-013 - Add Presets
+
+### Goal
+
+Provide a few interesting starting points.
+
+### Scope
+
+Add preset models:
+
+- Simple Flower
+- Orbit Knot
+- Slow Breather
+- Fibonacci-ish
+- Lingua Wheel Echo
+
+### Suggested Files
+
+```text
+src/core/presets.ts
+src/ui/PresetPicker.tsx
+```
+
+### Acceptance Criteria
+
+- User can select presets.
+- Presets update the full model.
+- Presets are named and documented briefly in code.
+- Default preset is visually and sonically pleasant.
+
+---
+
+## CP-014 - SVG Export
 
 ### Goal
 
@@ -617,16 +584,13 @@ src/ui/ImportExportPanel.tsx
 ### Acceptance Criteria
 
 - User can download SVG.
-
 - SVG opens in browser or vector editor.
-
 - Export respects current trace geometry.
-
 - Basic color support included if practical.
 
 ---
 
-## CP-013 — Strudel Snippet Export
+## CP-015 - Strudel Snippet Export
 
 ### Goal
 
@@ -668,86 +632,13 @@ s("sine")
 ### Acceptance Criteria
 
 - User can copy generated Strudel snippet.
-
 - Snippet includes model-derived values.
-
 - README clearly says this is experimental export, not full Strudel integration.
-
 - No Strudel runtime dependency added.
 
 ---
 
-## CP-014 — Testing Pass
-
-### Goal
-
-Improve reliability of the core prototype.
-
-### Scope
-
-Add or improve tests for:
-
-- spirograph point generation
-
-- mapping functions
-
-- JSON export/import
-
-- Strudel export
-
-- default model validity
-
-### Acceptance Criteria
-
-- `npm test` passes.
-
-- Core math has meaningful coverage.
-
-- Tests avoid brittle UI snapshots.
-
----
-
-## CP-015 — README and Demo Polish
-
-### Goal
-
-Make the prototype understandable to a new contributor or reviewer.
-
-### Scope
-
-Update README with:
-
-- project description
-
-- setup
-
-- scripts
-
-- current features
-
-- non-goals
-
-- roadmap
-
-- safety/non-medical note
-
-- screenshots placeholder
-
-### Acceptance Criteria
-
-README answers:
-
-```text
-What is Spirophonic?
-How do I run it?
-What can it do now?
-What is deliberately out of scope?
-What comes next?
-```
-
----
-
-# Initial Sprint Recommendation
+# First Implementation Slice
 
 For first Codex Desktop session, execute only:
 
@@ -774,7 +665,9 @@ interactive controls
 tests
 ```
 
-Do not attempt sound, export, or Strudel in the first pass unless the first six packets are clean.
+This first slice is not the full v0.1 goal. It is the smallest useful foundation before animation, sound, color, and JSON import/export.
+
+Do not attempt sound, export, SVG, or Strudel in the first pass unless the first six packets are clean.
 
 # Definition of Done for v0.1
 
@@ -787,13 +680,12 @@ Spirophonic v0.1 is done when:
 4. The trace can animate.
 5. Sound can be enabled and follows the trace.
 6. Color is mapped from geometry.
-7. Presets exist.
-8. JSON export/import works.
-9. SVG export works.
-10. Experimental Strudel snippet export works.
-11. Core math and mappings are tested.
-12. README explains the project clearly.
+7. JSON export/import works.
+8. Core math and mappings are tested.
+9. README explains the project clearly.
 ```
+
+Presets, SVG export, and experimental Strudel snippet export are valuable follow-up packets after v0.1 is solid.
 
 # Important Design Warning
 
