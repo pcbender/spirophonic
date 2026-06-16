@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Spirophonic">
+  <rect width="64" height="64" rx="12" fill="#101014"/>
+  <path d="M48 32c0 8.837-7.163 16-16 16S16 40.837 16 32s7.163-16 16-16 16 7.163 16 16Z" fill="none" stroke="#f2c14e" stroke-width="3"/>
+  <path d="M42 32c0 5.523-4.477 10-10 10S22 37.523 22 32s4.477-10 10-10 10 4.477 10 10Z" fill="none" stroke="#42cafd" stroke-width="3"/>
+  <circle cx="42" cy="22" r="4" fill="#f26a8d"/>
+</svg>

@@ -6,21 +6,33 @@ The first prototype target is a local Vite + React + TypeScript app with Canvas 
 
 ## Current State
 
-This repository currently contains the project vision and initial work breakdown. The app scaffold has not been created yet.
+This repository contains the project vision, initial work breakdown, and a minimal Vite + React + TypeScript scaffold.
 
-Start with:
+Install dependencies:
 
 ```bash
-npm create vite@latest . -- --template react-ts
 npm install
-npm install -D vitest jsdom @testing-library/react @testing-library/jest-dom
 ```
 
-Expected development commands after scaffolding:
+Run the app and checks:
 
 ```bash
 npm run dev
 npm test
+npm run build
+npm run lint
+```
+
+Note: on this Windows setup, the global `npm` shim may point at a missing roaming npm install. If `npm --version` fails, run npm through the installed Node CLI directly:
+
+```bash
+node "C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js" --version
+```
+
+If Vite or Vitest reports a missing native binding on Windows, refresh optional dependencies with:
+
+```bash
+npm install --include=optional --os=win32 --cpu=x64
 ```
 
 ## Docs

@@ -29,3 +29,6 @@ Thumbs.db
 
 # Local-only files
 *.local
+
+# Temporary scaffolding
+scaffold-tmp/
