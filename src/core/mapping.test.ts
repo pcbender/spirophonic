@@ -9,7 +9,7 @@ import {
   pointToHue,
   pointToPan,
 } from './mapping'
-import { generateSpiroPoints } from './spirograph'
+import { generateSpiroPoints } from './trochoid'
 
 describe('mapping utilities', () => {
   const points = generateSpiroPoints(defaultModel)

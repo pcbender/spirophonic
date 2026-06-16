@@ -4,7 +4,7 @@
 
 **Spirophonic turns relationships into sound, color, shape, and motion.**
 
-It is a browser-based creative instrument where cyclic relationships generate both visual traces and musical structures. A Spirograph-like model becomes the common source for geometry, tone, rhythm, color, and eventually live-code pattern export.
+It is a browser-based creative instrument where cyclic relationships generate both visual traces and musical structures. A trochoid-style model becomes the common source for geometry, tone, rhythm, color, and eventually live-code pattern export.
 
 ## Working Tagline
 
@@ -33,7 +33,7 @@ Music is relationship becoming perceptible.
 
 ## Core Thesis
 
-A Spirograph-like trace and a musical pattern can be siblings, not translations.
+A cyclic relationship trace and a musical pattern can be siblings, not translations.
 
 Both can arise from the same underlying relationship model:
 
@@ -177,7 +177,7 @@ This is more complex and should come later.
 
 The first meaningful milestone is:
 
-> User changes two gear ratios and a pen offset, sees an animated Spirograph-like trace, hears a simple tone pattern generated from the same relationship, sees color mapped from the same relationship, and can export the model as JSON.
+> User changes two gear ratios and a pen offset, sees an animated trochoid-style trace, hears a simple tone pattern generated from the same relationship, sees color mapped from the same relationship, and can export the model as JSON.
 
 That is Spirophonic v0.1.
 
@@ -294,7 +294,7 @@ Spirophonic/
     App.tsx
     core/
       model.ts
-      spirograph.ts
+      trochoid.ts
       mapping.ts
       presets.ts
     audio/
@@ -312,7 +312,7 @@ Spirophonic/
       Transport.tsx
       PresetPicker.tsx
   tests/
-    spirograph.test.ts
+    trochoid.test.ts
     mapping.test.ts
     export.test.ts
 ```

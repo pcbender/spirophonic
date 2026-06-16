@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { defaultModel } from '../core/defaultModel'
-import { generateSpiroPoints } from '../core/spirograph'
+import { generateSpiroPoints } from '../core/trochoid'
 import { exportStrudelSnippet } from './strudelExport'
 
 describe('Strudel export', () => {
@@ -15,4 +15,3 @@ describe('Strudel export', () => {
     expect(snippet).toContain('.freq("<')
   })
 })
-

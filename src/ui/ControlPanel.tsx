@@ -5,7 +5,11 @@ import type {
   SpirophonicModel,
   Waveform,
 } from '../core/model'
-import { formatCycleSetting } from '../core/time'
+import {
+  formatCycleSetting,
+  maxCyclesPerSecond,
+  minCyclesPerSecond,
+} from '../core/time'
 
 type ControlPanelProps = {
   model: SpirophonicModel
@@ -20,6 +24,8 @@ type NumberFieldProps = {
   step?: number
   help: string
   formatValue?: (value: number) => string
+  minLabel?: string
+  maxLabel?: string
   onChange: (value: number) => void
 }
 
@@ -107,13 +113,15 @@ export function ControlPanel({ model, onChange }: ControlPanelProps) {
       <section>
         <h2>Time</h2>
         <NumberField
-          label="Cycles per second"
-          help="Negative values mean seconds per loop; positive values mean cycles per second."
+          label="Speed"
+          help="Animation speed as cycles per second. This is the same number exported to Strudel setcps()."
           value={model.time.cyclesPerSecond}
-          min={-5}
-          max={2}
+          min={minCyclesPerSecond}
+          max={maxCyclesPerSecond}
           step={0.01}
           formatValue={formatCycleSetting}
+          minLabel="Slow"
+          maxLabel="Fast"
           onChange={(cyclesPerSecond) => updateTime({ cyclesPerSecond })}
         />
       </section>
@@ -212,6 +220,8 @@ function NumberField({
   step = 1,
   help,
   formatValue = formatNumber,
+  minLabel,
+  maxLabel,
   onChange,
 }: NumberFieldProps) {
   const handleChange = (nextValue: string) => {
@@ -233,6 +243,12 @@ function NumberField({
         value={value}
         onChange={(event) => handleChange(event.currentTarget.value)}
       />
+      {minLabel && maxLabel ? (
+        <small className="range-labels">
+          <span>{minLabel}</span>
+          <span>{maxLabel}</span>
+        </small>
+      ) : null}
     </label>
   )
 }

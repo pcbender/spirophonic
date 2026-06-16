@@ -66,9 +66,16 @@ h1 {
 
 .transport {
   display: grid;
-  grid-template-columns: auto auto auto minmax(120px, 1fr) 48px;
+  grid-template-columns: auto auto auto auto minmax(120px, 1fr) 48px;
   align-items: center;
   gap: 10px;
+}
+
+.preset-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .import-export {
@@ -79,10 +86,12 @@ h1 {
 }
 
 .preset-picker {
-  display: grid;
+  display: inline-grid;
   grid-template-columns: auto minmax(180px, 320px);
   align-items: center;
   gap: 10px;
+  justify-self: start;
+  width: fit-content;
   color: #e9e2d6;
 }
 
@@ -265,6 +274,13 @@ h1 {
   accent-color: #42cafd;
 }
 
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #a9a297;
+  font-size: 0.74rem;
+}
+
 .field select {
   border: 1px solid rgba(246, 244, 239, 0.2);
   border-radius: 6px;
@@ -281,9 +297,13 @@ h1 {
   .app-header,
   .workspace,
   .transport,
-  .preset-picker,
-  .import-export {
+  .preset-picker {
     grid-template-columns: 1fr;
+  }
+
+  .preset-toolbar {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .import-export {

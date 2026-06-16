@@ -160,7 +160,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "package_devdependencies",
-      "community": 7,
+      "community": 6,
       "norm_label": "devdependencies"
     },
     {
@@ -170,7 +170,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_js",
-      "community": 7,
+      "community": 6,
       "norm_label": "@eslint/js"
     },
     {
@@ -180,7 +180,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "package_devdependencies_testing_library_jest_dom",
-      "community": 7,
+      "community": 6,
       "norm_label": "@testing-library/jest-dom"
     },
     {
@@ -190,7 +190,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "package_devdependencies_testing_library_react",
-      "community": 7,
+      "community": 6,
       "norm_label": "@testing-library/react"
     },
     {
@@ -200,7 +200,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "package_devdependencies_types_node",
-      "community": 7,
+      "community": 6,
       "norm_label": "@types/node"
     },
     {
@@ -210,7 +210,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "package_devdependencies_types_react",
-      "community": 7,
+      "community": 6,
       "norm_label": "@types/react"
     },
     {
@@ -220,7 +220,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_dom",
-      "community": 7,
+      "community": 6,
       "norm_label": "@types/react-dom"
     },
     {
@@ -230,7 +230,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "package_devdependencies_vitejs_plugin_react",
-      "community": 7,
+      "community": 6,
       "norm_label": "@vitejs/plugin-react"
     },
     {
@@ -240,7 +240,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
-      "community": 7,
+      "community": 6,
       "norm_label": "eslint"
     },
     {
@@ -250,7 +250,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_plugin_react_hooks",
-      "community": 7,
+      "community": 6,
       "norm_label": "eslint-plugin-react-hooks"
     },
     {
@@ -260,7 +260,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_plugin_react_refresh",
-      "community": 7,
+      "community": 6,
       "norm_label": "eslint-plugin-react-refresh"
     },
     {
@@ -270,7 +270,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "package_devdependencies_globals",
-      "community": 7,
+      "community": 6,
       "norm_label": "globals"
     },
     {
@@ -280,7 +280,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "package_devdependencies_jsdom",
-      "community": 7,
+      "community": 6,
       "norm_label": "jsdom"
     },
     {
@@ -290,7 +290,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
-      "community": 7,
+      "community": 6,
       "norm_label": "typescript"
     },
     {
@@ -300,7 +300,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "package_devdependencies_typescript_eslint",
-      "community": 7,
+      "community": 6,
       "norm_label": "typescript-eslint"
     },
     {
@@ -310,7 +310,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "package_devdependencies_vite",
-      "community": 7,
+      "community": 6,
       "norm_label": "vite"
     },
     {
@@ -320,7 +320,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "package_devdependencies_vitest",
-      "community": 7,
+      "community": 6,
       "norm_label": "vitest"
     },
     {
@@ -384,13 +384,23 @@
       "norm_label": "app()"
     },
     {
+      "label": "isEditableTarget()",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L177",
+      "_origin": "ast",
+      "id": "src_app_iseditabletarget",
+      "community": 2,
+      "norm_label": "iseditabletarget()"
+    },
+    {
       "label": "webAudioEngine.ts",
       "file_type": "code",
       "source_file": "src/audio/webAudioEngine.ts",
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_webaudioengine",
-      "community": 0,
+      "community": 2,
       "norm_label": "webaudioengine.ts"
     },
     {
@@ -400,7 +410,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "audio_webaudioengine_audiostate",
-      "community": 0,
+      "community": 2,
       "norm_label": "audiostate"
     },
     {
@@ -660,7 +670,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_model_spirophonicmodel",
-      "community": 0,
+      "community": 2,
       "norm_label": "spirophonicmodel"
     },
     {
@@ -670,7 +680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_presets",
-      "community": 8,
+      "community": 2,
       "norm_label": "presets.ts"
     },
     {
@@ -680,7 +690,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "core_presets_withmodel",
-      "community": 8,
+      "community": 2,
       "norm_label": "withmodel()"
     },
     {
@@ -690,98 +700,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "core_presets_presets",
-      "community": 8,
+      "community": 2,
       "norm_label": "presets"
-    },
-    {
-      "label": "spirograph.test.ts",
-      "file_type": "code",
-      "source_file": "src/core/spirograph.test.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "core_spirograph_test",
-      "community": 8,
-      "norm_label": "spirograph.test.ts"
-    },
-    {
-      "label": "spirograph.ts",
-      "file_type": "code",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "core_spirograph",
-      "community": 2,
-      "norm_label": "spirograph.ts"
-    },
-    {
-      "label": "SpiroPoint",
-      "file_type": "code",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L3",
-      "_origin": "ast",
-      "id": "core_spirograph_spiropoint",
-      "community": 0,
-      "norm_label": "spiropoint"
-    },
-    {
-      "label": "safeDivisor()",
-      "file_type": "code",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L13",
-      "_origin": "ast",
-      "id": "core_spirograph_safedivisor",
-      "community": 2,
-      "norm_label": "safedivisor()"
-    },
-    {
-      "label": "getCycleEnd()",
-      "file_type": "code",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L21",
-      "_origin": "ast",
-      "id": "core_spirograph_getcycleend",
-      "community": 2,
-      "norm_label": "getcycleend()"
-    },
-    {
-      "label": "greatestCommonDivisor()",
-      "file_type": "code",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L29",
-      "_origin": "ast",
-      "id": "core_spirograph_greatestcommondivisor",
-      "community": 2,
-      "norm_label": "greatestcommondivisor()"
-    },
-    {
-      "label": "generateSpiroPoints()",
-      "file_type": "code",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L42",
-      "_origin": "ast",
-      "id": "core_spirograph_generatespiropoints",
-      "community": 2,
-      "norm_label": "generatespiropoints()"
-    },
-    {
-      "label": "getHypotrochoidPoint()",
-      "file_type": "code",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L71",
-      "_origin": "ast",
-      "id": "core_spirograph_gethypotrochoidpoint",
-      "community": 2,
-      "norm_label": "gethypotrochoidpoint()"
-    },
-    {
-      "label": "getEpitrochoidPoint()",
-      "file_type": "code",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L86",
-      "_origin": "ast",
-      "id": "core_spirograph_getepitrochoidpoint",
-      "community": 2,
-      "norm_label": "getepitrochoidpoint()"
     },
     {
       "label": "time.test.ts",
@@ -790,7 +710,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_time_test",
-      "community": 2,
+      "community": 7,
       "norm_label": "time.test.ts"
     },
     {
@@ -800,28 +720,138 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_time",
-      "community": 2,
+      "community": 7,
       "norm_label": "time.ts"
     },
     {
       "label": "getEffectiveCyclesPerSecond()",
       "file_type": "code",
       "source_file": "src/core/time.ts",
-      "source_location": "L1",
+      "source_location": "L5",
       "_origin": "ast",
       "id": "core_time_geteffectivecyclespersecond",
-      "community": 2,
+      "community": 7,
       "norm_label": "geteffectivecyclespersecond()"
+    },
+    {
+      "label": "clampCyclesPerSecond()",
+      "file_type": "code",
+      "source_file": "src/core/time.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "core_time_clampcyclespersecond",
+      "community": 7,
+      "norm_label": "clampcyclespersecond()"
     },
     {
       "label": "formatCycleSetting()",
       "file_type": "code",
       "source_file": "src/core/time.ts",
-      "source_location": "L9",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "core_time_formatcyclesetting",
-      "community": 2,
+      "community": 7,
       "norm_label": "formatcyclesetting()"
+    },
+    {
+      "label": "formatLoopSeconds()",
+      "file_type": "code",
+      "source_file": "src/core/time.ts",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "core_time_formatloopseconds",
+      "community": 7,
+      "norm_label": "formatloopseconds()"
+    },
+    {
+      "label": "trochoid.test.ts",
+      "file_type": "code",
+      "source_file": "src/core/trochoid.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_trochoid_test",
+      "community": 8,
+      "norm_label": "trochoid.test.ts"
+    },
+    {
+      "label": "trochoid.ts",
+      "file_type": "code",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_trochoid",
+      "community": 8,
+      "norm_label": "trochoid.ts"
+    },
+    {
+      "label": "SpiroPoint",
+      "file_type": "code",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "core_trochoid_spiropoint",
+      "community": 0,
+      "norm_label": "spiropoint"
+    },
+    {
+      "label": "safeDivisor()",
+      "file_type": "code",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "core_trochoid_safedivisor",
+      "community": 8,
+      "norm_label": "safedivisor()"
+    },
+    {
+      "label": "getCycleEnd()",
+      "file_type": "code",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "core_trochoid_getcycleend",
+      "community": 8,
+      "norm_label": "getcycleend()"
+    },
+    {
+      "label": "greatestCommonDivisor()",
+      "file_type": "code",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "core_trochoid_greatestcommondivisor",
+      "community": 8,
+      "norm_label": "greatestcommondivisor()"
+    },
+    {
+      "label": "generateSpiroPoints()",
+      "file_type": "code",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "core_trochoid_generatespiropoints",
+      "community": 8,
+      "norm_label": "generatespiropoints()"
+    },
+    {
+      "label": "getHypotrochoidPoint()",
+      "file_type": "code",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L71",
+      "_origin": "ast",
+      "id": "core_trochoid_gethypotrochoidpoint",
+      "community": 8,
+      "norm_label": "gethypotrochoidpoint()"
+    },
+    {
+      "label": "getEpitrochoidPoint()",
+      "file_type": "code",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L86",
+      "_origin": "ast",
+      "id": "core_trochoid_getepitrochoidpoint",
+      "community": 8,
+      "norm_label": "getepitrochoidpoint()"
     },
     {
       "label": "jsonExport.test.ts",
@@ -920,7 +950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_strudelexport_test",
-      "community": 2,
+      "community": 8,
       "norm_label": "strudelexport.test.ts"
     },
     {
@@ -930,7 +960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_strudelexport",
-      "community": 2,
+      "community": 8,
       "norm_label": "strudelexport.ts"
     },
     {
@@ -940,7 +970,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "export_strudelexport_exportstrudelsnippet",
-      "community": 2,
+      "community": 8,
       "norm_label": "exportstrudelsnippet()"
     },
     {
@@ -950,7 +980,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "export_strudelexport_samplefrequencies",
-      "community": 2,
+      "community": 8,
       "norm_label": "samplefrequencies()"
     },
     {
@@ -970,7 +1000,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_svgexport",
-      "community": 8,
+      "community": 4,
       "norm_label": "svgexport.ts"
     },
     {
@@ -980,7 +1010,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "export_svgexport_exporttracetosvg",
-      "community": 8,
+      "community": 4,
       "norm_label": "exporttracetosvg()"
     },
     {
@@ -990,7 +1020,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "export_svgexport_downloadtracesvg",
-      "community": 8,
+      "community": 4,
       "norm_label": "downloadtracesvg()"
     },
     {
@@ -1000,7 +1030,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "export_svgexport_transformpoints",
-      "community": 8,
+      "community": 4,
       "norm_label": "transformpoints()"
     },
     {
@@ -1010,7 +1040,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "export_svgexport_round",
-      "community": 8,
+      "community": 4,
       "norm_label": "round()"
     },
     {
@@ -1020,7 +1050,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "export_svgexport_escapexml",
-      "community": 8,
+      "community": 4,
       "norm_label": "escapexml()"
     },
     {
@@ -1057,17 +1087,27 @@
       "label": "drawSpiroTrace()",
       "file_type": "code",
       "source_file": "src/render/canvasRenderer.ts",
-      "source_location": "L12",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "render_canvasrenderer_drawspirotrace",
       "community": 0,
       "norm_label": "drawspirotrace()"
     },
     {
+      "label": "clampProgress()",
+      "file_type": "code",
+      "source_file": "src/render/canvasRenderer.ts",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "render_canvasrenderer_clampprogress",
+      "community": 0,
+      "norm_label": "clampprogress()"
+    },
+    {
       "label": "getCanvasTransform()",
       "file_type": "code",
       "source_file": "src/render/canvasRenderer.ts",
-      "source_location": "L66",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "render_canvasrenderer_getcanvastransform",
       "community": 0,
@@ -1077,7 +1117,7 @@
       "label": "transformPoint()",
       "file_type": "code",
       "source_file": "src/render/canvasRenderer.ts",
-      "source_location": "L101",
+      "source_location": "L104",
       "_origin": "ast",
       "id": "render_canvasrenderer_transformpoint",
       "community": 0,
@@ -1180,7 +1220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_canvasview",
-      "community": 0,
+      "community": 2,
       "norm_label": "canvasview.tsx"
     },
     {
@@ -1190,17 +1230,17 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "ui_canvasview_canvasviewprops",
-      "community": 0,
+      "community": 2,
       "norm_label": "canvasviewprops"
     },
     {
       "label": "CanvasView()",
       "file_type": "code",
       "source_file": "src/ui/CanvasView.tsx",
-      "source_location": "L12",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "ui_canvasview_canvasview",
-      "community": 0,
+      "community": 2,
       "norm_label": "canvasview()"
     },
     {
@@ -1217,7 +1257,7 @@
       "label": "ControlPanelProps",
       "file_type": "code",
       "source_file": "src/ui/ControlPanel.tsx",
-      "source_location": "L10",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "ui_controlpanel_controlpanelprops",
       "community": 2,
@@ -1227,7 +1267,7 @@
       "label": "NumberFieldProps",
       "file_type": "code",
       "source_file": "src/ui/ControlPanel.tsx",
-      "source_location": "L15",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "ui_controlpanel_numberfieldprops",
       "community": 2,
@@ -1237,7 +1277,7 @@
       "label": "ControlPanel()",
       "file_type": "code",
       "source_file": "src/ui/ControlPanel.tsx",
-      "source_location": "L26",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "ui_controlpanel_controlpanel",
       "community": 2,
@@ -1247,7 +1287,7 @@
       "label": "NumberField()",
       "file_type": "code",
       "source_file": "src/ui/ControlPanel.tsx",
-      "source_location": "L207",
+      "source_location": "L215",
       "_origin": "ast",
       "id": "ui_controlpanel_numberfield",
       "community": 2,
@@ -1257,7 +1297,7 @@
       "label": "formatNumber()",
       "file_type": "code",
       "source_file": "src/ui/ControlPanel.tsx",
-      "source_location": "L240",
+      "source_location": "L256",
       "_origin": "ast",
       "id": "ui_controlpanel_formatnumber",
       "community": 2,
@@ -1290,7 +1330,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "ui_importexportpanel_importexportpanel",
-      "community": 2,
+      "community": 4,
       "norm_label": "importexportpanel()"
     },
     {
@@ -1300,7 +1340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_presetpicker",
-      "community": 8,
+      "community": 2,
       "norm_label": "presetpicker.tsx"
     },
     {
@@ -1310,7 +1350,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "ui_presetpicker_presetpickerprops",
-      "community": 8,
+      "community": 2,
       "norm_label": "presetpickerprops"
     },
     {
@@ -1320,7 +1360,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "ui_presetpicker_presetpicker",
-      "community": 8,
+      "community": 2,
       "norm_label": "presetpicker()"
     },
     {
@@ -1377,7 +1417,7 @@
       "label": "Transport()",
       "file_type": "code",
       "source_file": "src/ui/Transport.tsx",
-      "source_location": "L11",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "ui_transport_transport",
       "community": 2,
@@ -1910,7 +1950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_initial_wbs_and_cp_packets_spirophonic_poc_initial_wbs_and_cp_packets",
-      "community": 25,
+      "community": 11,
       "norm_label": "spirophonic poc initial wbs and cp packets"
     },
     {
@@ -1920,7 +1960,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "docs_initial_wbs_and_cp_packets_execution_guidance_for_cp",
-      "community": 25,
+      "community": 11,
       "norm_label": "execution guidance for cp"
     },
     {
@@ -1930,7 +1970,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "docs_initial_wbs_and_cp_packets_wbs_overview",
-      "community": 25,
+      "community": 11,
       "norm_label": "wbs overview"
     },
     {
@@ -2064,14 +2104,14 @@
       "norm_label": "acceptance criteria"
     },
     {
-      "label": "CP-003 - Implement Spirograph Math Engine",
+      "label": "CP-003 - Implement Trochoid Trace Math Engine",
       "file_type": "document",
       "source_file": "docs/INITIAL-WBS-AND-CP-PACKETS.md",
       "source_location": "L182",
       "_origin": "ast",
-      "id": "docs_initial_wbs_and_cp_packets_cp_003_implement_spirograph_math_engine",
+      "id": "docs_initial_wbs_and_cp_packets_cp_003_implement_trochoid_trace_math_engine",
       "community": 13,
-      "norm_label": "cp-003 - implement spirograph math engine"
+      "norm_label": "cp-003 - implement trochoid trace math engine"
     },
     {
       "label": "Goal",
@@ -3478,32 +3518,32 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/App.tsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_app",
-      "target": "core_spirograph"
+      "target": "core_time"
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/App.tsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_app",
-      "target": "core_spirograph_generatespiropoints"
+      "target": "core_time_geteffectivecyclespersecond"
     },
     {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/App.tsx",
-      "source_location": "L7",
+      "source_location": "L6",
       "weight": 1.0,
       "source": "src_app",
-      "target": "core_time",
+      "target": "core_trochoid",
       "confidence_score": 1.0
     },
     {
@@ -3511,10 +3551,10 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/App.tsx",
-      "source_location": "L7",
+      "source_location": "L6",
       "weight": 1.0,
       "source": "src_app",
-      "target": "core_time_geteffectivecyclespersecond",
+      "target": "core_trochoid_generatespiropoints",
       "confidence_score": 1.0
     },
     {
@@ -3526,6 +3566,16 @@
       "confidence_score": 1.0,
       "source": "src_app",
       "target": "src_app_app"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L172",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_iseditabletarget"
     },
     {
       "relation": "imports_from",
@@ -3675,21 +3725,21 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/App.tsx",
-      "source_location": "L20",
+      "source_location": "L41",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_app_app",
-      "target": "core_spirograph_generatespiropoints"
+      "target": "core_time_geteffectivecyclespersecond"
     },
     {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/App.tsx",
-      "source_location": "L41",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "src_app_app",
-      "target": "core_time_geteffectivecyclespersecond",
+      "target": "core_trochoid_generatespiropoints",
       "confidence_score": 1.0
     },
     {
@@ -3785,9 +3835,9 @@
       "source_file": "src/audio/webAudioEngine.ts",
       "source_location": "L3",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "audio_webaudioengine",
-      "target": "core_spirograph"
+      "target": "core_trochoid",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -3796,9 +3846,9 @@
       "source_file": "src/audio/webAudioEngine.ts",
       "source_location": "L3",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "audio_webaudioengine",
-      "target": "core_spirograph_spiropoint"
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -3881,9 +3931,9 @@
       "source_file": "src/audio/webAudioEngine.ts",
       "source_location": "L15",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "audio_webaudioengine_webaudioengine_start",
-      "target": "core_spirograph_spiropoint"
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -3925,9 +3975,9 @@
       "source_file": "src/audio/webAudioEngine.ts",
       "source_location": "L41",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "audio_webaudioengine_webaudioengine_update",
-      "target": "core_spirograph_spiropoint"
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -4009,12 +4059,12 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.test.ts",
+      "source_file": "src/core/trochoid.test.ts",
       "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph_test",
-      "target": "core_defaultmodel"
+      "source": "core_trochoid_test",
+      "target": "core_defaultmodel",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -4075,12 +4125,12 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.test.ts",
+      "source_file": "src/core/trochoid.test.ts",
       "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph_test",
-      "target": "core_defaultmodel_defaultmodel"
+      "source": "core_trochoid_test",
+      "target": "core_defaultmodel_defaultmodel",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -4210,9 +4260,9 @@
       "source_file": "src/core/mapping.test.ts",
       "source_location": "L12",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "core_mapping_test",
-      "target": "core_spirograph"
+      "target": "core_trochoid",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -4221,9 +4271,9 @@
       "source_file": "src/core/mapping.test.ts",
       "source_location": "L12",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "core_mapping_test",
-      "target": "core_spirograph_generatespiropoints"
+      "target": "core_trochoid_generatespiropoints",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -4364,9 +4414,9 @@
       "source_file": "src/core/mapping.ts",
       "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "core_mapping",
-      "target": "core_spirograph"
+      "target": "core_trochoid",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -4375,9 +4425,9 @@
       "source_file": "src/core/mapping.ts",
       "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "core_mapping",
-      "target": "core_spirograph_spiropoint"
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -4675,12 +4725,12 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
+      "source_file": "src/core/trochoid.ts",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph",
-      "target": "core_model"
+      "source": "core_trochoid",
+      "target": "core_model",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -4851,12 +4901,12 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
+      "source_file": "src/core/trochoid.ts",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph",
-      "target": "core_model_spirophonicmodel"
+      "source": "core_trochoid",
+      "target": "core_model_spirophonicmodel",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -5014,368 +5064,12 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.test.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph_test",
-      "target": "core_spirograph"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.test.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph_test",
-      "target": "core_spirograph_generatespiropoints"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L42",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph",
-      "target": "core_spirograph_generatespiropoints"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L21",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph",
-      "target": "core_spirograph_getcycleend"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L86",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph",
-      "target": "core_spirograph_getepitrochoidpoint"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L71",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph",
-      "target": "core_spirograph_gethypotrochoidpoint"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L29",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph",
-      "target": "core_spirograph_greatestcommondivisor"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L13",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph",
-      "target": "core_spirograph_safedivisor"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph",
-      "target": "core_spirograph_spiropoint"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/export/strudelExport.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "export_strudelexport",
-      "target": "core_spirograph"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/export/strudelExport.test.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "export_strudelexport_test",
-      "target": "core_spirograph"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/export/svgExport.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "export_svgexport",
-      "target": "core_spirograph"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/export/svgExport.test.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "export_svgexport_test",
-      "target": "core_spirograph"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/render/canvasRenderer.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "render_canvasrenderer",
-      "target": "core_spirograph"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/render/color.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "render_color",
-      "target": "core_spirograph"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/ui/CanvasView.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_canvasview",
-      "target": "core_spirograph"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/ui/ImportExportPanel.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_importexportpanel",
-      "target": "core_spirograph"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/ui/StrudelExportPanel.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_strudelexportpanel",
-      "target": "core_spirograph"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/export/strudelExport.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "export_strudelexport",
-      "target": "core_spirograph_spiropoint"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/export/svgExport.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "export_svgexport",
-      "target": "core_spirograph_spiropoint"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/render/canvasRenderer.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "render_canvasrenderer",
-      "target": "core_spirograph_spiropoint"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/render/color.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "render_color",
-      "target": "core_spirograph_spiropoint"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/ui/CanvasView.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_canvasview",
-      "target": "core_spirograph_spiropoint"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/ui/ImportExportPanel.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_importexportpanel",
-      "target": "core_spirograph_spiropoint"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/ui/StrudelExportPanel.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "ui_strudelexportpanel",
-      "target": "core_spirograph_spiropoint"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L93",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph_getepitrochoidpoint",
-      "target": "core_spirograph_safedivisor"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L78",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph_gethypotrochoidpoint",
-      "target": "core_spirograph_safedivisor"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L48",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph_generatespiropoints",
-      "target": "core_spirograph_getcycleend"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L24",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph_getcycleend",
-      "target": "core_spirograph_greatestcommondivisor"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L57",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph_generatespiropoints",
-      "target": "core_spirograph_getepitrochoidpoint"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/spirograph.ts",
-      "source_location": "L56",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_spirograph_generatespiropoints",
-      "target": "core_spirograph_gethypotrochoidpoint"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/export/strudelExport.test.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "export_strudelexport_test",
-      "target": "core_spirograph_generatespiropoints"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/export/svgExport.test.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "export_svgexport_test",
-      "target": "core_spirograph_generatespiropoints"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/core/time.test.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_time_test",
-      "target": "core_time",
-      "confidence_score": 1.0
+      "target": "core_time"
     },
     {
       "relation": "imports",
@@ -5384,9 +5078,9 @@
       "source_file": "src/core/time.test.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_time_test",
-      "target": "core_time_formatcyclesetting",
-      "confidence_score": 1.0
+      "target": "core_time_formatcyclesetting"
     },
     {
       "relation": "imports",
@@ -5395,9 +5089,19 @@
       "source_file": "src/core/time.test.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_time_test",
-      "target": "core_time_geteffectivecyclespersecond",
-      "confidence_score": 1.0
+      "target": "core_time_geteffectivecyclespersecond"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/time.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_time",
+      "target": "core_time_clampcyclespersecond"
     },
     {
       "relation": "contains",
@@ -5405,9 +5109,19 @@
       "source_file": "src/core/time.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_time",
-      "target": "core_time_formatcyclesetting",
-      "confidence_score": 1.0
+      "target": "core_time_formatcyclesetting"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/time.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_time",
+      "target": "core_time_formatloopseconds"
     },
     {
       "relation": "contains",
@@ -5415,9 +5129,9 @@
       "source_file": "src/core/time.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_time",
-      "target": "core_time_geteffectivecyclespersecond",
-      "confidence_score": 1.0
+      "target": "core_time_geteffectivecyclespersecond"
     },
     {
       "relation": "imports_from",
@@ -5426,9 +5140,9 @@
       "source_file": "src/export/strudelExport.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_strudelexport",
-      "target": "core_time",
-      "confidence_score": 1.0
+      "target": "core_time"
     },
     {
       "relation": "imports_from",
@@ -5437,9 +5151,20 @@
       "source_file": "src/ui/ControlPanel.tsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_controlpanel",
-      "target": "core_time",
-      "confidence_score": 1.0
+      "target": "core_time"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/time.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_time_geteffectivecyclespersecond",
+      "target": "core_time_clampcyclespersecond"
     },
     {
       "relation": "imports",
@@ -5448,9 +5173,9 @@
       "source_file": "src/export/strudelExport.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_strudelexport",
-      "target": "core_time_geteffectivecyclespersecond",
-      "confidence_score": 1.0
+      "target": "core_time_geteffectivecyclespersecond"
     },
     {
       "relation": "calls",
@@ -5464,14 +5189,403 @@
       "target": "core_time_geteffectivecyclespersecond"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/time.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_time_formatcyclesetting",
+      "target": "core_time_clampcyclespersecond"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/time.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_time_formatloopseconds",
+      "target": "core_time_clampcyclespersecond"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/time.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_time_formatcyclesetting",
+      "target": "core_time_formatloopseconds"
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/ControlPanel.tsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_controlpanel",
-      "target": "core_time_formatcyclesetting",
+      "target": "core_time_formatcyclesetting"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_trochoid_test",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_trochoid_test",
+      "target": "core_trochoid_generatespiropoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "core_trochoid",
+      "target": "core_trochoid_generatespiropoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "core_trochoid",
+      "target": "core_trochoid_getcycleend",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "core_trochoid",
+      "target": "core_trochoid_getepitrochoidpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L71",
+      "weight": 1.0,
+      "source": "core_trochoid",
+      "target": "core_trochoid_gethypotrochoidpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "core_trochoid",
+      "target": "core_trochoid_greatestcommondivisor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "core_trochoid",
+      "target": "core_trochoid_safedivisor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_trochoid",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_strudelexport_test",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/svgExport.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_svgexport",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/svgExport.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_svgexport_test",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/canvasRenderer.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "render_canvasrenderer",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/color.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "render_color",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CanvasView.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "ui_canvasview",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/ImportExportPanel.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "ui_importexportpanel",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/StrudelExportPanel.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "ui_strudelexportpanel",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/svgExport.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_svgexport",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/canvasRenderer.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "render_canvasrenderer",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/color.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "render_color",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CanvasView.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "ui_canvasview",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/ImportExportPanel.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "ui_importexportpanel",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/StrudelExportPanel.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "ui_strudelexportpanel",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L93",
+      "weight": 1.0,
+      "source": "core_trochoid_getepitrochoidpoint",
+      "target": "core_trochoid_safedivisor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "core_trochoid_gethypotrochoidpoint",
+      "target": "core_trochoid_safedivisor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "core_trochoid_generatespiropoints",
+      "target": "core_trochoid_getcycleend",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "core_trochoid_getcycleend",
+      "target": "core_trochoid_greatestcommondivisor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "core_trochoid_generatespiropoints",
+      "target": "core_trochoid_getepitrochoidpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/trochoid.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "core_trochoid_generatespiropoints",
+      "target": "core_trochoid_gethypotrochoidpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_strudelexport_test",
+      "target": "core_trochoid_generatespiropoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/svgExport.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_svgexport_test",
+      "target": "core_trochoid_generatespiropoints",
       "confidence_score": 1.0
     },
     {
@@ -5860,6 +5974,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/render/canvasRenderer.ts",
+      "source_location": "L67",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_canvasrenderer",
+      "target": "render_canvasrenderer_clampprogress"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/canvasRenderer.ts",
       "source_location": "L12",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -5928,6 +6052,17 @@
       "confidence_score": 1.0,
       "source": "ui_canvasview",
       "target": "render_canvasrenderer"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/canvasRenderer.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_canvasrenderer_drawspirotrace",
+      "target": "render_canvasrenderer_clampprogress"
     },
     {
       "relation": "calls",
@@ -6710,9 +6845,9 @@
       "source_file": "docs/INITIAL-WBS-AND-CP-PACKETS.md",
       "source_location": "L182",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "docs_initial_wbs_and_cp_packets_spirophonic_poc_initial_wbs_and_cp_packets",
-      "target": "docs_initial_wbs_and_cp_packets_cp_003_implement_spirograph_math_engine"
+      "target": "docs_initial_wbs_and_cp_packets_cp_003_implement_trochoid_trace_math_engine",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -6970,9 +7105,9 @@
       "source_file": "docs/INITIAL-WBS-AND-CP-PACKETS.md",
       "source_location": "L218",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "docs_initial_wbs_and_cp_packets_cp_003_implement_spirograph_math_engine",
-      "target": "docs_initial_wbs_and_cp_packets_acceptance_criteria_218"
+      "source": "docs_initial_wbs_and_cp_packets_cp_003_implement_trochoid_trace_math_engine",
+      "target": "docs_initial_wbs_and_cp_packets_acceptance_criteria_218",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -6980,9 +7115,9 @@
       "source_file": "docs/INITIAL-WBS-AND-CP-PACKETS.md",
       "source_location": "L184",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "docs_initial_wbs_and_cp_packets_cp_003_implement_spirograph_math_engine",
-      "target": "docs_initial_wbs_and_cp_packets_goal_184"
+      "source": "docs_initial_wbs_and_cp_packets_cp_003_implement_trochoid_trace_math_engine",
+      "target": "docs_initial_wbs_and_cp_packets_goal_184",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -6990,9 +7125,9 @@
       "source_file": "docs/INITIAL-WBS-AND-CP-PACKETS.md",
       "source_location": "L188",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "docs_initial_wbs_and_cp_packets_cp_003_implement_spirograph_math_engine",
-      "target": "docs_initial_wbs_and_cp_packets_scope_188"
+      "source": "docs_initial_wbs_and_cp_packets_cp_003_implement_trochoid_trace_math_engine",
+      "target": "docs_initial_wbs_and_cp_packets_scope_188",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -7000,9 +7135,9 @@
       "source_file": "docs/INITIAL-WBS-AND-CP-PACKETS.md",
       "source_location": "L199",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "docs_initial_wbs_and_cp_packets_cp_003_implement_spirograph_math_engine",
-      "target": "docs_initial_wbs_and_cp_packets_suggested_files_199"
+      "source": "docs_initial_wbs_and_cp_packets_cp_003_implement_trochoid_trace_math_engine",
+      "target": "docs_initial_wbs_and_cp_packets_suggested_files_199",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -7010,9 +7145,9 @@
       "source_file": "docs/INITIAL-WBS-AND-CP-PACKETS.md",
       "source_location": "L206",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "docs_initial_wbs_and_cp_packets_cp_003_implement_spirograph_math_engine",
-      "target": "docs_initial_wbs_and_cp_packets_suggested_output_type"
+      "source": "docs_initial_wbs_and_cp_packets_cp_003_implement_trochoid_trace_math_engine",
+      "target": "docs_initial_wbs_and_cp_packets_suggested_output_type",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -7786,5 +7921,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "6971d6d1fc1cf7cb38187987ec4b75499e4b17a1"
+  "built_at_commit": "a1a5e74f8876f9b36777edd966148bb9324f18ec"
 }

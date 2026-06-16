@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { SpirophonicModel } from '../core/model'
-import type { SpiroPoint } from '../core/spirograph'
+import type { SpiroPoint } from '../core/trochoid'
 import { exportStrudelSnippet } from '../export/strudelExport'
 
 type StrudelExportPanelProps = {

@@ -9,7 +9,7 @@ This repository contains the project vision, initial work breakdown, and a local
 Current prototype features:
 
 - Typed Spirophonic relationship model
-- Inside/outside spirograph point generation
+- Inside/outside trochoid trace generation
 - Canvas trace rendering with relationship-derived color
 - Interactive geometry, time, sound, and color controls
 - Animation transport

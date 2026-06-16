@@ -13,7 +13,7 @@ export const defaultModel: SpirophonicModel = {
     samples: 900,
   },
   time: {
-    cyclesPerSecond: 0.18,
+    cyclesPerSecond: 0.2,
     durationSeconds: 8,
   },
   sound: {
@@ -30,4 +30,3 @@ export const defaultModel: SpirophonicModel = {
     lightness: 58,
   },
 }
-

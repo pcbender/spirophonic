@@ -1,16 +1,16 @@
 # Graph Report - Spirophonic  (2026-06-16)
 
 ## Corpus Check
-- 40 files · ~8,515 words
+- 40 files · ~8,777 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 305 nodes · 454 edges · 32 communities (29 shown, 3 thin omitted)
+- 309 nodes · 463 edges · 32 communities (29 shown, 3 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6971d6d1`
+- Built from commit: `a1a5e74f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -58,16 +58,16 @@
 10. `pointToHue()` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `sampleFrequencies()` --calls--> `pointToFrequency()`  [EXTRACTED]
-  src/export/strudelExport.ts → src/core/mapping.ts
-- `App()` --calls--> `generateSpiroPoints()`  [EXTRACTED]
-  src/App.tsx → src/core/spirograph.ts
 - `App()` --calls--> `getEffectiveCyclesPerSecond()`  [EXTRACTED]
   src/App.tsx → src/core/time.ts
-- `pointToHsl()` --calls--> `pointToHue()`  [EXTRACTED]
-  src/render/color.ts → src/core/mapping.ts
+- `App()` --calls--> `generateSpiroPoints()`  [EXTRACTED]
+  src/App.tsx → src/core/trochoid.ts
+- `sampleFrequencies()` --calls--> `pointToFrequency()`  [EXTRACTED]
+  src/export/strudelExport.ts → src/core/mapping.ts
 - `exportStrudelSnippet()` --calls--> `getEffectiveCyclesPerSecond()`  [EXTRACTED]
   src/export/strudelExport.ts → src/core/time.ts
+- `pointToHsl()` --calls--> `pointToHue()`  [EXTRACTED]
+  src/render/color.ts → src/core/mapping.ts
 
 ## Import Cycles
 - None detected.
@@ -75,8 +75,8 @@
 ## Communities (32 total, 3 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.17
-Nodes (22): AudioState, WebAudioEngine, approximateCurvature(), approximateVelocity(), clamp(), getPointBounds(), mapRange(), normalize() (+14 more)
+Cohesion: 0.19
+Nodes (19): WebAudioEngine, approximateCurvature(), approximateVelocity(), clamp(), getPointBounds(), mapRange(), normalize(), normalizeAngle() (+11 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.07
@@ -84,31 +84,31 @@ Nodes (29): 1. Relationship first, 2. Pure core, 3. Renderers are replaceable, 4
 
 ### Community 2 - "Community 2"
 Cohesion: 0.11
-Nodes (25): FrequencyMode, HueSource, RotationMode, Waveform, generateSpiroPoints(), getCycleEnd(), getEpitrochoidPoint(), getHypotrochoidPoint() (+17 more)
+Nodes (21): AudioState, FrequencyMode, HueSource, RotationMode, SpirophonicModel, Waveform, presets, App() (+13 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.11
 Nodes (18): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, jsx, lib, module, moduleDetection, moduleResolution (+10 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.33
-Nodes (8): downloadModelJson(), exportModelToJson(), hasNumbers(), isRecord(), isSpirophonicModel(), JsonImportResult, parseModelJson(), ImportExportPanelProps
+Cohesion: 0.19
+Nodes (13): downloadModelJson(), exportModelToJson(), hasNumbers(), isRecord(), isSpirophonicModel(), JsonImportResult, parseModelJson(), downloadTraceSvg() (+5 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.11
 Nodes (17): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, lib, module, moduleDetection, moduleResolution, noEmit (+9 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.12
-Nodes (16): dependencies, react, react-dom, name, optionalDependencies, lightningcss-win32-x64-msvc, @rolldown/binding-win32-x64-msvc, private (+8 more)
+Cohesion: 0.06
+Nodes (33): dependencies, react, react-dom, devDependencies, eslint, @eslint/js, eslint-plugin-react-hooks, eslint-plugin-react-refresh (+25 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.12
-Nodes (17): devDependencies, eslint, @eslint/js, eslint-plugin-react-hooks, eslint-plugin-react-refresh, globals, jsdom, @testing-library/jest-dom (+9 more)
+Cohesion: 0.73
+Nodes (4): clampCyclesPerSecond(), formatCycleSetting(), formatLoopSeconds(), getEffectiveCyclesPerSecond()
 
 ### Community 8 - "Community 8"
-Cohesion: 0.18
-Nodes (8): defaultModel, presets, downloadTraceSvg(), escapeXml(), exportTraceToSvg(), transformPoints(), PresetPicker(), PresetPickerProps
+Cohesion: 0.28
+Nodes (9): defaultModel, generateSpiroPoints(), getCycleEnd(), getEpitrochoidPoint(), getHypotrochoidPoint(), greatestCommonDivisor(), safeDivisor(), exportStrudelSnippet() (+1 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.25
@@ -119,8 +119,8 @@ Cohesion: 0.29
 Nodes (7): Acceptance Criteria, Constraints, CP-001 - Scaffold Vite React TypeScript App, Goal, Required Files, Scope, Suggested Commands
 
 ### Community 11 - "Community 11"
-Cohesion: 0.50
-Nodes (4): Acceptance Criteria, CP-012 - README and Demo Polish for v0.1, Goal, Scope
+Cohesion: 0.29
+Nodes (7): Acceptance Criteria, CP-012 - README and Demo Polish for v0.1, Execution Guidance for CP, Goal, Scope, Spirophonic POC Initial WBS and CP Packets, WBS Overview
 
 ### Community 12 - "Community 12"
 Cohesion: 0.33
@@ -128,7 +128,7 @@ Nodes (6): Acceptance Criteria, CP-002 - Define Core Model Types, Goal, Scope, S
 
 ### Community 13 - "Community 13"
 Cohesion: 0.33
-Nodes (6): Acceptance Criteria, CP-003 - Implement Spirograph Math Engine, Goal, Scope, Suggested Files, Suggested Output Type
+Nodes (6): Acceptance Criteria, CP-003 - Implement Trochoid Trace Math Engine, Goal, Scope, Suggested Files, Suggested Output Type
 
 ### Community 14 - "Community 14"
 Cohesion: 0.33
@@ -171,8 +171,8 @@ Cohesion: 0.40
 Nodes (5): Acceptance Criteria, CP-014 - SVG Export, Goal, Scope, Suggested Files
 
 ### Community 25 - "Community 25"
-Cohesion: 0.29
-Nodes (6): Definition of Done for v0.1, Execution Guidance for CP, First Implementation Slice, Important Design Warning, Spirophonic POC Initial WBS and CP Packets, WBS Overview
+Cohesion: 0.50
+Nodes (3): Definition of Done for v0.1, First Implementation Slice, Important Design Warning
 
 ### Community 26 - "Community 26"
 Cohesion: 0.50
@@ -186,17 +186,17 @@ Nodes (4): Acceptance Criteria, CP-011 - Testing Pass for v0.1, Goal, Scope
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Spirophonic POC Initial WBS and CP Packets` connect `Community 25` to `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 26`?**
-  _High betweenness centrality (0.074) - this node is a cross-community bridge._
-- **Why does `SpirophonicModel` connect `Community 0` to `Community 8`, `Community 2`, `Community 4`?**
+- **Why does `Spirophonic POC Initial WBS and CP Packets` connect `Community 11` to `Community 10`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 25`, `Community 26`?**
+  _High betweenness centrality (0.072) - this node is a cross-community bridge._
+- **Why does `SpirophonicModel` connect `Community 2` to `Community 0`, `Community 8`, `Community 4`?**
   _High betweenness centrality (0.016) - this node is a cross-community bridge._
-- **Why does `CP-001 - Scaffold Vite React TypeScript App` connect `Community 10` to `Community 25`?**
-  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+- **Why does `CP-001 - Scaffold Vite React TypeScript App` connect `Community 10` to `Community 11`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _175 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.06666666666666667 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1051693404634581 - nodes in this community are weakly interconnected._
 - **Should `Community 3` be split into smaller, more focused modules?**
   _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._

@@ -36,7 +36,7 @@ npm test
 ```text
 CP-001. Repo and project setup
 CP-002. Core relationship model
-CP-003. Spirograph math engine
+CP-003. Trochoid trace math engine
 CP-004. Geometry-derived mapping layer
 CP-005. Canvas rendering
 CP-006. UI control panel
@@ -179,7 +179,7 @@ export type SpirophonicModel = {
 
 ---
 
-## CP-003 - Implement Spirograph Math Engine
+## CP-003 - Implement Trochoid Trace Math Engine
 
 ### Goal
 
@@ -199,8 +199,8 @@ Support:
 ### Suggested Files
 
 ```text
-src/core/spirograph.ts
-tests/spirograph.test.ts
+src/core/trochoid.ts
+tests/trochoid.test.ts
 ```
 
 ### Suggested Output Type
@@ -486,7 +486,7 @@ Improve reliability of the core prototype.
 
 Add or improve tests for:
 
-- spirograph point generation
+- trochoid trace point generation
 - mapping functions
 - JSON export/import
 - default model validity

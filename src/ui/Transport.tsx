@@ -1,21 +1,25 @@
 type TransportProps = {
   isPlaying: boolean
   soundEnabled: boolean
+  continuousPlay: boolean
   progress: number
   onPlay: () => void
   onPause: () => void
   onReset: () => void
   onSoundToggle: (enabled: boolean) => void
+  onContinuousPlayToggle: (enabled: boolean) => void
 }
 
 export function Transport({
   isPlaying,
   soundEnabled,
+  continuousPlay,
   progress,
   onPlay,
   onPause,
   onReset,
   onSoundToggle,
+  onContinuousPlayToggle,
 }: TransportProps) {
   return (
     <div className="transport" aria-label="Animation transport">
@@ -43,6 +47,19 @@ export function Transport({
           onChange={(event) => onSoundToggle(event.currentTarget.checked)}
         />
         Sound
+      </label>
+      <label
+        className="sound-toggle"
+        title="When enabled, animation loops continuously. When disabled, it stops at the next completed cycle."
+      >
+        <input
+          type="checkbox"
+          checked={continuousPlay}
+          onChange={(event) =>
+            onContinuousPlayToggle(event.currentTarget.checked)
+          }
+        />
+        Continuous
       </label>
       <div className="progress-meter" aria-label="Cycle progress">
         <span style={{ inlineSize: `${Math.round(progress * 100)}%` }} />

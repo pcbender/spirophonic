@@ -3,7 +3,7 @@ import './App.css'
 import { WebAudioEngine } from './audio/webAudioEngine'
 import { defaultModel } from './core/defaultModel'
 import type { SpirophonicModel } from './core/model'
-import { generateSpiroPoints } from './core/spirograph'
+import { generateSpiroPoints } from './core/trochoid'
 import { getEffectiveCyclesPerSecond } from './core/time'
 import { CanvasView } from './ui/CanvasView'
 import { ControlPanel } from './ui/ControlPanel'
@@ -15,33 +15,44 @@ import { Transport } from './ui/Transport'
 function App() {
   const [model, setModel] = useState<SpirophonicModel>(defaultModel)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [continuousPlay, setContinuousPlay] = useState(true)
   const [progress, setProgress] = useState(1)
-  const previousFrameRef = useRef<number | null>(null)
+  const progressRef = useRef(progress)
   const audioRef = useRef<WebAudioEngine | null>(null)
   const points = useMemo(() => generateSpiroPoints(model), [model])
   const activeIndex = Math.floor(progress * Math.max(0, points.length - 1))
   const activePoint = points[activeIndex] ?? points[0]
+  const cyclesPerSecond = getEffectiveCyclesPerSecond(
+    model.time.cyclesPerSecond,
+  )
+
+  useEffect(() => {
+    progressRef.current = progress
+  }, [progress])
 
   useEffect(() => {
     if (!isPlaying) {
-      previousFrameRef.current = null
       return
     }
 
     let frameId = 0
+    const startTime = performance.now()
+    const startProgress = progressRef.current
 
     const animate = (timestamp: number) => {
-      const previous = previousFrameRef.current ?? timestamp
-      const deltaSeconds = (timestamp - previous) / 1000
-      previousFrameRef.current = timestamp
+      const elapsedSeconds = (timestamp - startTime) / 1000
+      const rawProgress = startProgress + elapsedSeconds * cyclesPerSecond
+      const nextProgress = continuousPlay ? rawProgress % 1 : rawProgress
 
-      setProgress((currentProgress) => {
-        const nextProgress =
-          currentProgress +
-          deltaSeconds * getEffectiveCyclesPerSecond(model.time.cyclesPerSecond)
+      if (!continuousPlay && nextProgress >= 1) {
+        progressRef.current = 1
+        setProgress(1)
+        setIsPlaying(false)
+        return
+      }
 
-        return nextProgress % 1
-      })
+      progressRef.current = nextProgress
+      setProgress(nextProgress)
 
       frameId = requestAnimationFrame(animate)
     }
@@ -49,7 +60,7 @@ function App() {
     frameId = requestAnimationFrame(animate)
 
     return () => cancelAnimationFrame(frameId)
-  }, [isPlaying, model.time.cyclesPerSecond])
+  }, [continuousPlay, cyclesPerSecond, isPlaying])
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -78,9 +89,39 @@ function App() {
   )
 
   const handleReset = () => {
+    progressRef.current = 0
     setProgress(0)
     setIsPlaying(false)
   }
+
+  const handlePlay = () => {
+    if (progressRef.current >= 1) {
+      progressRef.current = 0
+      setProgress(0)
+    }
+
+    setIsPlaying(true)
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.code !== 'Space' || event.repeat || isEditableTarget(event.target)) {
+        return
+      }
+
+      event.preventDefault()
+
+      if (isPlaying) {
+        setIsPlaying(false)
+      } else {
+        handlePlay()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [isPlaying])
 
   const handleSoundToggle = (enabled: boolean) => {
     setModel((currentModel) => ({
@@ -104,23 +145,43 @@ function App() {
       <Transport
         isPlaying={isPlaying}
         soundEnabled={model.sound.enabled}
+        continuousPlay={continuousPlay}
         progress={progress}
-        onPlay={() => setIsPlaying(true)}
+        onPlay={handlePlay}
         onPause={() => setIsPlaying(false)}
         onReset={handleReset}
         onSoundToggle={handleSoundToggle}
+        onContinuousPlayToggle={setContinuousPlay}
       />
-      <PresetPicker model={model} onSelect={setModel} />
-      <ImportExportPanel model={model} points={points} onImport={setModel} />
+      <div className="preset-toolbar">
+        <PresetPicker model={model} onSelect={setModel} />
+        <ImportExportPanel model={model} points={points} onImport={setModel} />
+      </div>
 
       <section className="workspace">
-        <CanvasView model={model} points={points} progress={progress} />
+        <CanvasView
+          model={model}
+          points={points}
+          progress={progress}
+          showActivePoint={isPlaying}
+        />
         <div className="side-panel">
           <ControlPanel model={model} onChange={setModel} />
           <StrudelExportPanel model={model} points={points} />
         </div>
       </section>
     </main>
+  )
+}
+
+const isEditableTarget = (target: EventTarget | null) => {
+  if (!(target instanceof HTMLElement)) {
+    return false
+  }
+
+  return (
+    target.isContentEditable ||
+    ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'].includes(target.tagName)
   )
 }
 

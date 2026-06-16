@@ -1,5 +1,5 @@
 import type { SpirophonicModel } from './model'
-import type { SpiroPoint } from './spirograph'
+import type { SpiroPoint } from './trochoid'
 
 export const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value))

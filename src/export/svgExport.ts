@@ -1,5 +1,5 @@
 import type { SpirophonicModel } from '../core/model'
-import type { SpiroPoint } from '../core/spirograph'
+import type { SpiroPoint } from '../core/trochoid'
 
 const size = 1024
 const padding = 48
@@ -76,4 +76,3 @@ const escapeXml = (value: string) =>
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
-

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { defaultModel } from './defaultModel'
-import { generateSpiroPoints } from './spirograph'
+import { generateSpiroPoints } from './trochoid'
 
 describe('generateSpiroPoints', () => {
   it('returns the requested point count', () => {
@@ -39,4 +39,3 @@ describe('generateSpiroPoints', () => {
     expect(shifted[0]).not.toEqual(base[0])
   })
 })
-

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import type { SpirophonicModel } from '../core/model'
-import type { SpiroPoint } from '../core/spirograph'
+import type { SpiroPoint } from '../core/trochoid'
 import { downloadModelJson, parseModelJson } from '../export/jsonExport'
 import { downloadTraceSvg } from '../export/svgExport'
 

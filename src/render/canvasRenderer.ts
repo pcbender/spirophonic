@@ -1,10 +1,11 @@
 import type { SpirophonicModel } from '../core/model'
-import type { SpiroPoint } from '../core/spirograph'
+import type { SpiroPoint } from '../core/trochoid'
 import { pointToHsl } from './color'
 
 export type DrawTraceOptions = {
   activeIndex?: number
   revealProgress?: number
+  showActivePoint?: boolean
 }
 
 const padding = 36
@@ -18,18 +19,16 @@ export const drawSpiroTrace = (
   const { canvas } = context
   const width = canvas.width
   const height = canvas.height
-  const maxIndex = Math.max(
-    1,
-    Math.floor(
-      (options.revealProgress ?? 1) * Math.max(1, points.length - 1),
-    ),
-  )
+  const revealProgress = clampProgress(options.revealProgress ?? 1)
+  const lastIndex = Math.max(1, points.length - 1)
+  const maxIndex =
+    revealProgress >= 1 ? lastIndex : Math.floor(revealProgress * lastIndex)
 
   context.clearRect(0, 0, width, height)
   context.fillStyle = '#101014'
   context.fillRect(0, 0, width, height)
 
-  if (points.length < 2) {
+  if (points.length < 2 || revealProgress <= 0 || maxIndex < 1) {
     return
   }
 
@@ -52,7 +51,9 @@ export const drawSpiroTrace = (
     context.stroke()
   }
 
-  const activePoint = points[options.activeIndex ?? maxIndex]
+  const activePoint = options.showActivePoint
+    ? points[options.activeIndex ?? maxIndex]
+    : undefined
   if (activePoint) {
     const active = transformPoint(activePoint, transform)
 
@@ -62,6 +63,8 @@ export const drawSpiroTrace = (
     context.fill()
   }
 }
+
+const clampProgress = (progress: number) => Math.min(1, Math.max(0, progress))
 
 const getCanvasTransform = (
   points: Array<SpiroPoint>,
@@ -105,4 +108,3 @@ const transformPoint = (
   x: (point.x - transform.centerX) * transform.scale + transform.width / 2,
   y: (point.y - transform.centerY) * transform.scale * -1 + transform.height / 2,
 })
-

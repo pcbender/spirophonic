@@ -1,6 +1,6 @@
 import type { SpirophonicModel } from '../core/model'
 import { pointToHue } from '../core/mapping'
-import type { SpiroPoint } from '../core/spirograph'
+import type { SpiroPoint } from '../core/trochoid'
 
 export const pointToHsl = (
   point: SpiroPoint,

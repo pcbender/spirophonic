@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { defaultModel } from '../core/defaultModel'
-import { generateSpiroPoints } from '../core/spirograph'
+import { generateSpiroPoints } from '../core/trochoid'
 import { exportTraceToSvg } from './svgExport'
 
 describe('SVG export', () => {
@@ -12,4 +12,3 @@ describe('SVG export', () => {
     expect(svg).toContain(defaultModel.name)
   })
 })
-

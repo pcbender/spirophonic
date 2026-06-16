@@ -29,7 +29,7 @@ export const presets: Array<SpirophonicModel> = [
       rotation: 'outside',
       samples: 1100,
     },
-    time: { cyclesPerSecond: 0.14 },
+    time: { cyclesPerSecond: 0.35 },
     sound: { waveform: 'triangle', frequencyMode: 'angle' },
     color: { hueSource: 'velocity', saturation: 78, lightness: 62 },
   }),
@@ -43,7 +43,7 @@ export const presets: Array<SpirophonicModel> = [
       phase: 0.35,
       samples: 760,
     },
-    time: { cyclesPerSecond: 0.07 },
+    time: { cyclesPerSecond: 0.2 },
     sound: {
       baseFrequencyHz: 174,
       minFrequencyHz: 87,
@@ -62,7 +62,7 @@ export const presets: Array<SpirophonicModel> = [
       rotation: 'inside',
       samples: 1400,
     },
-    time: { cyclesPerSecond: 0.12 },
+    time: { cyclesPerSecond: 0.3 },
     sound: { frequencyMode: 'ratio', waveform: 'triangle' },
     color: { hueSource: 'angle', saturation: 86, lightness: 57 },
   }),
@@ -76,7 +76,7 @@ export const presets: Array<SpirophonicModel> = [
       phase: 0.78,
       samples: 960,
     },
-    time: { cyclesPerSecond: 0.16 },
+    time: { cyclesPerSecond: 0.25 },
     sound: {
       baseFrequencyHz: 196,
       frequencyMode: 'y',
@@ -85,4 +85,3 @@ export const presets: Array<SpirophonicModel> = [
     color: { hueSource: 'curvature', saturation: 74, lightness: 61 },
   }),
 ]
-

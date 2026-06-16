@@ -1,6 +1,6 @@
 import type { SpirophonicModel } from '../core/model'
 import { pointToFrequency, pointToPan } from '../core/mapping'
-import type { SpiroPoint } from '../core/spirograph'
+import type { SpiroPoint } from '../core/trochoid'
 
 type AudioState = {
   context: AudioContext
@@ -73,4 +73,3 @@ export class WebAudioEngine {
     this.state = null
   }
 }
-
