@@ -35,3 +35,5 @@ scaffold-tmp/
 
 # Local dev server logs
 vite-dev*.log
+
+graphify-out/
