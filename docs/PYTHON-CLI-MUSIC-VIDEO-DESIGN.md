@@ -131,12 +131,50 @@ video:
   background: "#101014"
   seed: 4821
 
+encoding:
+  video_codec: libx264
+  pixel_format: yuv420p
+  crf: 18
+  preset: medium
+  threads: 1
+  audio_codec: aac
+  audio_bitrate_kbps: 192
+  audio_sample_rate: 48000
+  audio_channels: 2
+  faststart: true
+
 text:
   font: assets/lyrics-font.ttf
   size: 60
   position: bottom
   active_color: "#ffffff"
   show_section_titles: true
+
+# Optional. Stable curve geometry is generated once; audio changes transforms
+# and style rather than the fixed/moving-radius topology.
+visuals:
+  mapping_preset: balanced
+  palette_preset: layer
+  # Optional custom colors take precedence over the selected palette preset.
+  # palette: ["#ff5fd2", "#6ee7ff", "#ffd166"]
+  transition_seconds: 0.65
+  canvas_margin: 0.08
+  lyric_fade_seconds: 0.25
+  layers:
+    - id: vocal-flower
+      role: vocals
+      geometry:
+        fixed_radius: 180
+        moving_radius: 65
+        pen_offset: 95
+        rotation: inside
+        samples: 900
+      color: "#ff5fd2"
+      base_scale: 0.57
+      opacity: 0.82
+      line_width: 2.4
+      rotation_degrees_per_second: 12
+      blend_mode: screen
 ```
 
 Initial validation rules:
@@ -239,7 +277,8 @@ in project files, and must never be logged.
 
 Official references:
 
-- <https://platform.openai.com/docs/api-reference/audio>
+- <https://developers.openai.com/api/docs/guides/speech-to-text#timestamps>
+- <https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create>
 - <https://developers.openai.com/api/docs/models/whisper-1>
 
 ## Audio and Stem Analysis
@@ -515,6 +554,28 @@ Long operations must show progress and support interruption without presenting
 partial output as successful. Temporary outputs should be renamed to their final
 path only after encoding and verification succeed.
 
+## Reliability and Artistic Presets
+
+The implemented renderer provides four measured mapping presets (`balanced`,
+`restrained`, `kinetic`, and `vocal-focus`) and five palette presets (`layer`,
+`aurora`, `ember`, `ocean`, and `monochrome`). `balanced` and `layer` preserve
+the original deterministic rendering defaults. Projects may supply a short
+custom palette, which takes precedence over the palette preset while retaining
+deterministic layer assignment.
+
+`spirophonic render --dry-run` validates project inputs, required FFmpeg
+encoders, lyric fonts, and card images before encoding. It reports the exact
+timeline and frame count, the theoretical RGB stream size, selected presets,
+and warnings for unusual output profiles or long renders without writing an
+MP4. `spirophonic render --profile` adds measured preparation, encoding, and
+verification timings plus rendered frames per second and realtime throughput.
+The same performance data is stored in the render manifest.
+
+Live rendering reports percentage, throughput, and ETA. Interruption terminates
+FFmpeg and removes unpublished temporary media and manifests. Render planning
+keeps only the timeline and diagnostics in memory, so planning a multi-hour
+song remains constant-space even though its generated RGB stream is large.
+
 ## Implementation Phases
 
 ### Phase 0: Repository pivot
@@ -591,9 +652,10 @@ and run one command that produces a verified 1920x1080 MP4 with:
 
 ## Deferred Decisions
 
-The architecture does not require these choices before implementation starts:
+The architecture does not require these choices before production tuning:
 
-- Final default palettes and artistic presets
+- Further calibration of the default palettes and artistic presets against
+  production songs
 - Exact number of spirograph layers
 - Default lyric font, size, and safe-area placement
 - Whether card overlay mode belongs in v1 or the next release

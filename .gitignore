@@ -1,5 +1,8 @@
 # Dependencies
 node_modules/
+.venv/
+__pycache__/
+*.py[cod]
 
 # Build output
 dist/
@@ -9,6 +12,8 @@ coverage/
 # Vite / test caches
 .vite/
 .vitest/
+.pytest_cache/
+.ruff_cache/
 
 # Environment files
 .env
