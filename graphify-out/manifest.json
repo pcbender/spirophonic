@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1781625191.187608,
-    "ast_hash": "f27f333a1284578be431724acb4049d8",
+    "mtime": 1781717368.4077747,
+    "ast_hash": "761e7e1f3d6c153a8c5749742f8d3b75",
     "semantic_hash": ""
   },
   "src/App.test.tsx": {
@@ -165,8 +165,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1781635794.1730525,
-    "ast_hash": "a31de2de2c70755fe6b4873cebf90a67",
+    "mtime": 1784400133.9473267,
+    "ast_hash": "72b4a2ae3b09fac23556e6c8f777b715",
     "semantic_hash": ""
   },
   "docs/INITIAL-WBS-AND-CP-PACKETS.md": {
@@ -207,6 +207,16 @@
   "src/core/trochoid.ts": {
     "mtime": 1781628217.4331498,
     "ast_hash": "3100371fce17de8975a1d422e89b11ff",
+    "semantic_hash": ""
+  },
+  ".github/workflows/build.yml": {
+    "mtime": 1781716362.1629732,
+    "ast_hash": "1de01958c2ee644c876a2fd18b4e00c1",
+    "semantic_hash": ""
+  },
+  "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md": {
+    "mtime": 1784400133.3180618,
+    "ast_hash": "3984118cd7ab5c4d7f7b280e364f14b1",
     "semantic_hash": ""
   }
 }

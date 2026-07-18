@@ -2,6 +2,17 @@
 
 Spirophonic is a browser-based creative instrument where cyclic relationships generate shape, motion, color, and sound from the same underlying model.
 
+## Planned Direction
+
+The next phase pivots Spirophonic to a WSL2-first, standalone Python CLI that
+renders finished lyric music videos from master audio, aligned stems, structured
+lyrics, and opening and closing cards. The existing React application remains
+the initial browser prototype and a source of reusable geometry behavior.
+
+See [Python CLI Music-Video Renderer Design](docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md)
+for the approved product contract, architecture, environment, and transition
+plan.
+
 ## Current State
 
 This repository contains the project vision, initial work breakdown, and a local Vite + React + TypeScript prototype.
@@ -46,6 +57,7 @@ npm install --include=optional --os=win32 --cpu=x64
 
 ## Docs
 
+- [Python CLI Music-Video Renderer Design](docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md)
 - [Vision](docs/VISION.md)
 - [Initial WBS and CP Packets](docs/INITIAL-WBS-AND-CP-PACKETS.md)
 
