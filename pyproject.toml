@@ -1,0 +1,50 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "spirophonic"
+version = "0.1.0"
+description = "Deterministic command-line music-video renderer"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "librosa>=0.11,<0.12",
+  "numpy>=2.3,<3",
+  "opencv-python-headless>=4.13,<5",
+  "pillow>=12,<13",
+  "pydantic>=2.11,<3",
+  "pyyaml>=6.0.2,<7",
+  "rich>=14,<15",
+  "soundfile>=0.14,<0.15",
+  "typer>=0.16,<1",
+]
+
+[project.scripts]
+spirophonic = "spirophonic.cli:app"
+
+[project.optional-dependencies]
+align = [
+  "openai>=2,<3",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.4,<9",
+  "ruff>=0.12,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/spirophonic"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+extend-exclude = ["dist", "graphify-out", "node_modules"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

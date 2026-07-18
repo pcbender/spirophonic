@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "fixtures:geometry": "vitest run scripts/export-geometry-fixtures.test.ts",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",

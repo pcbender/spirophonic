@@ -1,0 +1,187 @@
+from pathlib import Path
+
+import numpy as np
+import pytest
+
+from spirophonic.analysis import (
+    ANALYSIS_FEATURES,
+    AnalysisBundle,
+    FeatureTimeline,
+    SemanticControl,
+)
+from spirophonic.choreography import ChoreographyState, choreography_at
+from spirophonic.mappings import map_layer_state, sample_audio_visual_state
+from spirophonic.project import (
+    AlignedLyricLine,
+    AlignedLyrics,
+    AlignedLyricSection,
+    ProjectManifest,
+)
+
+
+def _aligned_sections() -> AlignedLyrics:
+    return AlignedLyrics(
+        version=1,
+        source=Path("lyrics.yaml"),
+        sections=[
+            AlignedLyricSection(
+                id="verse",
+                type="verse",
+                label="Verse",
+                start=0,
+                end=2,
+                lines=[AlignedLyricLine(text="Verse line", start=0.2, end=1.8)],
+            ),
+            AlignedLyricSection(
+                id="chorus",
+                type="chorus",
+                label="Chorus",
+                start=2,
+                end=4,
+                lines=[AlignedLyricLine(text="Chorus line", start=2.2, end=3.8)],
+            ),
+            AlignedLyricSection(
+                id="instrumental",
+                type="instrumental",
+                start=4,
+                end=6,
+                lines=[],
+            ),
+        ],
+    )
+
+
+def _analysis_bundle() -> AnalysisBundle:
+    role_values = {
+        "master": (0.4, 0.7),
+        "drums": (0.5, 0.9),
+        "bass": (0.8, 0.2),
+        "vocals": (0.65, 0.75),
+        "instruments": (0.55, 0.45),
+    }
+    tracks: dict[str, FeatureTimeline] = {}
+    for role, (energy, accent) in role_values.items():
+        values = {
+            feature: np.asarray([energy, energy], dtype=np.float32)
+            for feature in ANALYSIS_FEATURES
+        }
+        values["onset_strength"][:] = accent
+        values["spectral_flux"][:] = accent
+        values["vocal_activity"][:] = accent
+        values["spectral_centroid"][:] = 0.6
+        tracks[role] = FeatureTimeline(
+            times=np.asarray([0, 6], dtype=np.float64),
+            features=values,
+            tempo_bpm=120,
+            beat_times=np.asarray([0, 0.5, 1], dtype=np.float64),
+        )
+    return AnalysisBundle(
+        cache_key="fixture",
+        duration=6,
+        sample_rate=8000,
+        frame_length=512,
+        hop_length=128,
+        input_hashes={},
+        tracks=tracks,
+        semantic_controls={
+            "master": SemanticControl("master", "rms", "onset_strength"),
+            "drums": SemanticControl("drums", "rms", "onset_strength"),
+            "bass": SemanticControl("bass", "rms", "spectral_flux"),
+            "vocals": SemanticControl("vocals", "rms", "vocal_activity"),
+            "instruments": SemanticControl(
+                "instruments",
+                "rms",
+                "spectral_flux",
+            ),
+        },
+    )
+
+
+def test_section_choreography_interpolates_into_the_chorus() -> None:
+    lyrics = _aligned_sections()
+
+    verse = choreography_at(lyrics, 1, transition_seconds=0.5)
+    chorus_start = choreography_at(lyrics, 2, transition_seconds=0.5)
+    chorus = choreography_at(lyrics, 2.5, transition_seconds=0.5)
+    instrumental = choreography_at(lyrics, 4.5, transition_seconds=0.5)
+
+    assert verse.section_id == "verse"
+    assert verse.layer_fraction == pytest.approx(0.58)
+    assert chorus_start.layer_fraction == pytest.approx(verse.layer_fraction)
+    assert chorus.transition_progress == 1
+    assert chorus.layer_fraction == 1
+    assert chorus.scale > verse.scale
+    assert chorus.onset_response > verse.onset_response
+    assert instrumental.lyrics_opacity == 0
+
+
+def test_vocal_intro_and_outro_sections_keep_lyrics_visible() -> None:
+    lyrics = AlignedLyrics(
+        version=1,
+        source=Path("lyrics.yaml"),
+        sections=[
+            AlignedLyricSection(
+                id="intro",
+                type="intro",
+                start=0,
+                end=1,
+                lines=[AlignedLyricLine(text="Opening line", start=0.1, end=0.9)],
+            ),
+            AlignedLyricSection(
+                id="outro",
+                type="outro",
+                start=1,
+                end=2,
+                lines=[AlignedLyricLine(text="Closing line", start=1.1, end=1.9)],
+            ),
+        ],
+    )
+
+    intro = choreography_at(lyrics, 0.5, transition_seconds=0)
+    outro = choreography_at(lyrics, 1.5, transition_seconds=0)
+
+    assert intro.lyrics_opacity == 1
+    assert outro.lyrics_opacity == 1
+
+
+def test_semantic_mapping_keeps_geometry_stable_and_modulates_style() -> None:
+    project = ProjectManifest.model_validate(
+        {
+            "version": 1,
+            "title": "Mapping Fixture",
+            "audio": {"master": "master.wav"},
+            "lyrics": {"source": "lyrics.yaml", "language": "en"},
+            "cards": {
+                "opening": {"file": "open.jpg", "duration": 1},
+                "closing": {"file": "close.jpg", "duration": 1},
+            },
+            "text": {"font": "font.ttf"},
+        }
+    )
+    audio = sample_audio_visual_state(_analysis_bundle(), 1)
+    chorus = ChoreographyState(
+        section_id="chorus",
+        section_type="chorus",
+        section_label="Chorus",
+        section_progress=0.5,
+        transition_progress=1,
+        layer_fraction=1,
+        scale=1.08,
+        motion=1.18,
+        color_intensity=1.16,
+        onset_response=1.35,
+        rotation_direction=1,
+        palette_shift=0,
+        lyrics_opacity=1,
+    )
+    bass_layer = project.visuals.layers[0]
+    drums_layer = project.visuals.layers[-1]
+
+    bass = map_layer_state(bass_layer, audio, chorus, 1)
+    drums = map_layer_state(drums_layer, audio, chorus, 1)
+
+    assert bass.scale == pytest.approx(bass_layer.base_scale * 1.08 * 1.16)
+    assert bass.opacity > 0
+    assert drums.line_width > drums_layer.line_width * 2
+    assert drums.opacity > 0
+    assert drums.hue_shift_degrees > drums_layer.hue_shift_degrees
