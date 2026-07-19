@@ -19,6 +19,18 @@ from pydantic import (
 NonBlankText = Annotated[str, Field(min_length=1)]
 HexColor = Annotated[str, Field(pattern=r"^#[0-9a-fA-F]{6}$")]
 VisualRole = Literal["master", "drums", "bass", "vocals", "instruments"]
+AudioSignal = Literal[
+    "master.energy",
+    "master.accent",
+    "drums.energy",
+    "drums.accent",
+    "bass.energy",
+    "bass.accent",
+    "vocals.energy",
+    "vocals.accent",
+    "instruments.energy",
+    "instruments.accent",
+]
 
 
 class ContractModel(BaseModel):
@@ -203,6 +215,13 @@ class SectionVisualStyleConfig(ContractModel):
         return self
 
 
+class TraceAudioDriversConfig(ContractModel):
+    scale: AudioSignal | None = None
+    opacity: AudioSignal | None = None
+    color: AudioSignal | None = None
+    pulse: AudioSignal | None = None
+
+
 class VisualLayerConfig(ContractModel):
     id: NonBlankText
     role: VisualRole
@@ -218,6 +237,27 @@ class VisualLayerConfig(ContractModel):
     rotation_degrees_per_second: float = Field(default=0, ge=-180, le=180)
     hue_shift_degrees: float = Field(default=0, ge=-360, le=360)
     blend_mode: Literal["normal", "screen"] = "screen"
+    drivers: TraceAudioDriversConfig = Field(default_factory=TraceAudioDriversConfig)
+
+
+class CastingConfig(ContractModel):
+    source: Literal["auto", "ai", "manual"] = "manual"
+    seed: int | None = None
+    generator_version: int = Field(default=1, ge=1)
+
+
+class SectionCompositionConfig(ContractModel):
+    casting: CastingConfig = Field(default_factory=CastingConfig)
+    traces: list[VisualLayerConfig] = Field(min_length=1, max_length=12)
+
+    @model_validator(mode="after")
+    def trace_ids_are_unique(self) -> "SectionCompositionConfig":
+        ids = [trace.id for trace in self.traces]
+        duplicates = sorted({trace_id for trace_id in ids if ids.count(trace_id) > 1})
+        if duplicates:
+            joined = ", ".join(duplicates)
+            raise ValueError(f"composition trace ids must be unique: {joined}")
+        return self
 
 
 def _default_visual_layers() -> list[VisualLayerConfig]:
@@ -353,6 +393,13 @@ class VisualConfig(ContractModel):
     section_overrides: dict[NonBlankText, SectionVisualStyleConfig] = Field(
         default_factory=dict
     )
+    auto_casting: bool = True
+    section_compositions: dict[NonBlankText, SectionCompositionConfig] = Field(
+        default_factory=dict
+    )
+    composition_overrides: dict[NonBlankText, SectionCompositionConfig] = Field(
+        default_factory=dict
+    )
 
     @model_validator(mode="after")
     def layer_ids_are_unique(self) -> "VisualConfig":
@@ -365,15 +412,22 @@ class VisualConfig(ContractModel):
             raise ValueError("at least one visual layer is required")
         normalized_types = [key.casefold() for key in self.section_styles]
         type_duplicates = sorted(
-            {
-                key
-                for key in normalized_types
-                if normalized_types.count(key) > 1
-            }
+            {key for key in normalized_types if normalized_types.count(key) > 1}
         )
         if type_duplicates:
             joined = ", ".join(type_duplicates)
             raise ValueError(f"section style names must be unique: {joined}")
+        normalized_compositions = [key.casefold() for key in self.section_compositions]
+        composition_duplicates = sorted(
+            {
+                key
+                for key in normalized_compositions
+                if normalized_compositions.count(key) > 1
+            }
+        )
+        if composition_duplicates:
+            joined = ", ".join(composition_duplicates)
+            raise ValueError(f"section composition names must be unique: {joined}")
         return self
 
 

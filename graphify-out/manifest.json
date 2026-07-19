@@ -165,8 +165,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1784480505.0730119,
-    "ast_hash": "c5b067448e36b8e2e72d61764a7e3ea5",
+    "mtime": 1784483047.895985,
+    "ast_hash": "d9040ccd1c515705d91f349b628feb20",
     "semantic_hash": ""
   },
   "docs/INITIAL-WBS-AND-CP-PACKETS.md": {
@@ -175,8 +175,8 @@
     "semantic_hash": ""
   },
   "docs/VISION.md": {
-    "mtime": 1784400727.5300899,
-    "ast_hash": "0645f35969fce02182ca1246fbe5ea70",
+    "mtime": 1784483042.7127848,
+    "ast_hash": "26ad1807a793d4d9b777838addc3698e",
     "semantic_hash": ""
   },
   "index.html": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md": {
-    "mtime": 1784480667.6115057,
-    "ast_hash": "7422024d312f6b17b0ac7bae0dc736c6",
+    "mtime": 1784483042.5939848,
+    "ast_hash": "5e99bfea7bb9f22115d28ef5f345c970",
     "semantic_hash": ""
   },
   "scripts/export-geometry-fixtures.test.ts": {
@@ -240,7 +240,7 @@
     "semantic_hash": ""
   },
   "src/spirophonic/cli.py": {
-    "mtime": 1784472410.8895423,
+    "mtime": 1784483147.8884065,
     "ast_hash": "116190b385c65d21cb34fcf510f0a44a",
     "semantic_hash": ""
   },
@@ -250,12 +250,12 @@
     "semantic_hash": ""
   },
   "src/spirophonic/project.py": {
-    "mtime": 1784480040.166904,
-    "ast_hash": "cd9bfbbd29711194e4193908bd9184b3",
+    "mtime": 1784482722.9872274,
+    "ast_hash": "41aa297ff2614eb8f6845c74d1f794c6",
     "semantic_hash": ""
   },
   "tests/fixtures/trochoid-golden.json": {
-    "mtime": 1784480628.959566,
+    "mtime": 1784483318.4005616,
     "ast_hash": "cca8a9756517ec907f58a343e08d00ca",
     "semantic_hash": ""
   },
@@ -270,22 +270,22 @@
     "semantic_hash": ""
   },
   "tests/test_project.py": {
-    "mtime": 1784480270.267654,
-    "ast_hash": "ab376b2588de07c8d2a420d3ec18ee8e",
+    "mtime": 1784482801.4950132,
+    "ast_hash": "af37a3d256180fedabfa3ff831dfe736",
     "semantic_hash": ""
   },
   "src/spirophonic/analysis.py": {
-    "mtime": 1784472410.8895423,
+    "mtime": 1784483147.6464064,
     "ast_hash": "362a58d5b9718307476270087a4cd192",
     "semantic_hash": ""
   },
   "tests/test_analysis.py": {
-    "mtime": 1784472410.8937397,
+    "mtime": 1784483148.3768065,
     "ast_hash": "97a77fe1052691f65510f99aaab17d8d",
     "semantic_hash": ""
   },
   "src/spirophonic/alignment.py": {
-    "mtime": 1784472933.4185297,
+    "mtime": 1784483147.5232065,
     "ast_hash": "49b412a5eb03252d8e6b9c52e7f48733",
     "semantic_hash": ""
   },
@@ -295,18 +295,18 @@
     "semantic_hash": ""
   },
   "src/spirophonic/choreography.py": {
-    "mtime": 1784480562.052821,
-    "ast_hash": "88a95882625791f91fe34565f68c28b5",
+    "mtime": 1784483147.7696064,
+    "ast_hash": "17bbe7abf8c6143a9c8dc8151e0e77b8",
     "semantic_hash": ""
   },
   "src/spirophonic/mappings.py": {
-    "mtime": 1784480609.069375,
-    "ast_hash": "9fa568a94a26f0be8535acdf4d862a07",
+    "mtime": 1784483078.7987275,
+    "ast_hash": "27458e8ed0c217a22efdc92a2a71267e",
     "semantic_hash": ""
   },
   "src/spirophonic/renderer.py": {
-    "mtime": 1784480146.186341,
-    "ast_hash": "bb9e0822ee46fc3d2e715dc8b3536dd9",
+    "mtime": 1784483298.2925615,
+    "ast_hash": "98687cbd2518890f4ddfed78dc5354d5",
     "semantic_hash": ""
   },
   "src/spirophonic/text.py": {
@@ -320,13 +320,13 @@
     "semantic_hash": ""
   },
   "tests/test_choreography.py": {
-    "mtime": 1784480562.1716208,
+    "mtime": 1784483148.4956064,
     "ast_hash": "984ede55bbe8c79297a21349ff07172c",
     "semantic_hash": ""
   },
   "tests/test_renderer.py": {
-    "mtime": 1784480291.3456147,
-    "ast_hash": "8b5fb6ae7080c4bdd67f6dc8605338b3",
+    "mtime": 1784483097.9549248,
+    "ast_hash": "4b37cd609351d9db5c348c0d4f3c2f68",
     "semantic_hash": ""
   },
   "src/spirophonic/cards.py": {
@@ -335,28 +335,28 @@
     "semantic_hash": ""
   },
   "src/spirophonic/encoder.py": {
-    "mtime": 1784472410.8895423,
+    "mtime": 1784483148.0116065,
     "ast_hash": "92e389fa8a3591aa114df7953cd68aee",
     "semantic_hash": ""
   },
   "src/spirophonic/pipeline.py": {
-    "mtime": 1784472410.8895423,
+    "mtime": 1784483148.1348064,
     "ast_hash": "09f9f587026878b2ab7749feaa9b8e57",
     "semantic_hash": ""
   },
   "src/spirophonic/render_manifest.py": {
-    "mtime": 1784472410.8895423,
-    "ast_hash": "32ad933de0a90ecf9ed7545524b488d1",
+    "mtime": 1784483223.1928523,
+    "ast_hash": "1a16fd01188cdb1a9f14673935fac5d3",
     "semantic_hash": ""
   },
   "src/spirophonic/verification.py": {
-    "mtime": 1784472410.8937397,
+    "mtime": 1784483148.2580063,
     "ast_hash": "899fcf6d4dda16abaa135fd771717f3e",
     "semantic_hash": ""
   },
   "tests/test_encoding.py": {
-    "mtime": 1784472410.8937397,
-    "ast_hash": "a7e8ef080e5af56d998975106585743f",
+    "mtime": 1784483209.280642,
+    "ast_hash": "582c4bfcf9dd6ac980cfff31d4415c31",
     "semantic_hash": ""
   },
   "src/spirophonic/presets.py": {
@@ -370,7 +370,7 @@
     "semantic_hash": ""
   },
   "tests/test_reliability.py": {
-    "mtime": 1784472410.8980732,
+    "mtime": 1784483148.6188064,
     "ast_hash": "bbc7fb492fa912d282e93d429cfb9394",
     "semantic_hash": ""
   },
@@ -387,6 +387,16 @@
   "tests/test_tracing.py": {
     "mtime": 1784472686.5450377,
     "ast_hash": "3225cbd0bcffd50400bd6d3ea04e1f74",
+    "semantic_hash": ""
+  },
+  "src/spirophonic/casting.py": {
+    "mtime": 1784482629.6994479,
+    "ast_hash": "875b0fac4e9239ab429ad36973677e7d",
+    "semantic_hash": ""
+  },
+  "tests/test_casting.py": {
+    "mtime": 1784482801.3762133,
+    "ast_hash": "cb128a368abaf65d7bfd346f01e5ab26",
     "semantic_hash": ""
   }
 }

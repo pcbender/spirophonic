@@ -240,6 +240,84 @@ def test_section_visual_settings_reject_ambiguous_or_duplicate_roles() -> None:
         ProjectManifest.model_validate(project)
 
 
+def test_section_compositions_validate_casting_traces_and_audio_drivers() -> None:
+    project = _valid_project()
+    project["visuals"] = {
+        "section_compositions": {
+            "bridge": {
+                "casting": {
+                    "source": "ai",
+                    "seed": 73,
+                    "generator_version": 2,
+                },
+                "traces": [
+                    {
+                        "id": "hero-flower",
+                        "role": "vocals",
+                        "geometry": {
+                            "fixed_radius": 240,
+                            "moving_radius": 80,
+                            "pen_offset": 180,
+                        },
+                        "color": "#ff5fd2",
+                        "base_scale": 1.6,
+                        "drivers": {
+                            "scale": "bass.energy",
+                            "opacity": "master.energy",
+                            "color": "vocals.energy",
+                            "pulse": "drums.accent",
+                        },
+                    }
+                ],
+            }
+        }
+    }
+
+    manifest = ProjectManifest.model_validate(project)
+    bridge = manifest.visuals.section_compositions["bridge"]
+
+    assert bridge.casting.source == "ai"
+    assert bridge.casting.generator_version == 2
+    assert bridge.traces[0].drivers.opacity == "master.energy"
+
+
+def test_section_compositions_reject_duplicates_and_unknown_signals() -> None:
+    project = _valid_project()
+    trace = {
+        "id": "same-trace",
+        "role": "vocals",
+        "geometry": {
+            "fixed_radius": 180,
+            "moving_radius": 60,
+            "pen_offset": 100,
+        },
+        "color": "#ff5fd2",
+    }
+    project["visuals"] = {
+        "section_compositions": {
+            "Bridge": {"traces": [trace]},
+            "bridge": {"traces": [trace]},
+        }
+    }
+    with pytest.raises(ValidationError, match="composition names"):
+        ProjectManifest.model_validate(project)
+
+    project["visuals"] = {
+        "section_compositions": {
+            "bridge": {"traces": [trace, trace]},
+        }
+    }
+    with pytest.raises(ValidationError, match="composition trace ids"):
+        ProjectManifest.model_validate(project)
+
+    trace["drivers"] = {"opacity": "guitar.energy"}
+    project["visuals"] = {
+        "section_compositions": {"bridge": {"traces": [trace]}},
+    }
+    with pytest.raises(ValidationError, match="drivers.opacity"):
+        ProjectManifest.model_validate(project)
+
+
 def test_aligned_lyrics_reject_overlapping_lines(tmp_path: Path) -> None:
     aligned_path = tmp_path / "lyrics.aligned.yaml"
     aligned_path.write_text(

@@ -2100,7 +2100,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "spirophonic_cards",
-      "community": 33,
+      "community": 43,
       "norm_label": "cards.py"
     },
     {
@@ -2110,7 +2110,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "spirophonic_cards_preparedcards",
-      "community": 36,
+      "community": 39,
       "norm_label": "preparedcards"
     },
     {
@@ -2120,7 +2120,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "spirophonic_cards_spirophoniccarderror",
-      "community": 33,
+      "community": 43,
       "norm_label": "spirophoniccarderror"
     },
     {
@@ -2130,7 +2130,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "spirophonic_cards_validate_card_image",
-      "community": 33,
+      "community": 43,
       "norm_label": "validate_card_image()"
     },
     {
@@ -2140,7 +2140,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_spirophonic_cards_py_path",
-      "community": 33,
+      "community": 43,
       "norm_label": "path"
     },
     {
@@ -2150,7 +2150,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "spirophonic_cards_parse_hex_color",
-      "community": 33,
+      "community": 43,
       "norm_label": "_parse_hex_color()"
     },
     {
@@ -2160,7 +2160,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "spirophonic_cards_render_card",
-      "community": 33,
+      "community": 43,
       "norm_label": "render_card()"
     },
     {
@@ -2170,7 +2170,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "cardconfig",
-      "community": 33,
+      "community": 43,
       "norm_label": "cardconfig"
     },
     {
@@ -2180,7 +2180,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_spirophonic_cards_py_ndarray",
-      "community": 33,
+      "community": 43,
       "norm_label": "ndarray"
     },
     {
@@ -2190,7 +2190,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_spirophonic_cards_py_uint8",
-      "community": 33,
+      "community": 43,
       "norm_label": "uint8"
     },
     {
@@ -2200,7 +2200,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "spirophonic_cards_prepare_cards",
-      "community": 33,
+      "community": 43,
       "norm_label": "prepare_cards()"
     },
     {
@@ -2210,7 +2210,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "spirophonic_cards_blend_frames",
-      "community": 33,
+      "community": 43,
       "norm_label": "blend_frames()"
     },
     {
@@ -2220,8 +2220,168 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "spirophonic_cards_rationale_42",
-      "community": 33,
+      "community": 43,
       "norm_label": "fit a still card to one rgb frame without changing its aspect ratio."
+    },
+    {
+      "label": "casting.py",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "spirophonic_casting",
+      "community": 4,
+      "norm_label": "casting.py"
+    },
+    {
+      "label": "ResolvedComposition",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "spirophonic_casting_resolvedcomposition",
+      "community": 4,
+      "norm_label": "resolvedcomposition"
+    },
+    {
+      "label": "_stable_seed()",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "spirophonic_casting_stable_seed",
+      "community": 4,
+      "norm_label": "_stable_seed()"
+    },
+    {
+      "label": "_jitter()",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "spirophonic_casting_jitter",
+      "community": 4,
+      "norm_label": "_jitter()"
+    },
+    {
+      "label": "Random",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "random",
+      "community": 4,
+      "norm_label": "random"
+    },
+    {
+      "label": "_trace()",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "spirophonic_casting_trace",
+      "community": 4,
+      "norm_label": "_trace()"
+    },
+    {
+      "label": "VisualRole",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "visualrole",
+      "community": 4,
+      "norm_label": "visualrole"
+    },
+    {
+      "label": "TraceAudioDriversConfig",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "traceaudiodriversconfig",
+      "community": 4,
+      "norm_label": "traceaudiodriversconfig"
+    },
+    {
+      "label": "VisualLayerConfig",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "src_spirophonic_casting_py_visuallayerconfig",
+      "community": 4,
+      "norm_label": "visuallayerconfig"
+    },
+    {
+      "label": "_drivers()",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L95",
+      "_origin": "ast",
+      "id": "spirophonic_casting_drivers",
+      "community": 4,
+      "norm_label": "_drivers()"
+    },
+    {
+      "label": "_auto_traces()",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L110",
+      "_origin": "ast",
+      "id": "spirophonic_casting_auto_traces",
+      "community": 4,
+      "norm_label": "_auto_traces()"
+    },
+    {
+      "label": "generate_auto_composition()",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L503",
+      "_origin": "ast",
+      "id": "spirophonic_casting_generate_auto_composition",
+      "community": 4,
+      "norm_label": "generate_auto_composition()"
+    },
+    {
+      "label": "SectionCompositionConfig",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L503",
+      "_origin": "ast",
+      "id": "sectioncompositionconfig",
+      "community": 4,
+      "norm_label": "sectioncompositionconfig"
+    },
+    {
+      "label": "_type_composition()",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L519",
+      "_origin": "ast",
+      "id": "spirophonic_casting_type_composition",
+      "community": 4,
+      "norm_label": "_type_composition()"
+    },
+    {
+      "label": "VisualConfig",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L519",
+      "_origin": "ast",
+      "id": "src_spirophonic_casting_py_visualconfig",
+      "community": 4,
+      "norm_label": "visualconfig"
+    },
+    {
+      "label": "resolve_section_composition()",
+      "file_type": "code",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L534",
+      "_origin": "ast",
+      "id": "spirophonic_casting_resolve_section_composition",
+      "community": 4,
+      "norm_label": "resolve_section_composition()"
     },
     {
       "label": "choreography.py",
@@ -2257,7 +2417,7 @@
       "label": "_clamp01()",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L189",
+      "source_location": "L190",
       "_origin": "ast",
       "id": "spirophonic_choreography_clamp01",
       "community": 42,
@@ -2267,7 +2427,7 @@
       "label": "_smoothstep()",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L193",
+      "source_location": "L194",
       "_origin": "ast",
       "id": "spirophonic_choreography_smoothstep",
       "community": 42,
@@ -2277,7 +2437,7 @@
       "label": "_configured_style()",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L198",
+      "source_location": "L199",
       "_origin": "ast",
       "id": "spirophonic_choreography_configured_style",
       "community": 42,
@@ -2287,7 +2447,7 @@
       "label": "SectionVisualStyleConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L198",
+      "source_location": "L199",
       "_origin": "ast",
       "id": "sectionvisualstyleconfig",
       "community": 42,
@@ -2297,7 +2457,7 @@
       "label": "_type_configuration()",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L214",
+      "source_location": "L215",
       "_origin": "ast",
       "id": "spirophonic_choreography_type_configuration",
       "community": 42,
@@ -2307,9 +2467,9 @@
       "label": "VisualConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L214",
+      "source_location": "L215",
       "_origin": "ast",
-      "id": "visualconfig",
+      "id": "src_spirophonic_choreography_py_visualconfig",
       "community": 42,
       "norm_label": "visualconfig"
     },
@@ -2317,7 +2477,7 @@
       "label": "_style_for()",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L231",
+      "source_location": "L232",
       "_origin": "ast",
       "id": "spirophonic_choreography_style_for",
       "community": 42,
@@ -2327,7 +2487,7 @@
       "label": "_interpolate_style()",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L242",
+      "source_location": "L243",
       "_origin": "ast",
       "id": "spirophonic_choreography_interpolate_style",
       "community": 42,
@@ -2337,7 +2497,7 @@
       "label": "_role_visibility()",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L258",
+      "source_location": "L259",
       "_origin": "ast",
       "id": "spirophonic_choreography_role_visibility",
       "community": 42,
@@ -2347,7 +2507,7 @@
       "label": "_transition_integral()",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L270",
+      "source_location": "L271",
       "_origin": "ast",
       "id": "spirophonic_choreography_transition_integral",
       "community": 42,
@@ -2357,7 +2517,7 @@
       "label": "_integrated_style_value()",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L292",
+      "source_location": "L293",
       "_origin": "ast",
       "id": "spirophonic_choreography_integrated_style_value",
       "community": 42,
@@ -2367,7 +2527,7 @@
       "label": "AlignedLyrics",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L292",
+      "source_location": "L293",
       "_origin": "ast",
       "id": "src_spirophonic_choreography_py_alignedlyrics",
       "community": 4,
@@ -2377,7 +2537,7 @@
       "label": "choreography_at()",
       "file_type": "code",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L342",
+      "source_location": "L343",
       "_origin": "ast",
       "id": "spirophonic_choreography_choreography_at",
       "community": 42,
@@ -2387,9 +2547,9 @@
       "label": "Return an interpolated, manifest-configurable visual preset.",
       "file_type": "rationale",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L349",
+      "source_location": "L350",
       "_origin": "ast",
-      "id": "spirophonic_choreography_rationale_349",
+      "id": "spirophonic_choreography_rationale_350",
       "community": 42,
       "norm_label": "return an interpolated, manifest-configurable visual preset."
     },
@@ -2650,7 +2810,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "spirophonic_encoder",
-      "community": 36,
+      "community": 39,
       "norm_label": "encoder.py"
     },
     {
@@ -2740,7 +2900,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "spirophonic_encoder_spirophonicencodingerror",
-      "community": 33,
+      "community": 39,
       "norm_label": "spirophonicencodingerror"
     },
     {
@@ -2750,7 +2910,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "spirophonic_encoder_spirophoniccancellederror",
-      "community": 33,
+      "community": 39,
       "norm_label": "spirophoniccancellederror"
     },
     {
@@ -2760,7 +2920,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "spirophonic_encoder_encodingresult",
-      "community": 36,
+      "community": 39,
       "norm_label": "encodingresult"
     },
     {
@@ -2770,7 +2930,7 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "spirophonic_encoder_validate_encoding_environment",
-      "community": 36,
+      "community": 39,
       "norm_label": "validate_encoding_environment()"
     },
     {
@@ -2780,7 +2940,7 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "src_spirophonic_encoder_py_rendercontext",
-      "community": 36,
+      "community": 39,
       "norm_label": "rendercontext"
     },
     {
@@ -2790,7 +2950,7 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "spirophonic_encoder_frames_for_duration",
-      "community": 36,
+      "community": 39,
       "norm_label": "_frames_for_duration()"
     },
     {
@@ -2800,7 +2960,7 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "spirophonic_encoder_plan_output_timeline",
-      "community": 36,
+      "community": 39,
       "norm_label": "plan_output_timeline()"
     },
     {
@@ -2810,7 +2970,7 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "spirophonic_encoder_prepared_cards",
-      "community": 36,
+      "community": 39,
       "norm_label": "_prepared_cards()"
     },
     {
@@ -2820,7 +2980,7 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "preparedcards",
-      "community": 36,
+      "community": 39,
       "norm_label": "preparedcards"
     },
     {
@@ -2830,7 +2990,7 @@
       "source_location": "L194",
       "_origin": "ast",
       "id": "spirophonic_encoder_opening_card_frame",
-      "community": 36,
+      "community": 39,
       "norm_label": "_opening_card_frame()"
     },
     {
@@ -2840,7 +3000,7 @@
       "source_location": "L194",
       "_origin": "ast",
       "id": "src_spirophonic_encoder_py_ndarray",
-      "community": 36,
+      "community": 39,
       "norm_label": "ndarray"
     },
     {
@@ -2850,7 +3010,7 @@
       "source_location": "L194",
       "_origin": "ast",
       "id": "src_spirophonic_encoder_py_uint8",
-      "community": 36,
+      "community": 39,
       "norm_label": "uint8"
     },
     {
@@ -2860,7 +3020,7 @@
       "source_location": "L210",
       "_origin": "ast",
       "id": "spirophonic_encoder_closing_card_frame",
-      "community": 36,
+      "community": 39,
       "norm_label": "_closing_card_frame()"
     },
     {
@@ -2870,7 +3030,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "spirophonic_encoder_iter_output_frames",
-      "community": 36,
+      "community": 39,
       "norm_label": "iter_output_frames()"
     },
     {
@@ -2880,7 +3040,7 @@
       "source_location": "L285",
       "_origin": "ast",
       "id": "spirophonic_encoder_build_ffmpeg_command",
-      "community": 36,
+      "community": 39,
       "norm_label": "build_ffmpeg_command()"
     },
     {
@@ -2890,7 +3050,7 @@
       "source_location": "L285",
       "_origin": "ast",
       "id": "src_spirophonic_encoder_py_path",
-      "community": 36,
+      "community": 39,
       "norm_label": "path"
     },
     {
@@ -2900,7 +3060,7 @@
       "source_location": "L365",
       "_origin": "ast",
       "id": "spirophonic_encoder_encode_output",
-      "community": 36,
+      "community": 39,
       "norm_label": "encode_output()"
     },
     {
@@ -2910,7 +3070,7 @@
       "source_location": "L365",
       "_origin": "ast",
       "id": "src_spirophonic_encoder_py_progresscallback",
-      "community": 36,
+      "community": 39,
       "norm_label": "progresscallback"
     },
     {
@@ -2920,7 +3080,7 @@
       "source_location": "L365",
       "_origin": "ast",
       "id": "src_spirophonic_encoder_py_cancelcheck",
-      "community": 36,
+      "community": 40,
       "norm_label": "cancelcheck"
     },
     {
@@ -2930,7 +3090,7 @@
       "source_location": "L121",
       "_origin": "ast",
       "id": "spirophonic_encoder_rationale_121",
-      "community": 36,
+      "community": 39,
       "norm_label": "plan either the complete card/song/card output or a song-time excerpt."
     },
     {
@@ -2940,7 +3100,7 @@
       "source_location": "L229",
       "_origin": "ast",
       "id": "spirophonic_encoder_rationale_229",
-      "community": 36,
+      "community": 39,
       "norm_label": "yield the complete output timeline without writing intermediate images."
     },
     {
@@ -2950,7 +3110,7 @@
       "source_location": "L374",
       "_origin": "ast",
       "id": "spirophonic_encoder_rationale_374",
-      "community": 36,
+      "community": 39,
       "norm_label": "stream rgb frames to ffmpeg and return the exact command arguments."
     },
     {
@@ -3164,10 +3324,30 @@
       "norm_label": "sample_audio_visual_state()"
     },
     {
-      "label": "map_layer_state()",
+      "label": "_driver_value()",
       "file_type": "code",
       "source_file": "src/spirophonic/mappings.py",
       "source_location": "L89",
+      "_origin": "ast",
+      "id": "spirophonic_mappings_driver_value",
+      "community": 35,
+      "norm_label": "_driver_value()"
+    },
+    {
+      "label": "AudioSignal",
+      "file_type": "code",
+      "source_file": "src/spirophonic/mappings.py",
+      "source_location": "L89",
+      "_origin": "ast",
+      "id": "audiosignal",
+      "community": 35,
+      "norm_label": "audiosignal"
+    },
+    {
+      "label": "map_layer_state()",
+      "file_type": "code",
+      "source_file": "src/spirophonic/mappings.py",
+      "source_location": "L104",
       "_origin": "ast",
       "id": "spirophonic_mappings_map_layer_state",
       "community": 35,
@@ -3177,7 +3357,7 @@
       "label": "VisualLayerConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/mappings.py",
-      "source_location": "L89",
+      "source_location": "L104",
       "_origin": "ast",
       "id": "src_spirophonic_mappings_py_visuallayerconfig",
       "community": 35,
@@ -3187,9 +3367,9 @@
       "label": "ChoreographyState",
       "file_type": "code",
       "source_file": "src/spirophonic/mappings.py",
-      "source_location": "L89",
+      "source_location": "L104",
       "_origin": "ast",
-      "id": "choreographystate",
+      "id": "src_spirophonic_mappings_py_choreographystate",
       "community": 35,
       "norm_label": "choreographystate"
     },
@@ -3197,7 +3377,7 @@
       "label": "MappingPreset",
       "file_type": "code",
       "source_file": "src/spirophonic/mappings.py",
-      "source_location": "L89",
+      "source_location": "L104",
       "_origin": "ast",
       "id": "mappingpreset",
       "community": 35,
@@ -3207,9 +3387,9 @@
       "label": "Map smoothed semantic audio controls to stable curve transforms/styles.",
       "file_type": "rationale",
       "source_file": "src/spirophonic/mappings.py",
-      "source_location": "L96",
+      "source_location": "L112",
       "_origin": "ast",
-      "id": "spirophonic_mappings_rationale_96",
+      "id": "spirophonic_mappings_rationale_112",
       "community": 35,
       "norm_label": "map smoothed semantic audio controls to stable curve transforms/styles."
     },
@@ -3220,7 +3400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "spirophonic_pipeline",
-      "community": 36,
+      "community": 40,
       "norm_label": "pipeline.py"
     },
     {
@@ -3230,7 +3410,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "spirophonic_pipeline_renderrun",
-      "community": 36,
+      "community": 40,
       "norm_label": "renderrun"
     },
     {
@@ -3240,7 +3420,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "spirophonic_pipeline_renderrun_summary",
-      "community": 36,
+      "community": 40,
       "norm_label": ".summary()"
     },
     {
@@ -3250,7 +3430,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "src_spirophonic_pipeline_py_any",
-      "community": 36,
+      "community": 40,
       "norm_label": "any"
     },
     {
@@ -3260,7 +3440,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "spirophonic_pipeline_renderdiagnostics",
-      "community": 36,
+      "community": 40,
       "norm_label": "renderdiagnostics"
     },
     {
@@ -3270,7 +3450,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "spirophonic_pipeline_renderdiagnostics_raw_stream_gib",
-      "community": 36,
+      "community": 40,
       "norm_label": ".raw_stream_gib()"
     },
     {
@@ -3280,7 +3460,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "spirophonic_pipeline_renderdiagnostics_summary",
-      "community": 36,
+      "community": 40,
       "norm_label": ".summary()"
     },
     {
@@ -3290,7 +3470,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "spirophonic_pipeline_renderprofile",
-      "community": 36,
+      "community": 40,
       "norm_label": "renderprofile"
     },
     {
@@ -3300,7 +3480,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "spirophonic_pipeline_renderprofile_summary",
-      "community": 36,
+      "community": 40,
       "norm_label": ".summary()"
     },
     {
@@ -3310,7 +3490,7 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "spirophonic_pipeline_renderplan",
-      "community": 36,
+      "community": 40,
       "norm_label": "renderplan"
     },
     {
@@ -3320,7 +3500,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "spirophonic_pipeline_renderplan_summary",
-      "community": 36,
+      "community": 40,
       "norm_label": ".summary()"
     },
     {
@@ -3330,7 +3510,7 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "spirophonic_pipeline_spirophonicpipelineerror",
-      "community": 33,
+      "community": 40,
       "norm_label": "spirophonicpipelineerror"
     },
     {
@@ -3340,7 +3520,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "spirophonic_pipeline_validate_output_targets",
-      "community": 36,
+      "community": 40,
       "norm_label": "_validate_output_targets()"
     },
     {
@@ -3350,7 +3530,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "src_spirophonic_pipeline_py_path",
-      "community": 36,
+      "community": 40,
       "norm_label": "path"
     },
     {
@@ -3360,7 +3540,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "spirophonic_pipeline_diagnose_render",
-      "community": 36,
+      "community": 40,
       "norm_label": "diagnose_render()"
     },
     {
@@ -3370,7 +3550,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "src_spirophonic_pipeline_py_rendercontext",
-      "community": 36,
+      "community": 40,
       "norm_label": "rendercontext"
     },
     {
@@ -3390,7 +3570,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "spirophonic_pipeline_plan_project_video",
-      "community": 36,
+      "community": 40,
       "norm_label": "plan_project_video()"
     },
     {
@@ -3400,7 +3580,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "src_spirophonic_pipeline_py_progresscallback",
-      "community": 36,
+      "community": 40,
       "norm_label": "progresscallback"
     },
     {
@@ -3410,7 +3590,7 @@
       "source_location": "L195",
       "_origin": "ast",
       "id": "spirophonic_pipeline_render_project_video",
-      "community": 36,
+      "community": 40,
       "norm_label": "render_project_video()"
     },
     {
@@ -3420,7 +3600,7 @@
       "source_location": "L195",
       "_origin": "ast",
       "id": "src_spirophonic_pipeline_py_cancelcheck",
-      "community": 36,
+      "community": 40,
       "norm_label": "cancelcheck"
     },
     {
@@ -3430,7 +3610,7 @@
       "source_location": "L206",
       "_origin": "ast",
       "id": "spirophonic_pipeline_rationale_206",
-      "community": 36,
+      "community": 40,
       "norm_label": "render, encode, verify, and atomically publish one mp4 plus manifest."
     },
     {
@@ -3507,7 +3687,7 @@
       "label": "ContractModel",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L24",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "spirophonic_project_contractmodel",
       "community": 4,
@@ -3527,7 +3707,7 @@
       "label": "AudioConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L28",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "spirophonic_project_audioconfig",
       "community": 4,
@@ -3537,7 +3717,7 @@
       "label": ".master_is_not_a_stem_name()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L34",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "spirophonic_project_audioconfig_master_is_not_a_stem_name",
       "community": 4,
@@ -3547,7 +3727,7 @@
       "label": "LyricsConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L40",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "spirophonic_project_lyricsconfig",
       "community": 4,
@@ -3557,27 +3737,27 @@
       "label": "CardConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L46",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "spirophonic_project_cardconfig",
-      "community": 4,
+      "community": 43,
       "norm_label": "cardconfig"
     },
     {
       "label": ".fade_fits_duration()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L54",
+      "source_location": "L66",
       "_origin": "ast",
       "id": "spirophonic_project_cardconfig_fade_fits_duration",
-      "community": 4,
+      "community": 43,
       "norm_label": ".fade_fits_duration()"
     },
     {
       "label": "CardsConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L60",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "spirophonic_project_cardsconfig",
       "community": 4,
@@ -3587,7 +3767,7 @@
       "label": "VideoConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L65",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "spirophonic_project_videoconfig",
       "community": 4,
@@ -3597,7 +3777,7 @@
       "label": ".dimensions_support_yuv420p()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L73",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "spirophonic_project_videoconfig_dimensions_support_yuv420p",
       "community": 4,
@@ -3607,7 +3787,7 @@
       "label": "EncodingConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L79",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "spirophonic_project_encodingconfig",
       "community": 4,
@@ -3617,7 +3797,7 @@
       "label": "TextConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L103",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "spirophonic_project_textconfig",
       "community": 0,
@@ -3627,7 +3807,7 @@
       "label": "AnalysisConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L111",
+      "source_location": "L123",
       "_origin": "ast",
       "id": "spirophonic_project_analysisconfig",
       "community": 8,
@@ -3637,7 +3817,7 @@
       "label": ".settings_are_consistent()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L125",
+      "source_location": "L137",
       "_origin": "ast",
       "id": "spirophonic_project_analysisconfig_settings_are_consistent",
       "community": 8,
@@ -3647,7 +3827,7 @@
       "label": "AlignmentConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L141",
+      "source_location": "L153",
       "_origin": "ast",
       "id": "spirophonic_project_alignmentconfig",
       "community": 0,
@@ -3657,7 +3837,7 @@
       "label": ".settings_are_consistent()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L151",
+      "source_location": "L163",
       "_origin": "ast",
       "id": "spirophonic_project_alignmentconfig_settings_are_consistent",
       "community": 0,
@@ -3667,7 +3847,7 @@
       "label": "LayerGeometryConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L157",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "spirophonic_project_layergeometryconfig",
       "community": 4,
@@ -3677,7 +3857,7 @@
       "label": "LayerTraceConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L165",
+      "source_location": "L177",
       "_origin": "ast",
       "id": "spirophonic_project_layertraceconfig",
       "community": 4,
@@ -3687,7 +3867,7 @@
       "label": "SectionVisualStyleConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L173",
+      "source_location": "L185",
       "_origin": "ast",
       "id": "spirophonic_project_sectionvisualstyleconfig",
       "community": 4,
@@ -3697,27 +3877,67 @@
       "label": ".visible_roles_are_unique()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L191",
+      "source_location": "L203",
       "_origin": "ast",
       "id": "spirophonic_project_sectionvisualstyleconfig_visible_roles_are_unique",
       "community": 4,
       "norm_label": ".visible_roles_are_unique()"
     },
     {
+      "label": "TraceAudioDriversConfig",
+      "file_type": "code",
+      "source_file": "src/spirophonic/project.py",
+      "source_location": "L218",
+      "_origin": "ast",
+      "id": "spirophonic_project_traceaudiodriversconfig",
+      "community": 4,
+      "norm_label": "traceaudiodriversconfig"
+    },
+    {
       "label": "VisualLayerConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L206",
+      "source_location": "L225",
       "_origin": "ast",
       "id": "spirophonic_project_visuallayerconfig",
       "community": 35,
       "norm_label": "visuallayerconfig"
     },
     {
+      "label": "CastingConfig",
+      "file_type": "code",
+      "source_file": "src/spirophonic/project.py",
+      "source_location": "L243",
+      "_origin": "ast",
+      "id": "spirophonic_project_castingconfig",
+      "community": 35,
+      "norm_label": "castingconfig"
+    },
+    {
+      "label": "SectionCompositionConfig",
+      "file_type": "code",
+      "source_file": "src/spirophonic/project.py",
+      "source_location": "L249",
+      "_origin": "ast",
+      "id": "spirophonic_project_sectioncompositionconfig",
+      "community": 4,
+      "norm_label": "sectioncompositionconfig"
+    },
+    {
+      "label": ".trace_ids_are_unique()",
+      "file_type": "code",
+      "source_file": "src/spirophonic/project.py",
+      "source_location": "L254",
+      "_origin": "ast",
+      "id": "spirophonic_project_sectioncompositionconfig_trace_ids_are_unique",
+      "community": 4,
+      "norm_label": ".trace_ids_are_unique()"
+    },
+    {
       "label": "_default_visual_layers()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L223",
+      "source_location": "L263",
       "_origin": "ast",
       "id": "spirophonic_project_default_visual_layers",
       "community": 4,
@@ -3727,7 +3947,7 @@
       "label": "VisualConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L330",
+      "source_location": "L370",
       "_origin": "ast",
       "id": "spirophonic_project_visualconfig",
       "community": 4,
@@ -3737,7 +3957,7 @@
       "label": ".layer_ids_are_unique()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L358",
+      "source_location": "L405",
       "_origin": "ast",
       "id": "spirophonic_project_visualconfig_layer_ids_are_unique",
       "community": 4,
@@ -3747,7 +3967,7 @@
       "label": "ProjectManifest",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L380",
+      "source_location": "L434",
       "_origin": "ast",
       "id": "spirophonic_project_projectmanifest",
       "community": 35,
@@ -3757,7 +3977,7 @@
       "label": ".paths_are_relative()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L394",
+      "source_location": "L448",
       "_origin": "ast",
       "id": "spirophonic_project_projectmanifest_paths_are_relative",
       "community": 4,
@@ -3767,7 +3987,7 @@
       "label": "LyricLine",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L405",
+      "source_location": "L459",
       "_origin": "ast",
       "id": "spirophonic_project_lyricline",
       "community": 0,
@@ -3777,7 +3997,7 @@
       "label": "LyricSection",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L409",
+      "source_location": "L463",
       "_origin": "ast",
       "id": "spirophonic_project_lyricsection",
       "community": 0,
@@ -3787,7 +4007,7 @@
       "label": ".vocal_sections_have_lines()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L416",
+      "source_location": "L470",
       "_origin": "ast",
       "id": "spirophonic_project_lyricsection_vocal_sections_have_lines",
       "community": 0,
@@ -3797,7 +4017,7 @@
       "label": "StructuredLyrics",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L422",
+      "source_location": "L476",
       "_origin": "ast",
       "id": "spirophonic_project_structuredlyrics",
       "community": 0,
@@ -3807,7 +4027,7 @@
       "label": ".section_ids_are_unique()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L427",
+      "source_location": "L481",
       "_origin": "ast",
       "id": "spirophonic_project_structuredlyrics_section_ids_are_unique",
       "community": 4,
@@ -3817,7 +4037,7 @@
       "label": "AlignedLyricLine",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L432",
+      "source_location": "L486",
       "_origin": "ast",
       "id": "spirophonic_project_alignedlyricline",
       "community": 0,
@@ -3827,7 +4047,7 @@
       "label": ".end_follows_start()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L439",
+      "source_location": "L493",
       "_origin": "ast",
       "id": "spirophonic_project_alignedlyricline_end_follows_start",
       "community": 0,
@@ -3837,7 +4057,7 @@
       "label": "AlignedLyricSection",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L445",
+      "source_location": "L499",
       "_origin": "ast",
       "id": "spirophonic_project_alignedlyricsection",
       "community": 0,
@@ -3847,7 +4067,7 @@
       "label": ".timing_is_consistent()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L454",
+      "source_location": "L508",
       "_origin": "ast",
       "id": "spirophonic_project_alignedlyricsection_timing_is_consistent",
       "community": 0,
@@ -3857,7 +4077,7 @@
       "label": "AlignmentMetadata",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L467",
+      "source_location": "L521",
       "_origin": "ast",
       "id": "spirophonic_project_alignmentmetadata",
       "community": 0,
@@ -3867,7 +4087,7 @@
       "label": "AlignedLyrics",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L476",
+      "source_location": "L530",
       "_origin": "ast",
       "id": "spirophonic_project_alignedlyrics",
       "community": 0,
@@ -3877,7 +4097,7 @@
       "label": ".timeline_is_consistent()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L483",
+      "source_location": "L537",
       "_origin": "ast",
       "id": "spirophonic_project_alignedlyrics_timeline_is_consistent",
       "community": 4,
@@ -3887,7 +4107,7 @@
       "label": "ValidationReport",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L494",
+      "source_location": "L548",
       "_origin": "ast",
       "id": "spirophonic_project_validationreport",
       "community": 4,
@@ -3897,27 +4117,27 @@
       "label": "SpirophonicValidationError",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L502",
+      "source_location": "L556",
       "_origin": "ast",
       "id": "spirophonic_project_spirophonicvalidationerror",
-      "community": 4,
+      "community": 33,
       "norm_label": "spirophonicvalidationerror"
     },
     {
       "label": ".__init__()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L503",
+      "source_location": "L557",
       "_origin": "ast",
       "id": "spirophonic_project_spirophonicvalidationerror_init",
-      "community": 4,
+      "community": 33,
       "norm_label": ".__init__()"
     },
     {
       "label": "_require_unique_section_ids()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L508",
+      "source_location": "L562",
       "_origin": "ast",
       "id": "spirophonic_project_require_unique_section_ids",
       "community": 4,
@@ -3927,7 +4147,7 @@
       "label": "Any",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L508",
+      "source_location": "L562",
       "_origin": "ast",
       "id": "src_spirophonic_project_py_any",
       "community": 4,
@@ -3937,7 +4157,7 @@
       "label": "_declared_paths()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L516",
+      "source_location": "L570",
       "_origin": "ast",
       "id": "spirophonic_project_declared_paths",
       "community": 4,
@@ -3947,7 +4167,7 @@
       "label": "Path",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L516",
+      "source_location": "L570",
       "_origin": "ast",
       "id": "src_spirophonic_project_py_path",
       "community": 4,
@@ -3957,7 +4177,7 @@
       "label": "_required_paths()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L528",
+      "source_location": "L582",
       "_origin": "ast",
       "id": "spirophonic_project_required_paths",
       "community": 4,
@@ -3967,7 +4187,7 @@
       "label": "_read_yaml()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L534",
+      "source_location": "L588",
       "_origin": "ast",
       "id": "spirophonic_project_read_yaml",
       "community": 4,
@@ -3977,7 +4197,7 @@
       "label": "_format_model_errors()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L547",
+      "source_location": "L601",
       "_origin": "ast",
       "id": "spirophonic_project_format_model_errors",
       "community": 4,
@@ -3987,7 +4207,7 @@
       "label": "ValidationError",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L547",
+      "source_location": "L601",
       "_origin": "ast",
       "id": "validationerror",
       "community": 4,
@@ -3997,7 +4217,7 @@
       "label": "_load_model()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L555",
+      "source_location": "L609",
       "_origin": "ast",
       "id": "spirophonic_project_load_model",
       "community": 4,
@@ -4007,7 +4227,7 @@
       "label": "T",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L555",
+      "source_location": "L609",
       "_origin": "ast",
       "id": "t",
       "community": 4,
@@ -4017,7 +4237,7 @@
       "label": "load_project_manifest()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L563",
+      "source_location": "L617",
       "_origin": "ast",
       "id": "spirophonic_project_load_project_manifest",
       "community": 4,
@@ -4027,7 +4247,7 @@
       "label": "load_structured_lyrics()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L570",
+      "source_location": "L624",
       "_origin": "ast",
       "id": "spirophonic_project_load_structured_lyrics",
       "community": 4,
@@ -4037,7 +4257,7 @@
       "label": "load_aligned_lyrics()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L574",
+      "source_location": "L628",
       "_origin": "ast",
       "id": "spirophonic_project_load_aligned_lyrics",
       "community": 4,
@@ -4047,7 +4267,7 @@
       "label": "_probe_audio_duration()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L578",
+      "source_location": "L632",
       "_origin": "ast",
       "id": "spirophonic_project_probe_audio_duration",
       "community": 4,
@@ -4057,7 +4277,7 @@
       "label": "validate_project()",
       "file_type": "code",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L619",
+      "source_location": "L673",
       "_origin": "ast",
       "id": "spirophonic_project_validate_project",
       "community": 4,
@@ -4080,7 +4300,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "spirophonic_render_manifest_spirophonicmanifesterror",
-      "community": 33,
+      "community": 36,
       "norm_label": "spirophonicmanifesterror"
     },
     {
@@ -4187,7 +4407,7 @@
       "label": "write_render_manifest()",
       "file_type": "code",
       "source_file": "src/spirophonic/render_manifest.py",
-      "source_location": "L140",
+      "source_location": "L154",
       "_origin": "ast",
       "id": "spirophonic_render_manifest_write_render_manifest",
       "community": 36,
@@ -4207,17 +4427,27 @@
       "label": "LayerCurve",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L50",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "spirophonic_renderer_layercurve",
       "community": 35,
       "norm_label": "layercurve"
     },
     {
+      "label": "CurveComposition",
+      "file_type": "code",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L59",
+      "_origin": "ast",
+      "id": "spirophonic_renderer_curvecomposition",
+      "community": 35,
+      "norm_label": "curvecomposition"
+    },
+    {
       "label": "RenderContext",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L57",
+      "source_location": "L66",
       "_origin": "ast",
       "id": "spirophonic_renderer_rendercontext",
       "community": 36,
@@ -4227,7 +4457,7 @@
       "label": "FramePlan",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L70",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "spirophonic_renderer_frameplan",
       "community": 35,
@@ -4237,7 +4467,7 @@
       "label": ".frame_count()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L79",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "spirophonic_renderer_frameplan_frame_count",
       "community": 35,
@@ -4247,7 +4477,7 @@
       "label": ".start_time()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L83",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "spirophonic_renderer_frameplan_start_time",
       "community": 35,
@@ -4257,7 +4487,7 @@
       "label": ".end_time()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L87",
+      "source_location": "L97",
       "_origin": "ast",
       "id": "spirophonic_renderer_frameplan_end_time",
       "community": 35,
@@ -4267,7 +4497,7 @@
       "label": "FrameOutput",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L92",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "spirophonic_renderer_frameoutput",
       "community": 35,
@@ -4277,7 +4507,7 @@
       "label": ".summary()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L100",
+      "source_location": "L110",
       "_origin": "ast",
       "id": "spirophonic_renderer_frameoutput_summary",
       "community": 35,
@@ -4287,7 +4517,7 @@
       "label": "Any",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L100",
+      "source_location": "L110",
       "_origin": "ast",
       "id": "src_spirophonic_renderer_py_any",
       "community": 35,
@@ -4297,7 +4527,7 @@
       "label": "FrameSequenceOutput",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L112",
+      "source_location": "L122",
       "_origin": "ast",
       "id": "spirophonic_renderer_framesequenceoutput",
       "community": 35,
@@ -4307,7 +4537,7 @@
       "label": ".summary()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L116",
+      "source_location": "L126",
       "_origin": "ast",
       "id": "spirophonic_renderer_framesequenceoutput_summary",
       "community": 35,
@@ -4317,17 +4547,17 @@
       "label": "SpirophonicRendererError",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L129",
+      "source_location": "L139",
       "_origin": "ast",
       "id": "spirophonic_renderer_spirophonicrenderererror",
-      "community": 33,
+      "community": 35,
       "norm_label": "spirophonicrenderererror"
     },
     {
       "label": "_phase_offset()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L133",
+      "source_location": "L143",
       "_origin": "ast",
       "id": "spirophonic_renderer_phase_offset",
       "community": 35,
@@ -4337,7 +4567,7 @@
       "label": "_build_curve()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L139",
+      "source_location": "L149",
       "_origin": "ast",
       "id": "spirophonic_renderer_build_curve",
       "community": 35,
@@ -4347,7 +4577,7 @@
       "label": "VisualLayerConfig",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L139",
+      "source_location": "L149",
       "_origin": "ast",
       "id": "src_spirophonic_renderer_py_visuallayerconfig",
       "community": 35,
@@ -4357,7 +4587,7 @@
       "label": "build_render_context()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L163",
+      "source_location": "L181",
       "_origin": "ast",
       "id": "spirophonic_renderer_build_render_context",
       "community": 35,
@@ -4367,7 +4597,7 @@
       "label": "ProjectManifest",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L163",
+      "source_location": "L181",
       "_origin": "ast",
       "id": "src_spirophonic_renderer_py_projectmanifest",
       "community": 35,
@@ -4377,7 +4607,7 @@
       "label": "AnalysisBundle",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L163",
+      "source_location": "L181",
       "_origin": "ast",
       "id": "src_spirophonic_renderer_py_analysisbundle",
       "community": 35,
@@ -4387,7 +4617,7 @@
       "label": "AlignedLyrics",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L163",
+      "source_location": "L181",
       "_origin": "ast",
       "id": "src_spirophonic_renderer_py_alignedlyrics",
       "community": 35,
@@ -4397,7 +4627,7 @@
       "label": "Path",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L163",
+      "source_location": "L181",
       "_origin": "ast",
       "id": "src_spirophonic_renderer_py_path",
       "community": 35,
@@ -4407,17 +4637,17 @@
       "label": "load_render_context()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L196",
+      "source_location": "L249",
       "_origin": "ast",
       "id": "spirophonic_renderer_load_render_context",
-      "community": 33,
+      "community": 35,
       "norm_label": "load_render_context()"
     },
     {
       "label": "ProgressCallback",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L196",
+      "source_location": "L249",
       "_origin": "ast",
       "id": "src_spirophonic_renderer_py_progresscallback",
       "community": 35,
@@ -4427,7 +4657,7 @@
       "label": "_parse_hex_color()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L233",
+      "source_location": "L284",
       "_origin": "ast",
       "id": "spirophonic_renderer_parse_hex_color",
       "community": 35,
@@ -4437,7 +4667,7 @@
       "label": "_layer_color()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L237",
+      "source_location": "L288",
       "_origin": "ast",
       "id": "spirophonic_renderer_layer_color",
       "community": 35,
@@ -4447,7 +4677,7 @@
       "label": "_base_layer_color()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L254",
+      "source_location": "L305",
       "_origin": "ast",
       "id": "spirophonic_renderer_base_layer_color",
       "community": 35,
@@ -4457,7 +4687,7 @@
       "label": "_background_frame()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L265",
+      "source_location": "L316",
       "_origin": "ast",
       "id": "spirophonic_renderer_background_frame",
       "community": 35,
@@ -4467,7 +4697,7 @@
       "label": "NDArray",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L265",
+      "source_location": "L316",
       "_origin": "ast",
       "id": "src_spirophonic_renderer_py_ndarray",
       "community": 35,
@@ -4477,7 +4707,7 @@
       "label": "uint8",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L265",
+      "source_location": "L316",
       "_origin": "ast",
       "id": "src_spirophonic_renderer_py_uint8",
       "community": 35,
@@ -4487,7 +4717,7 @@
       "label": "_transform_points()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L284",
+      "source_location": "L335",
       "_origin": "ast",
       "id": "spirophonic_renderer_transform_points",
       "community": 35,
@@ -4497,7 +4727,7 @@
       "label": "float32",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L284",
+      "source_location": "L335",
       "_origin": "ast",
       "id": "src_spirophonic_renderer_py_float32",
       "community": 35,
@@ -4507,7 +4737,7 @@
       "label": "int32",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L284",
+      "source_location": "L335",
       "_origin": "ast",
       "id": "int32",
       "community": 35,
@@ -4517,7 +4747,7 @@
       "label": "_layer_anchor()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L306",
+      "source_location": "L357",
       "_origin": "ast",
       "id": "spirophonic_renderer_layer_anchor",
       "community": 35,
@@ -4527,7 +4757,7 @@
       "label": "_draw_fading_path()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L328",
+      "source_location": "L376",
       "_origin": "ast",
       "id": "spirophonic_renderer_draw_fading_path",
       "community": 35,
@@ -4537,17 +4767,37 @@
       "label": "_composite_trace()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L354",
+      "source_location": "L402",
       "_origin": "ast",
       "id": "spirophonic_renderer_composite_trace",
       "community": 35,
       "norm_label": "_composite_trace()"
     },
     {
+      "label": "_weighted_compositions()",
+      "file_type": "code",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L438",
+      "_origin": "ast",
+      "id": "spirophonic_renderer_weighted_compositions",
+      "community": 35,
+      "norm_label": "_weighted_compositions()"
+    },
+    {
+      "label": "ChoreographyState",
+      "file_type": "code",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L438",
+      "_origin": "ast",
+      "id": "src_spirophonic_renderer_py_choreographystate",
+      "community": 35,
+      "norm_label": "choreographystate"
+    },
+    {
       "label": "render_frame()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L390",
+      "source_location": "L457",
       "_origin": "ast",
       "id": "spirophonic_renderer_render_frame",
       "community": 35,
@@ -4557,7 +4807,7 @@
       "label": "render_dimensions()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L518",
+      "source_location": "L596",
       "_origin": "ast",
       "id": "spirophonic_renderer_render_dimensions",
       "community": 35,
@@ -4567,7 +4817,7 @@
       "label": "plan_frame_range()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L535",
+      "source_location": "L613",
       "_origin": "ast",
       "id": "spirophonic_renderer_plan_frame_range",
       "community": 35,
@@ -4577,7 +4827,7 @@
       "label": "iter_rendered_frames()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L558",
+      "source_location": "L636",
       "_origin": "ast",
       "id": "spirophonic_renderer_iter_rendered_frames",
       "community": 35,
@@ -4587,7 +4837,7 @@
       "label": "_encode_png()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L577",
+      "source_location": "L655",
       "_origin": "ast",
       "id": "spirophonic_renderer_encode_png",
       "community": 35,
@@ -4597,7 +4847,7 @@
       "label": "_write_bytes_atomic()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L588",
+      "source_location": "L666",
       "_origin": "ast",
       "id": "spirophonic_renderer_write_bytes_atomic",
       "community": 35,
@@ -4607,7 +4857,7 @@
       "label": "render_frame_file()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L598",
+      "source_location": "L676",
       "_origin": "ast",
       "id": "spirophonic_renderer_render_frame_file",
       "community": 35,
@@ -4617,7 +4867,7 @@
       "label": "_sequence_metadata()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L629",
+      "source_location": "L707",
       "_origin": "ast",
       "id": "spirophonic_renderer_sequence_metadata",
       "community": 35,
@@ -4627,7 +4877,7 @@
       "label": "_replace_sequence_directory()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L646",
+      "source_location": "L724",
       "_origin": "ast",
       "id": "spirophonic_renderer_replace_sequence_directory",
       "community": 35,
@@ -4637,7 +4887,7 @@
       "label": "_validate_sequence_target()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L675",
+      "source_location": "L753",
       "_origin": "ast",
       "id": "spirophonic_renderer_validate_sequence_target",
       "community": 35,
@@ -4647,7 +4897,7 @@
       "label": "render_frame_sequence()",
       "file_type": "code",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L695",
+      "source_location": "L773",
       "_origin": "ast",
       "id": "spirophonic_renderer_render_frame_sequence",
       "community": 35,
@@ -4657,9 +4907,9 @@
       "label": "Render one deterministic RGB song frame from musical time and frame index.",
       "file_type": "rationale",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L398",
+      "source_location": "L465",
       "_origin": "ast",
-      "id": "spirophonic_renderer_rationale_398",
+      "id": "spirophonic_renderer_rationale_465",
       "community": 35,
       "norm_label": "render one deterministic rgb song frame from musical time and frame index."
     },
@@ -4667,9 +4917,9 @@
       "label": "Write a bounded development frame sequence, atomically as one directory.",
       "file_type": "rationale",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L703",
+      "source_location": "L781",
       "_origin": "ast",
-      "id": "spirophonic_renderer_rationale_703",
+      "id": "spirophonic_renderer_rationale_781",
       "community": 35,
       "norm_label": "write a bounded development frame sequence, atomically as one directory."
     },
@@ -5020,7 +5270,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "spirophonic_verification",
-      "community": 36,
+      "community": 41,
       "norm_label": "verification.py"
     },
     {
@@ -5040,7 +5290,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "spirophonic_verification_verificationexpectation_summary",
-      "community": 36,
+      "community": 41,
       "norm_label": ".summary()"
     },
     {
@@ -5050,7 +5300,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_spirophonic_verification_py_any",
-      "community": 36,
+      "community": 41,
       "norm_label": "any"
     },
     {
@@ -5060,7 +5310,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "spirophonic_verification_mediametadata",
-      "community": 36,
+      "community": 41,
       "norm_label": "mediametadata"
     },
     {
@@ -5070,7 +5320,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "spirophonic_verification_mediametadata_summary",
-      "community": 36,
+      "community": 41,
       "norm_label": ".summary()"
     },
     {
@@ -5090,7 +5340,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "spirophonic_verification_verificationreport_summary",
-      "community": 36,
+      "community": 41,
       "norm_label": ".summary()"
     },
     {
@@ -5100,7 +5350,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "spirophonic_verification_spirophonicverificationerror",
-      "community": 36,
+      "community": 41,
       "norm_label": "spirophonicverificationerror"
     },
     {
@@ -5110,7 +5360,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "spirophonic_verification_spirophonicverificationerror_init",
-      "community": 36,
+      "community": 41,
       "norm_label": ".__init__()"
     },
     {
@@ -5120,7 +5370,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "spirophonic_verification_hash_file",
-      "community": 36,
+      "community": 41,
       "norm_label": "_hash_file()"
     },
     {
@@ -5130,7 +5380,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "src_spirophonic_verification_py_path",
-      "community": 36,
+      "community": 41,
       "norm_label": "path"
     },
     {
@@ -5170,7 +5420,7 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "spirophonic_verification_fraction",
-      "community": 36,
+      "community": 41,
       "norm_label": "_fraction()"
     },
     {
@@ -5180,7 +5430,7 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "spirophonic_verification_probe",
-      "community": 36,
+      "community": 41,
       "norm_label": "_probe()"
     },
     {
@@ -5190,7 +5440,7 @@
       "source_location": "L149",
       "_origin": "ast",
       "id": "spirophonic_verification_has_faststart",
-      "community": 36,
+      "community": 41,
       "norm_label": "_has_faststart()"
     },
     {
@@ -5200,7 +5450,7 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "spirophonic_verification_metadata",
-      "community": 36,
+      "community": 41,
       "norm_label": "_metadata()"
     },
     {
@@ -5210,7 +5460,7 @@
       "source_location": "L219",
       "_origin": "ast",
       "id": "spirophonic_verification_aspect_ratio_matches",
-      "community": 36,
+      "community": 41,
       "norm_label": "_aspect_ratio_matches()"
     },
     {
@@ -5220,7 +5470,7 @@
       "source_location": "L232",
       "_origin": "ast",
       "id": "spirophonic_verification_verify_media",
-      "community": 36,
+      "community": 41,
       "norm_label": "verify_media()"
     },
     {
@@ -5230,7 +5480,7 @@
       "source_location": "L312",
       "_origin": "ast",
       "id": "spirophonic_verification_default_render_manifest_path",
-      "community": 36,
+      "community": 41,
       "norm_label": "default_render_manifest_path()"
     },
     {
@@ -5240,7 +5490,7 @@
       "source_location": "L316",
       "_origin": "ast",
       "id": "spirophonic_verification_expectation_from_render_manifest",
-      "community": 36,
+      "community": 41,
       "norm_label": "expectation_from_render_manifest()"
     },
     {
@@ -5250,7 +5500,7 @@
       "source_location": "L327",
       "_origin": "ast",
       "id": "spirophonic_verification_output_hash_from_render_manifest",
-      "community": 36,
+      "community": 41,
       "norm_label": "_output_hash_from_render_manifest()"
     },
     {
@@ -5260,7 +5510,7 @@
       "source_location": "L342",
       "_origin": "ast",
       "id": "spirophonic_verification_verify_with_render_manifest",
-      "community": 36,
+      "community": 41,
       "norm_label": "verify_with_render_manifest()"
     },
     {
@@ -5894,6 +6144,66 @@
       "norm_label": "test_silent_audio_produces_finite_zero_controls()"
     },
     {
+      "label": "test_casting.py",
+      "file_type": "code",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_test_casting",
+      "community": 4,
+      "norm_label": "test_casting.py"
+    },
+    {
+      "label": "_trace()",
+      "file_type": "code",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "tests_test_casting_trace",
+      "community": 4,
+      "norm_label": "_trace()"
+    },
+    {
+      "label": "test_auto_casting_is_deterministic_and_distinct_by_section_type()",
+      "file_type": "code",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "tests_test_casting_test_auto_casting_is_deterministic_and_distinct_by_section_type",
+      "community": 4,
+      "norm_label": "test_auto_casting_is_deterministic_and_distinct_by_section_type()"
+    },
+    {
+      "label": "test_bridge_auto_cast_is_one_oversized_multi_driver_flower()",
+      "file_type": "code",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "tests_test_casting_test_bridge_auto_cast_is_one_oversized_multi_driver_flower",
+      "community": 4,
+      "norm_label": "test_bridge_auto_cast_is_one_oversized_multi_driver_flower()"
+    },
+    {
+      "label": "test_composition_resolution_prefers_exact_id_then_type_then_auto()",
+      "file_type": "code",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "tests_test_casting_test_composition_resolution_prefers_exact_id_then_type_then_auto",
+      "community": 4,
+      "norm_label": "test_composition_resolution_prefers_exact_id_then_type_then_auto()"
+    },
+    {
+      "label": "test_disabling_auto_casting_uses_the_global_layer_fallback()",
+      "file_type": "code",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L91",
+      "_origin": "ast",
+      "id": "tests_test_casting_test_disabling_auto_casting_uses_the_global_layer_fallback",
+      "community": 4,
+      "norm_label": "test_disabling_auto_casting_uses_the_global_layer_fallback()"
+    },
+    {
       "label": "test_choreography.py",
       "file_type": "code",
       "source_file": "tests/test_choreography.py",
@@ -5920,7 +6230,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "tests_test_choreography_py_alignedlyrics",
-      "community": 35,
+      "community": 0,
       "norm_label": "alignedlyrics"
     },
     {
@@ -5960,7 +6270,7 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "tests_test_choreography_test_vocal_intro_and_outro_sections_keep_lyrics_visible",
-      "community": 42,
+      "community": 0,
       "norm_label": "test_vocal_intro_and_outro_sections_keep_lyrics_visible()"
     },
     {
@@ -6030,7 +6340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_cli",
-      "community": 33,
+      "community": 44,
       "norm_label": "test_cli.py"
     },
     {
@@ -6040,7 +6350,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_test_cli_test_help_lists_validate_command",
-      "community": 33,
+      "community": 44,
       "norm_label": "test_help_lists_validate_command()"
     },
     {
@@ -6050,7 +6360,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "tests_test_cli_test_validate_reports_missing_manifest",
-      "community": 33,
+      "community": 44,
       "norm_label": "test_validate_reports_missing_manifest()"
     },
     {
@@ -6130,7 +6440,7 @@
       "source_location": "L193",
       "_origin": "ast",
       "id": "tests_test_encoding_test_full_timeline_includes_cards_and_excerpt_omits_them",
-      "community": 36,
+      "community": 42,
       "norm_label": "test_full_timeline_includes_cards_and_excerpt_omits_them()"
     },
     {
@@ -6374,10 +6684,30 @@
       "norm_label": "test_section_visual_settings_reject_ambiguous_or_duplicate_roles()"
     },
     {
-      "label": "test_aligned_lyrics_reject_overlapping_lines()",
+      "label": "test_section_compositions_validate_casting_traces_and_audio_drivers()",
       "file_type": "code",
       "source_file": "tests/test_project.py",
       "source_location": "L243",
+      "_origin": "ast",
+      "id": "tests_test_project_test_section_compositions_validate_casting_traces_and_audio_drivers",
+      "community": 4,
+      "norm_label": "test_section_compositions_validate_casting_traces_and_audio_drivers()"
+    },
+    {
+      "label": "test_section_compositions_reject_duplicates_and_unknown_signals()",
+      "file_type": "code",
+      "source_file": "tests/test_project.py",
+      "source_location": "L284",
+      "_origin": "ast",
+      "id": "tests_test_project_test_section_compositions_reject_duplicates_and_unknown_signals",
+      "community": 4,
+      "norm_label": "test_section_compositions_reject_duplicates_and_unknown_signals()"
+    },
+    {
+      "label": "test_aligned_lyrics_reject_overlapping_lines()",
+      "file_type": "code",
+      "source_file": "tests/test_project.py",
+      "source_location": "L321",
       "_origin": "ast",
       "id": "tests_test_project_test_aligned_lyrics_reject_overlapping_lines",
       "community": 4,
@@ -6387,7 +6717,7 @@
       "label": "test_stem_duration_must_match_master()",
       "file_type": "code",
       "source_file": "tests/test_project.py",
-      "source_location": "L271",
+      "source_location": "L349",
       "_origin": "ast",
       "id": "tests_test_project_test_stem_duration_must_match_master",
       "community": 4,
@@ -6457,7 +6787,7 @@
       "label": "_project()",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "tests_test_renderer_project",
       "community": 42,
@@ -6467,17 +6797,17 @@
       "label": "ProjectManifest",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "tests_test_renderer_py_projectmanifest",
-      "community": 42,
+      "community": 35,
       "norm_label": "projectmanifest"
     },
     {
       "label": "_context()",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L54",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "tests_test_renderer_context",
       "community": 42,
@@ -6487,7 +6817,7 @@
       "label": "_audio_signal()",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L63",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "tests_test_renderer_audio_signal",
       "community": 42,
@@ -6497,17 +6827,17 @@
       "label": "ndarray",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L63",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "tests_test_renderer_py_ndarray",
-      "community": 42,
+      "community": 35,
       "norm_label": "ndarray"
     },
     {
       "label": "_write_cli_project()",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L68",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "tests_test_renderer_write_cli_project",
       "community": 42,
@@ -6517,7 +6847,7 @@
       "label": "Path",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L68",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "tests_test_renderer_py_path",
       "community": 42,
@@ -6527,7 +6857,7 @@
       "label": "test_lyric_cues_fade_and_instrumentals_hide_text()",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L158",
+      "source_location": "L159",
       "_origin": "ast",
       "id": "tests_test_renderer_test_lyric_cues_fade_and_instrumentals_hide_text",
       "community": 42,
@@ -6537,17 +6867,37 @@
       "label": "test_renderer_is_deterministic_and_seeded()",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L186",
+      "source_location": "L187",
       "_origin": "ast",
       "id": "tests_test_renderer_test_renderer_is_deterministic_and_seeded",
       "community": 42,
       "norm_label": "test_renderer_is_deterministic_and_seeded()"
     },
     {
+      "label": "test_disabling_auto_casting_preserves_the_global_layer_renderer()",
+      "file_type": "code",
+      "source_file": "tests/test_renderer.py",
+      "source_location": "L201",
+      "_origin": "ast",
+      "id": "tests_test_renderer_test_disabling_auto_casting_preserves_the_global_layer_renderer",
+      "community": 42,
+      "norm_label": "test_disabling_auto_casting_preserves_the_global_layer_renderer()"
+    },
+    {
+      "label": "test_render_context_builds_and_crossfades_distinct_section_casts()",
+      "file_type": "code",
+      "source_file": "tests/test_renderer.py",
+      "source_location": "L219",
+      "_origin": "ast",
+      "id": "tests_test_renderer_test_render_context_builds_and_crossfades_distinct_section_casts",
+      "community": 42,
+      "norm_label": "test_render_context_builds_and_crossfades_distinct_section_casts()"
+    },
+    {
       "label": "test_active_section_uses_all_three_landscape_regions()",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L200",
+      "source_location": "L263",
       "_origin": "ast",
       "id": "tests_test_renderer_test_active_section_uses_all_three_landscape_regions",
       "community": 42,
@@ -6557,27 +6907,27 @@
       "label": "test_draft_and_time_range_share_absolute_song_time()",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L209",
+      "source_location": "L272",
       "_origin": "ast",
       "id": "tests_test_renderer_test_draft_and_time_range_share_absolute_song_time",
-      "community": 35,
+      "community": 42,
       "norm_label": "test_draft_and_time_range_share_absolute_song_time()"
     },
     {
       "label": "test_preview_and_bounded_sequence_outputs_are_safe()",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L238",
+      "source_location": "L301",
       "_origin": "ast",
       "id": "tests_test_renderer_test_preview_and_bounded_sequence_outputs_are_safe",
-      "community": 42,
+      "community": 35,
       "norm_label": "test_preview_and_bounded_sequence_outputs_are_safe()"
     },
     {
       "label": "test_frame_cli_renders_an_inspectable_png()",
       "file_type": "code",
       "source_file": "tests/test_renderer.py",
-      "source_location": "L276",
+      "source_location": "L339",
       "_origin": "ast",
       "id": "tests_test_renderer_test_frame_cli_renders_an_inspectable_png",
       "community": 42,
@@ -7177,7 +7527,7 @@
       "label": "Browser prototype",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L166",
+      "source_location": "L182",
       "_origin": "ast",
       "id": "readme_browser_prototype",
       "community": 9,
@@ -7187,7 +7537,7 @@
       "label": "Docs",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L194",
+      "source_location": "L210",
       "_origin": "ast",
       "id": "readme_docs",
       "community": 9,
@@ -7197,7 +7547,7 @@
       "label": "Project Shape",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L200",
+      "source_location": "L216",
       "_origin": "ast",
       "id": "readme_project_shape",
       "community": 9,
@@ -7207,7 +7557,7 @@
       "label": "Boundaries",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L225",
+      "source_location": "L242",
       "_origin": "ast",
       "id": "readme_boundaries",
       "community": 9,
@@ -7217,7 +7567,7 @@
       "label": "Roadmap",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L235",
+      "source_location": "L252",
       "_origin": "ast",
       "id": "readme_roadmap",
       "community": 9,
@@ -8167,7 +8517,7 @@
       "label": "Structured Lyrics Contract",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L231",
+      "source_location": "L265",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_structured_lyrics_contract",
       "community": 7,
@@ -8177,7 +8527,7 @@
       "label": "Lyric Alignment",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L283",
+      "source_location": "L317",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_lyric_alignment",
       "community": 7,
@@ -8187,7 +8537,7 @@
       "label": "Audio and Stem Analysis",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L322",
+      "source_location": "L356",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_audio_and_stem_analysis",
       "community": 7,
@@ -8197,7 +8547,7 @@
       "label": "Section-Aware Choreography",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L351",
+      "source_location": "L385",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_section_aware_choreography",
       "community": 7,
@@ -8207,7 +8557,7 @@
       "label": "Geometry and Rendering",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L368",
+      "source_location": "L402",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_geometry_and_rendering",
       "community": 7,
@@ -8217,7 +8567,7 @@
       "label": "Visual Redesign Contract",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L407",
+      "source_location": "L441",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_visual_redesign_contract",
       "community": 7,
@@ -8227,7 +8577,7 @@
       "label": "Card and Audio Timeline",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L458",
+      "source_location": "L507",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_card_and_audio_timeline",
       "community": 7,
@@ -8237,7 +8587,7 @@
       "label": "Output Contract",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L481",
+      "source_location": "L530",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_output_contract",
       "community": 7,
@@ -8247,7 +8597,7 @@
       "label": "Verification",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L505",
+      "source_location": "L554",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_verification",
       "community": 7,
@@ -8257,7 +8607,7 @@
       "label": "Proposed Python Package",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L522",
+      "source_location": "L571",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_proposed_python_package",
       "community": 7,
@@ -8267,7 +8617,7 @@
       "label": "WSL2 Development Environment",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L562",
+      "source_location": "L611",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_wsl2_development_environment",
       "community": 7,
@@ -8277,7 +8627,7 @@
       "label": "Repository Transition",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L578",
+      "source_location": "L627",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_repository_transition",
       "community": 7,
@@ -8287,7 +8637,7 @@
       "label": "Testing Strategy",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L595",
+      "source_location": "L644",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_testing_strategy",
       "community": 7,
@@ -8297,7 +8647,7 @@
       "label": "Unit tests",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L597",
+      "source_location": "L646",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_unit_tests",
       "community": 7,
@@ -8307,7 +8657,7 @@
       "label": "Golden and deterministic tests",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L609",
+      "source_location": "L658",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_golden_and_deterministic_tests",
       "community": 7,
@@ -8317,7 +8667,7 @@
       "label": "Integration tests",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L615",
+      "source_location": "L664",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_integration_tests",
       "community": 7,
@@ -8327,7 +8677,7 @@
       "label": "Caching and Failure Behavior",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L627",
+      "source_location": "L676",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_caching_and_failure_behavior",
       "community": 7,
@@ -8337,7 +8687,7 @@
       "label": "Reliability and Artistic Presets",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L649",
+      "source_location": "L698",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_reliability_and_artistic_presets",
       "community": 7,
@@ -8347,7 +8697,7 @@
       "label": "Implementation Phases",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L671",
+      "source_location": "L720",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_implementation_phases",
       "community": 7,
@@ -8357,7 +8707,7 @@
       "label": "Phase 0: Repository pivot",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L673",
+      "source_location": "L722",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_phase_0_repository_pivot",
       "community": 7,
@@ -8367,7 +8717,7 @@
       "label": "Phase 1: Deterministic geometry and project validation",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L680",
+      "source_location": "L729",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_phase_1_deterministic_geometry_and_project_validation",
       "community": 7,
@@ -8377,7 +8727,7 @@
       "label": "Phase 2: Audio analysis",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L687",
+      "source_location": "L736",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_phase_2_audio_analysis",
       "community": 7,
@@ -8387,7 +8737,7 @@
       "label": "Phase 3: Line-level lyric alignment",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L694",
+      "source_location": "L743",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_phase_3_line_level_lyric_alignment",
       "community": 7,
@@ -8397,7 +8747,7 @@
       "label": "Phase 4: Visual renderer",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L701",
+      "source_location": "L750",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_phase_4_visual_renderer",
       "community": 7,
@@ -8407,7 +8757,7 @@
       "label": "Phase 5: Cards, encoding, and verification",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L708",
+      "source_location": "L757",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_phase_5_cards_encoding_and_verification",
       "community": 7,
@@ -8417,7 +8767,7 @@
       "label": "Phase 6: Reliability and artistic presets",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L716",
+      "source_location": "L765",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_phase_6_reliability_and_artistic_presets",
       "community": 7,
@@ -8427,7 +8777,7 @@
       "label": "Phase 7: Visual redesign",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L724",
+      "source_location": "L773",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_phase_7_visual_redesign",
       "community": 7,
@@ -8437,7 +8787,7 @@
       "label": "MVP Acceptance Criteria",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L737",
+      "source_location": "L789",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_mvp_acceptance_criteria",
       "community": 7,
@@ -8447,7 +8797,7 @@
       "label": "Deferred Decisions",
       "file_type": "document",
       "source_file": "docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md",
-      "source_location": "L758",
+      "source_location": "L810",
       "_origin": "ast",
       "id": "docs_python_cli_music_video_design_deferred_decisions",
       "community": 7,
@@ -8459,7 +8809,7 @@
       "source_file": "docs/VISION.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "d_dev_spirophonic_docs_vision_md",
+      "id": "docs_vision",
       "community": 1,
       "norm_label": "vision.md"
     },
@@ -8747,7 +9097,7 @@
       "label": "Long-term Dream",
       "file_type": "document",
       "source_file": "docs/VISION.md",
-      "source_location": "L370",
+      "source_location": "L373",
       "_origin": "ast",
       "id": "docs_vision_long_term_dream",
       "community": 1,
@@ -15717,9 +16067,9 @@
       "source_file": "src/spirophonic/mappings.py",
       "source_location": "L4",
       "weight": 0.8,
-      "confidence_score": 0.5,
-      "source": "choreographystate",
-      "target": "spirophonic_analysis_analysisbundle"
+      "source": "audiosignal",
+      "target": "spirophonic_analysis_analysisbundle",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -15830,6 +16180,16 @@
       "source_file": "src/spirophonic/renderer.py",
       "source_location": "L17",
       "weight": 0.8,
+      "source": "spirophonic_renderer_curvecomposition",
+      "target": "spirophonic_analysis_analysisbundle",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L17",
+      "weight": 0.8,
       "confidence_score": 0.5,
       "source": "spirophonic_renderer_frameoutput",
       "target": "spirophonic_analysis_analysisbundle"
@@ -15900,6 +16260,16 @@
       "source_file": "src/spirophonic/mappings.py",
       "source_location": "L4",
       "weight": 0.8,
+      "source": "src_spirophonic_mappings_py_choreographystate",
+      "target": "spirophonic_analysis_analysisbundle",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/mappings.py",
+      "source_location": "L4",
+      "weight": 0.8,
       "confidence_score": 0.5,
       "source": "src_spirophonic_mappings_py_visuallayerconfig",
       "target": "spirophonic_analysis_analysisbundle"
@@ -15933,6 +16303,16 @@
       "confidence_score": 0.5,
       "source": "src_spirophonic_renderer_py_any",
       "target": "spirophonic_analysis_analysisbundle"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L17",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_choreographystate",
+      "target": "spirophonic_analysis_analysisbundle",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -17523,6 +17903,960 @@
       "target": "spirophonic_cards_blend_frames"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "spirophonic_casting",
+      "target": "random",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "spirophonic_casting",
+      "target": "spirophonic_casting_auto_traces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "spirophonic_casting",
+      "target": "spirophonic_casting_drivers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L503",
+      "weight": 1.0,
+      "source": "spirophonic_casting",
+      "target": "spirophonic_casting_generate_auto_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "spirophonic_casting",
+      "target": "spirophonic_casting_jitter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L534",
+      "weight": 1.0,
+      "source": "spirophonic_casting",
+      "target": "spirophonic_casting_resolve_section_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "spirophonic_casting",
+      "target": "spirophonic_casting_resolvedcomposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "spirophonic_casting",
+      "target": "spirophonic_casting_stable_seed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "spirophonic_casting",
+      "target": "spirophonic_casting_trace",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L519",
+      "weight": 1.0,
+      "source": "spirophonic_casting",
+      "target": "spirophonic_casting_type_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "spirophonic_casting",
+      "target": "spirophonic_project",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "spirophonic_renderer",
+      "target": "spirophonic_casting",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "tests_test_casting",
+      "target": "spirophonic_casting",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L534",
+      "weight": 1.0,
+      "source": "spirophonic_casting_resolve_section_composition",
+      "target": "spirophonic_casting_resolvedcomposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "spirophonic_casting_resolvedcomposition",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "spirophonic_casting_resolvedcomposition",
+      "target": "spirophonic_project_layergeometryconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "spirophonic_casting_resolvedcomposition",
+      "target": "spirophonic_project_layertraceconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "spirophonic_casting_resolvedcomposition",
+      "target": "spirophonic_project_sectioncompositionconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "spirophonic_casting_resolvedcomposition",
+      "target": "spirophonic_project_traceaudiodriversconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "spirophonic_casting_resolvedcomposition",
+      "target": "spirophonic_project_visualconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "spirophonic_casting_resolvedcomposition",
+      "target": "spirophonic_project_visuallayerconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L507",
+      "weight": 1.0,
+      "source": "spirophonic_casting_generate_auto_composition",
+      "target": "spirophonic_casting_stable_seed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L117",
+      "weight": 1.0,
+      "source": "spirophonic_casting_auto_traces",
+      "target": "spirophonic_casting_jitter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "spirophonic_casting_jitter",
+      "target": "random",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "random",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "random",
+      "target": "spirophonic_project_layergeometryconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "random",
+      "target": "spirophonic_project_layertraceconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "random",
+      "target": "spirophonic_project_sectioncompositionconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "random",
+      "target": "spirophonic_project_traceaudiodriversconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "random",
+      "target": "spirophonic_project_visualconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "random",
+      "target": "spirophonic_project_visuallayerconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "spirophonic_casting_auto_traces",
+      "target": "random",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L508",
+      "weight": 1.0,
+      "source": "spirophonic_casting_generate_auto_composition",
+      "target": "random",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L114",
+      "weight": 1.0,
+      "source": "spirophonic_casting_auto_traces",
+      "target": "spirophonic_casting_trace",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "spirophonic_casting_trace",
+      "target": "spirophonic_project_layergeometryconfig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L76",
+      "weight": 1.0,
+      "source": "spirophonic_casting_trace",
+      "target": "spirophonic_project_layertraceconfig"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "spirophonic_casting_trace",
+      "target": "src_spirophonic_casting_py_visuallayerconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "spirophonic_casting_trace",
+      "target": "traceaudiodriversconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "spirophonic_casting_trace",
+      "target": "visualrole",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "visualrole",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "visualrole",
+      "target": "spirophonic_project_layergeometryconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "visualrole",
+      "target": "spirophonic_project_layertraceconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "visualrole",
+      "target": "spirophonic_project_sectioncompositionconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "visualrole",
+      "target": "spirophonic_project_traceaudiodriversconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "visualrole",
+      "target": "spirophonic_project_visualconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "visualrole",
+      "target": "spirophonic_project_visuallayerconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "spirophonic_casting_drivers",
+      "target": "traceaudiodriversconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "traceaudiodriversconfig",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "traceaudiodriversconfig",
+      "target": "spirophonic_project_layergeometryconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "traceaudiodriversconfig",
+      "target": "spirophonic_project_layertraceconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "traceaudiodriversconfig",
+      "target": "spirophonic_project_sectioncompositionconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "traceaudiodriversconfig",
+      "target": "spirophonic_project_traceaudiodriversconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "traceaudiodriversconfig",
+      "target": "spirophonic_project_visualconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "traceaudiodriversconfig",
+      "target": "spirophonic_project_visuallayerconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "spirophonic_casting_auto_traces",
+      "target": "src_spirophonic_casting_py_visuallayerconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visuallayerconfig",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visuallayerconfig",
+      "target": "spirophonic_project_layergeometryconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visuallayerconfig",
+      "target": "spirophonic_project_layertraceconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visuallayerconfig",
+      "target": "spirophonic_project_sectioncompositionconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visuallayerconfig",
+      "target": "spirophonic_project_traceaudiodriversconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visuallayerconfig",
+      "target": "spirophonic_project_visualconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visuallayerconfig",
+      "target": "spirophonic_project_visuallayerconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L129",
+      "weight": 1.0,
+      "source": "spirophonic_casting_auto_traces",
+      "target": "spirophonic_casting_drivers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L515",
+      "weight": 1.0,
+      "source": "spirophonic_casting_generate_auto_composition",
+      "target": "spirophonic_casting_auto_traces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L503",
+      "weight": 1.0,
+      "source": "spirophonic_casting_generate_auto_composition",
+      "target": "sectioncompositionconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L510",
+      "weight": 1.0,
+      "source": "spirophonic_casting_generate_auto_composition",
+      "target": "spirophonic_project_castingconfig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L548",
+      "weight": 1.0,
+      "source": "spirophonic_casting_resolve_section_composition",
+      "target": "spirophonic_casting_generate_auto_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_casting.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "tests_test_casting_test_auto_casting_is_deterministic_and_distinct_by_section_type",
+      "target": "spirophonic_casting_generate_auto_composition"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_casting.py",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "tests_test_casting_test_bridge_auto_cast_is_one_oversized_multi_driver_flower",
+      "target": "spirophonic_casting_generate_auto_composition"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "sectioncompositionconfig",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "sectioncompositionconfig",
+      "target": "spirophonic_project_layergeometryconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "sectioncompositionconfig",
+      "target": "spirophonic_project_layertraceconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "sectioncompositionconfig",
+      "target": "spirophonic_project_sectioncompositionconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "sectioncompositionconfig",
+      "target": "spirophonic_project_traceaudiodriversconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "sectioncompositionconfig",
+      "target": "spirophonic_project_visualconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "sectioncompositionconfig",
+      "target": "spirophonic_project_visuallayerconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L552",
+      "weight": 1.0,
+      "source": "spirophonic_casting_resolve_section_composition",
+      "target": "sectioncompositionconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L519",
+      "weight": 1.0,
+      "source": "spirophonic_casting_type_composition",
+      "target": "sectioncompositionconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L543",
+      "weight": 1.0,
+      "source": "spirophonic_casting_resolve_section_composition",
+      "target": "spirophonic_casting_type_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L519",
+      "weight": 1.0,
+      "source": "spirophonic_casting_type_composition",
+      "target": "src_spirophonic_casting_py_visualconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L534",
+      "weight": 1.0,
+      "source": "spirophonic_casting_resolve_section_composition",
+      "target": "src_spirophonic_casting_py_visualconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visualconfig",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visualconfig",
+      "target": "spirophonic_project_layergeometryconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visualconfig",
+      "target": "spirophonic_project_layertraceconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visualconfig",
+      "target": "spirophonic_project_sectioncompositionconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visualconfig",
+      "target": "spirophonic_project_traceaudiodriversconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visualconfig",
+      "target": "spirophonic_project_visualconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L5",
+      "weight": 0.8,
+      "source": "src_spirophonic_casting_py_visualconfig",
+      "target": "spirophonic_project_visuallayerconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/spirophonic/casting.py",
+      "source_location": "L553",
+      "weight": 1.0,
+      "source": "spirophonic_casting_resolve_section_composition",
+      "target": "spirophonic_project_castingconfig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L199",
+      "weight": 1.0,
+      "source": "spirophonic_renderer_build_render_context",
+      "target": "spirophonic_casting_resolve_section_composition"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_casting.py",
+      "source_location": "L74",
+      "weight": 1.0,
+      "source": "tests_test_casting_test_composition_resolution_prefers_exact_id_then_type_then_auto",
+      "target": "spirophonic_casting_resolve_section_composition"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_casting.py",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "tests_test_casting_test_disabling_auto_casting_uses_the_global_layer_fallback",
+      "target": "spirophonic_casting_resolve_section_composition"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/choreography.py",
@@ -17558,9 +18892,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L198",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography",
-      "target": "spirophonic_choreography_configured_style",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_configured_style"
     },
     {
       "relation": "contains",
@@ -17568,9 +18902,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L292",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography",
-      "target": "spirophonic_choreography_integrated_style_value",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_integrated_style_value"
     },
     {
       "relation": "contains",
@@ -17588,9 +18922,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L258",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography",
-      "target": "spirophonic_choreography_role_visibility",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_role_visibility"
     },
     {
       "relation": "contains",
@@ -17628,9 +18962,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L270",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography",
-      "target": "spirophonic_choreography_transition_integral",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_transition_integral"
     },
     {
       "relation": "contains",
@@ -17638,9 +18972,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L214",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography",
-      "target": "spirophonic_choreography_type_configuration",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_type_configuration"
     },
     {
       "relation": "imports_from",
@@ -17704,9 +19038,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L198",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography_configured_style",
-      "target": "spirophonic_choreography_sectionstyle",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_sectionstyle"
     },
     {
       "relation": "references",
@@ -17726,9 +19060,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L258",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography_role_visibility",
-      "target": "spirophonic_choreography_sectionstyle",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_sectionstyle"
     },
     {
       "relation": "uses",
@@ -17746,9 +19080,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "spirophonic_choreography_sectionstyle",
-      "target": "spirophonic_project_sectionvisualstyleconfig",
-      "confidence_score": 0.5
+      "target": "spirophonic_project_sectionvisualstyleconfig"
     },
     {
       "relation": "uses",
@@ -17756,9 +19090,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "spirophonic_choreography_sectionstyle",
-      "target": "spirophonic_project_visualconfig",
-      "confidence_score": 0.5
+      "target": "spirophonic_project_visualconfig"
     },
     {
       "relation": "references",
@@ -17777,9 +19111,19 @@
       "source_file": "src/spirophonic/mappings.py",
       "source_location": "L5",
       "weight": 0.8,
-      "confidence_score": 0.5,
-      "source": "choreographystate",
-      "target": "spirophonic_choreography_choreographystate"
+      "source": "audiosignal",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "int32",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -17818,9 +19162,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "spirophonic_choreography_choreographystate",
-      "target": "spirophonic_project_sectionvisualstyleconfig",
-      "confidence_score": 0.5
+      "target": "spirophonic_project_sectionvisualstyleconfig"
     },
     {
       "relation": "uses",
@@ -17828,9 +19172,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "spirophonic_choreography_choreographystate",
-      "target": "spirophonic_project_visualconfig",
-      "confidence_score": 0.5
+      "target": "spirophonic_project_visualconfig"
     },
     {
       "relation": "uses",
@@ -17865,6 +19209,76 @@
     {
       "relation": "uses",
       "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_curvecomposition",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_frameoutput",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_frameplan",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_framesequenceoutput",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_layercurve",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_rendercontext",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_spirophonicrenderererror",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
       "source_file": "src/spirophonic/mappings.py",
       "source_location": "L5",
       "weight": 0.8,
@@ -17878,9 +19292,129 @@
       "source_file": "src/spirophonic/mappings.py",
       "source_location": "L5",
       "weight": 0.8,
+      "source": "src_spirophonic_mappings_py_choreographystate",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/mappings.py",
+      "source_location": "L5",
+      "weight": 0.8,
       "confidence_score": 0.5,
       "source": "src_spirophonic_mappings_py_visuallayerconfig",
       "target": "spirophonic_choreography_choreographystate"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_alignedlyrics",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_analysisbundle",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_any",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_choreographystate",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_float32",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_ndarray",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_path",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_progresscallback",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_projectmanifest",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_uint8",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L19",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_visuallayerconfig",
+      "target": "spirophonic_choreography_choreographystate",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -17942,9 +19476,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L198",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography_configured_style",
-      "target": "sectionvisualstyleconfig",
-      "confidence_score": 1.0
+      "target": "sectionvisualstyleconfig"
     },
     {
       "relation": "calls",
@@ -17953,9 +19487,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L237",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography_style_for",
-      "target": "spirophonic_choreography_configured_style",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_configured_style"
     },
     {
       "relation": "uses",
@@ -17963,9 +19497,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "sectionvisualstyleconfig",
-      "target": "spirophonic_project_alignedlyrics",
-      "confidence_score": 0.5
+      "target": "spirophonic_project_alignedlyrics"
     },
     {
       "relation": "uses",
@@ -17973,9 +19507,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "sectionvisualstyleconfig",
-      "target": "spirophonic_project_sectionvisualstyleconfig",
-      "confidence_score": 0.5
+      "target": "spirophonic_project_sectionvisualstyleconfig"
     },
     {
       "relation": "uses",
@@ -17983,9 +19517,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "sectionvisualstyleconfig",
-      "target": "spirophonic_project_visualconfig",
-      "confidence_score": 0.5
+      "target": "spirophonic_project_visualconfig"
     },
     {
       "relation": "references",
@@ -17994,9 +19528,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L214",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography_type_configuration",
-      "target": "sectionvisualstyleconfig",
-      "confidence_score": 1.0
+      "target": "sectionvisualstyleconfig"
     },
     {
       "relation": "calls",
@@ -18005,19 +19539,19 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L237",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography_style_for",
-      "target": "spirophonic_choreography_type_configuration",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_type_configuration"
     },
     {
       "relation": "references",
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L214",
+      "source_location": "L215",
       "weight": 1.0,
       "source": "spirophonic_choreography_type_configuration",
-      "target": "visualconfig",
+      "target": "src_spirophonic_choreography_py_visualconfig",
       "confidence_score": 1.0
     },
     {
@@ -18025,10 +19559,10 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L342",
+      "source_location": "L343",
       "weight": 1.0,
       "source": "spirophonic_choreography_choreography_at",
-      "target": "visualconfig",
+      "target": "src_spirophonic_choreography_py_visualconfig",
       "confidence_score": 1.0
     },
     {
@@ -18036,10 +19570,10 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L292",
+      "source_location": "L293",
       "weight": 1.0,
       "source": "spirophonic_choreography_integrated_style_value",
-      "target": "visualconfig",
+      "target": "src_spirophonic_choreography_py_visualconfig",
       "confidence_score": 1.0
     },
     {
@@ -18047,10 +19581,10 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L231",
+      "source_location": "L232",
       "weight": 1.0,
       "source": "spirophonic_choreography_style_for",
-      "target": "visualconfig",
+      "target": "src_spirophonic_choreography_py_visualconfig",
       "confidence_score": 1.0
     },
     {
@@ -18059,7 +19593,7 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
-      "source": "visualconfig",
+      "source": "src_spirophonic_choreography_py_visualconfig",
       "target": "spirophonic_project_alignedlyrics",
       "confidence_score": 0.5
     },
@@ -18069,7 +19603,7 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
-      "source": "visualconfig",
+      "source": "src_spirophonic_choreography_py_visualconfig",
       "target": "spirophonic_project_sectionvisualstyleconfig",
       "confidence_score": 0.5
     },
@@ -18079,7 +19613,7 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
-      "source": "visualconfig",
+      "source": "src_spirophonic_choreography_py_visualconfig",
       "target": "spirophonic_project_visualconfig",
       "confidence_score": 0.5
     },
@@ -18101,9 +19635,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L319",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography_integrated_style_value",
-      "target": "spirophonic_choreography_style_for",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_style_for"
     },
     {
       "relation": "calls",
@@ -18123,9 +19657,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L410",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography_choreography_at",
-      "target": "spirophonic_choreography_role_visibility",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_role_visibility"
     },
     {
       "relation": "calls",
@@ -18134,9 +19668,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L331",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography_integrated_style_value",
-      "target": "spirophonic_choreography_transition_integral",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_transition_integral"
     },
     {
       "relation": "calls",
@@ -18145,9 +19679,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L396",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography_choreography_at",
-      "target": "spirophonic_choreography_integrated_style_value",
-      "confidence_score": 1.0
+      "target": "spirophonic_choreography_integrated_style_value"
     },
     {
       "relation": "references",
@@ -18156,9 +19690,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L292",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_choreography_integrated_style_value",
-      "target": "src_spirophonic_choreography_py_alignedlyrics",
-      "confidence_score": 1.0
+      "target": "src_spirophonic_choreography_py_alignedlyrics"
     },
     {
       "relation": "references",
@@ -18187,9 +19721,9 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "src_spirophonic_choreography_py_alignedlyrics",
-      "target": "spirophonic_project_sectionvisualstyleconfig",
-      "confidence_score": 0.5
+      "target": "spirophonic_project_sectionvisualstyleconfig"
     },
     {
       "relation": "uses",
@@ -18197,17 +19731,17 @@
       "source_file": "src/spirophonic/choreography.py",
       "source_location": "L3",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "src_spirophonic_choreography_py_alignedlyrics",
-      "target": "spirophonic_project_visualconfig",
-      "confidence_score": 0.5
+      "target": "spirophonic_project_visualconfig"
     },
     {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/choreography.py",
-      "source_location": "L349",
+      "source_location": "L350",
       "weight": 1.0,
-      "source": "spirophonic_choreography_rationale_349",
+      "source": "spirophonic_choreography_rationale_350",
       "target": "spirophonic_choreography_choreography_at",
       "confidence_score": 1.0
     },
@@ -18308,6 +19842,17 @@
       "source_location": "L160",
       "weight": 1.0,
       "source": "tests_test_renderer_test_lyric_cues_fade_and_instrumentals_hide_text",
+      "target": "spirophonic_choreography_choreography_at"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_renderer.py",
+      "source_location": "L230",
+      "weight": 1.0,
+      "source": "tests_test_renderer_test_render_context_builds_and_crossfades_distinct_section_casts",
       "target": "spirophonic_choreography_choreography_at"
     },
     {
@@ -21086,6 +22631,16 @@
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L20",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_curvecomposition",
+      "target": "spirophonic_geometry_spirogeometry",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
       "source_location": "L19",
       "weight": 0.8,
       "confidence_score": 0.5,
@@ -21171,6 +22726,16 @@
       "confidence_score": 0.5,
       "source": "src_spirophonic_renderer_py_any",
       "target": "spirophonic_geometry_spirogeometry"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L20",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_choreographystate",
+      "target": "spirophonic_geometry_spirogeometry",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -21440,6 +23005,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/mappings.py",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "spirophonic_mappings",
+      "target": "spirophonic_mappings_driver_value",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/mappings.py",
       "source_location": "L29",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -21638,6 +23213,17 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/mappings.py",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "spirophonic_mappings_driver_value",
+      "target": "spirophonic_mappings_audiovisualstate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/mappings.py",
       "source_location": "L86",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -21685,6 +23271,17 @@
       "weight": 1.0,
       "source": "tests_test_choreography_test_percussion_flash_and_background_intensity_have_distinct_controls",
       "target": "spirophonic_mappings_audiovisualstate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/mappings.py",
+      "source_location": "L101",
+      "weight": 1.0,
+      "source": "spirophonic_mappings_driver_value",
+      "target": "spirophonic_mappings_audiovisualstate_for_role",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -21841,11 +23438,42 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/mappings.py",
-      "source_location": "L86",
+      "source_location": "L89",
       "weight": 1.0,
-      "confidence_score": 1.0,
+      "source": "spirophonic_mappings_driver_value",
+      "target": "audiosignal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/mappings.py",
+      "source_location": "L115",
+      "weight": 1.0,
       "source": "spirophonic_mappings_map_layer_state",
-      "target": "choreographystate"
+      "target": "spirophonic_mappings_driver_value",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/mappings.py",
+      "source_location": "L6",
+      "weight": 0.8,
+      "source": "audiosignal",
+      "target": "spirophonic_presets_mappingpreset",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/mappings.py",
+      "source_location": "L7",
+      "weight": 0.8,
+      "source": "audiosignal",
+      "target": "spirophonic_project_visuallayerconfig",
+      "confidence_score": 0.5
     },
     {
       "relation": "references",
@@ -21874,6 +23502,17 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/mappings.py",
+      "source_location": "L104",
+      "weight": 1.0,
+      "source": "spirophonic_mappings_map_layer_state",
+      "target": "src_spirophonic_mappings_py_choreographystate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/mappings.py",
       "source_location": "L86",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -21884,11 +23523,11 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/mappings.py",
-      "source_location": "L96",
+      "source_location": "L112",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "spirophonic_mappings_rationale_96",
-      "target": "spirophonic_mappings_map_layer_state"
+      "source": "spirophonic_mappings_rationale_112",
+      "target": "spirophonic_mappings_map_layer_state",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -21949,19 +23588,19 @@
       "source_file": "src/spirophonic/mappings.py",
       "source_location": "L6",
       "weight": 0.8,
-      "confidence_score": 0.5,
-      "source": "choreographystate",
-      "target": "spirophonic_presets_mappingpreset"
+      "source": "src_spirophonic_mappings_py_choreographystate",
+      "target": "spirophonic_presets_mappingpreset",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "src/spirophonic/mappings.py",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 0.8,
-      "confidence_score": 0.5,
-      "source": "choreographystate",
-      "target": "spirophonic_project_visuallayerconfig"
+      "source": "src_spirophonic_mappings_py_choreographystate",
+      "target": "spirophonic_project_visuallayerconfig",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -22824,6 +24463,16 @@
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L22",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_curvecomposition",
+      "target": "spirophonic_presets_mappingpreset",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
       "source_location": "L21",
       "weight": 0.8,
       "confidence_score": 0.5,
@@ -22909,6 +24558,16 @@
       "confidence_score": 0.5,
       "source": "src_spirophonic_renderer_py_any",
       "target": "spirophonic_presets_mappingpreset"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L22",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_choreographystate",
+      "target": "spirophonic_presets_mappingpreset",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -23005,6 +24664,16 @@
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L22",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_curvecomposition",
+      "target": "spirophonic_presets_palettepreset",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
       "source_location": "L21",
       "weight": 0.8,
       "confidence_score": 0.5,
@@ -23090,6 +24759,16 @@
       "confidence_score": 0.5,
       "source": "src_spirophonic_renderer_py_any",
       "target": "spirophonic_presets_palettepreset"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L22",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_choreographystate",
+      "target": "spirophonic_presets_palettepreset",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -23288,6 +24967,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/project.py",
+      "source_location": "L243",
+      "weight": 1.0,
+      "source": "spirophonic_project",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/project.py",
       "source_location": "L23",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -23478,11 +25167,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L173",
+      "source_location": "L249",
       "weight": 1.0,
       "source": "spirophonic_project",
-      "target": "spirophonic_project_sectionvisualstyleconfig",
+      "target": "spirophonic_project_sectioncompositionconfig",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/project.py",
+      "source_location": "L173",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "spirophonic_project",
+      "target": "spirophonic_project_sectionvisualstyleconfig"
     },
     {
       "relation": "contains",
@@ -23513,6 +25212,16 @@
       "confidence_score": 1.0,
       "source": "spirophonic_project",
       "target": "spirophonic_project_textconfig"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/project.py",
+      "source_location": "L218",
+      "weight": 1.0,
+      "source": "spirophonic_project",
+      "target": "spirophonic_project_traceaudiodriversconfig",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -23607,6 +25316,17 @@
       "confidence_score": 1.0,
       "source": "tests_test_analysis",
       "target": "spirophonic_project"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tests_test_casting",
+      "target": "spirophonic_project",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -23747,6 +25467,16 @@
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/project.py",
+      "source_location": "L243",
+      "weight": 1.0,
+      "source": "spirophonic_project_castingconfig",
+      "target": "spirophonic_project_contractmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/project.py",
       "source_location": "L23",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -23827,11 +25557,21 @@
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/project.py",
-      "source_location": "L173",
+      "source_location": "L249",
       "weight": 1.0,
-      "source": "spirophonic_project_sectionvisualstyleconfig",
+      "source": "spirophonic_project_sectioncompositionconfig",
       "target": "spirophonic_project_contractmodel",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/project.py",
+      "source_location": "L173",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "spirophonic_project_sectionvisualstyleconfig",
+      "target": "spirophonic_project_contractmodel"
     },
     {
       "relation": "inherits",
@@ -23852,6 +25592,16 @@
       "confidence_score": 1.0,
       "source": "spirophonic_project_textconfig",
       "target": "spirophonic_project_contractmodel"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/project.py",
+      "source_location": "L218",
+      "weight": 1.0,
+      "source": "spirophonic_project_traceaudiodriversconfig",
+      "target": "spirophonic_project_contractmodel",
+      "confidence_score": 1.0
     },
     {
       "relation": "inherits",
@@ -24181,9 +25931,9 @@
       "source_file": "src/spirophonic/project.py",
       "source_location": "L191",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "spirophonic_project_sectionvisualstyleconfig",
-      "target": "spirophonic_project_sectionvisualstyleconfig_visible_roles_are_unique",
-      "confidence_score": 1.0
+      "target": "spirophonic_project_sectionvisualstyleconfig_visible_roles_are_unique"
     },
     {
       "relation": "uses",
@@ -24205,6 +25955,16 @@
       "confidence_score": 1.0,
       "source": "spirophonic_project_default_visual_layers",
       "target": "spirophonic_project_visuallayerconfig"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_curvecomposition",
+      "target": "spirophonic_project_visuallayerconfig",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -24295,6 +26055,16 @@
       "confidence_score": 0.5,
       "source": "src_spirophonic_renderer_py_any",
       "target": "spirophonic_project_visuallayerconfig"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_choreographystate",
+      "target": "spirophonic_project_visuallayerconfig",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -24367,6 +26137,206 @@
       "target": "spirophonic_project_visuallayerconfig"
     },
     {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "int32",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_curvecomposition",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_frameoutput",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_frameplan",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_framesequenceoutput",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_layercurve",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_rendercontext",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_spirophonicrenderererror",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_alignedlyrics",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_analysisbundle",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_any",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_choreographystate",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_float32",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_ndarray",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_path",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_progresscallback",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_projectmanifest",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_uint8",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_visuallayerconfig",
+      "target": "spirophonic_project_castingconfig",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/project.py",
+      "source_location": "L254",
+      "weight": 1.0,
+      "source": "spirophonic_project_sectioncompositionconfig",
+      "target": "spirophonic_project_sectioncompositionconfig_trace_ids_are_unique",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/project.py",
@@ -24428,6 +26398,16 @@
       "confidence_score": 1.0,
       "source": "spirophonic_project_required_paths",
       "target": "spirophonic_project_projectmanifest"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_curvecomposition",
+      "target": "spirophonic_project_projectmanifest",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -24518,6 +26498,16 @@
       "confidence_score": 0.5,
       "source": "src_spirophonic_renderer_py_any",
       "target": "spirophonic_project_projectmanifest"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_choreographystate",
+      "target": "spirophonic_project_projectmanifest",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -25368,6 +27358,16 @@
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_curvecomposition",
+      "target": "spirophonic_project_alignedlyrics",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
       "source_location": "L21",
       "weight": 0.8,
       "confidence_score": 0.5,
@@ -25473,6 +27473,16 @@
       "confidence_score": 0.5,
       "source": "src_spirophonic_renderer_py_any",
       "target": "spirophonic_project_alignedlyrics"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_choreographystate",
+      "target": "spirophonic_project_alignedlyrics",
+      "confidence_score": 0.5
     },
     {
       "relation": "uses",
@@ -26649,6 +28659,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "spirophonic_renderer",
+      "target": "spirophonic_renderer_curvecomposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/renderer.py",
       "source_location": "L325",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -26879,6 +28899,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L438",
+      "weight": 1.0,
+      "source": "spirophonic_renderer",
+      "target": "spirophonic_renderer_weighted_compositions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/renderer.py",
       "source_location": "L416",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -26995,6 +29025,38 @@
       "target": "spirophonic_renderer_layercurve"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L210",
+      "weight": 1.0,
+      "source": "spirophonic_renderer_build_render_context",
+      "target": "spirophonic_renderer_curvecomposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L36",
+      "weight": 0.8,
+      "source": "spirophonic_renderer_curvecomposition",
+      "target": "spirophonic_text_spirophonictexterror",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L438",
+      "weight": 1.0,
+      "source": "spirophonic_renderer_weighted_compositions",
+      "target": "spirophonic_renderer_curvecomposition",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "references",
       "context": "parameter_type",
       "confidence": "EXTRACTED",
@@ -27091,6 +29153,17 @@
       "confidence_score": 0.5,
       "source": "spirophonic_renderer_rendercontext",
       "target": "spirophonic_text_spirophonictexterror"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L438",
+      "weight": 1.0,
+      "source": "spirophonic_renderer_weighted_compositions",
+      "target": "spirophonic_renderer_rendercontext",
+      "confidence_score": 1.0
     },
     {
       "relation": "uses",
@@ -27676,6 +29749,17 @@
       "target": "spirophonic_renderer_build_render_context"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_renderer.py",
+      "source_location": "L206",
+      "weight": 1.0,
+      "source": "tests_test_renderer_test_disabling_auto_casting_preserves_the_global_layer_renderer",
+      "target": "spirophonic_renderer_build_render_context"
+    },
+    {
       "relation": "references",
       "context": "parameter_type",
       "confidence": "EXTRACTED",
@@ -28166,6 +30250,49 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L483",
+      "weight": 1.0,
+      "source": "spirophonic_renderer_render_frame",
+      "target": "spirophonic_renderer_weighted_compositions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L438",
+      "weight": 1.0,
+      "source": "spirophonic_renderer_weighted_compositions",
+      "target": "src_spirophonic_renderer_py_choreographystate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_renderer.py",
+      "source_location": "L249",
+      "weight": 1.0,
+      "source": "tests_test_renderer_test_render_context_builds_and_crossfades_distinct_section_casts",
+      "target": "spirophonic_renderer_weighted_compositions"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/spirophonic/renderer.py",
+      "source_location": "L36",
+      "weight": 0.8,
+      "source": "src_spirophonic_renderer_py_choreographystate",
+      "target": "spirophonic_text_spirophonictexterror",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/spirophonic/renderer.py",
       "source_location": "L395",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -28176,11 +30303,11 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L398",
+      "source_location": "L465",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "spirophonic_renderer_rationale_398",
-      "target": "spirophonic_renderer_render_frame"
+      "source": "spirophonic_renderer_rationale_465",
+      "target": "spirophonic_renderer_render_frame",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -28257,6 +30384,17 @@
       "source_location": "L201",
       "weight": 1.0,
       "source": "tests_test_renderer_test_active_section_uses_all_three_landscape_regions",
+      "target": "spirophonic_renderer_render_frame"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/test_renderer.py",
+      "source_location": "L213",
+      "weight": 1.0,
+      "source": "tests_test_renderer_test_disabling_auto_casting_preserves_the_global_layer_renderer",
       "target": "spirophonic_renderer_render_frame"
     },
     {
@@ -28417,9 +30555,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/spirophonic/renderer.py",
-      "source_location": "L703",
+      "source_location": "L781",
       "weight": 1.0,
-      "source": "spirophonic_renderer_rationale_703",
+      "source": "spirophonic_renderer_rationale_781",
       "target": "spirophonic_renderer_render_frame_sequence",
       "confidence_score": 1.0
     },
@@ -30725,6 +32863,67 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "tests_test_casting",
+      "target": "tests_test_casting_test_auto_casting_is_deterministic_and_distinct_by_section_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "tests_test_casting",
+      "target": "tests_test_casting_test_bridge_auto_cast_is_one_oversized_multi_driver_flower",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "tests_test_casting",
+      "target": "tests_test_casting_test_composition_resolution_prefers_exact_id_then_type_then_auto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L91",
+      "weight": 1.0,
+      "source": "tests_test_casting",
+      "target": "tests_test_casting_test_disabling_auto_casting_uses_the_global_layer_fallback",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_test_casting",
+      "target": "tests_test_casting_trace",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_casting.py",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "tests_test_casting_test_composition_resolution_prefers_exact_id_then_type_then_auto",
+      "target": "tests_test_casting_trace",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "tests/test_choreography.py",
       "source_location": "L22",
       "weight": 1.0,
@@ -30748,9 +32947,9 @@
       "source_file": "tests/test_choreography.py",
       "source_location": "L208",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_test_choreography",
-      "target": "tests_test_choreography_test_manifest_section_type_and_id_settings_resolve_in_precedence_order",
-      "confidence_score": 1.0
+      "target": "tests_test_choreography_test_manifest_section_type_and_id_settings_resolve_in_precedence_order"
     },
     {
       "relation": "contains",
@@ -30778,9 +32977,9 @@
       "source_file": "tests/test_choreography.py",
       "source_location": "L251",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_test_choreography",
-      "target": "tests_test_choreography_test_section_transition_interpolates_without_trace_or_rotation_jump",
-      "confidence_score": 1.0
+      "target": "tests_test_choreography_test_section_transition_interpolates_without_trace_or_rotation_jump"
     },
     {
       "relation": "contains",
@@ -30808,9 +33007,9 @@
       "source_file": "tests/test_choreography.py",
       "source_location": "L308",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_test_choreography",
-      "target": "tests_test_choreography_test_trace_and_rotation_continue_through_unlabeled_section_gaps",
-      "confidence_score": 1.0
+      "target": "tests_test_choreography_test_trace_and_rotation_continue_through_unlabeled_section_gaps"
     },
     {
       "relation": "contains",
@@ -30873,9 +33072,9 @@
       "source_file": "tests/test_choreography.py",
       "source_location": "L237",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_test_choreography_test_manifest_section_type_and_id_settings_resolve_in_precedence_order",
-      "target": "tests_test_choreography_aligned_sections",
-      "confidence_score": 1.0
+      "target": "tests_test_choreography_aligned_sections"
     },
     {
       "relation": "calls",
@@ -30906,9 +33105,9 @@
       "source_file": "tests/test_choreography.py",
       "source_location": "L275",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_test_choreography_test_section_transition_interpolates_without_trace_or_rotation_jump",
-      "target": "tests_test_choreography_aligned_sections",
-      "confidence_score": 1.0
+      "target": "tests_test_choreography_aligned_sections"
     },
     {
       "relation": "calls",
@@ -30928,9 +33127,9 @@
       "source_file": "tests/test_choreography.py",
       "source_location": "L309",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_test_choreography_test_trace_and_rotation_continue_through_unlabeled_section_gaps",
-      "target": "tests_test_choreography_aligned_sections",
-      "confidence_score": 1.0
+      "target": "tests_test_choreography_aligned_sections"
     },
     {
       "relation": "imports",
@@ -30997,6 +33196,17 @@
       "confidence_score": 1.0,
       "source": "tests_test_renderer_context",
       "target": "tests_test_choreography_aligned_sections"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_renderer.py",
+      "source_location": "L209",
+      "weight": 1.0,
+      "source": "tests_test_renderer_test_disabling_auto_casting_preserves_the_global_layer_renderer",
+      "target": "tests_test_choreography_aligned_sections",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -31107,6 +33317,17 @@
       "confidence_score": 1.0,
       "source": "tests_test_renderer_context",
       "target": "tests_test_choreography_analysis_bundle"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_renderer.py",
+      "source_location": "L208",
+      "weight": 1.0,
+      "source": "tests_test_renderer_test_disabling_auto_casting_preserves_the_global_layer_renderer",
+      "target": "tests_test_choreography_analysis_bundle",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -31554,11 +33775,31 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_project.py",
-      "source_location": "L201",
+      "source_location": "L284",
       "weight": 1.0,
       "source": "tests_test_project",
-      "target": "tests_test_project_test_section_visual_settings_are_validated",
+      "target": "tests_test_project_test_section_compositions_reject_duplicates_and_unknown_signals",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_project.py",
+      "source_location": "L243",
+      "weight": 1.0,
+      "source": "tests_test_project",
+      "target": "tests_test_project_test_section_compositions_validate_casting_traces_and_audio_drivers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_project.py",
+      "source_location": "L201",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_project",
+      "target": "tests_test_project_test_section_visual_settings_are_validated"
     },
     {
       "relation": "contains",
@@ -31566,9 +33807,9 @@
       "source_file": "tests/test_project.py",
       "source_location": "L223",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_test_project",
-      "target": "tests_test_project_test_section_visual_settings_reject_ambiguous_or_duplicate_roles",
-      "confidence_score": 1.0
+      "target": "tests_test_project_test_section_visual_settings_reject_ambiguous_or_duplicate_roles"
     },
     {
       "relation": "contains",
@@ -31690,9 +33931,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_project.py",
-      "source_location": "L202",
+      "source_location": "L285",
       "weight": 1.0,
-      "source": "tests_test_project_test_section_visual_settings_are_validated",
+      "source": "tests_test_project_test_section_compositions_reject_duplicates_and_unknown_signals",
       "target": "tests_test_project_valid_project",
       "confidence_score": 1.0
     },
@@ -31701,11 +33942,33 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_project.py",
-      "source_location": "L224",
+      "source_location": "L244",
       "weight": 1.0,
-      "source": "tests_test_project_test_section_visual_settings_reject_ambiguous_or_duplicate_roles",
+      "source": "tests_test_project_test_section_compositions_validate_casting_traces_and_audio_drivers",
       "target": "tests_test_project_valid_project",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_project.py",
+      "source_location": "L202",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_project_test_section_visual_settings_are_validated",
+      "target": "tests_test_project_valid_project"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_project.py",
+      "source_location": "L224",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_project_test_section_visual_settings_reject_ambiguous_or_duplicate_roles",
+      "target": "tests_test_project_valid_project"
     },
     {
       "relation": "calls",
@@ -32089,6 +34352,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_renderer.py",
+      "source_location": "L201",
+      "weight": 1.0,
+      "source": "tests_test_renderer",
+      "target": "tests_test_renderer_test_disabling_auto_casting_preserves_the_global_layer_renderer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_renderer.py",
       "source_location": "L200",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -32124,6 +34397,16 @@
       "confidence_score": 1.0,
       "source": "tests_test_renderer",
       "target": "tests_test_renderer_test_preview_and_bounded_sequence_outputs_are_safe"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_renderer.py",
+      "source_location": "L219",
+      "weight": 1.0,
+      "source": "tests_test_renderer",
+      "target": "tests_test_renderer_test_render_context_builds_and_crossfades_distinct_section_casts",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -32172,6 +34455,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_renderer.py",
+      "source_location": "L202",
+      "weight": 1.0,
+      "source": "tests_test_renderer_test_disabling_auto_casting_preserves_the_global_layer_renderer",
+      "target": "tests_test_renderer_project",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_renderer.py",
       "source_location": "L201",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -32199,6 +34493,17 @@
       "confidence_score": 1.0,
       "source": "tests_test_renderer_test_preview_and_bounded_sequence_outputs_are_safe",
       "target": "tests_test_renderer_context"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_renderer.py",
+      "source_location": "L220",
+      "weight": 1.0,
+      "source": "tests_test_renderer_test_render_context_builds_and_crossfades_distinct_section_casts",
+      "target": "tests_test_renderer_context",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -34087,9 +36392,9 @@
       "source_file": "docs/VISION.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "d_dev_spirophonic_docs_vision_md",
-      "target": "docs_vision_spirophonic_vision"
+      "source": "docs_vision",
+      "target": "docs_vision_spirophonic_vision",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -34373,5 +36678,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8b88dc97eee8ee32772472480fd4a56b6512a4bc"
+  "built_at_commit": "80e1b5da55afbae385eb4040a0324154acdee626"
 }

@@ -59,6 +59,7 @@ class ChoreographyState:
     trace_time: float = 0
     rotation_time: float = 0
     role_visibility: dict[str, float] = field(default_factory=dict)
+    previous_section_id: str | None = None
 
 
 _DEFAULT_STYLE = SectionStyle(
@@ -408,4 +409,5 @@ def choreography_at(
             value="rotation",
         ),
         role_visibility=_role_visibility(previous, current, transition_progress),
+        previous_section_id=sections[index - 1].id if index > 0 else None,
     )

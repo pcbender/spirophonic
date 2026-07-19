@@ -15,7 +15,8 @@ import numpy as np
 from numpy.typing import NDArray
 
 from spirophonic.analysis import AnalysisBundle, analyze_project
-from spirophonic.choreography import choreography_at
+from spirophonic.casting import resolve_section_composition
+from spirophonic.choreography import ChoreographyState, choreography_at
 from spirophonic.geometry import SpiroGeometry, generate_spiro_points
 from spirophonic.mappings import map_layer_state, sample_audio_visual_state
 from spirophonic.presets import (
@@ -26,6 +27,7 @@ from spirophonic.presets import (
 )
 from spirophonic.project import (
     AlignedLyrics,
+    CastingConfig,
     ProjectManifest,
     VisualLayerConfig,
     load_aligned_lyrics,
@@ -54,11 +56,19 @@ class LayerCurve:
 
 
 @dataclass(frozen=True, slots=True)
+class CurveComposition:
+    key: str
+    casting: CastingConfig
+    layers: tuple[LayerCurve, ...]
+
+
+@dataclass(frozen=True, slots=True)
 class RenderContext:
     project: ProjectManifest
     analysis: AnalysisBundle
     lyrics: AlignedLyrics
     layers: tuple[LayerCurve, ...]
+    section_compositions: dict[str, CurveComposition]
     font_path: Path
     root: Path
     mapping_preset: MappingPreset
@@ -136,7 +146,12 @@ def _phase_offset(seed: int, layer_id: str) -> float:
     return fraction * math.tau
 
 
-def _build_curve(layer: VisualLayerConfig, seed: int) -> LayerCurve:
+def _build_curve(
+    layer: VisualLayerConfig,
+    seed: int,
+    *,
+    namespace: str | None = None,
+) -> LayerCurve:
     geometry = layer.geometry
     generated = generate_spiro_points(
         SpiroGeometry(
@@ -156,7 +171,10 @@ def _build_curve(layer: VisualLayerConfig, seed: int) -> LayerCurve:
     return LayerCurve(
         config=layer,
         points=points,
-        phase_offset=_phase_offset(seed, layer.id),
+        phase_offset=_phase_offset(
+            seed,
+            f"{namespace}:{layer.id}" if namespace else layer.id,
+        ),
     )
 
 
@@ -175,6 +193,40 @@ def build_render_context(
     layers = tuple(
         _build_curve(layer, project.video.seed) for layer in project.visuals.layers
     )
+    composition_cache: dict[str, CurveComposition] = {}
+    section_compositions: dict[str, CurveComposition] = {}
+    for section in lyrics.sections:
+        resolved = resolve_section_composition(
+            project.visuals,
+            section.type,
+            section.id,
+            project.video.seed,
+        )
+        composition = composition_cache.get(resolved.key)
+        if composition is None:
+            seed = resolved.composition.casting.seed
+            if seed is None:
+                seed = project.video.seed
+            composition = CurveComposition(
+                key=resolved.key,
+                casting=resolved.composition.casting.model_copy(
+                    update={"seed": seed}
+                ),
+                layers=tuple(
+                    _build_curve(
+                        trace,
+                        seed,
+                        namespace=(
+                            None
+                            if resolved.key == "legacy:global-layers"
+                            else resolved.key
+                        ),
+                    )
+                    for trace in resolved.composition.traces
+                ),
+            )
+            composition_cache[resolved.key] = composition
+        section_compositions[section.id] = composition
     font_path = (root / project.text.font).resolve()
     try:
         validate_lyric_font(font_path, project.text.size)
@@ -185,6 +237,7 @@ def build_render_context(
         analysis=analysis,
         lyrics=lyrics,
         layers=layers,
+        section_compositions=section_compositions,
         font_path=font_path,
         root=root.resolve(),
         mapping_preset=get_mapping_preset(project.visuals.mapping_preset),
@@ -216,9 +269,7 @@ def load_render_context(
     analysis_run = analyze_project(manifest, progress=progress)
     notify("Preparing stable spirograph curves")
     alignment_warnings = (
-        tuple(lyrics.alignment.warnings)
-        if lyrics.alignment is not None
-        else ()
+        tuple(lyrics.alignment.warnings) if lyrics.alignment is not None else ()
     )
     warnings = tuple(dict.fromkeys((*analysis_run.warnings, *alignment_warnings)))
     return build_render_context(
@@ -317,10 +368,7 @@ def _layer_anchor(
     anchor_x += math.sin(time_seconds * 0.11 + phase) * anchor_drift * depth_response
     anchor_y = config.anchor_y
     anchor_y += (
-        math.cos(time_seconds * 0.09 + phase)
-        * anchor_drift
-        * 0.7
-        * depth_response
+        math.cos(time_seconds * 0.09 + phase) * anchor_drift * 0.7 * depth_response
     )
     return anchor_x, anchor_y
 
@@ -387,6 +435,25 @@ def _composite_trace(
     return np.rint(np.clip(output, 0, 1) * 255).astype(np.uint8)
 
 
+def _weighted_compositions(
+    context: RenderContext,
+    choreography: ChoreographyState,
+) -> tuple[tuple[CurveComposition, float], ...]:
+    current = context.section_compositions[choreography.section_id]
+    if (
+        choreography.previous_section_id is None
+        or choreography.transition_progress >= 1
+    ):
+        return ((current, 1.0),)
+    previous = context.section_compositions[choreography.previous_section_id]
+    if previous.key == current.key:
+        return ((current, 1.0),)
+    return (
+        (previous, 1 - choreography.transition_progress),
+        (current, choreography.transition_progress),
+    )
+
+
 def render_frame(
     context: RenderContext,
     time_seconds: float,
@@ -413,17 +480,28 @@ def render_frame(
         visuals=context.project.visuals,
     )
     frame = _background_frame(context, width, height, audio.master.energy)
-    indexed_layers = sorted(
-        enumerate(context.layers),
-        key=lambda item: item[1].config.depth == "foreground",
+    weighted_compositions = _weighted_compositions(context, choreography)
+    indexed_layers = [
+        (composition_index, layer_index, curve, weight)
+        for composition_index, (composition, weight) in enumerate(weighted_compositions)
+        for layer_index, curve in enumerate(composition.layers)
+        if weight > 0
+    ]
+    indexed_layers.sort(
+        key=lambda item: (
+            item[2].config.depth == "foreground",
+            item[0],
+            item[1],
+        )
     )
-    for layer_index, curve in indexed_layers:
+    for _, layer_index, curve, composition_weight in indexed_layers:
         state = map_layer_state(
             curve.config,
             audio,
             choreography,
             time_seconds,
             context.mapping_preset,
+            visibility_override=composition_weight,
         )
         trace = curve.config.trace
         anchor_x, anchor_y = _layer_anchor(

@@ -15,6 +15,7 @@ from spirophonic.cli import app
 from spirophonic.project import ProjectManifest
 from spirophonic.renderer import (
     SpirophonicRendererError,
+    _weighted_compositions,
     build_render_context,
     plan_frame_range,
     render_dimensions,
@@ -194,7 +195,69 @@ def test_renderer_is_deterministic_and_seeded() -> None:
     np.testing.assert_array_equal(first, second)
     assert not np.array_equal(first, another_seed)
     digest = hashlib.sha256(first.tobytes()).hexdigest()
+    assert digest == "b94401ba693f046413208be2422c661defc3723d11b963302147ae77d5b5e68d"
+
+
+def test_disabling_auto_casting_preserves_the_global_layer_renderer() -> None:
+    project = _project()
+    project = project.model_copy(
+        update={"visuals": project.visuals.model_copy(update={"auto_casting": False})}
+    )
+    context = build_render_context(
+        project,
+        _analysis_bundle(),
+        _aligned_sections(),
+        root=FONT_PATH.parent,
+    )
+
+    frame = render_frame(context, 4.5, 45, width=320, height=180)
+    digest = hashlib.sha256(frame.tobytes()).hexdigest()
+
     assert digest == "f2b468d6b4c36df4ee024f3f4cbfeb40e50c4a4a727605ab4387ba36a20c49e8"
+
+
+def test_render_context_builds_and_crossfades_distinct_section_casts() -> None:
+    context = _context()
+
+    assert [
+        layer.config.id for layer in context.section_compositions["verse"].layers
+    ] == ["verse-orbit", "verse-bloom"]
+    assert len(context.section_compositions["chorus"].layers) == 3
+    assert context.section_compositions["verse"].key != (
+        context.section_compositions["chorus"].key
+    )
+
+    boundary = choreography_at(
+        context.lyrics,
+        2,
+        transition_seconds=context.project.visuals.transition_seconds,
+        visuals=context.project.visuals,
+    )
+    midpoint = choreography_at(
+        context.lyrics,
+        2 + context.project.visuals.transition_seconds / 2,
+        transition_seconds=context.project.visuals.transition_seconds,
+        visuals=context.project.visuals,
+    )
+    settled = choreography_at(
+        context.lyrics,
+        2 + context.project.visuals.transition_seconds,
+        transition_seconds=context.project.visuals.transition_seconds,
+        visuals=context.project.visuals,
+    )
+
+    boundary_casts = _weighted_compositions(context, boundary)
+    midpoint_casts = _weighted_compositions(context, midpoint)
+    settled_casts = _weighted_compositions(context, settled)
+
+    assert [(cast.key, weight) for cast, weight in boundary_casts] == [
+        ("auto:verse", 1),
+        ("auto:chorus", 0),
+    ]
+    assert [weight for _, weight in midpoint_casts] == pytest.approx([0.5, 0.5])
+    assert [(cast.key, weight) for cast, weight in settled_casts] == [
+        ("auto:chorus", 1),
+    ]
 
 
 def test_active_section_uses_all_three_landscape_regions() -> None:

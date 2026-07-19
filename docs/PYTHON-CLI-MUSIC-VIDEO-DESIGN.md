@@ -163,6 +163,7 @@ visuals:
   transition_seconds: 0.65
   canvas_margin: 0.08
   lyric_fade_seconds: 0.25
+  auto_casting: true
   # Repeated section types share a fixed visual identity. Any omitted setting
   # inherits the built-in style for that type.
   section_styles:
@@ -189,6 +190,39 @@ visuals:
       spatial_spread: 1.16
       beat_gain: 1.55
       intensity_gain: 1.35
+  # A composition casts actual trace geometries for every occurrence of a type.
+  # Exact section ids may replace it through composition_overrides.
+  section_compositions:
+    bridge:
+      casting:
+        source: manual  # auto, ai, or manual
+        seed: 73
+        generator_version: 1
+      traces:
+        - id: bridge-hero-flower
+          role: vocals  # fallback palette and signal role
+          anchor_x: 0.39
+          anchor_y: 0.42
+          base_scale: 1.62
+          color: "#ff5fd2"
+          geometry:
+            fixed_radius: 252
+            moving_radius: 84
+            pen_offset: 194
+            rotation: inside
+            samples: 1800
+          trace:
+            cycles_per_second: 0.036
+            trail_fraction: 0.52
+            ghost_count: 2
+            ghost_spacing: 0.08
+            head_radius: 5
+          drivers:
+            scale: bass.energy
+            opacity: master.energy
+            color: vocals.energy
+            pulse: drums.accent
+  # Legacy/global fallback used when auto_casting is false and no cast matches.
   layers:
     - id: vocal-flower
       role: vocals
@@ -413,16 +447,20 @@ head; optional older windows create lower-opacity ghost traces. Background
 motion uses the same deterministic mechanism at a larger scale and lower
 opacity.
 
-The default widescreen composition contains three foreground systems:
+The renderer treats each lyric section as a scene with a cast of independent
+trace elements. A cast controls the number of traces, each trace's actual
+trochoid geometry, staging, scale, depth, color, and drawing behavior. The
+default auto-caster is deterministic from the video seed and section type:
+verses use a sparse two-trace arrangement, choruses use three broader forms,
+builds use four rising forms, instrumentals spread asymmetrically, and the
+bridge uses one oversized flower spilling beyond the frame. Repeated types reuse
+the same cast rather than receiving per-frame randomness.
 
-- bass on the left, large enough to crop against the frame edge
-- vocals above the center lyric-safe region
-- percussion on the right with a faster, shorter trace
-
-Section choreography may vary their spread and apply bounded anchor drift, but
-must not collapse them to a shared center. Verses remain sparse, choruses and
-instrumentals expand their spread, and the bridge pulls the systems inward
-before they separate again.
+Composition resolution is exact section-id override, section-type composition,
+deterministic auto-cast, then the legacy global `layers` fallback when
+`auto_casting` is disabled. Outgoing and incoming casts crossfade over
+`transition_seconds`; distinct geometries are not point-morphed into one
+another.
 
 Every lyric section resolves one fixed group of visual settings. Resolution
 starts with the built-in style for the section type, applies the matching
@@ -440,6 +478,17 @@ settings and role visibility crossfade over `transition_seconds`. Trace and
 rotation rates are integrated across section boundaries so their phase remains
 continuous and the drawing never jumps when a new style begins.
 
+Trace elements are independent from stem roles. Optional `drivers` bind scale,
+opacity, color, and pulse to any semantic `energy` or `accent` signal. The
+trace's `role` remains the fallback for omitted drivers and palette selection.
+This permits one bridge flower to use bass energy for scale, master energy for
+opacity, vocal energy for color, and drum accents for its pen-head pulse.
+
+Casting provenance is serialized as `source` (`auto`, `ai`, or `manual`),
+`seed`, and `generator_version`. A future visual editor or AI assistant must
+write this same composition contract, preserving reproducibility and allowing a
+generated cast to be edited manually without changing renderer architecture.
+
 Lyric typography uses one configured size for the entire full-resolution
 video. Drafts scale that size with output height. The renderer never shrinks or
 wraps a cue and draws no background rectangle. Before line alignment, font
@@ -449,11 +498,11 @@ word timestamps; the source lyrics document remains unchanged. Section ids,
 types, and labels are choreography metadata only and are never drawn into the
 video.
 
-Musical response has two deliberately legible channels. Detected percussion
-accents locally brighten the right-hand trace toward white, widen its stroke,
-and enlarge its pen head. Master intensity continuously controls the opacity
-and color intensity of the oversized background trace. These responses remain
-localized to avoid full-frame flashing.
+Musical response remains deliberately legible. A trace bound to percussion
+accent brightens toward white, widens its stroke, and enlarges its pen head;
+traces bound to master intensity continuously change opacity or color
+intensity. Cast-level driver assignments keep these responses localized and
+avoid indiscriminate full-frame flashing.
 
 ## Card and Audio Timeline
 
@@ -730,6 +779,9 @@ song remains constant-space even though its generated RGB stream is large.
 - Add section-aware spatial spread and bounded anchor drift
 - Add manifest-defined section-type identities and exact-section overrides with
   phase-continuous transitions
+- Replace the global repeated trace cast with distinct per-section compositions,
+  deterministic auto-casting, multi-signal trace drivers, and whole-cast
+  crossfades
 - Fix lyric typography at one size, remove the text box, and split oversized
   lines into sequential cues before alignment
 - Review short real-song excerpts before approving a full render
@@ -765,7 +817,8 @@ The architecture does not require these choices before production tuning:
 - Whether card overlay mode belongs in v1 or the next release
 - Whether local forced alignment is needed as a fallback to OpenAI Whisper
 - GPU acceleration for rendering or local audio models
-- A future UI or hosted rendering service
+- A future section-casting UI, AI-assisted cast generator, or hosted rendering
+  service
 
 These should be decided from rendered examples and measured constraints rather
 than from additional architecture work.

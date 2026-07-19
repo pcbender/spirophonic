@@ -103,38 +103,54 @@ visuals:
   palette_preset: aurora    # layer, aurora, ember, ocean, or monochrome
   # palette: ["#f7b267", "#f4845f", "#f27059"]
   transition_seconds: 0.65
+  auto_casting: true
   section_styles:
     verse:
-      visible_roles: [vocals, instruments]
       trace_speed: 0.82
       trail_length: 0.78
-      spatial_spread: 0.92
       beat_gain: 0.55
     chorus:
-      visible_roles: [bass, vocals, drums, instruments]
       trace_speed: 1.15
       trail_length: 1.18
-      spatial_spread: 1.08
       beat_gain: 1.4
   section_overrides:
     final_chorus:
       scale: 1.16
       intensity_gain: 1.35
+  section_compositions:
+    bridge:
+      casting: {source: manual, seed: 73, generator_version: 1}
+      traces:
+        - id: bridge-hero-flower
+          role: vocals
+          anchor_x: 0.39
+          anchor_y: 0.42
+          base_scale: 1.62
+          color: "#ff5fd2"
+          geometry:
+            fixed_radius: 252
+            moving_radius: 84
+            pen_offset: 194
+          drivers:
+            scale: bass.energy
+            opacity: master.energy
+            color: vocals.energy
+            pulse: drums.accent
 ```
 
-The default visual layout uses three horizontally distributed foreground
-systems plus one oversized, cropped background trace. Curves are cached, while
-moving pen heads, fading trails, section spread, and bounded anchor drift make
-the drawing evolve without changing its topology. Lyric overlays have no
-background rectangle, and structural section labels are never displayed.
-Percussion accents create a localized right-hand flash and pen-head bloom;
-master intensity controls the brightness and opacity of the oversized
-background trace. `section_styles` gives every occurrence of a section type the
-same fixed visual identity; `section_overrides` can specialize one exact lyric
-section id. Built-in style, section type, and section id settings are applied in
-that order, then the live audio responses animate within the resolved look.
-Transitions crossfade the settings and preserve continuous trace and rotation
-phase, so a section change does not jump the drawing.
+The deterministic auto-caster gives each section type a distinct composition:
+different trace count, spirograph geometry, staging, scale, and drawing
+behavior. Repeated section types reuse their cast. `section_compositions`
+replaces an auto-cast by type, while `composition_overrides` replaces one exact
+section id such as `final_chorus`. Set `auto_casting: false` to retain the global
+`layers` list as a compatibility fallback.
+
+Each trace can listen to different musical signals for scale, opacity, color,
+and pulse, so one bridge flower can respond to bass, master, vocals, and drums.
+`section_styles` and `section_overrides` provide composition-wide direction.
+Whole casts and their settings crossfade at section boundaries while trace and
+rotation phase remain continuous. Lyric overlays have no background rectangle,
+and structural section labels are never displayed.
 
 `--dry-run` performs the complete project, FFmpeg, font, and card preflight and
 prints the calculated timeline, frame count, raw-stream size, presets, and
@@ -210,6 +226,7 @@ The main areas are:
 - `src/spirophonic/analysis.py` - cached shared-timeline audio features
 - `src/spirophonic/alignment.py` - cached transcription and canonical line cues
 - `src/spirophonic/presets.py` - measured mapping and palette presets
+- `src/spirophonic/casting.py` - deterministic and manifest-defined section casts
 - `src/spirophonic/mappings.py` - semantic audio-to-visual controls
 - `src/spirophonic/choreography.py` - interpolated section presets
 - `src/spirophonic/text.py` - complete-line lyric cue and typography rendering
