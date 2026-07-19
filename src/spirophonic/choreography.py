@@ -13,6 +13,8 @@ class SectionStyle:
     rotation_direction: float = 1
     palette_shift: float = 0
     lyrics_opacity: float = 1
+    spatial_spread: float = 1
+    anchor_drift: float = 0.008
 
 
 @dataclass(frozen=True, slots=True)
@@ -30,16 +32,47 @@ class ChoreographyState:
     rotation_direction: float
     palette_shift: float
     lyrics_opacity: float
+    spatial_spread: float = 1
+    anchor_drift: float = 0.008
 
 
 _DEFAULT_STYLE = SectionStyle(0.74, 0.96, 0.9, 0.9, 0.9)
 _SECTION_STYLES = {
-    "verse": SectionStyle(0.58, 0.9, 0.72, 0.78, 0.72),
-    "chorus": SectionStyle(1, 1.08, 1.18, 1.16, 1.35),
-    "bridge": SectionStyle(0.82, 0.98, 0.92, 1.12, 1, -1, 0.16),
-    "instrumental": SectionStyle(1, 1.04, 1.12, 1.05, 1.18, 1, 0.06, 0),
-    "intro": SectionStyle(0.48, 0.86, 0.62, 0.72, 0.62),
-    "outro": SectionStyle(0.68, 0.92, 0.7, 0.82, 0.7),
+    "verse": SectionStyle(
+        0.58, 0.9, 0.72, 0.78, 0.72, spatial_spread=0.92, anchor_drift=0.006
+    ),
+    "chorus": SectionStyle(
+        1, 1.08, 1.18, 1.16, 1.35, spatial_spread=1.08, anchor_drift=0.014
+    ),
+    "bridge": SectionStyle(
+        0.82,
+        0.98,
+        0.92,
+        1.12,
+        1,
+        -1,
+        0.16,
+        spatial_spread=0.8,
+        anchor_drift=0.022,
+    ),
+    "instrumental": SectionStyle(
+        1,
+        1.04,
+        1.12,
+        1.05,
+        1.18,
+        1,
+        0.06,
+        0,
+        spatial_spread=1.12,
+        anchor_drift=0.018,
+    ),
+    "intro": SectionStyle(
+        0.48, 0.86, 0.62, 0.72, 0.62, spatial_spread=0.76, anchor_drift=0.004
+    ),
+    "outro": SectionStyle(
+        0.68, 0.92, 0.7, 0.82, 0.7, spatial_spread=0.88, anchor_drift=0.005
+    ),
 }
 
 
@@ -79,6 +112,8 @@ def _interpolate_style(
         ),
         palette_shift=blend(previous.palette_shift, current.palette_shift),
         lyrics_opacity=blend(previous.lyrics_opacity, current.lyrics_opacity),
+        spatial_spread=blend(previous.spatial_spread, current.spatial_spread),
+        anchor_drift=blend(previous.anchor_drift, current.anchor_drift),
     )
 
 
@@ -128,4 +163,6 @@ def choreography_at(
         rotation_direction=current_style.rotation_direction,
         palette_shift=current_style.palette_shift,
         lyrics_opacity=current_style.lyrics_opacity,
+        spatial_spread=current_style.spatial_spread,
+        anchor_drift=current_style.anchor_drift,
     )

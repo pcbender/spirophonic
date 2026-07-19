@@ -2,15 +2,16 @@
 
 Spirophonic is a WSL2-first Python command-line renderer for deterministic lyric
 music videos. Master audio, aligned stems, structured lyrics, and cyclic
-relationships drive co-centered spirograph animation on an offline render
-timeline.
+relationships drive distributed, actively traced spirograph animation on an
+offline render timeline.
 
 ## Product Direction
 
 The supplied master is always the sole output audio program. Individual stems
-exist only for analysis and visual control. Complete lyric lines will be aligned
-through an editable artifact and rendered over deterministic frames before
-native FFmpeg encoding and ffprobe verification.
+exist only for analysis and visual control. Lyrics use one fixed display size;
+oversized source lines are split into sequential aligned cues rather than
+wrapped or shrunk. Deterministic frames are streamed to native FFmpeg and
+independently checked with ffprobe.
 
 See [Python CLI Music-Video Renderer Design](docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md)
 for the approved product contract, architecture, environment, and transition
@@ -102,6 +103,15 @@ visuals:
   palette_preset: aurora    # layer, aurora, ember, ocean, or monochrome
   # palette: ["#f7b267", "#f4845f", "#f27059"]
 ```
+
+The default visual layout uses three horizontally distributed foreground
+systems plus one oversized, cropped background trace. Curves are cached, while
+moving pen heads, fading trails, section spread, and bounded anchor drift make
+the drawing evolve without changing its topology. Lyric overlays have no
+background rectangle, and structural section labels are never displayed.
+Percussion accents create a localized right-hand flash and pen-head bloom;
+master intensity controls the brightness and opacity of the oversized
+background trace.
 
 `--dry-run` performs the complete project, FFmpeg, font, and card preflight and
 prints the calculated timeline, frame count, raw-stream size, presets, and

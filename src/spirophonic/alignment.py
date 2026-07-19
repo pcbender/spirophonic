@@ -26,6 +26,7 @@ from spirophonic.project import (
     load_project_manifest,
     validate_project,
 )
+from spirophonic.text import SpirophonicTextError, segment_lyrics_for_display
 
 ALIGNMENT_ALGORITHM_VERSION = 1
 TRANSCRIPTION_ADAPTER_VERSION = 2
@@ -956,11 +957,21 @@ def align_project(
         client=client,
     )
 
+    notify("Splitting oversized lyric lines into sequential display cues")
+    try:
+        display_lyrics, segmentation_warnings = segment_lyrics_for_display(
+            report.lyrics,
+            font_path=(manifest.parent / project.text.font).resolve(),
+            config=project.text,
+            video_width=project.video.width,
+        )
+    except SpirophonicTextError as exc:
+        raise SpirophonicAlignmentError(str(exc)) from exc
     notify("Matching canonical lyric lines")
     vocal_timeline = analysis_run.bundle.tracks["vocals"]
     frame_seconds = analysis_run.bundle.hop_length / analysis_run.bundle.sample_rate
     aligned_without_metadata, alignment_warnings = align_lyrics_document(
-        report.lyrics,
+        display_lyrics,
         transcription,
         source=project.lyrics.source,
         duration=analysis_run.bundle.duration,
@@ -968,7 +979,11 @@ def align_project(
         vocal_timeline=vocal_timeline,
         frame_seconds=frame_seconds,
     )
-    warnings = (*transcription.warnings, *alignment_warnings)
+    warnings = (
+        *transcription.warnings,
+        *segmentation_warnings,
+        *alignment_warnings,
+    )
     metadata = AlignmentMetadata(
         model=project.alignment.model,
         transcription_cache_key=transcription.cache_key,

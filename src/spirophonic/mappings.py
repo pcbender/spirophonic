@@ -30,10 +30,12 @@ class AudioVisualState:
 class LayerFrameState:
     scale: float
     rotation_radians: float
+    trail_fraction: float
     opacity: float
     line_width: float
     hue_shift_degrees: float
     color_intensity: float
+    beat_pulse: float
 
 
 _ROLE_SCALE_RESPONSE = {
@@ -107,6 +109,10 @@ def map_layer_state(
     )
     energy_opacity = 0.58 + 0.42 * max(role.energy, role.accent * 0.75)
     opacity = layer.opacity * visibility * energy_opacity * preset.opacity_response
+    intensity_energy = role.energy
+    if layer.depth == "background":
+        intensity_energy = audio.master.energy
+        opacity *= 0.35 + 1.1 * intensity_energy
 
     accent = max(role.accent, audio.drums.accent * 0.35)
     line_width = layer.line_width * (
@@ -126,17 +132,36 @@ def map_layer_state(
     )
     rotation += math.sin(time_seconds * 0.37 + role.energy * math.pi) * 0.08
 
+    trail_fraction = layer.trace.trail_fraction * (
+        0.82 + 0.18 * choreography.motion
+    ) * (0.9 + 0.1 * role.energy * role_gain)
+
     hue_shift = (
         layer.hue_shift_degrees
         + choreography.palette_shift * 360
         + audio.vocals.energy * 18 * preset.hue_response
         + audio.spectral_centroid * 12 * preset.hue_response
     )
+    beat_pulse = 0.0
+    if layer.role == "drums":
+        beat_pulse = _clamp(
+            audio.drums.accent**1.35
+            * choreography.onset_response
+            * preset.onset_response
+        )
+        opacity *= 1 + beat_pulse * 0.35
+    energy_color_response = 0.55 + 0.75 * intensity_energy * role_gain
     return LayerFrameState(
         scale=scale,
         rotation_radians=rotation,
+        trail_fraction=_clamp(trail_fraction, 0.02, 1),
         opacity=_clamp(opacity),
         line_width=max(0.25, line_width),
         hue_shift_degrees=hue_shift,
-        color_intensity=_clamp(choreography.color_intensity, 0.2, 1.4),
+        color_intensity=_clamp(
+            choreography.color_intensity * energy_color_response,
+            0.2,
+            1.4,
+        ),
+        beat_pulse=beat_pulse,
     )

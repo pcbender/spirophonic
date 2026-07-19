@@ -194,7 +194,16 @@ def test_renderer_is_deterministic_and_seeded() -> None:
     np.testing.assert_array_equal(first, second)
     assert not np.array_equal(first, another_seed)
     digest = hashlib.sha256(first.tobytes()).hexdigest()
-    assert digest == "789b42b52274df4ac87ede67e9a1d61b90eecd7dd25ac5390ac9af704c2aec17"
+    assert digest == "0d0d950aef877cc58de19bb40b0699ae4d169dc70be769e65cfc1bbfca8dd31d"
+
+
+def test_active_section_uses_all_three_landscape_regions() -> None:
+    frame = render_frame(_context(), 4.5, 45, width=320, height=180)
+    background = frame[0, 0]
+    active = np.any(frame != background, axis=2)
+    thirds = np.array_split(active, 3, axis=1)
+
+    assert all(np.count_nonzero(third) > 40 for third in thirds)
 
 
 def test_draft_and_time_range_share_absolute_song_time() -> None:

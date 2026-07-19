@@ -1,4 +1,5 @@
 import json
+import shutil
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
@@ -29,6 +30,7 @@ from spirophonic.project import (
 )
 
 runner = CliRunner()
+FONT_PATH = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")
 
 
 class _FakeTranscriptions:
@@ -122,10 +124,13 @@ def _write_alignment_project(root: Path) -> Path:
         },
         "alignment": {"cache_dir": "build/test-alignment"},
     }
-    for relative in ("cards/opening.jpg", "cards/closing.jpg", "assets/font.ttf"):
+    for relative in ("cards/opening.jpg", "cards/closing.jpg"):
         path = root / relative
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(b"fixture")
+    font = root / "assets" / "font.ttf"
+    font.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(FONT_PATH, font)
     (root / "lyrics.yaml").write_text(
         yaml.safe_dump(
             {

@@ -5,6 +5,7 @@ import pytest
 import yaml
 
 from spirophonic.project import (
+    ProjectManifest,
     SpirophonicValidationError,
     load_aligned_lyrics,
     validate_project,
@@ -53,7 +54,6 @@ def _valid_project() -> dict[str, Any]:
             "size": 60,
             "position": "bottom",
             "active_color": "#ffffff",
-            "show_section_titles": True,
         },
     }
 
@@ -175,6 +175,26 @@ def test_unknown_artistic_preset_is_rejected(tmp_path: Path) -> None:
 
     with pytest.raises(SpirophonicValidationError, match="mapping_preset"):
         validate_project(manifest, require_tools=False, probe_media=False)
+
+
+def test_default_visual_layout_has_three_distributed_foreground_systems() -> None:
+    project = _valid_project()
+    manifest = ProjectManifest.model_validate(project)
+    foreground = [
+        layer for layer in manifest.visuals.layers if layer.depth == "foreground"
+    ]
+    background = [
+        layer for layer in manifest.visuals.layers if layer.depth == "background"
+    ]
+
+    assert len(foreground) == 3
+    assert [layer.role for layer in foreground] == ["bass", "vocals", "drums"]
+    anchors = [layer.anchor_x for layer in foreground]
+    assert anchors == sorted(anchors)
+    assert anchors[1] - anchors[0] >= 0.3
+    assert anchors[2] - anchors[1] >= 0.3
+    assert len(background) == 1
+    assert background[0].role == "instruments"
 
 
 def test_aligned_lyrics_reject_overlapping_lines(tmp_path: Path) -> None:

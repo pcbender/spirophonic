@@ -1,15 +1,17 @@
 # Spirophonic Python CLI Music-Video Renderer
 
-Status: design approved for implementation  
+Status: visual redesign approved for implementation
 Decision date: 2026-07-18
+Visual redesign date: 2026-07-19
 
 ## Purpose
 
 Spirophonic will pivot from the current browser instrument prototype to a
 headless Python command-line renderer for finished music videos. The renderer
 will turn a mastered song, aligned stems, structured lyrics, and opening and
-closing cards into a deterministic widescreen MP4 containing co-centered
-spirograph animation, line-level lyric text, and the master audio track.
+closing cards into a deterministic widescreen MP4 containing distributed,
+actively traced spirograph animation, line-level lyric text, and the master
+audio track.
 
 This is a continuation of the Spirophonic idea: cyclic relationships remain the
 source of shape, motion, and color. The music-video renderer changes the primary
@@ -27,8 +29,9 @@ workflow from interactive browser synthesis to offline, music-driven rendering.
   or `/mnt/d`, and keep only one authoritative working copy.
 - Use the supplied master audio as the only audio in the final video.
 - Use individual stems only for analysis and visual control.
-- Display complete lyric lines. Do not implement karaoke-style word placement
-  or word highlighting.
+- Display one fixed-size lyric cue at a time. Split source lines that do not fit
+  into sequential cues before alignment; do not wrap, shrink, or implement
+  karaoke-style word placement or highlighting.
 - Use OpenAI Whisper timestamps as alignment evidence, then map those timestamps
   onto the canonical structured lyrics and save an editable line-level artifact.
 - Render frames deterministically and pipe them directly to native FFmpeg.
@@ -41,7 +44,7 @@ The first usable renderer must:
 2. Align structured lyric lines to an isolated vocal stem or accept previously
    aligned lyrics.
 3. Analyze the master and named stems on a shared time axis.
-4. Render multiple co-centered spirograph layers whose motion and appearance
+4. Render distributed spirograph systems whose traced motion and appearance
    respond to the song and its sections.
 5. Render readable, timed lyric lines without word highlighting.
 6. Place opening and closing JPG cards on a defined output timeline.
@@ -146,12 +149,12 @@ encoding:
 text:
   font: assets/lyrics-font.ttf
   size: 60
+  maximum_width_fraction: 0.82
   position: bottom
   active_color: "#ffffff"
-  show_section_titles: true
 
-# Optional. Stable curve geometry is generated once; audio changes transforms
-# and style rather than the fixed/moving-radius topology.
+# Optional. Stable curve geometry is generated once; the renderer advances a
+# pen head through fading path windows rather than rotating a complete curve.
 visuals:
   mapping_preset: balanced
   palette_preset: layer
@@ -163,17 +166,26 @@ visuals:
   layers:
     - id: vocal-flower
       role: vocals
+      depth: foreground
+      anchor_x: 0.52
+      anchor_y: 0.34
       geometry:
         fixed_radius: 180
         moving_radius: 65
         pen_offset: 95
         rotation: inside
         samples: 900
+      trace:
+        cycles_per_second: 0.068
+        trail_fraction: 0.28
+        ghost_count: 1
+        ghost_spacing: 0.09
+        head_radius: 4
       color: "#ff5fd2"
-      base_scale: 0.57
+      base_scale: 0.48
       opacity: 0.82
       line_width: 2.4
-      rotation_degrees_per_second: 12
+      rotation_degrees_per_second: -1.25
       blend_mode: screen
 ```
 
@@ -334,10 +346,13 @@ from `src/core/trochoid.ts`. Golden fixtures must prove that TypeScript and
 Python generate equivalent points before the old prototype is removed from the
 working tree.
 
-All layers share a canvas center and scene coordinate system. Each layer has a
-base curve plus time-varying transform and style state. Keep fixed and moving
-radius relationships stable during normal animation because changing their
-rounded ratio changes curve closure and topology. Prefer modulation of:
+All layers share a normalized scene coordinate system, but each layer has its
+own configurable anchor. Foreground defaults form three horizontally
+distributed systems, while the instruments layer is an oversized, cropped
+background trace. Each layer has a base curve plus time-varying transform and
+style state. Keep fixed and moving radius relationships stable during normal
+animation because changing their rounded ratio changes curve closure and
+topology. Prefer modulation of:
 
 - scale
 - rotation and phase
@@ -362,6 +377,41 @@ render_frame(project, analysis, time_seconds, frame_index) -> numpy.ndarray
 ```
 
 Time comes from `frame_index / fps`, never from wall-clock time.
+
+### Visual Redesign Contract
+
+The renderer must show a spirograph being drawn, not a completed ornament being
+rotated. Each frame therefore selects a deterministic tail-to-head window from
+the cached closed curve. The active window has a fading tail and luminous pen
+head; optional older windows create lower-opacity ghost traces. Background
+motion uses the same deterministic mechanism at a larger scale and lower
+opacity.
+
+The default widescreen composition contains three foreground systems:
+
+- bass on the left, large enough to crop against the frame edge
+- vocals above the center lyric-safe region
+- percussion on the right with a faster, shorter trace
+
+Section choreography may vary their spread and apply bounded anchor drift, but
+must not collapse them to a shared center. Verses remain sparse, choruses and
+instrumentals expand their spread, and the bridge pulls the systems inward
+before they separate again.
+
+Lyric typography uses one configured size for the entire full-resolution
+video. Drafts scale that size with output height. The renderer never shrinks or
+wraps a cue and draws no background rectangle. Before line alignment, font
+metrics split any oversized canonical source line at punctuation or a natural
+phrase boundary. Each fragment becomes a sequential aligned cue using Whisper
+word timestamps; the source lyrics document remains unchanged. Section ids,
+types, and labels are choreography metadata only and are never drawn into the
+video.
+
+Musical response has two deliberately legible channels. Detected percussion
+accents locally brighten the right-hand trace toward white, widen its stroke,
+and enlarge its pen head. Master intensity continuously controls the opacity
+and color intensity of the oversized background trace. These responses remain
+localized to avoid full-frame flashing.
 
 ## Card and Audio Timeline
 
@@ -629,6 +679,17 @@ song remains constant-space even though its generated RGB stream is large.
 - Mapping and palette presets
 - Long-song and unusual-input tests
 
+### Phase 7: Visual redesign
+
+- Replace complete closed polylines with deterministic pen heads and fading
+  trace windows
+- Distribute three foreground systems horizontally and add an oversized
+  background trace
+- Add section-aware spatial spread and bounded anchor drift
+- Fix lyric typography at one size, remove the text box, and split oversized
+  lines into sequential cues before alignment
+- Review short real-song excerpts before approving a full render
+
 ## MVP Acceptance Criteria
 
 The first version is complete when a user can provide:
@@ -644,8 +705,8 @@ and run one command that produces a verified 1920x1080 MP4 with:
 
 - the complete master audio exactly once
 - silence-backed opening and closing cards
-- deterministic co-centered spirograph animation responsive to the stems
-- correctly ordered and acceptably timed complete lyric lines
+- deterministic distributed spirograph traces responsive to the stems
+- correctly ordered, uniformly sized, acceptably timed lyric cues
 - section-aware visual changes
 - no temporary frame sequence left behind
 - a render manifest sufficient to reproduce and audit the result
@@ -656,8 +717,7 @@ The architecture does not require these choices before production tuning:
 
 - Further calibration of the default palettes and artistic presets against
   production songs
-- Exact number of spirograph layers
-- Default lyric font, size, and safe-area placement
+- Further production calibration of foreground anchors and trail lengths
 - Whether card overlay mode belongs in v1 or the next release
 - Whether local forced alignment is needed as a fallback to OpenAI Whisper
 - GPU acceleration for rendering or local audio models

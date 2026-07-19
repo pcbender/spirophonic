@@ -10,7 +10,12 @@ from spirophonic.analysis import (
     SemanticControl,
 )
 from spirophonic.choreography import ChoreographyState, choreography_at
-from spirophonic.mappings import map_layer_state, sample_audio_visual_state
+from spirophonic.mappings import (
+    AudioVisualState,
+    SemanticSample,
+    map_layer_state,
+    sample_audio_visual_state,
+)
 from spirophonic.project import (
     AlignedLyricLine,
     AlignedLyrics,
@@ -174,8 +179,10 @@ def test_semantic_mapping_keeps_geometry_stable_and_modulates_style() -> None:
         palette_shift=0,
         lyrics_opacity=1,
     )
-    bass_layer = project.visuals.layers[0]
-    drums_layer = project.visuals.layers[-1]
+    bass_layer = next(layer for layer in project.visuals.layers if layer.role == "bass")
+    drums_layer = next(
+        layer for layer in project.visuals.layers if layer.role == "drums"
+    )
 
     bass = map_layer_state(bass_layer, audio, chorus, 1)
     drums = map_layer_state(drums_layer, audio, chorus, 1)
@@ -185,3 +192,62 @@ def test_semantic_mapping_keeps_geometry_stable_and_modulates_style() -> None:
     assert drums.line_width > drums_layer.line_width * 2
     assert drums.opacity > 0
     assert drums.hue_shift_degrees > drums_layer.hue_shift_degrees
+
+
+def test_sections_change_landscape_spread_without_collapsing_anchors() -> None:
+    lyrics = _aligned_sections()
+    verse = choreography_at(lyrics, 1, transition_seconds=0)
+    chorus = choreography_at(lyrics, 2.5, transition_seconds=0)
+    instrumental = choreography_at(lyrics, 4.5, transition_seconds=0)
+
+    assert chorus.spatial_spread > verse.spatial_spread
+    assert instrumental.spatial_spread >= chorus.spatial_spread
+    assert verse.spatial_spread > 0
+
+
+def test_percussion_flash_and_background_intensity_have_distinct_controls() -> None:
+    project = ProjectManifest.model_validate(
+        {
+            "version": 1,
+            "title": "Mapping Fixture",
+            "audio": {"master": "master.wav"},
+            "lyrics": {"source": "lyrics.yaml", "language": "en"},
+            "cards": {
+                "opening": {"file": "open.jpg", "duration": 1},
+                "closing": {"file": "close.jpg", "duration": 1},
+            },
+            "text": {"font": "font.ttf"},
+        }
+    )
+    choreography = choreography_at(_aligned_sections(), 4.5, transition_seconds=0)
+    quiet = AudioVisualState(
+        master=SemanticSample(0.1, 0),
+        drums=SemanticSample(0.2, 0.05),
+        bass=SemanticSample(0.2, 0),
+        vocals=SemanticSample(0.2, 0),
+        instruments=SemanticSample(0.2, 0),
+        spectral_centroid=0.3,
+    )
+    strong = AudioVisualState(
+        master=SemanticSample(0.95, 0),
+        drums=SemanticSample(0.8, 1),
+        bass=SemanticSample(0.6, 0),
+        vocals=SemanticSample(0.6, 0),
+        instruments=SemanticSample(0.6, 0),
+        spectral_centroid=0.6,
+    )
+    background = next(
+        layer for layer in project.visuals.layers if layer.depth == "background"
+    )
+    drums = next(layer for layer in project.visuals.layers if layer.role == "drums")
+
+    quiet_background = map_layer_state(background, quiet, choreography, 1)
+    strong_background = map_layer_state(background, strong, choreography, 1)
+    quiet_drums = map_layer_state(drums, quiet, choreography, 1)
+    strong_drums = map_layer_state(drums, strong, choreography, 1)
+
+    assert strong_background.opacity > quiet_background.opacity
+    assert strong_background.color_intensity > quiet_background.color_intensity
+    assert strong_drums.beat_pulse > 0.9
+    assert quiet_drums.beat_pulse < 0.1
+    assert quiet_background.beat_pulse == 0
