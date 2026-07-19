@@ -205,6 +205,126 @@ def test_sections_change_landscape_spread_without_collapsing_anchors() -> None:
     assert verse.spatial_spread > 0
 
 
+def test_manifest_section_type_and_id_settings_resolve_in_precedence_order() -> None:
+    project = ProjectManifest.model_validate(
+        {
+            "version": 1,
+            "title": "Section Style Fixture",
+            "audio": {"master": "master.wav"},
+            "lyrics": {"source": "lyrics.yaml", "language": "en"},
+            "cards": {
+                "opening": {"file": "open.jpg", "duration": 1},
+                "closing": {"file": "close.jpg", "duration": 1},
+            },
+            "text": {"font": "font.ttf"},
+            "visuals": {
+                "section_styles": {
+                    "verse": {
+                        "scale": 1.05,
+                        "trace_speed": 0.5,
+                        "beat_gain": 0.25,
+                        "visible_roles": ["bass"],
+                    }
+                },
+                "section_overrides": {
+                    "verse": {"scale": 1.25, "trail_length": 1.4}
+                },
+            },
+        }
+    )
+
+    state = choreography_at(
+        _aligned_sections(),
+        1,
+        transition_seconds=0,
+        visuals=project.visuals,
+    )
+
+    assert state.scale == 1.25
+    assert state.trace_speed == 0.5
+    assert state.trail_length == 1.4
+    assert state.beat_gain == 0.25
+    assert state.role_visibility["bass"] == 1
+    assert state.role_visibility["vocals"] == 0
+
+
+def test_section_transition_interpolates_without_trace_or_rotation_jump() -> None:
+    project = ProjectManifest.model_validate(
+        {
+            "version": 1,
+            "title": "Section Transition Fixture",
+            "audio": {"master": "master.wav"},
+            "lyrics": {"source": "lyrics.yaml", "language": "en"},
+            "cards": {
+                "opening": {"file": "open.jpg", "duration": 1},
+                "closing": {"file": "close.jpg", "duration": 1},
+            },
+            "text": {"font": "font.ttf"},
+            "visuals": {
+                "section_styles": {
+                    "verse": {"trace_speed": 0.5, "motion": 0.4},
+                    "chorus": {
+                        "scale": 1.5,
+                        "trace_speed": 1.8,
+                        "motion": 1.6,
+                    },
+                }
+            },
+        }
+    )
+    lyrics = _aligned_sections()
+    before = choreography_at(
+        lyrics,
+        1.999,
+        transition_seconds=0.5,
+        visuals=project.visuals,
+    )
+    boundary = choreography_at(
+        lyrics,
+        2,
+        transition_seconds=0.5,
+        visuals=project.visuals,
+    )
+    after = choreography_at(
+        lyrics,
+        2.001,
+        transition_seconds=0.5,
+        visuals=project.visuals,
+    )
+    midpoint = choreography_at(
+        lyrics,
+        2.25,
+        transition_seconds=0.5,
+        visuals=project.visuals,
+    )
+
+    assert boundary.scale == pytest.approx(before.scale, abs=0.01)
+    assert 1.05 < midpoint.scale < 1.5
+    assert 0 < boundary.trace_time - before.trace_time < 0.01
+    assert 0 < after.trace_time - boundary.trace_time < 0.01
+    assert abs(after.rotation_time - boundary.rotation_time) < 0.01
+
+
+def test_trace_and_rotation_continue_through_unlabeled_section_gaps() -> None:
+    lyrics = _aligned_sections().model_copy(deep=True)
+    lyrics.sections[1].start = 3
+    lyrics.sections[1].end = 5
+    lyrics.sections[1].lines[0].start = 3.2
+    lyrics.sections[1].lines[0].end = 4.8
+    lyrics.sections[2].start = 5
+    lyrics.sections[2].end = 7
+
+    section_end = choreography_at(lyrics, 2, transition_seconds=0.5)
+    gap_middle = choreography_at(lyrics, 2.5, transition_seconds=0.5)
+    next_start = choreography_at(lyrics, 3, transition_seconds=0.5)
+
+    assert gap_middle.section_id == "verse"
+    assert gap_middle.trace_time > section_end.trace_time
+    assert next_start.trace_time > gap_middle.trace_time
+    assert gap_middle.rotation_time > section_end.rotation_time
+    assert next_start.rotation_time > gap_middle.rotation_time
+
+
 def test_percussion_flash_and_background_intensity_have_distinct_controls() -> None:
     project = ProjectManifest.model_validate(
         {

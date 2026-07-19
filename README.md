@@ -102,6 +102,24 @@ visuals:
   mapping_preset: balanced  # balanced, restrained, kinetic, or vocal-focus
   palette_preset: aurora    # layer, aurora, ember, ocean, or monochrome
   # palette: ["#f7b267", "#f4845f", "#f27059"]
+  transition_seconds: 0.65
+  section_styles:
+    verse:
+      visible_roles: [vocals, instruments]
+      trace_speed: 0.82
+      trail_length: 0.78
+      spatial_spread: 0.92
+      beat_gain: 0.55
+    chorus:
+      visible_roles: [bass, vocals, drums, instruments]
+      trace_speed: 1.15
+      trail_length: 1.18
+      spatial_spread: 1.08
+      beat_gain: 1.4
+  section_overrides:
+    final_chorus:
+      scale: 1.16
+      intensity_gain: 1.35
 ```
 
 The default visual layout uses three horizontally distributed foreground
@@ -111,7 +129,12 @@ the drawing evolve without changing its topology. Lyric overlays have no
 background rectangle, and structural section labels are never displayed.
 Percussion accents create a localized right-hand flash and pen-head bloom;
 master intensity controls the brightness and opacity of the oversized
-background trace.
+background trace. `section_styles` gives every occurrence of a section type the
+same fixed visual identity; `section_overrides` can specialize one exact lyric
+section id. Built-in style, section type, and section id settings are applied in
+that order, then the live audio responses animate within the resolved look.
+Transitions crossfade the settings and preserve continuous trace and rotation
+phase, so a section change does not jump the drawing.
 
 `--dry-run` performs the complete project, FFmpeg, font, and card preflight and
 prints the calculated timeline, frame count, raw-stream size, presets, and

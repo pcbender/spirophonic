@@ -410,6 +410,7 @@ def render_frame(
         context.lyrics,
         time_seconds,
         transition_seconds=context.project.visuals.transition_seconds,
+        visuals=context.project.visuals,
     )
     frame = _background_frame(context, width, height, audio.master.energy)
     indexed_layers = sorted(
@@ -432,7 +433,7 @@ def render_frame(
             anchor_drift=choreography.anchor_drift,
         )
         progress = trace_progress(
-            time_seconds,
+            choreography.trace_time,
             trace.cycles_per_second,
             phase=curve.phase_offset / math.tau,
         )

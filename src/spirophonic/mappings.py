@@ -102,17 +102,29 @@ def map_layer_state(
         1 + scale_response * role.energy * role_gain
     )
 
-    visibility_threshold = _ROLE_VISIBILITY_THRESHOLD[layer.role]
-    visibility_threshold -= preset.visibility_bias
-    visibility = _clamp(
-        (choreography.layer_fraction - visibility_threshold) / 0.18
-    )
+    if choreography.role_visibility:
+        visibility_threshold = _ROLE_VISIBILITY_THRESHOLD[layer.role]
+        visibility_threshold -= preset.visibility_bias
+        layer_visibility = _clamp(
+            (choreography.layer_fraction - visibility_threshold) / 0.18
+        )
+        visibility = (
+            choreography.role_visibility.get(layer.role, 0) * layer_visibility
+        )
+    else:
+        visibility_threshold = _ROLE_VISIBILITY_THRESHOLD[layer.role]
+        visibility_threshold -= preset.visibility_bias
+        visibility = _clamp(
+            (choreography.layer_fraction - visibility_threshold) / 0.18
+        )
     energy_opacity = 0.58 + 0.42 * max(role.energy, role.accent * 0.75)
     opacity = layer.opacity * visibility * energy_opacity * preset.opacity_response
     intensity_energy = role.energy
     if layer.depth == "background":
         intensity_energy = audio.master.energy
-        opacity *= 0.35 + 1.1 * intensity_energy
+        opacity *= 0.35 + 1.1 * _clamp(
+            intensity_energy * choreography.intensity_gain
+        )
 
     accent = max(role.accent, audio.drums.accent * 0.35)
     line_width = layer.line_width * (
@@ -123,18 +135,13 @@ def map_layer_state(
         * role_gain
         * 1.4
     )
-    rotation = math.radians(layer.rotation_degrees_per_second) * time_seconds
-    rotation *= (
-        choreography.motion
-        * choreography.rotation_direction
-        * preset.motion_response
-        * role_gain
-    )
+    rotation = math.radians(layer.rotation_degrees_per_second)
+    rotation *= choreography.rotation_time * preset.motion_response * role_gain
     rotation += math.sin(time_seconds * 0.37 + role.energy * math.pi) * 0.08
 
     trail_fraction = layer.trace.trail_fraction * (
         0.82 + 0.18 * choreography.motion
-    ) * (0.9 + 0.1 * role.energy * role_gain)
+    ) * (0.9 + 0.1 * role.energy * role_gain) * choreography.trail_length
 
     hue_shift = (
         layer.hue_shift_degrees
@@ -148,9 +155,12 @@ def map_layer_state(
             audio.drums.accent**1.35
             * choreography.onset_response
             * preset.onset_response
+            * choreography.beat_gain
         )
         opacity *= 1 + beat_pulse * 0.35
-    energy_color_response = 0.55 + 0.75 * intensity_energy * role_gain
+    energy_color_response = 0.55 + 0.75 * _clamp(
+        intensity_energy * choreography.intensity_gain
+    ) * role_gain
     return LayerFrameState(
         scale=scale,
         rotation_radians=rotation,

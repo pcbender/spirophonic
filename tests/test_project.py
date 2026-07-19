@@ -3,6 +3,7 @@ from typing import Any
 
 import pytest
 import yaml
+from pydantic import ValidationError
 
 from spirophonic.project import (
     ProjectManifest,
@@ -195,6 +196,48 @@ def test_default_visual_layout_has_three_distributed_foreground_systems() -> Non
     assert anchors[2] - anchors[1] >= 0.3
     assert len(background) == 1
     assert background[0].role == "instruments"
+
+
+def test_section_visual_settings_are_validated() -> None:
+    project = _valid_project()
+    project["visuals"] = {
+        "section_styles": {
+            "verse": {
+                "visible_roles": ["vocals", "instruments"],
+                "scale": 0.9,
+                "trace_speed": 0.8,
+                "trail_length": 0.7,
+                "beat_gain": 0.5,
+                "intensity_gain": 0.8,
+            }
+        },
+        "section_overrides": {"final_chorus": {"beat_gain": 1.7}},
+    }
+
+    manifest = ProjectManifest.model_validate(project)
+
+    assert manifest.visuals.section_styles["verse"].trace_speed == 0.8
+    assert manifest.visuals.section_overrides["final_chorus"].beat_gain == 1.7
+
+
+def test_section_visual_settings_reject_ambiguous_or_duplicate_roles() -> None:
+    project = _valid_project()
+    project["visuals"] = {
+        "section_styles": {
+            "Verse": {"visible_roles": ["vocals"]},
+            "verse": {"visible_roles": ["vocals"]},
+        }
+    }
+    with pytest.raises(ValidationError, match="section style names"):
+        ProjectManifest.model_validate(project)
+
+    project["visuals"] = {
+        "section_styles": {
+            "verse": {"visible_roles": ["vocals", "vocals"]},
+        }
+    }
+    with pytest.raises(ValidationError, match="visible_roles"):
+        ProjectManifest.model_validate(project)
 
 
 def test_aligned_lyrics_reject_overlapping_lines(tmp_path: Path) -> None:

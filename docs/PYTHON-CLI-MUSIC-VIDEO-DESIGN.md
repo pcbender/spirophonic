@@ -1,6 +1,6 @@
 # Spirophonic Python CLI Music-Video Renderer
 
-Status: visual redesign approved for implementation
+Status: visual redesign implemented with manifest-driven section identities
 Decision date: 2026-07-18
 Visual redesign date: 2026-07-19
 
@@ -163,6 +163,32 @@ visuals:
   transition_seconds: 0.65
   canvas_margin: 0.08
   lyric_fade_seconds: 0.25
+  # Repeated section types share a fixed visual identity. Any omitted setting
+  # inherits the built-in style for that type.
+  section_styles:
+    verse:
+      visible_roles: [vocals, instruments]
+      scale: 0.90
+      spatial_spread: 0.92
+      trace_speed: 0.82
+      trail_length: 0.78
+      beat_gain: 0.55
+      intensity_gain: 0.82
+    chorus:
+      visible_roles: [bass, vocals, drums, instruments]
+      scale: 1.08
+      spatial_spread: 1.08
+      trace_speed: 1.15
+      trail_length: 1.18
+      beat_gain: 1.40
+      intensity_gain: 1.20
+  # Exact aligned-lyrics section ids can specialize the type settings.
+  section_overrides:
+    final_chorus:
+      scale: 1.16
+      spatial_spread: 1.16
+      beat_gain: 1.55
+      intensity_gain: 1.35
   layers:
     - id: vocal-flower
       role: vocals
@@ -397,6 +423,22 @@ Section choreography may vary their spread and apply bounded anchor drift, but
 must not collapse them to a shared center. Verses remain sparse, choruses and
 instrumentals expand their spread, and the bridge pulls the systems inward
 before they separate again.
+
+Every lyric section resolves one fixed group of visual settings. Resolution
+starts with the built-in style for the section type, applies the matching
+`visuals.section_styles` entry, then applies an exact-id
+`visuals.section_overrides` entry. Repeated types such as `verse_1` and
+`verse_2` therefore share a visual language, while a section such as
+`final_chorus` can deliberately depart from the normal chorus. The configurable
+group includes visible roles, layer fraction, scale, motion, rotation direction,
+palette shift, color intensity, lyric opacity, spatial spread, anchor drift,
+trace speed, trail length, onset response, beat gain, and intensity gain.
+
+Audio analysis remains active inside that fixed identity: beat and intensity
+signals modulate the resolved gains instead of choosing a new look. Numeric
+settings and role visibility crossfade over `transition_seconds`. Trace and
+rotation rates are integrated across section boundaries so their phase remains
+continuous and the drawing never jumps when a new style begins.
 
 Lyric typography uses one configured size for the entire full-resolution
 video. Drafts scale that size with output height. The renderer never shrinks or
@@ -686,6 +728,8 @@ song remains constant-space even though its generated RGB stream is large.
 - Distribute three foreground systems horizontally and add an oversized
   background trace
 - Add section-aware spatial spread and bounded anchor drift
+- Add manifest-defined section-type identities and exact-section overrides with
+  phase-continuous transitions
 - Fix lyric typography at one size, remove the text box, and split oversized
   lines into sequential cues before alignment
 - Review short real-song excerpts before approving a full render

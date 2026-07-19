@@ -194,7 +194,7 @@ def test_renderer_is_deterministic_and_seeded() -> None:
     np.testing.assert_array_equal(first, second)
     assert not np.array_equal(first, another_seed)
     digest = hashlib.sha256(first.tobytes()).hexdigest()
-    assert digest == "0d0d950aef877cc58de19bb40b0699ae4d169dc70be769e65cfc1bbfca8dd31d"
+    assert digest == "f2b468d6b4c36df4ee024f3f4cbfeb40e50c4a4a727605ab4387ba36a20c49e8"
 
 
 def test_active_section_uses_all_three_landscape_regions() -> None:

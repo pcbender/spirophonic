@@ -18,6 +18,7 @@ from pydantic import (
 
 NonBlankText = Annotated[str, Field(min_length=1)]
 HexColor = Annotated[str, Field(pattern=r"^#[0-9a-fA-F]{6}$")]
+VisualRole = Literal["master", "drums", "bass", "vocals", "instruments"]
 
 
 class ContractModel(BaseModel):
@@ -169,9 +170,42 @@ class LayerTraceConfig(ContractModel):
     head_radius: float = Field(default=3, ge=0, le=24)
 
 
+class SectionVisualStyleConfig(ContractModel):
+    visible_roles: list[VisualRole] | None = Field(default=None, max_length=5)
+    layer_fraction: float | None = Field(default=None, ge=0, le=1)
+    scale: float | None = Field(default=None, ge=0.2, le=2)
+    motion: float | None = Field(default=None, ge=0, le=3)
+    color_intensity: float | None = Field(default=None, ge=0.2, le=2)
+    onset_response: float | None = Field(default=None, ge=0, le=3)
+    rotation_direction: float | None = Field(default=None, ge=-1, le=1)
+    palette_shift: float | None = Field(default=None, ge=-1, le=1)
+    lyrics_opacity: float | None = Field(default=None, ge=0, le=1)
+    spatial_spread: float | None = Field(default=None, ge=0.2, le=2)
+    anchor_drift: float | None = Field(default=None, ge=0, le=0.2)
+    trace_speed: float | None = Field(default=None, ge=0.1, le=3)
+    trail_length: float | None = Field(default=None, ge=0.1, le=3)
+    beat_gain: float | None = Field(default=None, ge=0, le=3)
+    intensity_gain: float | None = Field(default=None, ge=0, le=3)
+
+    @model_validator(mode="after")
+    def visible_roles_are_unique(self) -> "SectionVisualStyleConfig":
+        if self.visible_roles is not None:
+            duplicates = sorted(
+                {
+                    role
+                    for role in self.visible_roles
+                    if self.visible_roles.count(role) > 1
+                }
+            )
+            if duplicates:
+                joined = ", ".join(duplicates)
+                raise ValueError(f"visible_roles must be unique: {joined}")
+        return self
+
+
 class VisualLayerConfig(ContractModel):
     id: NonBlankText
-    role: Literal["master", "drums", "bass", "vocals", "instruments"]
+    role: VisualRole
     geometry: LayerGeometryConfig
     trace: LayerTraceConfig = Field(default_factory=LayerTraceConfig)
     color: HexColor
@@ -313,6 +347,12 @@ class VisualConfig(ContractModel):
     transition_seconds: float = Field(default=0.65, ge=0, le=10)
     background_response: float = Field(default=0.16, ge=0, le=1)
     lyric_fade_seconds: float = Field(default=0.25, ge=0, le=5)
+    section_styles: dict[NonBlankText, SectionVisualStyleConfig] = Field(
+        default_factory=dict
+    )
+    section_overrides: dict[NonBlankText, SectionVisualStyleConfig] = Field(
+        default_factory=dict
+    )
 
     @model_validator(mode="after")
     def layer_ids_are_unique(self) -> "VisualConfig":
@@ -323,6 +363,17 @@ class VisualConfig(ContractModel):
             raise ValueError(f"visual layer ids must be unique: {joined}")
         if not self.layers:
             raise ValueError("at least one visual layer is required")
+        normalized_types = [key.casefold() for key in self.section_styles]
+        type_duplicates = sorted(
+            {
+                key
+                for key in normalized_types
+                if normalized_types.count(key) > 1
+            }
+        )
+        if type_duplicates:
+            joined = ", ".join(type_duplicates)
+            raise ValueError(f"section style names must be unique: {joined}")
         return self
 
 
