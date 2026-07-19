@@ -363,6 +363,9 @@ After v0.1:
 - Pattern import from Strudel
 - Color palette systems
 - Multi-voice relationship layers
+- A section timeline where users cast, stage, and audition trace performers
+- Reproducible auto-generated and AI-assisted default casts that remain manually
+  editable
 - Recording/export of audio/video
 - Lingua Aeternum mode
 - Album/visualizer mode for PCBender/Lingua Aeternum works

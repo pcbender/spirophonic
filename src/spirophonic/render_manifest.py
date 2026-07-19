@@ -85,6 +85,16 @@ def build_render_manifest(
     recorded_command = list(command)
     if recorded_command:
         recorded_command[-1] = str(output_path)
+    casting_sections: dict[str, dict[str, Any]] = {}
+    for section in context.lyrics.sections:
+        composition = context.section_compositions[section.id]
+        casting_sections[section.id] = {
+            "key": composition.key,
+            "source": composition.casting.source,
+            "seed": composition.casting.seed,
+            "generator_version": composition.casting.generator_version,
+            "traces": [layer.config.id for layer in composition.layers],
+        }
     return {
         "version": RENDER_MANIFEST_VERSION,
         "project": {
@@ -121,6 +131,10 @@ def build_render_manifest(
             "mapping": context.project.visuals.mapping_preset,
             "palette": context.project.visuals.palette_preset,
             "custom_palette": list(context.project.visuals.palette),
+        },
+        "casting": {
+            "auto_enabled": context.project.visuals.auto_casting,
+            "sections": casting_sections,
         },
         "performance": performance,
         "output": {

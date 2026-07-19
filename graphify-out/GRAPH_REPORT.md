@@ -1,16 +1,16 @@
-# Graph Report - spirophonic  (2026-07-18)
+# Graph Report - spirophonic  (2026-07-19)
 
 ## Corpus Check
-- 72 files · ~32,435 words
+- 77 files · ~38,337 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 823 nodes · 2265 edges · 40 communities (35 shown, 5 thin omitted)
-- Extraction: 74% EXTRACTED · 26% INFERRED · 0% AMBIGUOUS · INFERRED: 581 edges (avg confidence: 0.5)
+- 910 nodes · 2644 edges · 45 communities (40 shown, 5 thin omitted)
+- Extraction: 72% EXTRACTED · 28% INFERRED · 0% AMBIGUOUS · INFERRED: 753 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `10a98c47`
+- Built from commit: `80e1b5da`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -51,40 +51,44 @@
 - [[_COMMUNITY_Community 36|Community 36]]
 - [[_COMMUNITY_Community 37|Community 37]]
 - [[_COMMUNITY_Community 38|Community 38]]
+- [[_COMMUNITY_Community 39|Community 39]]
+- [[_COMMUNITY_Community 40|Community 40]]
+- [[_COMMUNITY_Community 41|Community 41]]
 - [[_COMMUNITY_Community 42|Community 42]]
+- [[_COMMUNITY_Community 43|Community 43]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `RenderContext` - 54 edges
-2. `AlignedLyrics` - 51 edges
-3. `OutputTimeline` - 43 edges
-4. `ProjectManifest` - 41 edges
-5. `SpirophonicAlignmentError` - 34 edges
-6. `AnalysisBundle` - 31 edges
-7. `SpirophonicRendererError` - 29 edges
-8. `StructuredLyrics` - 28 edges
-9. `FeatureTimeline` - 27 edges
-10. `AlignmentConfig` - 27 edges
+1. `AlignedLyrics` - 57 edges
+2. `RenderContext` - 57 edges
+3. `ProjectManifest` - 46 edges
+4. `SpirophonicTextError` - 46 edges
+5. `OutputTimeline` - 43 edges
+6. `StructuredLyrics` - 38 edges
+7. `VisualLayerConfig` - 37 edges
+8. `SpirophonicAlignmentError` - 35 edges
+9. `AnalysisBundle` - 35 edges
+10. `ChoreographyState` - 34 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Path` --uses--> `SpirophonicCancelledError`  [INFERRED]
   tests/test_reliability.py → src/spirophonic/encoder.py
+- `AnalysisBundle` --uses--> `FeatureTimeline`  [INFERRED]
+  tests/test_choreography.py → src/spirophonic/analysis.py
 - `AlignedLyrics` --uses--> `SemanticControl`  [INFERRED]
   tests/test_choreography.py → src/spirophonic/analysis.py
 - `AnalysisBundle` --uses--> `SemanticControl`  [INFERRED]
   tests/test_choreography.py → src/spirophonic/analysis.py
 - `AlignedLyrics` --uses--> `AnalysisBundle`  [INFERRED]
   tests/test_choreography.py → src/spirophonic/analysis.py
-- `AnalysisBundle` --uses--> `AnalysisBundle`  [INFERRED]
-  tests/test_choreography.py → src/spirophonic/analysis.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (40 total, 5 thin omitted)
+## Communities (45 total, 5 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.10
-Nodes (77): AlignedLyricSection, AlignmentConfig, FeatureTimeline, align_lyrics_document(), align_project(), align_token_sequences(), AlignmentRun, _apply_energy_tails() (+69 more)
+Cohesion: 0.07
+Nodes (104): AlignedLyricSection, AlignmentConfig, FeatureTimeline, FreeTypeFont, ImageDraw, align_lyrics_document(), align_project(), align_token_sequences() (+96 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.07
@@ -99,8 +103,8 @@ Cohesion: 0.11
 Nodes (18): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, jsx, lib, module, moduleDetection, moduleResolution (+10 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.10
-Nodes (39): BaseModel, AudioConfig, CardsConfig, ContractModel, _declared_paths(), _default_visual_layers(), EncodingConfig, _format_model_errors() (+31 more)
+Cohesion: 0.07
+Nodes (69): BaseModel, Random, SectionCompositionConfig, _auto_traces(), _drivers(), generate_auto_composition(), _jitter(), resolve_section_composition() (+61 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.11
@@ -111,12 +115,12 @@ Cohesion: 0.06
 Nodes (35): dependencies, react, react-dom, devDependencies, eslint, @eslint/js, eslint-plugin-react-hooks, eslint-plugin-react-refresh (+27 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.06
-Nodes (34): Audio and Stem Analysis, Caching and Failure Behavior, Card and Audio Timeline, Decision Summary, Deferred Decisions, Geometry and Rendering, Goals, Golden and deterministic tests (+26 more)
+Cohesion: 0.05
+Nodes (36): Audio and Stem Analysis, Caching and Failure Behavior, Card and Audio Timeline, Decision Summary, Deferred Decisions, Geometry and Rendering, Goals, Golden and deterministic tests (+28 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.11
-Nodes (40): float32, float64, floating, _analysis_key(), AnalysisRun, analyze_project(), analyze_signal(), _band_energy() (+32 more)
+Nodes (40): float64, floating, _analysis_key(), AnalysisRun, analyze_project(), analyze_signal(), _band_energy(), _decode_audio() (+32 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.22
@@ -191,44 +195,60 @@ Cohesion: 0.27
 Nodes (12): _cycle_end(), _epitrochoid_point(), generate_spiro_points(), greatest_common_divisor(), _hypotrochoid_point(), _javascript_round(), Match JavaScript Math.round for finite values used by the prototype., Generate the same trochoid points as the archived TypeScript prototype. (+4 more)
 
 ### Community 33 - "Community 33"
-Cohesion: 0.08
-Nodes (64): Argument, CardConfig, dir_okay, Exception, help, Option, PreparedCards, resolve_path (+56 more)
+Cohesion: 0.18
+Nodes (27): Argument, dir_okay, Exception, help, Option, resolve_path, SpirophonicAnalysisError, align() (+19 more)
 
 ### Community 35 - "Community 35"
 Cohesion: 0.11
-Nodes (65): ChoreographyState, int32, MappingPreset, AnalysisBundle, ChoreographyState, SpiroGeometry, AudioVisualState, _clamp() (+57 more)
+Nodes (73): AudioSignal, int32, MappingPreset, AnalysisBundle, ChoreographyState, SpiroGeometry, AudioVisualState, _clamp() (+65 more)
 
 ### Community 36 - "Community 36"
-Cohesion: 0.09
-Nodes (49): OutputTimeline, diagnose_render(), plan_project_video(), Render, encode, verify, and atomically publish one MP4 plus manifest., render_project_video(), RenderDiagnostics, RenderPlan, RenderProfile (+41 more)
+Cohesion: 0.19
+Nodes (20): OutputTimeline, build_render_manifest(), _ffmpeg_version(), _hash_file(), _input_hashes(), SpirophonicManifestError, write_render_manifest(), RenderContext (+12 more)
 
 ### Community 38 - "Community 38"
-Cohesion: 0.23
-Nodes (16): FreeTypeFont, ImageDraw, TextConfig, _clamp01(), draw_lyric_overlay(), _load_fitted_font(), lyric_cue_at(), LyricCue (+8 more)
+Cohesion: 0.21
+Nodes (13): cyclic_trace_window(), Return a stable cyclic pen position derived only from song time., Select a tail-to-head window from a closed curve, including wraparound., trace_progress(), TraceWindow, float32, NDArray, _closed_square() (+5 more)
+
+### Community 39 - "Community 39"
+Cohesion: 0.21
+Nodes (22): PreparedCards, PreparedCards, build_ffmpeg_command(), _closing_card_frame(), encode_output(), EncodingResult, _frames_for_duration(), iter_output_frames() (+14 more)
+
+### Community 40 - "Community 40"
+Cohesion: 0.19
+Nodes (16): diagnose_render(), plan_project_video(), Render, encode, verify, and atomically publish one MP4 plus manifest., render_project_video(), RenderDiagnostics, RenderPlan, RenderProfile, RenderRun (+8 more)
+
+### Community 41 - "Community 41"
+Cohesion: 0.25
+Nodes (15): _aspect_ratio_matches(), default_render_manifest_path(), expectation_from_render_manifest(), _fraction(), _has_faststart(), _hash_file(), MediaMetadata, _metadata() (+7 more)
 
 ### Community 42 - "Community 42"
-Cohesion: 0.11
-Nodes (36): choreography_at(), _clamp01(), _interpolate_style(), Return an interpolated, section-aware visual preset at song time., SectionStyle, _smoothstep(), _style_for(), preset_catalog() (+28 more)
+Cohesion: 0.09
+Nodes (51): SectionVisualStyleConfig, choreography_at(), _clamp01(), _configured_style(), _integrated_style_value(), _interpolate_style(), Return an interpolated, manifest-configurable visual preset., _role_visibility() (+43 more)
+
+### Community 43 - "Community 43"
+Cohesion: 0.30
+Nodes (12): CardConfig, blend_frames(), _parse_hex_color(), prepare_cards(), Fit a still card to one RGB frame without changing its aspect ratio., render_card(), SpirophonicCardError, validate_card_image() (+4 more)
 
 ## Knowledge Gaps
-- **211 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+206 more)
+- **213 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+208 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `RenderContext` connect `Community 36` to `Community 0`, `Community 33`, `Community 35`?**
-  _High betweenness centrality (0.053) - this node is a cross-community bridge._
-- **Why does `AlignedLyrics` connect `Community 0` to `Community 35`, `Community 4`, `Community 36`, `Community 38`, `Community 42`?**
-  _High betweenness centrality (0.039) - this node is a cross-community bridge._
-- **Why does `ProjectManifest` connect `Community 35` to `Community 0`, `Community 33`, `Community 4`, `Community 36`, `Community 8`?**
-  _High betweenness centrality (0.022) - this node is a cross-community bridge._
-- **Are the 45 inferred relationships involving `RenderContext` (e.g. with `PreparedCards` and `EncodingResult`) actually correct?**
-  _`RenderContext` has 45 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 47 inferred relationships involving `AlignedLyrics` (e.g. with `AlignedLyricSection` and `AlignmentConfig`) actually correct?**
-  _`AlignedLyrics` has 47 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 28 inferred relationships involving `OutputTimeline` (e.g. with `PreparedCards` and `RenderContext`) actually correct?**
-  _`OutputTimeline` has 28 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 35 inferred relationships involving `ProjectManifest` (e.g. with `float32` and `float64`) actually correct?**
-  _`ProjectManifest` has 35 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `RenderContext` connect `Community 36` to `Community 0`, `Community 35`, `Community 39`, `Community 40`, `Community 41`?**
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
+- **Why does `AlignedLyrics` connect `Community 0` to `Community 42`, `Community 35`, `Community 4`, `Community 36`?**
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Why does `ProjectManifest` connect `Community 35` to `Community 0`, `Community 33`, `Community 4`, `Community 36`, `Community 8`, `Community 42`?**
+  _High betweenness centrality (0.025) - this node is a cross-community bridge._
+- **Are the 53 inferred relationships involving `AlignedLyrics` (e.g. with `AlignedLyricSection` and `AlignmentConfig`) actually correct?**
+  _`AlignedLyrics` has 53 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 47 inferred relationships involving `RenderContext` (e.g. with `PreparedCards` and `EncodingResult`) actually correct?**
+  _`RenderContext` has 47 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 40 inferred relationships involving `ProjectManifest` (e.g. with `float64` and `floating`) actually correct?**
+  _`ProjectManifest` has 40 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 40 inferred relationships involving `SpirophonicTextError` (e.g. with `AlignedLyricSection` and `AlignmentConfig`) actually correct?**
+  _`SpirophonicTextError` has 40 INFERRED edges - model-reasoned connections that need verification._

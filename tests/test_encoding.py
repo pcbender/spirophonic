@@ -292,6 +292,12 @@ def test_render_and_verify_cli_publish_master_only_timeline(tmp_path: Path) -> N
         "palette": "layer",
         "custom_palette": [],
     }
+    assert payload["casting"]["auto_enabled"] is True
+    assert payload["casting"]["sections"]["verse"]["source"] == "auto"
+    assert payload["casting"]["sections"]["verse"]["traces"] == [
+        "verse-orbit",
+        "verse-bloom",
+    ]
     assert payload["performance"]["frames_per_second"] > 0
     assert "audio.master" in payload["inputs"]
     assert "audio.vocals" in payload["inputs"]

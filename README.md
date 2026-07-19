@@ -2,15 +2,16 @@
 
 Spirophonic is a WSL2-first Python command-line renderer for deterministic lyric
 music videos. Master audio, aligned stems, structured lyrics, and cyclic
-relationships drive co-centered spirograph animation on an offline render
-timeline.
+relationships drive distributed, actively traced spirograph animation on an
+offline render timeline.
 
 ## Product Direction
 
 The supplied master is always the sole output audio program. Individual stems
-exist only for analysis and visual control. Complete lyric lines will be aligned
-through an editable artifact and rendered over deterministic frames before
-native FFmpeg encoding and ffprobe verification.
+exist only for analysis and visual control. Lyrics use one fixed display size;
+oversized source lines are split into sequential aligned cues rather than
+wrapped or shrunk. Deterministic frames are streamed to native FFmpeg and
+independently checked with ffprobe.
 
 See [Python CLI Music-Video Renderer Design](docs/PYTHON-CLI-MUSIC-VIDEO-DESIGN.md)
 for the approved product contract, architecture, environment, and transition
@@ -101,7 +102,55 @@ visuals:
   mapping_preset: balanced  # balanced, restrained, kinetic, or vocal-focus
   palette_preset: aurora    # layer, aurora, ember, ocean, or monochrome
   # palette: ["#f7b267", "#f4845f", "#f27059"]
+  transition_seconds: 0.65
+  auto_casting: true
+  section_styles:
+    verse:
+      trace_speed: 0.82
+      trail_length: 0.78
+      beat_gain: 0.55
+    chorus:
+      trace_speed: 1.15
+      trail_length: 1.18
+      beat_gain: 1.4
+  section_overrides:
+    final_chorus:
+      scale: 1.16
+      intensity_gain: 1.35
+  section_compositions:
+    bridge:
+      casting: {source: manual, seed: 73, generator_version: 1}
+      traces:
+        - id: bridge-hero-flower
+          role: vocals
+          anchor_x: 0.39
+          anchor_y: 0.42
+          base_scale: 1.62
+          color: "#ff5fd2"
+          geometry:
+            fixed_radius: 252
+            moving_radius: 84
+            pen_offset: 194
+          drivers:
+            scale: bass.energy
+            opacity: master.energy
+            color: vocals.energy
+            pulse: drums.accent
 ```
+
+The deterministic auto-caster gives each section type a distinct composition:
+different trace count, spirograph geometry, staging, scale, and drawing
+behavior. Repeated section types reuse their cast. `section_compositions`
+replaces an auto-cast by type, while `composition_overrides` replaces one exact
+section id such as `final_chorus`. Set `auto_casting: false` to retain the global
+`layers` list as a compatibility fallback.
+
+Each trace can listen to different musical signals for scale, opacity, color,
+and pulse, so one bridge flower can respond to bass, master, vocals, and drums.
+`section_styles` and `section_overrides` provide composition-wide direction.
+Whole casts and their settings crossfade at section boundaries while trace and
+rotation phase remain continuous. Lyric overlays have no background rectangle,
+and structural section labels are never displayed.
 
 `--dry-run` performs the complete project, FFmpeg, font, and card preflight and
 prints the calculated timeline, frame count, raw-stream size, presets, and
@@ -177,6 +226,7 @@ The main areas are:
 - `src/spirophonic/analysis.py` - cached shared-timeline audio features
 - `src/spirophonic/alignment.py` - cached transcription and canonical line cues
 - `src/spirophonic/presets.py` - measured mapping and palette presets
+- `src/spirophonic/casting.py` - deterministic and manifest-defined section casts
 - `src/spirophonic/mappings.py` - semantic audio-to-visual controls
 - `src/spirophonic/choreography.py` - interpolated section presets
 - `src/spirophonic/text.py` - complete-line lyric cue and typography rendering

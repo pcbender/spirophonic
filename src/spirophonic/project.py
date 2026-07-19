@@ -18,6 +18,19 @@ from pydantic import (
 
 NonBlankText = Annotated[str, Field(min_length=1)]
 HexColor = Annotated[str, Field(pattern=r"^#[0-9a-fA-F]{6}$")]
+VisualRole = Literal["master", "drums", "bass", "vocals", "instruments"]
+AudioSignal = Literal[
+    "master.energy",
+    "master.accent",
+    "drums.energy",
+    "drums.accent",
+    "bass.energy",
+    "bass.accent",
+    "vocals.energy",
+    "vocals.accent",
+    "instruments.energy",
+    "instruments.accent",
+]
 
 
 class ContractModel(BaseModel):
@@ -102,9 +115,9 @@ class EncodingConfig(ContractModel):
 class TextConfig(ContractModel):
     font: Path
     size: int = Field(default=60, gt=0)
+    maximum_width_fraction: float = Field(default=0.82, ge=0.2, le=0.95)
     position: Literal["top", "center", "bottom"] = "bottom"
     active_color: HexColor = "#ffffff"
-    show_section_titles: bool = True
 
 
 class AnalysisConfig(ContractModel):
@@ -161,21 +174,120 @@ class LayerGeometryConfig(ContractModel):
     samples: int = Field(default=900, ge=64, le=8192)
 
 
+class LayerTraceConfig(ContractModel):
+    cycles_per_second: float = Field(default=0.08, gt=0, le=2)
+    trail_fraction: float = Field(default=0.24, gt=0, le=1)
+    ghost_count: int = Field(default=1, ge=0, le=6)
+    ghost_spacing: float = Field(default=0.08, ge=0, le=1)
+    head_radius: float = Field(default=3, ge=0, le=24)
+
+
+class SectionVisualStyleConfig(ContractModel):
+    visible_roles: list[VisualRole] | None = Field(default=None, max_length=5)
+    layer_fraction: float | None = Field(default=None, ge=0, le=1)
+    scale: float | None = Field(default=None, ge=0.2, le=2)
+    motion: float | None = Field(default=None, ge=0, le=3)
+    color_intensity: float | None = Field(default=None, ge=0.2, le=2)
+    onset_response: float | None = Field(default=None, ge=0, le=3)
+    rotation_direction: float | None = Field(default=None, ge=-1, le=1)
+    palette_shift: float | None = Field(default=None, ge=-1, le=1)
+    lyrics_opacity: float | None = Field(default=None, ge=0, le=1)
+    spatial_spread: float | None = Field(default=None, ge=0.2, le=2)
+    anchor_drift: float | None = Field(default=None, ge=0, le=0.2)
+    trace_speed: float | None = Field(default=None, ge=0.1, le=3)
+    trail_length: float | None = Field(default=None, ge=0.1, le=3)
+    beat_gain: float | None = Field(default=None, ge=0, le=3)
+    intensity_gain: float | None = Field(default=None, ge=0, le=3)
+
+    @model_validator(mode="after")
+    def visible_roles_are_unique(self) -> "SectionVisualStyleConfig":
+        if self.visible_roles is not None:
+            duplicates = sorted(
+                {
+                    role
+                    for role in self.visible_roles
+                    if self.visible_roles.count(role) > 1
+                }
+            )
+            if duplicates:
+                joined = ", ".join(duplicates)
+                raise ValueError(f"visible_roles must be unique: {joined}")
+        return self
+
+
+class TraceAudioDriversConfig(ContractModel):
+    scale: AudioSignal | None = None
+    opacity: AudioSignal | None = None
+    color: AudioSignal | None = None
+    pulse: AudioSignal | None = None
+
+
 class VisualLayerConfig(ContractModel):
     id: NonBlankText
-    role: Literal["master", "drums", "bass", "vocals", "instruments"]
+    role: VisualRole
     geometry: LayerGeometryConfig
+    trace: LayerTraceConfig = Field(default_factory=LayerTraceConfig)
     color: HexColor
+    depth: Literal["background", "foreground"] = "foreground"
+    anchor_x: float = Field(default=0.5, ge=-0.5, le=1.5)
+    anchor_y: float = Field(default=0.5, ge=-0.5, le=1.5)
     base_scale: float = Field(default=1, gt=0, le=2)
     opacity: float = Field(default=0.8, ge=0, le=1)
     line_width: float = Field(default=2, gt=0, le=20)
     rotation_degrees_per_second: float = Field(default=0, ge=-180, le=180)
     hue_shift_degrees: float = Field(default=0, ge=-360, le=360)
     blend_mode: Literal["normal", "screen"] = "screen"
+    drivers: TraceAudioDriversConfig = Field(default_factory=TraceAudioDriversConfig)
+
+
+class CastingConfig(ContractModel):
+    source: Literal["auto", "ai", "manual"] = "manual"
+    seed: int | None = None
+    generator_version: int = Field(default=1, ge=1)
+
+
+class SectionCompositionConfig(ContractModel):
+    casting: CastingConfig = Field(default_factory=CastingConfig)
+    traces: list[VisualLayerConfig] = Field(min_length=1, max_length=12)
+
+    @model_validator(mode="after")
+    def trace_ids_are_unique(self) -> "SectionCompositionConfig":
+        ids = [trace.id for trace in self.traces]
+        duplicates = sorted({trace_id for trace_id in ids if ids.count(trace_id) > 1})
+        if duplicates:
+            joined = ", ".join(duplicates)
+            raise ValueError(f"composition trace ids must be unique: {joined}")
+        return self
 
 
 def _default_visual_layers() -> list[VisualLayerConfig]:
     return [
+        VisualLayerConfig(
+            id="instrument-haze",
+            role="instruments",
+            geometry=LayerGeometryConfig(
+                fixed_radius=192,
+                moving_radius=48,
+                pen_offset=112,
+                samples=1800,
+            ),
+            trace=LayerTraceConfig(
+                cycles_per_second=0.018,
+                trail_fraction=0.54,
+                ghost_count=3,
+                ghost_spacing=0.07,
+                head_radius=0,
+            ),
+            color="#8c5cff",
+            depth="background",
+            anchor_x=0.52,
+            anchor_y=0.38,
+            base_scale=1.82,
+            opacity=0.16,
+            line_width=1.2,
+            rotation_degrees_per_second=-0.35,
+            hue_shift_degrees=18,
+        ),
         VisualLayerConfig(
             id="bass-orbit",
             role="bass",
@@ -186,27 +298,20 @@ def _default_visual_layers() -> list[VisualLayerConfig]:
                 rotation="outside",
                 samples=1400,
             ),
-            color="#4c78ff",
-            base_scale=0.86,
-            opacity=0.72,
-            line_width=2.2,
-            rotation_degrees_per_second=5,
-        ),
-        VisualLayerConfig(
-            id="instrument-wheel",
-            role="instruments",
-            geometry=LayerGeometryConfig(
-                fixed_radius=192,
-                moving_radius=48,
-                pen_offset=112,
-                samples=960,
+            trace=LayerTraceConfig(
+                cycles_per_second=0.045,
+                trail_fraction=0.18,
+                ghost_count=1,
+                ghost_spacing=0.1,
+                head_radius=3.5,
             ),
-            color="#8c5cff",
-            base_scale=0.7,
-            opacity=0.7,
-            line_width=1.8,
-            rotation_degrees_per_second=-9,
-            hue_shift_degrees=18,
+            color="#4c78ff",
+            anchor_x=0.14,
+            anchor_y=0.44,
+            base_scale=0.6,
+            opacity=0.74,
+            line_width=2.2,
+            rotation_degrees_per_second=0.8,
         ),
         VisualLayerConfig(
             id="vocal-flower",
@@ -217,11 +322,20 @@ def _default_visual_layers() -> list[VisualLayerConfig]:
                 pen_offset=95,
                 samples=900,
             ),
+            trace=LayerTraceConfig(
+                cycles_per_second=0.068,
+                trail_fraction=0.28,
+                ghost_count=1,
+                ghost_spacing=0.09,
+                head_radius=4,
+            ),
             color="#ff5fd2",
-            base_scale=0.57,
+            anchor_x=0.52,
+            anchor_y=0.34,
+            base_scale=0.48,
             opacity=0.82,
             line_width=2.4,
-            rotation_degrees_per_second=12,
+            rotation_degrees_per_second=-1.25,
             hue_shift_degrees=-12,
         ),
         VisualLayerConfig(
@@ -234,11 +348,20 @@ def _default_visual_layers() -> list[VisualLayerConfig]:
                 rotation="outside",
                 samples=720,
             ),
+            trace=LayerTraceConfig(
+                cycles_per_second=0.12,
+                trail_fraction=0.3,
+                ghost_count=1,
+                ghost_spacing=0.07,
+                head_radius=4,
+            ),
             color="#ffd166",
-            base_scale=0.43,
-            opacity=0.68,
+            anchor_x=0.89,
+            anchor_y=0.46,
+            base_scale=0.54,
+            opacity=0.72,
             line_width=1.6,
-            rotation_degrees_per_second=-18,
+            rotation_degrees_per_second=2.4,
             hue_shift_degrees=10,
         ),
     ]
@@ -264,7 +387,19 @@ class VisualConfig(ContractModel):
     transition_seconds: float = Field(default=0.65, ge=0, le=10)
     background_response: float = Field(default=0.16, ge=0, le=1)
     lyric_fade_seconds: float = Field(default=0.25, ge=0, le=5)
-    lyric_background_opacity: float = Field(default=0.48, ge=0, le=1)
+    section_styles: dict[NonBlankText, SectionVisualStyleConfig] = Field(
+        default_factory=dict
+    )
+    section_overrides: dict[NonBlankText, SectionVisualStyleConfig] = Field(
+        default_factory=dict
+    )
+    auto_casting: bool = True
+    section_compositions: dict[NonBlankText, SectionCompositionConfig] = Field(
+        default_factory=dict
+    )
+    composition_overrides: dict[NonBlankText, SectionCompositionConfig] = Field(
+        default_factory=dict
+    )
 
     @model_validator(mode="after")
     def layer_ids_are_unique(self) -> "VisualConfig":
@@ -275,6 +410,24 @@ class VisualConfig(ContractModel):
             raise ValueError(f"visual layer ids must be unique: {joined}")
         if not self.layers:
             raise ValueError("at least one visual layer is required")
+        normalized_types = [key.casefold() for key in self.section_styles]
+        type_duplicates = sorted(
+            {key for key in normalized_types if normalized_types.count(key) > 1}
+        )
+        if type_duplicates:
+            joined = ", ".join(type_duplicates)
+            raise ValueError(f"section style names must be unique: {joined}")
+        normalized_compositions = [key.casefold() for key in self.section_compositions]
+        composition_duplicates = sorted(
+            {
+                key
+                for key in normalized_compositions
+                if normalized_compositions.count(key) > 1
+            }
+        )
+        if composition_duplicates:
+            joined = ", ".join(composition_duplicates)
+            raise ValueError(f"section composition names must be unique: {joined}")
         return self
 
 

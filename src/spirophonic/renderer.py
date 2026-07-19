@@ -15,7 +15,8 @@ import numpy as np
 from numpy.typing import NDArray
 
 from spirophonic.analysis import AnalysisBundle, analyze_project
-from spirophonic.choreography import choreography_at
+from spirophonic.casting import resolve_section_composition
+from spirophonic.choreography import ChoreographyState, choreography_at
 from spirophonic.geometry import SpiroGeometry, generate_spiro_points
 from spirophonic.mappings import map_layer_state, sample_audio_visual_state
 from spirophonic.presets import (
@@ -26,6 +27,7 @@ from spirophonic.presets import (
 )
 from spirophonic.project import (
     AlignedLyrics,
+    CastingConfig,
     ProjectManifest,
     VisualLayerConfig,
     load_aligned_lyrics,
@@ -37,6 +39,7 @@ from spirophonic.text import (
     lyric_cue_at,
     validate_lyric_font,
 )
+from spirophonic.tracing import cyclic_trace_window, trace_progress
 
 DRAFT_MAX_WIDTH = 960
 DRAFT_MAX_HEIGHT = 540
@@ -53,11 +56,19 @@ class LayerCurve:
 
 
 @dataclass(frozen=True, slots=True)
+class CurveComposition:
+    key: str
+    casting: CastingConfig
+    layers: tuple[LayerCurve, ...]
+
+
+@dataclass(frozen=True, slots=True)
 class RenderContext:
     project: ProjectManifest
     analysis: AnalysisBundle
     lyrics: AlignedLyrics
     layers: tuple[LayerCurve, ...]
+    section_compositions: dict[str, CurveComposition]
     font_path: Path
     root: Path
     mapping_preset: MappingPreset
@@ -135,7 +146,12 @@ def _phase_offset(seed: int, layer_id: str) -> float:
     return fraction * math.tau
 
 
-def _build_curve(layer: VisualLayerConfig, seed: int) -> LayerCurve:
+def _build_curve(
+    layer: VisualLayerConfig,
+    seed: int,
+    *,
+    namespace: str | None = None,
+) -> LayerCurve:
     geometry = layer.geometry
     generated = generate_spiro_points(
         SpiroGeometry(
@@ -155,7 +171,10 @@ def _build_curve(layer: VisualLayerConfig, seed: int) -> LayerCurve:
     return LayerCurve(
         config=layer,
         points=points,
-        phase_offset=_phase_offset(seed, layer.id),
+        phase_offset=_phase_offset(
+            seed,
+            f"{namespace}:{layer.id}" if namespace else layer.id,
+        ),
     )
 
 
@@ -174,6 +193,40 @@ def build_render_context(
     layers = tuple(
         _build_curve(layer, project.video.seed) for layer in project.visuals.layers
     )
+    composition_cache: dict[str, CurveComposition] = {}
+    section_compositions: dict[str, CurveComposition] = {}
+    for section in lyrics.sections:
+        resolved = resolve_section_composition(
+            project.visuals,
+            section.type,
+            section.id,
+            project.video.seed,
+        )
+        composition = composition_cache.get(resolved.key)
+        if composition is None:
+            seed = resolved.composition.casting.seed
+            if seed is None:
+                seed = project.video.seed
+            composition = CurveComposition(
+                key=resolved.key,
+                casting=resolved.composition.casting.model_copy(
+                    update={"seed": seed}
+                ),
+                layers=tuple(
+                    _build_curve(
+                        trace,
+                        seed,
+                        namespace=(
+                            None
+                            if resolved.key == "legacy:global-layers"
+                            else resolved.key
+                        ),
+                    )
+                    for trace in resolved.composition.traces
+                ),
+            )
+            composition_cache[resolved.key] = composition
+        section_compositions[section.id] = composition
     font_path = (root / project.text.font).resolve()
     try:
         validate_lyric_font(font_path, project.text.size)
@@ -184,6 +237,7 @@ def build_render_context(
         analysis=analysis,
         lyrics=lyrics,
         layers=layers,
+        section_compositions=section_compositions,
         font_path=font_path,
         root=root.resolve(),
         mapping_preset=get_mapping_preset(project.visuals.mapping_preset),
@@ -215,9 +269,7 @@ def load_render_context(
     analysis_run = analyze_project(manifest, progress=progress)
     notify("Preparing stable spirograph curves")
     alignment_warnings = (
-        tuple(lyrics.alignment.warnings)
-        if lyrics.alignment is not None
-        else ()
+        tuple(lyrics.alignment.warnings) if lyrics.alignment is not None else ()
     )
     warnings = tuple(dict.fromkeys((*analysis_run.warnings, *alignment_warnings)))
     return build_render_context(
@@ -237,6 +289,7 @@ def _layer_color(
     base_color: str,
     hue_shift_degrees: float,
     intensity: float,
+    flash: float = 0,
 ) -> tuple[int, int, int]:
     red, green, blue = (component / 255 for component in _parse_hex_color(base_color))
     hue, saturation, value = colorsys.rgb_to_hsv(red, green, blue)
@@ -244,6 +297,8 @@ def _layer_color(
     saturation = min(1, saturation * intensity)
     value = min(1, value * (0.78 + 0.22 * intensity))
     mapped = colorsys.hsv_to_rgb(hue, saturation, value)
+    flash_mix = min(0.72, max(0, flash) ** 1.4 * 0.72)
+    mapped = tuple(component * (1 - flash_mix) + flash_mix for component in mapped)
     return tuple(round(component * 255) for component in mapped)
 
 
@@ -278,46 +333,97 @@ def _background_frame(
 
 
 def _transform_points(
-    curve: LayerCurve,
+    points: NDArray[np.float32],
     *,
     width: int,
     height: int,
     scale: float,
     rotation: float,
     margin: float,
+    anchor_x: float,
+    anchor_y: float,
 ) -> NDArray[np.int32]:
-    angle = rotation + curve.phase_offset
-    cosine = math.cos(angle)
-    sine = math.sin(angle)
+    cosine = math.cos(rotation)
+    sine = math.sin(rotation)
     rotation_matrix = np.asarray(((cosine, -sine), (sine, cosine)), dtype=np.float32)
     radius = min(width, height) * (0.5 - margin) * scale
-    transformed = curve.points @ rotation_matrix.T
+    transformed = points @ rotation_matrix.T
     transformed *= radius
-    transformed[:, 0] += width / 2
-    transformed[:, 1] += height / 2
+    transformed[:, 0] += width * anchor_x
+    transformed[:, 1] += height * anchor_y
     return np.rint(transformed).astype(np.int32).reshape((-1, 1, 2))
 
 
-def _composite_curve(
-    frame: NDArray[np.uint8],
+def _layer_anchor(
+    curve: LayerCurve,
+    *,
+    time_seconds: float,
+    spatial_spread: float,
+    anchor_drift: float,
+) -> tuple[float, float]:
+    config = curve.config
+    depth_response = 0.45 if config.depth == "background" else 1
+    phase = curve.phase_offset
+    anchor_x = 0.5 + (config.anchor_x - 0.5) * spatial_spread
+    anchor_x += math.sin(time_seconds * 0.11 + phase) * anchor_drift * depth_response
+    anchor_y = config.anchor_y
+    anchor_y += (
+        math.cos(time_seconds * 0.09 + phase) * anchor_drift * 0.7 * depth_response
+    )
+    return anchor_x, anchor_y
+
+
+def _draw_fading_path(
+    mask: NDArray[np.uint8],
     points: NDArray[np.int32],
+    *,
+    peak: float,
+    line_width: float,
+) -> None:
+    if len(points) < 2 or peak <= 0:
+        return
+    step_count = min(14, len(points) - 1)
+    boundaries = np.linspace(0, len(points) - 1, step_count + 1, dtype=np.int32)
+    for step in range(step_count):
+        start = max(0, int(boundaries[step]) - (1 if step else 0))
+        end = int(boundaries[step + 1]) + 1
+        amount = (step + 1) / step_count
+        intensity = round(255 * peak * (0.12 + 0.88 * amount * amount))
+        cv2.polylines(
+            mask,
+            [points[start:end]],
+            isClosed=False,
+            color=max(1, min(255, intensity)),
+            thickness=max(1, round(line_width)),
+            lineType=cv2.LINE_AA,
+        )
+
+
+def _composite_trace(
+    frame: NDArray[np.uint8],
+    paths: tuple[tuple[NDArray[np.int32], float], ...],
     *,
     color: tuple[int, int, int],
     opacity: float,
     line_width: float,
     blend_mode: str,
+    head_radius: float,
 ) -> NDArray[np.uint8]:
     if opacity <= 0:
         return frame
     mask = np.zeros(frame.shape[:2], dtype=np.uint8)
-    cv2.polylines(
-        mask,
-        [points],
-        isClosed=True,
-        color=255,
-        thickness=max(1, round(line_width)),
-        lineType=cv2.LINE_AA,
-    )
+    for points, peak in paths:
+        _draw_fading_path(mask, points, peak=peak, line_width=line_width)
+    if paths and head_radius > 0:
+        head = paths[-1][0][-1, 0]
+        cv2.circle(
+            mask,
+            (int(head[0]), int(head[1])),
+            max(1, round(head_radius)),
+            255,
+            thickness=-1,
+            lineType=cv2.LINE_AA,
+        )
     alpha = mask.astype(np.float32)[:, :, np.newaxis] / 255
     alpha *= opacity
     base = frame.astype(np.float32) / 255
@@ -327,6 +433,25 @@ def _composite_curve(
     else:
         output = base * (1 - alpha) + source * alpha
     return np.rint(np.clip(output, 0, 1) * 255).astype(np.uint8)
+
+
+def _weighted_compositions(
+    context: RenderContext,
+    choreography: ChoreographyState,
+) -> tuple[tuple[CurveComposition, float], ...]:
+    current = context.section_compositions[choreography.section_id]
+    if (
+        choreography.previous_section_id is None
+        or choreography.transition_progress >= 1
+    ):
+        return ((current, 1.0),)
+    previous = context.section_compositions[choreography.previous_section_id]
+    if previous.key == current.key:
+        return ((current, 1.0),)
+    return (
+        (previous, 1 - choreography.transition_progress),
+        (current, choreography.transition_progress),
+    )
 
 
 def render_frame(
@@ -352,35 +477,102 @@ def render_frame(
         context.lyrics,
         time_seconds,
         transition_seconds=context.project.visuals.transition_seconds,
+        visuals=context.project.visuals,
     )
     frame = _background_frame(context, width, height, audio.master.energy)
-    for layer_index, curve in enumerate(context.layers):
+    weighted_compositions = _weighted_compositions(context, choreography)
+    indexed_layers = [
+        (composition_index, layer_index, curve, weight)
+        for composition_index, (composition, weight) in enumerate(weighted_compositions)
+        for layer_index, curve in enumerate(composition.layers)
+        if weight > 0
+    ]
+    indexed_layers.sort(
+        key=lambda item: (
+            item[2].config.depth == "foreground",
+            item[0],
+            item[1],
+        )
+    )
+    for _, layer_index, curve, composition_weight in indexed_layers:
         state = map_layer_state(
             curve.config,
             audio,
             choreography,
             time_seconds,
             context.mapping_preset,
+            visibility_override=composition_weight,
         )
-        points = _transform_points(
+        trace = curve.config.trace
+        anchor_x, anchor_y = _layer_anchor(
             curve,
-            width=width,
-            height=height,
-            scale=state.scale,
-            rotation=state.rotation_radians,
-            margin=context.project.visuals.canvas_margin,
+            time_seconds=time_seconds,
+            spatial_spread=choreography.spatial_spread,
+            anchor_drift=choreography.anchor_drift,
         )
-        frame = _composite_curve(
+        progress = trace_progress(
+            choreography.trace_time,
+            trace.cycles_per_second,
+            phase=curve.phase_offset / math.tau,
+        )
+        trace_paths: list[tuple[NDArray[np.int32], float]] = []
+        for ghost_index in range(trace.ghost_count, 0, -1):
+            ghost_progress = progress - ghost_index * (
+                state.trail_fraction + trace.ghost_spacing
+            )
+            ghost = cyclic_trace_window(
+                curve.points,
+                ghost_progress,
+                state.trail_fraction,
+            )
+            trace_paths.append(
+                (
+                    _transform_points(
+                        ghost.points,
+                        width=width,
+                        height=height,
+                        scale=state.scale,
+                        rotation=state.rotation_radians,
+                        margin=context.project.visuals.canvas_margin,
+                        anchor_x=anchor_x,
+                        anchor_y=anchor_y,
+                    ),
+                    0.3 / ghost_index,
+                )
+            )
+        active = cyclic_trace_window(
+            curve.points,
+            progress,
+            state.trail_fraction,
+        )
+        trace_paths.append(
+            (
+                _transform_points(
+                    active.points,
+                    width=width,
+                    height=height,
+                    scale=state.scale,
+                    rotation=state.rotation_radians,
+                    margin=context.project.visuals.canvas_margin,
+                    anchor_x=anchor_x,
+                    anchor_y=anchor_y,
+                ),
+                1.0,
+            )
+        )
+        frame = _composite_trace(
             frame,
-            points,
+            tuple(trace_paths),
             color=_layer_color(
                 _base_layer_color(context, curve.config, layer_index),
                 state.hue_shift_degrees,
                 state.color_intensity,
+                state.beat_pulse,
             ),
             opacity=state.opacity,
             line_width=state.line_width,
             blend_mode=curve.config.blend_mode,
+            head_radius=trace.head_radius * (1 + state.beat_pulse * 2.2),
         )
 
     cue = lyric_cue_at(
@@ -395,7 +587,7 @@ def render_frame(
             cue,
             config=context.project.text,
             font_path=context.font_path,
-            background_opacity=context.project.visuals.lyric_background_opacity,
+            reference_height=context.project.video.height,
         )
     except SpirophonicTextError as exc:
         raise SpirophonicRendererError(str(exc)) from exc

@@ -3,8 +3,10 @@ from typing import Any
 
 import pytest
 import yaml
+from pydantic import ValidationError
 
 from spirophonic.project import (
+    ProjectManifest,
     SpirophonicValidationError,
     load_aligned_lyrics,
     validate_project,
@@ -53,7 +55,6 @@ def _valid_project() -> dict[str, Any]:
             "size": 60,
             "position": "bottom",
             "active_color": "#ffffff",
-            "show_section_titles": True,
         },
     }
 
@@ -175,6 +176,146 @@ def test_unknown_artistic_preset_is_rejected(tmp_path: Path) -> None:
 
     with pytest.raises(SpirophonicValidationError, match="mapping_preset"):
         validate_project(manifest, require_tools=False, probe_media=False)
+
+
+def test_default_visual_layout_has_three_distributed_foreground_systems() -> None:
+    project = _valid_project()
+    manifest = ProjectManifest.model_validate(project)
+    foreground = [
+        layer for layer in manifest.visuals.layers if layer.depth == "foreground"
+    ]
+    background = [
+        layer for layer in manifest.visuals.layers if layer.depth == "background"
+    ]
+
+    assert len(foreground) == 3
+    assert [layer.role for layer in foreground] == ["bass", "vocals", "drums"]
+    anchors = [layer.anchor_x for layer in foreground]
+    assert anchors == sorted(anchors)
+    assert anchors[1] - anchors[0] >= 0.3
+    assert anchors[2] - anchors[1] >= 0.3
+    assert len(background) == 1
+    assert background[0].role == "instruments"
+
+
+def test_section_visual_settings_are_validated() -> None:
+    project = _valid_project()
+    project["visuals"] = {
+        "section_styles": {
+            "verse": {
+                "visible_roles": ["vocals", "instruments"],
+                "scale": 0.9,
+                "trace_speed": 0.8,
+                "trail_length": 0.7,
+                "beat_gain": 0.5,
+                "intensity_gain": 0.8,
+            }
+        },
+        "section_overrides": {"final_chorus": {"beat_gain": 1.7}},
+    }
+
+    manifest = ProjectManifest.model_validate(project)
+
+    assert manifest.visuals.section_styles["verse"].trace_speed == 0.8
+    assert manifest.visuals.section_overrides["final_chorus"].beat_gain == 1.7
+
+
+def test_section_visual_settings_reject_ambiguous_or_duplicate_roles() -> None:
+    project = _valid_project()
+    project["visuals"] = {
+        "section_styles": {
+            "Verse": {"visible_roles": ["vocals"]},
+            "verse": {"visible_roles": ["vocals"]},
+        }
+    }
+    with pytest.raises(ValidationError, match="section style names"):
+        ProjectManifest.model_validate(project)
+
+    project["visuals"] = {
+        "section_styles": {
+            "verse": {"visible_roles": ["vocals", "vocals"]},
+        }
+    }
+    with pytest.raises(ValidationError, match="visible_roles"):
+        ProjectManifest.model_validate(project)
+
+
+def test_section_compositions_validate_casting_traces_and_audio_drivers() -> None:
+    project = _valid_project()
+    project["visuals"] = {
+        "section_compositions": {
+            "bridge": {
+                "casting": {
+                    "source": "ai",
+                    "seed": 73,
+                    "generator_version": 2,
+                },
+                "traces": [
+                    {
+                        "id": "hero-flower",
+                        "role": "vocals",
+                        "geometry": {
+                            "fixed_radius": 240,
+                            "moving_radius": 80,
+                            "pen_offset": 180,
+                        },
+                        "color": "#ff5fd2",
+                        "base_scale": 1.6,
+                        "drivers": {
+                            "scale": "bass.energy",
+                            "opacity": "master.energy",
+                            "color": "vocals.energy",
+                            "pulse": "drums.accent",
+                        },
+                    }
+                ],
+            }
+        }
+    }
+
+    manifest = ProjectManifest.model_validate(project)
+    bridge = manifest.visuals.section_compositions["bridge"]
+
+    assert bridge.casting.source == "ai"
+    assert bridge.casting.generator_version == 2
+    assert bridge.traces[0].drivers.opacity == "master.energy"
+
+
+def test_section_compositions_reject_duplicates_and_unknown_signals() -> None:
+    project = _valid_project()
+    trace = {
+        "id": "same-trace",
+        "role": "vocals",
+        "geometry": {
+            "fixed_radius": 180,
+            "moving_radius": 60,
+            "pen_offset": 100,
+        },
+        "color": "#ff5fd2",
+    }
+    project["visuals"] = {
+        "section_compositions": {
+            "Bridge": {"traces": [trace]},
+            "bridge": {"traces": [trace]},
+        }
+    }
+    with pytest.raises(ValidationError, match="composition names"):
+        ProjectManifest.model_validate(project)
+
+    project["visuals"] = {
+        "section_compositions": {
+            "bridge": {"traces": [trace, trace]},
+        }
+    }
+    with pytest.raises(ValidationError, match="composition trace ids"):
+        ProjectManifest.model_validate(project)
+
+    trace["drivers"] = {"opacity": "guitar.energy"}
+    project["visuals"] = {
+        "section_compositions": {"bridge": {"traces": [trace]}},
+    }
+    with pytest.raises(ValidationError, match="drivers.opacity"):
+        ProjectManifest.model_validate(project)
 
 
 def test_aligned_lyrics_reject_overlapping_lines(tmp_path: Path) -> None:

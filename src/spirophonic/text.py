@@ -1,19 +1,23 @@
 from dataclasses import dataclass
+from functools import cache
 from pathlib import Path
 
 import numpy as np
 from numpy.typing import NDArray
 from PIL import Image, ImageDraw, ImageFont
 
-from spirophonic.project import AlignedLyrics, TextConfig
+from spirophonic.project import (
+    AlignedLyrics,
+    LyricLine,
+    StructuredLyrics,
+    TextConfig,
+)
 
 
 @dataclass(frozen=True, slots=True)
 class LyricCue:
     text: str
     alpha: float
-    section_label: str | None
-    section_title_alpha: float
 
 
 class SpirophonicTextError(Exception):
@@ -55,17 +59,9 @@ def lyric_cue_at(
             if fade_seconds > 0:
                 alpha *= _smoothstep((time_seconds - line.start) / fade_seconds)
                 alpha *= _smoothstep((line.end - time_seconds) / fade_seconds)
-            title_alpha = 0.0
-            if section.label:
-                title_duration = min(2.0, section.end - section.start)
-                title_alpha = choreography_opacity * _clamp01(
-                    (section.start + title_duration - time_seconds) / 0.35
-                )
             return LyricCue(
                 text=line.text,
                 alpha=_clamp01(alpha),
-                section_label=section.label,
-                section_title_alpha=_clamp01(title_alpha),
             )
     return None
 
@@ -74,26 +70,123 @@ def _parse_hex_color(value: str) -> tuple[int, int, int]:
     return tuple(int(value[index : index + 2], 16) for index in (1, 3, 5))
 
 
-def _load_fitted_font(
-    draw: ImageDraw.ImageDraw,
+def _load_font(
     font_path: Path,
-    text: str,
-    requested_size: int,
-    maximum_width: int,
+    size: int,
 ) -> ImageFont.FreeTypeFont:
-    size = requested_size
-    while size >= 12:
-        try:
-            font = ImageFont.truetype(str(font_path), size=size)
-        except OSError as exc:
+    try:
+        return ImageFont.truetype(str(font_path), size=size)
+    except OSError as exc:
+        raise SpirophonicTextError(
+            f"cannot load lyric font {font_path}: {exc}"
+        ) from exc
+
+
+def _text_width(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    font: ImageFont.FreeTypeFont,
+) -> int:
+    stroke_width = max(1, font.size // 30)
+    bounds = draw.textbbox((0, 0), text, font=font, stroke_width=stroke_width)
+    return bounds[2] - bounds[0]
+
+
+def _boundary_bonus(words: tuple[str, ...], end: int) -> float:
+    if end >= len(words):
+        return 0
+    previous = words[end - 1]
+    following = words[end].casefold().strip("\"'([{“‘")
+    if previous.endswith((",", ";", ":", "—", "–")):
+        return 2.0
+    if previous.endswith((".", "!", "?")):
+        return 1.8
+    if following in {"and", "but", "or", "because", "if", "so", "when", "while"}:
+        return 0.35
+    return 0
+
+
+def split_lyric_text(
+    text: str,
+    *,
+    font_path: Path,
+    size: int,
+    maximum_width: int,
+) -> tuple[str, ...]:
+    """Split an oversized lyric into sequential single-line display cues."""
+    if maximum_width <= 0:
+        raise SpirophonicTextError("maximum lyric width must be positive")
+    font = _load_font(font_path, size)
+    draw = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    if _text_width(draw, text, font) <= maximum_width:
+        return (text,)
+
+    words = tuple(text.split())
+    if not words:
+        raise SpirophonicTextError("lyric text must not be blank")
+    for word in words:
+        if _text_width(draw, word, font) > maximum_width:
             raise SpirophonicTextError(
-                f"cannot load lyric font {font_path}: {exc}"
-            ) from exc
-        bounds = draw.textbbox((0, 0), text, font=font, stroke_width=max(1, size // 30))
-        if bounds[2] - bounds[0] <= maximum_width or size == 12:
-            return font
-        size -= 2
-    raise SpirophonicTextError(f"cannot fit lyric text with font {font_path}")
+                f"lyric word does not fit at the configured size: {word}"
+            )
+
+    @cache
+    def solve(start: int) -> tuple[int, float, tuple[str, ...]] | None:
+        if start == len(words):
+            return (0, 0, ())
+        best: tuple[int, float, tuple[str, ...]] | None = None
+        for end in range(start + 1, len(words) + 1):
+            fragment = " ".join(words[start:end])
+            width = _text_width(draw, fragment, font)
+            if width > maximum_width:
+                break
+            remainder = solve(end)
+            if remainder is None:
+                continue
+            raggedness = (1 - width / maximum_width) ** 2
+            candidate = (
+                remainder[0] + 1,
+                remainder[1] + raggedness - _boundary_bonus(words, end),
+                (fragment, *remainder[2]),
+            )
+            if best is None or candidate[:2] < best[:2]:
+                best = candidate
+        return best
+
+    result = solve(0)
+    if result is None:
+        raise SpirophonicTextError("lyric text cannot be split to fit")
+    return result[2]
+
+
+def segment_lyrics_for_display(
+    lyrics: StructuredLyrics,
+    *,
+    font_path: Path,
+    config: TextConfig,
+    video_width: int,
+) -> tuple[StructuredLyrics, tuple[str, ...]]:
+    """Create aligned-input cues that fit without changing the canonical source."""
+    maximum_width = round(video_width * config.maximum_width_fraction)
+    warnings: list[str] = []
+    sections = []
+    for section in lyrics.sections:
+        segmented_lines: list[LyricLine] = []
+        for line_index, line in enumerate(section.lines):
+            fragments = split_lyric_text(
+                line.text,
+                font_path=font_path,
+                size=config.size,
+                maximum_width=maximum_width,
+            )
+            segmented_lines.extend(LyricLine(text=fragment) for fragment in fragments)
+            if len(fragments) > 1:
+                warnings.append(
+                    f"{section.id} line {line_index + 1} split into "
+                    f"{len(fragments)} sequential display cues"
+                )
+        sections.append(section.model_copy(update={"lines": segmented_lines}))
+    return lyrics.model_copy(update={"sections": sections}), tuple(warnings)
 
 
 def draw_lyric_overlay(
@@ -102,23 +195,17 @@ def draw_lyric_overlay(
     *,
     config: TextConfig,
     font_path: Path,
-    background_opacity: float,
+    reference_height: int,
 ) -> NDArray[np.uint8]:
-    """Draw one complete canonical lyric line with deterministic Pillow layout."""
+    """Draw one fixed-size single-line lyric cue with deterministic layout."""
     if cue is None or cue.alpha <= 0:
         return frame
     image = Image.fromarray(frame, mode="RGB")
     overlay = Image.new("RGBA", image.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
     width, height = image.size
-    horizontal_margin = max(16, round(width * 0.06))
-    font = _load_fitted_font(
-        draw,
-        font_path,
-        cue.text,
-        config.size,
-        width - horizontal_margin * 2,
-    )
+    display_size = max(1, round(config.size * height / reference_height))
+    font = _load_font(font_path, display_size)
     stroke_width = max(1, font.size // 30)
     bounds = draw.textbbox(
         (0, 0),
@@ -128,6 +215,12 @@ def draw_lyric_overlay(
     )
     text_width = bounds[2] - bounds[0]
     text_height = bounds[3] - bounds[1]
+    maximum_width = round(width * config.maximum_width_fraction)
+    if text_width > maximum_width:
+        raise SpirophonicTextError(
+            "lyric cue exceeds the configured fixed-width safe region; "
+            "run 'spirophonic align --force' to split display cues"
+        )
     x = (width - text_width) // 2 - bounds[0]
     if config.position == "top":
         y = round(height * 0.11) - bounds[1]
@@ -136,20 +229,10 @@ def draw_lyric_overlay(
     else:
         y = round(height * 0.82) - bounds[1]
 
-    padding_x = max(12, font.size // 3)
-    padding_y = max(8, font.size // 5)
     edge_margin = max(4, round(height * 0.04))
-    minimum_y = edge_margin + padding_y - bounds[1]
-    maximum_y = height - edge_margin - padding_y - bounds[3]
+    minimum_y = edge_margin - bounds[1]
+    maximum_y = height - edge_margin - bounds[3]
     y = min(maximum_y, max(minimum_y, y))
-    box = (
-        x + bounds[0] - padding_x,
-        y + bounds[1] - padding_y,
-        x + bounds[2] + padding_x,
-        y + bounds[3] + padding_y,
-    )
-    box_alpha = round(255 * background_opacity * cue.alpha)
-    draw.rounded_rectangle(box, radius=padding_y, fill=(0, 0, 0, box_alpha))
     color = (*_parse_hex_color(config.active_color), round(255 * cue.alpha))
     draw.text(
         (x, y),
@@ -159,28 +242,6 @@ def draw_lyric_overlay(
         stroke_width=stroke_width,
         stroke_fill=(0, 0, 0, round(210 * cue.alpha)),
     )
-
-    if config.show_section_titles and cue.section_label and cue.section_title_alpha > 0:
-        title_size = max(12, round(font.size * 0.5))
-        try:
-            title_font = ImageFont.truetype(str(font_path), size=title_size)
-        except OSError as exc:
-            raise SpirophonicTextError(
-                f"cannot load lyric font {font_path}: {exc}"
-            ) from exc
-        title_bounds = draw.textbbox((0, 0), cue.section_label, font=title_font)
-        title_width = title_bounds[2] - title_bounds[0]
-        title_x = (width - title_width) // 2 - title_bounds[0]
-        title_y = max(edge_margin, box[1] - title_size * 2)
-        title_alpha = round(210 * cue.section_title_alpha)
-        draw.text(
-            (title_x, title_y),
-            cue.section_label,
-            font=title_font,
-            fill=(255, 255, 255, title_alpha),
-            stroke_width=1,
-            stroke_fill=(0, 0, 0, title_alpha),
-        )
 
     composited = Image.alpha_composite(image.convert("RGBA"), overlay).convert("RGB")
     return np.asarray(composited, dtype=np.uint8)
