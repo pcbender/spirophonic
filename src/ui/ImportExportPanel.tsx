@@ -41,21 +41,21 @@ export function ImportExportPanel({
     <div className="import-export" aria-label="Import and export">
       <button
         type="button"
-        title="Download the current relationship model as JSON."
+        title="Saves the whole relationship as JSON, voices included, so a composition can be reopened exactly as it is now."
         onClick={() => downloadModelJson(model)}
       >
         Export JSON
       </button>
       <button
         type="button"
-        title="Load a saved Spirophonic v0.1 JSON model."
+        title="Opens a saved Spirophonic JSON model and replaces everything on screen with it. Files from older versions still load and take the current defaults for anything they predate."
         onClick={() => inputRef.current?.click()}
       >
         Import JSON
       </button>
       <button
         type="button"
-        title="Download the current trace as an SVG path."
+        title="Saves the trace as an SVG path for print or vector editing. Visual only — it carries the shape, not the rhythm."
         onClick={() => downloadTraceSvg(model, points)}
       >
         Export SVG

@@ -25,21 +25,21 @@ export function Transport({
     <div className="transport" aria-label="Animation transport">
       <button
         type="button"
-        title="Start or pause the animated trace."
+        title="Runs the pen around the curve. Visually the trace draws itself and the active point moves; sonically it drives the live trace tone if Sound is on. Separate from Preview, which loops the composed parts. Space bar also works."
         onClick={isPlaying ? onPause : onPlay}
       >
         {isPlaying ? 'Pause' : 'Play'}
       </button>
       <button
         type="button"
-        title="Return animation progress to the beginning."
+        title="Sends the pen back to the start of the curve and stops. Visually the trace clears to its first point; sonically the live tone stops."
         onClick={onReset}
       >
         Reset
       </button>
       <label
         className="sound-toggle"
-        title="Enable a quiet WebAudio oscillator controlled by the current trace point."
+        title="A quiet tone that follows the moving trace point, gliding continuously rather than playing notes. Sonically it is the curve heard as one sweeping line — the Sound controls shape it. Unrelated to the voices, which play discrete notes."
       >
         <input
           type="checkbox"
@@ -50,7 +50,7 @@ export function Transport({
       </label>
       <label
         className="sound-toggle"
-        title="When enabled, animation loops continuously. When disabled, it stops at the next completed cycle."
+        title="Whether the trace loops forever or halts once the curve closes. Visually a continuous redraw against a single pass; sonically the live tone either keeps sweeping or stops at the end of the cycle."
       >
         <input
           type="checkbox"

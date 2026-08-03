@@ -21,7 +21,7 @@ export function StrudelExportPanel({ model }: StrudelExportPanelProps) {
         <h2>Strudel</h2>
         <button
           type="button"
-          title="Copy a Strudel snippet of these voices."
+          title="Copies these parts as Strudel live-coding code, ready to paste into strudel.cc. The same onsets the MIDI file uses, written as step patterns, so it plays the part you hear in Preview."
           onClick={() => void handleCopy()}
         >
           Copy

@@ -126,14 +126,14 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
           <button
             type="button"
             aria-pressed={playing}
-            title="Loop these parts through the browser to hear them."
+            title="Loop these parts through the browser to hear them. Synthesized here rather than sampled, so it is an audition: the MIDI file carries note numbers and your DAW decides the sound."
             onClick={togglePreview}
           >
             {playing ? 'Stop' : 'Preview'}
           </button>
           <button
             type="button"
-            title="Download these parts as a MIDI file for a DAW."
+            title="Download every enabled part as a MIDI file: one track each, four bars, at the tempo set by Speed. Percussion lands on channel 10, pitched parts on their own channel with a General MIDI program."
             onClick={handleDownload}
           >
             MIDI
@@ -149,7 +149,10 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
           return (
             <li key={voice.id} className="voice-row">
               <div className="voice-head">
-                <label className="voice-enable">
+                <label
+                  className="voice-enable"
+                  title="Whether this part is played, exported, and drawn. Visually its curve and onset marks appear behind the main trace; sonically it joins the preview, the MIDI file, and the Strudel snippet."
+                >
                   <input
                     type="checkbox"
                     checked={voice.enabled}
@@ -165,7 +168,7 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
               </div>
 
               {voice.kind === 'percussion' ? (
-                <label>
+                <label title="Which General MIDI drum this part plays. Sonically the sound of every hit; visually nothing. Written to MIDI as a note number on channel 10, and to Strudel as a sample name.">
                   <span>Drum</span>
                   <select
                     value={voice.note}
@@ -181,7 +184,7 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
                   </select>
                 </label>
               ) : (
-                <label>
+                <label title="The scale this pitched part is snapped to. Sonically it decides which notes exist; the curve then chooses among them, so the melody stays in key however the shape changes.">
                   <span>Scale</span>
                   <select
                     value={voice.pitch.scale}
@@ -203,7 +206,7 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
                 </label>
               )}
 
-              <label>
+              <label title="The curve this part reads. Main shape uses the trace on screen, so what you see is what you hear. Any other choice gives this part its own family while it still inherits phase, speed, and samples from the main shape.">
                 <span>Shape</span>
                 <select
                   value={voice.geometry.family ?? INHERIT}
@@ -229,7 +232,7 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
                 </select>
               </label>
 
-              <label>
+              <label title="What on the curve fires a note: crossing the centre line, turning a sharp corner, or reaching a petal tip or root. Visually the dots marked on this part's trace; sonically the rhythm itself. Two parts triggered on different axes of one curve give a polyrhythm.">
                 <span>Trigger</span>
                 <select
                   value={voice.trigger.source}
@@ -250,7 +253,7 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
                 </select>
               </label>
 
-              <label>
+              <label title="How firmly onsets are pulled onto an even grid of sixteenths. At the left they stay where the curve put them, which can swing or sit slightly off the beat; at the right they lock to it. Visually the onset marks slide toward even spacing around the curve. One step holds one hit, so tightening can also merge two close hits into the louder of the pair.">
                 <span>Grid</span>
                 <input
                   type="range"
@@ -269,7 +272,7 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
                 />
               </label>
 
-              <label>
+              <label title="How long each note rings, counted in grid steps. 1 keeps every note inside its own step; above 1 they overlap, so a line of single notes becomes a chord. Sonically only. Goes to MIDI as note length and to Strudel as clip().">
                 <span>Hold</span>
                 <input
                   type="number"
