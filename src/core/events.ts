@@ -214,7 +214,18 @@ export const normalize = (values: Array<number>) => {
   return values.map((value) => (value - low) / span)
 }
 
-export const wrapCycle = (t: number) => ((t % 1) + 1) % 1
+/**
+ * Folds a position into 0..1. Values already in range pass through untouched,
+ * because the round trip through remainder and addition would otherwise move
+ * them by an ulp and turn an unquantized onset into a near miss.
+ */
+export const wrapCycle = (t: number) => {
+  if (t >= 0 && t < 1) {
+    return t
+  }
+
+  return ((t % 1) + 1) % 1
+}
 
 export const cycleDistance = (left: number, right: number) => {
   const gap = Math.abs(wrapCycle(left) - wrapCycle(right))

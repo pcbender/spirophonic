@@ -16,7 +16,7 @@ done until its acceptance criteria all pass.
 | Packet | Title | Depends on | Status |
 | --- | --- | --- | --- |
 | P1 | Event extraction core | — | **done** |
-| P2 | Rhythm shaping | P1 | not started |
+| P2 | Rhythm shaping | P1 | **done** |
 | P3 | MIDI file writer | P1 | not started |
 | P4 | Drum kit and download UI | P2, P3 | not started |
 | P5 | Curve families | — | not started |
