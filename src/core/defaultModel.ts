@@ -48,6 +48,7 @@ export const defaultVoices: Array<Voice> = [
     note: 36,
     velocity: { min: 72, max: 120, gamma: 1 },
     quantize: { divisions: 16, strength: 1 },
+    gate: 1,
   },
   {
     id: 'hat-lissajous-x',
@@ -62,6 +63,7 @@ export const defaultVoices: Array<Voice> = [
     note: 42,
     velocity: { min: 40, max: 88, gamma: 1.4 },
     quantize: { divisions: 16, strength: 1 },
+    gate: 1,
   },
   {
     id: 'snare-lissajous-y',
@@ -76,6 +78,7 @@ export const defaultVoices: Array<Voice> = [
     note: 38,
     velocity: { min: 56, max: 104, gamma: 1 },
     quantize: { divisions: 16, strength: 1 },
+    gate: 1,
   },
   {
     id: 'pad-harmonograph',
@@ -90,7 +93,7 @@ export const defaultVoices: Array<Voice> = [
     pitch: { source: 'radius', scale: 'pentatonic-minor', root: 48, octaves: 2 },
     velocity: { min: 40, max: 92, gamma: 1.2 },
     quantize: { divisions: 16, strength: 0.6 },
-    durationTicks: 720,
+    gate: 1,
     color: '#8f7ff0',
   },
 ]

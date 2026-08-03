@@ -112,7 +112,12 @@ const voicePart = ({ voice, notes }: RenderedVoice, model: SpirophonicModel) => 
       ? `s("${tokens}")`
       : `n("${tokens}").scale("${scaleName(voice)}").s("${instrument(voice, model)}")`
 
-  return `${head}.gain("${gains}")`
+  // clip() multiplies a note's length by its step, which is exactly what gate
+  // means to the MIDI writer. Emitting it only when it does something keeps
+  // the common case readable.
+  const clip = voice.gate === 1 ? '' : `.clip(${Number(voice.gate.toFixed(3))})`
+
+  return `${head}.gain("${gains}")${clip}`
 }
 
 /**

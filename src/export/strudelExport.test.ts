@@ -132,6 +132,30 @@ describe('scale names', () => {
   })
 })
 
+describe('note length', () => {
+  const withGate = (gate: number) =>
+    exportStrudelSnippet({
+      ...defaultModel,
+      voices: defaultModel.voices.map((voice) => ({
+        ...voice,
+        enabled: voice.id === 'pad-harmonograph',
+        gate,
+      })),
+    })
+
+  it('says nothing when each note fills its own step', () => {
+    expect(withGate(1)).not.toContain('.clip(')
+  })
+
+  it('carries a longer hold across as clip', () => {
+    // clip multiplies a note by its step, which is what gate means to the MIDI
+    // writer. Without this the two exports disagree: MIDI ran notes together
+    // into a chord while Strudel played them singly.
+    expect(withGate(6)).toContain('.clip(6)')
+    expect(withGate(0.5)).toContain('.clip(0.5)')
+  })
+})
+
 describe('snippet syntax', () => {
   it('separates stacked parts with a comma the comment cannot swallow', () => {
     const lines = exportStrudelSnippet(defaultModel).split('\n')

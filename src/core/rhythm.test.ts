@@ -55,10 +55,29 @@ describe('quantizeEvents', () => {
     expect(quantized[0].t).toBeCloseTo(0.25, 9)
   })
 
-  it('keeps a near miss as a separate onset below full strength', () => {
+  it('holds one hit per step even when timing is left loose', () => {
+    // Both land in the same quarter-note step. Collapsing here rather than
+    // only at a full snap is what keeps the MIDI and Strudel exports playing
+    // the same part.
+    const events = [event(0.26, 0.2), event(0.24, 0.9)]
+    const quantized = quantizeEvents(events, { divisions: 4, strength: 0 })
+
+    expect(quantized).toHaveLength(1)
+    expect(quantized[0].strength).toBe(0.9)
+  })
+
+  it('keeps the winner off the grid when timing is left loose', () => {
     const events = [event(0.26, 0.2), event(0.24, 0.9)]
 
-    expect(quantizeEvents(events, { divisions: 4, strength: 0 })).toHaveLength(2)
+    expect(quantizeEvents(events, { divisions: 4, strength: 0 })[0].t).toBe(0.24)
+  })
+
+  it('separates close onsets on a finer grid', () => {
+    // At 32 they still share step 8; at 64 they fall either side of 16.
+    const events = [event(0.26, 0.2), event(0.24, 0.9)]
+
+    expect(quantizeEvents(events, { divisions: 32, strength: 0 })).toHaveLength(1)
+    expect(quantizeEvents(events, { divisions: 64, strength: 0 })).toHaveLength(2)
   })
 
   it('returns onsets in ascending order', () => {

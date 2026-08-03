@@ -35,7 +35,7 @@ export const quantizeEvents = (
     return { ...event, t: wrapCycle(event.t + (snapped - event.t) * strength) }
   })
 
-  return collapse(moved)
+  return collapse(moved, divisions)
 }
 
 export const applyVelocity = (
@@ -61,15 +61,23 @@ export const shapeRhythm = (
   applyVelocity(quantizeEvents(events, options.quantize), options.velocity)
 
 /**
- * Two onsets that resolve to the same instant are one hit, so the louder wins.
- * At full strength this is what merges a grid slot; below it, only genuinely
- * coincident onsets merge and a near-miss stays as a flam.
+ * One grid step holds one hit, and the loudest wins it. This runs at every
+ * strength, not only at a full snap, because the grid is the resolution the
+ * part is written at: the MIDI writer would otherwise place a dozen onsets a
+ * few ticks apart while the Strudel step sequence folded them into three, and
+ * the two exports would stop describing the same music.
+ *
+ * The winner keeps its own timing rather than the slot's, so a loose part
+ * still plays off the grid. To keep two close onsets apart, raise divisions.
  */
-const collapse = (events: Array<CurveEvent>): Array<CurveEvent> => {
+const collapse = (
+  events: Array<CurveEvent>,
+  divisions: number,
+): Array<CurveEvent> => {
   const strongestAt = new Map<number, CurveEvent>()
 
   for (const event of events) {
-    const key = Math.round(event.t * 1e9)
+    const key = Math.round(event.t * divisions) % divisions
     const held = strongestAt.get(key)
 
     if (!held || event.strength > held.strength) {

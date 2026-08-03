@@ -50,7 +50,8 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
         name: item.voice.name,
         channel: item.voice.channel,
         program: item.voice.program,
-        durationTicks: item.voice.durationTicks,
+        steps: item.voice.quantize.divisions,
+        gate: item.voice.gate,
         notes: item.notes,
       })),
       { cyclesPerSecond: model.time.cyclesPerSecond, name: model.name },
@@ -165,6 +166,22 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
                         ...voice.quantize,
                         strength: Number(event.target.value),
                       },
+                    })
+                  }
+                />
+              </label>
+
+              <label>
+                <span>Hold</span>
+                <input
+                  type="number"
+                  min={0.25}
+                  max={16}
+                  step={0.25}
+                  value={voice.gate}
+                  onChange={(event) =>
+                    updateVoice(voice.id, {
+                      gate: Math.max(0.25, Number(event.target.value) || 1),
                     })
                   }
                 />

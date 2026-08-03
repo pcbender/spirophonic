@@ -524,6 +524,35 @@ Decide these when the packet that needs them lands; do not block on them.
 - `~/mrp/mrp/admin/static/spiro-preview.js` — the same families in JavaScript.
 - `~/mrp/mrp/video/casting.py` — prior art for multi-voice composition.
 
+## Keeping the exports in agreement
+
+The MIDI file and the Strudel snippet are two adapters over one event list, so
+they have to describe the same part. Two rules exist only to hold that:
+
+**One grid step holds one hit.** `quantizeEvents` collapses to the loudest
+onset per step at *every* strength, not only at a full snap. Collapsing only
+coincident onsets — which an earlier draft of this doc allowed, to keep a near
+miss as a flam — let the MIDI writer place a dozen onsets a few ticks apart
+while the Strudel step sequence folded them into three. The winner keeps its
+own timing, so a loose part still plays off the grid; to keep two close onsets
+apart, raise `divisions`.
+
+**A note fills its own step.** That is what a step sequence means and what
+Strudel plays, and `gate` multiplies it in both exports — as ticks in MIDI, as
+`clip()` in Strudel. At `gate <= 1` the MIDI writer additionally holds a note
+no longer than the gap to the next onset, because loosely quantized onsets can
+sit closer together than a step and would otherwise smear a line into a chord.
+Above 1 the overlap is the explicit request, so it is left alone.
+
+`src/export/agreement.test.ts` compares the two outputs against each other
+rather than against fixtures, and checks they still agree at several quantize
+strengths.
+
+The residual difference is sub-step timing: MIDI writes an onset where it
+actually falls, while a Strudel step sequence can only place it on the grid.
+Note counts, pitches, and dynamics match; a loosely quantized part will swing
+in the DAW and sit square in Strudel.
+
 ## Strudel vocabulary
 
 The names a snippet emits are an external contract, and Strudel fails quietly

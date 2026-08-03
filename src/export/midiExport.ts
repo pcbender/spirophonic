@@ -38,8 +38,10 @@ export type MidiVoiceInput = {
   notes: Array<VoiceNote>
   /** General MIDI program, selected once at the top of the track. */
   program?: number
-  /** Held length of each note. Percussion one-shots want a short fixed value. */
-  durationTicks?: number
+  /** Grid steps in one bar, which sets how long a step is. */
+  steps: number
+  /** Note length as a multiple of one step. Above 1, notes overlap. */
+  gate: number
 }
 
 export type MidiExportOptions = {
@@ -54,7 +56,6 @@ export const defaultMidiExportOptions = {
   beatsPerBar: 4,
   bars: 4,
   ticksPerQuarter: 480,
-  percussionDurationTicks: 32,
 }
 
 /**
@@ -109,19 +110,23 @@ const repeatBars = (
   bars: number,
   ticksPerBar: number,
 ): Array<MidiNote> => {
-  const duration = voice.durationTicks ?? defaultMidiExportOptions.percussionDurationTicks
+  // A note fills its own step, which is what a step sequence means and what
+  // Strudel plays, so both exports sustain by the same amount.
+  const steps = Math.max(1, Math.round(voice.steps))
+  const held = (voice.gate * ticksPerBar) / steps
+  const onsets = voice.notes.map((event) => Math.round(event.t * ticksPerBar))
   const notes: Array<MidiNote> = []
 
   for (let bar = 0; bar < bars; bar += 1) {
-    for (const event of voice.notes) {
+    voice.notes.forEach((event, index) => {
       notes.push({
-        tick: bar * ticksPerBar + Math.round(event.t * ticksPerBar),
+        tick: bar * ticksPerBar + onsets[index],
         channel: voice.channel,
         note: event.note,
         velocity: event.velocity,
-        duration,
+        duration: Math.max(1, Math.round(clampToGap(held, onsets, index, ticksPerBar, voice.gate))),
       })
-    }
+    })
   }
 
   return notes
@@ -136,4 +141,28 @@ export const downloadMidiFile = (bytes: Uint8Array, name: string) => {
   anchor.download = `${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.mid`
   anchor.click()
   URL.revokeObjectURL(url)
+}
+
+/**
+ * Loosely quantized onsets can sit closer together than one step, and a note
+ * held for a full step would then run into the next and turn a line into a
+ * chord. Holding only as far as the following onset keeps that from happening
+ * by accident. A gate above 1 is an explicit request to overlap, so it is left
+ * alone.
+ */
+const clampToGap = (
+  held: number,
+  onsets: Array<number>,
+  index: number,
+  ticksPerBar: number,
+  gate: number,
+) => {
+  if (gate > 1 || onsets.length < 2) {
+    return held
+  }
+
+  const next = onsets[(index + 1) % onsets.length]
+  const gap = (next - onsets[index] + ticksPerBar) % ticksPerBar
+
+  return gap === 0 ? held : Math.min(held, gap)
 }

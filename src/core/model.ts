@@ -140,8 +140,12 @@ export type Voice = {
   pitch: PitchOptions
   /** General MIDI program for a pitched voice. */
   program?: number
-  /** Held length in ticks. Percussion one-shots want a short value. */
-  durationTicks?: number
+  /**
+   * How long each note is held, as a multiple of one grid step. 1 leaves each
+   * note inside its own step; above 1 it runs into the next, so a line of
+   * single notes becomes a chord. Maps to Strudel's clip().
+   */
+  gate: number
   /** Trace color, so a composition reads as separate shapes. */
   color?: string
 }
