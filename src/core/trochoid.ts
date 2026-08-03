@@ -40,7 +40,7 @@ export const greatestCommonDivisor = (a: number, b: number): number => {
 }
 
 export const generateSpiroPoints = (
-  model: SpirophonicModel,
+  model: Pick<SpirophonicModel, 'geometry'>,
 ): Array<SpiroPoint> => {
   const { fixedRadius, movingRadius, penOffset, phase, rotation, samples } =
     model.geometry

@@ -184,6 +184,7 @@ h1 {
 }
 
 .control-panel,
+.drum-panel,
 .strudel-panel {
   max-height: 640px;
   overflow: auto;
@@ -193,6 +194,7 @@ h1 {
   background: rgba(255, 255, 255, 0.045);
 }
 
+.drum-panel,
 .strudel-panel {
   max-height: none;
 }
@@ -202,6 +204,7 @@ h1 {
 }
 
 .control-panel h2,
+.drum-panel h2,
 .strudel-panel h2 {
   margin: 0 0 12px;
   color: #f2c14e;
@@ -326,5 +329,61 @@ h1 {
 
   .control-panel {
     max-height: none;
+  }
+}
+
+.voice-list {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.voice-row {
+  display: grid;
+  grid-template-columns: minmax(96px, 1fr) 1fr 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid rgba(246, 244, 239, 0.12);
+  padding-top: 12px;
+}
+
+.voice-row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.voice-row label {
+  display: grid;
+  gap: 4px;
+  font-size: 0.75rem;
+}
+
+.voice-row label span {
+  color: rgba(246, 244, 239, 0.62);
+}
+
+.voice-enable {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.voice-enable span {
+  color: #f6f4ef;
+}
+
+.voice-count {
+  color: rgba(246, 244, 239, 0.62);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .voice-row {
+    grid-template-columns: 1fr 1fr;
   }
 }

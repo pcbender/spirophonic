@@ -15,6 +15,34 @@ export type CurveFamily =
 
 export type ModelVersion = '0.2'
 
+export type CurveEventSource =
+  | 'zero-x'
+  | 'zero-y'
+  | 'curvature'
+  | 'radius-max'
+  | 'radius-min'
+
+export type CrossingDirection = 'rising' | 'falling' | 'both'
+
+export type ExtractOptions = {
+  source: CurveEventSource
+  direction?: CrossingDirection
+  threshold?: number
+  minSeparation?: number
+  maxEvents?: number
+}
+
+export type QuantizeOptions = {
+  divisions: number
+  strength: number
+}
+
+export type VelocityOptions = {
+  min: number
+  max: number
+  gamma: number
+}
+
 export type SpirophonicModel = {
   id: string
   name: string
@@ -65,6 +93,24 @@ export type SpirophonicModel = {
     saturation: number
     lightness: number
   }
+  /** Percussion parts, each reading its own curve. */
+  voices: Array<DrumVoice>
+}
+
+/**
+ * One drum, driven by one curve. Giving each voice its own geometry is what
+ * lets a three-against-two polyrhythm be composed as two visible shapes.
+ */
+export type DrumVoice = {
+  id: string
+  name: string
+  enabled: boolean
+  geometry: SpirophonicModel['geometry']
+  trigger: ExtractOptions
+  /** General MIDI percussion note. */
+  note: number
+  velocity: VelocityOptions
+  quantize: QuantizeOptions
 }
 
 /**

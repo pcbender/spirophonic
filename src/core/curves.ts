@@ -23,7 +23,9 @@ export const curveFamilies: Array<CurveFamily> = [
   'harmonograph',
 ]
 
-export const generateCurvePoints = (model: SpirophonicModel): Array<SpiroPoint> => {
+export const generateCurvePoints = (
+  model: Pick<SpirophonicModel, 'geometry'>,
+): Array<SpiroPoint> => {
   const { geometry } = model
 
   if (geometry.family === 'spirogram') {

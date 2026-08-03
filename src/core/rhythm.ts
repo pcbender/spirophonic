@@ -1,16 +1,8 @@
 import type { CurveEvent } from './events'
 import { wrapCycle } from './events'
+import type { QuantizeOptions, VelocityOptions } from './model'
 
-export type QuantizeOptions = {
-  divisions: number
-  strength: number
-}
-
-export type VelocityOptions = {
-  min: number
-  max: number
-  gamma: number
-}
+export type { QuantizeOptions, VelocityOptions }
 
 export type ShapedEvent = CurveEvent & {
   velocity: number

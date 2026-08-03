@@ -1,27 +1,17 @@
+import type {
+  CrossingDirection,
+  CurveEventSource,
+  ExtractOptions,
+} from './model'
 import type { SpiroPoint } from './trochoid'
 
-export type CurveEventSource =
-  | 'zero-x'
-  | 'zero-y'
-  | 'curvature'
-  | 'radius-max'
-  | 'radius-min'
-
-export type CrossingDirection = 'rising' | 'falling' | 'both'
+export type { CrossingDirection, CurveEventSource, ExtractOptions }
 
 export type CurveEvent = {
   t: number
   strength: number
   source: CurveEventSource
   index: number
-}
-
-export type ExtractOptions = {
-  source: CurveEventSource
-  direction?: CrossingDirection
-  threshold?: number
-  minSeparation?: number
-  maxEvents?: number
 }
 
 export const defaultExtractOptions = {

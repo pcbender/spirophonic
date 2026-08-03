@@ -1,4 +1,5 @@
 import { curveFamilies } from '../core/curves'
+import { defaultVoices } from '../core/defaultModel'
 import { familyDefaults, type CurveFamily, type SpirophonicModel } from '../core/model'
 
 export type JsonImportResult =
@@ -40,6 +41,9 @@ const upgradeModel = (value: Record<string, unknown>): SpirophonicModel => {
       ...(geometry as unknown as SpirophonicModel['geometry']),
       family: isCurveFamily(family) ? family : familyDefaults.family,
     },
+    voices: Array.isArray(value.voices)
+      ? (value.voices as SpirophonicModel['voices'])
+      : defaultVoices,
   }
 }
 
