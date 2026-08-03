@@ -17,7 +17,7 @@ done until its acceptance criteria all pass.
 | --- | --- | --- | --- |
 | P1 | Event extraction core | — | **done** |
 | P2 | Rhythm shaping | P1 | **done** |
-| P3 | MIDI file writer | P1 | not started |
+| P3 | MIDI file writer | P1 | **done** |
 | P4 | Drum kit and download UI | P2, P3 | not started |
 | P5 | Curve families | — | not started |
 | P6 | Scale quantization | P1 | not started |
@@ -258,9 +258,12 @@ maps voices and events onto it. Do not add an npm MIDI library.
 One cycle is one bar. Default 4/4, so:
 
 ```text
-BPM                 = 240 * cyclesPerSecond * (4 / beatsPerBar)
+BPM                 = 60 * cyclesPerSecond * beatsPerBar
 microsecondsPerBeat = 60_000_000 / BPM
 ```
+
+A bar lasts `1 / cps` seconds and holds `beatsPerBar` beats, so a beat lasts
+`1 / (cps * beatsPerBar)` seconds.
 
 At the default `cyclesPerSecond` 0.2 in 4/4 that is 48 BPM, a 5-second bar, and
 1_250_000 microseconds per quarter note. Clamp `cyclesPerSecond` through
