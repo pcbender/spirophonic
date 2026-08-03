@@ -20,7 +20,7 @@ done until its acceptance criteria all pass.
 | P3 | MIDI file writer | P1 | **done** |
 | P4 | Drum kit and download UI | P2, P3 | not started |
 | P5 | Curve families | — | **done** |
-| P6 | Scale quantization | P1 | not started |
+| P6 | Scale quantization | P1 | **done** |
 | P7 | Multi-voice model | P5, P6 | not started |
 | P8 | Strudel export rewrite | P1, P6 | not started |
 
