@@ -1,8 +1,5 @@
 # Dependencies
 node_modules/
-.venv/
-__pycache__/
-*.py[cod]
 
 # Build output
 dist/
@@ -12,13 +9,10 @@ coverage/
 # Vite / test caches
 .vite/
 .vitest/
-.pytest_cache/
-.ruff_cache/
 
 # Environment files
 .env
 .env.*
-!.env.example
 
 # Logs
 npm-debug.log*
@@ -42,3 +36,4 @@ scaffold-tmp/
 vite-dev*.log
 
 graphify-out/
+.claude/settings.local.json

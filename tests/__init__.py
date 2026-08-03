@@ -1,1 +1,0 @@
-"""Spirophonic test support package."""
