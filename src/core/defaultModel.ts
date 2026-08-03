@@ -1,9 +1,18 @@
 import {
   familyDefaults,
   type CurveFamily,
-  type DrumVoice,
+  type PitchOptions,
   type SpirophonicModel,
+  type Voice,
 } from './model'
+import { percussionChannel } from './voices'
+
+const defaultPitch: PitchOptions = {
+  source: 'radius',
+  scale: 'pentatonic-minor',
+  root: 48,
+  octaves: 2,
+}
 
 const voiceGeometry = (
   family: CurveFamily,
@@ -25,11 +34,15 @@ const voiceGeometry = (
  * single 3:2 lissajous drives hats and snare off its two axes, so the
  * polyrhythm is one shape read two ways.
  */
-export const defaultVoices: Array<DrumVoice> = [
+export const defaultVoices: Array<Voice> = [
   {
     id: 'kick-rose',
     name: 'Kick',
     enabled: true,
+    kind: 'percussion',
+    channel: percussionChannel,
+    pitch: defaultPitch,
+    color: '#f2c14e',
     geometry: voiceGeometry('rose', { roseN: 5, roseD: 1 }),
     trigger: { source: 'radius-max' },
     note: 36,
@@ -40,6 +53,10 @@ export const defaultVoices: Array<DrumVoice> = [
     id: 'hat-lissajous-x',
     name: 'Closed hat',
     enabled: true,
+    kind: 'percussion',
+    channel: percussionChannel,
+    pitch: defaultPitch,
+    color: '#6fd6c2',
     geometry: voiceGeometry('lissajous', { lissFreqX: 3, lissFreqY: 2 }),
     trigger: { source: 'zero-x' },
     note: 42,
@@ -50,11 +67,31 @@ export const defaultVoices: Array<DrumVoice> = [
     id: 'snare-lissajous-y',
     name: 'Snare',
     enabled: true,
+    kind: 'percussion',
+    channel: percussionChannel,
+    pitch: defaultPitch,
+    color: '#e2718a',
     geometry: voiceGeometry('lissajous', { lissFreqX: 3, lissFreqY: 2 }),
     trigger: { source: 'zero-y' },
     note: 38,
     velocity: { min: 56, max: 104, gamma: 1 },
     quantize: { divisions: 16, strength: 1 },
+  },
+  {
+    id: 'pad-harmonograph',
+    name: 'Pad',
+    enabled: false,
+    kind: 'pitched',
+    channel: 0,
+    program: 89, // GM pad 2 (warm)
+    geometry: voiceGeometry('harmonograph'),
+    trigger: { source: 'radius-max', maxEvents: 12 },
+    note: 48,
+    pitch: { source: 'radius', scale: 'pentatonic-minor', root: 48, octaves: 2 },
+    velocity: { min: 40, max: 92, gamma: 1.2 },
+    quantize: { divisions: 8, strength: 0.6 },
+    durationTicks: 720,
+    color: '#8f7ff0',
   },
 ]
 

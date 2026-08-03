@@ -15,6 +15,9 @@ export type MidiNote = {
 export type MidiTrack = {
   name: string
   notes: Array<MidiNote>
+  /** General MIDI program, selected once at the top of the track. */
+  program?: number
+  channel?: number
 }
 
 export type TimeSignature = {
@@ -39,6 +42,7 @@ const META_TIME_SIGNATURE = 0x58
 const META_END_OF_TRACK = 0x2f
 const NOTE_OFF = 0x80
 const NOTE_ON = 0x90
+const PROGRAM_CHANGE = 0xc0
 
 export const encodeVariableLength = (value: number): Array<number> => {
   let remaining = Math.max(0, Math.floor(value))
@@ -131,6 +135,15 @@ const buildNoteTrack = (track: MidiTrack) => {
 
   let previousTick = 0
   const payload: Array<number> = [...event(0, metaText(META_NAME, track.name))]
+
+  if (track.program !== undefined) {
+    payload.push(
+      ...event(0, [
+        PROGRAM_CHANGE | clampChannel(track.channel ?? 0),
+        clampByte(track.program),
+      ]),
+    )
+  }
 
   for (const message of ordered) {
     payload.push(...event(message.tick - previousTick, message.bytes))

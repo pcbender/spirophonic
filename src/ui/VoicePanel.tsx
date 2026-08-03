@@ -1,15 +1,12 @@
 import { useMemo, useState } from 'react'
 
-import type { CurveEventSource, DrumVoice, SpirophonicModel } from '../core/model'
-import { renderVoices } from '../core/voices'
-import {
-  buildMidiBytes,
-  downloadMidiFile,
-  gmPercussion,
-  percussionChannel,
-} from '../export/midiExport'
+import { scaleNames, type ScaleName } from '../core/scales'
 
-type DrumPanelProps = {
+import type { CurveEventSource, SpirophonicModel, Voice } from '../core/model'
+import { renderVoices } from '../core/voices'
+import { buildMidiBytes, downloadMidiFile, gmPercussion } from '../export/midiExport'
+
+type VoicePanelProps = {
   model: SpirophonicModel
   onChange: (model: SpirophonicModel) => void
 }
@@ -28,12 +25,12 @@ const drumOptions = Object.entries(gmPercussion).map(([name, note]) => ({
   label: name.replace(/-/g, ' '),
 }))
 
-export function DrumPanel({ model, onChange }: DrumPanelProps) {
+export function VoicePanel({ model, onChange }: VoicePanelProps) {
   const [status, setStatus] = useState('')
   const rendered = useMemo(() => renderVoices(model), [model])
-  const totalHits = rendered.reduce((count, item) => count + item.events.length, 0)
+  const totalHits = rendered.reduce((count, item) => count + item.notes.length, 0)
 
-  const updateVoice = (id: string, patch: Partial<DrumVoice>) => {
+  const updateVoice = (id: string, patch: Partial<Voice>) => {
     onChange({
       ...model,
       voices: model.voices.map((voice) =>
@@ -51,9 +48,10 @@ export function DrumPanel({ model, onChange }: DrumPanelProps) {
     const bytes = buildMidiBytes(
       rendered.map((item) => ({
         name: item.voice.name,
-        channel: percussionChannel,
-        note: item.voice.note,
-        events: item.events,
+        channel: item.voice.channel,
+        program: item.voice.program,
+        durationTicks: item.voice.durationTicks,
+        notes: item.notes,
       })),
       { cyclesPerSecond: model.time.cyclesPerSecond, name: model.name },
     )
@@ -63,9 +61,9 @@ export function DrumPanel({ model, onChange }: DrumPanelProps) {
   }
 
   return (
-    <section className="drum-panel" aria-label="Drum kit">
+    <section className="drum-panel" aria-label="Voices">
       <div className="panel-header">
-        <h2>Drums</h2>
+        <h2>Voices</h2>
         <button
           type="button"
           title="Download these parts as a MIDI file for a DAW."
@@ -78,7 +76,7 @@ export function DrumPanel({ model, onChange }: DrumPanelProps) {
       <ul className="voice-list">
         {model.voices.map((voice) => {
           const hits =
-            rendered.find((item) => item.voice.id === voice.id)?.events.length ?? 0
+            rendered.find((item) => item.voice.id === voice.id)?.notes.length ?? 0
 
           return (
             <li key={voice.id} className="voice-row">
@@ -93,21 +91,44 @@ export function DrumPanel({ model, onChange }: DrumPanelProps) {
                 <span>{voice.name}</span>
               </label>
 
-              <label>
-                <span>Drum</span>
-                <select
-                  value={voice.note}
-                  onChange={(event) =>
-                    updateVoice(voice.id, { note: Number(event.target.value) })
-                  }
-                >
-                  {drumOptions.map((option) => (
-                    <option key={option.name} value={option.note}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              {voice.kind === 'percussion' ? (
+                <label>
+                  <span>Drum</span>
+                  <select
+                    value={voice.note}
+                    onChange={(event) =>
+                      updateVoice(voice.id, { note: Number(event.target.value) })
+                    }
+                  >
+                    {drumOptions.map((option) => (
+                      <option key={option.name} value={option.note}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : (
+                <label>
+                  <span>Scale</span>
+                  <select
+                    value={voice.pitch.scale}
+                    onChange={(event) =>
+                      updateVoice(voice.id, {
+                        pitch: {
+                          ...voice.pitch,
+                          scale: event.target.value as ScaleName,
+                        },
+                      })
+                    }
+                  >
+                    {scaleNames.map((name) => (
+                      <option key={name} value={name}>
+                        {name.replace(/-/g, ' ')}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
 
               <label>
                 <span>Trigger</span>

@@ -93,24 +93,57 @@ export type SpirophonicModel = {
     saturation: number
     lightness: number
   }
-  /** Percussion parts, each reading its own curve. */
-  voices: Array<DrumVoice>
+  /** Parts, each reading its own curve. */
+  voices: Array<Voice>
+}
+
+export type VoiceKind = 'percussion' | 'pitched'
+
+export type PitchSource = 'radius' | 'angle' | 'x' | 'y'
+
+export type ScaleName =
+  | 'chromatic'
+  | 'major'
+  | 'minor'
+  | 'dorian'
+  | 'pentatonic-major'
+  | 'pentatonic-minor'
+
+export type PitchOptions = {
+  /** Which property of the curve at the onset chooses the note. */
+  source: PitchSource
+  scale: ScaleName
+  /** MIDI note the scale is rooted on. */
+  root: number
+  /** How far the pitch may travel above the root. */
+  octaves: number
 }
 
 /**
- * One drum, driven by one curve. Giving each voice its own geometry is what
+ * One part, driven by one curve. Giving each voice its own geometry is what
  * lets a three-against-two polyrhythm be composed as two visible shapes.
  */
-export type DrumVoice = {
+export type Voice = {
   id: string
   name: string
   enabled: boolean
+  kind: VoiceKind
   geometry: SpirophonicModel['geometry']
   trigger: ExtractOptions
-  /** General MIDI percussion note. */
-  note: number
   velocity: VelocityOptions
   quantize: QuantizeOptions
+  /** MIDI channel. Percussion belongs on 9. */
+  channel: number
+  /** Fixed note for percussion; the starting point for a pitched part. */
+  note: number
+  /** How a pitched voice chooses notes. Ignored by percussion. */
+  pitch: PitchOptions
+  /** General MIDI program for a pitched voice. */
+  program?: number
+  /** Held length in ticks. Percussion one-shots want a short value. */
+  durationTicks?: number
+  /** Trace color, so a composition reads as separate shapes. */
+  color?: string
 }
 
 /**

@@ -1,10 +1,6 @@
-export type ScaleName =
-  | 'chromatic'
-  | 'major'
-  | 'minor'
-  | 'dorian'
-  | 'pentatonic-major'
-  | 'pentatonic-minor'
+import type { ScaleName } from './model'
+
+export type { ScaleName }
 
 /** Semitone offsets from the root, one octave of each scale. */
 export const scaleIntervals: Record<ScaleName, Array<number>> = {

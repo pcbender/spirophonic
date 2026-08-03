@@ -1,27 +1,23 @@
 import { describe, expect, it } from 'vitest'
 
-import type { ShapedEvent } from '../core/rhythm'
-import {
-  buildMidiBytes,
-  gmPercussion,
-  midiTempo,
-  percussionChannel,
-} from './midiExport'
+import type { VoiceNote } from '../core/voices'
+import { percussionChannel } from '../core/voices'
+import { buildMidiBytes, gmPercussion, midiTempo } from './midiExport'
 import { decodeVariableLength } from './midi/smf'
 
-const shaped = (t: number, velocity = 100): ShapedEvent => ({
+const shaped = (t: number, velocity = 100, note: number = gmPercussion['bass-drum']): VoiceNote => ({
   t,
   strength: velocity / 127,
   source: 'zero-y',
   index: 0,
   velocity,
+  note,
 })
 
-const kick = (events: Array<ShapedEvent>) => ({
+const kick = (notes: Array<VoiceNote>) => ({
   name: 'Kick',
   channel: percussionChannel,
-  note: gmPercussion['bass-drum'],
-  events,
+  notes,
 })
 
 /** Walks a note track and returns the absolute tick of every note on. */
@@ -123,8 +119,10 @@ describe('buildMidiBytes', () => {
         {
           name: 'Hat',
           channel: percussionChannel,
-          note: gmPercussion['closed-hi-hat'],
-          events: [shaped(0.25), shaped(0.75)],
+          notes: [
+            shaped(0.25, 100, gmPercussion['closed-hi-hat']),
+            shaped(0.75, 100, gmPercussion['closed-hi-hat']),
+          ],
         },
       ],
       { cyclesPerSecond: 0.2, bars: 1 },

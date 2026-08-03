@@ -7,7 +7,7 @@ import { generateCurvePoints } from './core/curves'
 import { getEffectiveCyclesPerSecond } from './core/time'
 import { CanvasView } from './ui/CanvasView'
 import { ControlPanel } from './ui/ControlPanel'
-import { DrumPanel } from './ui/DrumPanel'
+import { VoicePanel } from './ui/VoicePanel'
 import { ImportExportPanel } from './ui/ImportExportPanel'
 import { PresetPicker } from './ui/PresetPicker'
 import { StrudelExportPanel } from './ui/StrudelExportPanel'
@@ -168,7 +168,7 @@ function App() {
         />
         <div className="side-panel">
           <ControlPanel model={model} onChange={setModel} />
-          <DrumPanel model={model} onChange={setModel} />
+          <VoicePanel model={model} onChange={setModel} />
           <StrudelExportPanel model={model} points={points} />
         </div>
       </section>

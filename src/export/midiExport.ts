@@ -1,5 +1,5 @@
-import type { ShapedEvent } from '../core/rhythm'
 import { getEffectiveCyclesPerSecond } from '../core/time'
+import type { VoiceNote } from '../core/voices'
 import { buildMidiFile, type MidiNote, type MidiTrack } from './midi/smf'
 
 /** GM percussion lives on channel 10, which is index 9 on the wire. */
@@ -35,8 +35,9 @@ export type PercussionName = keyof typeof gmPercussion
 export type MidiVoiceInput = {
   name: string
   channel: number
-  note: number
-  events: Array<ShapedEvent>
+  notes: Array<VoiceNote>
+  /** General MIDI program, selected once at the top of the track. */
+  program?: number
   /** Held length of each note. Percussion one-shots want a short fixed value. */
   durationTicks?: number
 }
@@ -89,6 +90,8 @@ export const buildMidiBytes = (
 
   const tracks: Array<MidiTrack> = voices.map((voice) => ({
     name: voice.name,
+    channel: voice.channel,
+    program: voice.program,
     notes: repeatBars(voice, bars, ticksPerBar),
   }))
 
@@ -110,11 +113,11 @@ const repeatBars = (
   const notes: Array<MidiNote> = []
 
   for (let bar = 0; bar < bars; bar += 1) {
-    for (const event of voice.events) {
+    for (const event of voice.notes) {
       notes.push({
         tick: bar * ticksPerBar + Math.round(event.t * ticksPerBar),
         channel: voice.channel,
-        note: voice.note,
+        note: event.note,
         velocity: event.velocity,
         duration,
       })
