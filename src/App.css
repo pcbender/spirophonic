@@ -1,33 +1,32 @@
+/*
+ * The app fills the viewport and owns its own scrolling: the shell is a fixed
+ * two-row grid, and only the side rails scroll. A scrollbar on the page itself
+ * means a region has outgrown its cell, which is a layout bug rather than
+ * something to scroll past.
+ */
 .app-shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: min(1120px, calc(100% - 48px));
-  margin: 0 auto;
-  padding: 28px 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 14px;
+  height: 100dvh;
+  padding: 14px 18px 18px;
 }
 
-.app-header,
-.workspace,
-.control-panel {
+/* Title, transport, and file actions share one line and wrap together. */
+.app-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px 22px;
+  flex-wrap: wrap;
   min-width: 0;
 }
 
-.app-header {
+.brand {
   display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.eyebrow {
-  margin: 0 0 8px;
-  color: #42cafd;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0;
-  text-transform: uppercase;
+  align-items: baseline;
+  gap: 12px;
+  margin-right: auto;
+  min-width: 0;
 }
 
 h1,
@@ -39,43 +38,166 @@ p {
 h1 {
   margin-bottom: 0;
   color: #f6f4ef;
-  font-size: clamp(2.8rem, 8vw, 5.6rem);
-  line-height: 0.92;
+  font-size: 1.45rem;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
-.summary {
-  max-width: 360px;
+.tagline {
   margin-bottom: 0;
-  color: #d8d3ca;
-  font-size: 1rem;
-  line-height: 1.5;
+  color: #a9a297;
+  font-size: 0.84rem;
+  white-space: nowrap;
 }
 
-.workspace {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
-  gap: 18px;
-  align-items: stretch;
-}
-
-.side-panel {
-  display: grid;
+.topbar-io {
+  display: flex;
+  align-items: center;
   gap: 14px;
   min-width: 0;
 }
 
-.transport {
+/*
+ * Controls on the left, the trace in the middle, the composition on the right.
+ * The rails are sized in their own right so nothing inside them has to overflow
+ * to fit: the voice rows in particular need real width.
+ */
+.workspace {
   display: grid;
-  grid-template-columns: auto auto auto auto minmax(120px, 1fr) 48px;
-  align-items: center;
-  gap: 10px;
+  grid-template-columns:
+    minmax(250px, 300px)
+    minmax(0, 1fr)
+    minmax(340px, 430px);
+  grid-template-areas: 'shape stage voices';
+  gap: 14px;
+  min-height: 0;
 }
 
-.preset-toolbar {
+.rail {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.rail-shape {
+  grid-area: shape;
+}
+
+.rail-voices {
+  grid-area: voices;
+}
+
+/*
+ * A trace is a closed curve around an origin, so the stage is square. Sizing it
+ * from the smaller of the cell's two dimensions keeps the whole curve visible
+ * without ever pushing the page wider or taller than the viewport.
+ */
+.canvas-stage {
+  grid-area: stage;
+  container-type: size;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+}
+
+.canvas-shell {
+  width: min(100cqw, 100cqh);
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(246, 244, 239, 0.16);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #101014;
+}
+
+.canvas-shell canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.transport {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 10px;
+  flex: 1 1 380px;
+  min-width: 0;
+}
+
+.transport button {
+  min-height: 36px;
+  border: 1px solid rgba(246, 244, 239, 0.22);
+  border-radius: 6px;
+  padding: 0 14px;
+  color: #f6f4ef;
+  background: #18181f;
+  cursor: pointer;
+}
+
+.transport button:hover {
+  border-color: rgba(66, 202, 253, 0.8);
+}
+
+.transport output {
+  color: #d8d3ca;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  white-space: nowrap;
+}
+
+.transport .progress-meter {
+  flex: 1 1 90px;
+  min-width: 60px;
+}
+
+.sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  color: #e9e2d6;
+  white-space: nowrap;
+}
+
+.sound-toggle input {
+  accent-color: #42cafd;
+}
+
+.progress-meter {
+  block-size: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(246, 244, 239, 0.14);
+}
+
+.progress-meter span {
+  display: block;
+  block-size: 100%;
+  background: #42cafd;
+}
+
+.preset-picker {
+  display: inline-grid;
+  grid-template-columns: auto minmax(140px, 220px);
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: #e9e2d6;
+}
+
+.preset-picker select {
+  min-height: 36px;
+  min-width: 0;
+  border: 1px solid rgba(246, 244, 239, 0.2);
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #f6f4ef;
+  background: #18181f;
 }
 
 .import-export {
@@ -83,25 +205,6 @@ h1 {
   align-items: center;
   gap: 10px;
   min-width: 0;
-}
-
-.preset-picker {
-  display: inline-grid;
-  grid-template-columns: auto minmax(180px, 320px);
-  align-items: center;
-  gap: 10px;
-  justify-self: start;
-  width: fit-content;
-  color: #e9e2d6;
-}
-
-.preset-picker select {
-  min-height: 36px;
-  border: 1px solid rgba(246, 244, 239, 0.2);
-  border-radius: 6px;
-  padding: 8px 10px;
-  color: #f6f4ef;
-  background: #18181f;
 }
 
 .import-export input {
@@ -124,88 +227,28 @@ h1 {
   font-size: 0.9rem;
 }
 
-.transport button {
-  min-height: 38px;
-  border: 1px solid rgba(246, 244, 239, 0.22);
-  border-radius: 6px;
-  padding: 0 14px;
-  color: #f6f4ef;
-  background: #18181f;
-  cursor: pointer;
-}
-
-.transport button:hover {
-  border-color: rgba(66, 202, 253, 0.8);
-}
-
-.transport output {
-  color: #d8d3ca;
-  font-variant-numeric: tabular-nums;
-  text-align: end;
-}
-
-.sound-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 38px;
-  color: #e9e2d6;
-}
-
-.sound-toggle input {
-  accent-color: #42cafd;
-}
-
-.progress-meter {
-  block-size: 8px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(246, 244, 239, 0.14);
-}
-
-.progress-meter span {
-  display: block;
-  block-size: 100%;
-  background: #42cafd;
-}
-
-.canvas-shell {
-  min-height: 640px;
-  border: 1px solid rgba(246, 244, 239, 0.16);
-  border-radius: 8px;
-  overflow: hidden;
-  background: #101014;
-}
-
-.canvas-shell canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
+/* Panels size to their content; the rail around them is what scrolls. */
 .control-panel,
+.drum-panel,
 .strudel-panel {
-  max-height: 640px;
-  overflow: auto;
+  min-width: 0;
   border: 1px solid rgba(246, 244, 239, 0.16);
-  border-radius: 8px;
-  padding: 18px;
+  border-radius: 10px;
+  padding: 16px;
   background: rgba(255, 255, 255, 0.045);
 }
 
-.strudel-panel {
-  max-height: none;
-}
-
 .control-panel section + section {
-  margin-top: 22px;
+  margin-top: 20px;
 }
 
 .control-panel h2,
+.drum-panel h2,
 .strudel-panel h2 {
   margin: 0 0 12px;
   color: #f2c14e;
-  font-size: 1rem;
+  font-size: 0.94rem;
+  letter-spacing: 0.01em;
 }
 
 .panel-header {
@@ -225,14 +268,25 @@ h1 {
   cursor: pointer;
 }
 
+.panel-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.panel-actions button[aria-pressed='true'] {
+  border-color: #f2c14e;
+  color: #101014;
+  background: #f2c14e;
+}
+
 .strudel-panel pre {
-  overflow: auto;
+  overflow-x: auto;
   margin: 0;
   border-radius: 6px;
   padding: 12px;
   color: #f6f4ef;
   background: rgba(16, 16, 20, 0.86);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   line-height: 1.5;
 }
 
@@ -246,8 +300,9 @@ h1 {
 
 .field {
   display: grid;
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 6px;
+  margin-bottom: 12px;
+  min-width: 0;
   color: #e9e2d6;
 }
 
@@ -255,19 +310,21 @@ h1 {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 16px;
-  font-size: 0.9rem;
+  gap: 12px;
+  font-size: 0.84rem;
 }
 
 .field strong {
   color: #f6f4ef;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 .field input,
 .field select {
   width: 100%;
+  min-width: 0;
 }
 
 .field input[type='range'] {
@@ -278,53 +335,157 @@ h1 {
   display: flex;
   justify-content: space-between;
   color: #a9a297;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
 }
 
 .field select {
   border: 1px solid rgba(246, 244, 239, 0.2);
   border-radius: 6px;
-  padding: 8px 10px;
+  padding: 7px 10px;
   color: #f6f4ef;
   background: #18181f;
 }
 
-@media (max-width: 760px) {
+.voice-list {
+  display: grid;
+  gap: 14px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * The name claims a full line, and the controls below flow into as many
+ * columns as the rail can hold. A fixed column count is what used to push a
+ * scrollbar under the panel on narrower windows.
+ */
+.voice-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 8px 10px;
+  border-top: 1px solid rgba(246, 244, 239, 0.12);
+  padding-top: 12px;
+  min-width: 0;
+}
+
+.voice-row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.voice-row label {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  font-size: 0.72rem;
+}
+
+.voice-row label span {
+  color: rgba(246, 244, 239, 0.62);
+}
+
+.voice-row select,
+.voice-row input[type='number'] {
+  width: 100%;
+  min-width: 0;
+  min-height: 30px;
+  border: 1px solid rgba(246, 244, 239, 0.2);
+  border-radius: 6px;
+  /* Room on the right for the native arrow, so a long option is not clipped. */
+  padding: 4px 4px 4px 8px;
+  color: #f6f4ef;
+  background: #18181f;
+  font-size: 0.78rem;
+}
+
+.voice-row input[type='range'] {
+  width: 100%;
+  min-width: 0;
+  accent-color: #42cafd;
+}
+
+/* Name and count share one line above the controls. */
+.voice-row .voice-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.voice-row .voice-enable {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 0.9rem;
+}
+
+.voice-enable input {
+  accent-color: #f2c14e;
+}
+
+.voice-enable span {
+  color: #f6f4ef;
+}
+
+.voice-count {
+  color: rgba(246, 244, 239, 0.55);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Two rails do not fit beside a usable stage, so the shape controls move under
+   the composition and both keep scrolling on their own. */
+@media (max-width: 1240px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+    /* Voices is the busier panel, so it keeps the larger share. */
+    grid-template-rows: minmax(0, 1.5fr) minmax(0, 1fr);
+    grid-template-areas:
+      'stage voices'
+      'stage shape';
+  }
+}
+
+/* Below this the stage and rails stack, and the page scrolls as one. */
+@media (max-width: 900px) {
   .app-shell {
-    width: min(100% - 32px, 640px);
+    height: auto;
+    min-height: 100dvh;
+    padding: 12px;
   }
 
-  .app-header,
-  .workspace,
-  .transport,
-  .preset-picker {
-    grid-template-columns: 1fr;
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+      'stage'
+      'voices'
+      'shape';
   }
 
-  .preset-toolbar {
-    align-items: stretch;
-    flex-direction: column;
+  .rail {
+    overflow-y: visible;
   }
 
-  .import-export {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .transport output {
-    text-align: start;
-  }
-
-  .app-header {
-    align-items: start;
-    flex-direction: column;
+  .canvas-stage {
+    container-type: inline-size;
+    aspect-ratio: 1 / 1;
+    max-height: 70dvh;
   }
 
   .canvas-shell {
-    min-height: 420px;
+    width: 100%;
   }
 
-  .control-panel {
-    max-height: none;
+  .brand {
+    margin-right: 0;
+  }
+
+  .topbar-io {
+    flex-wrap: wrap;
   }
 }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { defaultModel } from './defaultModel'
 import {
+  approximateCurvature,
   approximateVelocity,
   clamp,
   mapRange,
@@ -69,5 +70,28 @@ describe('mapping utilities', () => {
 
   it('approximates velocity as a non-negative value', () => {
     expect(approximateVelocity(points, 10)).toBeGreaterThanOrEqual(0)
+  })
+
+  it('reports a gentle bend where the tangent crosses half a turn', () => {
+    // A circle bends by the same small amount at every sample. The tangent
+    // sweeps through +/-pi once per revolution, which is where an unfolded
+    // angle difference used to report a full-circle turn instead.
+    const circle = generateSpiroPoints({
+      ...defaultModel,
+      geometry: {
+        ...defaultModel.geometry,
+        fixedRadius: 180,
+        movingRadius: 60,
+        penOffset: 0,
+      },
+    })
+    const curvatures = circle
+      .slice(1, -1)
+      .map((_, index) => approximateCurvature(circle, index + 1))
+    const step = (Math.PI * 2) / (circle.length - 1)
+
+    for (const curvature of curvatures) {
+      expect(curvature).toBeCloseTo(step, 9)
+    }
   })
 })

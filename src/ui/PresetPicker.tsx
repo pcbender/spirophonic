@@ -10,11 +10,11 @@ export function PresetPicker({ model, onSelect }: PresetPickerProps) {
   return (
     <label
       className="preset-picker"
-      title="Load a complete relationship model with geometry, sound, color, and timing values."
+      title="Loads a whole relationship at once: shape, colour, tone, and speed. Visually the trace is replaced; sonically the tempo and the live tone change, and because voices inherit the main shape, the rhythm moves with it."
     >
       <span>Preset</span>
       <select
-        title="Load a complete relationship model with geometry, sound, color, and timing values."
+        title="Loads a whole relationship at once: shape, colour, tone, and speed. Visually the trace is replaced; sonically the tempo and the live tone change, and because voices inherit the main shape, the rhythm moves with it."
         value={model.id}
         onChange={(event) => {
           const preset = presets.find(

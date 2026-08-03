@@ -2,10 +2,18 @@ import type { SpirophonicModel } from '../core/model'
 import type { SpiroPoint } from '../core/trochoid'
 import { pointToHsl } from './color'
 
+export type VoiceTrace = {
+  points: Array<SpiroPoint>
+  color: string
+  onsets: Array<number>
+}
+
 export type DrawTraceOptions = {
   activeIndex?: number
   revealProgress?: number
   showActivePoint?: boolean
+  /** Enabled voices, drawn behind the main trace as the composition. */
+  voices?: Array<VoiceTrace>
 }
 
 const padding = 36
@@ -32,7 +40,16 @@ export const drawSpiroTrace = (
     return
   }
 
-  const transform = getCanvasTransform(points, width, height)
+  const voices = options.voices ?? []
+  // One transform over every curve, so the parts stay in register instead of
+  // each being fitted to its own bounding box.
+  const transform = getCanvasTransform(
+    [...points, ...voices.flatMap((voice) => voice.points)],
+    width,
+    height,
+  )
+
+  drawVoices(context, voices, transform)
 
   context.lineCap = 'round'
   context.lineJoin = 'round'
@@ -61,6 +78,56 @@ export const drawSpiroTrace = (
     context.arc(active.x, active.y, 6, 0, Math.PI * 2)
     context.fillStyle = '#f6f4ef'
     context.fill()
+  }
+}
+
+/**
+ * Draws each voice's curve faintly and marks where its onsets fire, so the
+ * rhythm is visible as points on a shape rather than only audible.
+ */
+const drawVoices = (
+  context: CanvasRenderingContext2D,
+  voices: Array<VoiceTrace>,
+  transform: ReturnType<typeof getCanvasTransform>,
+) => {
+  for (const voice of voices) {
+    if (voice.points.length < 2) {
+      continue
+    }
+
+    context.save()
+    context.globalAlpha = 0.28
+    context.strokeStyle = voice.color
+    context.lineWidth = Math.max(1, Math.min(transform.width, transform.height) * 0.0016)
+    context.beginPath()
+
+    voice.points.forEach((point, index) => {
+      const at = transformPoint(point, transform)
+
+      if (index === 0) {
+        context.moveTo(at.x, at.y)
+      } else {
+        context.lineTo(at.x, at.y)
+      }
+    })
+
+    context.stroke()
+    context.globalAlpha = 0.9
+    context.fillStyle = voice.color
+
+    for (const onset of voice.onsets) {
+      const index = Math.min(
+        voice.points.length - 1,
+        Math.max(0, Math.round(onset * (voice.points.length - 1))),
+      )
+      const at = transformPoint(voice.points[index], transform)
+
+      context.beginPath()
+      context.arc(at.x, at.y, 4, 0, Math.PI * 2)
+      context.fill()
+    }
+
+    context.restore()
   }
 }
 

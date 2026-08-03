@@ -1,3 +1,13 @@
+## Current work
+
+Active design contract: [docs/SOUND-AND-MIDI-DESIGN.md](docs/SOUND-AND-MIDI-DESIGN.md).
+Read it before touching `src/core/`, `src/export/`, or the audio engine. It
+carries a packet table with dependencies, per-packet file lists, and acceptance
+criteria, and it is written for hand-off between sessions and agents. Update the
+packet status table in the same commit that lands the work.
+
+Gate every change on `npm test`, `npm run lint`, and `npm run build`.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

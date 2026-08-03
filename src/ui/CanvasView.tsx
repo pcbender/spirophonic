@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { SpirophonicModel } from '../core/model'
 import type { SpiroPoint } from '../core/trochoid'
+import { renderVoices } from '../core/voices'
 import { drawSpiroTrace } from '../render/canvasRenderer'
 
 type CanvasViewProps = {
@@ -18,6 +19,15 @@ export function CanvasView({
 }: CanvasViewProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [redrawKey, setRedrawKey] = useState(0)
+  const voices = useMemo(
+    () =>
+      renderVoices(model).map((item) => ({
+        points: item.points,
+        color: item.voice.color ?? '#f6f4ef',
+        onsets: item.notes.map((note) => note.t),
+      })),
+    [model],
+  )
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -54,8 +64,9 @@ export function CanvasView({
       activeIndex,
       revealProgress: progress,
       showActivePoint,
+      voices,
     })
-  }, [model, points, progress, redrawKey, showActivePoint])
+  }, [model, points, progress, redrawKey, showActivePoint, voices])
 
   return (
     <div className="canvas-shell">
