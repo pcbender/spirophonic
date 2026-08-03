@@ -512,6 +512,10 @@ Priorities, in order:
 ## Open questions
 
 Decide these when the packet that needs them lands; do not block on them.
+A larger one — whether pitch should come from the relationship's own ratio
+rather than a chosen scale — is explored separately in
+[WHAT-IS-MISSING.md](WHAT-IS-MISSING.md), which is exploration rather than
+contract.
 
 - Should one cycle be able to span multiple bars? A `cycleBars` field would let a slow harmonograph breathe over 4 bars. Defer until P7.
 - Note duration for pitched voices: fixed, until the next event, or driven by curvature? Fixed is fine for P6.

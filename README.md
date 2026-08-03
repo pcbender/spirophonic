@@ -107,6 +107,8 @@ Tests live beside the modules they cover.
 - [Vision](docs/VISION.md) — concept, thesis, MVP definition, design principles
 - [Sound, Rhythm, and MIDI Design](docs/SOUND-AND-MIDI-DESIGN.md) — the approved
   contract for the event layer, MIDI export, and curve families
+- [What is missing](docs/WHAT-IS-MISSING.md) — open exploration: the ratio that
+  draws the shape is already an interval, and does not yet reach the pitch
 - [Initial WBS and CP Packets](docs/INITIAL-WBS-AND-CP-PACKETS.md)
 
 ## Roadmap
