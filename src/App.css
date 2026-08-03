@@ -342,7 +342,7 @@ h1 {
 
 .voice-row {
   display: grid;
-  grid-template-columns: minmax(96px, 1fr) 1fr 1fr auto 72px auto;
+  grid-template-columns: minmax(92px, 1fr) 1fr 1fr 1fr auto 68px auto;
   align-items: center;
   gap: 10px;
   border-top: 1px solid rgba(246, 244, 239, 0.12);

@@ -622,3 +622,28 @@ shaped while it loops.
 - Note lengths match the MIDI file's as a share of the bar.
 - Nothing under `src/core/` references an audio API.
 - No dependency is added.
+
+
+## One relationship, several voices
+
+A voice's `geometry` is a **partial override of the model's**, not a curve of
+its own. Anything it leaves out is inherited, so editing the relationship or
+loading a preset moves the music with the drawing. A voice that overrides
+nothing reads the main curve itself, which is the plainest statement of the
+thesis: the shape you see is the rhythm you hear.
+
+This was not true at first. `defaultVoices` built each voice a complete
+geometry with hardcoded radii, so the app held N+1 unrelated curves and the
+control panel drove only the one on screen. Changing a preset redrew the trace
+and left the part untouched.
+
+What inheritance can and cannot reach is worth being clear about. A voice that
+overrides `family` still inherits `phase` and `samples`, so a preset that
+rotates the relationship shifts every onset. It does not inherit the parameters
+its family has no use for: a rose reads `roseN`, not `fixedRadius`, so changing
+the moving radius will not move a rose voice. Set the voice to the main shape
+and everything reaches it.
+
+`src/core/voices.test.ts` pins this: onsets shift with `phase`, follow `roseN`
+when the family is inherited, and a voice overriding nothing renders exactly
+`generateCurvePoints(model)`.

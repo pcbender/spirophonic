@@ -1,6 +1,5 @@
 import {
   familyDefaults,
-  type CurveFamily,
   type PitchOptions,
   type SpirophonicModel,
   type Voice,
@@ -14,20 +13,7 @@ const defaultPitch: PitchOptions = {
   octaves: 2,
 }
 
-const voiceGeometry = (
-  family: CurveFamily,
-  overrides: Partial<SpirophonicModel['geometry']> = {},
-): SpirophonicModel['geometry'] => ({
-  ...familyDefaults,
-  family,
-  fixedRadius: 180,
-  movingRadius: 65,
-  penOffset: 95,
-  phase: 0,
-  rotation: 'inside',
-  samples: 900,
-  ...overrides,
-})
+
 
 /**
  * A kit that shows the idea on first load: one rose gives five kicks, and a
@@ -43,7 +29,7 @@ export const defaultVoices: Array<Voice> = [
     channel: percussionChannel,
     pitch: defaultPitch,
     color: '#f2c14e',
-    geometry: voiceGeometry('rose', { roseN: 5, roseD: 1 }),
+    geometry: { family: 'rose', roseN: 5, roseD: 1 },
     trigger: { source: 'radius-max' },
     note: 36,
     velocity: { min: 72, max: 120, gamma: 1 },
@@ -58,7 +44,7 @@ export const defaultVoices: Array<Voice> = [
     channel: percussionChannel,
     pitch: defaultPitch,
     color: '#6fd6c2',
-    geometry: voiceGeometry('lissajous', { lissFreqX: 3, lissFreqY: 2 }),
+    geometry: { family: 'lissajous', lissFreqX: 3, lissFreqY: 2 },
     trigger: { source: 'zero-x' },
     note: 42,
     velocity: { min: 40, max: 88, gamma: 1.4 },
@@ -73,7 +59,7 @@ export const defaultVoices: Array<Voice> = [
     channel: percussionChannel,
     pitch: defaultPitch,
     color: '#e2718a',
-    geometry: voiceGeometry('lissajous', { lissFreqX: 3, lissFreqY: 2 }),
+    geometry: { family: 'lissajous', lissFreqX: 3, lissFreqY: 2 },
     trigger: { source: 'zero-y' },
     note: 38,
     velocity: { min: 56, max: 104, gamma: 1 },
@@ -87,7 +73,7 @@ export const defaultVoices: Array<Voice> = [
     kind: 'pitched',
     channel: 0,
     program: 89, // GM pad 2 (warm)
-    geometry: voiceGeometry('harmonograph'),
+    geometry: { family: 'harmonograph' },
     trigger: { source: 'radius-max', maxEvents: 12 },
     note: 48,
     pitch: { source: 'radius', scale: 'pentatonic-minor', root: 48, octaves: 2 },

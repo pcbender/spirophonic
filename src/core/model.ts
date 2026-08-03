@@ -128,7 +128,13 @@ export type Voice = {
   name: string
   enabled: boolean
   kind: VoiceKind
-  geometry: SpirophonicModel['geometry']
+  /**
+   * What this voice changes about the main shape. Anything left out is
+   * inherited, so editing the relationship or loading a preset moves the music
+   * with the drawing. An empty override means the voice reads the main curve
+   * itself.
+   */
+  geometry: Partial<SpirophonicModel['geometry']>
   trigger: ExtractOptions
   velocity: VelocityOptions
   quantize: QuantizeOptions

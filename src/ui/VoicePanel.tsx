@@ -2,7 +2,13 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { scaleNames, type ScaleName } from '../core/scales'
 
-import type { CurveEventSource, SpirophonicModel, Voice } from '../core/model'
+import type {
+  CurveEventSource,
+  CurveFamily,
+  SpirophonicModel,
+  Voice,
+} from '../core/model'
+import { curveFamilies } from '../core/curves'
 import { previewPlan } from '../core/preview'
 import { renderVoices } from '../core/voices'
 import { VoicePreview } from '../audio/voicePreview'
@@ -20,6 +26,17 @@ const triggerLabels: Array<{ value: CurveEventSource; label: string }> = [
   { value: 'radius-max', label: 'Petal tips' },
   { value: 'radius-min', label: 'Petal roots' },
 ]
+
+const shapeLabels: Record<CurveFamily, string> = {
+  spirogram: 'Spirogram',
+  lissajous: 'Lissajous',
+  rose: 'Rose',
+  superformula: 'Superformula',
+  harmonograph: 'Harmonograph',
+}
+
+/** An empty value means the voice reads whatever the main shape is. */
+const INHERIT = ''
 
 const drumOptions = Object.entries(gmPercussion).map(([name, note]) => ({
   name,
@@ -180,6 +197,32 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
                   </select>
                 </label>
               )}
+
+              <label>
+                <span>Shape</span>
+                <select
+                  value={voice.geometry.family ?? INHERIT}
+                  onChange={(event) => {
+                    const { family, ...rest } = voice.geometry
+                    const chosen = event.target.value
+
+                    void family
+                    updateVoice(voice.id, {
+                      geometry:
+                        chosen === INHERIT
+                          ? rest
+                          : { ...rest, family: chosen as CurveFamily },
+                    })
+                  }}
+                >
+                  <option value={INHERIT}>Main shape</option>
+                  {curveFamilies.map((family) => (
+                    <option key={family} value={family}>
+                      {shapeLabels[family]}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
               <label>
                 <span>Trigger</span>

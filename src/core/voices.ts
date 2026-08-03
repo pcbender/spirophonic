@@ -18,13 +18,22 @@ export type RenderedVoice = {
 
 export const percussionChannel = 9
 
+/** The main shape with this voice's changes applied on top. */
+export const voiceGeometry = (
+  base: SpirophonicModel['geometry'],
+  voice: Voice,
+): SpirophonicModel['geometry'] => ({ ...base, ...voice.geometry })
+
 /**
- * Reads one voice's own curve and turns it into playable notes. Exporters take
- * the result rather than the geometry, so nothing downstream has to know how a
- * curve is drawn.
+ * Reads a voice's resolved curve and turns it into playable notes. Exporters
+ * take the result rather than the geometry, so nothing downstream has to know
+ * how a curve is drawn.
  */
-export const renderVoice = (voice: Voice): RenderedVoice => {
-  const points = generateCurvePoints({ geometry: voice.geometry })
+export const renderVoice = (
+  voice: Voice,
+  base: SpirophonicModel['geometry'],
+): RenderedVoice => {
+  const points = generateCurvePoints({ geometry: voiceGeometry(base, voice) })
   const events = shapeRhythm(extractEvents(points, voice.trigger), {
     quantize: voice.quantize,
     velocity: voice.velocity,
@@ -34,7 +43,9 @@ export const renderVoice = (voice: Voice): RenderedVoice => {
 }
 
 export const renderVoices = (model: SpirophonicModel): Array<RenderedVoice> =>
-  model.voices.filter((voice) => voice.enabled).map(renderVoice)
+  model.voices
+    .filter((voice) => voice.enabled)
+    .map((voice) => renderVoice(voice, model.geometry))
 
 /**
  * Percussion holds one drum for the whole part. A pitched voice reads the

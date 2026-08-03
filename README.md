@@ -57,7 +57,10 @@ petal tip becomes an onset, so the geometry hands you rhythm directly:
 | Rose, 5 petals | petal tips | 5 |
 
 Two triggers on one Lissajous give an exact 3:2 against a shared bar line —
-one shape read two ways. Percussion voices hold a drum; pitched voices read the
+one shape read two ways. Each voice states only what it changes about the main
+shape, so editing the relationship or loading a preset moves the music with the
+drawing. Set a voice's shape to **Main shape** and it reads the curve on screen
+directly: what you see is what you hear. Percussion voices hold a drum; pitched voices read the
 curve where each onset landed and snap it onto a scale. A harmonograph is a
 damped Lissajous closed by retracing itself, so it swells and fades across the
 bar, which is the shape an ambient part wants.
