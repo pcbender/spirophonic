@@ -148,16 +148,21 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
 
           return (
             <li key={voice.id} className="voice-row">
-              <label className="voice-enable">
-                <input
-                  type="checkbox"
-                  checked={voice.enabled}
-                  onChange={(event) =>
-                    updateVoice(voice.id, { enabled: event.target.checked })
-                  }
-                />
-                <span>{voice.name}</span>
-              </label>
+              <div className="voice-head">
+                <label className="voice-enable">
+                  <input
+                    type="checkbox"
+                    checked={voice.enabled}
+                    onChange={(event) =>
+                      updateVoice(voice.id, { enabled: event.target.checked })
+                    }
+                  />
+                  <span>{voice.name}</span>
+                </label>
+                <output className="voice-count">
+                  {voice.enabled ? `${hits} hits` : 'off'}
+                </output>
+              </div>
 
               {voice.kind === 'percussion' ? (
                 <label>
@@ -279,8 +284,6 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
                   }
                 />
               </label>
-
-              <output className="voice-count">{hits} hits</output>
             </li>
           )
         })}

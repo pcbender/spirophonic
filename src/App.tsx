@@ -133,41 +133,45 @@ function App() {
 
   return (
     <main className="app-shell">
-      <header className="app-header">
-        <div>
-          <p className="eyebrow">Browser instrument prototype</p>
+      <header className="app-topbar">
+        <div className="brand">
           <h1>Spirophonic</h1>
+          <p className="tagline">Hear the shape. See the sound.</p>
         </div>
-        <p className="summary">
-          Shape, color, and sound emerge from one relationship model.
-        </p>
+
+        <Transport
+          isPlaying={isPlaying}
+          soundEnabled={model.sound.enabled}
+          continuousPlay={continuousPlay}
+          progress={progress}
+          onPlay={handlePlay}
+          onPause={() => setIsPlaying(false)}
+          onReset={handleReset}
+          onSoundToggle={handleSoundToggle}
+          onContinuousPlayToggle={setContinuousPlay}
+        />
+
+        <div className="topbar-io">
+          <PresetPicker model={model} onSelect={setModel} />
+          <ImportExportPanel model={model} points={points} onImport={setModel} />
+        </div>
       </header>
 
-      <Transport
-        isPlaying={isPlaying}
-        soundEnabled={model.sound.enabled}
-        continuousPlay={continuousPlay}
-        progress={progress}
-        onPlay={handlePlay}
-        onPause={() => setIsPlaying(false)}
-        onReset={handleReset}
-        onSoundToggle={handleSoundToggle}
-        onContinuousPlayToggle={setContinuousPlay}
-      />
-      <div className="preset-toolbar">
-        <PresetPicker model={model} onSelect={setModel} />
-        <ImportExportPanel model={model} points={points} onImport={setModel} />
-      </div>
-
       <section className="workspace">
-        <CanvasView
-          model={model}
-          points={points}
-          progress={progress}
-          showActivePoint={isPlaying}
-        />
-        <div className="side-panel">
+        <div className="rail rail-shape">
           <ControlPanel model={model} onChange={setModel} />
+        </div>
+
+        <div className="canvas-stage">
+          <CanvasView
+            model={model}
+            points={points}
+            progress={progress}
+            showActivePoint={isPlaying}
+          />
+        </div>
+
+        <div className="rail rail-voices">
           <VoicePanel model={model} onChange={setModel} />
           <StrudelExportPanel model={model} />
         </div>

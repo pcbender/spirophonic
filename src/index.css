@@ -16,8 +16,21 @@
 
 body {
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
+}
+
+/*
+ * The app shell is exactly one viewport tall and scrolls its own rails, so the
+ * page itself never scrolls. Below the stacking breakpoint it does, and the
+ * shell grows instead.
+ */
+@media (min-width: 901px) {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
 }
 
 button,
