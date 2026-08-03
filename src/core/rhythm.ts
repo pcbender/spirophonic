@@ -91,3 +91,35 @@ const collapse = (
 const clampUnit = (value: number) => Math.min(1, Math.max(0, value))
 
 const clampVelocity = (value: number) => Math.min(127, Math.max(1, Math.round(value)))
+
+/**
+ * How long each onset is held, as a fraction of one bar.
+ *
+ * Every output needs this and none of them should reinvent it: the MIDI writer
+ * multiplies by ticks per bar, the preview by seconds per bar, and Strudel says
+ * the same thing with clip(). A note fills its own grid step, scaled by gate.
+ *
+ * At a gate of 1 or less a note is also held no longer than the gap to the next
+ * onset. Loosely quantized onsets can sit closer together than a step, and a
+ * full step would run one note into the next and turn a line into a chord.
+ * Above 1 the overlap is the point, so it is left alone.
+ */
+export const noteLengths = (
+  events: Array<Pick<CurveEvent, 't'>>,
+  options: { steps: number; gate: number },
+): Array<number> => {
+  const steps = Math.max(1, Math.round(options.steps))
+  const gate = options.gate > 0 ? options.gate : 1
+  const held = gate / steps
+
+  if (gate > 1 || events.length < 2) {
+    return events.map(() => held)
+  }
+
+  return events.map((event, index) => {
+    const next = events[(index + 1) % events.length]
+    const gap = wrapCycle(next.t - event.t)
+
+    return gap === 0 ? held : Math.min(held, gap)
+  })
+}

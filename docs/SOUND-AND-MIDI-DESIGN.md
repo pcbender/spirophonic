@@ -31,9 +31,10 @@ done until its acceptance criteria all pass.
 | P6 | Scale quantization | P1 | **done** |
 | P7 | Multi-voice model | P5, P6 | **done** |
 | P8 | Strudel export rewrite | P1, P6 | **done** |
+| P9 | Browser preview | P2, P7 | **done** |
 
-They landed in the order P1, P2, P3, P5, P6, P4, P7, P8: the pure core first,
-then the model and UI on top of it.
+They landed in the order P1, P2, P3, P5, P6, P4, P7, P8, P9: the pure core
+first, then the model and UI on top of it.
 
 ## Background
 
@@ -92,9 +93,9 @@ extractEvents                Array<CurveEvent>     P1
    v
 shapeRhythm                  quantize + velocity   P2
    |
-   +---> toMidiFile          Uint8Array (.mid)     P3
-   +---> toStrudelSnippet    string                P8
-   +---> WebAudioEngine      live audition
+   +---> buildMidiBytes      Uint8Array (.mid)     P3
+   +---> exportStrudelSnippet  string              P8
+   +---> previewPlan         browser audition      P9
 ```
 
 ### Invariants
@@ -544,9 +545,9 @@ no longer than the gap to the next onset, because loosely quantized onsets can
 sit closer together than a step and would otherwise smear a line into a chord.
 Above 1 the overlap is the explicit request, so it is left alone.
 
-`src/export/agreement.test.ts` compares the two outputs against each other
-rather than against fixtures, and checks they still agree at several quantize
-strengths.
+`src/export/agreement.test.ts` compares the outputs against each other rather
+than against fixtures, and checks they still agree at several quantize
+strengths. The browser preview is included, so all three stay in step.
 
 The residual difference is sub-step timing: MIDI writes an onset where it
 actually falls, while a Strudel step sequence can only place it on the grid.
@@ -584,3 +585,40 @@ soundfont and are the fallback when a program has no mapped name.
 
 When adding a scale or an instrument, add a test asserting the exact emitted
 string. A snippet that parses is not a snippet that plays.
+
+
+## P9 — Browser preview
+
+**Files:** `src/core/preview.ts`, `src/core/preview.test.ts`,
+`src/audio/drumSynth.ts`, `src/audio/toneSynth.ts`,
+`src/audio/voicePreview.ts`, `src/ui/VoicePanel.tsx`
+
+A fourth adapter over the same events, so the composition can be heard before
+it is exported.
+
+`previewPlan` is pure and lives in the core: it turns the model into one bar of
+`{ offset, duration, note, level }` in seconds, sharing `noteLengths` with the
+MIDI writer so the two cannot describe different music. Everything touching an
+audio API stays under `src/audio/`.
+
+**Synthesis, not samples.** Percussion is built from oscillators and filtered
+noise, pitched voices from one oscillator and an envelope. No soundfont, no
+samples, no network, nothing added to the repository. It is a drum machine
+rather than a kit, and it is only ever an audition — the exported MIDI carries
+note numbers and the DAW decides what they sound like.
+
+Swapping in soundfonts later means replacing `drumSynth` and `toneSynth` and
+leaving `previewPlan` and `VoicePreview` untouched. That is the point of
+keeping the plan pure.
+
+**Scheduling.** Notes are queued 0.25s ahead on a 60ms timer and given explicit
+start times, because scheduling on timer callbacks alone drifts audibly. Edits
+apply at the next bar rather than restarting playback, so a pattern can be
+shaped while it loops.
+
+### Acceptance criteria
+
+- The preview sounds the same notes, in the same order, as the MIDI export.
+- Note lengths match the MIDI file's as a share of the bar.
+- Nothing under `src/core/` references an audio API.
+- No dependency is added.

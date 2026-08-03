@@ -41,6 +41,7 @@ shifts — and the rhythm changes, because the same curve also places notes.
 - WebAudio oscillator preview driven by the active trace point
 - Preset library
 - Multi-voice composition, each voice reading its own curve
+- Browser preview, so a composition can be heard before it leaves
 - Standard MIDI File export, for a DAW
 - JSON model export/import, SVG export, Strudel snippet export
 
@@ -61,8 +62,14 @@ curve where each onset landed and snap it onto a scale. A harmonograph is a
 damped Lissajous closed by retracing itself, so it swells and fades across the
 bar, which is the shape an ambient part wants.
 
-The default kit shows this on first load. Enable voices in the panel and press
-MIDI to download the parts.
+The default kit shows this on first load. Enable voices in the panel, press
+Preview to hear them loop, and MIDI to download the parts. Preview, the MIDI
+file, and the Strudel snippet all read one event list, so they play the same
+part; a test compares them against each other rather than against fixtures.
+
+Preview synthesizes its own sounds from oscillators and filtered noise, so it
+needs no samples and works offline. It is an audition, not the finished
+instrument — the MIDI file carries note numbers and your DAW decides the rest.
 
 ## Project shape
 
@@ -75,7 +82,9 @@ src/
             trochoid.ts curves.ts   — five closed curve families
             events.ts rhythm.ts     — onsets, grid, velocity
             scales.ts voices.ts     — pitch, and one part per curve
+            preview.ts              — one bar as sounds and times
   audio/    webAudioEngine.ts     — frequency from radius, x, y, angle, or ratio
+            voicePreview.ts drumSynth.ts toneSynth.ts — looped audition
   render/   canvasRenderer.ts color.ts — hue from angle, radius, velocity, curvature
   ui/       ControlPanel CanvasView Transport PresetPicker
             VoicePanel ImportExportPanel StrudelExportPanel
@@ -83,9 +92,9 @@ src/
             midiExport.ts midi/smf.ts
 ```
 
-Geometry produces points, points produce events, and every output — audio,
+Geometry produces points, points produce events, and every output — preview,
 MIDI, Strudel — is a thin adapter over those events. No exporter reaches back
-into geometry.
+into geometry, and nothing in `core/` touches an audio API.
 
 Given the same model, the engine produces the same points and derived values.
 Tests live beside the modules they cover.
@@ -99,9 +108,10 @@ Tests live beside the modules they cover.
 
 ## Roadmap
 
-The event layer and its three outputs are in. Natural next steps: auditioning
-voices in the browser rather than only exporting them, per-voice geometry
-controls in the UI, and a longer form than the single repeating bar.
+The event layer and its three outputs are in, preview included. Natural next
+steps: per-voice geometry controls in the UI, a longer form than the single
+repeating bar, and optionally soundfonts for a more realistic audition —
+which would replace the two synth modules and leave the rest alone.
 
 Tidal Cycles is out of scope; Strudel covers the live-coding direction without
 a runtime dependency. OSC and SuperCollider bridges remain later integrations.

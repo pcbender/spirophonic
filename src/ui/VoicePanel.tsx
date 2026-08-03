@@ -1,9 +1,11 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { scaleNames, type ScaleName } from '../core/scales'
 
 import type { CurveEventSource, SpirophonicModel, Voice } from '../core/model'
+import { previewPlan } from '../core/preview'
 import { renderVoices } from '../core/voices'
+import { VoicePreview } from '../audio/voicePreview'
 import { buildMidiBytes, downloadMidiFile, gmPercussion } from '../export/midiExport'
 
 type VoicePanelProps = {
@@ -27,7 +29,45 @@ const drumOptions = Object.entries(gmPercussion).map(([name, note]) => ({
 
 export function VoicePanel({ model, onChange }: VoicePanelProps) {
   const [status, setStatus] = useState('')
+  const [playing, setPlaying] = useState(false)
   const rendered = useMemo(() => renderVoices(model), [model])
+  const plan = useMemo(() => previewPlan(model), [model])
+  const previewRef = useRef<VoicePreview | null>(null)
+
+  // Edits take effect at the next bar rather than restarting playback, so the
+  // pattern can be shaped while it loops.
+  useEffect(() => {
+    if (playing) {
+      previewRef.current?.update(plan, model.sound.waveform)
+    }
+  }, [model.sound.waveform, plan, playing])
+
+  useEffect(
+    () => () => {
+      previewRef.current?.stop()
+    },
+    [],
+  )
+
+  const togglePreview = () => {
+    if (!previewRef.current) {
+      previewRef.current = new VoicePreview()
+    }
+
+    if (playing) {
+      previewRef.current.stop()
+      setPlaying(false)
+      return
+    }
+
+    if (plan.hits.length === 0) {
+      setStatus('Enable a voice first.')
+      return
+    }
+
+    previewRef.current.start(plan, model.sound.waveform)
+    setPlaying(true)
+  }
   const totalHits = rendered.reduce((count, item) => count + item.notes.length, 0)
 
   const updateVoice = (id: string, patch: Partial<Voice>) => {
@@ -65,13 +105,23 @@ export function VoicePanel({ model, onChange }: VoicePanelProps) {
     <section className="drum-panel" aria-label="Voices">
       <div className="panel-header">
         <h2>Voices</h2>
-        <button
-          type="button"
-          title="Download these parts as a MIDI file for a DAW."
-          onClick={handleDownload}
-        >
-          MIDI
-        </button>
+        <div className="panel-actions">
+          <button
+            type="button"
+            aria-pressed={playing}
+            title="Loop these parts through the browser to hear them."
+            onClick={togglePreview}
+          >
+            {playing ? 'Stop' : 'Preview'}
+          </button>
+          <button
+            type="button"
+            title="Download these parts as a MIDI file for a DAW."
+            onClick={handleDownload}
+          >
+            MIDI
+          </button>
+        </div>
       </div>
 
       <ul className="voice-list">

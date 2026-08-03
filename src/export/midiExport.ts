@@ -1,3 +1,4 @@
+import { noteLengths } from '../core/rhythm'
 import { getEffectiveCyclesPerSecond } from '../core/time'
 import type { VoiceNote } from '../core/voices'
 import { buildMidiFile, type MidiNote, type MidiTrack } from './midi/smf'
@@ -110,21 +111,17 @@ const repeatBars = (
   bars: number,
   ticksPerBar: number,
 ): Array<MidiNote> => {
-  // A note fills its own step, which is what a step sequence means and what
-  // Strudel plays, so both exports sustain by the same amount.
-  const steps = Math.max(1, Math.round(voice.steps))
-  const held = (voice.gate * ticksPerBar) / steps
-  const onsets = voice.notes.map((event) => Math.round(event.t * ticksPerBar))
+  const lengths = noteLengths(voice.notes, { steps: voice.steps, gate: voice.gate })
   const notes: Array<MidiNote> = []
 
   for (let bar = 0; bar < bars; bar += 1) {
     voice.notes.forEach((event, index) => {
       notes.push({
-        tick: bar * ticksPerBar + onsets[index],
+        tick: bar * ticksPerBar + Math.round(event.t * ticksPerBar),
         channel: voice.channel,
         note: event.note,
         velocity: event.velocity,
-        duration: Math.max(1, Math.round(clampToGap(held, onsets, index, ticksPerBar, voice.gate))),
+        duration: Math.max(1, Math.round(lengths[index] * ticksPerBar)),
       })
     })
   }
@@ -141,28 +138,4 @@ export const downloadMidiFile = (bytes: Uint8Array, name: string) => {
   anchor.download = `${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.mid`
   anchor.click()
   URL.revokeObjectURL(url)
-}
-
-/**
- * Loosely quantized onsets can sit closer together than one step, and a note
- * held for a full step would then run into the next and turn a line into a
- * chord. Holding only as far as the following onset keeps that from happening
- * by accident. A gate above 1 is an explicit request to overlap, so it is left
- * alone.
- */
-const clampToGap = (
-  held: number,
-  onsets: Array<number>,
-  index: number,
-  ticksPerBar: number,
-  gate: number,
-) => {
-  if (gate > 1 || onsets.length < 2) {
-    return held
-  }
-
-  const next = onsets[(index + 1) % onsets.length]
-  const gap = (next - onsets[index] + ticksPerBar) % ticksPerBar
-
-  return gap === 0 ? held : Math.min(held, gap)
 }
