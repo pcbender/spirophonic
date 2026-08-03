@@ -2,11 +2,13 @@
 
 Status: **implemented.** All eight packets have landed.
 
-Two acceptance criteria remain unverified because they need software this
-environment does not have: opening an exported `.mid` in a DAW (P3/P4), and
-pasting a snippet into strudel.cc (P8). Both outputs are checked structurally
-instead — the MIDI by an independent parser, the Strudel snippet by parsing it
-as JavaScript.
+One acceptance criterion remains unverified because it needs software this
+environment does not have: opening an exported `.mid` in a DAW (P3/P4). The
+file is checked structurally instead, by an independent parser.
+
+P8 was verified by playing a snippet on strudel.cc, which found a silent
+pitched voice. See "Strudel vocabulary" below — the names in a snippet are an
+external contract, and getting one wrong fails quietly.
 
 This document is the contract for turning Spirophonic curves into music that
 leaves the browser. It is written to survive hand-off between coding sessions
@@ -521,3 +523,35 @@ Decide these when the packet that needs them lands; do not block on them.
 - `~/mrp/mrp/video/geometry.py` — curve families, Python.
 - `~/mrp/mrp/admin/static/spiro-preview.js` — the same families in JavaScript.
 - `~/mrp/mrp/video/casting.py` — prior art for multi-voice composition.
+
+## Strudel vocabulary
+
+The names a snippet emits are an external contract, and Strudel fails quietly
+when one is wrong: an unresolved scale or sound produces no event rather than
+an error, so the voice simply goes silent. Verified 2026-08-03 against the
+live docs and `packages/soundfonts/gm.mjs`.
+
+**Scales.** `scale()` resolves against TonalJS scale-type names. Strudel parses
+the argument as `root:type` and cannot contain a space, because a space would
+make it a multi-step pattern; the documented escape is to write every space as
+another colon.
+
+| model | TonalJS | emitted |
+| --- | --- | --- |
+| `pentatonic-minor` | `minor pentatonic` | `c3:minor:pentatonic` |
+| `pentatonic-major` | `major pentatonic` | `c3:major:pentatonic` |
+| `minor` | `minor` | `c3:minor` |
+
+`minPent` and `majPent` are **not** TonalJS names and resolve to nothing.
+
+**Sounds.** Strudel groups all 128 GM instruments under 125 keys in
+`packages/soundfonts/gm.mjs`, and the keys are shortened rather than being the
+full GM instrument names — `gm_piano`, not `gm_acoustic_grand_piano`. Program
+numbers in `strudelInstruments` are zero-based, matching the MIDI program byte,
+so `89` is Pad 2 (warm) and maps to `gm_pad_warm`.
+
+Built-in oscillators (`sine`, `sawtooth`, `square`, `triangle`) need no
+soundfont and are the fallback when a program has no mapped name.
+
+When adding a scale or an instrument, add a test asserting the exact emitted
+string. A snippet that parses is not a snippet that plays.

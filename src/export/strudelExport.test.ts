@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { defaultModel } from '../core/defaultModel'
+import { scaleNames, type ScaleName } from '../core/scales'
 import { renderVoices } from '../core/voices'
 import { exportStrudelSnippet } from './strudelExport'
 
@@ -67,7 +68,7 @@ describe('exportStrudelSnippet', () => {
     const snippet = exportStrudelSnippet(enableOnly(['pad-harmonograph']))
 
     expect(snippet).toContain('n("')
-    expect(snippet).toContain('.scale("C3:minPent")')
+    expect(snippet).toContain('.scale("c3:minor:pentatonic")')
     expect(snippet).toContain('gm_pad_warm')
   })
 
@@ -93,6 +94,41 @@ describe('exportStrudelSnippet', () => {
     expect(exportStrudelSnippet(defaultModel)).toBe(
       exportStrudelSnippet(defaultModel),
     )
+  })
+})
+
+describe('scale names', () => {
+  const scaleFor = (scale: ScaleName) =>
+    exportStrudelSnippet({
+      ...enableOnly(['pad-harmonograph']),
+      voices: defaultModel.voices.map((voice) => ({
+        ...voice,
+        enabled: voice.id === 'pad-harmonograph',
+        pitch: { ...voice.pitch, scale },
+      })),
+    }).match(/\.scale\("([^"]*)"\)/)?.[1]
+
+  it('spells every scale the way TonalJS does', () => {
+    expect(scaleFor('major')).toBe('c3:major')
+    expect(scaleFor('minor')).toBe('c3:minor')
+    expect(scaleFor('dorian')).toBe('c3:dorian')
+    expect(scaleFor('chromatic')).toBe('c3:chromatic')
+    expect(scaleFor('pentatonic-major')).toBe('c3:major:pentatonic')
+    expect(scaleFor('pentatonic-minor')).toBe('c3:minor:pentatonic')
+  })
+
+  it('never emits a space, which Strudel would read as another step', () => {
+    // A scale name Strudel cannot resolve produces no note at all, so the
+    // voice goes silent rather than failing loudly.
+    for (const scale of scaleNames) {
+      expect(scaleFor(scale)).not.toContain(' ')
+    }
+  })
+
+  it('covers every scale the model offers', () => {
+    for (const scale of scaleNames) {
+      expect(scaleFor(scale)).toBeTruthy()
+    }
   })
 })
 

@@ -31,14 +31,18 @@ const drumSounds: Record<number, string> = {
   75: 'perc',
 }
 
-/** Strudel spells a few scales differently from the model. */
-const strudelScales: Record<ScaleName, string> = {
+/**
+ * Scale types as TonalJS names them, which is the vocabulary Strudel's
+ * scale() resolves against. An unknown name resolves to nothing and the voice
+ * plays silently, so these are the exact strings from tonal's scale-type data.
+ */
+const tonalScales: Record<ScaleName, string> = {
   chromatic: 'chromatic',
   major: 'major',
   minor: 'minor',
   dorian: 'dorian',
-  'pentatonic-major': 'majPent',
-  'pentatonic-minor': 'minPent',
+  'pentatonic-major': 'major pentatonic',
+  'pentatonic-minor': 'minor pentatonic',
 }
 
 const strudelInstruments: Record<number, string> = {
@@ -111,8 +115,16 @@ const voicePart = ({ voice, notes }: RenderedVoice, model: SpirophonicModel) => 
   return `${head}.gain("${gains}")`
 }
 
+/**
+ * Strudel parses a scale as `root:type` and cannot see spaces, because a space
+ * would make the argument a multi-step pattern. Its documented escape is to
+ * write every space as another colon: "minor pentatonic" is `minor:pentatonic`.
+ */
 const scaleName = (voice: Voice) =>
-  `${midiToName(voice.pitch.root)}:${strudelScales[voice.pitch.scale]}`
+  [
+    midiToName(voice.pitch.root).toLowerCase(),
+    ...tonalScales[voice.pitch.scale].split(' '),
+  ].join(':')
 
 /**
  * Falls back to the model's own waveform, which Strudel accepts as a basic
