@@ -1,21 +1,13 @@
 import { useMemo, useState } from 'react'
 import type { SpirophonicModel } from '../core/model'
-import type { SpiroPoint } from '../core/trochoid'
 import { exportStrudelSnippet } from '../export/strudelExport'
 
 type StrudelExportPanelProps = {
   model: SpirophonicModel
-  points: Array<SpiroPoint>
 }
 
-export function StrudelExportPanel({
-  model,
-  points,
-}: StrudelExportPanelProps) {
-  const snippet = useMemo(
-    () => exportStrudelSnippet(model, points),
-    [model, points],
-  )
+export function StrudelExportPanel({ model }: StrudelExportPanelProps) {
+  const snippet = useMemo(() => exportStrudelSnippet(model), [model])
   const [copyStatus, setCopyStatus] = useState('')
 
   const handleCopy = async () => {
@@ -29,7 +21,7 @@ export function StrudelExportPanel({
         <h2>Strudel</h2>
         <button
           type="button"
-          title="Copy an experimental Strudel-style snippet derived from this model."
+          title="Copy a Strudel snippet of these voices."
           onClick={() => void handleCopy()}
         >
           Copy

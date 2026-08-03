@@ -89,7 +89,7 @@ export const defaultVoices: Array<Voice> = [
     note: 48,
     pitch: { source: 'radius', scale: 'pentatonic-minor', root: 48, octaves: 2 },
     velocity: { min: 40, max: 92, gamma: 1.2 },
-    quantize: { divisions: 8, strength: 0.6 },
+    quantize: { divisions: 16, strength: 0.6 },
     durationTicks: 720,
     color: '#8f7ff0',
   },

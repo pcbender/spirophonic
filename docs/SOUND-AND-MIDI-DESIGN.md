@@ -1,6 +1,12 @@
 # Sound, Rhythm, and MIDI Design
 
-Status: **approved design, not yet implemented.**
+Status: **implemented.** All eight packets have landed.
+
+Two acceptance criteria remain unverified because they need software this
+environment does not have: opening an exported `.mid` in a DAW (P3/P4), and
+pasting a snippet into strudel.cc (P8). Both outputs are checked structurally
+instead — the MIDI by an independent parser, the Strudel snippet by parsing it
+as JavaScript.
 
 This document is the contract for turning Spirophonic curves into music that
 leaves the browser. It is written to survive hand-off between coding sessions
@@ -22,10 +28,10 @@ done until its acceptance criteria all pass.
 | P5 | Curve families | — | **done** |
 | P6 | Scale quantization | P1 | **done** |
 | P7 | Multi-voice model | P5, P6 | **done** |
-| P8 | Strudel export rewrite | P1, P6 | not started |
+| P8 | Strudel export rewrite | P1, P6 | **done** |
 
-Shortest path to a `.mid` file opening in a DAW: **P1 → P3 → P4**. P5 makes the
-result musically interesting. Do them in that order unless told otherwise.
+They landed in the order P1, P2, P3, P5, P6, P4, P7, P8: the pure core first,
+then the model and UI on top of it.
 
 ## Background
 

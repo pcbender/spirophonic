@@ -169,7 +169,7 @@ function App() {
         <div className="side-panel">
           <ControlPanel model={model} onChange={setModel} />
           <VoicePanel model={model} onChange={setModel} />
-          <StrudelExportPanel model={model} points={points} />
+          <StrudelExportPanel model={model} />
         </div>
       </section>
     </main>
