@@ -3,7 +3,7 @@ import './App.css'
 import { WebAudioEngine } from './audio/webAudioEngine'
 import { defaultModel } from './core/defaultModel'
 import type { SpirophonicModel } from './core/model'
-import { generateSpiroPoints } from './core/trochoid'
+import { generateCurvePoints } from './core/curves'
 import { getEffectiveCyclesPerSecond } from './core/time'
 import { CanvasView } from './ui/CanvasView'
 import { ControlPanel } from './ui/ControlPanel'
@@ -19,7 +19,7 @@ function App() {
   const [progress, setProgress] = useState(1)
   const progressRef = useRef(progress)
   const audioRef = useRef<WebAudioEngine | null>(null)
-  const points = useMemo(() => generateSpiroPoints(model), [model])
+  const points = useMemo(() => generateCurvePoints(model), [model])
   const activeIndex = Math.floor(progress * Math.max(0, points.length - 1))
   const activePoint = points[activeIndex] ?? points[0]
   const cyclesPerSecond = getEffectiveCyclesPerSecond(

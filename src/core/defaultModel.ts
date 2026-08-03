@@ -1,10 +1,11 @@
-import type { SpirophonicModel } from './model'
+import { familyDefaults, type SpirophonicModel } from './model'
 
 export const defaultModel: SpirophonicModel = {
   id: 'default-simple-flower',
   name: 'Simple Flower',
-  version: '0.1',
+  version: '0.2',
   geometry: {
+    ...familyDefaults,
     fixedRadius: 180,
     movingRadius: 65,
     penOffset: 95,

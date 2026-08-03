@@ -1,25 +1,50 @@
-import type { SpirophonicModel } from '../core/model'
+import { curveFamilies } from '../core/curves'
+import { familyDefaults, type CurveFamily, type SpirophonicModel } from '../core/model'
 
 export type JsonImportResult =
   | { ok: true; model: SpirophonicModel }
   | { ok: false; error: string }
 
+const supportedVersions = ['0.1', '0.2']
+
 export const exportModelToJson = (model: SpirophonicModel) =>
-  JSON.stringify(model, null, 2)
+  JSON.stringify({ ...model, version: '0.2' }, null, 2)
 
 export const parseModelJson = (json: string): JsonImportResult => {
   try {
     const value = JSON.parse(json) as unknown
 
     if (!isSpirophonicModel(value)) {
-      return { ok: false, error: 'File is not a valid Spirophonic v0.1 model.' }
+      return { ok: false, error: 'File is not a valid Spirophonic model.' }
     }
 
-    return { ok: true, model: value }
+    return { ok: true, model: upgradeModel(value) }
   } catch {
     return { ok: false, error: 'File is not valid JSON.' }
   }
 }
+
+/**
+ * A v0.1 document predates every curve family field, so it inherits the
+ * spirogram defaults and keeps rendering exactly as it did.
+ */
+const upgradeModel = (value: Record<string, unknown>): SpirophonicModel => {
+  const geometry = value.geometry as Record<string, unknown>
+  const family = geometry.family
+
+  return {
+    ...(value as unknown as SpirophonicModel),
+    version: '0.2',
+    geometry: {
+      ...familyDefaults,
+      ...(geometry as unknown as SpirophonicModel['geometry']),
+      family: isCurveFamily(family) ? family : familyDefaults.family,
+    },
+  }
+}
+
+const isCurveFamily = (value: unknown): value is CurveFamily =>
+  typeof value === 'string' && curveFamilies.includes(value as CurveFamily)
 
 export const downloadModelJson = (model: SpirophonicModel) => {
   const blob = new Blob([exportModelToJson(model)], {
@@ -40,7 +65,8 @@ const isSpirophonicModel = (value: unknown): value is SpirophonicModel => {
   }
 
   return (
-    value.version === '0.1' &&
+    typeof value.version === 'string' &&
+    supportedVersions.includes(value.version) &&
     typeof value.id === 'string' &&
     typeof value.name === 'string' &&
     isRecord(value.geometry) &&
