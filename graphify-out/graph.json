@@ -370,7 +370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app_test",
-      "community": 0,
+      "community": 7,
       "norm_label": "app.test.tsx"
     },
     {
@@ -380,7 +380,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app",
-      "community": 0,
+      "community": 7,
       "norm_label": "app.tsx"
     },
     {
@@ -390,17 +390,17 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_app_app",
-      "community": 0,
+      "community": 7,
       "norm_label": "app()"
     },
     {
       "label": "isEditableTarget()",
       "file_type": "code",
       "source_file": "src/App.tsx",
-      "source_location": "L179",
+      "source_location": "L183",
       "_origin": "ast",
       "id": "src_app_iseditabletarget",
-      "community": 0,
+      "community": 7,
       "norm_label": "iseditabletarget()"
     },
     {
@@ -807,37 +807,27 @@
       "label": "defaultPitch",
       "file_type": "code",
       "source_file": "src/core/defaultModel.ts",
-      "source_location": "L10",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "core_defaultmodel_defaultpitch",
       "community": 7,
       "norm_label": "defaultpitch"
     },
     {
-      "label": "voiceGeometry()",
-      "file_type": "code",
-      "source_file": "src/core/defaultModel.ts",
-      "source_location": "L17",
-      "_origin": "ast",
-      "id": "core_defaultmodel_voicegeometry",
-      "community": 7,
-      "norm_label": "voicegeometry()"
-    },
-    {
       "label": "defaultVoices",
       "file_type": "code",
       "source_file": "src/core/defaultModel.ts",
-      "source_location": "L37",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "core_defaultmodel_defaultvoices",
-      "community": 7,
+      "community": 32,
       "norm_label": "defaultvoices"
     },
     {
       "label": "defaultModel",
       "file_type": "code",
       "source_file": "src/core/defaultModel.ts",
-      "source_location": "L101",
+      "source_location": "L87",
       "_origin": "ast",
       "id": "core_defaultmodel_defaultmodel",
       "community": 7,
@@ -890,7 +880,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "core_events_test_circlepoints",
-      "community": 7,
+      "community": 32,
       "norm_label": "circlepoints()"
     },
     {
@@ -1170,7 +1160,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_model",
-      "community": 0,
+      "community": 7,
       "norm_label": "model.ts"
     },
     {
@@ -1180,7 +1170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_model_rotationmode",
-      "community": 0,
+      "community": 7,
       "norm_label": "rotationmode"
     },
     {
@@ -1200,7 +1190,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "core_model_frequencymode",
-      "community": 0,
+      "community": 7,
       "norm_label": "frequencymode"
     },
     {
@@ -1210,7 +1200,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "core_model_huesource",
-      "community": 0,
+      "community": 7,
       "norm_label": "huesource"
     },
     {
@@ -1230,7 +1220,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "core_model_modelversion",
-      "community": 0,
+      "community": 7,
       "norm_label": "modelversion"
     },
     {
@@ -1240,7 +1230,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "core_model_curveeventsource",
-      "community": 8,
+      "community": 32,
       "norm_label": "curveeventsource"
     },
     {
@@ -1250,7 +1240,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "core_model_crossingdirection",
-      "community": 0,
+      "community": 32,
       "norm_label": "crossingdirection"
     },
     {
@@ -1260,7 +1250,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "core_model_extractoptions",
-      "community": 0,
+      "community": 32,
       "norm_label": "extractoptions"
     },
     {
@@ -1300,7 +1290,7 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "core_model_voicekind",
-      "community": 0,
+      "community": 7,
       "norm_label": "voicekind"
     },
     {
@@ -1340,14 +1330,14 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "core_model_voice",
-      "community": 8,
+      "community": 7,
       "norm_label": "voice"
     },
     {
       "label": "familyDefaults",
       "file_type": "code",
       "source_file": "src/core/model.ts",
-      "source_location": "L157",
+      "source_location": "L163",
       "_origin": "ast",
       "id": "core_model_familydefaults",
       "community": 7,
@@ -1360,7 +1350,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_presets",
-      "community": 0,
+      "community": 7,
       "norm_label": "presets.ts"
     },
     {
@@ -1370,7 +1360,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "core_presets_withmodel",
-      "community": 0,
+      "community": 7,
       "norm_label": "withmodel()"
     },
     {
@@ -1380,7 +1370,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "core_presets_presets",
-      "community": 0,
+      "community": 7,
       "norm_label": "presets"
     },
     {
@@ -1840,17 +1830,27 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_voices_test",
-      "community": 7,
+      "community": 32,
       "norm_label": "voices.test.ts"
+    },
+    {
+      "label": "renderVoice()",
+      "file_type": "code",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "core_voices_test_rendervoice",
+      "community": 32,
+      "norm_label": "rendervoice()"
     },
     {
       "label": "byId()",
       "file_type": "code",
       "source_file": "src/core/voices.test.ts",
-      "source_location": "L7",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "core_voices_test_byid",
-      "community": 7,
+      "community": 32,
       "norm_label": "byid()"
     },
     {
@@ -1884,10 +1884,20 @@
       "norm_label": "renderedvoice"
     },
     {
+      "label": "voiceGeometry()",
+      "file_type": "code",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "core_voices_voicegeometry",
+      "community": 32,
+      "norm_label": "voicegeometry()"
+    },
+    {
       "label": "renderVoice()",
       "file_type": "code",
       "source_file": "src/core/voices.ts",
-      "source_location": "L26",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "core_voices_rendervoice",
       "community": 32,
@@ -1897,7 +1907,7 @@
       "label": "renderVoices()",
       "file_type": "code",
       "source_file": "src/core/voices.ts",
-      "source_location": "L36",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "core_voices_rendervoices",
       "community": 8,
@@ -1907,7 +1917,7 @@
       "label": "noteFor()",
       "file_type": "code",
       "source_file": "src/core/voices.ts",
-      "source_location": "L44",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "core_voices_notefor",
       "community": 32,
@@ -1917,7 +1927,7 @@
       "label": "pitchField()",
       "file_type": "code",
       "source_file": "src/core/voices.ts",
-      "source_location": "L61",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "core_voices_pitchfield",
       "community": 32,
@@ -2150,7 +2160,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "midi_smf_midinote",
-      "community": 34,
+      "community": 8,
       "norm_label": "midinote"
     },
     {
@@ -2160,7 +2170,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "midi_smf_miditrack",
-      "community": 8,
+      "community": 34,
       "norm_label": "miditrack"
     },
     {
@@ -2680,7 +2690,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_main",
-      "community": 0,
+      "community": 7,
       "norm_label": "main.tsx"
     },
     {
@@ -2890,57 +2900,67 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_controlpanel",
-      "community": 0,
+      "community": 7,
       "norm_label": "controlpanel.tsx"
+    },
+    {
+      "label": "familyLabels",
+      "file_type": "code",
+      "source_file": "src/ui/ControlPanel.tsx",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "ui_controlpanel_familylabels",
+      "community": 7,
+      "norm_label": "familylabels"
     },
     {
       "label": "ControlPanelProps",
       "file_type": "code",
       "source_file": "src/ui/ControlPanel.tsx",
-      "source_location": "L14",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "ui_controlpanel_controlpanelprops",
-      "community": 0,
+      "community": 7,
       "norm_label": "controlpanelprops"
     },
     {
       "label": "NumberFieldProps",
       "file_type": "code",
       "source_file": "src/ui/ControlPanel.tsx",
-      "source_location": "L19",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "ui_controlpanel_numberfieldprops",
-      "community": 0,
+      "community": 7,
       "norm_label": "numberfieldprops"
     },
     {
       "label": "ControlPanel()",
       "file_type": "code",
       "source_file": "src/ui/ControlPanel.tsx",
-      "source_location": "L32",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "ui_controlpanel_controlpanel",
-      "community": 0,
+      "community": 7,
       "norm_label": "controlpanel()"
     },
     {
       "label": "NumberField()",
       "file_type": "code",
       "source_file": "src/ui/ControlPanel.tsx",
-      "source_location": "L215",
+      "source_location": "L373",
       "_origin": "ast",
       "id": "ui_controlpanel_numberfield",
-      "community": 0,
+      "community": 7,
       "norm_label": "numberfield()"
     },
     {
       "label": "formatNumber()",
       "file_type": "code",
       "source_file": "src/ui/ControlPanel.tsx",
-      "source_location": "L256",
+      "source_location": "L414",
       "_origin": "ast",
       "id": "ui_controlpanel_formatnumber",
-      "community": 0,
+      "community": 7,
       "norm_label": "formatnumber()"
     },
     {
@@ -2980,7 +3000,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_presetpicker",
-      "community": 0,
+      "community": 7,
       "norm_label": "presetpicker.tsx"
     },
     {
@@ -2990,7 +3010,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "ui_presetpicker_presetpickerprops",
-      "community": 0,
+      "community": 7,
       "norm_label": "presetpickerprops"
     },
     {
@@ -3000,7 +3020,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "ui_presetpicker_presetpicker",
-      "community": 0,
+      "community": 7,
       "norm_label": "presetpicker()"
     },
     {
@@ -3010,7 +3030,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_strudelexportpanel",
-      "community": 0,
+      "community": 7,
       "norm_label": "strudelexportpanel.tsx"
     },
     {
@@ -3020,7 +3040,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "ui_strudelexportpanel_strudelexportpanelprops",
-      "community": 0,
+      "community": 7,
       "norm_label": "strudelexportpanelprops"
     },
     {
@@ -3030,7 +3050,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "ui_strudelexportpanel_strudelexportpanel",
-      "community": 0,
+      "community": 7,
       "norm_label": "strudelexportpanel()"
     },
     {
@@ -3040,7 +3060,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_transport",
-      "community": 0,
+      "community": 7,
       "norm_label": "transport.tsx"
     },
     {
@@ -3050,7 +3070,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_transport_transportprops",
-      "community": 0,
+      "community": 7,
       "norm_label": "transportprops"
     },
     {
@@ -3060,7 +3080,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "ui_transport_transport",
-      "community": 0,
+      "community": 7,
       "norm_label": "transport()"
     },
     {
@@ -3077,7 +3097,7 @@
       "label": "VoicePanelProps",
       "file_type": "code",
       "source_file": "src/ui/VoicePanel.tsx",
-      "source_location": "L11",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "ui_voicepanel_voicepanelprops",
       "community": 8,
@@ -3087,17 +3107,27 @@
       "label": "triggerLabels",
       "file_type": "code",
       "source_file": "src/ui/VoicePanel.tsx",
-      "source_location": "L16",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "ui_voicepanel_triggerlabels",
       "community": 8,
       "norm_label": "triggerlabels"
     },
     {
+      "label": "shapeLabels",
+      "file_type": "code",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "ui_voicepanel_shapelabels",
+      "community": 8,
+      "norm_label": "shapelabels"
+    },
+    {
       "label": "drumOptions",
       "file_type": "code",
       "source_file": "src/ui/VoicePanel.tsx",
-      "source_location": "L24",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "ui_voicepanel_drumoptions",
       "community": 8,
@@ -3107,7 +3137,7 @@
       "label": "VoicePanel()",
       "file_type": "code",
       "source_file": "src/ui/VoicePanel.tsx",
-      "source_location": "L30",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "ui_voicepanel_voicepanel",
       "community": 8,
@@ -3607,7 +3637,7 @@
       "label": "Project shape",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L74",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "readme_project_shape",
       "community": 9,
@@ -3617,7 +3647,7 @@
       "label": "Docs",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L102",
+      "source_location": "L105",
       "_origin": "ast",
       "id": "readme_docs",
       "community": 9,
@@ -3627,7 +3657,7 @@
       "label": "Roadmap",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L109",
+      "source_location": "L114",
       "_origin": "ast",
       "id": "readme_roadmap",
       "community": 9,
@@ -3637,7 +3667,7 @@
       "label": "Boundaries",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L119",
+      "source_location": "L124",
       "_origin": "ast",
       "id": "readme_boundaries",
       "community": 9,
@@ -4857,7 +4887,7 @@
       "label": "References",
       "file_type": "document",
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
-      "source_location": "L521",
+      "source_location": "L525",
       "_origin": "ast",
       "id": "docs_sound_and_midi_design_references",
       "community": 33,
@@ -4867,7 +4897,7 @@
       "label": "Keeping the exports in agreement",
       "file_type": "document",
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
-      "source_location": "L528",
+      "source_location": "L532",
       "_origin": "ast",
       "id": "docs_sound_and_midi_design_keeping_the_exports_in_agreement",
       "community": 33,
@@ -4877,7 +4907,7 @@
       "label": "Strudel vocabulary",
       "file_type": "document",
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
-      "source_location": "L557",
+      "source_location": "L561",
       "_origin": "ast",
       "id": "docs_sound_and_midi_design_strudel_vocabulary",
       "community": 33,
@@ -4887,7 +4917,7 @@
       "label": "P9 \u2014 Browser preview",
       "file_type": "document",
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
-      "source_location": "L590",
+      "source_location": "L594",
       "_origin": "ast",
       "id": "docs_sound_and_midi_design_p9_browser_preview",
       "community": 33,
@@ -4897,11 +4927,21 @@
       "label": "Acceptance criteria",
       "file_type": "document",
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
-      "source_location": "L619",
+      "source_location": "L623",
       "_origin": "ast",
-      "id": "docs_sound_and_midi_design_acceptance_criteria_619",
+      "id": "docs_sound_and_midi_design_acceptance_criteria_623",
       "community": 33,
       "norm_label": "acceptance criteria"
+    },
+    {
+      "label": "One relationship, several voices",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L631",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_one_relationship_several_voices",
+      "community": 33,
+      "norm_label": "one relationship, several voices"
     },
     {
       "label": "VISION.md",
@@ -5202,6 +5242,96 @@
       "id": "docs_vision_long_term_dream",
       "community": 1,
       "norm_label": "long-term dream"
+    },
+    {
+      "label": "WHAT-IS-MISSING.md",
+      "file_type": "document",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_what_is_missing",
+      "community": 0,
+      "norm_label": "what-is-missing.md"
+    },
+    {
+      "label": "What is missing: ratio, tuning, and melodic line",
+      "file_type": "document",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_what_is_missing_what_is_missing_ratio_tuning_and_melodic_line",
+      "community": 0,
+      "norm_label": "what is missing: ratio, tuning, and melodic line"
+    },
+    {
+      "label": "The observation",
+      "file_type": "document",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "docs_what_is_missing_the_observation",
+      "community": 0,
+      "norm_label": "the observation"
+    },
+    {
+      "label": "The gap",
+      "file_type": "document",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "docs_what_is_missing_the_gap",
+      "community": 0,
+      "norm_label": "the gap"
+    },
+    {
+      "label": "Why the ratio is already the interval",
+      "file_type": "document",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "docs_what_is_missing_why_the_ratio_is_already_the_interval",
+      "community": 0,
+      "norm_label": "why the ratio is already the interval"
+    },
+    {
+      "label": "Three more, in order of how much they would change",
+      "file_type": "document",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "docs_what_is_missing_three_more_in_order_of_how_much_they_would_change",
+      "community": 0,
+      "norm_label": "three more, in order of how much they would change"
+    },
+    {
+      "label": "The reframe",
+      "file_type": "document",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L78",
+      "_origin": "ast",
+      "id": "docs_what_is_missing_the_reframe",
+      "community": 0,
+      "norm_label": "the reframe"
+    },
+    {
+      "label": "The experiment",
+      "file_type": "document",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L103",
+      "_origin": "ast",
+      "id": "docs_what_is_missing_the_experiment",
+      "community": 0,
+      "norm_label": "the experiment"
+    },
+    {
+      "label": "Open threads not resolved here",
+      "file_type": "document",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L122",
+      "_origin": "ast",
+      "id": "docs_what_is_missing_open_threads_not_resolved_here",
+      "community": 0,
+      "norm_label": "open threads not resolved here"
     }
   ],
   "links": [
@@ -5934,9 +6064,9 @@
       "source_file": "src/audio/drumSynth.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_drumsynth",
-      "target": "audio_drumsynth_drumshape",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_drumshape"
     },
     {
       "relation": "contains",
@@ -5944,9 +6074,9 @@
       "source_file": "src/audio/drumSynth.ts",
       "source_location": "L148",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_drumsynth",
-      "target": "audio_drumsynth_envelope",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_envelope"
     },
     {
       "relation": "contains",
@@ -5954,9 +6084,9 @@
       "source_file": "src/audio/drumSynth.ts",
       "source_location": "L47",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_drumsynth",
-      "target": "audio_drumsynth_fallback",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_fallback"
     },
     {
       "relation": "contains",
@@ -5964,9 +6094,9 @@
       "source_file": "src/audio/drumSynth.ts",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_drumsynth",
-      "target": "audio_drumsynth_noisebuffer",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_noisebuffer"
     },
     {
       "relation": "contains",
@@ -5974,9 +6104,9 @@
       "source_file": "src/audio/drumSynth.ts",
       "source_location": "L76",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_drumsynth",
-      "target": "audio_drumsynth_playdrum",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_playdrum"
     },
     {
       "relation": "contains",
@@ -5984,9 +6114,9 @@
       "source_file": "src/audio/drumSynth.ts",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_drumsynth",
-      "target": "audio_drumsynth_shapes",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_shapes"
     },
     {
       "relation": "contains",
@@ -5994,9 +6124,9 @@
       "source_file": "src/audio/drumSynth.ts",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_drumsynth",
-      "target": "audio_drumsynth_tone",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_tone"
     },
     {
       "relation": "imports_from",
@@ -6005,9 +6135,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview",
-      "target": "audio_drumsynth",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth"
     },
     {
       "relation": "calls",
@@ -6016,9 +6146,9 @@
       "source_file": "src/audio/drumSynth.ts",
       "source_location": "L95",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_drumsynth_playdrum",
-      "target": "audio_drumsynth_noisebuffer",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_noisebuffer"
     },
     {
       "relation": "calls",
@@ -6027,9 +6157,9 @@
       "source_file": "src/audio/drumSynth.ts",
       "source_location": "L100",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_drumsynth_playdrum",
-      "target": "audio_drumsynth_envelope",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_envelope"
     },
     {
       "relation": "calls",
@@ -6038,9 +6168,9 @@
       "source_file": "src/audio/drumSynth.ts",
       "source_location": "L87",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_drumsynth_playdrum",
-      "target": "audio_drumsynth_tone",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_tone"
     },
     {
       "relation": "imports",
@@ -6049,9 +6179,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview",
-      "target": "audio_drumsynth_playdrum",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_playdrum"
     },
     {
       "relation": "calls",
@@ -6071,9 +6201,9 @@
       "source_file": "src/audio/drumSynth.ts",
       "source_location": "L140",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_drumsynth_tone",
-      "target": "audio_drumsynth_envelope",
-      "confidence_score": 1.0
+      "target": "audio_drumsynth_envelope"
     },
     {
       "relation": "contains",
@@ -6081,9 +6211,9 @@
       "source_file": "src/audio/toneSynth.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_tonesynth",
-      "target": "audio_tonesynth_playtone",
-      "confidence_score": 1.0
+      "target": "audio_tonesynth_playtone"
     },
     {
       "relation": "imports_from",
@@ -6092,9 +6222,9 @@
       "source_file": "src/audio/toneSynth.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_tonesynth",
-      "target": "core_model",
-      "confidence_score": 1.0
+      "target": "core_model"
     },
     {
       "relation": "imports",
@@ -6103,9 +6233,9 @@
       "source_file": "src/audio/toneSynth.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_tonesynth",
-      "target": "core_model_waveform",
-      "confidence_score": 1.0
+      "target": "core_model_waveform"
     },
     {
       "relation": "imports_from",
@@ -6114,9 +6244,9 @@
       "source_file": "src/audio/toneSynth.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_tonesynth",
-      "target": "core_scales",
-      "confidence_score": 1.0
+      "target": "core_scales"
     },
     {
       "relation": "imports",
@@ -6125,9 +6255,9 @@
       "source_file": "src/audio/toneSynth.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_tonesynth",
-      "target": "core_scales_miditofrequency",
-      "confidence_score": 1.0
+      "target": "core_scales_miditofrequency"
     },
     {
       "relation": "imports_from",
@@ -6136,9 +6266,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview",
-      "target": "audio_tonesynth",
-      "confidence_score": 1.0
+      "target": "audio_tonesynth"
     },
     {
       "relation": "calls",
@@ -6158,9 +6288,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview",
-      "target": "audio_tonesynth_playtone",
-      "confidence_score": 1.0
+      "target": "audio_tonesynth_playtone"
     },
     {
       "relation": "calls",
@@ -6179,9 +6309,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview",
-      "target": "audio_voicepreview_voicepreview",
-      "confidence_score": 1.0
+      "target": "audio_voicepreview_voicepreview"
     },
     {
       "relation": "imports_from",
@@ -6190,9 +6320,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview",
-      "target": "core_model",
-      "confidence_score": 1.0
+      "target": "core_model"
     },
     {
       "relation": "imports",
@@ -6201,9 +6331,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview",
-      "target": "core_model_waveform",
-      "confidence_score": 1.0
+      "target": "core_model_waveform"
     },
     {
       "relation": "imports_from",
@@ -6212,9 +6342,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview",
-      "target": "core_preview",
-      "confidence_score": 1.0
+      "target": "core_preview"
     },
     {
       "relation": "imports",
@@ -6223,9 +6353,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview",
-      "target": "core_preview_previewplan",
-      "confidence_score": 1.0
+      "target": "core_preview_previewplan"
     },
     {
       "relation": "imports_from",
@@ -6234,9 +6364,9 @@
       "source_file": "src/ui/VoicePanel.tsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_voicepanel",
-      "target": "audio_voicepreview",
-      "confidence_score": 1.0
+      "target": "audio_voicepreview"
     },
     {
       "relation": "method",
@@ -6244,9 +6374,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview",
-      "target": "audio_voicepreview_voicepreview_playing",
-      "confidence_score": 1.0
+      "target": "audio_voicepreview_voicepreview_playing"
     },
     {
       "relation": "method",
@@ -6254,9 +6384,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L84",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview",
-      "target": "audio_voicepreview_voicepreview_schedule",
-      "confidence_score": 1.0
+      "target": "audio_voicepreview_voicepreview_schedule"
     },
     {
       "relation": "method",
@@ -6264,9 +6394,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview",
-      "target": "audio_voicepreview_voicepreview_start",
-      "confidence_score": 1.0
+      "target": "audio_voicepreview_voicepreview_start"
     },
     {
       "relation": "method",
@@ -6274,9 +6404,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L59",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview",
-      "target": "audio_voicepreview_voicepreview_stop",
-      "confidence_score": 1.0
+      "target": "audio_voicepreview_voicepreview_stop"
     },
     {
       "relation": "method",
@@ -6284,9 +6414,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview",
-      "target": "audio_voicepreview_voicepreview_update",
-      "confidence_score": 1.0
+      "target": "audio_voicepreview_voicepreview_update"
     },
     {
       "relation": "references",
@@ -6295,9 +6425,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview",
-      "target": "core_model_waveform",
-      "confidence_score": 1.0
+      "target": "core_model_waveform"
     },
     {
       "relation": "references",
@@ -6306,9 +6436,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview",
-      "target": "core_preview_previewplan",
-      "confidence_score": 1.0
+      "target": "core_preview_previewplan"
     },
     {
       "relation": "imports",
@@ -6317,9 +6447,9 @@
       "source_file": "src/ui/VoicePanel.tsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_voicepanel",
-      "target": "audio_voicepreview_voicepreview",
-      "confidence_score": 1.0
+      "target": "audio_voicepreview_voicepreview"
     },
     {
       "relation": "calls",
@@ -6328,9 +6458,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview_start",
-      "target": "audio_voicepreview_voicepreview_schedule",
-      "confidence_score": 1.0
+      "target": "audio_voicepreview_voicepreview_schedule"
     },
     {
       "relation": "references",
@@ -6339,9 +6469,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview_start",
-      "target": "core_model_waveform",
-      "confidence_score": 1.0
+      "target": "core_model_waveform"
     },
     {
       "relation": "references",
@@ -6350,9 +6480,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview_start",
-      "target": "core_preview_previewplan",
-      "confidence_score": 1.0
+      "target": "core_preview_previewplan"
     },
     {
       "relation": "references",
@@ -6361,9 +6491,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview_update",
-      "target": "core_model_waveform",
-      "confidence_score": 1.0
+      "target": "core_model_waveform"
     },
     {
       "relation": "references",
@@ -6372,9 +6502,9 @@
       "source_file": "src/audio/voicePreview.ts",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "audio_voicepreview_voicepreview_update",
-      "target": "core_preview_previewplan",
-      "confidence_score": 1.0
+      "target": "core_preview_previewplan"
     },
     {
       "relation": "contains",
@@ -6956,6 +7086,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_curves",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/export/jsonExport.ts",
       "source_location": "L1",
       "weight": 1.0,
@@ -6973,6 +7114,28 @@
       "confidence_score": 1.0,
       "source": "export_jsonexport_test",
       "target": "core_curves"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/ControlPanel.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "ui_controlpanel",
+      "target": "core_curves",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_curves",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -7028,6 +7191,28 @@
       "confidence_score": 1.0,
       "source": "export_jsonexport",
       "target": "core_curves_curvefamilies"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/ControlPanel.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "ui_controlpanel",
+      "target": "core_curves_curvefamilies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_curves_curvefamilies",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -7105,6 +7290,17 @@
       "weight": 1.0,
       "source": "core_voices_rendervoice",
       "target": "core_curves_generatecurvepoints"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_curves_generatecurvepoints",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -7190,16 +7386,6 @@
       "confidence_score": 1.0,
       "source": "core_defaultmodel",
       "target": "core_defaultmodel_defaultvoices"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/core/defaultModel.ts",
-      "source_location": "L17",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "core_defaultmodel",
-      "target": "core_defaultmodel_voicegeometry"
     },
     {
       "relation": "imports_from",
@@ -7318,9 +7504,9 @@
       "source_file": "src/core/preview.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview_test",
-      "target": "core_defaultmodel",
-      "confidence_score": 1.0
+      "target": "core_defaultmodel"
     },
     {
       "relation": "imports_from",
@@ -7351,9 +7537,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "core_defaultmodel",
-      "confidence_score": 1.0
+      "target": "core_defaultmodel"
     },
     {
       "relation": "imports_from",
@@ -7461,9 +7647,9 @@
       "source_file": "src/core/preview.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview_test",
-      "target": "core_defaultmodel_defaultmodel",
-      "confidence_score": 1.0
+      "target": "core_defaultmodel_defaultmodel"
     },
     {
       "relation": "imports",
@@ -7494,9 +7680,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "core_defaultmodel_defaultmodel",
-      "confidence_score": 1.0
+      "target": "core_defaultmodel_defaultmodel"
     },
     {
       "relation": "imports",
@@ -8834,9 +9020,9 @@
       "source_file": "src/core/preview.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview",
-      "target": "core_model",
-      "confidence_score": 1.0
+      "target": "core_model"
     },
     {
       "relation": "re_exports",
@@ -9073,6 +9259,28 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/ui/ControlPanel.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "ui_controlpanel",
+      "target": "core_model_curvefamily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_model_curvefamily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/ui/VoicePanel.tsx",
       "source_location": "L5",
       "weight": 1.0,
@@ -9120,9 +9328,9 @@
       "source_file": "src/core/preview.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview",
-      "target": "core_model_spirophonicmodel",
-      "confidence_score": 1.0
+      "target": "core_model_spirophonicmodel"
     },
     {
       "relation": "imports",
@@ -9307,9 +9515,9 @@
       "source_file": "src/export/strudelExport.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_strudelexport_test",
-      "target": "core_model_scalename",
-      "confidence_score": 1.0
+      "target": "core_model_scalename"
     },
     {
       "relation": "imports",
@@ -9426,9 +9634,9 @@
       "source_file": "src/core/preview.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview_test",
-      "target": "core_preview",
-      "confidence_score": 1.0
+      "target": "core_preview"
     },
     {
       "relation": "imports",
@@ -9437,9 +9645,9 @@
       "source_file": "src/core/preview.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview_test",
-      "target": "core_preview_previewplan",
-      "confidence_score": 1.0
+      "target": "core_preview_previewplan"
     },
     {
       "relation": "contains",
@@ -9447,9 +9655,9 @@
       "source_file": "src/core/preview.test.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview_test",
-      "target": "core_preview_test_allon",
-      "confidence_score": 1.0
+      "target": "core_preview_test_allon"
     },
     {
       "relation": "imports_from",
@@ -9458,9 +9666,9 @@
       "source_file": "src/core/preview.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview_test",
-      "target": "core_voices",
-      "confidence_score": 1.0
+      "target": "core_voices"
     },
     {
       "relation": "imports",
@@ -9469,9 +9677,9 @@
       "source_file": "src/core/preview.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview_test",
-      "target": "core_voices_rendervoices",
-      "confidence_score": 1.0
+      "target": "core_voices_rendervoices"
     },
     {
       "relation": "contains",
@@ -9479,9 +9687,9 @@
       "source_file": "src/core/preview.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview",
-      "target": "core_preview_previewhit",
-      "confidence_score": 1.0
+      "target": "core_preview_previewhit"
     },
     {
       "relation": "contains",
@@ -9489,9 +9697,9 @@
       "source_file": "src/core/preview.ts",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview",
-      "target": "core_preview_previewplan",
-      "confidence_score": 1.0
+      "target": "core_preview_previewplan"
     },
     {
       "relation": "imports_from",
@@ -9500,9 +9708,9 @@
       "source_file": "src/core/preview.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview",
-      "target": "core_rhythm",
-      "confidence_score": 1.0
+      "target": "core_rhythm"
     },
     {
       "relation": "imports",
@@ -9511,9 +9719,9 @@
       "source_file": "src/core/preview.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview",
-      "target": "core_rhythm_notelengths",
-      "confidence_score": 1.0
+      "target": "core_rhythm_notelengths"
     },
     {
       "relation": "imports_from",
@@ -9522,9 +9730,9 @@
       "source_file": "src/core/preview.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview",
-      "target": "core_time",
-      "confidence_score": 1.0
+      "target": "core_time"
     },
     {
       "relation": "imports",
@@ -9533,9 +9741,9 @@
       "source_file": "src/core/preview.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview",
-      "target": "core_time_geteffectivecyclespersecond",
-      "confidence_score": 1.0
+      "target": "core_time_geteffectivecyclespersecond"
     },
     {
       "relation": "imports_from",
@@ -9544,9 +9752,9 @@
       "source_file": "src/core/preview.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview",
-      "target": "core_voices",
-      "confidence_score": 1.0
+      "target": "core_voices"
     },
     {
       "relation": "imports",
@@ -9555,9 +9763,9 @@
       "source_file": "src/core/preview.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_preview",
-      "target": "core_voices_rendervoices",
-      "confidence_score": 1.0
+      "target": "core_voices_rendervoices"
     },
     {
       "relation": "imports_from",
@@ -9566,9 +9774,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "core_preview",
-      "confidence_score": 1.0
+      "target": "core_preview"
     },
     {
       "relation": "imports_from",
@@ -9577,9 +9785,9 @@
       "source_file": "src/ui/VoicePanel.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_voicepanel",
-      "target": "core_preview",
-      "confidence_score": 1.0
+      "target": "core_preview"
     },
     {
       "relation": "calls",
@@ -9610,9 +9818,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "core_preview_previewplan",
-      "confidence_score": 1.0
+      "target": "core_preview_previewplan"
     },
     {
       "relation": "imports",
@@ -9621,9 +9829,9 @@
       "source_file": "src/ui/VoicePanel.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_voicepanel",
-      "target": "core_preview_previewplan",
-      "confidence_score": 1.0
+      "target": "core_preview_previewplan"
     },
     {
       "relation": "imports_from",
@@ -9756,9 +9964,9 @@
       "source_file": "src/core/rhythm.ts",
       "source_location": "L107",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_rhythm",
-      "target": "core_rhythm_notelengths",
-      "confidence_score": 1.0
+      "target": "core_rhythm_notelengths"
     },
     {
       "relation": "contains",
@@ -9808,9 +10016,9 @@
       "source_file": "src/export/midiExport.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_midiexport",
-      "target": "core_rhythm",
-      "confidence_score": 1.0
+      "target": "core_rhythm"
     },
     {
       "relation": "imports",
@@ -9907,9 +10115,9 @@
       "source_file": "src/export/midiExport.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_midiexport",
-      "target": "core_rhythm_notelengths",
-      "confidence_score": 1.0
+      "target": "core_rhythm_notelengths"
     },
     {
       "relation": "calls",
@@ -9918,9 +10126,9 @@
       "source_file": "src/export/midiExport.ts",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_midiexport_repeatbars",
-      "target": "core_rhythm_notelengths",
-      "confidence_score": 1.0
+      "target": "core_rhythm_notelengths"
     },
     {
       "relation": "imports_from",
@@ -10172,9 +10380,9 @@
       "source_file": "src/export/strudelExport.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_strudelexport_test",
-      "target": "core_scales",
-      "confidence_score": 1.0
+      "target": "core_scales"
     },
     {
       "relation": "imports_from",
@@ -10205,9 +10413,9 @@
       "source_file": "src/export/strudelExport.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_strudelexport_test",
-      "target": "core_scales_scalenames",
-      "confidence_score": 1.0
+      "target": "core_scales_scalenames"
     },
     {
       "relation": "imports",
@@ -10981,6 +11189,38 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_voices_test_rendervoice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_voices_voicegeometry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "core_voices_test_rendervoice",
+      "target": "core_voices_rendervoice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/voices.ts",
       "source_location": "L44",
       "weight": 1.0,
@@ -11032,6 +11272,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/core/voices.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_voices_voicegeometry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
       "source_location": "L8",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -11045,9 +11295,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "core_voices",
-      "confidence_score": 1.0
+      "target": "core_voices"
     },
     {
       "relation": "imports_from",
@@ -11153,6 +11403,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/core/voices.ts",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "core_voices_rendervoice",
+      "target": "core_voices_voicegeometry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
       "source_location": "L33",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -11166,9 +11427,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "core_voices_rendervoices",
-      "confidence_score": 1.0
+      "target": "core_voices_rendervoices"
     },
     {
       "relation": "imports",
@@ -11231,9 +11492,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "export_agreement_test_allvoiceson",
-      "confidence_score": 1.0
+      "target": "export_agreement_test_allvoiceson"
     },
     {
       "relation": "contains",
@@ -11241,9 +11502,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "export_agreement_test_midinoteonspertrack",
-      "confidence_score": 1.0
+      "target": "export_agreement_test_midinoteonspertrack"
     },
     {
       "relation": "contains",
@@ -11251,9 +11512,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L69",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "export_agreement_test_midinotespans",
-      "confidence_score": 1.0
+      "target": "export_agreement_test_midinotespans"
     },
     {
       "relation": "contains",
@@ -11261,9 +11522,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L125",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "export_agreement_test_strudelstepspervoice",
-      "confidence_score": 1.0
+      "target": "export_agreement_test_strudelstepspervoice"
     },
     {
       "relation": "imports_from",
@@ -11272,9 +11533,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "export_midiexport",
-      "confidence_score": 1.0
+      "target": "export_midiexport"
     },
     {
       "relation": "imports",
@@ -11283,9 +11544,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "export_midiexport_buildmidibytes",
-      "confidence_score": 1.0
+      "target": "export_midiexport_buildmidibytes"
     },
     {
       "relation": "imports_from",
@@ -11294,9 +11555,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "export_strudelexport",
-      "confidence_score": 1.0
+      "target": "export_strudelexport"
     },
     {
       "relation": "imports",
@@ -11305,9 +11566,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "export_strudelexport_exportstrudelsnippet",
-      "confidence_score": 1.0
+      "target": "export_strudelexport_exportstrudelsnippet"
     },
     {
       "relation": "imports_from",
@@ -11316,9 +11577,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "midi_smf",
-      "confidence_score": 1.0
+      "target": "midi_smf"
     },
     {
       "relation": "imports",
@@ -11327,9 +11588,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "midi_smf_decodevariablelength",
-      "confidence_score": 1.0
+      "target": "midi_smf_decodevariablelength"
     },
     {
       "relation": "calls",
@@ -11338,9 +11599,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test_midinoteonspertrack",
-      "target": "midi_smf_decodevariablelength",
-      "confidence_score": 1.0
+      "target": "midi_smf_decodevariablelength"
     },
     {
       "relation": "calls",
@@ -11349,9 +11610,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L86",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test_midinotespans",
-      "target": "midi_smf_decodevariablelength",
-      "confidence_score": 1.0
+      "target": "midi_smf_decodevariablelength"
     },
     {
       "relation": "imports_from",
@@ -11965,9 +12226,9 @@
       "source_file": "src/export/midiExport.test.ts",
       "source_location": "L192",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_midiexport_test_notespans",
-      "target": "midi_smf_decodevariablelength",
-      "confidence_score": 1.0
+      "target": "midi_smf_decodevariablelength"
     },
     {
       "relation": "imports",
@@ -12215,9 +12476,9 @@
       "source_file": "src/export/midiExport.test.ts",
       "source_location": "L174",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_midiexport_test",
-      "target": "export_midiexport_test_notespans",
-      "confidence_score": 1.0
+      "target": "export_midiexport_test_notespans"
     },
     {
       "relation": "contains",
@@ -12472,9 +12733,9 @@
       "source_file": "src/export/strudelExport.ts",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_strudelexport",
-      "target": "export_strudelexport_tonalscales",
-      "confidence_score": 1.0
+      "target": "export_strudelexport_tonalscales"
     },
     {
       "relation": "contains",
@@ -12941,6 +13202,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/ControlPanel.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "ui_controlpanel",
+      "target": "ui_controlpanel_familylabels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/ControlPanel.tsx",
       "source_location": "L215",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -13067,6 +13338,16 @@
       "confidence_score": 1.0,
       "source": "ui_voicepanel",
       "target": "ui_voicepanel_drumoptions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "ui_voicepanel_shapelabels",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -14454,9 +14735,9 @@
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
       "source_location": "L528",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
-      "target": "docs_sound_and_midi_design_keeping_the_exports_in_agreement",
-      "confidence_score": 1.0
+      "target": "docs_sound_and_midi_design_keeping_the_exports_in_agreement"
     },
     {
       "relation": "contains",
@@ -14467,6 +14748,16 @@
       "confidence_score": 1.0,
       "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
       "target": "docs_sound_and_midi_design_model_versioning"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L631",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_one_relationship_several_voices",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -14564,9 +14855,9 @@
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
       "source_location": "L590",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
-      "target": "docs_sound_and_midi_design_p9_browser_preview",
-      "confidence_score": 1.0
+      "target": "docs_sound_and_midi_design_p9_browser_preview"
     },
     {
       "relation": "contains",
@@ -14594,9 +14885,9 @@
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
       "source_location": "L557",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
-      "target": "docs_sound_and_midi_design_strudel_vocabulary",
-      "confidence_score": 1.0
+      "target": "docs_sound_and_midi_design_strudel_vocabulary"
     },
     {
       "relation": "contains",
@@ -14694,9 +14985,9 @@
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
       "source_location": "L250",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sound_and_midi_design_p2_rhythm_shaping",
-      "target": "docs_sound_and_midi_design_acceptance_criteria_250",
-      "confidence_score": 1.0
+      "target": "docs_sound_and_midi_design_acceptance_criteria_250"
     },
     {
       "relation": "contains",
@@ -14704,9 +14995,9 @@
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
       "source_location": "L340",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sound_and_midi_design_p3_midi_file_writer",
-      "target": "docs_sound_and_midi_design_acceptance_criteria_340",
-      "confidence_score": 1.0
+      "target": "docs_sound_and_midi_design_acceptance_criteria_340"
     },
     {
       "relation": "contains",
@@ -14744,9 +15035,9 @@
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
       "source_location": "L376",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sound_and_midi_design_p4_drum_kit_and_download_ui",
-      "target": "docs_sound_and_midi_design_acceptance_criteria_376",
-      "confidence_score": 1.0
+      "target": "docs_sound_and_midi_design_acceptance_criteria_376"
     },
     {
       "relation": "contains",
@@ -14754,9 +15045,9 @@
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
       "source_location": "L429",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sound_and_midi_design_p5_curve_families",
-      "target": "docs_sound_and_midi_design_acceptance_criteria_429",
-      "confidence_score": 1.0
+      "target": "docs_sound_and_midi_design_acceptance_criteria_429"
     },
     {
       "relation": "contains",
@@ -14784,9 +15075,9 @@
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
       "source_location": "L451",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sound_and_midi_design_p6_scale_quantization",
-      "target": "docs_sound_and_midi_design_acceptance_criteria_451",
-      "confidence_score": 1.0
+      "target": "docs_sound_and_midi_design_acceptance_criteria_451"
     },
     {
       "relation": "contains",
@@ -14794,18 +15085,18 @@
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
       "source_location": "L494",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sound_and_midi_design_p8_strudel_export_rewrite",
-      "target": "docs_sound_and_midi_design_acceptance_criteria_494",
-      "confidence_score": 1.0
+      "target": "docs_sound_and_midi_design_acceptance_criteria_494"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
-      "source_location": "L619",
+      "source_location": "L623",
       "weight": 1.0,
       "source": "docs_sound_and_midi_design_p9_browser_preview",
-      "target": "docs_sound_and_midi_design_acceptance_criteria_619",
+      "target": "docs_sound_and_midi_design_acceptance_criteria_623",
       "confidence_score": 1.0
     },
     {
@@ -15097,8 +15388,88 @@
       "confidence_score": 1.0,
       "source": "docs_vision_design_principles",
       "target": "docs_vision_6_small_first_success"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "docs_what_is_missing",
+      "target": "docs_what_is_missing_what_is_missing_ratio_tuning_and_melodic_line",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L122",
+      "weight": 1.0,
+      "source": "docs_what_is_missing_what_is_missing_ratio_tuning_and_melodic_line",
+      "target": "docs_what_is_missing_open_threads_not_resolved_here",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L103",
+      "weight": 1.0,
+      "source": "docs_what_is_missing_what_is_missing_ratio_tuning_and_melodic_line",
+      "target": "docs_what_is_missing_the_experiment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "docs_what_is_missing_what_is_missing_ratio_tuning_and_melodic_line",
+      "target": "docs_what_is_missing_the_gap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "docs_what_is_missing_what_is_missing_ratio_tuning_and_melodic_line",
+      "target": "docs_what_is_missing_the_observation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "docs_what_is_missing_what_is_missing_ratio_tuning_and_melodic_line",
+      "target": "docs_what_is_missing_the_reframe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "docs_what_is_missing_what_is_missing_ratio_tuning_and_melodic_line",
+      "target": "docs_what_is_missing_three_more_in_order_of_how_much_they_would_change",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/WHAT-IS-MISSING.md",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "docs_what_is_missing_what_is_missing_ratio_tuning_and_melodic_line",
+      "target": "docs_what_is_missing_why_the_ratio_is_already_the_interval",
+      "confidence_score": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4d7743ecf1e88c47cc5c4af3092e3aa96f8fe5bb"
+  "built_at_commit": "28d89d809b60770f530e04e7b2279919eb0feb59"
 }
