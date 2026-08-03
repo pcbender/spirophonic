@@ -370,7 +370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app_test",
-      "community": 0,
+      "community": 7,
       "norm_label": "app.test.tsx"
     },
     {
@@ -380,27 +380,27 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app",
-      "community": 0,
+      "community": 7,
       "norm_label": "app.tsx"
     },
     {
       "label": "App()",
       "file_type": "code",
       "source_file": "src/App.tsx",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "src_app_app",
-      "community": 0,
+      "community": 7,
       "norm_label": "app()"
     },
     {
       "label": "isEditableTarget()",
       "file_type": "code",
       "source_file": "src/App.tsx",
-      "source_location": "L177",
+      "source_location": "L179",
       "_origin": "ast",
       "id": "src_app_iseditabletarget",
-      "community": 0,
+      "community": 7,
       "norm_label": "iseditabletarget()"
     },
     {
@@ -464,13 +464,163 @@
       "norm_label": ".stop()"
     },
     {
+      "label": "curves.test.ts",
+      "file_type": "code",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_curves_test",
+      "community": 7,
+      "norm_label": "curves.test.ts"
+    },
+    {
+      "label": "withFamily()",
+      "file_type": "code",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "core_curves_test_withfamily",
+      "community": 7,
+      "norm_label": "withfamily()"
+    },
+    {
+      "label": "curves.ts",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_curves",
+      "community": 7,
+      "norm_label": "curves.ts"
+    },
+    {
+      "label": "Geometry",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "core_curves_geometry",
+      "community": 7,
+      "norm_label": "geometry"
+    },
+    {
+      "label": "ParametricCurve",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "core_curves_parametriccurve",
+      "community": 7,
+      "norm_label": "parametriccurve"
+    },
+    {
+      "label": "curveFamilies",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "core_curves_curvefamilies",
+      "community": 7,
+      "norm_label": "curvefamilies"
+    },
+    {
+      "label": "generateCurvePoints()",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "core_curves_generatecurvepoints",
+      "community": 7,
+      "norm_label": "generatecurvepoints()"
+    },
+    {
+      "label": "lissajous()",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "core_curves_lissajous",
+      "community": 7,
+      "norm_label": "lissajous()"
+    },
+    {
+      "label": "rose()",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L68",
+      "_origin": "ast",
+      "id": "core_curves_rose",
+      "community": 7,
+      "norm_label": "rose()"
+    },
+    {
+      "label": "superformula()",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L88",
+      "_origin": "ast",
+      "id": "core_curves_superformula",
+      "community": 7,
+      "norm_label": "superformula()"
+    },
+    {
+      "label": "harmonographPoints()",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L110",
+      "_origin": "ast",
+      "id": "core_curves_harmonographpoints",
+      "community": 7,
+      "norm_label": "harmonographpoints()"
+    },
+    {
+      "label": "sample()",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L132",
+      "_origin": "ast",
+      "id": "core_curves_sample",
+      "community": 7,
+      "norm_label": "sample()"
+    },
+    {
+      "label": "fit()",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L149",
+      "_origin": "ast",
+      "id": "core_curves_fit",
+      "community": 7,
+      "norm_label": "fit()"
+    },
+    {
+      "label": "close()",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L166",
+      "_origin": "ast",
+      "id": "core_curves_close",
+      "community": 7,
+      "norm_label": "close()"
+    },
+    {
+      "label": "point()",
+      "file_type": "code",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L174",
+      "_origin": "ast",
+      "id": "core_curves_point",
+      "community": 7,
+      "norm_label": "point()"
+    },
+    {
       "label": "defaultModel.test.ts",
       "file_type": "code",
       "source_file": "src/core/defaultModel.test.ts",
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_defaultmodel_test",
-      "community": 4,
+      "community": 7,
       "norm_label": "defaultmodel.test.ts"
     },
     {
@@ -480,18 +630,238 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_defaultmodel",
-      "community": 4,
+      "community": 7,
       "norm_label": "defaultmodel.ts"
+    },
+    {
+      "label": "defaultPitch",
+      "file_type": "code",
+      "source_file": "src/core/defaultModel.ts",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "core_defaultmodel_defaultpitch",
+      "community": 7,
+      "norm_label": "defaultpitch"
+    },
+    {
+      "label": "voiceGeometry()",
+      "file_type": "code",
+      "source_file": "src/core/defaultModel.ts",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "core_defaultmodel_voicegeometry",
+      "community": 7,
+      "norm_label": "voicegeometry()"
+    },
+    {
+      "label": "defaultVoices",
+      "file_type": "code",
+      "source_file": "src/core/defaultModel.ts",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "core_defaultmodel_defaultvoices",
+      "community": 7,
+      "norm_label": "defaultvoices"
     },
     {
       "label": "defaultModel",
       "file_type": "code",
       "source_file": "src/core/defaultModel.ts",
-      "source_location": "L3",
+      "source_location": "L98",
       "_origin": "ast",
       "id": "core_defaultmodel_defaultmodel",
-      "community": 4,
+      "community": 7,
       "norm_label": "defaultmodel"
+    },
+    {
+      "label": "events.test.ts",
+      "file_type": "code",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_events_test",
+      "community": 32,
+      "norm_label": "events.test.ts"
+    },
+    {
+      "label": "buildPoints()",
+      "file_type": "code",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "core_events_test_buildpoints",
+      "community": 32,
+      "norm_label": "buildpoints()"
+    },
+    {
+      "label": "lissajous()",
+      "file_type": "code",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "core_events_test_lissajous",
+      "community": 32,
+      "norm_label": "lissajous()"
+    },
+    {
+      "label": "rose()",
+      "file_type": "code",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "core_events_test_rose",
+      "community": 32,
+      "norm_label": "rose()"
+    },
+    {
+      "label": "circlePoints()",
+      "file_type": "code",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "core_events_test_circlepoints",
+      "community": 7,
+      "norm_label": "circlepoints()"
+    },
+    {
+      "label": "events.ts",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_events",
+      "community": 32,
+      "norm_label": "events.ts"
+    },
+    {
+      "label": "CurveEvent",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "core_events_curveevent",
+      "community": 32,
+      "norm_label": "curveevent"
+    },
+    {
+      "label": "defaultExtractOptions",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "core_events_defaultextractoptions",
+      "community": 32,
+      "norm_label": "defaultextractoptions"
+    },
+    {
+      "label": "extractEvents()",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "core_events_extractevents",
+      "community": 32,
+      "norm_label": "extractevents()"
+    },
+    {
+      "label": "uniqueCount()",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L53",
+      "_origin": "ast",
+      "id": "core_events_uniquecount",
+      "community": 32,
+      "norm_label": "uniquecount()"
+    },
+    {
+      "label": "findCrossings()",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L55",
+      "_origin": "ast",
+      "id": "core_events_findcrossings",
+      "community": 32,
+      "norm_label": "findcrossings()"
+    },
+    {
+      "label": "findPeaks()",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L94",
+      "_origin": "ast",
+      "id": "core_events_findpeaks",
+      "community": 32,
+      "norm_label": "findpeaks()"
+    },
+    {
+      "label": "suppress()",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L134",
+      "_origin": "ast",
+      "id": "core_events_suppress",
+      "community": 32,
+      "norm_label": "suppress()"
+    },
+    {
+      "label": "circularSpeeds()",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L161",
+      "_origin": "ast",
+      "id": "core_events_circularspeeds",
+      "community": 32,
+      "norm_label": "circularspeeds()"
+    },
+    {
+      "label": "circularCurvatures()",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L176",
+      "_origin": "ast",
+      "id": "core_events_circularcurvatures",
+      "community": 32,
+      "norm_label": "circularcurvatures()"
+    },
+    {
+      "label": "normalize()",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L195",
+      "_origin": "ast",
+      "id": "core_events_normalize",
+      "community": 32,
+      "norm_label": "normalize()"
+    },
+    {
+      "label": "wrapCycle()",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L212",
+      "_origin": "ast",
+      "id": "core_events_wrapcycle",
+      "community": 32,
+      "norm_label": "wrapcycle()"
+    },
+    {
+      "label": "cycleDistance()",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L220",
+      "_origin": "ast",
+      "id": "core_events_cycledistance",
+      "community": 32,
+      "norm_label": "cycledistance()"
+    },
+    {
+      "label": "signedAngle()",
+      "file_type": "code",
+      "source_file": "src/core/events.ts",
+      "source_location": "L231",
+      "_origin": "ast",
+      "id": "core_events_signedangle",
+      "community": 32,
+      "norm_label": "signedangle()"
     },
     {
       "label": "mapping.test.ts",
@@ -617,7 +987,7 @@
       "label": "normalizeSignedAngle()",
       "file_type": "code",
       "source_file": "src/core/mapping.ts",
-      "source_location": "L154",
+      "source_location": "L160",
       "_origin": "ast",
       "id": "core_mapping_normalizesignedangle",
       "community": 2,
@@ -674,14 +1044,144 @@
       "norm_label": "huesource"
     },
     {
-      "label": "SpirophonicModel",
+      "label": "CurveFamily",
       "file_type": "code",
       "source_file": "src/core/model.ts",
       "source_location": "L9",
       "_origin": "ast",
+      "id": "core_model_curvefamily",
+      "community": 7,
+      "norm_label": "curvefamily"
+    },
+    {
+      "label": "ModelVersion",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "core_model_modelversion",
+      "community": 0,
+      "norm_label": "modelversion"
+    },
+    {
+      "label": "CurveEventSource",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "core_model_curveeventsource",
+      "community": 8,
+      "norm_label": "curveeventsource"
+    },
+    {
+      "label": "CrossingDirection",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "core_model_crossingdirection",
+      "community": 0,
+      "norm_label": "crossingdirection"
+    },
+    {
+      "label": "ExtractOptions",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "core_model_extractoptions",
+      "community": 0,
+      "norm_label": "extractoptions"
+    },
+    {
+      "label": "QuantizeOptions",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "core_model_quantizeoptions",
+      "community": 32,
+      "norm_label": "quantizeoptions"
+    },
+    {
+      "label": "VelocityOptions",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "core_model_velocityoptions",
+      "community": 32,
+      "norm_label": "velocityoptions"
+    },
+    {
+      "label": "SpirophonicModel",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L46",
+      "_origin": "ast",
       "id": "core_model_spirophonicmodel",
       "community": 2,
       "norm_label": "spirophonicmodel"
+    },
+    {
+      "label": "VoiceKind",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L100",
+      "_origin": "ast",
+      "id": "core_model_voicekind",
+      "community": 0,
+      "norm_label": "voicekind"
+    },
+    {
+      "label": "PitchSource",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L102",
+      "_origin": "ast",
+      "id": "core_model_pitchsource",
+      "community": 32,
+      "norm_label": "pitchsource"
+    },
+    {
+      "label": "ScaleName",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L104",
+      "_origin": "ast",
+      "id": "core_model_scalename",
+      "community": 8,
+      "norm_label": "scalename"
+    },
+    {
+      "label": "PitchOptions",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L112",
+      "_origin": "ast",
+      "id": "core_model_pitchoptions",
+      "community": 7,
+      "norm_label": "pitchoptions"
+    },
+    {
+      "label": "Voice",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L126",
+      "_origin": "ast",
+      "id": "core_model_voice",
+      "community": 7,
+      "norm_label": "voice"
+    },
+    {
+      "label": "familyDefaults",
+      "file_type": "code",
+      "source_file": "src/core/model.ts",
+      "source_location": "L153",
+      "_origin": "ast",
+      "id": "core_model_familydefaults",
+      "community": 7,
+      "norm_label": "familydefaults"
     },
     {
       "label": "presets.ts",
@@ -714,13 +1214,253 @@
       "norm_label": "presets"
     },
     {
+      "label": "rhythm.test.ts",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_rhythm_test",
+      "community": 32,
+      "norm_label": "rhythm.test.ts"
+    },
+    {
+      "label": "event()",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.test.ts",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "core_rhythm_test_event",
+      "community": 32,
+      "norm_label": "event()"
+    },
+    {
+      "label": "rhythm.ts",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_rhythm",
+      "community": 32,
+      "norm_label": "rhythm.ts"
+    },
+    {
+      "label": "ShapedEvent",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "core_rhythm_shapedevent",
+      "community": 32,
+      "norm_label": "shapedevent"
+    },
+    {
+      "label": "defaultQuantizeOptions",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "core_rhythm_defaultquantizeoptions",
+      "community": 32,
+      "norm_label": "defaultquantizeoptions"
+    },
+    {
+      "label": "defaultVelocityOptions",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "core_rhythm_defaultvelocityoptions",
+      "community": 32,
+      "norm_label": "defaultvelocityoptions"
+    },
+    {
+      "label": "quantizeEvents()",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "core_rhythm_quantizeevents",
+      "community": 32,
+      "norm_label": "quantizeevents()"
+    },
+    {
+      "label": "applyVelocity()",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "core_rhythm_applyvelocity",
+      "community": 32,
+      "norm_label": "applyvelocity()"
+    },
+    {
+      "label": "shapeRhythm()",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L57",
+      "_origin": "ast",
+      "id": "core_rhythm_shaperhythm",
+      "community": 32,
+      "norm_label": "shaperhythm()"
+    },
+    {
+      "label": "collapse()",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L68",
+      "_origin": "ast",
+      "id": "core_rhythm_collapse",
+      "community": 32,
+      "norm_label": "collapse()"
+    },
+    {
+      "label": "clampUnit()",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L83",
+      "_origin": "ast",
+      "id": "core_rhythm_clampunit",
+      "community": 32,
+      "norm_label": "clampunit()"
+    },
+    {
+      "label": "clampVelocity()",
+      "file_type": "code",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L85",
+      "_origin": "ast",
+      "id": "core_rhythm_clampvelocity",
+      "community": 32,
+      "norm_label": "clampvelocity()"
+    },
+    {
+      "label": "scales.test.ts",
+      "file_type": "code",
+      "source_file": "src/core/scales.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_scales_test",
+      "community": 4,
+      "norm_label": "scales.test.ts"
+    },
+    {
+      "label": "scales.ts",
+      "file_type": "code",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_scales",
+      "community": 4,
+      "norm_label": "scales.ts"
+    },
+    {
+      "label": "scaleIntervals",
+      "file_type": "code",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "core_scales_scaleintervals",
+      "community": 4,
+      "norm_label": "scaleintervals"
+    },
+    {
+      "label": "scaleNames",
+      "file_type": "code",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "core_scales_scalenames",
+      "community": 4,
+      "norm_label": "scalenames"
+    },
+    {
+      "label": "noteNames",
+      "file_type": "code",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "core_scales_notenames",
+      "community": 4,
+      "norm_label": "notenames"
+    },
+    {
+      "label": "frequencyToMidi()",
+      "file_type": "code",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "core_scales_frequencytomidi",
+      "community": 4,
+      "norm_label": "frequencytomidi()"
+    },
+    {
+      "label": "midiToFrequency()",
+      "file_type": "code",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "core_scales_miditofrequency",
+      "community": 4,
+      "norm_label": "miditofrequency()"
+    },
+    {
+      "label": "midiToName()",
+      "file_type": "code",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "core_scales_miditoname",
+      "community": 4,
+      "norm_label": "miditoname()"
+    },
+    {
+      "label": "quantizeToScale()",
+      "file_type": "code",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L54",
+      "_origin": "ast",
+      "id": "core_scales_quantizetoscale",
+      "community": 4,
+      "norm_label": "quantizetoscale()"
+    },
+    {
+      "label": "toScaleDegree()",
+      "file_type": "code",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L78",
+      "_origin": "ast",
+      "id": "core_scales_toscaledegree",
+      "community": 4,
+      "norm_label": "toscaledegree()"
+    },
+    {
+      "label": "fromScaleDegree()",
+      "file_type": "code",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L94",
+      "_origin": "ast",
+      "id": "core_scales_fromscaledegree",
+      "community": 4,
+      "norm_label": "fromscaledegree()"
+    },
+    {
+      "label": "quantizeFrequency()",
+      "file_type": "code",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L102",
+      "_origin": "ast",
+      "id": "core_scales_quantizefrequency",
+      "community": 4,
+      "norm_label": "quantizefrequency()"
+    },
+    {
       "label": "time.test.ts",
       "file_type": "code",
       "source_file": "src/core/time.test.ts",
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_time_test",
-      "community": 0,
+      "community": 8,
       "norm_label": "time.test.ts"
     },
     {
@@ -730,7 +1470,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_time",
-      "community": 0,
+      "community": 8,
       "norm_label": "time.ts"
     },
     {
@@ -740,7 +1480,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "core_time_geteffectivecyclespersecond",
-      "community": 0,
+      "community": 8,
       "norm_label": "geteffectivecyclespersecond()"
     },
     {
@@ -750,7 +1490,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "core_time_clampcyclespersecond",
-      "community": 0,
+      "community": 8,
       "norm_label": "clampcyclespersecond()"
     },
     {
@@ -760,7 +1500,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "core_time_formatcyclesetting",
-      "community": 0,
+      "community": 8,
       "norm_label": "formatcyclesetting()"
     },
     {
@@ -770,7 +1510,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "core_time_formatloopseconds",
-      "community": 0,
+      "community": 8,
       "norm_label": "formatloopseconds()"
     },
     {
@@ -780,7 +1520,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_trochoid_test",
-      "community": 4,
+      "community": 7,
       "norm_label": "trochoid.test.ts"
     },
     {
@@ -790,7 +1530,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_trochoid",
-      "community": 4,
+      "community": 7,
       "norm_label": "trochoid.ts"
     },
     {
@@ -810,7 +1550,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "core_trochoid_safedivisor",
-      "community": 4,
+      "community": 7,
       "norm_label": "safedivisor()"
     },
     {
@@ -820,7 +1560,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "core_trochoid_getcycleend",
-      "community": 4,
+      "community": 7,
       "norm_label": "getcycleend()"
     },
     {
@@ -830,7 +1570,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "core_trochoid_greatestcommondivisor",
-      "community": 4,
+      "community": 7,
       "norm_label": "greatestcommondivisor()"
     },
     {
@@ -840,7 +1580,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "core_trochoid_generatespiropoints",
-      "community": 4,
+      "community": 7,
       "norm_label": "generatespiropoints()"
     },
     {
@@ -850,7 +1590,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "core_trochoid_gethypotrochoidpoint",
-      "community": 4,
+      "community": 7,
       "norm_label": "gethypotrochoidpoint()"
     },
     {
@@ -860,8 +1600,98 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "core_trochoid_getepitrochoidpoint",
-      "community": 4,
+      "community": 7,
       "norm_label": "getepitrochoidpoint()"
+    },
+    {
+      "label": "voices.test.ts",
+      "file_type": "code",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_voices_test",
+      "community": 7,
+      "norm_label": "voices.test.ts"
+    },
+    {
+      "label": "byId()",
+      "file_type": "code",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "core_voices_test_byid",
+      "community": 7,
+      "norm_label": "byid()"
+    },
+    {
+      "label": "voices.ts",
+      "file_type": "code",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_voices",
+      "community": 32,
+      "norm_label": "voices.ts"
+    },
+    {
+      "label": "VoiceNote",
+      "file_type": "code",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "core_voices_voicenote",
+      "community": 8,
+      "norm_label": "voicenote"
+    },
+    {
+      "label": "RenderedVoice",
+      "file_type": "code",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "core_voices_renderedvoice",
+      "community": 32,
+      "norm_label": "renderedvoice"
+    },
+    {
+      "label": "renderVoice()",
+      "file_type": "code",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "core_voices_rendervoice",
+      "community": 32,
+      "norm_label": "rendervoice()"
+    },
+    {
+      "label": "renderVoices()",
+      "file_type": "code",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "core_voices_rendervoices",
+      "community": 4,
+      "norm_label": "rendervoices()"
+    },
+    {
+      "label": "noteFor()",
+      "file_type": "code",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "core_voices_notefor",
+      "community": 32,
+      "norm_label": "notefor()"
+    },
+    {
+      "label": "pitchField()",
+      "file_type": "code",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L61",
+      "_origin": "ast",
+      "id": "core_voices_pitchfield",
+      "community": 32,
+      "norm_label": "pitchfield()"
     },
     {
       "label": "jsonExport.test.ts",
@@ -872,6 +1702,16 @@
       "id": "export_jsonexport_test",
       "community": 7,
       "norm_label": "jsonexport.test.ts"
+    },
+    {
+      "label": "legacyDocument",
+      "file_type": "code",
+      "source_file": "src/export/jsonExport.test.ts",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "export_jsonexport_test_legacydocument",
+      "community": 7,
+      "norm_label": "legacydocument"
     },
     {
       "label": "jsonExport.ts",
@@ -887,17 +1727,27 @@
       "label": "JsonImportResult",
       "file_type": "code",
       "source_file": "src/export/jsonExport.ts",
-      "source_location": "L3",
+      "source_location": "L5",
       "_origin": "ast",
       "id": "export_jsonexport_jsonimportresult",
       "community": 7,
       "norm_label": "jsonimportresult"
     },
     {
+      "label": "supportedVersions",
+      "file_type": "code",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "export_jsonexport_supportedversions",
+      "community": 7,
+      "norm_label": "supportedversions"
+    },
+    {
       "label": "exportModelToJson()",
       "file_type": "code",
       "source_file": "src/export/jsonExport.ts",
-      "source_location": "L7",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "export_jsonexport_exportmodeltojson",
       "community": 7,
@@ -907,17 +1757,37 @@
       "label": "parseModelJson()",
       "file_type": "code",
       "source_file": "src/export/jsonExport.ts",
-      "source_location": "L10",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "export_jsonexport_parsemodeljson",
       "community": 7,
       "norm_label": "parsemodeljson()"
     },
     {
+      "label": "upgradeModel()",
+      "file_type": "code",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "export_jsonexport_upgrademodel",
+      "community": 7,
+      "norm_label": "upgrademodel()"
+    },
+    {
+      "label": "isCurveFamily()",
+      "file_type": "code",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "export_jsonexport_iscurvefamily",
+      "community": 7,
+      "norm_label": "iscurvefamily()"
+    },
+    {
       "label": "downloadModelJson()",
       "file_type": "code",
       "source_file": "src/export/jsonExport.ts",
-      "source_location": "L24",
+      "source_location": "L53",
       "_origin": "ast",
       "id": "export_jsonexport_downloadmodeljson",
       "community": 7,
@@ -927,7 +1797,7 @@
       "label": "isSpirophonicModel()",
       "file_type": "code",
       "source_file": "src/export/jsonExport.ts",
-      "source_location": "L37",
+      "source_location": "L66",
       "_origin": "ast",
       "id": "export_jsonexport_isspirophonicmodel",
       "community": 7,
@@ -937,7 +1807,7 @@
       "label": "hasNumbers()",
       "file_type": "code",
       "source_file": "src/export/jsonExport.ts",
-      "source_location": "L73",
+      "source_location": "L103",
       "_origin": "ast",
       "id": "export_jsonexport_hasnumbers",
       "community": 7,
@@ -947,11 +1817,391 @@
       "label": "isRecord()",
       "file_type": "code",
       "source_file": "src/export/jsonExport.ts",
-      "source_location": "L76",
+      "source_location": "L106",
       "_origin": "ast",
       "id": "export_jsonexport_isrecord",
       "community": 7,
       "norm_label": "isrecord()"
+    },
+    {
+      "label": "smf.test.ts",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "midi_smf_test",
+      "community": 8,
+      "norm_label": "smf.test.ts"
+    },
+    {
+      "label": "hex()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.test.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "midi_smf_test_hex",
+      "community": 8,
+      "norm_label": "hex()"
+    },
+    {
+      "label": "oneNoteFile()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.test.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "midi_smf_test_onenotefile",
+      "community": 8,
+      "norm_label": "onenotefile()"
+    },
+    {
+      "label": "smf.ts",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "midi_smf",
+      "community": 8,
+      "norm_label": "smf.ts"
+    },
+    {
+      "label": "MidiNote",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "midi_smf_midinote",
+      "community": 8,
+      "norm_label": "midinote"
+    },
+    {
+      "label": "MidiTrack",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "midi_smf_miditrack",
+      "community": 8,
+      "norm_label": "miditrack"
+    },
+    {
+      "label": "TimeSignature",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "midi_smf_timesignature",
+      "community": 8,
+      "norm_label": "timesignature"
+    },
+    {
+      "label": "MidiFileOptions",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "midi_smf_midifileoptions",
+      "community": 8,
+      "norm_label": "midifileoptions"
+    },
+    {
+      "label": "HEADER_TYPE",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "midi_smf_header_type",
+      "community": 8,
+      "norm_label": "header_type"
+    },
+    {
+      "label": "TRACK_TYPE",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "midi_smf_track_type",
+      "community": 8,
+      "norm_label": "track_type"
+    },
+    {
+      "label": "encodeVariableLength()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "midi_smf_encodevariablelength",
+      "community": 8,
+      "norm_label": "encodevariablelength()"
+    },
+    {
+      "label": "decodeVariableLength()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L61",
+      "_origin": "ast",
+      "id": "midi_smf_decodevariablelength",
+      "community": 8,
+      "norm_label": "decodevariablelength()"
+    },
+    {
+      "label": "buildMidiFile()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L79",
+      "_origin": "ast",
+      "id": "midi_smf_buildmidifile",
+      "community": 8,
+      "norm_label": "buildmidifile()"
+    },
+    {
+      "label": "buildTempoTrack()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L92",
+      "_origin": "ast",
+      "id": "midi_smf_buildtempotrack",
+      "community": 8,
+      "norm_label": "buildtempotrack()"
+    },
+    {
+      "label": "buildNoteTrack()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L117",
+      "_origin": "ast",
+      "id": "midi_smf_buildnotetrack",
+      "community": 8,
+      "norm_label": "buildnotetrack()"
+    },
+    {
+      "label": "chunk()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L158",
+      "_origin": "ast",
+      "id": "midi_smf_chunk",
+      "community": 8,
+      "norm_label": "chunk()"
+    },
+    {
+      "label": "event()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L164",
+      "_origin": "ast",
+      "id": "midi_smf_event",
+      "community": 8,
+      "norm_label": "event()"
+    },
+    {
+      "label": "metaText()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L169",
+      "_origin": "ast",
+      "id": "midi_smf_metatext",
+      "community": 8,
+      "norm_label": "metatext()"
+    },
+    {
+      "label": "uint16()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L175",
+      "_origin": "ast",
+      "id": "midi_smf_uint16",
+      "community": 8,
+      "norm_label": "uint16()"
+    },
+    {
+      "label": "uint24()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L177",
+      "_origin": "ast",
+      "id": "midi_smf_uint24",
+      "community": 8,
+      "norm_label": "uint24()"
+    },
+    {
+      "label": "uint32()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L183",
+      "_origin": "ast",
+      "id": "midi_smf_uint32",
+      "community": 8,
+      "norm_label": "uint32()"
+    },
+    {
+      "label": "clampByte()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L190",
+      "_origin": "ast",
+      "id": "midi_smf_clampbyte",
+      "community": 8,
+      "norm_label": "clampbyte()"
+    },
+    {
+      "label": "clampVelocity()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L192",
+      "_origin": "ast",
+      "id": "midi_smf_clampvelocity",
+      "community": 8,
+      "norm_label": "clampvelocity()"
+    },
+    {
+      "label": "clampChannel()",
+      "file_type": "code",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L194",
+      "_origin": "ast",
+      "id": "midi_smf_clampchannel",
+      "community": 8,
+      "norm_label": "clampchannel()"
+    },
+    {
+      "label": "midiExport.test.ts",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "export_midiexport_test",
+      "community": 8,
+      "norm_label": "midiexport.test.ts"
+    },
+    {
+      "label": "shaped()",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "export_midiexport_test_shaped",
+      "community": 8,
+      "norm_label": "shaped()"
+    },
+    {
+      "label": "kick()",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "export_midiexport_test_kick",
+      "community": 8,
+      "norm_label": "kick()"
+    },
+    {
+      "label": "noteOnTicks()",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "export_midiexport_test_noteonticks",
+      "community": 8,
+      "norm_label": "noteonticks()"
+    },
+    {
+      "label": "midiExport.ts",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "export_midiexport",
+      "community": 8,
+      "norm_label": "midiexport.ts"
+    },
+    {
+      "label": "gmPercussion",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "export_midiexport_gmpercussion",
+      "community": 8,
+      "norm_label": "gmpercussion"
+    },
+    {
+      "label": "PercussionName",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "export_midiexport_percussionname",
+      "community": 8,
+      "norm_label": "percussionname"
+    },
+    {
+      "label": "MidiVoiceInput",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "export_midiexport_midivoiceinput",
+      "community": 8,
+      "norm_label": "midivoiceinput"
+    },
+    {
+      "label": "MidiExportOptions",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L45",
+      "_origin": "ast",
+      "id": "export_midiexport_midiexportoptions",
+      "community": 8,
+      "norm_label": "midiexportoptions"
+    },
+    {
+      "label": "defaultMidiExportOptions",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L53",
+      "_origin": "ast",
+      "id": "export_midiexport_defaultmidiexportoptions",
+      "community": 8,
+      "norm_label": "defaultmidiexportoptions"
+    },
+    {
+      "label": "midiTempo()",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "export_midiexport_miditempo",
+      "community": 8,
+      "norm_label": "miditempo()"
+    },
+    {
+      "label": "buildMidiBytes()",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L78",
+      "_origin": "ast",
+      "id": "export_midiexport_buildmidibytes",
+      "community": 8,
+      "norm_label": "buildmidibytes()"
+    },
+    {
+      "label": "repeatBars()",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L107",
+      "_origin": "ast",
+      "id": "export_midiexport_repeatbars",
+      "community": 8,
+      "norm_label": "repeatbars()"
+    },
+    {
+      "label": "downloadMidiFile()",
+      "file_type": "code",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L130",
+      "_origin": "ast",
+      "id": "export_midiexport_downloadmidifile",
+      "community": 8,
+      "norm_label": "downloadmidifile()"
     },
     {
       "label": "strudelExport.test.ts",
@@ -964,6 +2214,26 @@
       "norm_label": "strudelexport.test.ts"
     },
     {
+      "label": "enableOnly()",
+      "file_type": "code",
+      "source_file": "src/export/strudelExport.test.ts",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "export_strudelexport_test_enableonly",
+      "community": 4,
+      "norm_label": "enableonly()"
+    },
+    {
+      "label": "countTokens()",
+      "file_type": "code",
+      "source_file": "src/export/strudelExport.test.ts",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "export_strudelexport_test_counttokens",
+      "community": 4,
+      "norm_label": "counttokens()"
+    },
+    {
       "label": "strudelExport.ts",
       "file_type": "code",
       "source_file": "src/export/strudelExport.ts",
@@ -974,24 +2244,74 @@
       "norm_label": "strudelexport.ts"
     },
     {
+      "label": "drumSounds",
+      "file_type": "code",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "export_strudelexport_drumsounds",
+      "community": 4,
+      "norm_label": "drumsounds"
+    },
+    {
+      "label": "strudelScales",
+      "file_type": "code",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "export_strudelexport_strudelscales",
+      "community": 4,
+      "norm_label": "strudelscales"
+    },
+    {
+      "label": "strudelInstruments",
+      "file_type": "code",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "export_strudelexport_strudelinstruments",
+      "community": 4,
+      "norm_label": "strudelinstruments"
+    },
+    {
       "label": "exportStrudelSnippet()",
       "file_type": "code",
       "source_file": "src/export/strudelExport.ts",
-      "source_location": "L6",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "export_strudelexport_exportstrudelsnippet",
       "community": 4,
       "norm_label": "exportstrudelsnippet()"
     },
     {
-      "label": "sampleFrequencies()",
+      "label": "voicePart()",
       "file_type": "code",
       "source_file": "src/export/strudelExport.ts",
-      "source_location": "L24",
+      "source_location": "L80",
       "_origin": "ast",
-      "id": "export_strudelexport_samplefrequencies",
+      "id": "export_strudelexport_voicepart",
       "community": 4,
-      "norm_label": "samplefrequencies()"
+      "norm_label": "voicepart()"
+    },
+    {
+      "label": "scaleName()",
+      "file_type": "code",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L114",
+      "_origin": "ast",
+      "id": "export_strudelexport_scalename",
+      "community": 4,
+      "norm_label": "scalename()"
+    },
+    {
+      "label": "instrument()",
+      "file_type": "code",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L121",
+      "_origin": "ast",
+      "id": "export_strudelexport_instrument",
+      "community": 4,
+      "norm_label": "instrument()"
     },
     {
       "label": "svgExport.test.ts",
@@ -1000,7 +2320,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_svgexport_test",
-      "community": 4,
+      "community": 7,
       "norm_label": "svgexport.test.ts"
     },
     {
@@ -1070,7 +2390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_main",
-      "community": 0,
+      "community": 7,
       "norm_label": "main.tsx"
     },
     {
@@ -1084,10 +2404,20 @@
       "norm_label": "canvasrenderer.ts"
     },
     {
-      "label": "DrawTraceOptions",
+      "label": "VoiceTrace",
       "file_type": "code",
       "source_file": "src/render/canvasRenderer.ts",
       "source_location": "L5",
+      "_origin": "ast",
+      "id": "render_canvasrenderer_voicetrace",
+      "community": 2,
+      "norm_label": "voicetrace"
+    },
+    {
+      "label": "DrawTraceOptions",
+      "file_type": "code",
+      "source_file": "src/render/canvasRenderer.ts",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "render_canvasrenderer_drawtraceoptions",
       "community": 2,
@@ -1097,17 +2427,27 @@
       "label": "drawSpiroTrace()",
       "file_type": "code",
       "source_file": "src/render/canvasRenderer.ts",
-      "source_location": "L13",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "render_canvasrenderer_drawspirotrace",
       "community": 2,
       "norm_label": "drawspirotrace()"
     },
     {
+      "label": "drawVoices()",
+      "file_type": "code",
+      "source_file": "src/render/canvasRenderer.ts",
+      "source_location": "L88",
+      "_origin": "ast",
+      "id": "render_canvasrenderer_drawvoices",
+      "community": 2,
+      "norm_label": "drawvoices()"
+    },
+    {
       "label": "clampProgress()",
       "file_type": "code",
       "source_file": "src/render/canvasRenderer.ts",
-      "source_location": "L67",
+      "source_location": "L134",
       "_origin": "ast",
       "id": "render_canvasrenderer_clampprogress",
       "community": 2,
@@ -1117,7 +2457,7 @@
       "label": "getCanvasTransform()",
       "file_type": "code",
       "source_file": "src/render/canvasRenderer.ts",
-      "source_location": "L69",
+      "source_location": "L136",
       "_origin": "ast",
       "id": "render_canvasrenderer_getcanvastransform",
       "community": 2,
@@ -1127,7 +2467,7 @@
       "label": "transformPoint()",
       "file_type": "code",
       "source_file": "src/render/canvasRenderer.ts",
-      "source_location": "L104",
+      "source_location": "L171",
       "_origin": "ast",
       "id": "render_canvasrenderer_transformpoint",
       "community": 2,
@@ -1237,7 +2577,7 @@
       "label": "CanvasViewProps",
       "file_type": "code",
       "source_file": "src/ui/CanvasView.tsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "_origin": "ast",
       "id": "ui_canvasview_canvasviewprops",
       "community": 2,
@@ -1247,7 +2587,7 @@
       "label": "CanvasView()",
       "file_type": "code",
       "source_file": "src/ui/CanvasView.tsx",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "ui_canvasview_canvasview",
       "community": 2,
@@ -1290,7 +2630,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "ui_controlpanel_controlpanel",
-      "community": 0,
+      "community": 7,
       "norm_label": "controlpanel()"
     },
     {
@@ -1380,27 +2720,27 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_strudelexportpanel",
-      "community": 4,
+      "community": 7,
       "norm_label": "strudelexportpanel.tsx"
     },
     {
       "label": "StrudelExportPanelProps",
       "file_type": "code",
       "source_file": "src/ui/StrudelExportPanel.tsx",
-      "source_location": "L6",
+      "source_location": "L5",
       "_origin": "ast",
       "id": "ui_strudelexportpanel_strudelexportpanelprops",
-      "community": 4,
+      "community": 7,
       "norm_label": "strudelexportpanelprops"
     },
     {
       "label": "StrudelExportPanel()",
       "file_type": "code",
       "source_file": "src/ui/StrudelExportPanel.tsx",
-      "source_location": "L11",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "ui_strudelexportpanel_strudelexportpanel",
-      "community": 4,
+      "community": 7,
       "norm_label": "strudelexportpanel()"
     },
     {
@@ -1410,7 +2750,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_transport",
-      "community": 0,
+      "community": 7,
       "norm_label": "transport.tsx"
     },
     {
@@ -1420,7 +2760,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_transport_transportprops",
-      "community": 0,
+      "community": 7,
       "norm_label": "transportprops"
     },
     {
@@ -1430,8 +2770,58 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "ui_transport_transport",
-      "community": 0,
+      "community": 7,
       "norm_label": "transport()"
+    },
+    {
+      "label": "VoicePanel.tsx",
+      "file_type": "code",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ui_voicepanel",
+      "community": 8,
+      "norm_label": "voicepanel.tsx"
+    },
+    {
+      "label": "VoicePanelProps",
+      "file_type": "code",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "ui_voicepanel_voicepanelprops",
+      "community": 8,
+      "norm_label": "voicepanelprops"
+    },
+    {
+      "label": "triggerLabels",
+      "file_type": "code",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "ui_voicepanel_triggerlabels",
+      "community": 8,
+      "norm_label": "triggerlabels"
+    },
+    {
+      "label": "drumOptions",
+      "file_type": "code",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "ui_voicepanel_drumoptions",
+      "community": 8,
+      "norm_label": "drumoptions"
+    },
+    {
+      "label": "VoicePanel()",
+      "file_type": "code",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "ui_voicepanel_voicepanel",
+      "community": 8,
+      "norm_label": "voicepanel()"
     },
     {
       "label": "tsconfig.app.json",
@@ -1854,10 +3244,20 @@
       "norm_label": "agents.md"
     },
     {
-      "label": "graphify",
+      "label": "Current work",
       "file_type": "document",
       "source_file": "AGENTS.md",
       "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_current_work",
+      "community": 28,
+      "norm_label": "current work"
+    },
+    {
+      "label": "graphify",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "agents_graphify",
       "community": 28,
@@ -1904,10 +3304,20 @@
       "norm_label": "current state"
     },
     {
+      "label": "Composing with curves",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "readme_composing_with_curves",
+      "community": 9,
+      "norm_label": "composing with curves"
+    },
+    {
       "label": "Project shape",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L46",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "readme_project_shape",
       "community": 9,
@@ -1917,7 +3327,7 @@
       "label": "Docs",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L64",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "readme_docs",
       "community": 9,
@@ -1927,7 +3337,7 @@
       "label": "Roadmap",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L69",
+      "source_location": "L100",
       "_origin": "ast",
       "id": "readme_roadmap",
       "community": 9,
@@ -1937,7 +3347,7 @@
       "label": "Boundaries",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L76",
+      "source_location": "L109",
       "_origin": "ast",
       "id": "readme_boundaries",
       "community": 9,
@@ -2804,6 +4214,366 @@
       "norm_label": "important design warning"
     },
     {
+      "label": "SOUND-AND-MIDI-DESIGN.md",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design",
+      "community": 33,
+      "norm_label": "sound-and-midi-design.md"
+    },
+    {
+      "label": "Sound, Rhythm, and MIDI Design",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "community": 33,
+      "norm_label": "sound, rhythm, and midi design"
+    },
+    {
+      "label": "Progress",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_progress",
+      "community": 33,
+      "norm_label": "progress"
+    },
+    {
+      "label": "Background",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_background",
+      "community": 33,
+      "norm_label": "background"
+    },
+    {
+      "label": "What exists today",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_what_exists_today",
+      "community": 33,
+      "norm_label": "what exists today"
+    },
+    {
+      "label": "The gap",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_the_gap",
+      "community": 33,
+      "norm_label": "the gap"
+    },
+    {
+      "label": "What we are not doing",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_what_we_are_not_doing",
+      "community": 33,
+      "norm_label": "what we are not doing"
+    },
+    {
+      "label": "Architecture",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L79",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_architecture",
+      "community": 33,
+      "norm_label": "architecture"
+    },
+    {
+      "label": "Invariants",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L98",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_invariants",
+      "community": 33,
+      "norm_label": "invariants"
+    },
+    {
+      "label": "Model versioning",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L109",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_model_versioning",
+      "community": 33,
+      "norm_label": "model versioning"
+    },
+    {
+      "label": "P1 \u2014 Event extraction core",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L123",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_p1_event_extraction_core",
+      "community": 33,
+      "norm_label": "p1 \u2014 event extraction core"
+    },
+    {
+      "label": "Types",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L127",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_types",
+      "community": 33,
+      "norm_label": "types"
+    },
+    {
+      "label": "Algorithms",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L158",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_algorithms",
+      "community": 33,
+      "norm_label": "algorithms"
+    },
+    {
+      "label": "Why this is the right trigger set",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L196",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_why_this_is_the_right_trigger_set",
+      "community": 33,
+      "norm_label": "why this is the right trigger set"
+    },
+    {
+      "label": "Acceptance criteria",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L210",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_acceptance_criteria",
+      "community": 33,
+      "norm_label": "acceptance criteria"
+    },
+    {
+      "label": "P2 \u2014 Rhythm shaping",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L218",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_p2_rhythm_shaping",
+      "community": 33,
+      "norm_label": "p2 \u2014 rhythm shaping"
+    },
+    {
+      "label": "Acceptance criteria",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L247",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_acceptance_criteria_247",
+      "community": 33,
+      "norm_label": "acceptance criteria"
+    },
+    {
+      "label": "P3 \u2014 MIDI file writer",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L254",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_p3_midi_file_writer",
+      "community": 33,
+      "norm_label": "p3 \u2014 midi file writer"
+    },
+    {
+      "label": "Tempo",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L262",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_tempo",
+      "community": 33,
+      "norm_label": "tempo"
+    },
+    {
+      "label": "Byte format",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L282",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_byte_format",
+      "community": 33,
+      "norm_label": "byte format"
+    },
+    {
+      "label": "GM percussion map",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L319",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_gm_percussion_map",
+      "community": 33,
+      "norm_label": "gm percussion map"
+    },
+    {
+      "label": "Acceptance criteria",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L337",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_acceptance_criteria_337",
+      "community": 33,
+      "norm_label": "acceptance criteria"
+    },
+    {
+      "label": "P4 \u2014 Drum kit and download UI",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L345",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_p4_drum_kit_and_download_ui",
+      "community": 33,
+      "norm_label": "p4 \u2014 drum kit and download ui"
+    },
+    {
+      "label": "Acceptance criteria",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L373",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_acceptance_criteria_373",
+      "community": 33,
+      "norm_label": "acceptance criteria"
+    },
+    {
+      "label": "P5 \u2014 Curve families",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L379",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_p5_curve_families",
+      "community": 33,
+      "norm_label": "p5 \u2014 curve families"
+    },
+    {
+      "label": "Reference implementations",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L389",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_reference_implementations",
+      "community": 33,
+      "norm_label": "reference implementations"
+    },
+    {
+      "label": "Musical significance",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L419",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_musical_significance",
+      "community": 33,
+      "norm_label": "musical significance"
+    },
+    {
+      "label": "Acceptance criteria",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L426",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_acceptance_criteria_426",
+      "community": 33,
+      "norm_label": "acceptance criteria"
+    },
+    {
+      "label": "P6 \u2014 Scale quantization",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L433",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_p6_scale_quantization",
+      "community": 33,
+      "norm_label": "p6 \u2014 scale quantization"
+    },
+    {
+      "label": "Acceptance criteria",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L448",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_acceptance_criteria_448",
+      "community": 33,
+      "norm_label": "acceptance criteria"
+    },
+    {
+      "label": "P7 \u2014 Multi-voice model",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L454",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_p7_multi_voice_model",
+      "community": 33,
+      "norm_label": "p7 \u2014 multi-voice model"
+    },
+    {
+      "label": "P8 \u2014 Strudel export rewrite",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L468",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_p8_strudel_export_rewrite",
+      "community": 33,
+      "norm_label": "p8 \u2014 strudel export rewrite"
+    },
+    {
+      "label": "Acceptance criteria",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L491",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_acceptance_criteria_491",
+      "community": 33,
+      "norm_label": "acceptance criteria"
+    },
+    {
+      "label": "Testing",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L497",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_testing",
+      "community": 33,
+      "norm_label": "testing"
+    },
+    {
+      "label": "Open questions",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L509",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_open_questions",
+      "community": 33,
+      "norm_label": "open questions"
+    },
+    {
+      "label": "References",
+      "file_type": "document",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L518",
+      "_origin": "ast",
+      "id": "docs_sound_and_midi_design_references",
+      "community": 33,
+      "norm_label": "references"
+    },
+    {
       "label": "VISION.md",
       "file_type": "document",
       "source_file": "docs/VISION.md",
@@ -3494,6 +5264,28 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/App.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "core_curves",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "core_curves_generatecurvepoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
       "source_location": "L4",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -3733,12 +5525,45 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "ui_voicepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "ui_voicepanel_voicepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/main.tsx",
       "source_location": "L4",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_main",
       "target": "src_app"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "src_app_app",
+      "target": "core_curves_generatecurvepoints",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -4003,6 +5828,543 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_curves",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_curves_curvefamilies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_curves_generatecurvepoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_curves_test_withfamily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_defaultmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_defaultmodel_defaultmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_events",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_events_extractevents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_model_curvefamily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_model_spirophonicmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.test.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "core_curves_test",
+      "target": "core_trochoid_generatespiropoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L166",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_close",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_curvefamilies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L149",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_fit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_generatecurvepoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_geometry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_harmonographpoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_lissajous",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_parametriccurve",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L174",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_point",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_rose",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L132",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_sample",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_curves_superformula",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_model_curvefamily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_model_spirophonicmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_trochoid_generatespiropoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_trochoid_greatestcommondivisor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_curves",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_curves",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "export_jsonexport",
+      "target": "core_curves",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_jsonexport_test",
+      "target": "core_curves",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/core/curves.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "core_curves_generatecurvepoints",
+      "target": "core_curves_parametriccurve"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "core_curves_parametriccurve",
+      "target": "core_curves_lissajous",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "core_curves_parametriccurve",
+      "target": "core_curves_rose",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "core_curves_parametriccurve",
+      "target": "core_curves_superformula",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "export_jsonexport",
+      "target": "core_curves_curvefamilies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "core_curves_generatecurvepoints",
+      "target": "core_curves_close",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "core_curves_generatecurvepoints",
+      "target": "core_curves_fit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "core_curves_generatecurvepoints",
+      "target": "core_curves_harmonographpoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "core_curves_generatecurvepoints",
+      "target": "core_curves_sample",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/core/curves.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "core_curves_generatecurvepoints",
+      "target": "core_trochoid_generatespiropoints"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_curves_generatecurvepoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/core/voices.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "core_voices_rendervoice",
+      "target": "core_curves_generatecurvepoints"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_jsonexport_test",
+      "target": "core_curves_generatecurvepoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "core_curves_lissajous",
+      "target": "core_trochoid_greatestcommondivisor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/curves.ts",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "core_curves_rose",
+      "target": "core_trochoid_greatestcommondivisor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/defaultModel.test.ts",
       "source_location": "L2",
       "weight": 1.0,
@@ -4032,6 +6394,36 @@
       "target": "core_defaultmodel_defaultmodel"
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/defaultModel.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "core_defaultmodel",
+      "target": "core_defaultmodel_defaultpitch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/defaultModel.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "core_defaultmodel",
+      "target": "core_defaultmodel_defaultvoices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/defaultModel.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "core_defaultmodel",
+      "target": "core_defaultmodel_voicegeometry",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -4049,11 +6441,77 @@
       "source_file": "src/core/defaultModel.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "source": "core_defaultmodel",
+      "target": "core_model_curvefamily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/defaultModel.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_defaultmodel",
+      "target": "core_model_familydefaults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/defaultModel.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_defaultmodel",
+      "target": "core_model_pitchoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/defaultModel.ts",
+      "source_location": "L1",
+      "weight": 1.0,
       "confidence_score": 1.0,
       "source": "core_defaultmodel",
       "target": "core_model_spirophonicmodel"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/defaultModel.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_defaultmodel",
+      "target": "core_model_voice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/defaultModel.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "core_defaultmodel",
+      "target": "core_voices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_defaultmodel",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -4085,6 +6543,28 @@
       "confidence_score": 1.0,
       "source": "core_trochoid_test",
       "target": "core_defaultmodel"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_defaultmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_jsonexport",
+      "target": "core_defaultmodel",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -4123,6 +6603,39 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_defaultmodel_defaultvoices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_jsonexport",
+      "target": "core_defaultmodel_defaultvoices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_defaultmodel_defaultmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/mapping.test.ts",
       "source_location": "L2",
       "weight": 1.0,
@@ -4156,6 +6669,17 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_defaultmodel_defaultmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/export/jsonExport.test.ts",
       "source_location": "L2",
       "weight": 1.0,
@@ -4184,6 +6708,616 @@
       "confidence_score": 1.0,
       "source": "export_svgexport_test",
       "target": "core_defaultmodel_defaultmodel"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_events",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_events_cycledistance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_events_extractevents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_events_normalize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_events_test_buildpoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_events_test_circlepoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_events_test_lissajous",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_events_test_rose",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_events_wrapcycle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_trochoid_generatespiropoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_events_test",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "core_events_test_lissajous",
+      "target": "core_events_test_buildpoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "core_events_test_rose",
+      "target": "core_events_test_buildpoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.test.ts",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "core_events_test_circlepoints",
+      "target": "core_trochoid_generatespiropoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L176",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_circularcurvatures",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L161",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_circularspeeds",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_curveevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L220",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_cycledistance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_defaultextractoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_extractevents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L55",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_findcrossings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_findpeaks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L195",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_normalize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L231",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_signedangle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L134",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_suppress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_uniquecount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L212",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_events_wrapcycle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "re_exports",
+      "context": "export",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_model_crossingdirection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_model_curveeventsource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_model_extractoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "core_events",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_events",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_rhythm_test",
+      "target": "core_events",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_events",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_events_curveevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_rhythm_test",
+      "target": "core_events_curveevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "core_events_extractevents",
+      "target": "core_events_findcrossings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "core_events_extractevents",
+      "target": "core_events_findpeaks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "core_events_extractevents",
+      "target": "core_events_suppress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_events_extractevents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/core/voices.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "core_voices_rendervoice",
+      "target": "core_events_extractevents"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L177",
+      "weight": 1.0,
+      "source": "core_events_circularcurvatures",
+      "target": "core_events_uniquecount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L162",
+      "weight": 1.0,
+      "source": "core_events_circularspeeds",
+      "target": "core_events_uniquecount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "core_events_findcrossings",
+      "target": "core_events_uniquecount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L102",
+      "weight": 1.0,
+      "source": "core_events_findpeaks",
+      "target": "core_events_uniquecount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "core_events_findcrossings",
+      "target": "core_events_circularspeeds",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "core_events_findcrossings",
+      "target": "core_events_normalize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "core_events_findcrossings",
+      "target": "core_events_wrapcycle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L101",
+      "weight": 1.0,
+      "source": "core_events_findpeaks",
+      "target": "core_events_circularcurvatures",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L103",
+      "weight": 1.0,
+      "source": "core_events_findpeaks",
+      "target": "core_events_normalize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_events_normalize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "core_voices_pitchfield",
+      "target": "core_events_normalize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/events.ts",
+      "source_location": "L221",
+      "weight": 1.0,
+      "source": "core_events_cycledistance",
+      "target": "core_events_wrapcycle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_events_wrapcycle",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -4195,6 +7329,17 @@
       "confidence_score": 1.0,
       "source": "core_mapping_test",
       "target": "core_mapping"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/mapping.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_mapping_test",
+      "target": "core_mapping_approximatecurvature",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -4607,17 +7752,6 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "src/export/strudelExport.ts",
-      "source_location": "L31",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "export_strudelexport_samplefrequencies",
-      "target": "core_mapping_pointtofrequency"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
       "source_file": "src/core/mapping.ts",
       "source_location": "L129",
       "weight": 1.0,
@@ -4684,6 +7818,56 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/core/model.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_crossingdirection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_curveeventsource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_curvefamily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_extractoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
+      "source_location": "L153",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_familydefaults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
       "source_location": "L5",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -4704,6 +7888,46 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/core/model.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_modelversion",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
+      "source_location": "L112",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_pitchoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
+      "source_location": "L102",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_pitchsource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_quantizeoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
       "source_location": "L1",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -4714,11 +7938,51 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/core/model.ts",
+      "source_location": "L104",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_scalename",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
       "source_location": "L9",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "core_model",
       "target": "core_model_spirophonicmodel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_velocityoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
+      "source_location": "L126",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_voice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/model.ts",
+      "source_location": "L100",
+      "weight": 1.0,
+      "source": "core_model",
+      "target": "core_model_voicekind",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -4742,6 +8006,28 @@
       "target": "core_model"
     },
     {
+      "relation": "re_exports",
+      "context": "export",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "re_exports",
+      "context": "export",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_model",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -4756,12 +8042,34 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/export/jsonExport.ts",
       "source_location": "L1",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "export_jsonexport",
       "target": "core_model"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "export_jsonexport_test",
+      "target": "core_model",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -4861,6 +8169,17 @@
       "confidence_score": 1.0,
       "source": "ui_strudelexportpanel",
       "target": "core_model"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_model",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -4910,6 +8229,50 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_jsonexport",
+      "target": "core_model_curvefamily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_model_curveeventsource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_model_quantizeoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_model_velocityoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/presets.ts",
       "source_location": "L2",
       "weight": 1.0,
@@ -4927,6 +8290,17 @@
       "confidence_score": 1.0,
       "source": "core_trochoid",
       "target": "core_model_spirophonicmodel"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_model_spirophonicmodel",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -5037,6 +8411,116 @@
       "confidence_score": 1.0,
       "source": "ui_strudelexportpanel",
       "target": "core_model_spirophonicmodel"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_model_spirophonicmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_model_pitchsource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_model_scalename",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "core_model_scalename",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_model_scalename",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_model_voice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "core_model_voice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_model_voice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_jsonexport",
+      "target": "core_model_familydefaults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "export_jsonexport_test",
+      "target": "core_model_familydefaults",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -5079,6 +8563,646 @@
       "confidence_score": 1.0,
       "source": "ui_presetpicker",
       "target": "core_presets_presets"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_rhythm_test",
+      "target": "core_rhythm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_rhythm_test",
+      "target": "core_rhythm_applyvelocity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_rhythm_test",
+      "target": "core_rhythm_defaultvelocityoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_rhythm_test",
+      "target": "core_rhythm_quantizeevents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_rhythm_test",
+      "target": "core_rhythm_shaperhythm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.test.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "core_rhythm_test",
+      "target": "core_rhythm_test_event",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_rhythm_applyvelocity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L83",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_rhythm_clampunit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L85",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_rhythm_clampvelocity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_rhythm_collapse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_rhythm_defaultquantizeoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_rhythm_defaultvelocityoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_rhythm_quantizeevents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_rhythm_shapedevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "core_rhythm",
+      "target": "core_rhythm_shaperhythm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_rhythm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_rhythm_shapedevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "core_rhythm_quantizeevents",
+      "target": "core_rhythm_clampunit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "core_rhythm_quantizeevents",
+      "target": "core_rhythm_collapse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "core_rhythm_shaperhythm",
+      "target": "core_rhythm_quantizeevents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "core_rhythm_applyvelocity",
+      "target": "core_rhythm_clampvelocity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/rhythm.ts",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "core_rhythm_shaperhythm",
+      "target": "core_rhythm_applyvelocity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_rhythm_shaperhythm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/core/voices.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "core_voices_rendervoice",
+      "target": "core_rhythm_shaperhythm"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_scales_test",
+      "target": "core_scales",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_scales_test",
+      "target": "core_scales_frequencytomidi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_scales_test",
+      "target": "core_scales_fromscaledegree",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_scales_test",
+      "target": "core_scales_miditofrequency",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_scales_test",
+      "target": "core_scales_miditoname",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_scales_test",
+      "target": "core_scales_quantizefrequency",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_scales_test",
+      "target": "core_scales_quantizetoscale",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_scales_test",
+      "target": "core_scales_scaleintervals",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_scales_test",
+      "target": "core_scales_scalenames",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_scales_test",
+      "target": "core_scales_toscaledegree",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_scales_frequencytomidi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_scales_fromscaledegree",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_scales_miditofrequency",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_scales_miditoname",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_scales_notenames",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L102",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_scales_quantizefrequency",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L54",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_scales_quantizetoscale",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_scales_scaleintervals",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_scales_scalenames",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "core_scales",
+      "target": "core_scales_toscaledegree",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_scales",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_scales",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "core_scales",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_scales",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_scales_scaleintervals",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_scales_scalenames",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L103",
+      "weight": 1.0,
+      "source": "core_scales_quantizefrequency",
+      "target": "core_scales_frequencytomidi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L103",
+      "weight": 1.0,
+      "source": "core_scales_quantizefrequency",
+      "target": "core_scales_miditofrequency",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "core_scales_miditoname",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L115",
+      "weight": 1.0,
+      "source": "export_strudelexport_scalename",
+      "target": "core_scales_miditoname",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L103",
+      "weight": 1.0,
+      "source": "core_scales_quantizefrequency",
+      "target": "core_scales_quantizetoscale",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/scales.ts",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "core_scales_toscaledegree",
+      "target": "core_scales_quantizetoscale",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_scales_quantizetoscale",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "core_voices_notefor",
+      "target": "core_scales_quantizetoscale",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "core_scales_toscaledegree",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "export_strudelexport_voicepart",
+      "target": "core_scales_toscaledegree",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -5157,6 +9281,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "core_time",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/export/strudelExport.ts",
       "source_location": "L4",
       "weight": 1.0,
@@ -5185,6 +9320,28 @@
       "confidence_score": 1.0,
       "source": "core_time_geteffectivecyclespersecond",
       "target": "core_time_clampcyclespersecond"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "core_time_geteffectivecyclespersecond",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "export_midiexport_miditempo",
+      "target": "core_time_geteffectivecyclespersecond"
     },
     {
       "relation": "imports",
@@ -5348,6 +9505,28 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "export_jsonexport_test",
+      "target": "core_trochoid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/export/strudelExport.ts",
       "source_location": "L3",
       "weight": 1.0,
@@ -5442,6 +9621,17 @@
       "confidence_score": 1.0,
       "source": "ui_strudelexportpanel",
       "target": "core_trochoid"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_trochoid_spiropoint",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -5590,6 +9780,17 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "export_jsonexport_test",
+      "target": "core_trochoid_generatespiropoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/export/strudelExport.test.ts",
       "source_location": "L3",
       "weight": 1.0,
@@ -5607,6 +9808,274 @@
       "confidence_score": 1.0,
       "source": "export_svgexport_test",
       "target": "core_trochoid_generatespiropoints"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_voices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_voices_rendervoice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_voices_rendervoices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.test.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "core_voices_test",
+      "target": "core_voices_test_byid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_voices_notefor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_voices_pitchfield",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_voices_renderedvoice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_voices_rendervoice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_voices_rendervoices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "core_voices",
+      "target": "core_voices_voicenote",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "core_voices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "export_midiexport_test",
+      "target": "core_voices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "core_voices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "export_strudelexport_test",
+      "target": "core_voices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CanvasView.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_canvasview",
+      "target": "core_voices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_voices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "core_voices_voicenote",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_midiexport_test",
+      "target": "core_voices_voicenote",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "core_voices_renderedvoice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/voices.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "core_voices_rendervoice",
+      "target": "core_voices_notefor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "core_voices_rendervoices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "export_strudelexport_exportstrudelsnippet",
+      "target": "core_voices_rendervoices"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "export_strudelexport_test",
+      "target": "core_voices_rendervoices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CanvasView.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_canvasview",
+      "target": "core_voices_rendervoices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "core_voices_rendervoices",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -5644,6 +10113,16 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.test.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "export_jsonexport_test",
+      "target": "export_jsonexport_test_legacydocument",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/export/jsonExport.ts",
       "source_location": "L24",
       "weight": 1.0,
@@ -5670,6 +10149,16 @@
       "confidence_score": 1.0,
       "source": "export_jsonexport",
       "target": "export_jsonexport_hasnumbers"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "export_jsonexport",
+      "target": "export_jsonexport_iscurvefamily",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -5712,6 +10201,26 @@
       "target": "export_jsonexport_parsemodeljson"
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "export_jsonexport",
+      "target": "export_jsonexport_supportedversions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "export_jsonexport",
+      "target": "export_jsonexport_upgrademodel",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -5745,6 +10254,17 @@
       "target": "export_jsonexport_isspirophonicmodel"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "export_jsonexport_parsemodeljson",
+      "target": "export_jsonexport_upgrademodel",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -5754,6 +10274,17 @@
       "confidence_score": 1.0,
       "source": "ui_importexportpanel",
       "target": "export_jsonexport_parsemodeljson"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/jsonExport.ts",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "export_jsonexport_upgrademodel",
+      "target": "export_jsonexport_iscurvefamily",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -5792,6 +10323,764 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "midi_smf_test",
+      "target": "midi_smf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "midi_smf_test",
+      "target": "midi_smf_buildmidifile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "midi_smf_test",
+      "target": "midi_smf_decodevariablelength",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "midi_smf_test",
+      "target": "midi_smf_encodevariablelength",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "midi_smf_test",
+      "target": "midi_smf_test_hex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.test.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "midi_smf_test",
+      "target": "midi_smf_test_onenotefile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.test.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "midi_smf_test_onenotefile",
+      "target": "midi_smf_buildmidifile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "midi_smf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "export_midiexport_test",
+      "target": "midi_smf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_buildmidifile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L117",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_buildnotetrack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L92",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_buildtempotrack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L158",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_chunk",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L190",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_clampbyte",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L194",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_clampchannel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L192",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_clampvelocity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_decodevariablelength",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_encodevariablelength",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L164",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_event",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_header_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L169",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_metatext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_midifileoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_midinote",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_miditrack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_timesignature",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_track_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L175",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_uint16",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L177",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_uint24",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L183",
+      "weight": 1.0,
+      "source": "midi_smf",
+      "target": "midi_smf_uint32",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "midi_smf_midinote",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "midi_smf_miditrack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L165",
+      "weight": 1.0,
+      "source": "midi_smf_event",
+      "target": "midi_smf_encodevariablelength",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L172",
+      "weight": 1.0,
+      "source": "midi_smf_metatext",
+      "target": "midi_smf_encodevariablelength",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "export_midiexport_test",
+      "target": "midi_smf_decodevariablelength",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "export_midiexport_test_noteonticks",
+      "target": "midi_smf_decodevariablelength",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "midi_smf_buildmidifile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "export_midiexport_buildmidibytes",
+      "target": "midi_smf_buildmidifile"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "midi_smf_buildmidifile",
+      "target": "midi_smf_buildtempotrack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "midi_smf_buildmidifile",
+      "target": "midi_smf_uint16",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L83",
+      "weight": 1.0,
+      "source": "midi_smf_buildmidifile",
+      "target": "midi_smf_uint32",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L114",
+      "weight": 1.0,
+      "source": "midi_smf_buildtempotrack",
+      "target": "midi_smf_chunk",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L100",
+      "weight": 1.0,
+      "source": "midi_smf_buildtempotrack",
+      "target": "midi_smf_clampbyte",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "midi_smf_buildtempotrack",
+      "target": "midi_smf_event",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "midi_smf_buildtempotrack",
+      "target": "midi_smf_metatext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "midi_smf_buildtempotrack",
+      "target": "midi_smf_uint24",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L155",
+      "weight": 1.0,
+      "source": "midi_smf_buildnotetrack",
+      "target": "midi_smf_chunk",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L143",
+      "weight": 1.0,
+      "source": "midi_smf_buildnotetrack",
+      "target": "midi_smf_clampbyte",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L142",
+      "weight": 1.0,
+      "source": "midi_smf_buildnotetrack",
+      "target": "midi_smf_clampchannel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L137",
+      "weight": 1.0,
+      "source": "midi_smf_buildnotetrack",
+      "target": "midi_smf_event",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L137",
+      "weight": 1.0,
+      "source": "midi_smf_buildnotetrack",
+      "target": "midi_smf_metatext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midi/smf.ts",
+      "source_location": "L160",
+      "weight": 1.0,
+      "source": "midi_smf_chunk",
+      "target": "midi_smf_uint32",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "export_midiexport_test",
+      "target": "export_midiexport",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "export_midiexport_test",
+      "target": "export_midiexport_buildmidibytes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "export_midiexport_test",
+      "target": "export_midiexport_gmpercussion",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "export_midiexport_test",
+      "target": "export_midiexport_miditempo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "export_midiexport_test",
+      "target": "export_midiexport_test_kick",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "export_midiexport_test",
+      "target": "export_midiexport_test_noteonticks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.test.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "export_midiexport_test",
+      "target": "export_midiexport_test_shaped",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "export_midiexport_buildmidibytes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "export_midiexport_defaultmidiexportoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L130",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "export_midiexport_downloadmidifile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "export_midiexport_gmpercussion",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "export_midiexport_midiexportoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "export_midiexport_miditempo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "export_midiexport_midivoiceinput",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "export_midiexport_percussionname",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L107",
+      "weight": 1.0,
+      "source": "export_midiexport",
+      "target": "export_midiexport_repeatbars",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "export_midiexport",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "export_midiexport_gmpercussion",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/midiExport.ts",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "export_midiexport_buildmidibytes",
+      "target": "export_midiexport_miditempo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "export_midiexport_buildmidibytes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "export_midiexport_downloadmidifile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/export/strudelExport.test.ts",
       "source_location": "L4",
       "weight": 1.0,
@@ -5809,6 +11098,36 @@
       "confidence_score": 1.0,
       "source": "export_strudelexport_test",
       "target": "export_strudelexport_exportstrudelsnippet"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.test.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "export_strudelexport_test",
+      "target": "export_strudelexport_test_counttokens",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.test.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "export_strudelexport_test",
+      "target": "export_strudelexport_test_enableonly",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "export_strudelexport_drumsounds",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -5824,11 +11143,51 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/export/strudelExport.ts",
-      "source_location": "L21",
+      "source_location": "L121",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "export_strudelexport",
-      "target": "export_strudelexport_samplefrequencies"
+      "target": "export_strudelexport_instrument",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L114",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "export_strudelexport_scalename",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "export_strudelexport_strudelinstruments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "export_strudelexport_strudelscales",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "export_strudelexport",
+      "target": "export_strudelexport_voicepart",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -5842,17 +11201,6 @@
       "target": "export_strudelexport"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/export/strudelExport.ts",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "export_strudelexport_exportstrudelsnippet",
-      "target": "export_strudelexport_samplefrequencies"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -5862,6 +11210,28 @@
       "confidence_score": 1.0,
       "source": "ui_strudelexportpanel",
       "target": "export_strudelexport_exportstrudelsnippet"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "export_strudelexport_voicepart",
+      "target": "export_strudelexport_instrument",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/export/strudelExport.ts",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "export_strudelexport_voicepart",
+      "target": "export_strudelexport_scalename",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -6024,6 +11394,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/render/canvasRenderer.ts",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "render_canvasrenderer",
+      "target": "render_canvasrenderer_drawvoices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/canvasRenderer.ts",
       "source_location": "L66",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -6039,6 +11419,16 @@
       "confidence_score": 1.0,
       "source": "render_canvasrenderer",
       "target": "render_canvasrenderer_transformpoint"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/canvasRenderer.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "render_canvasrenderer",
+      "target": "render_canvasrenderer_voicetrace",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -6089,6 +11479,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/render/canvasRenderer.ts",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "render_canvasrenderer_drawspirotrace",
+      "target": "render_canvasrenderer_drawvoices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/canvasRenderer.ts",
       "source_location": "L36",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -6127,6 +11528,17 @@
       "confidence_score": 1.0,
       "source": "ui_canvasview",
       "target": "render_canvasrenderer_drawspirotrace"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/canvasRenderer.ts",
+      "source_location": "L123",
+      "weight": 1.0,
+      "source": "render_canvasrenderer_drawvoices",
+      "target": "render_canvasrenderer_transformpoint",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -6348,6 +11760,46 @@
       "confidence_score": 1.0,
       "source": "ui_transport",
       "target": "ui_transport_transportprops"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "ui_voicepanel_drumoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "ui_voicepanel_triggerlabels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "ui_voicepanel_voicepanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/VoicePanel.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "ui_voicepanel",
+      "target": "ui_voicepanel_voicepanelprops",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -6725,6 +12177,16 @@
       "source_file": "AGENTS.md",
       "source_location": "L1",
       "weight": 1.0,
+      "source": "agents",
+      "target": "agents_current_work",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "weight": 1.0,
       "confidence_score": 1.0,
       "source": "agents",
       "target": "agents_graphify"
@@ -6795,8 +12257,18 @@
       "source_file": "README.md",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_spirophonic",
-      "target": "readme_run_the_app",
+      "target": "readme_run_the_app"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "readme_current_state",
+      "target": "readme_composing_with_curves",
       "confidence_score": 1.0
     },
     {
@@ -7652,6 +13124,356 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design",
+      "target": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_architecture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_background",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_model_versioning",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L509",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_open_questions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L123",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_p1_event_extraction_core",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L218",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_p2_rhythm_shaping",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L254",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_p3_midi_file_writer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L345",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_p4_drum_kit_and_download_ui",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L379",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_p5_curve_families",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L433",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_p6_scale_quantization",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L454",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_p7_multi_voice_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L468",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_p8_strudel_export_rewrite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_progress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L518",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_references",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L497",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_sound_rhythm_and_midi_design",
+      "target": "docs_sound_and_midi_design_testing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_background",
+      "target": "docs_sound_and_midi_design_the_gap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_background",
+      "target": "docs_sound_and_midi_design_what_exists_today",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L67",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_background",
+      "target": "docs_sound_and_midi_design_what_we_are_not_doing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_architecture",
+      "target": "docs_sound_and_midi_design_invariants",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L210",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p1_event_extraction_core",
+      "target": "docs_sound_and_midi_design_acceptance_criteria",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L158",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p1_event_extraction_core",
+      "target": "docs_sound_and_midi_design_algorithms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L127",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p1_event_extraction_core",
+      "target": "docs_sound_and_midi_design_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L196",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p1_event_extraction_core",
+      "target": "docs_sound_and_midi_design_why_this_is_the_right_trigger_set",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L247",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p2_rhythm_shaping",
+      "target": "docs_sound_and_midi_design_acceptance_criteria_247",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L337",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p3_midi_file_writer",
+      "target": "docs_sound_and_midi_design_acceptance_criteria_337",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L282",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p3_midi_file_writer",
+      "target": "docs_sound_and_midi_design_byte_format",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L319",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p3_midi_file_writer",
+      "target": "docs_sound_and_midi_design_gm_percussion_map",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L262",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p3_midi_file_writer",
+      "target": "docs_sound_and_midi_design_tempo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L373",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p4_drum_kit_and_download_ui",
+      "target": "docs_sound_and_midi_design_acceptance_criteria_373",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L426",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p5_curve_families",
+      "target": "docs_sound_and_midi_design_acceptance_criteria_426",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L419",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p5_curve_families",
+      "target": "docs_sound_and_midi_design_musical_significance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L389",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p5_curve_families",
+      "target": "docs_sound_and_midi_design_reference_implementations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L448",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p6_scale_quantization",
+      "target": "docs_sound_and_midi_design_acceptance_criteria_448",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/SOUND-AND-MIDI-DESIGN.md",
+      "source_location": "L491",
+      "weight": 1.0,
+      "source": "docs_sound_and_midi_design_p8_strudel_export_rewrite",
+      "target": "docs_sound_and_midi_design_acceptance_criteria_491",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/VISION.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -7941,5 +13763,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e3d4b100e026d486ce2c28547e6e8a907b1c621a"
+  "built_at_commit": "10129d097ad48433df0a5d5811e001bcfeb65577"
 }
