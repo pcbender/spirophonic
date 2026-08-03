@@ -64,14 +64,21 @@ Tests live beside the modules they cover.
 ## Docs
 
 - [Vision](docs/VISION.md) — concept, thesis, MVP definition, design principles
+- [Sound, Rhythm, and MIDI Design](docs/SOUND-AND-MIDI-DESIGN.md) — the approved
+  contract for the event layer, MIDI export, and curve families
 - [Initial WBS and CP Packets](docs/INITIAL-WBS-AND-CP-PACKETS.md)
 
 ## Roadmap
 
-Near-term work follows the sound side of the model: richer frequency and scale
-modes (chromatic, pentatonic, harmonic ratio), multi-voice relationship layers,
-and deeper pattern export. MIDI export, a Strudel import direction, and OSC or
-SuperCollider bridges remain later integrations.
+Current work introduces an **event layer** between the geometry and its
+outputs, so a curve can produce discrete notes and hits rather than only a
+continuous glide. That unlocks Standard MIDI File export — compose an ambient
+drum part from Lissajous and rose curves, then open it in a DAW — along with
+additional curve families, scale quantization, and multi-voice composition.
+See [the design doc](docs/SOUND-AND-MIDI-DESIGN.md) for the packet breakdown.
+
+Tidal Cycles is out of scope; Strudel covers the live-coding direction without
+a runtime dependency. OSC and SuperCollider bridges remain later integrations.
 
 ## Boundaries
 
