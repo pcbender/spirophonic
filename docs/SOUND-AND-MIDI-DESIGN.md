@@ -15,7 +15,7 @@ done until its acceptance criteria all pass.
 
 | Packet | Title | Depends on | Status |
 | --- | --- | --- | --- |
-| P1 | Event extraction core | — | not started |
+| P1 | Event extraction core | — | **done** |
 | P2 | Rhythm shaping | P1 | not started |
 | P3 | MIDI file writer | P1 | not started |
 | P4 | Drum kit and download UI | P2, P3 | not started |
@@ -203,7 +203,7 @@ That is the feature the whole drum idea rests on.
 
 ### Acceptance criteria
 
-- A circle (`penOffset` 0) yields exactly 1 rising `zero-y` event, at `t` 0.25 or 0.75 depending on phase, and no curvature events.
+- A circle yields exactly 1 rising `zero-y` event and no curvature events. Use `fixedRadius` 180, `movingRadius` 60, `penOffset` 0: closure is `TAU * moving / gcd(fixed, moving)`, so those radii traverse the circle once. The default 180/65 closes after **13** turns and would yield 13 events.
 - Lissajous 3:2 yields exactly 3 rising `zero-x` and 2 rising `zero-y` events (needs P5; until then assert via a hand-built point array).
 - All `t` values satisfy `0 <= t < 1`.
 - Events are strictly ascending in `t` with no pair closer than `minSeparation`.

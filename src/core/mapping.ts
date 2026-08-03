@@ -151,8 +151,14 @@ export const normalizeAngle = (angle: number) => {
   return normalized / tau
 }
 
+/**
+ * Folds an angle into -pi..pi. The extra `+ tau` pass matters because
+ * JavaScript's remainder keeps the sign of the dividend: without it, a turn
+ * whose tangent crosses +/-pi reports a full-circle bend instead of a
+ * near-straight one, spiking curvature once per revolution.
+ */
 const normalizeSignedAngle = (angle: number) => {
   const tau = Math.PI * 2
 
-  return ((angle + Math.PI) % tau) - Math.PI
+  return ((((angle + Math.PI) % tau) + tau) % tau) - Math.PI
 }
