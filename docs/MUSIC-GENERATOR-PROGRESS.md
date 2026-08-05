@@ -1,0 +1,296 @@
+# Spirophonic Music Generator Progress Tracker
+
+Status: **active**
+
+Initialized: **2026-08-05**
+
+This document coordinates implementation of the
+[Music Generator Build Plan](MUSIC-GENERATOR-BUILD-PLAN.md) across coding
+sessions and agents. It records live ownership, readiness, blockers, validation,
+commits, and handoffs. The build plan remains authoritative for packet scope,
+dependencies, file lists, architectural invariants, and acceptance criteria.
+
+## Current snapshot
+
+| Measure | Current value |
+| --- | --- |
+| Packets complete | 0 / 21 |
+| Packets active | 0 |
+| Packets blocked | 0 |
+| Next ready packet | MG-01 — Composition schema and validation |
+| Active agents | None |
+| Integration branch | `main` |
+| Last tracker update | 2026-08-05 |
+
+## Status rules
+
+Use only these states:
+
+| State | Meaning |
+| --- | --- |
+| `waiting` | One or more dependencies are incomplete. This is not a blocker. |
+| `ready` | Dependencies are complete and no agent owns the packet. |
+| `claimed` | An agent has reserved the packet and recorded its branch/cwd, but implementation has not begun. |
+| `in_progress` | Implementation or packet validation is underway. |
+| `blocked` | Dependencies are complete, but a named technical or product decision prevents progress. |
+| `in_review` | Implementation and author validation are complete; review or integration is pending. |
+| `done` | All acceptance criteria, automated gates, required manual checks, documentation, and integration are complete. |
+| `deferred` | The packet was explicitly moved out of the roadmap with a recorded decision and replacement milestone. |
+
+Normal transitions are:
+
+```text
+waiting -> ready -> claimed -> in_progress -> in_review -> done
+                                  |
+                                  +-> blocked -> in_progress
+```
+
+Do not use `blocked` for unmet dependencies; use `waiting`. Do not mark a packet
+`done` merely because its code exists on an unmerged branch.
+
+## Source-of-truth rules
+
+- The build plan owns packet definitions and its planned/done summary.
+- This tracker owns live states, claims, evidence, and handoffs.
+- A transition to `claimed`, `in_progress`, `blocked`, or `in_review` changes
+  this tracker only.
+- A transition to `done` or `deferred` updates this tracker and the build plan's
+  Progress table in the same integration commit.
+- If the two documents disagree about a terminal state, treat the packet as not
+  done until the discrepancy is resolved.
+- Changing scope, dependencies, file lists, or acceptance criteria requires an
+  explicit build-plan edit, not a note hidden in this tracker.
+
+## Multi-agent coordination protocol
+
+Before claiming a packet, an agent must:
+
+1. read the packet in the build plan and this tracker;
+2. verify every dependency is `done`;
+3. run `git status -sb` and preserve unrelated user/agent changes;
+4. confirm no active claim owns the packet or overlapping files;
+5. record the claim below with agent ID, branch, cwd, and UTC timestamps;
+6. change the ledger state from `ready` to `claimed` before editing packet code.
+
+While working:
+
+- One agent owns a packet at a time.
+- An agent should own only one packet unless the tracker explicitly records an
+  approved exception.
+- Two packets may run concurrently only when their dependencies permit it and
+  their file lists do not overlap. If files overlap, record the coordination
+  order in both claims before either agent edits them.
+- Re-read `git status -sb` before broad edits, validation, commits, and handoff.
+- Update the claim's heartbeat after a material checkpoint or at least once per
+  working day.
+- A claim with no heartbeat for 24 hours is stale. A new agent may take it over
+  only after inspecting the branch/worktree and recording what work already
+  exists; never discard uncommitted work.
+- Tracker edits belong in the same branch/commit series as the packet work and
+  must survive integration.
+
+## Active claims
+
+| Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| — | — | — | — | — | — | — | No active claim. |
+
+Remove the placeholder row when the first claim is added. Move completed or
+abandoned claims to the Activity log rather than erasing their history.
+
+## Packet ledger
+
+| Packet | Title | Depends on | State | Owner | Last update | Evidence or next action |
+| --- | --- | --- | --- | --- | --- | --- |
+| MG-01 | Composition schema and validation | — | `ready` | — | 2026-08-05 | Claim MG-01 and create the side-by-side v1 Composition boundary. |
+| MG-02 | Deterministic Transport and performance window | MG-01 | `waiting` | — | 2026-08-05 | Complete MG-01. |
+| MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | `waiting` | — | 2026-08-05 | Complete MG-01 and MG-02. |
+| MG-04 | Space projection and composition renderer | MG-03 | `waiting` | — | 2026-08-05 | Complete MG-03. |
+| MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `waiting` | — | 2026-08-05 | Complete MG-01, MG-03, and MG-04. |
+| MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `waiting` | — | 2026-08-05 | Complete MG-02, MG-03, and MG-05. |
+| MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `waiting` | — | 2026-08-05 | Complete MG-01, MG-02, and MG-06. |
+| MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `waiting` | — | 2026-08-05 | Complete MG-02 and MG-07. |
+| MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `waiting` | — | 2026-08-05 | Complete the foundation packets. |
+| MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `waiting` | — | 2026-08-05 | Complete MG-01 and MG-08. |
+| MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `waiting` | — | 2026-08-05 | Complete MG-07, MG-08, and MG-10. |
+| MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | `waiting` | — | 2026-08-05 | Complete MG-09 and MG-11. |
+| MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | `waiting` | — | 2026-08-05 | Complete MG-05, MG-06, and MG-12. |
+| MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | `waiting` | — | 2026-08-05 | Complete MG-06, MG-07, and MG-12. |
+| MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | `waiting` | — | 2026-08-05 | Complete MG-04, MG-06, and MG-12. |
+| MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | `waiting` | — | 2026-08-05 | Complete MG-07, MG-11, and MG-14. |
+| MG-17 | Seeded variation | MG-03, MG-06, MG-07, MG-16 | `waiting` | — | 2026-08-05 | Complete MG-03, MG-06, MG-07, and MG-16. |
+| MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | `waiting` | — | 2026-08-05 | Complete MG-07 and MG-17. |
+| MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | `waiting` | — | 2026-08-05 | Complete MG-16 and MG-18. |
+| MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | `waiting` | — | 2026-08-05 | Complete MG-10, MG-11, MG-18, and MG-19. |
+| MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | `waiting` | — | 2026-08-05 | Complete every implementation packet. |
+
+When a packet becomes `done`, evaluate every direct dependent immediately and
+promote it from `waiting` to `ready` if all dependencies are complete.
+
+## Milestone rollup
+
+| Milestone | Packets | Exit condition | Progress |
+| --- | --- | --- | --- |
+| Foundation engine | MG-01–MG-08 | Canonical performance can be compiled and scheduled through the native engine. | 0 / 8 |
+| First playable generator | MG-09 | New editor replaces the old model without losing basic JSON/MIDI/Strudel/SVG capabilities. | Waiting |
+| SoundFont instruments | MG-10–MG-11 | Local banks, presets, concurrent playback, and explicit missing-bank handling work. | 0 / 2 |
+| Concurrent composition | MG-12 | Several Wheels with several Heads play, render, seek, loop, save, and reload together. | Waiting |
+| Relational composition depth | MG-13–MG-18 | Advanced Fields, relations, Trace encounters, tuning, variation, and Recording work. | 0 / 6 |
+| Portable outputs | MG-19–MG-20 | MIDI, Strudel, audio render, and bundles consume canonical events/Recordings. | 0 / 2 |
+| Release | MG-21 | Reference works, performance budgets, browser checks, and full workflow pass. | Waiting |
+
+## Validation ledger
+
+Add one row when a packet enters `in_review`. Link or name manual evidence in
+the final column rather than relying on a statement that it was checked.
+
+| Packet | Commit | `npm test` | `npm run lint` | `npm run build` | Graphify | Manual/browser evidence | Reviewer |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| — | — | — | — | — | — | — | — |
+
+Validation rules:
+
+- Record the exact commit SHA tested. Results from an earlier commit do not
+  validate later edits.
+- Run the full three repository gates before `in_review` and again after
+  conflict resolution or integration changes.
+- Run `graphify update .` after code changes and record completion here.
+- Manual audio and browser checks supplement automated tests; they never replace
+  deterministic core or scheduler coverage.
+- A SoundFont packet records the bank digest, preset, browser/version, and
+  whether the bank is redistributable or user-local.
+
+## Active packet records
+
+### MG-01 — Composition schema and validation
+
+- State: `ready`
+- Owner: unassigned
+- Branch: unassigned
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Contract: [MG-01 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-01--composition-schema-and-validation)
+- Next action: claim the packet, create the side-by-side v1 Composition modules,
+  and leave the current running model intact until MG-09.
+- Commits/PRs: none
+- Blockers: none
+- Validation evidence: none
+- Handoff: none
+
+This is the initial ready-packet record. Once work begins, keep one subsection
+for every `claimed`, `in_progress`, `blocked`, or `in_review` packet. Move each
+finished record into the Activity log, Validation ledger, and Handoff records.
+
+## Blockers
+
+There are no active blockers.
+
+When adding one, use this table and set the packet ledger state to `blocked`:
+
+| ID | Packet | Opened | Owner | Blocking condition | Evidence | Resolution needed | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| — | — | — | — | — | — | — | — |
+
+A blocker entry stays until resolved. On resolution, append the decision or
+commit, restore the packet to `in_progress` or `ready`, and retain the row as
+`resolved` rather than deleting it.
+
+## Risk register
+
+Risks are not current blockers. Their owning packets must turn them into tests,
+decisions, or explicit limits before completion.
+
+| Risk | Owning packet | Current mitigation | Status |
+| --- | --- | --- | --- |
+| SoundFont browser API churn and worklet packaging | MG-10 | Pin and probe the selected backend before product integration; keep `InstrumentEngine` replaceable. | Open |
+| Sound bank redistribution and attribution | MG-10, MG-20 | Start with user-local banks; record digest, provenance, and license before any bundled bank. | Open |
+| Event growth with many Heads, Fields, and long windows | MG-12, MG-15, MG-21 | Reference compositions, spatial indexing, request limits, and checked-in benchmarks. | Open |
+| Exact microtonal pitch in MIDI 1.0 | MG-16, MG-19 | Preserve exact internal frequency; use explicit pitch-bend allocation and fail visibly when capacity is exceeded. | Open |
+| Multi-agent edits to shared files or tracker rows | All | Single packet owner, overlap check, frequent heartbeat, and explicit handoff. | Open |
+
+## Decision log
+
+The build plan contains the full rationale. This compact log prevents later
+sessions from reopening settled foundations accidentally.
+
+| ID | Date | Decision | Status | Contract location |
+| --- | --- | --- | --- | --- |
+| D-001 | 2026-08-05 | No v0.1/v0.2 compatibility or migration path. | Locked | [Decisions already made](MUSIC-GENERATOR-BUILD-PLAN.md#decisions-already-made) |
+| D-002 | 2026-08-05 | Begin with one Wheel/Head crossing ring and spoke Fields. | Locked | [Decisions already made](MUSIC-GENERATOR-BUILD-PLAN.md#decisions-already-made) |
+| D-003 | 2026-08-05 | Maintain a complete roadmap, not only the first milestone. | Locked | [Progress](MUSIC-GENERATOR-BUILD-PLAN.md#progress) |
+| D-004 | 2026-08-05 | SoundFont support is required, with native synthesis as fallback. | Locked | [SoundFont strategy](MUSIC-GENERATOR-BUILD-PLAN.md#soundfont-strategy) |
+| D-005 | 2026-08-05 | One Wheel may carry several Heads/Traces; distinct motion families are distinct Wheels. | Locked | [Meaning of Wheel, Head, shape, and Trace](MUSIC-GENERATOR-BUILD-PLAN.md#meaning-of-wheel-head-shape-and-trace) |
+| D-006 | 2026-08-05 | MRP supplies algorithms and patterns only; it is not a runtime dependency. | Locked | [MRP reuse map](MUSIC-GENERATOR-BUILD-PLAN.md#mrp-reuse-map) |
+
+New decisions receive the next ID, name the deciding user/reviewer, and link the
+build-plan change or decision record that made them authoritative.
+
+## Activity log
+
+Append one concise row for claims, handoffs, blockers, reviews, integrations,
+and releases. Do not log every edit.
+
+| UTC time | Agent | Packet | Event | Branch/commit | Summary and next step |
+| --- | --- | --- | --- | --- | --- |
+| 2026-08-05 | Codex | Roadmap | Tracker initialized | `main` / uncommitted | MG-01 is ready; no packet is claimed. Baseline: 170 tests, lint, and build pass. |
+
+## Handoff records
+
+No packet handoffs have been recorded.
+
+Append detailed handoffs here under a dated packet/agent heading and add a
+one-line summary to the Activity log. Do not overwrite an earlier handoff; a
+later agent should append a takeover or superseding handoff.
+
+## Handoff template
+
+Copy this block into Handoff records and, when applicable, the packet PR when
+an agent stops before integration:
+
+```text
+Packet:
+State:
+Agent:
+Branch:
+Cwd/worktree:
+Started/last updated UTC:
+Commits:
+Edited files:
+Acceptance criteria complete:
+Acceptance criteria remaining:
+Validation run and exact results:
+Manual/browser/audio evidence:
+Blockers or risks:
+Unrelated user/agent changes preserved:
+Next exact action:
+```
+
+The next agent must be able to resume from the handoff without inferring the
+branch, checkout, edited files, or remaining milestone.
+
+## Packet completion checklist
+
+Before moving a packet to `in_review`:
+
+- [ ] Work stays within the packet's current file list, or the build plan was
+      updated explicitly.
+- [ ] New core behavior has deterministic tests.
+- [ ] Acceptance criteria are checked individually with evidence.
+- [ ] `npm test` passes at the recorded commit.
+- [ ] `npm run lint` passes at the recorded commit.
+- [ ] `npm run build` passes at the recorded commit.
+- [ ] `graphify update .` ran after code changes.
+- [ ] Required browser/audio/manual checks are recorded.
+- [ ] `git diff --check` passes.
+- [ ] Unrelated user and agent changes remain untouched.
+- [ ] Current packet record and Activity log contain a complete handoff.
+
+Before moving a packet to `done`:
+
+- [ ] Review feedback and integration conflicts are resolved.
+- [ ] The integrated commit passes all gates.
+- [ ] The Validation ledger names the integrated SHA and reviewer.
+- [ ] This ledger marks the packet `done` and clears its owner.
+- [ ] The build plan Progress table marks the packet `done` in the same commit.
+- [ ] Newly unblocked direct dependents are promoted to `ready`.
+- [ ] Active claim is moved to the Activity log.
+- [ ] Milestone rollup and Current snapshot are refreshed.
