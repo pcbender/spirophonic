@@ -15,10 +15,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 0 / 21 |
-| Packets active | 2 |
+| Packets active | 3 |
 | Packets blocked | 0 |
-| Next ready packet | MG-02 active by user direction; MG-01 integration remains pending |
-| Active agents | Codex/root on MG-01 and MG-02 |
+| Next ready packet | MG-03 active by user direction; MG-01/MG-02 integration remains pending |
+| Active agents | Codex/root on MG-01, MG-02, and MG-03 |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-05 |
 
@@ -95,6 +95,7 @@ While working:
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Codex/root | MG-01 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T16:52:55Z | 2026-08-05T17:22:14Z | Implementation commit `1aaaa07`; integration review remains. |
 | Codex/root | MG-02 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:12:04Z | 2026-08-05T17:23:12Z | Implementation commit `0afa4e3`; integration review remains. |
+| Codex/root | MG-03 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:23:58Z | 2026-08-05T17:30:34Z | User directed work to continue over committed MG-01/MG-02 packets in review; implementation files do not overlap. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -105,7 +106,7 @@ their history.
 | --- | --- | --- | --- | --- | --- | --- |
 | MG-01 | Composition schema and validation | — | `in_review` | Codex/root | 2026-08-05 | Implementation commit `1aaaa07` is validated; integration review remains. |
 | MG-02 | Deterministic Transport and performance window | MG-01 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `0afa4e3` is validated; integration review remains. |
-| MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | `waiting` | — | 2026-08-05 | Complete MG-01 and MG-02. |
+| MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | `in_progress` | Codex/root | 2026-08-05 | Author validation is green; review and commit the packet. |
 | MG-04 | Space projection and composition renderer | MG-03 | `waiting` | — | 2026-08-05 | Complete MG-03. |
 | MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `waiting` | — | 2026-08-05 | Complete MG-01, MG-03, and MG-04. |
 | MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `waiting` | — | 2026-08-05 | Complete MG-02, MG-03, and MG-05. |
@@ -205,6 +206,28 @@ Validation rules:
   worktree. MG-02 uses that exact local Composition contract and does not edit
   MG-01 implementation files.
 
+### MG-03 — Wheel and multi-Head state engine
+
+- State: `in_progress`
+- Owner: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Contract: [MG-03 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-03--wheel-and-multi-head-state-engine)
+- Started UTC: 2026-08-05T17:23:58Z
+- Last updated UTC: 2026-08-05T17:30:34Z
+- Next action: review and commit MG-03, then rerun all gates against the exact
+  commit and move the packet to `in_review`.
+- Commits/PRs: none
+- Blockers: none
+- Validation evidence: 36 packet-relevant tests pass. Working-tree validation
+  passes: `npm test` (24 files, 237 tests), `npm run lint`, and `npm run build`.
+  `graphify update .` rebuilt the graph after the final code change and confirms
+  the Head-to-Transport call path through pure Wheel state.
+- Handoff: [2026-08-05 MG-03 author handoff](#2026-08-05-mg-03-author-handoff)
+- Dependency exception: the user explicitly directed MG-03 to begin after the
+  committed MG-01 and MG-02 packets, while those packets remain `in_review`
+  rather than integrated. MG-03 uses their exact committed contracts.
+
 This is the initial ready-packet record. Once work begins, keep one subsection
 for every `claimed`, `in_progress`, `blocked`, or `in_review` packet. Move each
 finished record into the Activity log, Validation ledger, and Handoff records.
@@ -267,6 +290,8 @@ and releases. Do not log every edit.
 | 2026-08-05T17:18:28Z | Codex/root | MG-02 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-02 acceptance criteria and working-tree gates pass; dependency-chain review and commits are next. |
 | 2026-08-05T17:22:14Z | Codex/root | MG-01 | Implementation committed | `1aaaa07` | Exact packet source is committed and validated; integration review remains. |
 | 2026-08-05T17:23:12Z | Codex/root | MG-02 | Implementation committed | `0afa4e3` | Exact packet source passes 217 tests, lint, and build; integration review remains. |
+| 2026-08-05T17:23:58Z | Codex/root | MG-03 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement pure Wheel and multi-Head state in the packet files. |
+| 2026-08-05T17:30:34Z | Codex/root | MG-03 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-03 acceptance criteria and working-tree gates pass; packet commit is next. |
 
 ## Handoff records
 
@@ -337,6 +362,40 @@ and releases. Do not log every edit.
 - Next exact action: review the dependency-chain diff, commit MG-01 before
   MG-02 where practical, rerun all gates against the exact commits, then move
   eligible packets to `in_review` and populate the Validation ledger.
+
+### 2026-08-05 MG-03 author handoff
+
+- Packet: MG-03 — Wheel and multi-Head state engine
+- State: `in_progress`; implementation and author validation are complete, but
+  the packet does not yet have an exact commit for `in_review` evidence.
+- Agent: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Started/last updated UTC:
+  2026-08-05T17:23:58Z / 2026-08-05T17:30:34Z
+- Commits: none
+- Edited files: `src/core/motion.ts`, `src/core/motion.test.ts`,
+  `src/core/wheels.ts`, `src/core/wheels.test.ts`, `src/core/heads.ts`,
+  `src/core/heads.test.ts`, `src/core/curves.ts`, `src/core/trochoid.ts`, and
+  this tracker. `graphify update .` also refreshed tracked generated files.
+- Acceptance criteria complete: the existing curve-family suite retains its
+  sampled and spirogram math; two Heads share Wheel phase while attachment and
+  Head phase offsets yield distinct positions; reversing a Wheel preserves IDs
+  while reversing traversal and velocity; damped harmonograph state continues
+  beyond normalized phase wrap without endpoint closure; and state is derived
+  only from Composition plus requested absolute time.
+- Acceptance criteria remaining: none at working-tree level.
+- Validation run and exact results: 36 packet-relevant tests pass; `npm test`
+  passed 24 test files and 237 tests; `npm run lint` passed; `npm run build`
+  passed; `graphify update .` completed after the final code change.
+- Manual/browser/audio evidence: not required for this pure state-core packet.
+- Blockers or risks: none. The explicit dependency exception remains until
+  MG-01 and MG-02 are integrated.
+- Unrelated user/agent changes preserved: the worktree was clean before the
+  MG-03 claim; only packet files, coordination metadata, and generated Graphify
+  output changed.
+- Next exact action: review and commit MG-03, rerun all gates against the exact
+  commit, then move it to `in_review` and add the SHA to the Validation ledger.
 
 Append detailed handoffs here under a dated packet/agent heading and add a
 one-line summary to the Activity log. Do not overwrite an earlier handoff; a

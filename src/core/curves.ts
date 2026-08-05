@@ -15,6 +15,19 @@ type ParametricCurve = {
   at: (theta: number) => [number, number]
 }
 
+export type HarmonographPointParameters = {
+  theta: number
+  frequencyX: number
+  frequencyY: number
+  delta: number
+  damping: number
+  amplitudeX?: number
+  amplitudeY?: number
+  phaseX?: number
+  phaseY?: number
+  decayTheta?: number
+}
+
 export const curveFamilies: Array<CurveFamily> = [
   'spirogram',
   'lissajous',
@@ -60,9 +73,20 @@ const lissajous = (geometry: Geometry): ParametricCurve => {
 
   return {
     end: TAU / greatestCommonDivisor(a, b),
-    at: (theta) => [Math.sin(a * theta + delta), Math.sin(b * theta)],
+    at: (theta) => lissajousPointAtTheta(theta, a, b, delta),
   }
 }
+
+export const lissajousPointAtTheta = (
+  theta: number,
+  frequencyX: number,
+  frequencyY: number,
+  phaseX = 0,
+  phaseY = 0,
+): [number, number] => [
+  Math.sin(frequencyX * theta + phaseX),
+  Math.sin(frequencyY * theta + phaseY),
+]
 
 /** r = cos(k*theta), k = n/d reduced; closes at pi*d when n*d is odd. */
 const rose = (geometry: Geometry): ParametricCurve => {
@@ -76,12 +100,17 @@ const rose = (geometry: Geometry): ParametricCurve => {
 
   return {
     end: (n * d) % 2 === 1 ? Math.PI * d : TAU * d,
-    at: (theta) => {
-      const radius = Math.cos(k * theta)
-
-      return [radius * Math.cos(theta), radius * Math.sin(theta)]
-    },
+    at: (theta) => rosePointAtTheta(theta, k),
   }
+}
+
+export const rosePointAtTheta = (
+  theta: number,
+  ratio: number,
+): [number, number] => {
+  const radius = Math.cos(ratio * theta)
+
+  return [radius * Math.cos(theta), radius * Math.sin(theta)]
 }
 
 /** Gielis supershape with a = b = 1; closes at TAU when m is even. */
@@ -91,15 +120,43 @@ const superformula = (geometry: Geometry): ParametricCurve => {
 
   return {
     end: m % 2 === 0 ? TAU : 2 * TAU,
-    at: (theta) => {
-      const u = (m * theta) / 4
-      const base = Math.abs(Math.cos(u)) ** sfN2 + Math.abs(Math.sin(u)) ** sfN3
-      const raw = base ** (-1 / sfN1)
-      const radius = Number.isFinite(raw) ? Math.min(raw, 1e9) : 0
-
-      return [radius * Math.cos(theta), radius * Math.sin(theta)]
-    },
+    at: (theta) => superformulaPointAtTheta(theta, m, sfN1, sfN2, sfN3),
   }
+}
+
+export const superformulaPointAtTheta = (
+  theta: number,
+  symmetry: number,
+  n1: number,
+  n2: number,
+  n3: number,
+): [number, number] => {
+  const u = (symmetry * theta) / 4
+  const base = Math.abs(Math.cos(u)) ** n2 + Math.abs(Math.sin(u)) ** n3
+  const raw = base ** (-1 / n1)
+  const radius = Number.isFinite(raw) ? Math.min(raw, 1e9) : 0
+
+  return [radius * Math.cos(theta), radius * Math.sin(theta)]
+}
+
+export const harmonographPointAtTheta = ({
+  theta,
+  frequencyX,
+  frequencyY,
+  delta,
+  damping,
+  amplitudeX = 1,
+  amplitudeY = 1,
+  phaseX = 0,
+  phaseY = 0,
+  decayTheta = theta,
+}: HarmonographPointParameters): [number, number] => {
+  const envelope = Math.exp(-damping * decayTheta)
+
+  return [
+    amplitudeX * Math.sin(frequencyX * theta + delta + phaseX) * envelope,
+    amplitudeY * Math.sin(frequencyY * theta + phaseY) * envelope,
+  ]
 }
 
 /**
@@ -115,12 +172,14 @@ const harmonographPoints = (geometry: Geometry): Array<SpiroPoint> => {
     { length: forward },
     (_, index) => {
       const theta = (index / (forward - 1)) * end + geometry.phase
-      const envelope = Math.exp(-geometry.harmDamping * theta)
 
-      return [
-        Math.sin(geometry.harmFreqX * theta + geometry.harmDelta) * envelope,
-        Math.sin(geometry.harmFreqY * theta) * envelope,
-      ]
+      return harmonographPointAtTheta({
+        theta,
+        frequencyX: geometry.harmFreqX,
+        frequencyY: geometry.harmFreqY,
+        delta: geometry.harmDelta,
+        damping: geometry.harmDamping,
+      })
     },
   )
   const path = [...outbound, ...outbound.slice(0, -1).reverse()]

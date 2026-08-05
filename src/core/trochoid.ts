@@ -53,8 +53,18 @@ export const generateSpiroPoints = (
     const theta = progress * end + phase
     const point =
       rotation === 'inside'
-        ? getHypotrochoidPoint(theta, fixedRadius, movingRadius, penOffset)
-        : getEpitrochoidPoint(theta, fixedRadius, movingRadius, penOffset)
+        ? hypotrochoidPointAtTheta(
+            theta,
+            fixedRadius,
+            movingRadius,
+            penOffset,
+          )
+        : epitrochoidPointAtTheta(
+            theta,
+            fixedRadius,
+            movingRadius,
+            penOffset,
+          )
 
     points.push({
       t: progress,
@@ -68,7 +78,7 @@ export const generateSpiroPoints = (
   return points
 }
 
-const getHypotrochoidPoint = (
+export const hypotrochoidPointAtTheta = (
   theta: number,
   fixedRadius: number,
   movingRadius: number,
@@ -83,7 +93,7 @@ const getHypotrochoidPoint = (
   }
 }
 
-const getEpitrochoidPoint = (
+export const epitrochoidPointAtTheta = (
   theta: number,
   fixedRadius: number,
   movingRadius: number,
@@ -97,4 +107,3 @@ const getEpitrochoidPoint = (
     y: radiusSum * Math.sin(theta) - penOffset * Math.sin(ratio * theta),
   }
 }
-
