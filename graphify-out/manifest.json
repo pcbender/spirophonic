@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1785775827.9752877,
-    "ast_hash": "761e7e1f3d6c153a8c5749742f8d3b75",
+    "mtime": 1785958221.7633662,
+    "ast_hash": "568384ca7fd07cfbeb91cb5fb8076a4d",
     "semantic_hash": ""
   },
   "src/App.test.tsx": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "src/core/composition.ts": {
-    "mtime": 1785948962.822124,
-    "ast_hash": "a121077a42f6854589360eec997a10c2",
+    "mtime": 1785957330.396877,
+    "ast_hash": "e6b105ad167efeea207cb1ed0edf260b",
     "semantic_hash": ""
   },
   "src/core/compositionValidation.test.ts": {
@@ -235,13 +235,13 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-BUILD-PLAN.md": {
-    "mtime": 1785955440.0993865,
-    "ast_hash": "aca1c62956542ff912bf6ee85422a70a",
+    "mtime": 1785958076.5285187,
+    "ast_hash": "a518d2bcb1036e7c6fbb53e663c9791e",
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1785955197.6776888,
-    "ast_hash": "b1cf1acb807fa74bbed3723d45e3be64",
+    "mtime": 1785956894.2701783,
+    "ast_hash": "3aafcbf4f358a82abd8eebd027d47463",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -412,6 +412,41 @@
   "src/ui/WheelPanel.tsx": {
     "mtime": 1785955700.7711935,
     "ast_hash": "f092881b97743b5927e5f971f2fa8287",
+    "semantic_hash": ""
+  },
+  "scripts/sync-spessasynth-worklet.mjs": {
+    "mtime": 1785958232.4670346,
+    "ast_hash": "54edd864e46b76cd489fa516e91a364b",
+    "semantic_hash": ""
+  },
+  "src/audio/soundbankStore.test.ts": {
+    "mtime": 1785958232.6739352,
+    "ast_hash": "4e77d362057a805e0cf11971205f7a26",
+    "semantic_hash": ""
+  },
+  "src/audio/soundbankStore.ts": {
+    "mtime": 1785958232.5704849,
+    "ast_hash": "89581a888e58e226c7537e4eeeaa37c8",
+    "semantic_hash": ""
+  },
+  "src/audio/soundfontProbe.test.ts": {
+    "mtime": 1785957852.654928,
+    "ast_hash": "89cc441edfbe9d2d8504789fe5fef29c",
+    "semantic_hash": ""
+  },
+  "src/audio/soundfontProbe.ts": {
+    "mtime": 1785957852.5368338,
+    "ast_hash": "32b097edd49fcd80bbc7d8c083c5ad48",
+    "semantic_hash": ""
+  },
+  "src/audio/spessasynthWorklet.ts": {
+    "mtime": 1785957499.9629228,
+    "ast_hash": "adf95ad35172c22b08ac055f837d83eb",
+    "semantic_hash": ""
+  },
+  "docs/decisions/0001-soundfont-engine.md": {
+    "mtime": 1785958076.6297185,
+    "ast_hash": "115ada0e15c9db4d7480aae85656db80",
     "semantic_hash": ""
   }
 }

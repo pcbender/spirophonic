@@ -15,10 +15,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 0 / 21 |
-| Packets active | 9 |
+| Packets active | 10 |
 | Packets blocked | 0 |
-| Next ready packet | MG-01–MG-09 are implemented and await integration review |
-| Active agents | Codex/root on MG-01 through MG-09 |
+| Next ready packet | MG-10 author validation complete; MG-01–MG-10 integration remains pending |
+| Active agents | Codex/root on MG-01 through MG-10 |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-05 |
 
@@ -102,6 +102,7 @@ While working:
 | Codex/root | MG-07 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:11:29Z | 2026-08-05T18:21:38Z | Implementation commit `842acb7`; integration review remains. |
 | Codex/root | MG-08 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:23:26Z | 2026-08-05T18:37:10Z | Implementation commit `7f2d487`; integration review remains. |
 | Codex/root | MG-09 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:39:36Z | 2026-08-05T19:03:51Z | Implementation commit `ff6af91`; exact-commit gates and Hermes browser playback pass; integration review remains. |
+| Codex/root | MG-10 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T19:07:49Z | 2026-08-05T19:32:36Z | Vault, pinned engine, reproducible worklet packaging, ADR, and Chromium/Firefox probes pass; exact-commit validation record is next. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -119,7 +120,7 @@ their history.
 | MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `842acb7` is validated; integration review remains. |
 | MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `7f2d487` is validated; integration review remains. |
 | MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `ff6af91` is validated; integration review remains. |
-| MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `waiting` | — | 2026-08-05 | Complete MG-01 and MG-08. |
+| MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `in_review` | Codex/root | 2026-08-05 | Author validation passes; commit the packet, rerun exact-commit gates, and record the SHA. |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `waiting` | — | 2026-08-05 | Complete MG-07, MG-08, and MG-10. |
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | `waiting` | — | 2026-08-05 | Complete MG-09 and MG-11. |
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | `waiting` | — | 2026-08-05 | Complete MG-05, MG-06, and MG-12. |
@@ -378,6 +379,31 @@ Validation rules:
   pending. MG-09 consumes those exact committed contracts and owns the
   roadmap's declared legacy-removal files.
 
+### MG-10 — Sound bank vault and SoundFont engine decision
+
+- State: `in_review`
+- Owner: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Contract: [MG-10 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-10--sound-bank-vault-and-soundfont-engine-decision)
+- Started UTC: 2026-08-05T19:07:49Z
+- Last updated UTC: 2026-08-05T19:32:36Z
+- Next action: commit the packet, rerun the three gates on that exact commit,
+  add its SHA to the validation ledger, and push the branch.
+- Commits/PRs: none yet
+- Blockers: none
+- Validation evidence: 11 focused tests and the full 27-file/190-test suite
+  pass; lint, build, audit, diff check, and Graphify refresh pass. The build
+  reproduced the pinned 397,904-byte AudioWorklet with SHA-256
+  `4a6e2bf7ca16a510841f467f4563dcf9155c328ff6eef808a508def280de709e`.
+  Hermes Chromium 147 and Firefox 148 probes loaded both SF2 and SF3 banks,
+  enumerated 287 presets, routed overlapping pitched presets plus drums, failed
+  missing/corrupt banks visibly, and disposed cleanly.
+- Handoff: [2026-08-05 MG-10 author handoff](#2026-08-05-mg-10-author-handoff)
+- Dependency exception: the user explicitly directed MG-10 to begin after the
+  committed MG-01 and MG-08 packets while their integration review remains
+  pending. MG-10 consumes those exact committed contracts.
+
 This is the initial ready-packet record. Once work begins, keep one subsection
 for every `claimed`, `in_progress`, `blocked`, or `in_review` packet. Move each
 finished record into the Activity log, Validation ledger, and Handoff records.
@@ -403,7 +429,7 @@ decisions, or explicit limits before completion.
 
 | Risk | Owning packet | Current mitigation | Status |
 | --- | --- | --- | --- |
-| SoundFont browser API churn and worklet packaging | MG-10 | Pin and probe the selected backend before product integration; keep `InstrumentEngine` replaceable. | Open |
+| SoundFont browser API churn and worklet packaging | MG-10 | SpessaSynth 4.3.12/core 4.3.16 are pinned, their matched worklet is copied and hash-checked automatically, and the adapter remains replaceable. | Mitigated |
 | Sound bank redistribution and attribution | MG-10, MG-20 | Start with user-local banks; record digest, provenance, and license before any bundled bank. | Open |
 | Event growth with many Heads, Fields, and long windows | MG-12, MG-15, MG-21 | Reference compositions, spatial indexing, request limits, and checked-in benchmarks. | Open |
 | Exact microtonal pitch in MIDI 1.0 | MG-16, MG-19 | Preserve exact internal frequency; use explicit pitch-bend allocation and fail visibly when capacity is exceeded. | Open |
@@ -461,6 +487,8 @@ and releases. Do not log every edit.
 | 2026-08-05T18:39:36Z | Codex/root | MG-09 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; replace the running app with the playable v1 Composition workflow. |
 | 2026-08-05T19:02:08Z | Codex/root | MG-09 | Author handoff | `agent/music-generator-planning` / uncommitted | The v1 editor, playback, visualization, diagnostics, JSON/MIDI/Strudel/SVG adapters, and legacy cutover pass automated and Hermes browser validation; implementation commit is next. |
 | 2026-08-05T19:03:51Z | Codex/root | MG-09 | Implementation committed | `ff6af91` | Exact packet source passes 179 tests, lint, build, Graphify refresh, and Hermes browser playback; integration review remains. |
+| 2026-08-05T19:07:49Z | Codex/root | MG-10 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement local SoundFont ownership and select a reproducible browser engine. |
+| 2026-08-05T19:32:36Z | Codex/root | MG-10 | Author handoff | `agent/music-generator-planning` / uncommitted | Digest-keyed vault, pinned SpessaSynth worklet, SF2/SF3 probes, packaging, licensing boundary, and all working-tree gates pass; commit and exact-commit validation are next. |
 
 ## Handoff records
 
@@ -803,6 +831,56 @@ and releases. Do not log every edit.
 - Next exact action: commit MG-09, rerun all gates against the exact commit,
   then move it to `in_review`, add the SHA to the Validation ledger, and push
   the branch.
+
+### 2026-08-05 MG-10 author handoff
+
+- Packet: MG-10 — Sound bank vault and SoundFont engine decision
+- State: `in_review`; implementation and author validation are complete, but
+  the exact implementation commit still needs its validation-ledger row.
+- Agent: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Started/last updated UTC:
+  2026-08-05T19:07:49Z / 2026-08-05T19:32:36Z
+- Commits: none yet
+- Edited files: the digest-keyed IndexedDB vault and tests; SpessaSynth probe,
+  worklet adapter, and tests; the Composition SoundBank aliases; pinned npm
+  packages and automated worklet copy script; `.gitignore`; ADR 0001; packet
+  file-list refinements in the build plan; this tracker; and refreshed tracked
+  Graphify output.
+- Acceptance criteria complete: duplicate bank imports reuse one SHA-256 vault
+  record; reload, relink, retrieval, metadata-only listing, and deletion are
+  safe; Composition JSON contains references but no sample bytes; capacity,
+  missing-storage, digest, corrupt-record, and quota failures are explicit;
+  and a package-matched, CDN-free SpessaSynth worklet loads SF2/SF3, enumerates
+  presets, schedules two overlapping pitched presets plus drums, reports
+  missing/corrupt banks, and disposes cleanly in Chromium and Firefox.
+- Acceptance criteria remaining: none at working-tree level.
+- Validation run and exact results: the focused vault/probe suite passed 2
+  files and 11 tests; `npm test` passed 27 files and 190 tests; `npm run lint`,
+  `npm run build`, `npm audit`, and `git diff --check` passed; the build copied
+  a 397,904-byte worklet with SHA-256
+  `4a6e2bf7ca16a510841f467f4563dcf9155c328ff6eef808a508def280de709e`;
+  and `graphify update .` rebuilt 1,067 nodes and 2,067 edges.
+- Manual/browser/audio evidence: using only the `~/.hermes` browser stack,
+  Chromium 147.0.7727.15 and Firefox 148.0.2 each loaded the temporary local
+  32,319,396-byte SF2 bank
+  (`9575028c7a1f589f5770fccc8cff2734566af40cd26ed836944e9a5152688cfe`)
+  and 8,423,728-byte SF3 bank
+  (`e2ed326ff44d15f78f2fdc72403b6fa6b77ee7266d3aad0d2198bc95797bc66c`),
+  found 287 presets, scheduled Grand Piano, Piano & Str.-Fade, and Standard 1
+  Kit concurrently with a 150 ms lead, rejected missing/corrupt inputs, and
+  reported no page errors. ADR 0001 records per-browser timings and the bank's
+  separate GeneralUser GS licensing status; neither test bank is committed.
+- Blockers or risks: none. Safari, process-level memory measurement, malformed
+  inner SoundFont structures, human listening, and device latency remain
+  explicitly assigned to later integration/release work.
+- Unrelated user/agent changes preserved: the worktree was clean before the
+  MG-10 claim; only packet files, coordination metadata, package resolution,
+  and generated Graphify output changed.
+- Next exact action: commit MG-10, rerun all three gates against the exact
+  implementation commit, add its SHA to the validation ledger, commit that
+  evidence, and push the branch.
 
 Append detailed handoffs here under a dated packet/agent heading and add a
 one-line summary to the Activity log. Do not overwrite an earlier handoff; a

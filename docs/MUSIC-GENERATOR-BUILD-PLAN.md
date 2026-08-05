@@ -652,7 +652,11 @@ backend before building product UI around it.
 **Files:** `src/audio/soundbankStore.ts`,
 `src/audio/soundbankStore.test.ts`, `src/audio/soundfontProbe.ts`,
 `src/audio/soundfontProbe.test.ts`, `src/core/composition.ts`,
-`docs/decisions/0001-soundfont-engine.md`, `package.json`, `package-lock.json`
+`src/audio/spessasynthWorklet.ts`,
+`scripts/sync-spessasynth-worklet.mjs`, `.gitignore`,
+`docs/decisions/0001-soundfont-engine.md`, `package.json`, `package-lock.json`.
+The worklet module, sync script, and ignore rule are the explicit packaging
+surface required to prove a package-matched, non-CDN AudioWorklet.
 
 **Deliverables:**
 
@@ -685,8 +689,10 @@ backend before building product UI around it.
 `src/audio/soundfontEngine.test.ts`, `src/audio/instrumentRouter.ts`,
 `src/audio/instrumentRouter.test.ts`, `src/ui/SoundBankPanel.tsx`,
 `src/ui/SoundBankPanel.test.tsx`, `src/ui/InstrumentPanel.tsx`,
-`src/core/composition.ts`, plus the worklet packaging files selected in MG-10.
-MG-10 must update this file list with their exact paths before MG-11 starts.
+`src/core/composition.ts`, `src/audio/spessasynthWorklet.ts`,
+`scripts/sync-spessasynth-worklet.mjs`, `package.json`, and
+`package-lock.json`. The final four paths are the exact package-matched worklet
+packaging surface selected and proven in MG-10.
 
 **Deliverables:**
 

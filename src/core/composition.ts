@@ -336,12 +336,16 @@ export type InstrumentSpec =
   | NativeDrumInstrumentSpec
   | SoundFontInstrumentSpec
 
+export type SoundBankFormat = 'sf2' | 'sf3' | 'dls'
+
+export type SoundBankSource = 'local' | 'bundled' | 'remote'
+
 export type SoundBankReference = {
   id: string
   name: string
   digest: string
-  format: 'sf2' | 'sf3' | 'dls'
-  source: 'local' | 'bundled' | 'remote'
+  format: SoundBankFormat
+  source: SoundBankSource
   license: string
   attribution: string
 }

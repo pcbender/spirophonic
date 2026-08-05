@@ -5,6 +5,7 @@ node_modules/
 dist/
 build/
 coverage/
+public/vendor/spessasynth_processor.min.js
 
 # Vite / test caches
 .vite/

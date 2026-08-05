@@ -4,7 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "sync:soundfont-worklet": "node scripts/sync-spessasynth-worklet.mjs",
+    "predev": "npm run sync:soundfont-worklet",
     "dev": "vite",
+    "prebuild": "npm run sync:soundfont-worklet",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test": "vitest run",
@@ -13,7 +16,8 @@
   },
   "dependencies": {
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "spessasynth_lib": "4.3.12"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -26,6 +30,7 @@
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "fake-indexeddb": "6.2.5",
     "globals": "^17.6.0",
     "jsdom": "^27.3.0",
     "typescript": "~6.0.2",
