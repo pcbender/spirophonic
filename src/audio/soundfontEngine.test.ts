@@ -305,6 +305,49 @@ describe('SoundFontEngine', () => {
     expect(context.closeCount).toBe(1)
   })
 
+  it('cancels only the voices that begin at or after the cut', async () => {
+    const bank = reference('bank-one')
+    const { engine, synths } = harness(new Set([bank.digest]))
+    const piano = instrument('piano', bank.id, presets[0])
+    await engine.prepare([bank], [piano])
+
+    engine.schedule(event('one', piano.id, 60), piano, 10.0)
+    engine.schedule(event('two', piano.id, 64), piano, 10.5)
+    const releasesBefore = synths[0].noteOffs.length
+
+    engine.cancelScheduledFrom(10.4)
+
+    // Only the note starting at 10.5 is released, and never before its own
+    // note-on. The note already sounding since 10.0 keeps ringing.
+    const added = synths[0].noteOffs.slice(releasesBefore)
+    expect(added).toEqual([{ channel: 0, values: [64], time: 10.5 }])
+    expect(synths[0].stopCount).toBe(0)
+  })
+
+  it('keeps existing routes ready while prepare resolves an added bank', async () => {
+    const warmBank = reference('warm-bank')
+    const coldBank = reference('cold-bank')
+    const { engine } = harness(new Set([warmBank.digest, coldBank.digest]))
+    const warm = instrument('warm', warmBank.id, presets[0])
+    const cold = instrument('cold', coldBank.id, presets[1])
+
+    await engine.prepare([warmBank], [warm])
+    expect(engine.isInstrumentReady('warm')).toBe(true)
+
+    // Adding a second SoundFont Instrument mid-playback re-runs prepare. The
+    // already-playing route must stay ready across the new bank's load.
+    const readiness: Array<boolean> = []
+    const inFlight = engine.prepare([warmBank, coldBank], [warm, cold])
+    readiness.push(engine.isInstrumentReady('warm'))
+    await Promise.resolve()
+    readiness.push(engine.isInstrumentReady('warm'))
+    await inFlight
+
+    expect(readiness).toEqual([true, true])
+    expect(engine.isInstrumentReady('warm')).toBe(true)
+    expect(engine.isInstrumentReady('cold')).toBe(true)
+  })
+
   it('reports unsupported bank formats without opening a silent route', async () => {
     const bank = { ...reference('bank-dls'), format: 'dls' as const }
     const { engine } = harness(new Set([bank.digest]))

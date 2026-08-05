@@ -220,7 +220,10 @@ export class SoundFontEngine implements InstrumentEngine {
     instruments: ReadonlyArray<SoundFontInstrumentSpec>,
   ): Promise<SoundFontPreparation> {
     this.assertUsable()
-    this.routes.clear()
+    // Routes are rebuilt into a local map and swapped in at the end. Clearing
+    // them up front would make every Instrument report not-ready across the
+    // awaits below, and the scheduler keeps handing us events throughout.
+    const nextRoutes = new Map<string, InstrumentRoute>()
     const referenceById = new Map(
       references.map((reference) => [reference.id, reference]),
     )
@@ -292,8 +295,13 @@ export class SoundFontEngine implements InstrumentEngine {
         continue
       }
       channelCountByBank.set(reference.id, channel + 1)
-      this.routes.set(instrument.id, { instrument, channel, bank })
+      nextRoutes.set(instrument.id, { instrument, channel, bank })
       readyInstrumentIds.push(instrument.id)
+    }
+
+    this.routes.clear()
+    for (const [instrumentId, route] of nextRoutes) {
+      this.routes.set(instrumentId, route)
     }
 
     return Object.freeze({
@@ -425,9 +433,23 @@ export class SoundFontEngine implements InstrumentEngine {
     })
   }
 
-  cancelScheduledFrom() {
-    for (const bank of this.banks.values()) bank.synthesizer.stopAll(true)
-    this.voices.length = 0
+  /**
+   * Releases only the voices that begin at or after the cut, matching the
+   * native engine. A note already sounding keeps ringing, so a queued live
+   * edit splices in at its boundary instead of chopping the current bar.
+   * The release is never placed before its own note-on, which would leave the
+   * queued note-on unmatched and the voice stuck open.
+   */
+  cancelScheduledFrom(audioTimeSeconds: number) {
+    for (let index = this.voices.length - 1; index >= 0; index -= 1) {
+      const voice = this.voices[index]
+      if (voice.startsAtSeconds < audioTimeSeconds) continue
+
+      voice.synthesizer.noteOff(voice.channel, voice.note, {
+        time: Math.max(audioTimeSeconds, voice.startsAtSeconds),
+      })
+      this.voices.splice(index, 1)
+    }
   }
 
   panic() {

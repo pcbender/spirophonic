@@ -336,17 +336,17 @@ SoundFont or musical Encounter engine to reuse.
 
 | Packet | Title | Depends on | Status |
 | --- | --- | --- | --- |
-| MG-01 | Composition schema and validation | — | **planned** |
-| MG-02 | Deterministic Transport and performance window | MG-01 | **planned** |
-| MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | **planned** |
-| MG-04 | Space projection and composition renderer | MG-03 | **planned** |
-| MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | **planned** |
-| MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | **planned** |
-| MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | **planned** |
-| MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | **planned** |
-| MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | **planned** |
-| MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | **planned** |
-| MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | **planned** |
+| MG-01 | Composition schema and validation | — | **done** |
+| MG-02 | Deterministic Transport and performance window | MG-01 | **done** |
+| MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | **done** |
+| MG-04 | Space projection and composition renderer | MG-03 | **done** |
+| MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | **done** |
+| MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | **done** |
+| MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | **done** |
+| MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | **done** |
+| MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | **done** |
+| MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | **done** |
+| MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | **done** |
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | **planned** |
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | **planned** |
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | **planned** |

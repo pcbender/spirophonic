@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1785960716.3771038,
-    "ast_hash": "95d57c70411f3a5d8fd793be6ea1911e",
+    "mtime": 1785960879.3049078,
+    "ast_hash": "9a93f7fd726c8beffda123af13cb25d4",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -460,13 +460,13 @@
     "semantic_hash": ""
   },
   "src/audio/soundfontEngine.test.ts": {
-    "mtime": 1785960532.2970622,
-    "ast_hash": "06051c33e7d40f5e41a52d307d654588",
+    "mtime": 1785961923.508788,
+    "ast_hash": "3fdd0d0927839b746ff7c0199e2dae02",
     "semantic_hash": ""
   },
   "src/audio/soundfontEngine.ts": {
-    "mtime": 1785960634.706557,
-    "ast_hash": "98a51d07ce3f30ce52f528a726683428",
+    "mtime": 1785961941.6827035,
+    "ast_hash": "fe268c9bf636739ad41b96d1b3c96708",
     "semantic_hash": ""
   },
   "src/ui/InstrumentPanel.test.tsx": {
