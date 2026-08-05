@@ -347,7 +347,7 @@ SoundFont or musical Encounter engine to reuse.
 | MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | **done** |
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | **done** |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | **done** |
-| MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | **planned** |
+| MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | **done** |
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | **planned** |
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | **planned** |
 | MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | **planned** |
