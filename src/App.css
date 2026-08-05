@@ -121,6 +121,23 @@ h1 {
   height: 100%;
 }
 
+/* MG-04's absolute-state renderer remains side-by-side until the MG-09 cutover. */
+.composition-canvas-shell {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(246, 244, 239, 0.16);
+  border-radius: 10px;
+  background: #101014;
+}
+
+.composition-canvas-shell canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .transport {
   display: flex;
   align-items: center;
