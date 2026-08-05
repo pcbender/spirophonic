@@ -17,7 +17,7 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Packets complete | 0 / 21 |
 | Packets active | 9 |
 | Packets blocked | 0 |
-| Next ready packet | MG-09 active by user direction; MG-01–MG-08 integration remains pending |
+| Next ready packet | MG-01–MG-09 are implemented and await integration review |
 | Active agents | Codex/root on MG-01 through MG-09 |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-05 |
@@ -101,7 +101,7 @@ While working:
 | Codex/root | MG-06 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:59:01Z | 2026-08-05T18:09:08Z | Implementation commit `7baa1a7`; integration review remains. |
 | Codex/root | MG-07 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:11:29Z | 2026-08-05T18:21:38Z | Implementation commit `842acb7`; integration review remains. |
 | Codex/root | MG-08 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:23:26Z | 2026-08-05T18:37:10Z | Implementation commit `7f2d487`; integration review remains. |
-| Codex/root | MG-09 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:39:36Z | 2026-08-05T19:02:08Z | Author validation is complete, including the first browser-visible Hermes playback check; implementation commit is next. |
+| Codex/root | MG-09 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:39:36Z | 2026-08-05T19:03:51Z | Implementation commit `ff6af91`; exact-commit gates and Hermes browser playback pass; integration review remains. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -118,7 +118,7 @@ their history.
 | MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `7baa1a7` is validated; integration review remains. |
 | MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `842acb7` is validated; integration review remains. |
 | MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `7f2d487` is validated; integration review remains. |
-| MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `in_progress` | Codex/root | 2026-08-05 | Author validation passes; commit the v1 app cutover and rerun the exact-commit gates. |
+| MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `ff6af91` is validated; integration review remains. |
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `waiting` | — | 2026-08-05 | Complete MG-01 and MG-08. |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `waiting` | — | 2026-08-05 | Complete MG-07, MG-08, and MG-10. |
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | `waiting` | — | 2026-08-05 | Complete MG-09 and MG-11. |
@@ -140,7 +140,7 @@ promote it from `waiting` to `ready` if all dependencies are complete.
 | Milestone | Packets | Exit condition | Progress |
 | --- | --- | --- | --- |
 | Foundation engine | MG-01–MG-08 | Canonical performance can be compiled and scheduled through the native engine. | 0 / 8 |
-| First playable generator | MG-09 | New editor replaces the old model without losing basic JSON/MIDI/Strudel/SVG capabilities. | Waiting |
+| First playable generator | MG-09 | New editor replaces the old model without losing basic JSON/MIDI/Strudel/SVG capabilities. | Awaiting integration |
 | SoundFont instruments | MG-10–MG-11 | Local banks, presets, concurrent playback, and explicit missing-bank handling work. | 0 / 2 |
 | Concurrent composition | MG-12 | Several Wheels with several Heads play, render, seek, loop, save, and reload together. | Waiting |
 | Relational composition depth | MG-13–MG-18 | Advanced Fields, relations, Trace encounters, tuning, variation, and Recording work. | 0 / 6 |
@@ -162,6 +162,7 @@ the final column rather than relying on a statement that it was checked.
 | MG-06 | `7baa1a7` | 30 files, 281 tests pass | pass | pass | refreshed after code | Deterministic core fixtures; no browser/audio surface | Pending |
 | MG-07 | `842acb7` | 32 files, 298 tests pass | pass | pass | refreshed after code | Deterministic compiler fixtures; no browser/audio surface | Pending |
 | MG-08 | `7f2d487` | 34 files, 309 tests pass | pass | pass | refreshed after code | Fake clock/engine and native routing tests; app integration is MG-09 | Pending |
+| MG-09 | `ff6af91` | 25 files, 179 tests pass | pass | pass | refreshed after code | Hermes: Wheel cycles 1→2 changed 13→17 events; Play advanced to 1.25s; no page errors; 1600x1000 capture at `/tmp/spirophonic-mg09-hermes.png` | Pending |
 
 Validation rules:
 
@@ -356,20 +357,21 @@ Validation rules:
 
 ### MG-09 — First playable generator and clean model cutover
 
-- State: `in_progress`
+- State: `in_review`
 - Owner: Codex/root
 - Branch: `agent/music-generator-planning`
 - Cwd/worktree: `/home/mrose/spirophonic`
 - Contract: [MG-09 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-09--first-playable-generator-and-clean-model-cutover)
 - Started UTC: 2026-08-05T18:39:36Z
-- Last updated UTC: 2026-08-05T19:02:08Z
-- Next action: commit the validated v1 application cutover, rerun every gate
-  against that exact commit, and record it as `in_review`.
-- Commits/PRs: none yet
+- Last updated UTC: 2026-08-05T19:03:51Z
+- Next action: review and integrate commit `ff6af91`, rerun the gates on the
+  integrated commit, then mark MG-09 `done` with its dependencies.
+- Commits/PRs: `ff6af91`
 - Blockers: none
-- Validation evidence: 25 test files and 179 tests pass; lint and build pass;
-  Graphify refreshed; Hermes browser playback advances the Transport from a
-  compiled 17-event performance after a Wheel-rate edit with no page errors.
+- Validation evidence: exact commit `ff6af91` passes 25 test files and 179
+  tests, lint, and build; Graphify is refreshed; Hermes browser playback
+  advances the Transport from a compiled 17-event performance after a
+  Wheel-rate edit with no page errors.
 - Handoff: [2026-08-05 MG-09 author handoff](#2026-08-05-mg-09-author-handoff)
 - Dependency exception: the user explicitly directed MG-09 to begin after the
   committed MG-01–MG-08 packets while their integration review remains
@@ -458,6 +460,7 @@ and releases. Do not log every edit.
 | 2026-08-05T18:37:10Z | Codex/root | MG-08 | Implementation committed | `7f2d487` | Exact packet source passes 309 tests, lint, and build; integration review remains. |
 | 2026-08-05T18:39:36Z | Codex/root | MG-09 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; replace the running app with the playable v1 Composition workflow. |
 | 2026-08-05T19:02:08Z | Codex/root | MG-09 | Author handoff | `agent/music-generator-planning` / uncommitted | The v1 editor, playback, visualization, diagnostics, JSON/MIDI/Strudel/SVG adapters, and legacy cutover pass automated and Hermes browser validation; implementation commit is next. |
+| 2026-08-05T19:03:51Z | Codex/root | MG-09 | Implementation committed | `ff6af91` | Exact packet source passes 179 tests, lint, build, Graphify refresh, and Hermes browser playback; integration review remains. |
 
 ## Handoff records
 
