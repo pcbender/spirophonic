@@ -332,6 +332,38 @@ MRP's visual components currently carry independent trace speeds. That is not
 the Spirophonic Wheel/Head model and must not be transplanted. MRP also has no
 SoundFont or musical Encounter engine to reuse.
 
+## File-list audit, 2026-08-05
+
+Every packet from MG-12 through MG-16 needed its file list amended before work
+could start, always for the same reason: the lists were drafted from each
+packet's *behaviour* and omitted the Composition data that behaviour has to
+save. Rather than continue amending one packet at a time, MG-17 through MG-21
+were audited in one pass against their own deliverables and acceptance criteria.
+
+What the audit found:
+
+- **Saved configuration is not derived state.** Solo/mute, Field kinds and
+  motion, relation thresholds, Trace retention, and tuning contexts all had to
+  become schema. Several acceptance criteria — "retention changes are part of
+  input and therefore reproduce the same events" is the clearest — are only
+  satisfiable if the setting lives in the document. MG-17 extends `VariationSpec`
+  the same way and so needs `compositionValidation.ts`.
+- **A new panel needs mounting.** MG-17 and MG-18 add panels without listing
+  `App.tsx`, so the panel would exist but be unreachable.
+- **One list referenced a deleted file.** MG-19 named
+  `src/ui/StrudelExportPanel.tsx`, which MG-09 removed during the model cutover.
+- **A capability the plan predates.** MG-21's browser-check deliverable had no
+  home until the Playwright harness landed; `e2e/` and `playwright.config.ts`
+  are now named.
+- **Two packets genuinely needed nothing added to their data model.** MG-18's
+  Recording is a separate artifact, and MG-19 imports Recording types rather
+  than editing them. The pattern is not universal, which is worth stating so it
+  is not applied mechanically.
+
+Each amended packet carries its own dated **File-list audit** note. Changing a
+file list still requires an explicit build-plan edit; this section records the
+sweep, it does not license silent scope growth.
+
 ## Progress
 
 | Packet | Title | Depends on | Status |
@@ -950,8 +982,15 @@ interpretation, and performance layers.
 **Files:** `src/core/random.ts`, `src/core/random.test.ts`,
 `src/core/variation.ts`, `src/core/variation.test.ts`,
 `src/core/performance.ts`, `src/core/composition.ts`,
-`src/ui/VariationPanel.tsx`, `src/core/performance.test.ts`,
-`src/core/composition.test.ts`, `src/ui/VariationPanel.test.tsx`
+`src/core/compositionValidation.ts`,
+`src/ui/VariationPanel.tsx`, `src/App.tsx`, `src/core/performance.test.ts`,
+`src/core/composition.test.ts`, `src/core/compositionValidation.test.ts`,
+`src/ui/VariationPanel.test.tsx`
+
+**File-list audit (2026-08-05):** `composition.ts` was already listed, but
+`VariationSpec` currently holds only `enabled` and `seed`. Bounded per-layer
+variation needs more saved fields, so `compositionValidation.ts` is in scope.
+`App.tsx` is added because a new panel has to be mounted to be reachable.
 
 **Deliverables:**
 
@@ -978,8 +1017,16 @@ Spirophonic artifact.
 
 **Files:** `src/core/recording.ts`, `src/core/recording.test.ts`,
 `src/core/replay.ts`, `src/core/replay.test.ts`,
+`src/core/performance.ts`, `src/core/performance.test.ts`,
 `src/export/recordingJson.ts`, `src/export/recordingJson.test.ts`,
-`src/ui/RecorderPanel.tsx`, `src/ui/RecorderPanel.test.tsx`
+`src/ui/RecorderPanel.tsx`, `src/App.tsx`, `src/ui/RecorderPanel.test.tsx`
+
+**File-list audit (2026-08-05):** a Recording is a separate artifact from a
+Composition, so unlike MG-12 through MG-17 this packet needs no schema change.
+It does need `performance.ts`: reinterpreting recorded Encounters through a
+different Part set means the interpretation step has to be callable on supplied
+Encounters rather than only on freshly compiled ones. `App.tsx` mounts the
+panel.
 
 **Deliverables:**
 
@@ -1011,7 +1058,13 @@ arbitrary performance windows.
 `src/export/midi/smf.ts`, `src/export/midi/smf.test.ts`,
 `src/export/strudelExport.ts`, `src/export/strudelExport.test.ts`,
 `src/export/agreement.test.ts`, `src/ui/ImportExportPanel.tsx`,
-`src/ui/StrudelExportPanel.tsx`
+`src/ui/ImportExportPanel.test.tsx`
+
+**File-list audit (2026-08-05):** the original list named
+`src/ui/StrudelExportPanel.tsx`, which MG-09 deleted in the model cutover.
+Strudel export now lives in `ImportExportPanel.tsx`, which gains the test file
+it currently lacks. Recording types are imported from MG-18 rather than edited,
+so `recording.ts` is deliberately not in scope.
 
 **Deliverables:**
 
@@ -1044,7 +1097,18 @@ asset manifest.
 **Files:** `src/export/audioRender.ts`, `src/export/audioRender.test.ts`,
 `src/export/wav.ts`, `src/export/wav.test.ts`,
 `src/export/projectBundle.ts`, `src/export/projectBundle.test.ts`,
-`src/ui/ImportExportPanel.tsx`, plus the worker files selected in MG-10
+`src/audio/soundfontEngine.ts`, `src/audio/soundfontEngine.test.ts`,
+`src/audio/soundbankStore.ts`, `src/audio/soundbankStore.test.ts`,
+`src/audio/spessasynthWorklet.ts`,
+`scripts/sync-spessasynth-worklet.mjs`,
+`src/ui/ImportExportPanel.tsx`
+
+**File-list audit (2026-08-05):** "the worker files selected in MG-10" resolves
+to `spessasynthWorklet.ts` and its sync script, now named explicitly.
+`soundfontEngine.ts` is in scope because an offline render has to drive the
+synthesizer from an `OfflineAudioContext` rather than the live one, and
+`soundbankStore.ts` because bundle import writes verified bank bytes into the
+vault without overwriting what is already there.
 
 **Deliverables:**
 
@@ -1076,9 +1140,17 @@ asset manifest.
 loads and make its architecture legible to future work.
 
 **Files:** `src/core/performance.bench.test.ts`,
-`src/core/encounters.bench.test.ts`, `src/audio/audio.integration.test.ts`,
-`src/App.test.tsx`, `src/test/fixtures/`, `docs/examples/`, `README.md`,
+`src/core/encounters.bench.test.ts`, `src/core/traceEncounters.bench.test.ts`,
+`src/audio/audio.integration.test.ts`,
+`src/App.test.tsx`, `e2e/`, `playwright.config.ts`,
+`src/test/fixtures/`, `docs/examples/`, `README.md`, `AGENTS.md`,
 `docs/MUSIC-GENERATOR-BUILD-PLAN.md`
+
+**File-list audit (2026-08-05):** the browser-check deliverable predates the
+Playwright harness added on 2026-08-05, so `e2e/` and `playwright.config.ts`
+are now the place those checks live. A trace-indexing benchmark is called for by
+the deliverables but had no file; MG-15 introduced the code it measures.
+`AGENTS.md` carries the contributor-facing gate list.
 
 **Deliverables:**
 
