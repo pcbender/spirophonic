@@ -1047,6 +1047,10 @@ Use targeted tests while developing, then run all three gates before the packet
 is marked done. Manual audio/browser acceptance is additional evidence, not a
 replacement for automated event and scheduler tests.
 
+The plan and progress documents are coordination metadata and may always be
+updated alongside a packet. They do not expand that packet's implementation
+file scope.
+
 ## Definition of the first meaningful generator
 
 MG-09 is complete when a user can:

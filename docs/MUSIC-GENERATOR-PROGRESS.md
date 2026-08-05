@@ -15,10 +15,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 0 / 21 |
-| Packets active | 0 |
+| Packets active | 2 |
 | Packets blocked | 0 |
-| Next ready packet | MG-01 — Composition schema and validation |
-| Active agents | None |
+| Next ready packet | MG-02 active by user direction; MG-01 integration remains pending |
+| Active agents | Codex/root on MG-01 and MG-02 |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-05 |
 
@@ -93,17 +93,18 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| — | — | — | — | — | — | — | No active claim. |
+| Codex/root | MG-01 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T16:52:55Z | 2026-08-05T17:06:38Z | No overlapping packet or files. |
+| Codex/root | MG-02 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:12:04Z | 2026-08-05T17:18:28Z | User directed work to continue over the locally complete MG-01 dependency; implementation files do not overlap. |
 
-Remove the placeholder row when the first claim is added. Move completed or
-abandoned claims to the Activity log rather than erasing their history.
+Move completed or abandoned claims to the Activity log rather than erasing
+their history.
 
 ## Packet ledger
 
 | Packet | Title | Depends on | State | Owner | Last update | Evidence or next action |
 | --- | --- | --- | --- | --- | --- | --- |
-| MG-01 | Composition schema and validation | — | `ready` | — | 2026-08-05 | Claim MG-01 and create the side-by-side v1 Composition boundary. |
-| MG-02 | Deterministic Transport and performance window | MG-01 | `waiting` | — | 2026-08-05 | Complete MG-01. |
+| MG-01 | Composition schema and validation | — | `in_progress` | Codex/root | 2026-08-05 | Author validation is green; commit the packet, rerun gates at the commit, and move it to `in_review`. |
+| MG-02 | Deterministic Transport and performance window | MG-01 | `in_progress` | Codex/root | 2026-08-05 | Author validation is green; review and commit the local MG-01/MG-02 dependency chain. |
 | MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | `waiting` | — | 2026-08-05 | Complete MG-01 and MG-02. |
 | MG-04 | Space projection and composition renderer | MG-03 | `waiting` | — | 2026-08-05 | Complete MG-03. |
 | MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `waiting` | — | 2026-08-05 | Complete MG-01, MG-03, and MG-04. |
@@ -164,17 +165,44 @@ Validation rules:
 
 ### MG-01 — Composition schema and validation
 
-- State: `ready`
-- Owner: unassigned
-- Branch: unassigned
+- State: `in_progress`
+- Owner: Codex/root
+- Branch: `agent/music-generator-planning`
 - Cwd/worktree: `/home/mrose/spirophonic`
 - Contract: [MG-01 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-01--composition-schema-and-validation)
-- Next action: claim the packet, create the side-by-side v1 Composition modules,
-  and leave the current running model intact until MG-09.
+- Started UTC: 2026-08-05T16:52:55Z
+- Last updated UTC: 2026-08-05T17:06:38Z
+- Next action: review and commit the packet, rerun the full gates against that
+  commit, and move MG-01 to `in_review` with the exact SHA.
 - Commits/PRs: none
 - Blockers: none
-- Validation evidence: none
-- Handoff: none
+- Validation evidence: working-tree validation passes: `npm test` (20 files,
+  194 tests), `npm run lint`, and `npm run build`. `graphify update .` rebuilt
+  the graph after the final code change.
+- Handoff: [2026-08-05 MG-01 author handoff](#2026-08-05-mg-01-author-handoff)
+
+### MG-02 — Deterministic Transport and performance window
+
+- State: `in_progress`
+- Owner: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Contract: [MG-02 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-02--deterministic-transport-and-performance-window)
+- Started UTC: 2026-08-05T17:12:04Z
+- Last updated UTC: 2026-08-05T17:18:28Z
+- Next action: review and commit the local dependency chain, then rerun the
+  gates against exact commits and move eligible packets to `in_review`.
+- Commits/PRs: none
+- Blockers: none
+- Validation evidence: 23 targeted Transport tests pass. Working-tree
+  validation passes: `npm test` (21 files, 217 tests), `npm run lint`, and
+  `npm run build`. `graphify update .` rebuilt the graph after the final code
+  change.
+- Handoff: [2026-08-05 MG-02 author handoff](#2026-08-05-mg-02-author-handoff)
+- Dependency exception: the user explicitly directed MG-02 to begin while the
+  locally complete and validated MG-01 work remains uncommitted in this same
+  worktree. MG-02 uses that exact local Composition contract and does not edit
+  MG-01 implementation files.
 
 This is the initial ready-packet record. Once work begins, keep one subsection
 for every `claimed`, `in_progress`, `blocked`, or `in_review` packet. Move each
@@ -232,10 +260,80 @@ and releases. Do not log every edit.
 | UTC time | Agent | Packet | Event | Branch/commit | Summary and next step |
 | --- | --- | --- | --- | --- | --- |
 | 2026-08-05 | Codex | Roadmap | Tracker initialized | `main` / uncommitted | MG-01 is ready; no packet is claimed. Baseline: 170 tests, lint, and build pass. |
+| 2026-08-05T16:52:55Z | Codex/root | MG-01 | Packet claimed | `agent/music-generator-planning` / uncommitted | Implement the v1 Composition, validation, and JSON boundary beside the current app. |
+| 2026-08-05T17:06:38Z | Codex/root | MG-01 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-01 acceptance criteria and working-tree gates pass; review and commit are next. |
+| 2026-08-05T17:12:04Z | Codex/root | MG-02 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over the local MG-01 dependency; implement deterministic Transport in its isolated packet files. |
+| 2026-08-05T17:18:28Z | Codex/root | MG-02 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-02 acceptance criteria and working-tree gates pass; dependency-chain review and commits are next. |
 
 ## Handoff records
 
-No packet handoffs have been recorded.
+### 2026-08-05 MG-01 author handoff
+
+- Packet: MG-01 — Composition schema and validation
+- State: `in_progress`; implementation and author validation are complete, but
+  no exact commit exists yet for `in_review` evidence.
+- Agent: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Started/last updated UTC:
+  2026-08-05T16:52:55Z / 2026-08-05T17:06:38Z
+- Commits: none
+- Edited files: `src/core/composition.ts`,
+  `src/core/defaultComposition.ts`, `src/core/compositionValidation.ts`,
+  `src/core/composition.test.ts`, `src/core/compositionValidation.test.ts`,
+  `src/export/compositionJson.ts`, `src/export/compositionJson.test.ts`, and the
+  two roadmap coordination documents. `graphify update .` also refreshed the
+  tracked generated files under `graphify-out/`.
+- Acceptance criteria complete: the default composition validates and
+  round-trips deterministically; duplicate IDs and dangling references report
+  precise paths; mismatched motion/Head attachment families are rejected;
+  v0.1 and v0.2 JSON are explicitly unsupported; and the new modules contain no
+  legacy upgrade logic.
+- Acceptance criteria remaining: none at working-tree level.
+- Validation run and exact results: `npm test` passed 20 test files and 194
+  tests; `npm run lint` passed; `npm run build` passed; `graphify update .`
+  completed after the final code change.
+- Manual/browser/audio evidence: not required for this data-contract packet.
+- Blockers or risks: none.
+- Unrelated user/agent changes preserved: no unrelated source changes were
+  modified; generated Graphify changes are retained as required by repository
+  instructions.
+- Next exact action: review the diff, commit MG-01 and its tracker update, rerun
+  all gates against the exact commit, then set the packet to `in_review` and
+  add its SHA to the Validation ledger.
+
+### 2026-08-05 MG-02 author handoff
+
+- Packet: MG-02 — Deterministic Transport and performance window
+- State: `in_progress`; implementation and author validation are complete, but
+  MG-01 and MG-02 do not yet have exact commits for `in_review` evidence.
+- Agent: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Started/last updated UTC:
+  2026-08-05T17:12:04Z / 2026-08-05T17:18:28Z
+- Commits: none
+- Edited files: `src/core/transport.ts`, `src/core/transport.test.ts`, and this
+  tracker. `graphify update .` also refreshed the tracked generated files under
+  `graphify-out/`.
+- Acceptance criteria complete: 120 BPM maps four beats to two seconds without
+  geometry; `1/4`, `3/2`, and `5/8` rational rates produce their expected
+  phases; mid-bar requests return stable zero-based bar, beat, and phase
+  addresses; absolute-time evaluation is deterministic across repeated calls
+  and sampling rates; and neither the module nor graph contains a curve-closure
+  or display-clock dependency.
+- Acceptance criteria remaining: none at working-tree level.
+- Validation run and exact results: 23 targeted Transport tests pass; `npm test`
+  passed 21 test files and 217 tests; `npm run lint` passed; `npm run build`
+  passed; `graphify update .` completed after the final code change.
+- Manual/browser/audio evidence: not required for this pure time-core packet.
+- Blockers or risks: none. The explicit dependency exception remains until the
+  local MG-01 work is committed.
+- Unrelated user/agent changes preserved: MG-02 changed only its two packet
+  files, coordination metadata, and generated Graphify output.
+- Next exact action: review the dependency-chain diff, commit MG-01 before
+  MG-02 where practical, rerun all gates against the exact commits, then move
+  eligible packets to `in_review` and populate the Validation ledger.
 
 Append detailed handoffs here under a dated packet/agent heading and add a
 one-line summary to the Activity log. Do not overwrite an earlier handoff; a
