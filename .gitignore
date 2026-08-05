@@ -38,3 +38,8 @@ vite-dev*.log
 
 graphify-out/
 .claude/settings.local.json
+
+# Playwright
+/e2e/.artifacts/
+/playwright-report/
+/test-results/

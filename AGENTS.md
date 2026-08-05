@@ -8,6 +8,13 @@ packet status table in the same commit that lands the work.
 
 Gate every change on `npm test`, `npm run lint`, and `npm run build`.
 
+Browser checks run with `npm run test:e2e` (Playwright, Chromium, against the
+production preview build). They cover what jsdom cannot reach: real layout,
+real Canvas painting, and a real Web Audio clock. Run them for any packet whose
+acceptance criteria are visual or audible. Deterministic core and scheduler
+behaviour stays in the Vitest suite; the browser checks supplement it and never
+replace it. First run on a new machine needs `npx playwright install chromium`.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

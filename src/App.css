@@ -745,6 +745,9 @@ h1 {
   gap: 0.4rem;
   padding: 0.15rem 0.3rem;
   border-radius: 4px;
+  /* A Wheel row carries six actions beside its name; in the narrow rail they
+     have to wrap onto a second line rather than push past the panel edge. */
+  flex-wrap: wrap;
 }
 
 .composition-tree .tree-row.is-selected {
@@ -779,8 +782,11 @@ h1 {
 .composition-tree .tree-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.2rem;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  min-width: 0;
 }
 
 .composition-tree .tree-actions button {

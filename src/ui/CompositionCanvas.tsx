@@ -64,8 +64,13 @@ export function CompositionCanvas({
       const width = Math.max(1, Math.floor(rect.width * pixelRatio))
       const height = Math.max(1, Math.floor(rect.height * pixelRatio))
 
-      canvas.width = width
-      canvas.height = height
+      // Assigning width or height resets the bitmap even when the value is
+      // unchanged. ResizeObserver fires an initial callback on observe(), so an
+      // unguarded assignment can wipe an already-drawn scene; the size then
+      // compares equal, no state change follows, and the draw effect never
+      // re-runs. Only touch the backing store when it genuinely changes.
+      if (canvas.width !== width) canvas.width = width
+      if (canvas.height !== height) canvas.height = height
       setCanvasSize((current) =>
         current.width === width && current.height === height
           ? current
