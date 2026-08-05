@@ -16,6 +16,13 @@ import {
   type MappedPitch,
 } from './parts'
 import {
+  compileControlLane,
+  compileRelationEncounters,
+  relationPairs,
+  type ControlLane,
+  type RelationEncounter,
+} from './relations'
+import {
   mapStrengthToVelocity,
   quantizeAbsoluteBeat,
 } from './rhythm'
@@ -54,8 +61,9 @@ export type PerformanceDiagnostic = Readonly<{
     | 'invalid-performance-request'
     | 'invalid-musical-range'
     | 'mapping-error'
-    | 'deferred-control-part'
+    | 'control-part'
     | 'encounter-scan'
+    | 'relation-scan'
   message: string
   path?: string
   partId?: string
@@ -66,6 +74,8 @@ export type CanonicalPerformance = Readonly<{
   compositionId: string
   request: Readonly<PerformanceRequest>
   encounters: ReadonlyArray<BoundaryCrossingEncounter>
+  relationEncounters: ReadonlyArray<RelationEncounter>
+  controlLanes: ReadonlyArray<ControlLane>
   interpretedEvents: ReadonlyArray<NoteMusicalEvent>
   performedEvents: ReadonlyArray<NoteMusicalEvent>
   diagnostics: ReadonlyArray<PerformanceDiagnostic>
@@ -119,6 +129,8 @@ const emptyPerformance = (
     compositionId,
     request: freezeRequest(request),
     encounters: emptyEncounters,
+    relationEncounters: Object.freeze([]) as ReadonlyArray<RelationEncounter>,
+    controlLanes: Object.freeze([]) as ReadonlyArray<ControlLane>,
     interpretedEvents: emptyEvents,
     performedEvents: emptyEvents,
     diagnostics: Object.freeze([...diagnostics]),
@@ -368,8 +380,22 @@ export const compilePerformance = (
       }),
     ),
   )
+  const relationResult = compileRelationEncounters(
+    compositionValidation.composition,
+    requestValidation.request,
+  )
+  diagnostics.push(
+    ...relationResult.diagnostics.map((diagnostic) =>
+      Object.freeze({
+        severity: 'warning' as const,
+        code: 'relation-scan' as const,
+        message: diagnostic.message,
+      }),
+    ),
+  )
 
   const events: Array<NoteMusicalEvent> = []
+  const controlLanes: Array<ControlLane> = []
   const audible = audiblePartIds(composition)
   const parts = composition.parts
     .map((part, partIndex) => ({ part, partIndex }))
@@ -398,14 +424,48 @@ export const compilePerformance = (
     }
 
     if (part.kind === 'control') {
-      diagnostics.push(
-        Object.freeze({
-          severity: 'warning',
-          code: 'deferred-control-part',
-          message:
-            'Continuous Control Part compilation is deferred to MG-14; the Part produced no events.',
-          partId: part.id,
-        }),
+      // A Control Part drives a lane rather than notes. It needs a Head pair,
+      // which it takes from the relation it selects, or from the first pair of
+      // enabled Heads when it names none.
+      const relation = (composition.relations ?? []).find(
+        (candidate) =>
+          part.encounterQuery.relationIds?.includes(candidate.id) ?? false,
+      )
+      const { pairs } = relationPairs(
+        composition,
+        relation ?? {
+          id: `${part.id}-implicit`,
+          name: part.name,
+          enabled: true,
+          kind: 'conjunction',
+          headIds: part.encounterQuery.headIds,
+          threshold: 1,
+          hysteresis: 0,
+          minSeparationSeconds: 0,
+        },
+      )
+      const pair = pairs[0]
+
+      if (!pair) {
+        diagnostics.push(
+          Object.freeze({
+            severity: 'warning',
+            code: 'control-part',
+            message: `Control Part "${part.name}" needs two enabled Heads to measure; it produced no lane.`,
+            partId: part.id,
+          }),
+        )
+        continue
+      }
+
+      controlLanes.push(
+        compileControlLane(
+          composition,
+          request,
+          part,
+          pair,
+          relation?.threshold ?? 1,
+        ),
       )
       continue
     }
@@ -427,6 +487,8 @@ export const compilePerformance = (
     compositionId: composition.id,
     request: freezeRequest(requestValidation.request),
     encounters: encounterResult.encounters,
+    relationEncounters: relationResult.encounters,
+    controlLanes: Object.freeze(controlLanes),
     interpretedEvents,
     performedEvents: interpretedEvents,
     diagnostics: Object.freeze(diagnostics),

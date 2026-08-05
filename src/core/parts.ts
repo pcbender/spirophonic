@@ -7,6 +7,7 @@ import type {
   SpaceSpec,
 } from './composition'
 import type { BoundaryCrossingEncounter } from './encounters'
+import type { RelationEncounter } from './relations'
 import {
   frequencyToMidi,
   midiToFrequency,
@@ -41,6 +42,38 @@ export const encounterMatchesQuery = (
   includesOrAny(query.boundaryIds, encounter.boundaryId) &&
   includesOrAny(query.directions, encounter.direction) &&
   encounter.strength >= query.minStrength
+
+/**
+ * A relation belongs to two Heads at once, so a Wheel or Head filter matches
+ * when *either* subject qualifies. Filtering on one Head therefore selects the
+ * relations that Head takes part in, whichever side of the pair it is on.
+ */
+export const relationMatchesQuery = (
+  encounter: RelationEncounter,
+  query: EncounterQuery,
+) =>
+  includesOrAny(query.kinds, encounter.kind) &&
+  (query.wheelIds.length === 0 ||
+    query.wheelIds.includes(encounter.wheelId) ||
+    query.wheelIds.includes(encounter.partnerWheelId)) &&
+  (query.headIds.length === 0 ||
+    query.headIds.includes(encounter.headId) ||
+    query.headIds.includes(encounter.partnerHeadId)) &&
+  includesOrAny(query.relationIds ?? [], encounter.relationId) &&
+  includesOrAny(query.directions, encounter.direction) &&
+  encounter.strength >= query.minStrength
+
+export const selectPartRelations = (
+  part: PartSpec,
+  encounters: ReadonlyArray<RelationEncounter>,
+): ReadonlyArray<RelationEncounter> =>
+  part.enabled
+    ? Object.freeze(
+        encounters.filter((encounter) =>
+          relationMatchesQuery(encounter, part.encounterQuery),
+        ),
+      )
+    : Object.freeze([])
 
 export const selectPartEncounters = (
   part: PartSpec,

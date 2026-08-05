@@ -68,6 +68,8 @@ const performance = (
       sampleRateHz: 120,
     }),
     encounters: Object.freeze([]),
+    relationEncounters: Object.freeze([]),
+    controlLanes: Object.freeze([]),
     interpretedEvents: events,
     performedEvents: events,
     diagnostics: Object.freeze([]),

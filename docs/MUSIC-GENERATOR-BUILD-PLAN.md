@@ -818,11 +818,21 @@ kind would silently vanish from exported SVG rather than fail.
 **Goal:** Make changing relationships between Wheels a first-class event and
 control source.
 
-**Files:** `src/core/relations.ts`, `src/core/relations.test.ts`,
+**Files:** `src/core/composition.ts`, `src/core/compositionValidation.ts`,
+`src/core/compositionValidation.test.ts`,
+`src/core/relations.ts`, `src/core/relations.test.ts`,
 `src/core/encounters.ts`, `src/core/parts.ts`,
 `src/core/performance.ts`, `src/ui/PartPanel.tsx`,
 `src/core/encounters.test.ts`, `src/core/parts.test.ts`,
 `src/core/performance.test.ts`, `src/ui/PartPanel.test.tsx`
+
+**Scope note (2026-08-05):** the third packet in a row whose file list omits the
+schema it needs. Relation detection is configuration, not derived state: which
+Head pairs to watch, each detector's threshold, and its hysteresis and debounce
+policy all have to be saved with the Composition. `RelationSpec` and
+`Composition.relations` therefore live in `composition.ts` with matching
+validation. `EncounterQuery` also gains `relationIds` so a Part can select a
+named relation the same way it already selects a Field.
 
 **Deliverables:**
 

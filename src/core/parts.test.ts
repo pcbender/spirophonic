@@ -10,7 +10,9 @@ import {
   encounterMatchesQuery,
   mapEncounterPitch,
   normalizeEncounterContour,
+  relationMatchesQuery,
   selectPartEncounters,
+  selectPartRelations,
   validatePartMusicalRange,
 } from './parts'
 
@@ -201,5 +203,119 @@ describe('Part pitch mappings', () => {
     ).toMatchObject([
       { path: '$.parts[0].pitch.octaves', message: expect.stringContaining('127') },
     ])
+  })
+})
+
+describe('MG-14 relation selection', () => {
+  const relationEncounter = (
+    overrides: Partial<Parameters<typeof relationMatchesQuery>[0]> = {},
+  ) =>
+    ({
+      id: 'rel/1',
+      kind: 'conjunction',
+      relationId: 'relation-1',
+      timeSeconds: 1,
+      subjectIds: ['head-a', 'head-b'],
+      wheelId: 'wheel-1',
+      headId: 'head-a',
+      partnerWheelId: 'wheel-2',
+      partnerHeadId: 'head-b',
+      position: { x: 0, y: 0 },
+      direction: 'approaching',
+      strength: 0.8,
+      speed: 1,
+      measurement: {
+        timeSeconds: 1,
+        headAId: 'head-a',
+        headBId: 'head-b',
+        distance: 10,
+        angle: 0,
+        approachRate: -1,
+        rotationRate: 0,
+        radiusDifference: 0,
+        angularDifference: 0,
+        speedDifference: 0,
+        directionDifference: 0,
+      },
+      wheelPhase: 0,
+      absoluteBeat: 2,
+      barIndex: 0,
+      beatInBar: 2,
+      barPhase: 0.5,
+      ...overrides,
+    }) as Parameters<typeof relationMatchesQuery>[0]
+
+  const relationQuery = (
+    overrides: Partial<EncounterQuery> = {},
+  ): EncounterQuery => ({
+    kinds: ['conjunction'],
+    wheelIds: [],
+    headIds: [],
+    fieldIds: [],
+    boundaryIds: [],
+    directions: [],
+    minStrength: 0,
+    ...overrides,
+  })
+
+  it('matches when either side of the pair qualifies', () => {
+    const encounter = relationEncounter()
+
+    // Filtering on the A side.
+    expect(relationMatchesQuery(encounter, relationQuery({ headIds: ['head-a'] }))).toBe(
+      true,
+    )
+    // Filtering on the B side selects the same relation.
+    expect(relationMatchesQuery(encounter, relationQuery({ headIds: ['head-b'] }))).toBe(
+      true,
+    )
+    // A Head that takes no part in the pair does not match.
+    expect(relationMatchesQuery(encounter, relationQuery({ headIds: ['head-z'] }))).toBe(
+      false,
+    )
+    // The same rule applies to Wheels.
+    expect(
+      relationMatchesQuery(encounter, relationQuery({ wheelIds: ['wheel-2'] })),
+    ).toBe(true)
+  })
+
+  it('filters by relation id, kind, direction, and strength', () => {
+    const encounter = relationEncounter()
+
+    expect(
+      relationMatchesQuery(encounter, relationQuery({ relationIds: ['relation-1'] })),
+    ).toBe(true)
+    expect(
+      relationMatchesQuery(encounter, relationQuery({ relationIds: ['relation-9'] })),
+    ).toBe(false)
+    expect(
+      relationMatchesQuery(encounter, relationQuery({ kinds: ['opposition'] })),
+    ).toBe(false)
+    expect(
+      relationMatchesQuery(encounter, relationQuery({ directions: ['receding'] })),
+    ).toBe(false)
+    expect(relationMatchesQuery(encounter, relationQuery({ minStrength: 0.9 }))).toBe(
+      false,
+    )
+  })
+
+  it('selects nothing for a disabled Part', () => {
+    const encounter = relationEncounter()
+    const part = {
+      id: 'part-1',
+      name: 'Part',
+      enabled: false,
+      mute: false,
+      solo: false,
+      kind: 'note' as const,
+      encounterQuery: relationQuery(),
+      instrumentId: 'instrument-1',
+      onset: { kind: 'encounter-time' as const },
+      pitch: { kind: 'fixed-midi' as const, note: 60 },
+      velocity: { kind: 'constant' as const, value: 90 },
+      duration: { kind: 'fixed' as const, beats: 1 },
+    }
+
+    expect(selectPartRelations(part, [encounter])).toEqual([])
   })
 })

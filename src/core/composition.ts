@@ -303,6 +303,43 @@ export type EncounterQuery = {
   boundaryIds: Array<string>
   directions: Array<EncounterDirection>
   minStrength: number
+  /** Optional so MG-01 through MG-13 documents stay valid. */
+  relationIds?: Array<string>
+}
+
+export type RelationKind = Extract<
+  RelationEventKind,
+  | 'conjunction'
+  | 'closest-approach'
+  | 'radial-alignment'
+  | 'angular-alignment'
+  | 'opposition'
+  | 'direction-match'
+>
+
+/**
+ * Which Head pairs a detector watches, and how tightly. `threshold` is in the
+ * detector's own units: world distance for conjunction and radial-alignment,
+ * radians for angular-alignment, opposition, and direction-match. Unused by
+ * closest-approach, which reports true local minima instead of a crossing.
+ *
+ * `hysteresis` widens the release threshold so a pair hovering at the boundary
+ * does not chatter, and `minSeparationSeconds` debounces repeat fires.
+ *
+ * Pair order is canonical: subjects are sorted by Head id, so A is always the
+ * lexicographically smaller id. Symmetric measurements are unaffected by that
+ * choice; signed ones are documented in relations.ts.
+ */
+export type RelationSpec = {
+  id: string
+  name: string
+  enabled: boolean
+  kind: RelationKind
+  /** Empty watches every enabled Head; otherwise only these participate. */
+  headIds: Array<string>
+  threshold: number
+  hysteresis: number
+  minSeparationSeconds: number
 }
 
 export type OnsetMapping = {
@@ -463,6 +500,8 @@ export type Composition = {
   transport: TransportSpec
   wheels: Array<WheelSpec>
   fields: Array<FieldSpec>
+  /** Optional so MG-01 through MG-13 documents stay valid; absent means none. */
+  relations?: Array<RelationSpec>
   soundBanks: Array<SoundBankReference>
   instruments: Array<InstrumentSpec>
   parts: Array<PartSpec>

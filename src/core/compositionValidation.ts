@@ -68,6 +68,7 @@ class ValidationContext {
   readonly headIds = new Set<string>()
   readonly fieldIds = new Set<string>()
   readonly boundaryIds = new Set<string>()
+  readonly relationIds = new Set<string>()
   readonly soundBankIds = new Set<string>()
   readonly instrumentIds = new Set<string>()
 
@@ -257,6 +258,7 @@ export const validateComposition = (value: unknown): CompositionValidationResult
     'transport',
     'wheels',
     'fields',
+    'relations',
     'soundBanks',
     'instruments',
     'parts',
@@ -280,6 +282,15 @@ export const validateComposition = (value: unknown): CompositionValidationResult
   fields?.forEach((field, index) =>
     validateField(context, field, `$.fields[${index}]`),
   )
+
+  if (composition.relations !== undefined) {
+    const relations = context.array(composition, 'relations', '$.relations', {
+      max: 64,
+    })
+    relations?.forEach((relation, index) =>
+      validateRelation(context, relation, `$.relations[${index}]`),
+    )
+  }
 
   const soundBanks = context.array(
     composition,
@@ -1146,6 +1157,64 @@ const validatePart = (
   }
 }
 
+const relationKinds = [
+  'conjunction',
+  'closest-approach',
+  'radial-alignment',
+  'angular-alignment',
+  'opposition',
+  'direction-match',
+]
+
+const validateRelation = (
+  context: ValidationContext,
+  value: unknown,
+  path: string,
+) => {
+  const relation = context.object(value, path)
+  if (!relation) return
+
+  context.knownKeys(relation, path, [
+    'id',
+    'name',
+    'enabled',
+    'kind',
+    'headIds',
+    'threshold',
+    'hysteresis',
+    'minSeparationSeconds',
+  ])
+  context.id(relation, 'id', `${path}.id`, context.relationIds)
+  context.string(relation, 'name', `${path}.name`, {
+    nonEmpty: true,
+    maxLength: 200,
+  })
+  context.boolean(relation, 'enabled', `${path}.enabled`)
+  context.literal(relation, 'kind', `${path}.kind`, relationKinds)
+  validateReferenceArray(
+    context,
+    relation,
+    'headIds',
+    `${path}.headIds`,
+    context.headIds,
+    'Head',
+  )
+  context.number(relation, 'threshold', `${path}.threshold`, {
+    min: 0,
+    max: 100_000,
+  })
+  context.number(relation, 'hysteresis', `${path}.hysteresis`, {
+    min: 0,
+    max: 100_000,
+  })
+  context.number(
+    relation,
+    'minSeparationSeconds',
+    `${path}.minSeparationSeconds`,
+    { min: 0, max: 3_600 },
+  )
+}
+
 const validateEncounterQuery = (
   context: ValidationContext,
   value: unknown,
@@ -1163,7 +1232,18 @@ const validateEncounterQuery = (
     'boundaryIds',
     'directions',
     'minStrength',
+    'relationIds',
   ])
+  if (query.relationIds !== undefined) {
+    validateReferenceArray(
+      context,
+      query,
+      'relationIds',
+      `${path}.relationIds`,
+      context.relationIds,
+      'Relation',
+    )
+  }
   validateLiteralArray(
     context,
     query,
