@@ -14,11 +14,11 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 
 | Measure | Current value |
 | --- | --- |
-| Packets complete | 12 / 21 |
-| Packets active | 1 |
+| Packets complete | 13 / 21 |
+| Packets active | 0 |
 | Packets blocked | 0 |
-| Next ready packet | MG-13 is `in_review`; MG-14 and MG-15 are `ready` |
-| Active agents | Claude Opus 5 on MG-13 |
+| Next ready packet | MG-14 and MG-15 are `ready` |
+| Active agents | none |
 | Integration branch | `agent/music-generator-planning` |
 | Last tracker update | 2026-08-05 |
 
@@ -93,7 +93,7 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Claude Opus 5 | MG-13 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T22:22:00Z | 2026-08-05T23:52:00Z | Implementation and author validation complete. Browser check of the new Field overlays remains. |
+| — | — | — | — | — | — | — | No packet is claimed. MG-14 and MG-15 are ready. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -114,7 +114,7 @@ their history.
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `done` | — | 2026-08-05 | Integrated at `992a97e`; vault transaction ordering confirmed correct. |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `done` | — | 2026-08-05 | Integrated at `7685bb6`; two review defects fixed with regression tests before closure. |
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | `done` | — | 2026-08-05 | Integrated at `b00847a`; user confirmed the reference Composition working in a browser. |
-| MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | `in_review` | Claude Opus 5 | 2026-08-05 | Implementation validated at `27e0390`; browser check of the new Field overlays remains. |
+| MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | `done` | — | 2026-08-05 | Integrated at `27e0390` with panel-overflow fix `b37e574`; user confirmed the new Field overlays working in a browser. |
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | `ready` | — | 2026-08-05 | Dependencies are `done`; the packet is unblocked and unclaimed. |
 | MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | `ready` | — | 2026-08-05 | Dependencies are `done`; the packet is unblocked and unclaimed. |
 | MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | `waiting` | — | 2026-08-05 | Complete MG-07, MG-11, and MG-14. |
@@ -135,7 +135,7 @@ promote it from `waiting` to `ready` if all dependencies are complete.
 | First playable generator | MG-09 | New editor replaces the old model without losing basic JSON/MIDI/Strudel/SVG capabilities. | 1 / 1 — complete |
 | SoundFont instruments | MG-10–MG-11 | Local banks, presets, concurrent playback, and explicit missing-bank handling work. | 2 / 2 — complete |
 | Concurrent composition | MG-12 | Several Wheels with several Heads play, render, seek, loop, save, and reload together. | 1 / 1 — complete |
-| Relational composition depth | MG-13–MG-18 | Advanced Fields, relations, Trace encounters, tuning, variation, and Recording work. | 0 / 6 — MG-13, MG-14, MG-15 ready |
+| Relational composition depth | MG-13–MG-18 | Advanced Fields, relations, Trace encounters, tuning, variation, and Recording work. | 1 / 6 — MG-14 and MG-15 ready |
 | Portable outputs | MG-19–MG-20 | MIDI, Strudel, audio render, and bundles consume canonical events/Recordings. | 0 / 2 |
 | Release | MG-21 | Reference works, performance budgets, browser checks, and full workflow pass. | Waiting |
 
@@ -157,7 +157,7 @@ the final column rather than relying on a statement that it was checked.
 | MG-09 | `ff6af91` | 25 files, 179 tests pass | pass | pass | refreshed after code | Hermes: Wheel cycles 1→2 changed 13→17 events; Play advanced to 1.25s; no page errors; 1600x1000 capture at `/tmp/spirophonic-mg09-hermes.png` | Claude Opus 5 |
 | MG-10 | `992a97e` | 27 files, 190 tests pass | pass | pass; matched worklet SHA-256 | refreshed after code | Hermes Chromium 147 + Firefox 148: SF2/SF3, 287 presets, two pitched presets + drums overlap, missing/corrupt rejection, clean disposal; bank/worklet digests in ADR 0001 | Claude Opus 5 |
 | MG-11 | `7685bb6` | 31 files, 204 tests pass | pass | pass; matched worklet SHA-256 | 1,199 nodes / 2,353 edges | Hermes Chromium 147: local SF2/SF3 banks, 287 presets each, two assigned presets/26 events concurrently, reload, missing-digest isolation, exact-digest relink, and no final page errors; digests in handoff | Claude Opus 5 |
-| MG-13 | `27e0390` | 35 files, 258 tests pass | pass | pass | 1,298 nodes / 2,636 edges | **Not yet run** — no browser automation reachable from this session; the new Field overlays deserve a real-browser look | Pending |
+| MG-13 | `27e0390` | 35 files, 258 tests pass | pass | pass | 1,298 nodes / 2,636 edges | User confirmed the new Field overlays working in a browser on 2026-08-05, and reported the Fields panel action buttons overflowing the rail, fixed in `b37e574`. Not independently observed by the packet author. | Michael Rose |
 | MG-12 | `b00847a` | 34 files, 243 tests pass | pass | pass | 1,244 nodes / 2,512 edges | User ran the reference Composition in a browser on 2026-08-05 and confirmed it working. Not independently observed by the packet author. | Michael Rose |
 | MG-01–MG-11 | `3576320` | 31 files, 206 tests pass | pass | pass; matched worklet SHA-256 | 1,199 nodes / 2,353 edges | Cumulative integration review: two SoundFont defects found, fixed, and covered by regression tests that fail against `13ba9f5`. See [cumulative review](#2026-08-05-mg-01mg-11-cumulative-review). | Claude Opus 5 |
 
@@ -178,7 +178,7 @@ Validation rules:
 MG-01 through MG-12 are `done`; their records live in the Validation ledger,
 Activity log, and Handoff records below.
 
-No packet is claimed. MG-13, MG-14, and MG-15 are `ready` and unclaimed.
+No packet is claimed. MG-14 and MG-15 are `ready` and unclaimed.
 
 Keep one subsection here for every `claimed`, `in_progress`, `blocked`, or
 `in_review` packet, then move each finished record into the Activity log,
@@ -273,6 +273,8 @@ and releases. Do not log every edit.
 | 2026-08-05T20:32:00Z | Claude Opus 5 | MG-11 | Review fixes committed | `3576320` | Both defects fixed with regression tests that fail against `13ba9f5`. Full gates rerun on the integrated commit: 206 tests, lint, build with matched worklet SHA-256, `git diff --check`, and Graphify refresh. |
 | 2026-08-05T20:32:00Z | Claude Opus 5 | MG-01–MG-11 | Packets integrated and closed | `3576320` | All eleven packets are `done` in this tracker and the build plan Progress table. Claims cleared, milestone rollup refreshed, MG-12 promoted from `waiting` to `ready`. |
 | 2026-08-05T20:38:08Z | Claude Opus 5 | MG-12 | Packet claimed | `agent/music-generator-planning` / `7e97a5c` | Dependencies verified `done`; build-plan file list amended explicitly before any packet code changed. |
+| 2026-08-05T22:59:55Z | Claude Opus 5 | MG-13 | Packet closed | `27e0390`, `b37e574` | User confirmed the new Field overlays working in a browser and reported the Fields panel action buttons overflowing the rail, fixed in `b37e574`. Marked `done` in this tracker and the build plan. No packet depends on MG-13 alone, so nothing new unblocked; MG-14 and MG-15 stay `ready`. |
+| 2026-08-05T22:22:00Z | Claude Opus 5 | MG-13 | Packet claimed | `agent/music-generator-planning` / `1427aa4` | Dependencies verified `done`; build-plan file list amended explicitly before any packet code changed. |
 | 2026-08-05T22:20:50Z | Claude Opus 5 | MG-12 | Packet closed | `b00847a` | User confirmed the reference Composition working in a browser, closing the one gap in the MG-12 handoff. Marked `done` in this tracker and the build plan; MG-13, MG-14, and MG-15 promoted to `ready`. |
 | 2026-08-05T22:10:11Z | Claude Opus 5 | MG-12 | Author handoff | `b00847a` | Structural editing with cascade impact, Part solo/mute, the composition tree, selection-driven panels, and the four-Wheel reference Composition all pass 243 tests, lint, build, and Graphify. Browser/audio check on the reference Composition remains before `done`. |
 
