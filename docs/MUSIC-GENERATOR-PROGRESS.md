@@ -17,7 +17,7 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Packets complete | 0 / 21 |
 | Packets active | 5 |
 | Packets blocked | 0 |
-| Next ready packet | MG-05 active by user direction; MG-01–MG-04 integration remains pending |
+| Next ready packet | MG-05 integration review; MG-01–MG-04 integration also remains pending |
 | Active agents | Codex/root on MG-01 through MG-05 |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-05 |
@@ -97,7 +97,7 @@ While working:
 | Codex/root | MG-02 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:12:04Z | 2026-08-05T17:23:12Z | Implementation commit `0afa4e3`; integration review remains. |
 | Codex/root | MG-03 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:23:58Z | 2026-08-05T17:31:47Z | Implementation commit `a454b7c`; integration review remains. |
 | Codex/root | MG-04 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:36:24Z | 2026-08-05T17:42:34Z | Implementation commit `6960442`; integration review remains. |
-| Codex/root | MG-05 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:53:05Z | 2026-08-05T17:55:03Z | Author validation passes; implementation commit and exact-commit gates are next. |
+| Codex/root | MG-05 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:53:05Z | 2026-08-05T17:56:09Z | Implementation commit `68631b5`; integration review remains. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -110,7 +110,7 @@ their history.
 | MG-02 | Deterministic Transport and performance window | MG-01 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `0afa4e3` is validated; integration review remains. |
 | MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `a454b7c` is validated; integration review remains. |
 | MG-04 | Space projection and composition renderer | MG-03 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `6960442` is validated; integration review remains. |
-| MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `in_progress` | Codex/root | 2026-08-05 | Implement and validate stable Field authoring, shared geometry, and rendering. |
+| MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `68631b5` is validated; integration review remains. |
 | MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `waiting` | — | 2026-08-05 | Complete MG-02, MG-03, and MG-05. |
 | MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `waiting` | — | 2026-08-05 | Complete MG-01, MG-02, and MG-06. |
 | MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `waiting` | — | 2026-08-05 | Complete MG-02 and MG-07. |
@@ -154,6 +154,7 @@ the final column rather than relying on a statement that it was checked.
 | MG-02 | `0afa4e3` | 21 files, 217 tests pass | pass | pass | refreshed after code | Not required for pure time-core packet | Pending |
 | MG-03 | `a454b7c` | 24 files, 237 tests pass | pass | pass | refreshed after code | Not required for pure state-core packet | Pending |
 | MG-04 | `6960442` | 26 files, 249 tests pass | pass | pass | refreshed after code | Command/component tests; no route before MG-09 | Pending |
+| MG-05 | `68631b5` | 28 files, 267 tests pass | pass | pass | refreshed after code | Geometry, command, and component tests; no route before MG-09 | Pending |
 
 Validation rules:
 
@@ -256,21 +257,22 @@ Validation rules:
 
 ### MG-05 — Ring and spoke Fields
 
-- State: `in_progress`
+- State: `in_review`
 - Owner: Codex/root
 - Branch: `agent/music-generator-planning`
 - Cwd/worktree: `/home/mrose/spirophonic`
 - Contract: [MG-05 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-05--ring-and-spoke-fields)
 - Started UTC: 2026-08-05T17:53:05Z
-- Last updated UTC: 2026-08-05T17:55:03Z
-- Next action: commit the tested implementation and rerun the three gates at
-  that exact commit before moving MG-05 to `in_review`.
-- Commits/PRs: none yet
+- Last updated UTC: 2026-08-05T17:56:09Z
+- Next action: integrate the reviewed packet, rerun gates on the integrated
+  commit, and mark MG-05 `done` before releasing dependent packets.
+- Commits/PRs: `68631b5` — Implement MG-05 ring and spoke fields
 - Blockers: none
-- Validation evidence: 27 targeted Field/core/renderer/UI tests pass. Working-
-  tree validation passes: `npm test` (28 files, 267 tests), `npm run lint`, and
-  `npm run build`. `graphify update .` rebuilt the graph after the final code
-  change and confirms the FieldPanel-to-fields-to-renderer relationship.
+- Validation evidence: 27 targeted Field/core/renderer/UI tests pass. Exact
+  implementation commit `68631b5` passes `npm test` (28 files, 267 tests),
+  `npm run lint`, and `npm run build`. `graphify update .` rebuilt the graph
+  after the final code change and confirms the FieldPanel-to-fields-to-renderer
+  relationship.
 - Handoff: [2026-08-05 MG-05 author handoff](#2026-08-05-mg-05-author-handoff)
 - Dependency exception: the user explicitly directed MG-05 to begin after the
   committed MG-01, MG-03, and MG-04 packets while their integration review
@@ -346,6 +348,7 @@ and releases. Do not log every edit.
 | 2026-08-05T17:42:34Z | Codex/root | MG-04 | Implementation committed | `6960442` | Exact packet source passes 249 tests, lint, and build; integration review remains. |
 | 2026-08-05T17:53:05Z | Codex/root | MG-05 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement ring/spoke Field geometry, rendering, and authoring controls. |
 | 2026-08-05T17:55:03Z | Codex/root | MG-05 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-05 acceptance criteria and working-tree gates pass; packet commit is next. |
+| 2026-08-05T17:56:09Z | Codex/root | MG-05 | Implementation committed | `68631b5` | Exact packet source passes 267 tests, lint, and build; integration review remains. |
 
 ## Handoff records
 
