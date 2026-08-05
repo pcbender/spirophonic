@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 
 import type { Composition } from '../core/composition'
+import { referenceComposition } from '../core/defaultComposition'
 import type { CanonicalPerformance } from '../core/performance'
 import {
   downloadCompositionJson,
@@ -62,6 +63,14 @@ export function ImportExportPanel({
       </button>
       <button type="button" onClick={() => inputRef.current?.click()}>
         Import JSON
+      </button>
+      <button
+        type="button"
+        onClick={() =>
+          onImport(structuredClone(referenceComposition) as Composition)
+        }
+      >
+        Load reference
       </button>
       <button type="button" onClick={() => downloadPerformanceMidi(performance, composition)}>
         Export MIDI

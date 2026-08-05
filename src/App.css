@@ -705,3 +705,119 @@ h1 {
     flex-wrap: wrap;
   }
 }
+
+/* Composition tree (MG-12) */
+.composition-tree .tree-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.composition-tree .tree-list {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.composition-tree .tree-heads {
+  list-style: none;
+  margin: 0.1rem 0 0.35rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.composition-tree .tree-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  padding: 0.15rem 0.3rem;
+  border-radius: 4px;
+}
+
+.composition-tree .tree-row.is-selected {
+  background: rgba(111, 214, 194, 0.16);
+  outline: 1px solid rgba(111, 214, 194, 0.5);
+}
+
+.composition-tree .tree-row.is-disabled .tree-label {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+.composition-tree .tree-label {
+  flex: 1 1 auto;
+  text-align: left;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.1rem 0.2rem;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composition-tree .tree-label small {
+  opacity: 0.6;
+}
+
+.composition-tree .tree-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  flex: 0 0 auto;
+}
+
+.composition-tree .tree-actions button {
+  padding: 0.05rem 0.35rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.composition-tree .tree-actions button.is-active {
+  background: rgba(242, 184, 128, 0.35);
+  border-color: rgba(242, 184, 128, 0.8);
+}
+
+.composition-tree .tree-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+.composition-tree .removal-impact {
+  margin-top: 0.6rem;
+  padding: 0.5rem;
+  border: 1px solid rgba(242, 184, 128, 0.7);
+  border-radius: 6px;
+  background: rgba(242, 184, 128, 0.1);
+}
+
+.composition-tree .removal-impact h3 {
+  margin: 0 0 0.3rem;
+  font-size: 0.9rem;
+}
+
+.composition-tree .removal-impact ul {
+  margin: 0.2rem 0 0.5rem;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+}
+
+.panel-context {
+  margin: -0.3rem 0 0.4rem;
+  font-size: 0.78rem;
+  opacity: 0.65;
+}

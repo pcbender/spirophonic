@@ -16,6 +16,10 @@ import {
   parseCompositionJson,
 } from './export/compositionJson'
 import { CompositionCanvas } from './ui/CompositionCanvas'
+import {
+  CompositionTree,
+  type TreeSelection,
+} from './ui/CompositionTree'
 import { ControlPanel } from './ui/ControlPanel'
 import { FieldPanel } from './ui/FieldPanel'
 import { HeadPanel } from './ui/HeadPanel'
@@ -74,6 +78,10 @@ function App() {
     number | null
   >(null)
   const [runtimeError, setRuntimeError] = useState('')
+  const [selection, setSelection] = useState<TreeSelection>(() => ({
+    kind: 'wheel',
+    id: '',
+  }))
   const [audio] = useState<AudioRuntime>(() => {
     const store = new SoundBankStore()
     const router = new InstrumentRouter({ store })
@@ -96,6 +104,35 @@ function App() {
     () => compilePerformance(composition, request),
     [composition, request],
   )
+  /**
+   * Selection is resolved against the live Composition every render, so an
+   * import, an undo, or a cascading removal can never leave a panel pointing
+   * at an object that no longer exists.
+   */
+  const resolvedSelection = useMemo((): TreeSelection => {
+    const wheelExists = composition.wheels.some(
+      (wheel) => wheel.id === selection.id,
+    )
+    const headExists = composition.wheels.some((wheel) =>
+      wheel.heads.some((head) => head.id === selection.id),
+    )
+    const partExists = composition.parts.some((part) => part.id === selection.id)
+
+    if (selection.kind === 'wheel' && wheelExists) return selection
+    if (selection.kind === 'head' && headExists) return selection
+    if (selection.kind === 'part' && partExists) return selection
+    return { kind: 'wheel', id: composition.wheels[0]?.id ?? '' }
+  }, [composition, selection])
+  const selectedWheelId =
+    resolvedSelection.kind === 'wheel'
+      ? resolvedSelection.id
+      : resolvedSelection.kind === 'head'
+        ? composition.wheels.find((wheel) =>
+            wheel.heads.some((head) => head.id === resolvedSelection.id),
+          )?.id
+        : undefined
+  const selectedHeadId =
+    resolvedSelection.kind === 'head' ? resolvedSelection.id : undefined
   const requestEnd = request.startSeconds + request.durationSeconds
   const renderTime = Math.min(
     requestEnd,
@@ -323,8 +360,22 @@ function App() {
       <section className="workspace">
         <div className="rail rail-shape">
           <ControlPanel composition={composition} onChange={setComposition} />
-          <WheelPanel composition={composition} onChange={setComposition} />
-          <HeadPanel composition={composition} onChange={setComposition} />
+          <CompositionTree
+            composition={composition}
+            selection={resolvedSelection}
+            onSelect={setSelection}
+            onChange={setComposition}
+          />
+          <WheelPanel
+            composition={composition}
+            selectedWheelId={selectedWheelId}
+            onChange={setComposition}
+          />
+          <HeadPanel
+            composition={composition}
+            selectedHeadId={selectedHeadId}
+            onChange={setComposition}
+          />
         </div>
 
         <div className="canvas-stage">

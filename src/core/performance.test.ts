@@ -18,6 +18,8 @@ const notePart = (
   id,
   name: id,
   enabled: true,
+  mute: false,
+  solo: false,
   kind: 'note',
   encounterQuery: {
     kinds: ['boundary-crossing'],
@@ -120,6 +122,64 @@ describe('canonical performance compilation', () => {
     expect(
       second.interpretedEvents.some((event) => event.partId === 'part-ignored'),
     ).toBe(false)
+  })
+
+  it('mutes and solos Parts without touching Encounters or Part configuration', () => {
+    const base = ellipseComposition()
+    base.parts = [
+      notePart('part-low', 'instrument-1', 48),
+      notePart('part-high', 'instrument-2', 72),
+    ]
+    const full = compilePerformance(base, request)
+
+    const muted = structuredClone(base)
+    muted.parts[1].mute = true
+    const mutedPerformance = compilePerformance(muted, request)
+
+    // Geometry is untouched and the surviving Part keeps its exact events.
+    expect(mutedPerformance.encounters).toEqual(full.encounters)
+    expect(
+      mutedPerformance.interpretedEvents.map((event) => event.partId),
+    ).toEqual(
+      full.interpretedEvents
+        .filter((event) => event.partId === 'part-low')
+        .map((event) => event.partId),
+    )
+    expect(mutedPerformance.interpretedEvents).toEqual(
+      full.interpretedEvents.filter((event) => event.partId === 'part-low'),
+    )
+    // The muted Part keeps every setting it had.
+    expect(muted.parts[1]).toMatchObject({
+      ...base.parts[1],
+      mute: true,
+    })
+
+    // Solo wins over an unmuted sibling.
+    const soloed = structuredClone(base)
+    soloed.parts[1].solo = true
+    const soloPerformance = compilePerformance(soloed, request)
+
+    expect(soloPerformance.encounters).toEqual(full.encounters)
+    expect(soloPerformance.interpretedEvents).toEqual(
+      full.interpretedEvents.filter((event) => event.partId === 'part-high'),
+    )
+
+    // Solo also overrides that same Part being muted.
+    const soloedAndMuted = structuredClone(soloed)
+    soloedAndMuted.parts[1].mute = true
+
+    expect(compilePerformance(soloedAndMuted, request).interpretedEvents).toEqual(
+      soloPerformance.interpretedEvents,
+    )
+
+    // A disabled Part cannot solo the mix into silence.
+    const disabledSolo = structuredClone(base)
+    disabledSolo.parts[1].enabled = false
+    disabledSolo.parts[1].solo = true
+
+    expect(compilePerformance(disabledSolo, request).interpretedEvents).toEqual(
+      full.interpretedEvents.filter((event) => event.partId === 'part-low'),
+    )
   })
 
   it('quantizes absolute Transport beats in a mid-performance window', () => {

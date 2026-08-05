@@ -7,6 +7,8 @@ import type {
 
 export type WheelPanelProps = {
   composition: Composition
+  /** Which Wheel the tree has selected. Falls back to the first Wheel. */
+  selectedWheelId?: string
   onChange: (composition: Composition) => void
 }
 
@@ -18,15 +20,21 @@ const motionKinds: Array<MotionSpec['kind']> = [
   'harmonograph',
 ]
 
-export function WheelPanel({ composition, onChange }: WheelPanelProps) {
-  const wheel = composition.wheels[0]
+export function WheelPanel({
+  composition,
+  selectedWheelId,
+  onChange,
+}: WheelPanelProps) {
+  const wheel =
+    composition.wheels.find((item) => item.id === selectedWheelId) ??
+    composition.wheels[0]
   if (!wheel) return null
 
   const commit = (next: WheelSpec) =>
     onChange({
       ...composition,
-      wheels: composition.wheels.map((item, index) =>
-        index === 0 ? next : item,
+      wheels: composition.wheels.map((item) =>
+        item.id === wheel.id ? next : item,
       ),
     })
   const patch = (next: Partial<WheelSpec>) => commit({ ...wheel, ...next })
@@ -43,7 +51,7 @@ export function WheelPanel({ composition, onChange }: WheelPanelProps) {
 
   return (
     <section className="control-panel" aria-label="Wheel controls">
-      <h2>Wheel</h2>
+      <h2>Wheel — {wheel.name}</h2>
       <label className="field">
         <span>Name</span>
         <input

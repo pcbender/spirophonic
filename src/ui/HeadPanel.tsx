@@ -2,23 +2,34 @@ import type { Composition, HeadAttachmentSpec, HeadSpec } from '../core/composit
 
 export type HeadPanelProps = {
   composition: Composition
+  /** Which Head the tree has selected. Falls back to the first Head. */
+  selectedHeadId?: string
   onChange: (composition: Composition) => void
 }
 
-export function HeadPanel({ composition, onChange }: HeadPanelProps) {
-  const wheel = composition.wheels[0]
-  const head = wheel?.heads[0]
+export function HeadPanel({
+  composition,
+  selectedHeadId,
+  onChange,
+}: HeadPanelProps) {
+  const located = composition.wheels.flatMap((candidate) =>
+    candidate.heads.map((item) => ({ wheel: candidate, head: item })),
+  )
+  const selected =
+    located.find((entry) => entry.head.id === selectedHeadId) ?? located[0]
+  const wheel = selected?.wheel
+  const head = selected?.head
   if (!wheel || !head) return null
 
   const commit = (next: HeadSpec) =>
     onChange({
       ...composition,
-      wheels: composition.wheels.map((candidate, wheelIndex) =>
-        wheelIndex === 0
+      wheels: composition.wheels.map((candidate) =>
+        candidate.id === wheel.id
           ? {
               ...candidate,
-              heads: candidate.heads.map((item, headIndex) =>
-                headIndex === 0 ? next : item,
+              heads: candidate.heads.map((item) =>
+                item.id === head.id ? next : item,
               ),
             }
           : candidate,
@@ -33,7 +44,8 @@ export function HeadPanel({ composition, onChange }: HeadPanelProps) {
 
   return (
     <section className="control-panel" aria-label="Head controls">
-      <h2>Head and Trace</h2>
+      <h2>Head and Trace — {head.name}</h2>
+      <p className="panel-context">on {wheel.name}</p>
       <label className="field">
         <span>Name</span>
         <input aria-label="Head name" value={head.name} onChange={(event) => patch({ name: event.currentTarget.value })} />

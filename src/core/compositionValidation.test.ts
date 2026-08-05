@@ -39,6 +39,8 @@ const notePart: NotePartSpec = {
   id: 'part-1',
   name: 'Ring Notes',
   enabled: true,
+  mute: false,
+  solo: false,
   kind: 'note',
   encounterQuery: {
     kinds: ['boundary-crossing'],
@@ -188,6 +190,8 @@ describe('Composition validation', () => {
       id: 'part-1',
       name: 'Pan Control',
       enabled: true,
+      mute: false,
+      solo: false,
       kind: 'control',
       encounterQuery: {
         kinds: ['angular-alignment'],
@@ -291,6 +295,38 @@ describe('Composition validation', () => {
     expect(issueAt(noInstruments, '$.instruments')?.message).toContain(
       'at least 1 item',
     )
+  })
+
+  it('requires Part mute and solo as booleans distinct from enabled', () => {
+    const connected = (part: NotePartSpec) => {
+      const composition = cloneDefault()
+      composition.fields.push(ringField)
+      composition.parts.push(part)
+      return composition
+    }
+
+    const missing = connected(notePart)
+    const raw = missing.parts[0] as unknown as Record<string, unknown>
+    delete raw.mute
+
+    expect(issueAt(missing, '$.parts[0].mute')?.message).toContain('boolean')
+
+    const wrongType = connected({
+      ...notePart,
+      solo: 'yes' as unknown as boolean,
+    })
+
+    expect(issueAt(wrongType, '$.parts[0].solo')?.message).toContain('boolean')
+
+    // enabled, mute, and solo are independent; no combination is a schema error.
+    const allSet = connected({
+      ...notePart,
+      enabled: true,
+      mute: true,
+      solo: true,
+    })
+
+    expect(validateComposition(allSet).ok).toBe(true)
   })
 
   it('rejects non-finite numbers and unknown root properties', () => {

@@ -55,6 +55,8 @@ const part = (overrides: Partial<NotePartSpec> = {}): NotePartSpec => ({
   id: 'part-1',
   name: 'Part 1',
   enabled: true,
+  mute: false,
+  solo: false,
   kind: 'note',
   encounterQuery: query(),
   instrumentId: 'instrument-1',

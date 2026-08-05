@@ -265,10 +265,18 @@ export type QuantizeSpec = {
   strength: number
 }
 
+/**
+ * `enabled` is authoring intent: a disabled Part is inert and its events are
+ * never compiled. `mute` and `solo` are performance intent layered on top, so
+ * silencing a Part while auditioning another never edits its configuration.
+ * When any enabled Part solos, only soloed Parts sound.
+ */
 export type PartBase = {
   id: string
   name: string
   enabled: boolean
+  mute: boolean
+  solo: boolean
   encounterQuery: EncounterQuery
   instrumentId: string
 }

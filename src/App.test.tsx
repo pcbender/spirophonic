@@ -246,3 +246,113 @@ describe('MG-09 playable Composition app', () => {
     expect(alerts.some((alert) => alert.textContent?.includes('IndexedDB'))).toBe(true)
   })
 })
+
+describe('MG-12 concurrent multi-Wheel authoring', () => {
+  it('drives the panels from the tree selection rather than the first object', () => {
+    render(<App />)
+
+    // A second Wheel with its own Head, selected through the tree.
+    fireEvent.click(screen.getByRole('button', { name: 'Add Wheel' }))
+    const wheelRows = screen.getAllByRole('button', { name: /^Wheel \d/ })
+    expect(wheelRows.length).toBeGreaterThanOrEqual(2)
+
+    fireEvent.click(wheelRows[1])
+
+    // The Wheel panel now edits the selected Wheel, and editing its name
+    // leaves the first Wheel untouched.
+    const nameField = screen.getByLabelText('Wheel name') as HTMLInputElement
+    fireEvent.change(nameField, { target: { value: 'Second Wheel' } })
+
+    expect(screen.getByText('Second Wheel')).toBeInTheDocument()
+    expect(screen.getByText('Wheel 1')).toBeInTheDocument()
+  })
+
+  it('loads the reference Composition and plays it through four Instruments', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Load reference' }))
+
+    // Four Wheels, three Heads each, are all present in the tree.
+    for (let wheelIndex = 1; wheelIndex <= 4; wheelIndex += 1) {
+      expect(screen.getByText(`Wheel ${wheelIndex}`)).toBeInTheDocument()
+      for (let headIndex = 1; headIndex <= 3; headIndex += 1) {
+        expect(
+          screen.getByRole('button', {
+            name: `Remove Wheel ${wheelIndex} W${wheelIndex} Head ${headIndex}`,
+          }),
+        ).toBeInTheDocument()
+      }
+    }
+
+    // The canonical performance behind the UI uses all four Instruments.
+    const composition = parseCompositionJson(
+      localStorage.getItem('spirophonic.composition.v1') ?? '',
+    )
+    expect(composition.ok).toBe(true)
+    if (!composition.ok) return
+    const performance = compilePerformance(
+      composition.composition,
+      performanceRequestFor(composition.composition),
+    )
+    const instrumentIds = new Set(
+      performance.performedEvents.map((event) => event.instrumentId),
+    )
+    expect(instrumentIds.size).toBe(4)
+    expect(
+      performance.diagnostics.filter((item) => item.severity === 'error'),
+    ).toEqual([])
+  })
+
+  it('survives a cascading Wheel removal without leaving the panels dangling', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Load reference' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Wheel 3' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Remove Wheel 3' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Remove anyway' }))
+
+    // The removed Wheel is gone and the app still renders a valid selection.
+    expect(screen.queryByText('Wheel 3')).not.toBeInTheDocument()
+    expect(screen.getByLabelText('Wheel name')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'Spirophonic' })).toBeInTheDocument()
+
+    const saved = parseCompositionJson(
+      localStorage.getItem('spirophonic.composition.v1') ?? '',
+    )
+    expect(saved.ok).toBe(true)
+  })
+
+  it('silences a soloed mix without losing the muted Parts configuration', () => {
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: 'Load reference' }))
+
+    const before = parseCompositionJson(
+      localStorage.getItem('spirophonic.composition.v1') ?? '',
+    )
+    expect(before.ok).toBe(true)
+    if (!before.ok) return
+
+    fireEvent.click(screen.getByRole('button', { name: 'Solo Ring Lead' }))
+
+    const after = parseCompositionJson(
+      localStorage.getItem('spirophonic.composition.v1') ?? '',
+    )
+    expect(after.ok).toBe(true)
+    if (!after.ok) return
+
+    // Only the solo flag moved; every other Part setting is identical.
+    expect(after.composition.parts).toEqual(
+      before.composition.parts.map((part) =>
+        part.id === 'part-lead' ? { ...part, solo: true } : part,
+      ),
+    )
+
+    const performance = compilePerformance(
+      after.composition,
+      performanceRequestFor(after.composition),
+    )
+    expect(
+      new Set(performance.performedEvents.map((event) => event.partId)),
+    ).toEqual(new Set(['part-lead']))
+  })
+})

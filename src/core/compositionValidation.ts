@@ -946,6 +946,8 @@ const validatePart = (
     'id',
     'name',
     'enabled',
+    'mute',
+    'solo',
     'kind',
     'encounterQuery',
     'instrumentId',
@@ -954,6 +956,8 @@ const validatePart = (
   context.id(part, 'id', `${path}.id`)
   context.string(part, 'name', `${path}.name`, { nonEmpty: true, maxLength: 200 })
   context.boolean(part, 'enabled', `${path}.enabled`)
+  context.boolean(part, 'mute', `${path}.mute`)
+  context.boolean(part, 'solo', `${path}.solo`)
   validateEncounterQuery(context, part.encounterQuery, `${path}.encounterQuery`)
   const instrumentId = context.string(part, 'instrumentId', `${path}.instrumentId`, {
     nonEmpty: true,

@@ -1,16 +1,16 @@
 # Graph Report - spirophonic  (2026-08-05)
 
 ## Corpus Check
-- 94 files · ~73,692 words
+- 99 files · ~79,755 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1199 nodes · 2353 edges · 64 communities (59 shown, 5 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.8)
+- 1244 nodes · 2512 edges · 63 communities (59 shown, 4 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `13ba9f5a`
+- Built from commit: `7e97a5cc`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -75,10 +75,9 @@
 - [[_COMMUNITY_Community 60|Community 60]]
 - [[_COMMUNITY_Community 61|Community 61]]
 - [[_COMMUNITY_Community 62|Community 62]]
-- [[_COMMUNITY_Community 63|Community 63]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `Composition` - 41 edges
+1. `Composition` - 46 edges
 2. `Spirophonic Music Generator Build Plan` - 35 edges
 3. `Spirophonic Domain Model` - 30 edges
 4. `PerformanceScheduler` - 29 edges
@@ -87,9 +86,11 @@
 7. `InstrumentSpec` - 21 edges
 8. `InstrumentRouter` - 20 edges
 9. `Sound, Rhythm, and MIDI Design` - 20 edges
-10. `SoundBankReference` - 18 edges
+10. `validateComposition()` - 19 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `durationForCandidate()` --calls--> `secondsToBeats()`  [EXTRACTED]
+  src/core/performance.ts → src/core/transport.ts
 - `midiNoteFor()` --calls--> `frequencyToMidi()`  [EXTRACTED]
   src/export/midiExport.ts → src/core/scales.ts
 - `performanceRequestFor()` --calls--> `beatsToSeconds()`  [EXTRACTED]
@@ -98,13 +99,11 @@
   src/App.tsx → src/core/transport.ts
 - `App()` --calls--> `compilePerformance()`  [EXTRACTED]
   src/App.tsx → src/core/performance.ts
-- `InstrumentRouter` --references--> `InstrumentEngine`  [EXTRACTED]
-  src/audio/instrumentRouter.ts → src/audio/instrumentEngine.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (64 total, 5 thin omitted)
+## Communities (63 total, 4 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.22
@@ -116,7 +115,7 @@ Nodes (29): 1. Relationship first, 2. Pure core, 3. Renderers are replaceable, 4
 
 ### Community 2 - "Community 2"
 Cohesion: 0.11
-Nodes (19): BoundaryEncounterDirection, BoundaryEncounterPath, boundaryEncountersForPath(), boundaryNormal(), compareBoundaryEncounters(), compareText(), compileBoundaryEncounters(), EncounterDiagnostic (+11 more)
+Nodes (42): addHead(), addWheel(), allCompositionIds(), clampIndex(), CompositionObjectKind, CompositionReference, duplicateHead(), duplicateWheel() (+34 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.11
@@ -124,7 +123,7 @@ Nodes (18): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, jsx
 
 ### Community 4 - "Community 4"
 Cohesion: 0.07
-Nodes (45): SpokeFieldSpec, TracePresentationSpec, findHead(), HeadState, headStateAt(), downloadCompositionSvg(), escapeXml(), exportCompositionToSvg() (+37 more)
+Nodes (44): SpokeFieldSpec, TracePresentationSpec, BoundaryCrossingEncounter, HeadState, downloadCompositionSvg(), escapeXml(), exportCompositionToSvg(), fileStem() (+36 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.11
@@ -135,12 +134,12 @@ Cohesion: 0.05
 Nodes (39): dependencies, react, react-dom, spessasynth_lib, devDependencies, eslint, @eslint/js, eslint-plugin-react-hooks (+31 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.15
-Nodes (30): CycleRate, LoopSpec, TransportSpec, durationForCandidate(), barPhaseAtBeat(), barsToBeats(), beatsToBars(), beatUnits (+22 more)
+Cohesion: 0.06
+Nodes (61): CycleRate, HeadSpec, Point2, TransportSpec, WheelSpec, BoundaryEncounterDirection, BoundaryEncounterPath, boundaryEncountersForPath() (+53 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.11
-Nodes (27): buildPerformanceMidi(), downloadPerformanceMidi(), fileStem(), melodicChannel(), midiNoteFor(), nativeDrumMidiNotes, PerformanceMidiOptions, trackForPart() (+19 more)
+Nodes (28): buildPerformanceMidi(), buildPerformanceMidiTracks(), downloadPerformanceMidi(), fileStem(), melodicChannel(), midiNoteFor(), nativeDrumMidiNotes, PerformanceMidiOptions (+20 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.22
@@ -211,8 +210,8 @@ Cohesion: 0.29
 Nodes (7): Acceptance Criteria, CP-011 - Testing Pass for v0.1, Execution Guidance for CP, Goal, Scope, Spirophonic POC Initial WBS and CP Packets, WBS Overview
 
 ### Community 32 - "Community 32"
-Cohesion: 0.06
-Nodes (32): asError(), cloneBytes(), isArrayBufferValue(), readBytes(), requestResult(), sha256Hex(), SoundBankImport, SoundBankImportResult (+24 more)
+Cohesion: 0.12
+Nodes (18): asError(), cloneBytes(), isArrayBufferValue(), readBytes(), requestResult(), sha256Hex(), SoundBankImportResult, SoundBankStore (+10 more)
 
 ### Community 33 - "Community 33"
 Cohesion: 0.05
@@ -223,12 +222,12 @@ Cohesion: 0.15
 Nodes (41): attachmentKinds, CompositionValidationResult, encounterDirections, isComposition(), JsonObject, motionKinds, relationEventKinds, scaleNames (+33 more)
 
 ### Community 35 - "Community 35"
-Cohesion: 0.16
-Nodes (20): FieldSpec, addBoundary(), addField(), allFieldIds(), BoundarySegmentCrossing, BoundarySpec, fieldAt(), nextBoundaryId() (+12 more)
+Cohesion: 0.06
+Nodes (55): BoundaryBase, FieldSpec, RingBoundarySpec, RingFieldSpec, SpokeBoundarySpec, assertPathPoint(), crossingLiesOnBoundary(), crossingRefinementDefaults (+47 more)
 
 ### Community 36 - "Community 36"
-Cohesion: 0.09
-Nodes (21): BoundaryBase, ControlPartSpec, DurationMapping, HarmonographHeadAttachment, HarmonographMotionSpec, InstrumentBase, LissajousHeadAttachment, LissajousMotionSpec (+13 more)
+Cohesion: 0.07
+Nodes (25): CompositionVersion, ControlPartSpec, DurationMapping, HarmonographHeadAttachment, HarmonographMotionSpec, InstrumentBase, LissajousHeadAttachment, LissajousMotionSpec (+17 more)
 
 ### Community 37 - "Community 37"
 Cohesion: 0.06
@@ -239,28 +238,28 @@ Cohesion: 0.07
 Nodes (26): Boundary, Composition, Conceptual Structure, Core Idea, Crossing, Defining Statement, Determinism, Encounter (+18 more)
 
 ### Community 39 - "Community 39"
-Cohesion: 0.05
-Nodes (39): 2026-08-05 MG-01 author handoff, 2026-08-05 MG-02 author handoff, 2026-08-05 MG-03 author handoff, 2026-08-05 MG-04 author handoff, 2026-08-05 MG-05 author handoff, 2026-08-05 MG-06 author handoff, 2026-08-05 MG-07 author handoff, 2026-08-05 MG-08 author handoff (+31 more)
+Cohesion: 0.07
+Nodes (29): 2026-08-05 MG-01 author handoff, 2026-08-05 MG-01–MG-11 cumulative review, 2026-08-05 MG-02 author handoff, 2026-08-05 MG-03 author handoff, 2026-08-05 MG-04 author handoff, 2026-08-05 MG-05 author handoff, 2026-08-05 MG-06 author handoff, 2026-08-05 MG-07 author handoff (+21 more)
 
 ### Community 40 - "Community 40"
-Cohesion: 0.15
-Nodes (19): assertPathPoint(), crossingLiesOnBoundary(), crossingRefinementDefaults, CrossingRefinementOptions, CrossingScanDiagnostic, CrossingScanResult, freezePoint(), normalizeOptions() (+11 more)
+Cohesion: 0.13
+Nodes (20): HeadAttachmentSpec, MotionSpec, harmonographPointAtTheta(), HarmonographPointParameters, lissajousPointAtTheta(), rosePointAtTheta(), superformulaPointAtTheta(), assertMatchingFamily() (+12 more)
 
 ### Community 41 - "Community 41"
-Cohesion: 0.16
-Nodes (15): MappedPitch, compareEvents(), compareText(), compilePerformance(), emptyPerformance(), freezeRequest(), interpretNotePart(), NoteCandidate (+7 more)
+Cohesion: 0.13
+Nodes (18): MappedPitch, audiblePartIds(), compareEvents(), compareText(), compilePerformance(), durationForCandidate(), emptyPerformance(), freezeRequest() (+10 more)
 
 ### Community 42 - "Community 42"
-Cohesion: 0.05
-Nodes (47): PlaybackStatus, HeadAttachmentSpec, MeterSpec, MotionSpec, CompositionValidationIssue, harmonographPointAtTheta(), HarmonographPointParameters, lissajousPointAtTheta() (+39 more)
+Cohesion: 0.10
+Nodes (24): PlaybackStatus, Composition, CompositionValidationIssue, referenceHead(), referenceWheel(), traceColors, CompositionJsonErrorCode, CompositionJsonImportResult (+16 more)
 
 ### Community 43 - "Community 43"
 Cohesion: 0.05
 Nodes (21): InstrumentEngine, FakeEngine, NativeSynthEngine, compareEvents(), compareText(), EventOccurrence, indexInstruments(), PendingPerformance (+13 more)
 
 ### Community 44 - "Community 44"
-Cohesion: 0.31
-Nodes (9): assertFinitePoint(), assertMatchingBoundary(), BoundaryGeometry, boundarySignedDistance(), freezePoint(), interpolatePoint(), ringSignedDistance(), segmentBoundaryCrossing() (+1 more)
+Cohesion: 0.10
+Nodes (15): SoundBankImport, StoredSoundBankMetadata, SoundFontPreset, auditionNotes, BankCardProps, BankView, noteNames, SoundBankPanel() (+7 more)
 
 ### Community 45 - "Community 45"
 Cohesion: 0.09
@@ -275,8 +274,8 @@ Cohesion: 0.22
 Nodes (9): Closure is not a bar, Encounter is not a note, Field is not musical meaning, Important Distinctions, Part is not Instrument, Recording is not merely export, Variation is not nondeterminism, Wheel is not necessarily closed (+1 more)
 
 ### Community 48 - "Community 48"
-Cohesion: 0.21
-Nodes (12): HeadSpec, Point2, WheelSpec, headStatesAt(), LocatedHead, positionAt(), normalizeCycleRate(), positiveFiniteOr() (+4 more)
+Cohesion: 0.17
+Nodes (16): EncounterQuery, NotePartSpec, PartSpec, SpaceSpec, encounterMatchesQuery(), encounterSpatialSource(), encounterSpatialUnit(), includesOrAny() (+8 more)
 
 ### Community 49 - "Community 49"
 Cohesion: 0.29
@@ -291,28 +290,28 @@ Cohesion: 0.67
 Nodes (3): Recording, Reinterpretation, Replay
 
 ### Community 52 - "Community 52"
-Cohesion: 0.23
-Nodes (3): Composition, CompositionVersion, request
+Cohesion: 0.25
+Nodes (5): EncounterDirection, directions, NumberFieldProps, PartPanel(), PartPanelProps
 
 ### Community 53 - "Community 53"
-Cohesion: 0.05
-Nodes (34): DrumShape, envelope(), fallback, nativeVoiceNotes, noiseBuffer(), playDrum(), playNativeDrum(), scheduledVoice() (+26 more)
+Cohesion: 0.06
+Nodes (33): DrumShape, envelope(), fallback, nativeVoiceNotes, noiseBuffer(), playDrum(), playNativeDrum(), scheduledVoice() (+25 more)
 
 ### Community 54 - "Community 54"
-Cohesion: 0.07
-Nodes (46): EncounterDirection, EncounterQuery, NotePartSpec, PartSpec, PitchMapping, ScaleName, SpaceSpec, BoundaryCrossingEncounter (+38 more)
+Cohesion: 0.17
+Nodes (23): ScaleName, mapEncounterPitch(), scalePitch(), frequencyToMidi(), fromScaleDegree(), midiToFrequency(), midiToName(), noteNames (+15 more)
 
 ### Community 55 - "Community 55"
 Cohesion: 0.22
 Nodes (8): ADR 0001: Browser SoundFont engine, Decision, Failure behavior and known limits, Fallback plan, Licensing and redistribution checklist, Probe method, Results, Why this engine
 
 ### Community 56 - "Community 56"
-Cohesion: 0.12
-Nodes (6): soundFontBankNumber(), SoundFontSynthesizer, FakeSynth, instrument(), presets, RecordedCall
+Cohesion: 0.09
+Nodes (7): soundFontBankNumber(), SoundFontSynthesizer, FakeContext, FakeSynth, instrument(), presets, RecordedCall
 
 ### Community 57 - "Community 57"
 Cohesion: 0.16
-Nodes (8): emptyPreparation, InstrumentRouterOptions, SoundFontRouteEngine, FakeSoundFontEngine, native, SoundFontPreparation, SoundFontPreset, SoundFontInstrumentSpec
+Nodes (7): emptyPreparation, InstrumentRouterOptions, SoundFontRouteEngine, FakeSoundFontEngine, native, SoundFontPreparation, SoundFontInstrumentSpec
 
 ### Community 58 - "Community 58"
 Cohesion: 0.33
@@ -327,28 +326,28 @@ Cohesion: 0.39
 Nodes (7): QuantizeSpec, VelocityMapping, quantizedCandidates(), clampUnit(), clampVelocity(), mapStrengthToVelocity(), quantizeAbsoluteBeat()
 
 ### Community 62 - "Community 62"
-Cohesion: 0.50
-Nodes (4): RingFieldSpec, FieldPanel(), withoutFields(), withRings()
+Cohesion: 0.40
+Nodes (3): HeadPanel(), HeadPanelProps, NumberFieldProps
 
 ## Knowledge Gaps
-- **499 isolated node(s):** `name`, `private`, `version`, `type`, `sync:soundfont-worklet` (+494 more)
+- **495 isolated node(s):** `name`, `private`, `version`, `type`, `sync:soundfont-worklet` (+490 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Composition` connect `Community 52` to `Community 32`, `Community 34`, `Community 35`, `Community 2`, `Community 36`, `Community 4`, `Community 8`, `Community 41`, `Community 42`, `Community 48`, `Community 53`, `Community 54`, `Community 62`?**
-  _High betweenness centrality (0.035) - this node is a cross-community bridge._
-- **Why does `PerformanceScheduler` connect `Community 43` to `Community 42`?**
-  _High betweenness centrality (0.030) - this node is a cross-community bridge._
+- **Why does `Composition` connect `Community 42` to `Community 32`, `Community 2`, `Community 34`, `Community 36`, `Community 35`, `Community 4`, `Community 7`, `Community 8`, `Community 41`, `Community 40`, `Community 44`, `Community 52`, `Community 53`, `Community 54`, `Community 62`?**
+  _High betweenness centrality (0.044) - this node is a cross-community bridge._
 - **Why does `SoundFontEngine` connect `Community 46` to `Community 32`, `Community 43`, `Community 56`, `Community 57`, `Community 60`?**
   _High betweenness centrality (0.029) - this node is a cross-community bridge._
+- **Why does `PerformanceScheduler` connect `Community 43` to `Community 42`?**
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _499 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _495 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.06666666666666667 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.11384615384615385 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1096938775510204 - nodes in this community are weakly interconnected._
 - **Should `Community 3` be split into smaller, more focused modules?**
   _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._

@@ -43,6 +43,8 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
         id: `part-${index}`,
         name: `Part ${index}`,
         enabled: true,
+        mute: false,
+        solo: false,
         kind: 'note',
         encounterQuery: {
           kinds: ['boundary-crossing'],

@@ -83,6 +83,22 @@ type NoteCandidate = Readonly<{
 const compareText = (left: string, right: string) =>
   left < right ? -1 : left > right ? 1 : 0
 
+/**
+ * Performance intent, layered over authoring intent. A disabled Part is inert
+ * and cannot solo. Among enabled Parts, any solo restricts the mix to soloed
+ * Parts; otherwise every unmuted Part sounds. This only selects which Parts
+ * compile — it never rewrites geometry or Part configuration.
+ */
+export const audiblePartIds = (
+  composition: Composition,
+): ReadonlySet<string> => {
+  const enabled = composition.parts.filter((part) => part.enabled)
+  const soloed = enabled.filter((part) => part.solo)
+  const audible = soloed.length > 0 ? soloed : enabled.filter((part) => !part.mute)
+
+  return new Set(audible.map((part) => part.id))
+}
+
 const eventId = (partId: string, encounterId: string) =>
   ['musical-event', partId, encounterId].map(encodeURIComponent).join('/')
 
@@ -354,12 +370,13 @@ export const compilePerformance = (
   )
 
   const events: Array<NoteMusicalEvent> = []
+  const audible = audiblePartIds(composition)
   const parts = composition.parts
     .map((part, partIndex) => ({ part, partIndex }))
     .sort((left, right) => compareText(left.part.id, right.part.id))
 
   for (const { part, partIndex } of parts) {
-    if (!part.enabled) continue
+    if (!audible.has(part.id)) continue
 
     const rangeIssues = validatePartMusicalRange(
       part,

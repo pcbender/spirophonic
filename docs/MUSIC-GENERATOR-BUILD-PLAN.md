@@ -726,15 +726,28 @@ real-browser missing-digest transaction path.
 **Goal:** Scale the proven slice to the core product requirement: several
 Wheels, each with several simultaneous shapes.
 
-**Files:** `src/core/performance.ts`, `src/core/wheels.ts`,
+**Files:** `src/core/composition.ts`, `src/core/compositionValidation.ts`,
+`src/core/compositionEdits.ts`, `src/core/defaultComposition.ts`,
+`src/core/performance.ts`, `src/core/wheels.ts`,
 `src/render/compositionRenderer.ts`, `src/audio/performanceScheduler.ts`,
 `src/ui/CompositionTree.tsx`, `src/ui/WheelPanel.tsx`,
 `src/ui/HeadPanel.tsx`, `src/ui/PartPanel.tsx`, `src/App.tsx`,
+`src/core/compositionValidation.test.ts`, `src/core/compositionEdits.test.ts`,
+`src/core/defaultComposition.test.ts`,
 `src/core/performance.test.ts`, `src/core/wheels.test.ts`,
 `src/render/compositionRenderer.test.ts`,
 `src/audio/performanceScheduler.test.ts`,
 `src/ui/CompositionTree.test.tsx`, `src/ui/WheelPanel.test.tsx`,
 `src/ui/HeadPanel.test.tsx`, `src/ui/PartPanel.test.tsx`, `src/App.test.tsx`
+
+**Scope note (2026-08-05):** the original file list could not satisfy its own
+deliverables. Solo/mute for Parts is a Composition-level distinction from
+`enabled`, so `PartSpec` and its validation are in scope. The structural
+add/duplicate/remove/reorder/enable operations and their reference-integrity
+reporting belong in a pure `src/core/compositionEdits.ts` rather than in
+`wheels.ts`, which owns Wheel state derivation. The reference Composition ships
+beside the default in `src/core/defaultComposition.ts` so the simple starting
+Composition stays the first-run experience.
 
 **Deliverables:**
 
