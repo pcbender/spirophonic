@@ -15,10 +15,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 0 / 21 |
-| Packets active | 6 |
+| Packets active | 7 |
 | Packets blocked | 0 |
-| Next ready packet | MG-06 integration review; MG-01–MG-05 integration also remains pending |
-| Active agents | Codex/root on MG-01 through MG-06 |
+| Next ready packet | MG-07 active by user direction; MG-01–MG-06 integration remains pending |
+| Active agents | Codex/root on MG-01 through MG-07 |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-05 |
 
@@ -99,6 +99,7 @@ While working:
 | Codex/root | MG-04 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:36:24Z | 2026-08-05T17:42:34Z | Implementation commit `6960442`; integration review remains. |
 | Codex/root | MG-05 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:53:05Z | 2026-08-05T17:56:09Z | Implementation commit `68631b5`; integration review remains. |
 | Codex/root | MG-06 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:59:01Z | 2026-08-05T18:09:08Z | Implementation commit `7baa1a7`; integration review remains. |
+| Codex/root | MG-07 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:11:29Z | 2026-08-05T18:20:40Z | Author validation passes; implementation commit and exact-commit gates are next. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -113,7 +114,7 @@ their history.
 | MG-04 | Space projection and composition renderer | MG-03 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `6960442` is validated; integration review remains. |
 | MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `68631b5` is validated; integration review remains. |
 | MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `7baa1a7` is validated; integration review remains. |
-| MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `waiting` | — | 2026-08-05 | Complete MG-01, MG-02, and MG-06. |
+| MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `in_progress` | Codex/root | 2026-08-05 | Implement and validate Part queries, musical mappings, and deterministic performance layers. |
 | MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `waiting` | — | 2026-08-05 | Complete MG-02 and MG-07. |
 | MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `waiting` | — | 2026-08-05 | Complete the foundation packets. |
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `waiting` | — | 2026-08-05 | Complete MG-01 and MG-08. |
@@ -303,6 +304,29 @@ Validation rules:
   committed MG-02, MG-03, and MG-05 packets while their integration review
   remains pending. MG-06 consumes those exact committed contracts.
 
+### MG-07 — Parts and canonical performance compiler
+
+- State: `in_progress`
+- Owner: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Contract: [MG-07 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-07--parts-and-canonical-performance-compiler)
+- Started UTC: 2026-08-05T18:11:29Z
+- Last updated UTC: 2026-08-05T18:20:40Z
+- Next action: commit the tested implementation and rerun the three gates at
+  that exact commit before moving MG-07 to `in_review`.
+- Commits/PRs: none yet
+- Blockers: none
+- Validation evidence: 50 targeted Part/performance/rhythm/scale tests pass.
+  Working-tree validation passes: `npm test` (32 files, 298 tests),
+  `npm run lint`, and `npm run build`. `graphify update .` rebuilt the graph
+  after the final code change and confirms the compiler consumes shared
+  Encounters, Composition validation, beat quantization, and pitch mappings.
+- Handoff: [2026-08-05 MG-07 author handoff](#2026-08-05-mg-07-author-handoff)
+- Dependency exception: the user explicitly directed MG-07 to begin after the
+  committed MG-01, MG-02, and MG-06 packets while their integration review
+  remains pending. MG-07 consumes those exact committed contracts.
+
 This is the initial ready-packet record. Once work begins, keep one subsection
 for every `claimed`, `in_progress`, `blocked`, or `in_review` packet. Move each
 finished record into the Activity log, Validation ledger, and Handoff records.
@@ -377,6 +401,8 @@ and releases. Do not log every edit.
 | 2026-08-05T17:59:01Z | Codex/root | MG-06 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement deterministic boundary-crossing Encounters. |
 | 2026-08-05T18:07:52Z | Codex/root | MG-06 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-06 acceptance criteria and working-tree gates pass; packet commit is next. |
 | 2026-08-05T18:09:08Z | Codex/root | MG-06 | Implementation committed | `7baa1a7` | Exact packet source passes 281 tests, lint, and build; integration review remains. |
+| 2026-08-05T18:11:29Z | Codex/root | MG-07 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement canonical Part interpretation and performance layers. |
+| 2026-08-05T18:20:40Z | Codex/root | MG-07 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-07 acceptance criteria and working-tree gates pass; packet commit is next. |
 
 ## Handoff records
 
@@ -594,6 +620,44 @@ and releases. Do not log every edit.
   MG-06 claim; only packet files, coordination metadata, and generated Graphify
   output changed.
 - Next exact action: commit MG-06, rerun all gates against the exact commit,
+  then move it to `in_review`, add the SHA to the Validation ledger, and push
+  the branch.
+
+### 2026-08-05 MG-07 author handoff
+
+- Packet: MG-07 — Parts and canonical performance compiler
+- State: `in_progress`; implementation and author validation are complete, but
+  the packet does not yet have an exact commit for `in_review` evidence.
+- Agent: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Started/last updated UTC:
+  2026-08-05T18:11:29Z / 2026-08-05T18:20:40Z
+- Commits: none
+- Edited files: `src/core/parts.ts`, `src/core/parts.test.ts`,
+  `src/core/performance.ts`, `src/core/performance.test.ts`,
+  `src/core/rhythm.ts`, `src/core/rhythm.test.ts`, `src/core/scales.ts`,
+  `src/core/scales.test.ts`, and this tracker. `graphify update .` also
+  refreshed tracked generated files.
+- Acceptance criteria complete: two Parts can map one Encounter to distinct
+  Instruments and pitches; a non-matching Part leaves the shared Encounter and
+  existing event identities unchanged; quantization uses absolute Transport
+  beats in mid-performance windows; repeated compilation is deep-equal; and
+  adding an unrelated Part does not alter existing event IDs or values.
+- Acceptance criteria remaining: none at working-tree level.
+- Validation run and exact results: 50 targeted Part/performance/rhythm/scale
+  tests pass; `npm test` passed 32 test files and 298 tests; `npm run lint`
+  passed; `npm run build` passed; `graphify update .` completed after the final
+  code change.
+- Manual/browser/audio evidence: not required for this pure core packet. The
+  current web app remains unchanged; the first generator UI cutover is MG-09.
+- Blockers or risks: none. Control Parts produce an explicit deferred warning
+  until MG-14; rest and probability remain deterministic placeholders
+  (`false` and `1`) until later performance variation packets.
+- Unrelated user/agent changes preserved: the worktree was clean before the
+  MG-07 claim; only packet files, coordination metadata, and generated Graphify
+  output changed.
+- Next exact action: commit MG-07, rerun all gates against the exact commit,
   then move it to `in_review`, add the SHA to the Validation ledger, and push
   the branch.
 

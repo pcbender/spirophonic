@@ -1,5 +1,6 @@
 import type { CurveEvent } from './events'
 import { wrapCycle } from './events'
+import type { QuantizeSpec, VelocityMapping } from './composition'
 import type { QuantizeOptions, VelocityOptions } from './model'
 
 export type { QuantizeOptions, VelocityOptions }
@@ -59,6 +60,41 @@ export const shapeRhythm = (
   options: { quantize: QuantizeOptions; velocity: VelocityOptions },
 ): Array<ShapedEvent> =>
   applyVelocity(quantizeEvents(events, options.quantize), options.velocity)
+
+/** Pulls an absolute Transport beat toward an absolute beat grid. */
+export const quantizeAbsoluteBeat = (
+  absoluteBeat: number,
+  options: QuantizeSpec,
+) => {
+  if (!Number.isFinite(absoluteBeat)) {
+    throw new RangeError('absoluteBeat must be finite.')
+  }
+  if (!Number.isFinite(options.gridBeats) || options.gridBeats <= 0) {
+    throw new RangeError('gridBeats must be finite and positive.')
+  }
+
+  const strength = clampUnit(options.strength)
+  const snapped =
+    Math.round(absoluteBeat / options.gridBeats) * options.gridBeats
+
+  return absoluteBeat + (snapped - absoluteBeat) * strength
+}
+
+/** Adapter from the new Encounter strength contract to MIDI velocity. */
+export const mapStrengthToVelocity = (
+  strength: number,
+  mapping: VelocityMapping,
+) => {
+  if (mapping.kind === 'constant') return clampVelocity(mapping.value)
+
+  const low = clampVelocity(Math.min(mapping.min, mapping.max))
+  const high = clampVelocity(Math.max(mapping.min, mapping.max))
+  const gamma = mapping.gamma > 0 ? mapping.gamma : 1
+
+  return clampVelocity(
+    Math.round(low + (high - low) * clampUnit(strength) ** gamma),
+  )
+}
 
 /**
  * One grid step holds one hit, and the loudest wins it. This runs at every

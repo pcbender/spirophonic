@@ -7,6 +7,8 @@ import {
   midiToName,
   quantizeFrequency,
   quantizeToScale,
+  scaleMidiForDegree,
+  scaleMidiForUnitValue,
   scaleIntervals,
   scaleNames,
   toScaleDegree,
@@ -104,6 +106,19 @@ describe('scale degrees', () => {
         expect(toScaleDegree(note, scale, 60)).toBe(degree)
       }
     }
+  })
+
+  it('adapts stable Boundary degrees into a declared octave range', () => {
+    expect(scaleMidiForDegree(0, 'major', 60, 1)).toBe(60)
+    expect(scaleMidiForDegree(6, 'major', 60, 1)).toBe(71)
+    expect(scaleMidiForDegree(7, 'major', 60, 1)).toBe(60)
+    expect(scaleMidiForDegree(12, 'pentatonic-minor', 48, 0)).toBe(48)
+  })
+
+  it('maps normalized relationship values across scale degrees', () => {
+    expect(scaleMidiForUnitValue(0, 'pentatonic-major', 60, 1)).toBe(60)
+    expect(scaleMidiForUnitValue(0.5, 'pentatonic-major', 60, 1)).toBe(64)
+    expect(scaleMidiForUnitValue(1, 'pentatonic-major', 60, 1)).toBe(69)
   })
 })
 
