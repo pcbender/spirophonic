@@ -1,14 +1,23 @@
 import { describe, expect, it } from 'vitest'
-import { defaultModel } from '../core/defaultModel'
-import { generateSpiroPoints } from '../core/trochoid'
-import { exportTraceToSvg } from './svgExport'
 
-describe('SVG export', () => {
-  it('exports an SVG path for the trace', () => {
-    const svg = exportTraceToSvg(defaultModel, generateSpiroPoints(defaultModel))
+import type { Composition } from '../core/composition'
+import { defaultComposition } from '../core/defaultComposition'
+import { exportCompositionToSvg } from './svgExport'
 
-    expect(svg).toContain('<svg')
-    expect(svg).toContain('<path d="M')
-    expect(svg).toContain(defaultModel.name)
+describe('Composition SVG export', () => {
+  it('renders the same v1 scene plan deterministically', () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    const observation = {
+      startSeconds: 0,
+      endSeconds: 2,
+      sampleRateHz: 120,
+    }
+    const svg = exportCompositionToSvg(composition, observation)
+
+    expect(svg).toBe(exportCompositionToSvg(composition, observation))
+    expect(svg).toContain('<title>Simple Ring Crossing</title>')
+    expect(svg).toContain('data-head-id="head-1"')
+    expect(svg).toContain('data-boundary-id="ring-inner"')
+    expect(svg).toContain('data-boundary-id="spoke-east"')
   })
 })

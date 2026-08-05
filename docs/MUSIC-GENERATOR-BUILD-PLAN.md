@@ -609,7 +609,15 @@ remove the old model from the running app.
 `src/export/midiExport.ts`, `src/export/midiExport.test.ts`,
 `src/export/strudelExport.ts`, `src/export/strudelExport.test.ts`,
 `src/export/agreement.test.ts`, `src/export/svgExport.ts`,
-`src/export/svgExport.test.ts`
+`src/export/svgExport.test.ts`, `src/App.css`,
+`src/ui/CompositionCanvas.test.tsx`, `src/core/rhythm.ts`,
+`src/core/rhythm.test.ts`, `src/core/curves.ts`, `src/core/curves.test.ts`,
+`src/core/trochoid.ts`, `src/core/trochoid.test.ts`,
+`src/audio/toneSynth.ts`, `src/core/composition.test.ts`, and
+`src/core/compositionValidation.test.ts`. The final group
+is the explicit transitive cutover surface: shared v1 code currently imports
+legacy model/event types from those files, so they must be narrowed rather
+than leaving a hidden retired dependency in production.
 
 **Deliverables:**
 

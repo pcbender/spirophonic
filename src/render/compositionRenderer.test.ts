@@ -24,6 +24,8 @@ const observation: ObservationInterval = {
 
 const compositionWithTwoHeads = (): Composition => {
   const composition: Composition = structuredClone(defaultComposition)
+  composition.fields = []
+  composition.parts = []
   const first = composition.wheels[0].heads[0]
   const second: HeadSpec = {
     ...structuredClone(first),

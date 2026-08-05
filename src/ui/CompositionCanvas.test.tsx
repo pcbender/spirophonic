@@ -2,6 +2,7 @@ import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { Composition } from '../core/composition'
+import type { BoundaryCrossingEncounter } from '../core/encounters'
 import { defaultComposition } from '../core/defaultComposition'
 import { CompositionCanvas } from './CompositionCanvas'
 
@@ -63,9 +64,11 @@ describe('CompositionCanvas', () => {
   })
 
   it('exposes full Trace, Head marker, and debug-ID switches', () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    composition.fields = []
     const { container } = render(
       <CompositionCanvas
-        composition={structuredClone(defaultComposition) as Composition}
+        composition={composition}
         timeSeconds={1}
         observation={observation}
         traceMode="full"
@@ -112,5 +115,25 @@ describe('CompositionCanvas', () => {
       '1.5',
     )
     expect(context.clearRect.mock.calls.length).toBeGreaterThan(callsBeforeSeek)
+  })
+
+  it('draws recent Encounter positions as an overlay', () => {
+    const encounter = {
+      position: { x: 20, y: 10 },
+    } as BoundaryCrossingEncounter
+    const { container } = render(
+      <CompositionCanvas
+        composition={structuredClone(defaultComposition) as Composition}
+        timeSeconds={1}
+        observation={observation}
+        recentEncounters={[encounter]}
+      />,
+    )
+
+    expect(container.querySelector('figure')).toHaveAttribute(
+      'data-recent-encounters',
+      '1',
+    )
+    expect(context.fillStyle).toBe('#f2c14e')
   })
 })

@@ -21,6 +21,18 @@ export type CompositionJsonImportResult =
 export const exportCompositionToJson = (composition: Composition) =>
   JSON.stringify(composition, null, 2)
 
+export const downloadCompositionJson = (composition: Composition) => {
+  const blob = new Blob([exportCompositionToJson(composition)], {
+    type: 'application/json',
+  })
+  const url = URL.createObjectURL(blob)
+  const anchor = document.createElement('a')
+  anchor.href = url
+  anchor.download = `${fileStem(composition.name)}.spirophonic.json`
+  anchor.click()
+  URL.revokeObjectURL(url)
+}
+
 export const parseCompositionJson = (
   json: string,
 ): CompositionJsonImportResult => {
@@ -62,3 +74,7 @@ export const parseCompositionJson = (
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
+
+const fileStem = (value: string) =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') ||
+  'composition'

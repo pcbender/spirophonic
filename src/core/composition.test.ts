@@ -4,12 +4,19 @@ import { compositionVersion } from './composition'
 import { defaultComposition } from './defaultComposition'
 
 describe('the v1 Composition model', () => {
-  it('starts with the minimal relationship-first object graph', () => {
+  it('starts with one complete playable relationship', () => {
     expect(defaultComposition.version).toBe(compositionVersion)
     expect(defaultComposition.wheels).toHaveLength(1)
     expect(defaultComposition.wheels[0].heads).toHaveLength(1)
-    expect(defaultComposition.fields).toEqual([])
-    expect(defaultComposition.parts).toEqual([])
+    expect(defaultComposition.fields.map((field) => field.kind)).toEqual([
+      'rings',
+      'spokes',
+    ])
+    expect(defaultComposition.parts).toHaveLength(1)
+    expect(defaultComposition.parts[0]).toMatchObject({
+      kind: 'note',
+      instrumentId: 'instrument-1',
+    })
     expect(defaultComposition.instruments).toHaveLength(1)
     expect(defaultComposition.instruments[0].kind).toBe('native-synth')
   })

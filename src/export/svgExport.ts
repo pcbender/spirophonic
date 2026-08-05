@@ -1,71 +1,77 @@
-import type { SpirophonicModel } from '../core/model'
-import type { SpiroPoint } from '../core/trochoid'
+import type { Composition } from '../core/composition'
+import {
+  buildCompositionDrawCommands,
+  buildCompositionScene,
+  fitSpaceProjection,
+  sceneSpacePoints,
+  type CompositionDrawCommand,
+  type ObservationInterval,
+} from '../render/compositionRenderer'
 
 const size = 1024
 const padding = 48
 
-export const exportTraceToSvg = (
-  model: SpirophonicModel,
-  points: Array<SpiroPoint>,
+export const exportCompositionToSvg = (
+  composition: Composition,
+  observation: ObservationInterval,
 ) => {
-  const transformed = transformPoints(points)
-  const path = transformed
-    .map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`)
-    .join(' ')
+  const scene = buildCompositionScene(
+    composition,
+    observation.endSeconds,
+    observation,
+    { traceMode: 'full' },
+  )
+  const projection = fitSpaceProjection(
+    composition.space,
+    sceneSpacePoints(scene),
+    { width: size, height: size, padding },
+  )
+  const commands = buildCompositionDrawCommands(scene, projection, {
+    showBoundaryLabels: true,
+    showHeads: true,
+    showTraces: true,
+    headRadiusPixels: 6,
+  })
 
   return [
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img">',
-    `  <title>${escapeXml(model.name)}</title>`,
-    '  <rect width="1024" height="1024" fill="#101014"/>',
-    `  <path d="${path}" fill="none" stroke="hsl(194 96% 63%)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `  <title>${escapeXml(composition.name)}</title>`,
+    ...commands.map(svgForCommand),
     '</svg>',
   ].join('\n')
 }
 
-export const downloadTraceSvg = (
-  model: SpirophonicModel,
-  points: Array<SpiroPoint>,
+export const downloadCompositionSvg = (
+  composition: Composition,
+  observation: ObservationInterval,
 ) => {
-  const blob = new Blob([exportTraceToSvg(model, points)], {
+  const blob = new Blob([exportCompositionToSvg(composition, observation)], {
     type: 'image/svg+xml',
   })
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')
-
   anchor.href = url
-  anchor.download = `${model.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.svg`
+  anchor.download = `${fileStem(composition.name)}.svg`
   anchor.click()
   URL.revokeObjectURL(url)
 }
 
-const transformPoints = (points: Array<SpiroPoint>) => {
-  const bounds = points.reduce(
-    (currentBounds, point) => ({
-      minX: Math.min(currentBounds.minX, point.x),
-      maxX: Math.max(currentBounds.maxX, point.x),
-      minY: Math.min(currentBounds.minY, point.y),
-      maxY: Math.max(currentBounds.maxY, point.y),
-    }),
-    {
-      minX: Number.POSITIVE_INFINITY,
-      maxX: Number.NEGATIVE_INFINITY,
-      minY: Number.POSITIVE_INFINITY,
-      maxY: Number.NEGATIVE_INFINITY,
-    },
-  )
-  const traceWidth = Math.max(1, bounds.maxX - bounds.minX)
-  const traceHeight = Math.max(1, bounds.maxY - bounds.minY)
-  const scale = Math.min(
-    (size - padding * 2) / traceWidth,
-    (size - padding * 2) / traceHeight,
-  )
-  const centerX = (bounds.minX + bounds.maxX) / 2
-  const centerY = (bounds.minY + bounds.maxY) / 2
-
-  return points.map((point) => ({
-    x: round((point.x - centerX) * scale + size / 2),
-    y: round((point.y - centerY) * scale * -1 + size / 2),
-  }))
+const svgForCommand = (command: CompositionDrawCommand) => {
+  switch (command.kind) {
+    case 'clear':
+      return `  <rect width="${round(command.width)}" height="${round(command.height)}" fill="${escapeXml(command.color)}"/>`
+    case 'ring-boundary':
+      return `  <circle data-boundary-id="${escapeXml(command.boundaryId)}" cx="${round(command.center.x)}" cy="${round(command.center.y)}" r="${round(command.radius)}" fill="none" stroke="${escapeXml(command.color)}" stroke-width="${round(command.lineWidth)}"/>`
+    case 'spoke-boundary':
+      return `  <line data-boundary-id="${escapeXml(command.boundaryId)}" x1="${round(command.from.x)}" y1="${round(command.from.y)}" x2="${round(command.to.x)}" y2="${round(command.to.y)}" stroke="${escapeXml(command.color)}" stroke-width="${round(command.lineWidth)}"/>`
+    case 'trace':
+      return `  <polyline data-head-id="${escapeXml(command.headId)}" points="${command.points.map((point) => `${round(point.x)},${round(point.y)}`).join(' ')}" fill="none" stroke="${escapeXml(command.color)}" stroke-width="${round(command.lineWidth)}" opacity="${round(command.opacity)}" stroke-linecap="round" stroke-linejoin="round"/>`
+    case 'head':
+      return `  <circle data-head-id="${escapeXml(command.headId)}" cx="${round(command.position.x)}" cy="${round(command.position.y)}" r="${round(command.radius)}" fill="${escapeXml(command.color)}" opacity="${round(command.opacity)}"/>`
+    case 'boundary-label':
+    case 'label':
+      return `  <text x="${round(command.position.x)}" y="${round(command.position.y)}" fill="${escapeXml(command.color)}">${escapeXml(command.text)}</text>`
+  }
 }
 
 const round = (value: number) => Number(value.toFixed(2))
@@ -76,3 +82,7 @@ const escapeXml = (value: string) =>
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
+
+const fileStem = (value: string) =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') ||
+  'spirophonic'

@@ -121,7 +121,6 @@ h1 {
   height: 100%;
 }
 
-/* MG-04's absolute-state renderer remains side-by-side until the MG-09 cutover. */
 .composition-canvas-shell {
   width: 100%;
   height: 100%;
@@ -172,6 +171,12 @@ h1 {
   min-width: 60px;
 }
 
+.transport > input[type='range'] {
+  flex: 1 1 120px;
+  min-width: 80px;
+  accent-color: #42cafd;
+}
+
 .sound-toggle {
   display: inline-flex;
   align-items: center;
@@ -220,6 +225,7 @@ h1 {
 .import-export {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
   min-width: 0;
 }
@@ -344,6 +350,26 @@ h1 {
   min-width: 0;
 }
 
+.field input[type='text'],
+.field input[type='number'],
+.field input:not([type]),
+.voice-row input:not([type]),
+.voice-row input[type='text'] {
+  min-height: 32px;
+  border: 1px solid rgba(246, 244, 239, 0.2);
+  border-radius: 6px;
+  padding: 5px 8px;
+  color: #f6f4ef;
+  background: #18181f;
+}
+
+.field input[type='color'] {
+  min-height: 34px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
 .field input[type='range'] {
   accent-color: #42cafd;
 }
@@ -421,6 +447,24 @@ h1 {
   accent-color: #42cafd;
 }
 
+.voice-row button,
+.control-panel > button {
+  min-height: 30px;
+  border: 1px solid rgba(246, 244, 239, 0.22);
+  border-radius: 6px;
+  padding: 4px 9px;
+  color: #f6f4ef;
+  background: #18181f;
+  cursor: pointer;
+}
+
+.control-panel p,
+.control-panel li {
+  color: #d8d3ca;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
 /* Name and count share one line above the controls. */
 .voice-row .voice-head {
   display: flex;
@@ -429,6 +473,12 @@ h1 {
   gap: 12px;
   grid-column: 1 / -1;
   min-width: 0;
+}
+
+/* Nested boundary lists and row-level actions belong to the whole parent row. */
+.voice-row > .voice-list,
+.voice-row > .panel-actions {
+  grid-column: 1 / -1;
 }
 
 .voice-row .voice-enable {

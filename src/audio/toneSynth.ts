@@ -1,19 +1,10 @@
-import { midiToFrequency } from '../core/scales'
 import type {
   EnvelopeSpec,
   NativeSynthInstrumentSpec,
 } from '../core/composition'
-import type { Waveform } from '../core/model'
 import type { ScheduledAudioVoice } from './instrumentEngine'
 
 type NativeWaveform = NativeSynthInstrumentSpec['waveform']
-
-const defaultEnvelope: EnvelopeSpec = {
-  attackSeconds: 0.08,
-  decaySeconds: 0,
-  sustain: 1,
-  releaseSeconds: 0.5,
-}
 
 const stopSource = (source: OscillatorNode, atSeconds: number) => {
   try {
@@ -79,34 +70,4 @@ export const playSynthTone = (
       stopSource(oscillator, atSeconds + 0.01)
     },
   })
-}
-
-/**
- * A pitched note as one oscillator through a soft envelope. Held notes get a
- * long enough release to overlap when a voice asks for it, so a gate above 1
- * sounds like the chord the MIDI file writes.
- */
-export const playTone = (
-  context: AudioContext,
-  destination: AudioNode,
-  note: number,
-  at: number,
-  duration: number,
-  level: number,
-  waveform: Waveform,
-) => {
-  return playSynthTone(
-    context,
-    destination,
-    midiToFrequency(note),
-    at,
-    duration,
-    level * 0.28,
-    waveform,
-    {
-      ...defaultEnvelope,
-      attackSeconds: Math.min(0.08, duration * 0.35),
-      releaseSeconds: Math.min(0.5, Math.max(0.08, duration * 0.6)),
-    },
-  )
 }

@@ -1,141 +1,154 @@
-import { noteLengths } from '../core/rhythm'
-import { getEffectiveCyclesPerSecond } from '../core/time'
-import type { VoiceNote } from '../core/voices'
+import type { Composition, InstrumentSpec } from '../core/composition'
+import type { CanonicalPerformance, NoteMusicalEvent } from '../core/performance'
+import { frequencyToMidi } from '../core/scales'
+import { secondsToBeats } from '../core/transport'
 import { buildMidiFile, type MidiNote, type MidiTrack } from './midi/smf'
 
-/** GM percussion lives on channel 10, which is index 9 on the wire. */
+/** General MIDI percussion is channel 10, represented as zero-based index 9. */
 export const percussionChannel = 9
 
-export const gmPercussion = {
-  'acoustic-bass-drum': 35,
-  'bass-drum': 36,
-  'side-stick': 37,
-  'acoustic-snare': 38,
-  'hand-clap': 39,
-  'electric-snare': 40,
-  'low-floor-tom': 41,
-  'closed-hi-hat': 42,
-  'high-floor-tom': 43,
-  'pedal-hi-hat': 44,
-  'low-tom': 45,
-  'open-hi-hat': 46,
-  'low-mid-tom': 47,
-  'hi-mid-tom': 48,
-  'crash-cymbal': 49,
-  'high-tom': 50,
-  'ride-cymbal': 51,
-  'ride-bell': 53,
-  tambourine: 54,
-  cowbell: 56,
-  cabasa: 69,
-  claves: 75,
+export const nativeDrumMidiNotes = {
+  kick: 36,
+  snare: 38,
+  hat: 42,
+  tom: 45,
+  clap: 39,
+  cymbal: 49,
 } as const
 
-export type PercussionName = keyof typeof gmPercussion
-
-export type MidiVoiceInput = {
-  name: string
-  channel: number
-  notes: Array<VoiceNote>
-  /** General MIDI program, selected once at the top of the track. */
-  program?: number
-  /** Grid steps in one bar, which sets how long a step is. */
-  steps: number
-  /** Note length as a multiple of one step. Above 1, notes overlap. */
-  gate: number
-}
-
-export type MidiExportOptions = {
-  cyclesPerSecond: number
-  beatsPerBar?: number
-  bars?: number
+export type PerformanceMidiOptions = Readonly<{
   ticksPerQuarter?: number
   name?: string
+}>
+
+const melodicChannel = (index: number) => {
+  const channel = index % 15
+  return channel >= percussionChannel ? channel + 1 : channel
 }
 
-export const defaultMidiExportOptions = {
-  beatsPerBar: 4,
-  bars: 4,
-  ticksPerQuarter: 480,
-}
+const midiNoteFor = (
+  event: NoteMusicalEvent,
+  instrument: InstrumentSpec,
+) =>
+  instrument.kind === 'native-drum'
+    ? nativeDrumMidiNotes[instrument.voice]
+    : Math.round(event.midiNote ?? frequencyToMidi(event.frequencyHz))
 
-/**
- * One closed curve is one bar, so the cycle rate sets the tempo directly:
- * a bar lasts 1 / cps seconds and holds beatsPerBar beats.
- */
-export const midiTempo = (
-  cyclesPerSecond: number,
-  beatsPerBar = defaultMidiExportOptions.beatsPerBar,
-) => {
-  const cycles = getEffectiveCyclesPerSecond(cyclesPerSecond)
-  const beats = Math.max(1, Math.round(beatsPerBar))
-  const beatsPerMinute = 60 * cycles * beats
+const trackForPart = (
+  partId: string,
+  partName: string,
+  instrument: InstrumentSpec,
+  events: ReadonlyArray<NoteMusicalEvent>,
+  startBeat: number,
+  ticksPerQuarter: number,
+  partIndex: number,
+): MidiTrack => {
+  const channel =
+    instrument.kind === 'native-drum' ||
+    (instrument.kind === 'soundfont' && instrument.percussion)
+      ? percussionChannel
+      : melodicChannel(partIndex)
+  const notes: Array<MidiNote> = events
+    .filter((event) => event.partId === partId)
+    .map((event) => ({
+      tick: Math.max(
+        0,
+        Math.round((event.absoluteBeat - startBeat) * ticksPerQuarter),
+      ),
+      channel,
+      note: midiNoteFor(event, instrument),
+      velocity: event.velocity,
+      duration: Math.max(1, Math.round(event.durationBeats * ticksPerQuarter)),
+    }))
 
   return {
-    beatsPerMinute,
-    microsecondsPerBeat: 60_000_000 / beatsPerMinute,
+    name: partName,
+    channel,
+    ...(instrument.kind === 'soundfont' && !instrument.percussion
+      ? { program: instrument.program }
+      : {}),
+    notes,
   }
 }
 
-export const buildMidiBytes = (
-  voices: Array<MidiVoiceInput>,
-  options: MidiExportOptions,
-): Uint8Array => {
-  const beatsPerBar = Math.max(1, Math.round(options.beatsPerBar ?? defaultMidiExportOptions.beatsPerBar))
-  const bars = Math.max(1, Math.round(options.bars ?? defaultMidiExportOptions.bars))
+/** Initial SMF adapter over the exact canonical events heard by the scheduler. */
+export const buildPerformanceMidi = (
+  performance: CanonicalPerformance,
+  composition: Composition,
+  options: PerformanceMidiOptions = {},
+) => {
   const ticksPerQuarter = Math.max(
     1,
-    Math.round(options.ticksPerQuarter ?? defaultMidiExportOptions.ticksPerQuarter),
+    Math.round(options.ticksPerQuarter ?? 480),
   )
-  const ticksPerBar = beatsPerBar * ticksPerQuarter
-  const { microsecondsPerBeat } = midiTempo(options.cyclesPerSecond, beatsPerBar)
-
-  const tracks: Array<MidiTrack> = voices.map((voice) => ({
-    name: voice.name,
-    channel: voice.channel,
-    program: voice.program,
-    notes: repeatBars(voice, bars, ticksPerBar),
-  }))
+  const tracks = buildPerformanceMidiTracks(
+    performance,
+    composition,
+    ticksPerQuarter,
+  )
 
   return buildMidiFile({
     ticksPerQuarter,
-    microsecondsPerBeat,
-    timeSignature: { numerator: beatsPerBar, denominator: 4 },
+    microsecondsPerBeat: 60_000_000 / composition.transport.tempoBpm,
+    timeSignature: {
+      numerator: composition.transport.meter.beatsPerBar,
+      denominator: composition.transport.meter.beatUnit,
+    },
     tracks,
-    name: options.name,
+    name: options.name ?? composition.name,
   })
 }
 
-const repeatBars = (
-  voice: MidiVoiceInput,
-  bars: number,
-  ticksPerBar: number,
-): Array<MidiNote> => {
-  const lengths = noteLengths(voice.notes, { steps: voice.steps, gate: voice.gate })
-  const notes: Array<MidiNote> = []
+export const buildPerformanceMidiTracks = (
+  performance: CanonicalPerformance,
+  composition: Composition,
+  ticksPerQuarter = 480,
+): Array<MidiTrack> => {
+  const startBeat = secondsToBeats(
+    performance.request.startSeconds,
+    composition.transport.tempoBpm,
+  )
+  const instruments = new Map(
+    composition.instruments.map((instrument) => [instrument.id, instrument]),
+  )
+  const noteParts = composition.parts.filter(
+    (part) => part.enabled && part.kind === 'note',
+  )
 
-  for (let bar = 0; bar < bars; bar += 1) {
-    voice.notes.forEach((event, index) => {
-      notes.push({
-        tick: bar * ticksPerBar + Math.round(event.t * ticksPerBar),
-        channel: voice.channel,
-        note: event.note,
-        velocity: event.velocity,
-        duration: Math.max(1, Math.round(lengths[index] * ticksPerBar)),
-      })
-    })
-  }
-
-  return notes
+  return noteParts.map((part, partIndex) => {
+    const instrument = instruments.get(part.instrumentId)
+    if (!instrument) {
+      throw new RangeError(
+        `Part ${part.id} references missing instrument ${part.instrumentId}.`,
+      )
+    }
+    return trackForPart(
+      part.id,
+      part.name,
+      instrument,
+      performance.performedEvents,
+      startBeat,
+      ticksPerQuarter,
+      partIndex,
+    )
+  })
 }
 
-export const downloadMidiFile = (bytes: Uint8Array, name: string) => {
-  const blob = new Blob([bytes as BlobPart], { type: 'audio/midi' })
+export const downloadPerformanceMidi = (
+  performance: CanonicalPerformance,
+  composition: Composition,
+) => {
+  const blob = new Blob([buildPerformanceMidi(performance, composition) as BlobPart], {
+    type: 'audio/midi',
+  })
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')
-
   anchor.href = url
-  anchor.download = `${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.mid`
+  anchor.download = `${fileStem(composition.name)}.mid`
   anchor.click()
   URL.revokeObjectURL(url)
 }
+
+const fileStem = (value: string) =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') ||
+  'spirophonic'

@@ -7,8 +7,15 @@ import { FieldPanel } from './FieldPanel'
 
 afterEach(cleanup)
 
-const withRings = (): Composition => {
+const withoutFields = (): Composition => {
   const composition = structuredClone(defaultComposition) as Composition
+  composition.fields = []
+  composition.parts = []
+  return composition
+}
+
+const withRings = (): Composition => {
+  const composition = withoutFields()
   const field: RingFieldSpec = {
     id: 'rings-1',
     name: 'Rings',
@@ -44,7 +51,7 @@ describe('FieldPanel', () => {
 
     render(
       <FieldPanel
-        composition={structuredClone(defaultComposition) as Composition}
+        composition={withoutFields()}
         onChange={onChange}
       />,
     )
@@ -125,7 +132,7 @@ describe('FieldPanel', () => {
 
   it('adds and edits an oriented spoke Field', () => {
     const onChange = vi.fn()
-    let composition = structuredClone(defaultComposition) as Composition
+    let composition = withoutFields()
     const { rerender } = render(
       <FieldPanel composition={composition} onChange={onChange} />,
     )

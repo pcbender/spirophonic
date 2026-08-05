@@ -1,70 +1,75 @@
-type TransportProps = {
-  isPlaying: boolean
-  soundEnabled: boolean
-  continuousPlay: boolean
-  progress: number
+import type { PlaybackStatus } from '../audio/performanceScheduler'
+
+export type TransportProps = {
+  status: PlaybackStatus
+  looping: boolean
+  positionSeconds: number
+  startSeconds: number
+  durationSeconds: number
+  eventCount: number
+  pendingBoundarySeconds: number | null
   onPlay: () => void
   onPause: () => void
-  onReset: () => void
-  onSoundToggle: (enabled: boolean) => void
-  onContinuousPlayToggle: (enabled: boolean) => void
+  onStop: () => void
+  onSeek: (positionSeconds: number) => void
+  onLoopChange: (looping: boolean) => void
 }
 
 export function Transport({
-  isPlaying,
-  soundEnabled,
-  continuousPlay,
-  progress,
+  status,
+  looping,
+  positionSeconds,
+  startSeconds,
+  durationSeconds,
+  eventCount,
+  pendingBoundarySeconds,
   onPlay,
   onPause,
-  onReset,
-  onSoundToggle,
-  onContinuousPlayToggle,
+  onStop,
+  onSeek,
+  onLoopChange,
 }: TransportProps) {
+  const playing = status === 'playing'
+  const endSeconds = startSeconds + durationSeconds
+  const progress = Math.min(
+    1,
+    Math.max(0, (positionSeconds - startSeconds) / durationSeconds),
+  )
+
   return (
-    <div className="transport" aria-label="Animation transport">
-      <button
-        type="button"
-        title="Runs the pen around the curve. Visually the trace draws itself and the active point moves; sonically it drives the live trace tone if Sound is on. Separate from Preview, which loops the composed parts. Space bar also works."
-        onClick={isPlaying ? onPause : onPlay}
-      >
-        {isPlaying ? 'Pause' : 'Play'}
+    <div className="transport" aria-label="Composition transport">
+      <button type="button" onClick={playing ? onPause : onPlay}>
+        {playing ? 'Pause' : 'Play'}
       </button>
-      <button
-        type="button"
-        title="Sends the pen back to the start of the curve and stops. Visually the trace clears to its first point; sonically the live tone stops."
-        onClick={onReset}
-      >
-        Reset
-      </button>
-      <label
-        className="sound-toggle"
-        title="A quiet tone that follows the moving trace point, gliding continuously rather than playing notes. Sonically it is the curve heard as one sweeping line — the Sound controls shape it. Unrelated to the voices, which play discrete notes."
-      >
+      <button type="button" onClick={onStop}>Stop</button>
+      <label className="sound-toggle">
         <input
           type="checkbox"
-          checked={soundEnabled}
-          onChange={(event) => onSoundToggle(event.currentTarget.checked)}
+          checked={looping}
+          onChange={(event) => onLoopChange(event.currentTarget.checked)}
         />
-        Sound
+        Loop
       </label>
-      <label
-        className="sound-toggle"
-        title="Whether the trace loops forever or halts once the curve closes. Visually a continuous redraw against a single pass; sonically the live tone either keeps sweeping or stops at the end of the cycle."
-      >
-        <input
-          type="checkbox"
-          checked={continuousPlay}
-          onChange={(event) =>
-            onContinuousPlayToggle(event.currentTarget.checked)
-          }
-        />
-        Continuous
-      </label>
-      <div className="progress-meter" aria-label="Cycle progress">
+      <input
+        aria-label="Transport position"
+        type="range"
+        min={startSeconds}
+        max={endSeconds}
+        step={0.001}
+        value={Math.min(endSeconds, Math.max(startSeconds, positionSeconds))}
+        onChange={(event) => onSeek(Number(event.currentTarget.value))}
+      />
+      <div className="progress-meter" aria-label="Loop progress">
         <span style={{ inlineSize: `${Math.round(progress * 100)}%` }} />
       </div>
-      <output>{Math.round(progress * 100)}%</output>
+      <output aria-label="Transport status">
+        {positionSeconds.toFixed(2)}s · {eventCount} events
+      </output>
+      {pendingBoundarySeconds !== null && (
+        <output aria-label="Pending edit">
+          Pending edit at {pendingBoundarySeconds.toFixed(2)}s
+        </output>
+      )}
     </div>
   )
 }

@@ -10,7 +10,12 @@ import type {
 import { isComposition, validateComposition } from './compositionValidation'
 import { defaultComposition } from './defaultComposition'
 
-const cloneDefault = () => structuredClone(defaultComposition) as Composition
+const cloneDefault = () => {
+  const composition = structuredClone(defaultComposition) as Composition
+  composition.fields = []
+  composition.parts = []
+  return composition
+}
 
 const ringField: RingFieldSpec = {
   id: 'field-1',

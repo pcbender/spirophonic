@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 import type { Composition } from '../core/composition'
+import type { BoundaryCrossingEncounter } from '../core/encounters'
 import {
   buildCompositionDrawCommands,
   buildCompositionScene,
   drawCompositionCommands,
   fitSpaceProjection,
+  projectSpacePoint,
   sceneSpacePoints,
   type ObservationInterval,
   type TraceMode,
@@ -20,6 +22,7 @@ export type CompositionCanvasProps = {
   showHeads?: boolean
   showDebugIds?: boolean
   ariaLabel?: string
+  recentEncounters?: ReadonlyArray<BoundaryCrossingEncounter>
 }
 
 type CanvasSize = {
@@ -36,6 +39,7 @@ export function CompositionCanvas({
   showHeads = true,
   showDebugIds = false,
   ariaLabel = 'Spirophonic composition preview',
+  recentEncounters = [],
 }: CompositionCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [canvasSize, setCanvasSize] = useState<CanvasSize>({
@@ -83,7 +87,10 @@ export function CompositionCanvas({
 
     const projection = fitSpaceProjection(
       composition.space,
-      sceneSpacePoints(scene),
+      [
+        ...sceneSpacePoints(scene),
+        ...recentEncounters.map((encounter) => encounter.position),
+      ],
       {
         ...canvasSize,
         padding: Math.min(canvasSize.width, canvasSize.height) * 0.075,
@@ -98,7 +105,24 @@ export function CompositionCanvas({
     })
 
     drawCompositionCommands(context, commands)
-  }, [canvasSize, composition.space, scene, showDebugIds, showHeads, showTraces])
+    for (const encounter of recentEncounters) {
+      const point = projectSpacePoint(encounter.position, projection)
+      context.save()
+      context.beginPath()
+      context.arc(point.x, point.y, 5, 0, Math.PI * 2)
+      context.fillStyle = '#f2c14e'
+      context.fill()
+      context.restore()
+    }
+  }, [
+    canvasSize,
+    composition.space,
+    recentEncounters,
+    scene,
+    showDebugIds,
+    showHeads,
+    showTraces,
+  ])
 
   return (
     <figure
@@ -106,6 +130,7 @@ export function CompositionCanvas({
       data-composition-id={composition.id}
       data-render-time={timeSeconds}
       data-trace-mode={traceMode}
+      data-recent-encounters={recentEncounters.length}
     >
       <canvas ref={canvasRef} aria-label={ariaLabel} />
     </figure>
