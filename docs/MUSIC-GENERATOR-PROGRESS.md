@@ -157,7 +157,7 @@ the final column rather than relying on a statement that it was checked.
 | MG-09 | `ff6af91` | 25 files, 179 tests pass | pass | pass | refreshed after code | Hermes: Wheel cycles 1→2 changed 13→17 events; Play advanced to 1.25s; no page errors; 1600x1000 capture at `/tmp/spirophonic-mg09-hermes.png` | Claude Opus 5 |
 | MG-10 | `992a97e` | 27 files, 190 tests pass | pass | pass; matched worklet SHA-256 | refreshed after code | Hermes Chromium 147 + Firefox 148: SF2/SF3, 287 presets, two pitched presets + drums overlap, missing/corrupt rejection, clean disposal; bank/worklet digests in ADR 0001 | Claude Opus 5 |
 | MG-11 | `7685bb6` | 31 files, 204 tests pass | pass | pass; matched worklet SHA-256 | 1,199 nodes / 2,353 edges | Hermes Chromium 147: local SF2/SF3 banks, 287 presets each, two assigned presets/26 events concurrently, reload, missing-digest isolation, exact-digest relink, and no final page errors; digests in handoff | Claude Opus 5 |
-| MG-01–MG-11 | `PENDING` | 31 files, 206 tests pass | pass | pass; matched worklet SHA-256 | 1,199 nodes / 2,353 edges | Cumulative integration review: two SoundFont defects found, fixed, and covered by regression tests that fail against `13ba9f5`. See [cumulative review](#2026-08-05-mg-01mg-11-cumulative-review). | Claude Opus 5 |
+| MG-01–MG-11 | `3576320` | 31 files, 206 tests pass | pass | pass; matched worklet SHA-256 | 1,199 nodes / 2,353 edges | Cumulative integration review: two SoundFont defects found, fixed, and covered by regression tests that fail against `13ba9f5`. See [cumulative review](#2026-08-05-mg-01mg-11-cumulative-review). | Claude Opus 5 |
 
 Validation rules:
 
@@ -267,8 +267,8 @@ and releases. Do not log every edit.
 | 2026-08-05T20:10:54Z | Codex/root | MG-11 | Author handoff | `agent/music-generator-planning` / uncommitted | SF2/SF3 import, preset browsing/audition/assignment, concurrent routing, reload, missing-bank isolation/relink, explicit native fallback, and all working-tree gates pass; commit is next. |
 | 2026-08-05T20:14:04Z | Codex/root | MG-11 | Implementation committed | `7685bb6` | Exact packet source passes 204 tests, lint, build, reproducible worklet sync, Graphify refresh, and Hermes SF2/SF3 concurrent playback; integration review remains. |
 | 2026-08-05T20:32:00Z | Claude Opus 5 | MG-01–MG-11 | Cumulative review | `agent/music-generator-planning` / `13ba9f5` | Reviewed the whole stacked series at the user's direction. Core determinism, sample-rate invariance, and window-seam behavior verified by probe. Two SoundFont defects found: `cancelScheduledFrom` ignored its time argument, and `prepare` cleared routes before awaiting, silently dropping notes. |
-| 2026-08-05T20:32:00Z | Claude Opus 5 | MG-11 | Review fixes committed | `PENDING` | Both defects fixed with regression tests that fail against `13ba9f5`. Full gates rerun on the integrated commit: 206 tests, lint, build with matched worklet SHA-256, `git diff --check`, and Graphify refresh. |
-| 2026-08-05T20:32:00Z | Claude Opus 5 | MG-01–MG-11 | Packets integrated and closed | `PENDING` | All eleven packets are `done` in this tracker and the build plan Progress table. Claims cleared, milestone rollup refreshed, MG-12 promoted from `waiting` to `ready`. |
+| 2026-08-05T20:32:00Z | Claude Opus 5 | MG-11 | Review fixes committed | `3576320` | Both defects fixed with regression tests that fail against `13ba9f5`. Full gates rerun on the integrated commit: 206 tests, lint, build with matched worklet SHA-256, `git diff --check`, and Graphify refresh. |
+| 2026-08-05T20:32:00Z | Claude Opus 5 | MG-01–MG-11 | Packets integrated and closed | `3576320` | All eleven packets are `done` in this tracker and the build plan Progress table. Claims cleared, milestone rollup refreshed, MG-12 promoted from `waiting` to `ready`. |
 
 ## Handoff records
 
