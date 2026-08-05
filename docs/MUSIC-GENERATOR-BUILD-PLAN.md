@@ -351,7 +351,7 @@ SoundFont or musical Encounter engine to reuse.
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | **done** |
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | **done** |
 | MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | **done** |
-| MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | **planned** |
+| MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | **done** |
 | MG-17 | Seeded variation | MG-03, MG-06, MG-07, MG-16 | **planned** |
 | MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | **planned** |
 | MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | **planned** |
