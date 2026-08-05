@@ -113,7 +113,7 @@ their history.
 | MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `done` | — | 2026-08-05 | Integrated at `ff6af91`; cumulative review passed on `13ba9f5`. |
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `done` | — | 2026-08-05 | Integrated at `992a97e`; vault transaction ordering confirmed correct. |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `done` | — | 2026-08-05 | Integrated at `7685bb6`; two review defects fixed with regression tests before closure. |
-| MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | `in_review` | Claude Opus 5 | 2026-08-05 | Implementation validated at `MG12_SHA`; browser/audio check on the reference Composition remains. |
+| MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | `in_review` | Claude Opus 5 | 2026-08-05 | Implementation validated at `b00847a`; browser/audio check on the reference Composition remains. |
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | `waiting` | — | 2026-08-05 | Complete MG-05, MG-06, and MG-12. |
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | `waiting` | — | 2026-08-05 | Complete MG-06, MG-07, and MG-12. |
 | MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | `waiting` | — | 2026-08-05 | Complete MG-04, MG-06, and MG-12. |
@@ -157,7 +157,7 @@ the final column rather than relying on a statement that it was checked.
 | MG-09 | `ff6af91` | 25 files, 179 tests pass | pass | pass | refreshed after code | Hermes: Wheel cycles 1→2 changed 13→17 events; Play advanced to 1.25s; no page errors; 1600x1000 capture at `/tmp/spirophonic-mg09-hermes.png` | Claude Opus 5 |
 | MG-10 | `992a97e` | 27 files, 190 tests pass | pass | pass; matched worklet SHA-256 | refreshed after code | Hermes Chromium 147 + Firefox 148: SF2/SF3, 287 presets, two pitched presets + drums overlap, missing/corrupt rejection, clean disposal; bank/worklet digests in ADR 0001 | Claude Opus 5 |
 | MG-11 | `7685bb6` | 31 files, 204 tests pass | pass | pass; matched worklet SHA-256 | 1,199 nodes / 2,353 edges | Hermes Chromium 147: local SF2/SF3 banks, 287 presets each, two assigned presets/26 events concurrently, reload, missing-digest isolation, exact-digest relink, and no final page errors; digests in handoff | Claude Opus 5 |
-| MG-12 | `MG12_SHA` | 34 files, 239 tests pass | pass | pass | 1,244 nodes / 2,512 edges | **Not yet run** — no browser automation reachable from this session; see the MG-12 handoff | Pending |
+| MG-12 | `b00847a` | 34 files, 243 tests pass | pass | pass | 1,244 nodes / 2,512 edges | **Not yet run** — no browser automation reachable from this session; see the MG-12 handoff | Pending |
 | MG-01–MG-11 | `3576320` | 31 files, 206 tests pass | pass | pass; matched worklet SHA-256 | 1,199 nodes / 2,353 edges | Cumulative integration review: two SoundFont defects found, fixed, and covered by regression tests that fail against `13ba9f5`. See [cumulative review](#2026-08-05-mg-01mg-11-cumulative-review). | Claude Opus 5 |
 
 Validation rules:
@@ -186,11 +186,11 @@ Activity log, and Handoff records below.
 - Contract: [MG-12 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-12--concurrent-multi-wheelmulti-head-authoring)
 - Started UTC: 2026-08-05T20:38:08Z
 - Last updated UTC: 2026-08-05T22:10:11Z
-- Commits/PRs: `MG12_SHA`
+- Commits/PRs: `b00847a`
 - Blockers: none
 - Next action: run the browser/audio check on the reference Composition, then
   mark MG-12 `done` and promote MG-13, MG-14, and MG-15 to `ready`.
-- Validation evidence: 34 files / 239 tests, lint, build, `git diff --check`,
+- Validation evidence: 34 files / 243 tests, lint, build, `git diff --check`,
   and a Graphify refresh to 1,244 nodes / 2,512 edges all pass.
 - Scope amendment: the build plan's MG-12 file list was extended explicitly
   before implementation. See the packet's Scope note.
@@ -289,7 +289,7 @@ and releases. Do not log every edit.
 | 2026-08-05T20:32:00Z | Claude Opus 5 | MG-11 | Review fixes committed | `3576320` | Both defects fixed with regression tests that fail against `13ba9f5`. Full gates rerun on the integrated commit: 206 tests, lint, build with matched worklet SHA-256, `git diff --check`, and Graphify refresh. |
 | 2026-08-05T20:32:00Z | Claude Opus 5 | MG-01–MG-11 | Packets integrated and closed | `3576320` | All eleven packets are `done` in this tracker and the build plan Progress table. Claims cleared, milestone rollup refreshed, MG-12 promoted from `waiting` to `ready`. |
 | 2026-08-05T20:38:08Z | Claude Opus 5 | MG-12 | Packet claimed | `agent/music-generator-planning` / `7e97a5c` | Dependencies verified `done`; build-plan file list amended explicitly before any packet code changed. |
-| 2026-08-05T22:10:11Z | Claude Opus 5 | MG-12 | Author handoff | `MG12_SHA` | Structural editing with cascade impact, Part solo/mute, the composition tree, selection-driven panels, and the four-Wheel reference Composition all pass 239 tests, lint, build, and Graphify. Browser/audio check on the reference Composition remains before `done`. |
+| 2026-08-05T22:10:11Z | Claude Opus 5 | MG-12 | Author handoff | `b00847a` | Structural editing with cascade impact, Part solo/mute, the composition tree, selection-driven panels, and the four-Wheel reference Composition all pass 243 tests, lint, build, and Graphify. Browser/audio check on the reference Composition remains before `done`. |
 
 ## Handoff records
 
@@ -807,7 +807,7 @@ the cancel test saw no targeted note-off, and the route test saw
 - Branch: `agent/music-generator-planning`
 - Cwd/worktree: `/home/mrose/spirophonic`
 - Started/last updated UTC: 2026-08-05T20:38:08Z / 2026-08-05T22:10:11Z
-- Commits: `MG12_SHA`
+- Commits: `b00847a`
 - Edited files: `src/core/composition.ts` (Part `mute`/`solo`),
   `src/core/compositionValidation.ts`, `src/core/compositionEdits.ts` (new),
   `src/core/defaultComposition.ts` (reference Composition),
@@ -842,7 +842,7 @@ the cancel test saw no targeted note-off, and the route test saw
 
 **Acceptance criteria remaining:** none at the code level.
 
-- Validation run and exact results: `npm test` 34 files / 239 tests, `npm run
+- Validation run and exact results: `npm test` 34 files / 243 tests, `npm run
   lint`, `npm run build`, and `git diff --check` all pass. `graphify update .`
   rebuilt 1,244 nodes / 2,512 edges.
 - Manual/browser/audio evidence: **not run.** No browser automation is reachable
