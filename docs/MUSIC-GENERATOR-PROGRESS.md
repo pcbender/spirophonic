@@ -14,11 +14,11 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 
 | Measure | Current value |
 | --- | --- |
-| Packets complete | 16 / 21 |
-| Packets active | 1 |
+| Packets complete | 17 / 21 |
+| Packets active | 0 |
 | Packets blocked | 0 |
-| Next ready packet | MG-17 is claimed; MG-18 unblocks when it lands |
-| Active agents | Claude Opus 5 on MG-17 |
+| Next ready packet | MG-18 — Recorder, replay, and reinterpretation |
+| Active agents | none |
 | Integration branch | `agent/music-generator-planning` |
 | Last tracker update | 2026-08-05 |
 
@@ -93,7 +93,7 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Claude Opus 5 | MG-17 | `claimed` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-06T00:05:00Z | 2026-08-06T00:05:00Z | Dependencies MG-03, MG-06, MG-07, MG-16 are `done` at `2cb20aa`. File list audited in the same commit. |
+| — | — | — | — | — | — | — | No packet is claimed. MG-18 is ready. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -118,8 +118,8 @@ their history.
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | `done` | — | 2026-08-05 | Integrated at `f2adb33`; browser evidence from the Playwright suite added in `11079d6`. |
 | MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | `done` | — | 2026-08-05 | Integrated at `9c8096d`; unit and browser gates pass on that commit. |
 | MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | `done` | — | 2026-08-05 | Integrated at `32b7b37`; unit and browser gates pass on that commit. |
-| MG-17 | Seeded variation | MG-03, MG-06, MG-07, MG-16 | `claimed` | Claude Opus 5 | 2026-08-06 | Claimed at 2026-08-06T00:05:00Z on `agent/music-generator-planning`. |
-| MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | `waiting` | — | 2026-08-05 | Complete MG-07 and MG-17. |
+| MG-17 | Seeded variation | MG-03, MG-06, MG-07, MG-16 | `done` | — | 2026-08-06 | Integrated at `7d30989`; unit and browser gates pass on that commit, exit code verified. |
+| MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | `ready` | — | 2026-08-06 | Dependencies are `done`; the packet is unblocked and unclaimed. |
 | MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | `waiting` | — | 2026-08-05 | Complete MG-16 and MG-18. |
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | `waiting` | — | 2026-08-05 | Complete MG-10, MG-11, MG-18, and MG-19. |
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | `waiting` | — | 2026-08-05 | Complete every implementation packet. |
@@ -135,7 +135,7 @@ promote it from `waiting` to `ready` if all dependencies are complete.
 | First playable generator | MG-09 | New editor replaces the old model without losing basic JSON/MIDI/Strudel/SVG capabilities. | 1 / 1 — complete |
 | SoundFont instruments | MG-10–MG-11 | Local banks, presets, concurrent playback, and explicit missing-bank handling work. | 2 / 2 — complete |
 | Concurrent composition | MG-12 | Several Wheels with several Heads play, render, seek, loop, save, and reload together. | 1 / 1 — complete |
-| Relational composition depth | MG-13–MG-18 | Advanced Fields, relations, Trace encounters, tuning, variation, and Recording work. | 4 / 6 — MG-17 ready |
+| Relational composition depth | MG-13–MG-18 | Advanced Fields, relations, Trace encounters, tuning, variation, and Recording work. | 5 / 6 — MG-18 ready |
 | Portable outputs | MG-19–MG-20 | MIDI, Strudel, audio render, and bundles consume canonical events/Recordings. | 0 / 2 |
 | Release | MG-21 | Reference works, performance budgets, browser checks, and full workflow pass. | Waiting |
 
@@ -157,8 +157,9 @@ the final column rather than relying on a statement that it was checked.
 | MG-09 | `ff6af91` | 25 files, 179 tests pass | pass | pass | refreshed after code | Hermes: Wheel cycles 1→2 changed 13→17 events; Play advanced to 1.25s; no page errors; 1600x1000 capture at `/tmp/spirophonic-mg09-hermes.png` | Claude Opus 5 |
 | MG-10 | `992a97e` | 27 files, 190 tests pass | pass | pass; matched worklet SHA-256 | refreshed after code | Hermes Chromium 147 + Firefox 148: SF2/SF3, 287 presets, two pitched presets + drums overlap, missing/corrupt rejection, clean disposal; bank/worklet digests in ADR 0001 | Claude Opus 5 |
 | MG-11 | `7685bb6` | 31 files, 204 tests pass | pass | pass; matched worklet SHA-256 | 1,199 nodes / 2,353 edges | Hermes Chromium 147: local SF2/SF3 banks, 287 presets each, two assigned presets/26 events concurrently, reload, missing-digest isolation, exact-digest relink, and no final page errors; digests in handoff | Claude Opus 5 |
-| MG-16 | `32b7b37` | 40 files, 307 tests pass | pass | pass | 1,415 nodes / 2,941 edges | Playwright Chromium 151: the 7-check browser suite passes on this commit. SoundFont pitch bend for exact frequency is covered by unit tests including the out-of-range boundary. | Claude Opus 5 |
-| MG-15 | `9c8096d` | 38 files, 297 tests pass | pass | pass | 1,383 nodes / 2,853 edges | Playwright Chromium 151: Trace observation authoring produces no compile or page errors and does not blank the canvas. Causality guard verified by removal: ages go negative and three tests fail. | Claude Opus 5 |
+| MG-17 | `7d30989` | 42 files, 322 tests pass (exit 0 verified) | pass | pass | 1,455 nodes / 3,050 edges | Playwright Chromium 151: the 7-check browser suite passes on this commit. | Claude Opus 5 |
+| MG-16 | `32b7b37` | 40 files, 307 tests pass (command exited 1; see tooling note) | pass | pass | 1,415 nodes / 2,941 edges | Playwright Chromium 151: the 7-check browser suite passes on this commit. SoundFont pitch bend for exact frequency is covered by unit tests including the out-of-range boundary. | Claude Opus 5 |
+| MG-15 | `9c8096d` | 38 files, 297 tests pass (command exited 1; see tooling note) | pass | pass | 1,383 nodes / 2,853 edges | Playwright Chromium 151: Trace observation authoring produces no compile or page errors and does not blank the canvas. Causality guard verified by removal: ages go negative and three tests fail. | Claude Opus 5 |
 | MG-14 | `f2adb33` | 37 files, 281 tests pass | pass | pass | 1,338 nodes / 2,741 edges | Playwright Chromium 151 headless: relation and Control Part authoring produce no compile errors and no page errors; reference Composition plays and the audio clock advances the Transport. See `e2e/app.spec.ts`. | Claude Opus 5 |
 | MG-13 | `27e0390` | 35 files, 258 tests pass | pass | pass | 1,298 nodes / 2,636 edges | User confirmed the new Field overlays working in a browser on 2026-08-05, and reported the Fields panel action buttons overflowing the rail, fixed in `b37e574`. Not independently observed by the packet author. | Michael Rose |
 | MG-12 | `b00847a` | 34 files, 243 tests pass | pass | pass | 1,244 nodes / 2,512 edges | User ran the reference Composition in a browser on 2026-08-05 and confirmed it working. Not independently observed by the packet author. | Michael Rose |
@@ -181,7 +182,7 @@ Validation rules:
 MG-01 through MG-12 are `done`; their records live in the Validation ledger,
 Activity log, and Handoff records below.
 
-MG-17 is claimed. No other packet is ready.
+No packet is claimed. MG-18 is `ready` and unclaimed.
 
 Keep one subsection here for every `claimed`, `in_progress`, `blocked`, or
 `in_review` packet, then move each finished record into the Activity log,
@@ -208,6 +209,7 @@ decisions, or explicit limits before completion.
 
 | Risk | Owning packet | Current mitigation | Status |
 | --- | --- | --- | --- |
+| A gate reported green while its command failed | All | `npm test` exited 1 from 11079d6 through 32b7b37 because Vitest matched the Playwright specs in `e2e/`; the summary line still read "passed", and reading `tail -4` hid the failure. Fixed in `7d30989` by excluding `e2e/`, and gate checks now read the exit code rather than the summary. | Mitigated |
 | Visual and audible regressions invisible to jsdom | All | Playwright Chromium checks in `e2e/` run against the production preview build, including a guard that no panel overflows its rail. Added 2026-08-05 after three packets shipped layout or paint bugs that only a real browser caught. | Mitigated |
 | SoundFont browser API churn and worklet packaging | MG-10 | SpessaSynth 4.3.12/core 4.3.16 are pinned, their matched worklet is copied and hash-checked automatically, and the adapter remains replaceable. | Mitigated |
 | Sound bank redistribution and attribution | MG-10, MG-20 | Start with user-local banks; record digest, provenance, and license before any bundled bank. | Open |
@@ -277,6 +279,8 @@ and releases. Do not log every edit.
 | 2026-08-05T20:32:00Z | Claude Opus 5 | MG-11 | Review fixes committed | `3576320` | Both defects fixed with regression tests that fail against `13ba9f5`. Full gates rerun on the integrated commit: 206 tests, lint, build with matched worklet SHA-256, `git diff --check`, and Graphify refresh. |
 | 2026-08-05T20:32:00Z | Claude Opus 5 | MG-01–MG-11 | Packets integrated and closed | `3576320` | All eleven packets are `done` in this tracker and the build plan Progress table. Claims cleared, milestone rollup refreshed, MG-12 promoted from `waiting` to `ready`. |
 | 2026-08-05T20:38:08Z | Claude Opus 5 | MG-12 | Packet claimed | `agent/music-generator-planning` / `7e97a5c` | Dependencies verified `done`; build-plan file list amended explicitly before any packet code changed. |
+| 2026-08-06T01:10:00Z | Claude Opus 5 | MG-17 | Packet closed | `7d30989` | Scope-derived seeded variation across three layers, with bounded deltas and a variation trace. Marked `done`; MG-18 promoted to `ready`. |
+| 2026-08-06T01:08:00Z | Claude Opus 5 | Tooling | Test gate corrected | `7d30989` | `npm test` had been exiting 1 since the Playwright harness landed, because Vitest matched `e2e/*.spec.ts`. Unit results were genuine throughout, but the command failed. Validation ledger rows for MG-15 and MG-16 are annotated. |
 | 2026-08-06T00:55:00Z | Claude Opus 5 | MG-16 | Packet closed | `32b7b37` | Wheel-derived ratios, shared tuning contexts, stateful melodic contour, and SoundFont pitch bend delivered with unit and browser gates green. Marked `done`; MG-17 promoted to `ready`. |
 | 2026-08-06T00:40:00Z | Claude Opus 5 | MG-15 | Packet closed | `9c8096d` | Trace retention, spatial indexing, causality, and tangency/retracing policy delivered with unit and browser gates green. Marked `done` in this tracker and the build plan; nothing depends on MG-15 alone, so MG-16 stays the ready packet. |
 | 2026-08-06T00:25:00Z | Claude Opus 5 | MG-14 | Packet closed | `f2adb33`, `11079d6` | Browser evidence now comes from the repository's own Playwright suite rather than a manual check. Marked `done` in this tracker and the build plan; MG-16 promoted to `ready`. |
