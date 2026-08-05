@@ -235,23 +235,23 @@
     "semantic_hash": ""
   },
   "src/core/rhythm.test.ts": {
-    "mtime": 1785796119.9785278,
-    "ast_hash": "008df16a93d014fb59f938f28fb240c4",
+    "mtime": 1785953662.244206,
+    "ast_hash": "cecfd05222d81dee027242d7ccd59be3",
     "semantic_hash": ""
   },
   "src/core/rhythm.ts": {
-    "mtime": 1785796119.9785278,
-    "ast_hash": "026c1a02df3628d9218c032c59eda6ea",
+    "mtime": 1785953662.136573,
+    "ast_hash": "94f8f18dffe86d32418ca560f12cd7a6",
     "semantic_hash": ""
   },
   "src/core/scales.test.ts": {
-    "mtime": 1785796119.9785278,
-    "ast_hash": "d094ae1d97551ba643bb8931d2b2c6d2",
+    "mtime": 1785953662.0332453,
+    "ast_hash": "87ff5c648afc8462298b8d658fdbb94e",
     "semantic_hash": ""
   },
   "src/core/scales.ts": {
-    "mtime": 1785796119.9785278,
-    "ast_hash": "debd4cfb782570a23ad6a21cfcfd61b1",
+    "mtime": 1785953954.461755,
+    "ast_hash": "9c49ebc4ee5790ddf7a6c4266783f85c",
     "semantic_hash": ""
   },
   "src/core/voices.test.ts": {
@@ -370,8 +370,8 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1785952761.6591961,
-    "ast_hash": "61775f65403d719f63c35b3ea2a37436",
+    "mtime": 1785953510.772497,
+    "ast_hash": "f5eb404b4b9a4b5bbcd156c8c4df266c",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -477,6 +477,26 @@
   "src/core/encounters.ts": {
     "mtime": 1785953079.064497,
     "ast_hash": "a330016e7934fbd92756cfa9c89240b0",
+    "semantic_hash": ""
+  },
+  "src/core/parts.test.ts": {
+    "mtime": 1785954010.6887393,
+    "ast_hash": "44225832a40f337ce336245001d6d330",
+    "semantic_hash": ""
+  },
+  "src/core/parts.ts": {
+    "mtime": 1785953746.5719972,
+    "ast_hash": "415eff00b3a34a3621dfede64c429845",
+    "semantic_hash": ""
+  },
+  "src/core/performance.test.ts": {
+    "mtime": 1785953954.6986454,
+    "ast_hash": "e905e00b747b751972b441dc09a7d439",
+    "semantic_hash": ""
+  },
+  "src/core/performance.ts": {
+    "mtime": 1785953954.5802002,
+    "ast_hash": "9eadb921d5f7700fe2ee9c0ab339a976",
     "semantic_hash": ""
   }
 }
