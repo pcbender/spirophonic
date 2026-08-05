@@ -349,7 +349,7 @@ SoundFont or musical Encounter engine to reuse.
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | **done** |
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | **done** |
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | **done** |
-| MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | **planned** |
+| MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | **done** |
 | MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | **planned** |
 | MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | **planned** |
 | MG-17 | Seeded variation | MG-03, MG-06, MG-07, MG-16 | **planned** |
