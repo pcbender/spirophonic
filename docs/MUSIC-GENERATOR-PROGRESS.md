@@ -94,7 +94,7 @@ While working:
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Codex/root | MG-01 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T16:52:55Z | 2026-08-05T17:22:14Z | Implementation commit `1aaaa07`; integration review remains. |
-| Codex/root | MG-02 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:12:04Z | 2026-08-05T17:18:28Z | User directed work to continue over the locally complete MG-01 dependency; implementation files do not overlap. |
+| Codex/root | MG-02 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:12:04Z | 2026-08-05T17:23:12Z | Implementation commit `0afa4e3`; integration review remains. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -104,7 +104,7 @@ their history.
 | Packet | Title | Depends on | State | Owner | Last update | Evidence or next action |
 | --- | --- | --- | --- | --- | --- | --- |
 | MG-01 | Composition schema and validation | — | `in_review` | Codex/root | 2026-08-05 | Implementation commit `1aaaa07` is validated; integration review remains. |
-| MG-02 | Deterministic Transport and performance window | MG-01 | `in_progress` | Codex/root | 2026-08-05 | Author validation is green; review and commit the local MG-01/MG-02 dependency chain. |
+| MG-02 | Deterministic Transport and performance window | MG-01 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `0afa4e3` is validated; integration review remains. |
 | MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | `waiting` | — | 2026-08-05 | Complete MG-01 and MG-02. |
 | MG-04 | Space projection and composition renderer | MG-03 | `waiting` | — | 2026-08-05 | Complete MG-03. |
 | MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `waiting` | — | 2026-08-05 | Complete MG-01, MG-03, and MG-04. |
@@ -148,6 +148,7 @@ the final column rather than relying on a statement that it was checked.
 | Packet | Commit | `npm test` | `npm run lint` | `npm run build` | Graphify | Manual/browser evidence | Reviewer |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | MG-01 | `1aaaa07` | 20 files, 194 tests pass | pass | pass | refreshed after code | Not required for schema packet | Pending |
+| MG-02 | `0afa4e3` | 21 files, 217 tests pass | pass | pass | refreshed after code | Not required for pure time-core packet | Pending |
 
 Validation rules:
 
@@ -183,16 +184,16 @@ Validation rules:
 
 ### MG-02 — Deterministic Transport and performance window
 
-- State: `in_progress`
+- State: `in_review`
 - Owner: Codex/root
 - Branch: `agent/music-generator-planning`
 - Cwd/worktree: `/home/mrose/spirophonic`
 - Contract: [MG-02 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-02--deterministic-transport-and-performance-window)
 - Started UTC: 2026-08-05T17:12:04Z
-- Last updated UTC: 2026-08-05T17:18:28Z
-- Next action: review and commit the local dependency chain, then rerun the
-  gates against exact commits and move eligible packets to `in_review`.
-- Commits/PRs: none
+- Last updated UTC: 2026-08-05T17:23:12Z
+- Next action: integrate the reviewed packet, rerun gates on the integrated
+  commit, and mark MG-02 `done` before releasing dependent packets.
+- Commits/PRs: `0afa4e3` — Implement MG-02 deterministic transport
 - Blockers: none
 - Validation evidence: 23 targeted Transport tests pass. Working-tree
   validation passes: `npm test` (21 files, 217 tests), `npm run lint`, and
@@ -265,6 +266,7 @@ and releases. Do not log every edit.
 | 2026-08-05T17:12:04Z | Codex/root | MG-02 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over the local MG-01 dependency; implement deterministic Transport in its isolated packet files. |
 | 2026-08-05T17:18:28Z | Codex/root | MG-02 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-02 acceptance criteria and working-tree gates pass; dependency-chain review and commits are next. |
 | 2026-08-05T17:22:14Z | Codex/root | MG-01 | Implementation committed | `1aaaa07` | Exact packet source is committed and validated; integration review remains. |
+| 2026-08-05T17:23:12Z | Codex/root | MG-02 | Implementation committed | `0afa4e3` | Exact packet source passes 217 tests, lint, and build; integration review remains. |
 
 ## Handoff records
 

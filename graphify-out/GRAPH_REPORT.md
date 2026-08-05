@@ -1,16 +1,16 @@
-# Graph Report - spirophonic  (2026-08-03)
+# Graph Report - spirophonic  (2026-08-05)
 
 ## Corpus Check
-- 63 files · ~31,165 words
+- 75 files · ~50,778 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 533 nodes · 964 edges · 36 communities (33 shown, 3 thin omitted)
+- 787 nodes · 1451 edges · 47 communities (44 shown, 3 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `28d89d80`
+- Built from commit: `7b1b3212`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -48,35 +48,46 @@
 - [[_COMMUNITY_Community 33|Community 33]]
 - [[_COMMUNITY_Community 34|Community 34]]
 - [[_COMMUNITY_Community 35|Community 35]]
+- [[_COMMUNITY_Community 36|Community 36]]
+- [[_COMMUNITY_Community 37|Community 37]]
+- [[_COMMUNITY_Community 38|Community 38]]
+- [[_COMMUNITY_Community 39|Community 39]]
+- [[_COMMUNITY_Community 42|Community 42]]
+- [[_COMMUNITY_Community 43|Community 43]]
+- [[_COMMUNITY_Community 45|Community 45]]
+- [[_COMMUNITY_Community 47|Community 47]]
+- [[_COMMUNITY_Community 49|Community 49]]
+- [[_COMMUNITY_Community 50|Community 50]]
+- [[_COMMUNITY_Community 51|Community 51]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `SpirophonicModel` - 24 edges
-2. `Sound, Rhythm, and MIDI Design` - 20 edges
-3. `Spirophonic POC Initial WBS and CP Packets` - 18 edges
-4. `compilerOptions` - 17 edges
-5. `Spirophonic Vision` - 17 edges
-6. `SpiroPoint` - 16 edges
-7. `generateSpiroPoints()` - 16 edges
-8. `compilerOptions` - 16 edges
-9. `generateCurvePoints()` - 14 edges
-10. `defaultModel` - 14 edges
+1. `Spirophonic Music Generator Build Plan` - 35 edges
+2. `Spirophonic Domain Model` - 30 edges
+3. `SpirophonicModel` - 24 edges
+4. `Sound, Rhythm, and MIDI Design` - 20 edges
+5. `Spirophonic POC Initial WBS and CP Packets` - 18 edges
+6. `compilerOptions` - 17 edges
+7. `Spirophonic Music Generator Progress Tracker` - 17 edges
+8. `Spirophonic Vision` - 17 edges
+9. `SpiroPoint` - 16 edges
+10. `generateSpiroPoints()` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `circlePoints()` --calls--> `generateSpiroPoints()`  [EXTRACTED]
-  src/core/events.test.ts → src/core/trochoid.ts
+- `issueAt()` --calls--> `validateComposition()`  [EXTRACTED]
+  src/core/compositionValidation.test.ts → src/core/compositionValidation.ts
 - `App()` --calls--> `getEffectiveCyclesPerSecond()`  [EXTRACTED]
   src/App.tsx → src/core/time.ts
-- `playTone()` --calls--> `midiToFrequency()`  [EXTRACTED]
-  src/audio/toneSynth.ts → src/core/scales.ts
+- `parseCompositionJson()` --calls--> `validateComposition()`  [EXTRACTED]
+  src/export/compositionJson.ts → src/core/compositionValidation.ts
 - `renderVoice()` --calls--> `generateCurvePoints()`  [EXTRACTED]
   src/core/voices.ts → src/core/curves.ts
-- `pitchField()` --calls--> `normalize()`  [EXTRACTED]
-  src/core/voices.ts → src/core/events.ts
+- `circlePoints()` --calls--> `generateSpiroPoints()`  [EXTRACTED]
+  src/core/events.test.ts → src/core/trochoid.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (36 total, 3 thin omitted)
+## Communities (47 total, 3 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.22
@@ -87,16 +98,16 @@ Cohesion: 0.07
 Nodes (29): 1. Relationship first, 2. Pure core, 3. Renderers are replaceable, 4. No premature dependency on Strudel, 5. Immediate feedback, 6. Small first success, Conceptual Model, Core Thesis (+21 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.15
-Nodes (25): AudioState, WebAudioEngine, approximateCurvature(), approximateVelocity(), clamp(), getPointBounds(), mapRange(), normalize() (+17 more)
+Cohesion: 0.17
+Nodes (22): AudioState, WebAudioEngine, approximateCurvature(), approximateVelocity(), clamp(), getPointBounds(), mapRange(), normalize() (+14 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.11
 Nodes (18): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, jsx, lib, module, moduleDetection, moduleResolution (+10 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.17
-Nodes (18): ScaleName, frequencyToMidi(), fromScaleDegree(), midiToFrequency(), midiToName(), noteNames, quantizeFrequency(), quantizeToScale() (+10 more)
+Cohesion: 0.06
+Nodes (54): playTone(), VoicePreview, defaultModel, defaultPitch, defaultVoices, CrossingDirection, CurveEventSource, ExtractOptions (+46 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.11
@@ -107,12 +118,12 @@ Cohesion: 0.06
 Nodes (34): dependencies, react, react-dom, devDependencies, eslint, @eslint/js, eslint-plugin-react-hooks, eslint-plugin-react-refresh (+26 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.05
-Nodes (60): close(), curveFamilies, fit(), generateCurvePoints(), Geometry, harmonographPoints(), lissajous(), ParametricCurve (+52 more)
+Cohesion: 0.14
+Nodes (33): CycleRate, LoopSpec, MeterSpec, TransportSpec, barPhaseAtBeat(), barsToBeats(), beatsToBars(), beatsToSeconds() (+25 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.09
-Nodes (30): PreviewHit, noteLengths(), clampCyclesPerSecond(), formatCycleSetting(), formatLoopSeconds(), getEffectiveCyclesPerSecond(), renderVoices(), VoiceNote (+22 more)
+Cohesion: 0.08
+Nodes (39): noteLengths(), clampCyclesPerSecond(), formatCycleSetting(), formatLoopSeconds(), getEffectiveCyclesPerSecond(), VoiceNote, midiNoteOnsPerTrack(), midiNoteSpans() (+31 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.22
@@ -183,23 +194,67 @@ Cohesion: 0.29
 Nodes (7): Acceptance Criteria, CP-011 - Testing Pass for v0.1, Execution Guidance for CP, Goal, Scope, Spirophonic POC Initial WBS and CP Packets, WBS Overview
 
 ### Community 32 - "Community 32"
-Cohesion: 0.09
-Nodes (37): defaultVoices, circularCurvatures(), circularSpeeds(), CurveEvent, cycleDistance(), defaultExtractOptions, extractEvents(), findCrossings() (+29 more)
+Cohesion: 0.12
+Nodes (27): circularCurvatures(), circularSpeeds(), CurveEvent, cycleDistance(), defaultExtractOptions, extractEvents(), findCrossings(), findPeaks() (+19 more)
 
 ### Community 33 - "Community 33"
 Cohesion: 0.05
 Nodes (40): Acceptance criteria, Acceptance criteria, Acceptance criteria, Acceptance criteria, Acceptance criteria, Acceptance criteria, Acceptance criteria, Acceptance criteria (+32 more)
 
 ### Community 34 - "Community 34"
-Cohesion: 0.17
-Nodes (18): buildMidiFile(), buildNoteTrack(), buildTempoTrack(), chunk(), clampByte(), clampChannel(), encodeVariableLength(), event() (+10 more)
+Cohesion: 0.18
+Nodes (37): attachmentKinds, CompositionValidationResult, encounterDirections, isComposition(), JsonObject, motionKinds, relationEventKinds, scaleNames (+29 more)
 
 ### Community 35 - "Community 35"
+Cohesion: 0.39
+Nodes (7): DrumShape, envelope(), fallback, noiseBuffer(), playDrum(), shapes, tone()
+
+### Community 36 - "Community 36"
+Cohesion: 0.05
+Nodes (40): BoundaryBase, ControlPartSpec, DurationMapping, EncounterDirection, EncounterQuery, EnvelopeSpec, FieldSpec, HarmonographHeadAttachment (+32 more)
+
+### Community 37 - "Community 37"
+Cohesion: 0.06
+Nodes (35): Architectural invariants, Canonical event layers, Decisions already made, Definition of the first meaningful generator, Meaning of Wheel, Head, shape, and Trace, MG-01 — Composition schema and validation, MG-02 — Deterministic Transport and performance window, MG-03 — Wheel and multi-Head state engine (+27 more)
+
+### Community 38 - "Community 38"
+Cohesion: 0.07
+Nodes (26): Boundary, Composition, Conceptual Structure, Core Idea, Crossing, Defining Statement, Determinism, Encounter (+18 more)
+
+### Community 39 - "Community 39"
+Cohesion: 0.10
+Nodes (20): 2026-08-05 MG-01 author handoff, Active claims, Active packet records, Activity log, Blockers, Current snapshot, Decision log, Handoff records (+12 more)
+
+### Community 42 - "Community 42"
+Cohesion: 0.24
+Nodes (8): Composition, CompositionVersion, CompositionValidationIssue, CompositionJsonErrorCode, CompositionJsonImportResult, exportCompositionToJson(), isObject(), parseCompositionJson()
+
+### Community 43 - "Community 43"
+Cohesion: 0.06
+Nodes (50): close(), curveFamilies, fit(), generateCurvePoints(), Geometry, harmonographPoints(), lissajous(), ParametricCurve (+42 more)
+
+### Community 45 - "Community 45"
 Cohesion: 0.20
-Nodes (11): DrumShape, envelope(), fallback, noiseBuffer(), playDrum(), shapes, tone(), playTone() (+3 more)
+Nodes (8): HeadAttachmentSpec, MotionSpec, NotePartSpec, RingFieldSpec, issueAt(), motionCases, notePart, ringField
+
+### Community 47 - "Community 47"
+Cohesion: 0.22
+Nodes (9): Closure is not a bar, Encounter is not a note, Field is not musical meaning, Important Distinctions, Part is not Instrument, Recording is not merely export, Variation is not nondeterminism, Wheel is not necessarily closed (+1 more)
+
+### Community 49 - "Community 49"
+Cohesion: 0.29
+Nodes (7): Closure is optional, Determinism includes variation, Encounters produce events, Foundational Principles, Motion before trace, Relationship first, Time is independent of geometry
+
+### Community 50 - "Community 50"
+Cohesion: 0.40
+Nodes (5): Continuous variation, Initial-condition variation, Interpretation variation, Performance variation, Variation
+
+### Community 51 - "Community 51"
+Cohesion: 0.67
+Nodes (3): Recording, Reinterpretation, Replay
 
 ## Knowledge Gaps
-- **245 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+240 more)
+- **398 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+393 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -207,16 +262,16 @@ Nodes (11): DrumShape, envelope(), fallback, noiseBuffer(), playDrum(), shapes, 
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Spirophonic POC Initial WBS and CP Packets` connect `Community 26` to `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 25`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
-- **Why does `SpirophonicModel` connect `Community 2` to `Community 8`, `Community 32`, `Community 4`, `Community 7`?**
-  _High betweenness centrality (0.016) - this node is a cross-community bridge._
-- **Why does `SpiroPoint` connect `Community 2` to `Community 32`, `Community 4`, `Community 7`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+- **Why does `SpirophonicModel` connect `Community 4` to `Community 2`, `Community 43`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
+- **Why does `Spirophonic Domain Model` connect `Community 38` to `Community 49`, `Community 50`, `Community 51`, `Community 47`?**
+  _High betweenness centrality (0.004) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _245 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _398 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.06666666666666667 - nodes in this community are weakly interconnected._
 - **Should `Community 3` be split into smaller, more focused modules?**
   _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
-- **Should `Community 5` be split into smaller, more focused modules?**
-  _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
+- **Should `Community 4` be split into smaller, more focused modules?**
+  _Cohesion score 0.05789009697325889 - nodes in this community are weakly interconnected._
