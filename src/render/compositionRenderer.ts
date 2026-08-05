@@ -4,6 +4,10 @@ import type {
   SpaceSpec,
   TracePresentationSpec,
 } from '../core/composition'
+import {
+  activeBoundaryGeometries,
+  type BoundaryGeometry,
+} from '../core/fields'
 import { headStateAt, type HeadState } from '../core/heads'
 import { iterateTimeGrid } from '../core/transport'
 
@@ -52,6 +56,7 @@ export type CompositionScene = Readonly<{
   compositionId: string
   timeSeconds: number
   observation: Readonly<ObservationInterval>
+  boundaries: ReadonlyArray<BoundaryGeometry>
   traces: ReadonlyArray<HeadTraceSnapshot>
 }>
 
@@ -72,6 +77,10 @@ export type SpaceProjection = Readonly<{
 
 export type CompositionDrawOptions = {
   background?: string
+  fieldColor?: string
+  fieldLineWidth?: number
+  showFields?: boolean
+  showBoundaryLabels?: boolean
   showTraces?: boolean
   showHeads?: boolean
   showDebugIds?: boolean
@@ -95,6 +104,35 @@ export type TraceDrawCommand = Readonly<{
   opacity: number
 }>
 
+export type RingBoundaryDrawCommand = Readonly<{
+  kind: 'ring-boundary'
+  fieldId: string
+  boundaryId: string
+  center: Readonly<Point2>
+  radius: number
+  color: string
+  lineWidth: number
+}>
+
+export type SpokeBoundaryDrawCommand = Readonly<{
+  kind: 'spoke-boundary'
+  fieldId: string
+  boundaryId: string
+  from: Readonly<Point2>
+  to: Readonly<Point2>
+  color: string
+  lineWidth: number
+}>
+
+export type BoundaryLabelDrawCommand = Readonly<{
+  kind: 'boundary-label'
+  fieldId: string
+  boundaryId: string
+  position: Readonly<Point2>
+  text: string
+  color: string
+}>
+
 export type HeadDrawCommand = Readonly<{
   kind: 'head'
   wheelId: string
@@ -116,6 +154,9 @@ export type LabelDrawCommand = Readonly<{
 
 export type CompositionDrawCommand =
   | ClearDrawCommand
+  | RingBoundaryDrawCommand
+  | SpokeBoundaryDrawCommand
+  | BoundaryLabelDrawCommand
   | TraceDrawCommand
   | HeadDrawCommand
   | LabelDrawCommand
@@ -251,6 +292,7 @@ export const buildCompositionScene = (
     compositionId: composition.id,
     timeSeconds,
     observation: Object.freeze({ ...observation }),
+    boundaries: activeBoundaryGeometries(composition),
     traces: Object.freeze(traces),
   })
 }
@@ -258,10 +300,24 @@ export const buildCompositionScene = (
 export const sceneSpacePoints = (
   scene: CompositionScene,
 ): ReadonlyArray<Readonly<Point2>> =>
-  scene.traces.flatMap((trace) => [
-    ...trace.points.map((item) => item.position),
-    trace.head.position,
-  ])
+  [
+    ...scene.boundaries.flatMap((boundary) => {
+      if (boundary.kind === 'ring') {
+        return [
+          { x: boundary.center.x - boundary.radius, y: boundary.center.y },
+          { x: boundary.center.x + boundary.radius, y: boundary.center.y },
+          { x: boundary.center.x, y: boundary.center.y - boundary.radius },
+          { x: boundary.center.x, y: boundary.center.y + boundary.radius },
+        ]
+      }
+
+      return [boundary.center]
+    }),
+    ...scene.traces.flatMap((trace) => [
+      ...trace.points.map((item) => item.position),
+      trace.head.position,
+    ]),
+  ]
 
 /** Fits around Space.center, then applies Space.scale as a deterministic zoom. */
 export const fitSpaceProjection = (
@@ -342,7 +398,81 @@ export const buildCompositionDrawCommands = (
   const showTraces = options.showTraces ?? true
   const showHeads = options.showHeads ?? true
   const showDebugIds = options.showDebugIds ?? false
+  const showFields = options.showFields ?? true
+  const showBoundaryLabels = options.showBoundaryLabels ?? false
+  const fieldColor = options.fieldColor ?? 'rgba(246, 244, 239, 0.28)'
+  const fieldLineWidth = Math.max(0.5, options.fieldLineWidth ?? 1)
   const headRadius = Math.max(1, options.headRadiusPixels ?? 5)
+
+  if (showFields) {
+    for (const boundary of scene.boundaries) {
+      const center = projectSpacePoint(boundary.center, projection)
+
+      if (boundary.kind === 'ring') {
+        const radius = boundary.radius * projection.pixelsPerUnit
+        commands.push(
+          Object.freeze({
+            kind: 'ring-boundary',
+            fieldId: boundary.fieldId,
+            boundaryId: boundary.boundaryId,
+            center,
+            radius,
+            color: fieldColor,
+            lineWidth: fieldLineWidth,
+          }),
+        )
+
+        if (showBoundaryLabels) {
+          commands.push(
+            Object.freeze({
+              kind: 'boundary-label',
+              fieldId: boundary.fieldId,
+              boundaryId: boundary.boundaryId,
+              position: freezePoint({
+                x: center.x + radius + 4,
+                y: center.y - 4,
+              }),
+              text: `${boundary.index}: ${boundary.name}`,
+              color: fieldColor,
+            }),
+          )
+        }
+      } else {
+        const length = Math.hypot(projection.width, projection.height) * 2
+        const end = freezePoint({
+          x: center.x + Math.cos(boundary.angle) * length,
+          y: center.y - Math.sin(boundary.angle) * length,
+        })
+        commands.push(
+          Object.freeze({
+            kind: 'spoke-boundary',
+            fieldId: boundary.fieldId,
+            boundaryId: boundary.boundaryId,
+            from: center,
+            to: end,
+            color: fieldColor,
+            lineWidth: fieldLineWidth,
+          }),
+        )
+
+        if (showBoundaryLabels) {
+          commands.push(
+            Object.freeze({
+              kind: 'boundary-label',
+              fieldId: boundary.fieldId,
+              boundaryId: boundary.boundaryId,
+              position: freezePoint({
+                x: center.x + Math.cos(boundary.angle) * 28,
+                y: center.y - Math.sin(boundary.angle) * 28,
+              }),
+              text: `${boundary.index}: ${boundary.name}`,
+              color: fieldColor,
+            }),
+          )
+        }
+      }
+    }
+  }
 
   for (const trace of scene.traces) {
     if (showTraces && trace.style.visible && trace.points.length > 1) {
@@ -408,6 +538,35 @@ export const drawCompositionCommands = (
       context.clearRect(0, 0, command.width, command.height)
       context.fillStyle = command.color
       context.fillRect(0, 0, command.width, command.height)
+    } else if (command.kind === 'ring-boundary') {
+      context.save()
+      context.strokeStyle = command.color
+      context.lineWidth = command.lineWidth
+      context.beginPath()
+      context.arc(
+        command.center.x,
+        command.center.y,
+        command.radius,
+        0,
+        Math.PI * 2,
+      )
+      context.stroke()
+      context.restore()
+    } else if (command.kind === 'spoke-boundary') {
+      context.save()
+      context.strokeStyle = command.color
+      context.lineWidth = command.lineWidth
+      context.beginPath()
+      context.moveTo(command.from.x, command.from.y)
+      context.lineTo(command.to.x, command.to.y)
+      context.stroke()
+      context.restore()
+    } else if (command.kind === 'boundary-label') {
+      context.save()
+      context.fillStyle = command.color
+      context.font = '11px ui-monospace, monospace'
+      context.fillText(command.text, command.position.x, command.position.y)
+      context.restore()
     } else if (command.kind === 'trace') {
       context.save()
       context.globalAlpha = command.opacity

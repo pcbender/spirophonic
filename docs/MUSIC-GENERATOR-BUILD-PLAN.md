@@ -478,8 +478,8 @@ renderer part of the simulation.
 **Goal:** Supply the simple spatial structures for the first playable slice.
 
 **Files:** `src/core/fields.ts`, `src/core/fields.test.ts`,
-`src/render/compositionRenderer.ts`, `src/ui/FieldPanel.tsx`,
-`src/ui/FieldPanel.test.tsx`
+`src/render/compositionRenderer.ts`, `src/render/compositionRenderer.test.ts`,
+`src/ui/FieldPanel.tsx`, `src/ui/FieldPanel.test.tsx`
 
 **Deliverables:**
 

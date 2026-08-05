@@ -15,10 +15,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 0 / 21 |
-| Packets active | 4 |
+| Packets active | 5 |
 | Packets blocked | 0 |
-| Next ready packet | MG-04 active by user direction; MG-01–MG-03 integration remains pending |
-| Active agents | Codex/root on MG-01 through MG-04 |
+| Next ready packet | MG-05 active by user direction; MG-01–MG-04 integration remains pending |
+| Active agents | Codex/root on MG-01 through MG-05 |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-05 |
 
@@ -97,6 +97,7 @@ While working:
 | Codex/root | MG-02 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:12:04Z | 2026-08-05T17:23:12Z | Implementation commit `0afa4e3`; integration review remains. |
 | Codex/root | MG-03 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:23:58Z | 2026-08-05T17:31:47Z | Implementation commit `a454b7c`; integration review remains. |
 | Codex/root | MG-04 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:36:24Z | 2026-08-05T17:42:34Z | Implementation commit `6960442`; integration review remains. |
+| Codex/root | MG-05 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:53:05Z | 2026-08-05T17:55:03Z | Author validation passes; implementation commit and exact-commit gates are next. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -109,7 +110,7 @@ their history.
 | MG-02 | Deterministic Transport and performance window | MG-01 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `0afa4e3` is validated; integration review remains. |
 | MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `a454b7c` is validated; integration review remains. |
 | MG-04 | Space projection and composition renderer | MG-03 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `6960442` is validated; integration review remains. |
-| MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `waiting` | — | 2026-08-05 | Complete MG-01, MG-03, and MG-04. |
+| MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `in_progress` | Codex/root | 2026-08-05 | Implement and validate stable Field authoring, shared geometry, and rendering. |
 | MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `waiting` | — | 2026-08-05 | Complete MG-02, MG-03, and MG-05. |
 | MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `waiting` | — | 2026-08-05 | Complete MG-01, MG-02, and MG-06. |
 | MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `waiting` | — | 2026-08-05 | Complete MG-02 and MG-07. |
@@ -253,6 +254,28 @@ Validation rules:
   committed MG-03 packet while its integration review remains pending. MG-04
   consumes the exact `a454b7c` state contract.
 
+### MG-05 — Ring and spoke Fields
+
+- State: `in_progress`
+- Owner: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Contract: [MG-05 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-05--ring-and-spoke-fields)
+- Started UTC: 2026-08-05T17:53:05Z
+- Last updated UTC: 2026-08-05T17:55:03Z
+- Next action: commit the tested implementation and rerun the three gates at
+  that exact commit before moving MG-05 to `in_review`.
+- Commits/PRs: none yet
+- Blockers: none
+- Validation evidence: 27 targeted Field/core/renderer/UI tests pass. Working-
+  tree validation passes: `npm test` (28 files, 267 tests), `npm run lint`, and
+  `npm run build`. `graphify update .` rebuilt the graph after the final code
+  change and confirms the FieldPanel-to-fields-to-renderer relationship.
+- Handoff: [2026-08-05 MG-05 author handoff](#2026-08-05-mg-05-author-handoff)
+- Dependency exception: the user explicitly directed MG-05 to begin after the
+  committed MG-01, MG-03, and MG-04 packets while their integration review
+  remains pending. MG-05 consumes those exact committed contracts.
+
 This is the initial ready-packet record. Once work begins, keep one subsection
 for every `claimed`, `in_progress`, `blocked`, or `in_review` packet. Move each
 finished record into the Activity log, Validation ledger, and Handoff records.
@@ -321,6 +344,8 @@ and releases. Do not log every edit.
 | 2026-08-05T17:36:24Z | Codex/root | MG-04 | Packet claimed | `agent/music-generator-planning` / uncommitted | Build the pure Composition scene/command renderer and a side-by-side canvas adapter. |
 | 2026-08-05T17:41:27Z | Codex/root | MG-04 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-04 acceptance criteria and working-tree gates pass; packet commit is next. |
 | 2026-08-05T17:42:34Z | Codex/root | MG-04 | Implementation committed | `6960442` | Exact packet source passes 249 tests, lint, and build; integration review remains. |
+| 2026-08-05T17:53:05Z | Codex/root | MG-05 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement ring/spoke Field geometry, rendering, and authoring controls. |
+| 2026-08-05T17:55:03Z | Codex/root | MG-05 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-05 acceptance criteria and working-tree gates pass; packet commit is next. |
 
 ## Handoff records
 
@@ -462,6 +487,46 @@ and releases. Do not log every edit.
 - Next exact action: review and commit MG-04, rerun all gates against the exact
   commit, then move it to `in_review`, add the SHA to the Validation ledger,
   and push the branch.
+
+### 2026-08-05 MG-05 author handoff
+
+- Packet: MG-05 — Ring and spoke Fields
+- State: `in_progress`; implementation and author validation are complete, but
+  the packet does not yet have an exact commit for `in_review` evidence.
+- Agent: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Started/last updated UTC:
+  2026-08-05T17:53:05Z / 2026-08-05T17:55:03Z
+- Commits: none
+- Edited files: `src/core/fields.ts`, `src/core/fields.test.ts`,
+  `src/render/compositionRenderer.ts`,
+  `src/render/compositionRenderer.test.ts`, `src/ui/FieldPanel.tsx`,
+  `src/ui/FieldPanel.test.tsx`, and the two roadmap coordination documents.
+  The build plan now explicitly includes the renderer test in packet scope.
+  `graphify update .` also refreshed tracked generated files.
+- Acceptance criteria complete: ring and spoke Boundaries retain explicit IDs
+  through sibling edits and reorder operations; spoke crossings reject the
+  infinite line behind the oriented ray; drawing and crossing calculations
+  consume the same immutable Boundary geometry; five rings remain separately
+  addressable; and disabled Fields or Boundaries produce neither geometry,
+  drawing commands, nor crossing results.
+- Acceptance criteria remaining: none at working-tree level.
+- Validation run and exact results: 27 targeted Field/core/renderer/UI tests
+  pass; `npm test` passed 28 test files and 267 tests; `npm run lint` passed;
+  `npm run build` passed; `graphify update .` completed after the final code
+  change.
+- Manual/browser/audio evidence: no browser route is added before MG-09;
+  authoring behavior and renderer output are covered by component and command
+  tests as required by this packet.
+- Blockers or risks: none. The explicit dependency exception remains until
+  MG-01, MG-03, and MG-04 are integrated.
+- Unrelated user/agent changes preserved: the worktree was clean before the
+  MG-05 claim; only packet files, coordination metadata, and generated Graphify
+  output changed.
+- Next exact action: commit MG-05, rerun all gates against the exact commit,
+  then move it to `in_review`, add the SHA to the Validation ledger, and push
+  the branch.
 
 Append detailed handoffs here under a dated packet/agent heading and add a
 one-line summary to the Activity log. Do not overwrite an earlier handoff; a

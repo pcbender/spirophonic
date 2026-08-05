@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
-import type { Composition, HeadSpec } from '../core/composition'
+import type {
+  Composition,
+  HeadSpec,
+  RingFieldSpec,
+  SpokeFieldSpec,
+} from '../core/composition'
 import { defaultComposition } from '../core/defaultComposition'
 import {
   buildCompositionDrawCommands,
@@ -46,6 +51,44 @@ const compositionWithTwoHeads = (): Composition => {
 
   return composition
 }
+
+const fields = (): [RingFieldSpec, SpokeFieldSpec] => [
+  {
+    id: 'rings-1',
+    name: 'Rings',
+    enabled: true,
+    kind: 'rings',
+    center: { x: 10, y: -5 },
+    boundaries: [
+      {
+        id: 'ring-1',
+        name: 'Inner',
+        enabled: true,
+        index: 0,
+        kind: 'ring',
+        radius: 40,
+      },
+    ],
+  },
+  {
+    id: 'spokes-1',
+    name: 'Spokes',
+    enabled: true,
+    kind: 'spokes',
+    center: { x: 10, y: -5 },
+    rotation: Math.PI / 4,
+    boundaries: [
+      {
+        id: 'spoke-1',
+        name: 'North',
+        enabled: true,
+        index: 0,
+        kind: 'spoke',
+        angle: Math.PI / 4,
+      },
+    ],
+  },
+]
 
 describe('Composition scene snapshots', () => {
   it('preserves Wheel and Head order with independent Trace styles', () => {
@@ -221,5 +264,65 @@ describe('Space projection and draw commands', () => {
       'label',
       'label',
     ])
+  })
+
+  it('renders active ring and oriented-spoke geometry before Traces', () => {
+    const composition = compositionWithTwoHeads()
+    composition.fields = fields()
+    const scene = buildCompositionScene(composition, 1, observation)
+    const projection = fitSpaceProjection(
+      composition.space,
+      sceneSpacePoints(scene),
+      { width: 320, height: 320, padding: 24 },
+    )
+    const commands = buildCompositionDrawCommands(scene, projection, {
+      showBoundaryLabels: true,
+    })
+    const ring = commands.find((command) => command.kind === 'ring-boundary')
+    const spoke = commands.find((command) => command.kind === 'spoke-boundary')
+
+    expect(commands.slice(0, 5).map((command) => command.kind)).toEqual([
+      'clear',
+      'ring-boundary',
+      'boundary-label',
+      'spoke-boundary',
+      'boundary-label',
+    ])
+    expect(ring).toMatchObject({
+      fieldId: 'rings-1',
+      boundaryId: 'ring-1',
+      radius: 40 * projection.pixelsPerUnit,
+    })
+    expect(spoke).toMatchObject({
+      fieldId: 'spokes-1',
+      boundaryId: 'spoke-1',
+      from: projectSpacePoint({ x: 10, y: -5 }, projection),
+    })
+    if (spoke?.kind !== 'spoke-boundary') return
+    expect(spoke.to.x).toBeCloseTo(spoke.from.x, 12)
+    expect(spoke.to.y).toBeLessThan(spoke.from.y)
+  })
+
+  it('emits no commands for disabled Fields or Boundaries', () => {
+    const composition = compositionWithTwoHeads()
+    const [rings, spokes] = fields()
+    rings.enabled = false
+    spokes.boundaries[0].enabled = false
+    composition.fields = [rings, spokes]
+    const scene = buildCompositionScene(composition, 1, observation)
+    const projection = fitSpaceProjection(
+      composition.space,
+      sceneSpacePoints(scene),
+      { width: 320, height: 320 },
+    )
+    const commands = buildCompositionDrawCommands(scene, projection)
+
+    expect(scene.boundaries).toEqual([])
+    expect(
+      commands.some(
+        (command) =>
+          command.kind === 'ring-boundary' || command.kind === 'spoke-boundary',
+      ),
+    ).toBe(false)
   })
 })
