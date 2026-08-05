@@ -102,7 +102,7 @@ While working:
 | Codex/root | MG-07 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:11:29Z | 2026-08-05T18:21:38Z | Implementation commit `842acb7`; integration review remains. |
 | Codex/root | MG-08 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:23:26Z | 2026-08-05T18:37:10Z | Implementation commit `7f2d487`; integration review remains. |
 | Codex/root | MG-09 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:39:36Z | 2026-08-05T19:03:51Z | Implementation commit `ff6af91`; exact-commit gates and Hermes browser playback pass; integration review remains. |
-| Codex/root | MG-10 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T19:07:49Z | 2026-08-05T19:32:36Z | Vault, pinned engine, reproducible worklet packaging, ADR, and Chromium/Firefox probes pass; exact-commit validation record is next. |
+| Codex/root | MG-10 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T19:07:49Z | 2026-08-05T19:34:43Z | Implementation commit `992a97e`; exact-commit gates and Chromium/Firefox SoundFont probes pass; integration review remains. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -120,7 +120,7 @@ their history.
 | MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `842acb7` is validated; integration review remains. |
 | MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `7f2d487` is validated; integration review remains. |
 | MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `ff6af91` is validated; integration review remains. |
-| MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `in_review` | Codex/root | 2026-08-05 | Author validation passes; commit the packet, rerun exact-commit gates, and record the SHA. |
+| MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `992a97e` is validated; integration review remains. |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `waiting` | — | 2026-08-05 | Complete MG-07, MG-08, and MG-10. |
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | `waiting` | — | 2026-08-05 | Complete MG-09 and MG-11. |
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | `waiting` | — | 2026-08-05 | Complete MG-05, MG-06, and MG-12. |
@@ -164,6 +164,7 @@ the final column rather than relying on a statement that it was checked.
 | MG-07 | `842acb7` | 32 files, 298 tests pass | pass | pass | refreshed after code | Deterministic compiler fixtures; no browser/audio surface | Pending |
 | MG-08 | `7f2d487` | 34 files, 309 tests pass | pass | pass | refreshed after code | Fake clock/engine and native routing tests; app integration is MG-09 | Pending |
 | MG-09 | `ff6af91` | 25 files, 179 tests pass | pass | pass | refreshed after code | Hermes: Wheel cycles 1→2 changed 13→17 events; Play advanced to 1.25s; no page errors; 1600x1000 capture at `/tmp/spirophonic-mg09-hermes.png` | Pending |
+| MG-10 | `992a97e` | 27 files, 190 tests pass | pass | pass; matched worklet SHA-256 | refreshed after code | Hermes Chromium 147 + Firefox 148: SF2/SF3, 287 presets, two pitched presets + drums overlap, missing/corrupt rejection, clean disposal; bank/worklet digests in ADR 0001 | Pending |
 
 Validation rules:
 
@@ -387,13 +388,14 @@ Validation rules:
 - Cwd/worktree: `/home/mrose/spirophonic`
 - Contract: [MG-10 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-10--sound-bank-vault-and-soundfont-engine-decision)
 - Started UTC: 2026-08-05T19:07:49Z
-- Last updated UTC: 2026-08-05T19:32:36Z
-- Next action: commit the packet, rerun the three gates on that exact commit,
-  add its SHA to the validation ledger, and push the branch.
-- Commits/PRs: none yet
+- Last updated UTC: 2026-08-05T19:34:43Z
+- Next action: review and integrate commit `992a97e`, rerun the gates on the
+  integrated commit, then mark MG-10 `done` with its dependencies.
+- Commits/PRs: `992a97e`
 - Blockers: none
-- Validation evidence: 11 focused tests and the full 27-file/190-test suite
-  pass; lint, build, audit, diff check, and Graphify refresh pass. The build
+- Validation evidence: exact commit `992a97e` passes the full 27-file/190-test
+  suite, lint, and build; audit, diff check, and Graphify refresh also pass. The
+  build
   reproduced the pinned 397,904-byte AudioWorklet with SHA-256
   `4a6e2bf7ca16a510841f467f4563dcf9155c328ff6eef808a508def280de709e`.
   Hermes Chromium 147 and Firefox 148 probes loaded both SF2 and SF3 banks,
@@ -489,6 +491,7 @@ and releases. Do not log every edit.
 | 2026-08-05T19:03:51Z | Codex/root | MG-09 | Implementation committed | `ff6af91` | Exact packet source passes 179 tests, lint, build, Graphify refresh, and Hermes browser playback; integration review remains. |
 | 2026-08-05T19:07:49Z | Codex/root | MG-10 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement local SoundFont ownership and select a reproducible browser engine. |
 | 2026-08-05T19:32:36Z | Codex/root | MG-10 | Author handoff | `agent/music-generator-planning` / uncommitted | Digest-keyed vault, pinned SpessaSynth worklet, SF2/SF3 probes, packaging, licensing boundary, and all working-tree gates pass; commit and exact-commit validation are next. |
+| 2026-08-05T19:34:43Z | Codex/root | MG-10 | Implementation committed | `992a97e` | Exact packet source passes 190 tests, lint, build, reproducible worklet sync, Graphify refresh, and Hermes Chromium/Firefox probes; integration review remains. |
 
 ## Handoff records
 
@@ -835,14 +838,14 @@ and releases. Do not log every edit.
 ### 2026-08-05 MG-10 author handoff
 
 - Packet: MG-10 — Sound bank vault and SoundFont engine decision
-- State: `in_review`; implementation and author validation are complete, but
-  the exact implementation commit still needs its validation-ledger row.
+- State: `in_review`; implementation and exact-commit author validation are
+  complete; integration review remains.
 - Agent: Codex/root
 - Branch: `agent/music-generator-planning`
 - Cwd/worktree: `/home/mrose/spirophonic`
 - Started/last updated UTC:
-  2026-08-05T19:07:49Z / 2026-08-05T19:32:36Z
-- Commits: none yet
+  2026-08-05T19:07:49Z / 2026-08-05T19:34:43Z
+- Commits: `992a97e` — feat: deliver MG-10 SoundFont foundation
 - Edited files: the digest-keyed IndexedDB vault and tests; SpessaSynth probe,
   worklet adapter, and tests; the Composition SoundBank aliases; pinned npm
   packages and automated worklet copy script; `.gitignore`; ADR 0001; packet
@@ -878,9 +881,8 @@ and releases. Do not log every edit.
 - Unrelated user/agent changes preserved: the worktree was clean before the
   MG-10 claim; only packet files, coordination metadata, package resolution,
   and generated Graphify output changed.
-- Next exact action: commit MG-10, rerun all three gates against the exact
-  implementation commit, add its SHA to the validation ledger, commit that
-  evidence, and push the branch.
+- Next exact action: review and integrate `992a97e`, rerun the full gates on
+  the integrated commit, then mark MG-10 `done` and re-evaluate MG-11.
 
 Append detailed handoffs here under a dated packet/agent heading and add a
 one-line summary to the Activity log. Do not overwrite an earlier handoff; a
