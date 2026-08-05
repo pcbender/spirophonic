@@ -899,11 +899,24 @@ therefore lives in `composition.ts` with matching validation.
 **Goal:** Let ratios and trajectories create pitch relationships instead of
 only sampling coordinates into an unrelated scale.
 
-**Files:** `src/core/tuning.ts`, `src/core/tuning.test.ts`,
+**Files:** `src/core/composition.ts`, `src/core/compositionValidation.ts`,
+`src/core/compositionValidation.test.ts`,
+`src/core/tuning.ts`, `src/core/tuning.test.ts`,
 `src/core/melody.ts`, `src/core/melody.test.ts`, `src/core/parts.ts`,
 `src/core/performance.ts`, `src/ui/PartPanel.tsx`,
+`src/audio/soundfontEngine.ts`, `src/audio/soundfontEngine.test.ts`,
 `src/core/parts.test.ts`, `src/core/performance.test.ts`,
 `src/ui/PartPanel.test.tsx`
+
+**Scope note (2026-08-05):** the fifth packet whose file list omits data it
+requires. A shared tuning context is by definition shared, so it cannot live
+inside a single Part; `TuningContextSpec` and `Composition.tuningContexts` go in
+`composition.ts` with validation. `soundfontEngine.ts` joins the list because
+the criterion "SoundFont pitch bend/range behavior is tested where exact
+frequency is used" cannot be met without the engine actually bending pitch.
+
+The remaining packets' file lists should be checked against their own
+deliverables before MG-17 begins, rather than amended one packet at a time.
 
 **Deliverables:**
 

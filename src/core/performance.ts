@@ -9,6 +9,7 @@ import {
   type EncounterScanOptions,
 } from './encounters'
 import {
+  buildPartMelody,
   mapEncounterPitch,
   normalizeEncounterContour,
   selectPartEncounters,
@@ -164,6 +165,9 @@ const quantizedCandidates = (
           composition.space,
         )
       : undefined
+  // A melodic line is stateful across the Part's Encounters, so it is built
+  // once for the whole selection rather than per Encounter.
+  const melody = buildPartMelody(part, encounters, composition.space)
   const candidates: Array<NoteCandidate> = []
 
   encounters.forEach((encounter, index) => {
@@ -179,6 +183,11 @@ const quantizedCandidates = (
             part.pitch,
             composition.space,
             contour?.[index],
+            {
+              composition,
+              tuningContextId: part.tuningContextId,
+              melodyMidiNote: melody?.[index],
+            },
           ),
           velocity: mapStrengthToVelocity(encounter.strength, part.velocity),
         }),

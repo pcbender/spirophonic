@@ -399,6 +399,59 @@ export type PitchMapping =
       scale: ScaleName
       octaves: number
     }
+  /** Exact ratio above the tuning context's root. */
+  | { kind: 'tuned-ratio'; ratio: RatioSourceSpec }
+  /**
+   * A stateful melodic line: the source drives direction, and the line walks
+   * the scale rather than sampling coordinates independently.
+   */
+  | {
+      kind: 'melodic-contour'
+      source: 'x' | 'y' | 'radius' | 'angle'
+      scale: ScaleName
+      contour: MelodyContourSpec
+    }
+
+/**
+ * A shared pitch reference several Parts can derive from, so they land in the
+ * same key and interpret ratios against the same root instead of each carrying
+ * an unrelated root and scale.
+ *
+ * `equal-temperament` quantizes to `divisions` steps per octave. `rational`
+ * keeps exact frequency ratios, which is what makes a 3:2 relationship an
+ * actual perfect fifth rather than a 700-cent approximation of one.
+ */
+export type TuningSystemSpec =
+  | { kind: 'equal-temperament'; divisions: number }
+  | { kind: 'rational'; maxDenominator: number }
+
+export type TuningContextSpec = {
+  id: string
+  name: string
+  rootFrequencyHz: number
+  system: TuningSystemSpec
+  octaveFold: boolean
+}
+
+/**
+ * Where a ratio comes from. `explicit` is authored directly; `wheel-motion`
+ * reads the frequency relationship out of a Wheel, so changing a Lissajous
+ * from 3:2 to 5:4 changes the shape and the interval together.
+ */
+export type RatioSourceSpec =
+  | { kind: 'explicit'; numerator: number; denominator: number }
+  | { kind: 'wheel-motion'; wheelId: string }
+
+export type MelodyContourSpec = {
+  /** Scale steps a single move may span. */
+  maxStep: number
+  /** How strongly the source's own direction drives the line, in [0, 1]. */
+  directionBias: number
+  /** Lowest and highest scale degree the line may reach. */
+  lowDegree: number
+  highDegree: number
+  startDegree: number
+}
 
 export type VelocityMapping =
   | { kind: 'constant'; value: number }
@@ -432,6 +485,8 @@ export type PartBase = {
 
 export type NotePartSpec = PartBase & {
   kind: 'note'
+  /** Optional so MG-01 through MG-15 documents stay valid. */
+  tuningContextId?: string
   onset: OnsetMapping
   pitch: PitchMapping
   velocity: VelocityMapping
@@ -523,6 +578,8 @@ export type Composition = {
   fields: Array<FieldSpec>
   /** Optional so MG-01 through MG-13 documents stay valid; absent means none. */
   relations?: Array<RelationSpec>
+  /** Optional so MG-01 through MG-15 documents stay valid; absent means none. */
+  tuningContexts?: Array<TuningContextSpec>
   soundBanks: Array<SoundBankReference>
   instruments: Array<InstrumentSpec>
   parts: Array<PartSpec>

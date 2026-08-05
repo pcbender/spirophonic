@@ -1,4 +1,5 @@
 import type {
+  Composition,
   EncounterQuery,
   NotePartSpec,
   PartSpec,
@@ -8,6 +9,12 @@ import type {
 } from './composition'
 import type { BoundaryCrossingEncounter } from './encounters'
 import type { RelationEncounter } from './relations'
+import { buildMelodicContour, normalizeSeries } from './melody'
+import {
+  findTuningContext,
+  frequencyForRatio,
+  resolveRatioSource,
+} from './tuning'
 import {
   frequencyToMidi,
   midiToFrequency,
@@ -160,12 +167,57 @@ const scalePitch = (
   return Object.freeze({ midiNote, frequencyHz: midiToFrequency(midiNote) })
 }
 
+export type PitchMappingContext = Readonly<{
+  composition: Composition
+  tuningContextId?: string
+  /** Precomputed melodic line, indexed alongside the Part's Encounters. */
+  melodyMidiNote?: number
+}>
+
 export const mapEncounterPitch = (
   encounter: BoundaryCrossingEncounter,
   mapping: NotePartSpec['pitch'],
   space: SpaceSpec,
   contourUnit?: number,
+  context?: PitchMappingContext,
 ): MappedPitch => {
+  if (mapping.kind === 'tuned-ratio') {
+    if (!context) {
+      throw new RangeError('A tuned-ratio pitch mapping needs a tuning context.')
+    }
+    const resolved = resolveRatioSource(context.composition, mapping.ratio)
+    if (!resolved.ok) {
+      // Reporting why beats silently substituting some default scale.
+      throw new RangeError(resolved.reason)
+    }
+    const tuning = findTuningContext(context.composition, context.tuningContextId)
+    const frequencyHz = frequencyForRatio(tuning, resolved.ratio)
+    if (!Number.isFinite(frequencyHz) || frequencyHz <= 0 || frequencyHz > 40_000) {
+      throw new RangeError(
+        `Tuned ratio produced ${frequencyHz} Hz; expected a positive value at most 40000 Hz.`,
+      )
+    }
+    return Object.freeze({
+      frequencyHz,
+      midiNote: frequencyToMidi(frequencyHz),
+    })
+  }
+
+  if (mapping.kind === 'melodic-contour') {
+    if (context?.melodyMidiNote === undefined) {
+      throw new RangeError(
+        'A melodic-contour pitch mapping needs a precomputed contour line.',
+      )
+    }
+    const midiNote = context.melodyMidiNote
+    if (!Number.isFinite(midiNote) || midiNote < 0 || midiNote > 127) {
+      throw new RangeError(
+        `Melodic contour produced MIDI note ${midiNote}; expected 0 through 127.`,
+      )
+    }
+    return Object.freeze({ midiNote, frequencyHz: midiToFrequency(midiNote) })
+  }
+
   if (mapping.kind === 'fixed-midi') {
     return Object.freeze({
       midiNote: mapping.note,
@@ -223,6 +275,28 @@ export const mapEncounterPitch = (
     ),
     mapping,
   )
+}
+
+/** The melodic line a Part's Encounters walk, or undefined if it has none. */
+export const buildPartMelody = (
+  part: NotePartSpec,
+  encounters: ReadonlyArray<BoundaryCrossingEncounter>,
+  space: SpaceSpec,
+): ReadonlyArray<number> | undefined => {
+  if (part.pitch.kind !== 'melodic-contour') return undefined
+
+  const series = normalizeSeries(
+    encounters.map((encounter) =>
+      encounterSpatialSource(encounter, part.pitch.kind === 'melodic-contour' ? part.pitch.source : 'radius', space),
+    ),
+  )
+  return buildMelodicContour(
+    series,
+    part.pitch.contour,
+    part.pitch.scale,
+    // Degree 0 sits at the contour's low bound, expressed from middle C.
+    60,
+  ).map((step) => step.midiNote)
 }
 
 export const validatePartMusicalRange = (

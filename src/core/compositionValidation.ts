@@ -69,6 +69,7 @@ class ValidationContext {
   readonly fieldIds = new Set<string>()
   readonly boundaryIds = new Set<string>()
   readonly relationIds = new Set<string>()
+  readonly tuningContextIds = new Set<string>()
   readonly soundBankIds = new Set<string>()
   readonly instrumentIds = new Set<string>()
 
@@ -259,6 +260,7 @@ export const validateComposition = (value: unknown): CompositionValidationResult
     'wheels',
     'fields',
     'relations',
+    'tuningContexts',
     'soundBanks',
     'instruments',
     'parts',
@@ -289,6 +291,18 @@ export const validateComposition = (value: unknown): CompositionValidationResult
     })
     relations?.forEach((relation, index) =>
       validateRelation(context, relation, `$.relations[${index}]`),
+    )
+  }
+
+  if (composition.tuningContexts !== undefined) {
+    const contexts = context.array(
+      composition,
+      'tuningContexts',
+      '$.tuningContexts',
+      { max: 32 },
+    )
+    contexts?.forEach((tuning, index) =>
+      validateTuningContext(context, tuning, `$.tuningContexts[${index}]`),
     )
   }
 
@@ -1165,8 +1179,23 @@ const validatePart = (
     'kind',
     'encounterQuery',
     'instrumentId',
+    'tuningContextId',
     ...specificKeys,
   ])
+  if (part.tuningContextId !== undefined) {
+    const tuningId = context.string(
+      part,
+      'tuningContextId',
+      `${path}.tuningContextId`,
+      { nonEmpty: true, maxLength: 128, pattern: idPattern },
+    )
+    if (tuningId && !context.tuningContextIds.has(tuningId)) {
+      context.issue(
+        `${path}.tuningContextId`,
+        `References missing tuning context "${tuningId}".`,
+      )
+    }
+  }
   context.id(part, 'id', `${path}.id`)
   context.string(part, 'name', `${path}.name`, { nonEmpty: true, maxLength: 200 })
   context.boolean(part, 'enabled', `${path}.enabled`)
@@ -1254,6 +1283,55 @@ const validateRelation = (
     `${path}.minSeparationSeconds`,
     { min: 0, max: 3_600 },
   )
+}
+
+const validateTuningContext = (
+  context: ValidationContext,
+  value: unknown,
+  path: string,
+) => {
+  const tuning = context.object(value, path)
+  if (!tuning) return
+
+  context.knownKeys(tuning, path, [
+    'id',
+    'name',
+    'rootFrequencyHz',
+    'system',
+    'octaveFold',
+  ])
+  context.id(tuning, 'id', `${path}.id`, context.tuningContextIds)
+  context.string(tuning, 'name', `${path}.name`, {
+    nonEmpty: true,
+    maxLength: 200,
+  })
+  context.number(tuning, 'rootFrequencyHz', `${path}.rootFrequencyHz`, {
+    greaterThan: 0,
+    max: 40_000,
+  })
+  context.boolean(tuning, 'octaveFold', `${path}.octaveFold`)
+
+  const system = context.object(tuning.system, `${path}.system`)
+  if (!system) return
+  const kind = context.literal(system, 'kind', `${path}.system.kind`, [
+    'equal-temperament',
+    'rational',
+  ])
+  if (kind === 'equal-temperament') {
+    context.knownKeys(system, `${path}.system`, ['kind', 'divisions'])
+    context.number(system, 'divisions', `${path}.system.divisions`, {
+      min: 1,
+      max: 1_200,
+      integer: true,
+    })
+  } else if (kind === 'rational') {
+    context.knownKeys(system, `${path}.system`, ['kind', 'maxDenominator'])
+    context.number(system, 'maxDenominator', `${path}.system.maxDenominator`, {
+      min: 1,
+      max: 10_000,
+      integer: true,
+    })
+  }
 }
 
 const validateEncounterQuery = (
@@ -1411,6 +1489,8 @@ const validatePitch = (
     'ratio',
     'spatial',
     'contour',
+    'tuned-ratio',
+    'melodic-contour',
   ])
 
   if (kind === 'fixed-midi') {
@@ -1432,6 +1512,88 @@ const validatePitch = (
   } else if (kind === 'boundary-degree') {
     context.knownKeys(pitch, path, ['kind', 'root', 'scale', 'octaves'])
     validateScalePitch(context, pitch, path)
+  } else if (kind === 'tuned-ratio') {
+    context.knownKeys(pitch, path, ['kind', 'ratio'])
+    const ratio = context.object(pitch.ratio, `${path}.ratio`)
+    if (ratio) {
+      const ratioKind = context.literal(ratio, 'kind', `${path}.ratio.kind`, [
+        'explicit',
+        'wheel-motion',
+      ])
+      if (ratioKind === 'explicit') {
+        context.knownKeys(ratio, `${path}.ratio`, [
+          'kind',
+          'numerator',
+          'denominator',
+        ])
+        context.number(ratio, 'numerator', `${path}.ratio.numerator`, {
+          greaterThan: 0,
+          max: 10_000,
+        })
+        context.number(ratio, 'denominator', `${path}.ratio.denominator`, {
+          greaterThan: 0,
+          max: 10_000,
+        })
+      } else if (ratioKind === 'wheel-motion') {
+        context.knownKeys(ratio, `${path}.ratio`, ['kind', 'wheelId'])
+        const wheelId = context.string(ratio, 'wheelId', `${path}.ratio.wheelId`, {
+          nonEmpty: true,
+          maxLength: 128,
+          pattern: idPattern,
+        })
+        if (wheelId && !context.wheelIds.has(wheelId)) {
+          context.issue(
+            `${path}.ratio.wheelId`,
+            `References missing Wheel "${wheelId}".`,
+          )
+        }
+      }
+    }
+  } else if (kind === 'melodic-contour') {
+    context.knownKeys(pitch, path, ['kind', 'source', 'scale', 'contour'])
+    context.literal(pitch, 'source', `${path}.source`, ['x', 'y', 'radius', 'angle'])
+    context.literal(pitch, 'scale', `${path}.scale`, scaleNames)
+    const contour = context.object(pitch.contour, `${path}.contour`)
+    if (contour) {
+      context.knownKeys(contour, `${path}.contour`, [
+        'maxStep',
+        'directionBias',
+        'lowDegree',
+        'highDegree',
+        'startDegree',
+      ])
+      context.number(contour, 'maxStep', `${path}.contour.maxStep`, {
+        min: 0,
+        max: 64,
+        integer: true,
+      })
+      context.number(contour, 'directionBias', `${path}.contour.directionBias`, {
+        min: 0,
+        max: 1,
+      })
+      const low = context.number(contour, 'lowDegree', `${path}.contour.lowDegree`, {
+        min: -128,
+        max: 128,
+        integer: true,
+      })
+      const high = context.number(
+        contour,
+        'highDegree',
+        `${path}.contour.highDegree`,
+        { min: -128, max: 128, integer: true },
+      )
+      if (low !== null && high !== null && high < low) {
+        context.issue(
+          `${path}.contour.highDegree`,
+          `highDegree ${high} must not be below lowDegree ${low}.`,
+        )
+      }
+      context.number(contour, 'startDegree', `${path}.contour.startDegree`, {
+        min: -128,
+        max: 128,
+        integer: true,
+      })
+    }
   } else if (kind === 'spatial' || kind === 'contour') {
     context.knownKeys(pitch, path, ['kind', 'source', 'root', 'scale', 'octaves'])
     context.literal(pitch, 'source', `${path}.source`, ['x', 'y', 'radius', 'angle'])

@@ -82,6 +82,11 @@ export type SoundFontSynthesizer = {
     program: number,
     options?: { time?: number },
   ) => void
+  pitchWheel?: (
+    channel: number,
+    value: number,
+    options?: { time?: number },
+  ) => void
   stopAll: (force?: boolean) => void
   destroy: () => void
 }
@@ -93,6 +98,8 @@ export type SoundFontEngineOptions = Readonly<{
   synthesizerFactory?: (context: BaseAudioContext) => SoundFontSynthesizer
   loadTimeoutMilliseconds?: number
   maxVoices?: number
+  /** Bend range in semitones each channel is configured for. */
+  pitchBendRangeSemitones?: number
 }>
 
 type LoadedBank = {
@@ -177,6 +184,7 @@ export class SoundFontEngine implements InstrumentEngine {
   ) => SoundFontSynthesizer
   private readonly loadTimeoutMilliseconds: number
   private readonly maxVoices: number
+  private readonly pitchBendRangeSemitones: number
   private readonly banks = new Map<string, LoadedBank>()
   private readonly bankLoads = new Map<string, Promise<LoadedBank>>()
   private readonly bankStatuses = new Map<string, SoundFontBankStatus>()
@@ -197,6 +205,7 @@ export class SoundFontEngine implements InstrumentEngine {
         new WorkletSynthesizer(context) as unknown as SoundFontSynthesizer)
     this.loadTimeoutMilliseconds = options.loadTimeoutMilliseconds ?? 15_000
     this.maxVoices = options.maxVoices ?? 64
+    this.pitchBendRangeSemitones = options.pitchBendRangeSemitones ?? 2
   }
 
   get currentTimeSeconds() {
@@ -392,7 +401,15 @@ export class SoundFontEngine implements InstrumentEngine {
     const synthesizer = route.bank.synthesizer
     const { bankMSB, bankLSB } = splitSoundFontBankNumber(instrument.bank)
     const channel = route.channel
-    const note = clamp(Math.round(event.midiNote ?? 69), 0, 127)
+    // Exact frequency is the source of truth. MIDI can only name whole
+    // semitones, so anything between them is played as the nearest note plus a
+    // pitch bend. Beyond the channel's configured range the bend would wrap, so
+    // the event is played untuned rather than at a wrong pitch.
+    const exactMidi =
+      event.midiNote ??
+      (event.frequencyHz > 0 ? 69 + 12 * Math.log2(event.frequencyHz / 440) : 69)
+    const note = clamp(Math.round(exactMidi), 0, 127)
+    const detuneSemitones = exactMidi - note
     const options = { time: audioTimeSeconds }
     synthesizer.midiChannels[channel].setDrums(instrument.percussion)
     synthesizer.midiChannels[channel].setSystemParameter(
@@ -420,6 +437,19 @@ export class SoundFontEngine implements InstrumentEngine {
       Math.round(clamp(instrument.chorus, 0, 1) * 127),
       options,
     )
+    if (synthesizer.pitchWheel) {
+      const withinRange =
+        Math.abs(detuneSemitones) <= this.pitchBendRangeSemitones + 1e-9
+      const normalized = withinRange
+        ? detuneSemitones / this.pitchBendRangeSemitones
+        : 0
+      // 14-bit wheel, centre 8192.
+      synthesizer.pitchWheel(
+        channel,
+        clamp(Math.round(8192 + normalized * 8191), 0, 16_383),
+        options,
+      )
+    }
     synthesizer.noteOn(channel, note, clamp(Math.round(event.velocity), 1, 127), options)
     synthesizer.noteOff(channel, note, {
       time: audioTimeSeconds + event.durationSeconds,

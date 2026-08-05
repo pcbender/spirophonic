@@ -87,3 +87,31 @@ describe('MG-14 relation and control authoring', () => {
     )
   })
 })
+
+describe('MG-16 tuning authoring', () => {
+  it('adds a tuning context that validates and can switch system', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={base()} onChange={onChange} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Add Tuning' }))
+    let composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    expect(composition.tuningContexts).toHaveLength(1)
+    expect(composition.tuningContexts![0].system.kind).toBe('equal-temperament')
+    expect(validateComposition(composition).ok).toBe(true)
+
+    cleanup()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    const id = composition.tuningContexts![0].id
+    fireEvent.change(screen.getByLabelText(`Tuning system ${id}`), {
+      target: { value: 'rational' },
+    })
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    expect(composition.tuningContexts![0].system).toEqual({
+      kind: 'rational',
+      maxDenominator: 64,
+    })
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+})

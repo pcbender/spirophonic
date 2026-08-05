@@ -15,10 +15,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 15 / 21 |
-| Packets active | 0 |
+| Packets active | 1 |
 | Packets blocked | 0 |
-| Next ready packet | MG-16 — Relationship tuning, melody, and harmony |
-| Active agents | none |
+| Next ready packet | MG-16 is claimed; MG-17 unblocks when it lands |
+| Active agents | Claude Opus 5 on MG-16 |
 | Integration branch | `agent/music-generator-planning` |
 | Last tracker update | 2026-08-05 |
 
@@ -93,7 +93,7 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| — | — | — | — | — | — | — | No packet is claimed. MG-16 is ready. |
+| Claude Opus 5 | MG-16 | `claimed` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T23:35:00Z | 2026-08-05T23:35:00Z | Dependencies MG-07, MG-11, MG-14 are `done` at `214a0e0`. No overlapping claim. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -117,7 +117,7 @@ their history.
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | `done` | — | 2026-08-05 | Integrated at `27e0390` with panel-overflow fix `b37e574`; user confirmed the new Field overlays working in a browser. |
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | `done` | — | 2026-08-05 | Integrated at `f2adb33`; browser evidence from the Playwright suite added in `11079d6`. |
 | MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | `done` | — | 2026-08-05 | Integrated at `9c8096d`; unit and browser gates pass on that commit. |
-| MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | `ready` | — | 2026-08-05 | Dependencies are `done`; the packet is unblocked and unclaimed. |
+| MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | `claimed` | Claude Opus 5 | 2026-08-05 | Claimed at 2026-08-05T23:35:00Z on `agent/music-generator-planning`. |
 | MG-17 | Seeded variation | MG-03, MG-06, MG-07, MG-16 | `waiting` | — | 2026-08-05 | Complete MG-03, MG-06, MG-07, and MG-16. |
 | MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | `waiting` | — | 2026-08-05 | Complete MG-07 and MG-17. |
 | MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | `waiting` | — | 2026-08-05 | Complete MG-16 and MG-18. |
@@ -180,7 +180,7 @@ Validation rules:
 MG-01 through MG-12 are `done`; their records live in the Validation ledger,
 Activity log, and Handoff records below.
 
-No packet is claimed. MG-16 is `ready` and unclaimed.
+MG-16 is claimed. No other packet is ready.
 
 Keep one subsection here for every `claimed`, `in_progress`, `blocked`, or
 `in_review` packet, then move each finished record into the Activity log,

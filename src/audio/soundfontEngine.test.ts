@@ -155,6 +155,12 @@ class FakeSynth implements SoundFontSynthesizer {
     this.programs.push({ channel, values: [program], time: options?.time })
   }
 
+  readonly pitchWheels: Array<RecordedCall> = []
+
+  pitchWheel(channel: number, value: number, options?: { time?: number }) {
+    this.pitchWheels.push({ channel, values: [value], time: options?.time })
+  }
+
   stopAll() {
     this.stopCount += 1
   }
@@ -346,6 +352,65 @@ describe('SoundFontEngine', () => {
     expect(readiness).toEqual([true, true])
     expect(engine.isInstrumentReady('warm')).toBe(true)
     expect(engine.isInstrumentReady('cold')).toBe(true)
+  })
+
+  it('bends pitch for exact frequencies and stays centred on whole semitones', async () => {
+    const bank = reference('bank-one')
+    const { engine, synths } = harness(new Set([bank.digest]))
+    const piano = instrument('piano', bank.id, presets[0])
+    await engine.prepare([bank], [piano])
+
+    // A whole semitone needs no bend: the wheel stays at centre.
+    engine.schedule(
+      { ...event('one', piano.id, 60), midiNote: 60, frequencyHz: 261.6255653 },
+      piano,
+      10,
+    )
+    expect(synths[0].pitchWheels.at(-1)?.values[0]).toBe(8192)
+
+    // A quarter tone up is half of the default 2-semitone range.
+    engine.schedule(
+      {
+        ...event('two', piano.id, 60),
+        midiNote: 60.5,
+        frequencyHz: 269.2917795,
+      },
+      piano,
+      10.5,
+    )
+    const bent = synths[0].pitchWheels.at(-1)
+    expect(bent?.time).toBe(10.5)
+    // 60.5 rounds to note 61, so the exact pitch is reached by bending *down*
+    // a quarter of the 2-semitone range rather than up from note 60.
+    expect(synths[0].noteOns.at(-1)?.values[0]).toBe(61)
+    expect(bent?.values[0]).toBe(8192 - Math.round(0.25 * 8191))
+
+    // Beyond the configured range the bend would wrap, so it stays centred
+    // rather than sounding at a wrong pitch.
+    engine.schedule(
+      { ...event('three', piano.id, 60), midiNote: 60.5, frequencyHz: 269.29 },
+      piano,
+      11,
+    )
+    const outOfRange = harness(new Set([bank.digest]))
+    const narrow = new SoundFontEngine({
+      store: outOfRange.store,
+      contextFactory: () => outOfRange.context as unknown as AudioContext,
+      registerWorklet: vi.fn(async () => undefined),
+      synthesizerFactory: () => {
+        const synth = new FakeSynth(outOfRange.context)
+        outOfRange.synths.push(synth)
+        return synth
+      },
+      pitchBendRangeSemitones: 0.25,
+    })
+    await narrow.prepare([bank], [piano])
+    narrow.schedule(
+      { ...event('four', piano.id, 60), midiNote: 60.5, frequencyHz: 269.29 },
+      piano,
+      12,
+    )
+    expect(outOfRange.synths[0].pitchWheels.at(-1)?.values[0]).toBe(8192)
   })
 
   it('reports unsupported bank formats without opening a silent route', async () => {

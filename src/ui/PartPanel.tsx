@@ -97,6 +97,25 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
     })
   }
 
+  const tuningContexts = composition.tuningContexts ?? []
+
+  const addTuningContext = () => {
+    const id = nextId(composition, 'tuning')
+    onChange({
+      ...composition,
+      tuningContexts: [
+        ...tuningContexts,
+        {
+          id,
+          name: `Tuning ${tuningContexts.length + 1}`,
+          rootFrequencyHz: 261.6255653005986,
+          system: { kind: 'equal-temperament', divisions: 12 },
+          octaveFold: true,
+        },
+      ],
+    })
+  }
+
   const addControlPart = () => {
     const id = nextId(composition, 'control')
     const part: PartSpec = {
@@ -181,8 +200,87 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
           <button type="button" onClick={addPart}>Add Part</button>
           <button type="button" onClick={addRelation}>Add Relation</button>
           <button type="button" onClick={addControlPart}>Add Control</button>
+          <button type="button" onClick={addTuningContext}>Add Tuning</button>
         </div>
       </div>
+
+      {tuningContexts.length > 0 && (
+        <ol className="voice-list" aria-label="Tuning contexts">
+          {tuningContexts.map((tuning) => (
+            <li key={tuning.id} className="voice-row">
+              <div className="voice-head">
+                <span>{tuning.name}</span>
+                <button
+                  type="button"
+                  aria-label={`Remove ${tuning.id}`}
+                  onClick={() =>
+                    onChange({
+                      ...composition,
+                      tuningContexts: tuningContexts.filter(
+                        (item) => item.id !== tuning.id,
+                      ),
+                    })
+                  }
+                >
+                  Remove
+                </button>
+              </div>
+              <label>
+                <span>Root (Hz)</span>
+                <input
+                  aria-label={`Root frequency ${tuning.id}`}
+                  type="number"
+                  step={0.01}
+                  min={0.01}
+                  value={tuning.rootFrequencyHz}
+                  onChange={(event) =>
+                    onChange({
+                      ...composition,
+                      tuningContexts: tuningContexts.map((item) =>
+                        item.id === tuning.id
+                          ? {
+                              ...item,
+                              rootFrequencyHz: Math.max(
+                                0.01,
+                                Number(event.currentTarget.value),
+                              ),
+                            }
+                          : item,
+                      ),
+                    })
+                  }
+                />
+              </label>
+              <label>
+                <span>System</span>
+                <select
+                  aria-label={`Tuning system ${tuning.id}`}
+                  value={tuning.system.kind}
+                  onChange={(event) =>
+                    onChange({
+                      ...composition,
+                      tuningContexts: tuningContexts.map((item) =>
+                        item.id === tuning.id
+                          ? {
+                              ...item,
+                              system:
+                                event.currentTarget.value === 'rational'
+                                  ? { kind: 'rational', maxDenominator: 64 }
+                                  : { kind: 'equal-temperament', divisions: 12 },
+                            }
+                          : item,
+                      ),
+                    })
+                  }
+                >
+                  <option value="equal-temperament">equal-temperament</option>
+                  <option value="rational">rational (exact ratios)</option>
+                </select>
+              </label>
+            </li>
+          ))}
+        </ol>
+      )}
 
       {relations.length > 0 && (
         <ol className="voice-list" aria-label="Relations">
