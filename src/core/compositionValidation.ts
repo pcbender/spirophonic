@@ -670,19 +670,40 @@ const validateField = (
 
   if (!field) return
 
-  const kind = context.literal(field, 'kind', `${path}.kind`, ['rings', 'spokes'])
-  const keys =
-    kind === 'spokes'
-      ? ['id', 'name', 'enabled', 'kind', 'center', 'rotation', 'boundaries']
-      : ['id', 'name', 'enabled', 'kind', 'center', 'boundaries']
-  context.knownKeys(field, path, keys)
+  const kind = context.literal(field, 'kind', `${path}.kind`, [
+    'rings',
+    'spokes',
+    'ellipses',
+    'bands',
+    'grid',
+    'spiral',
+  ])
+  // Rings and bands are rotationally symmetric, so rotation stays optional for
+  // them and MG-05 ring documents keep validating byte-for-byte.
+  const requiresRotation =
+    kind === 'spokes' || kind === 'ellipses' || kind === 'grid' || kind === 'spiral'
+  context.knownKeys(field, path, [
+    'id',
+    'name',
+    'enabled',
+    'kind',
+    'center',
+    'rotation',
+    'motion',
+    'boundaries',
+  ])
   context.id(field, 'id', `${path}.id`, context.fieldIds)
   context.string(field, 'name', `${path}.name`, { nonEmpty: true, maxLength: 200 })
   context.boolean(field, 'enabled', `${path}.enabled`)
   validatePoint(context, field.center, `${path}.center`)
 
-  if (kind === 'spokes') {
+  if (requiresRotation) {
     context.number(field, 'rotation', `${path}.rotation`)
+  } else if (field.rotation !== undefined) {
+    context.number(field, 'rotation', `${path}.rotation`)
+  }
+  if (field.motion !== undefined) {
+    validateFieldMotion(context, field.motion, `${path}.motion`)
   }
 
   const boundaries = context.array(field, 'boundaries', `${path}.boundaries`, {
@@ -709,24 +730,112 @@ const validateField = (
   })
 }
 
+const boundaryKindForFieldKind: Record<string, string> = {
+  rings: 'ring',
+  spokes: 'spoke',
+  ellipses: 'ellipse',
+  bands: 'band',
+  grid: 'grid',
+  spiral: 'spiral',
+}
+
+const boundaryKeys: Record<string, Array<string>> = {
+  ring: ['id', 'name', 'enabled', 'index', 'kind', 'radius'],
+  spoke: ['id', 'name', 'enabled', 'index', 'kind', 'angle'],
+  ellipse: ['id', 'name', 'enabled', 'index', 'kind', 'radius', 'eccentricity'],
+  band: ['id', 'name', 'enabled', 'index', 'kind', 'innerRadius', 'outerRadius'],
+  grid: ['id', 'name', 'enabled', 'index', 'kind', 'axis', 'offset'],
+  spiral: [
+    'id',
+    'name',
+    'enabled',
+    'index',
+    'kind',
+    'startRadius',
+    'growthPerTurn',
+    'turns',
+  ],
+}
+
+/**
+ * A wheel-attached Field must name a Wheel that exists. Field motion is the
+ * only cross-object reference a Field carries, and Wheels never reference
+ * Fields, so the reference graph is acyclic by construction; a Field cannot
+ * reach itself. validateFieldMotionReferences records that explicitly rather
+ * than leaving it implied.
+ */
+const validateFieldMotion = (
+  context: ValidationContext,
+  value: unknown,
+  path: string,
+) => {
+  const motion = context.object(value, path)
+  if (!motion) return
+
+  const kind = context.literal(motion, 'kind', `${path}.kind`, [
+    'fixed',
+    'rotating',
+    'transport-rotating',
+    'wheel-attached',
+  ])
+
+  if (kind === 'fixed') {
+    context.knownKeys(motion, path, ['kind'])
+    return
+  }
+  if (kind === 'rotating') {
+    context.knownKeys(motion, path, ['kind', 'turnsPerSecond'])
+    context.number(motion, 'turnsPerSecond', `${path}.turnsPerSecond`, {
+      min: -1_000,
+      max: 1_000,
+    })
+    return
+  }
+  if (kind === 'transport-rotating') {
+    context.knownKeys(motion, path, ['kind', 'rate'])
+    validateRate(context, motion.rate, `${path}.rate`)
+    return
+  }
+  if (kind === 'wheel-attached') {
+    context.knownKeys(motion, path, ['kind', 'wheelId', 'followRotation'])
+    const wheelId = context.string(motion, 'wheelId', `${path}.wheelId`, {
+      nonEmpty: true,
+      maxLength: 128,
+      pattern: idPattern,
+    })
+    if (wheelId && !context.wheelIds.has(wheelId)) {
+      context.issue(
+        `${path}.wheelId`,
+        `References missing Wheel "${wheelId}".`,
+      )
+    }
+    context.boolean(motion, 'followRotation', `${path}.followRotation`)
+  }
+}
+
 const validateBoundary = (
   context: ValidationContext,
   value: unknown,
   path: string,
-  fieldKind: 'rings' | 'spokes' | null,
+  fieldKind: string | null,
 ): number | null => {
   const boundary = context.object(value, path)
 
   if (!boundary) return null
 
-  const expectedKind = fieldKind === 'rings' ? 'ring' : 'spoke'
-  const kind = context.literal(boundary, 'kind', `${path}.kind`, ['ring', 'spoke'])
+  const expectedKind = fieldKind ? boundaryKindForFieldKind[fieldKind] : null
+  const kind = context.literal(boundary, 'kind', `${path}.kind`, [
+    'ring',
+    'spoke',
+    'ellipse',
+    'band',
+    'grid',
+    'spiral',
+  ])
   context.knownKeys(
     boundary,
     path,
-    kind === 'ring'
-      ? ['id', 'name', 'enabled', 'index', 'kind', 'radius']
-      : ['id', 'name', 'enabled', 'index', 'kind', 'angle'],
+    boundaryKeys[kind ?? 'ring'] ?? boundaryKeys.ring,
   )
   context.id(boundary, 'id', `${path}.id`, context.boundaryIds)
   context.string(boundary, 'name', `${path}.name`, {
@@ -754,6 +863,59 @@ const validateBoundary = (
     })
   } else if (kind === 'spoke') {
     context.number(boundary, 'angle', `${path}.angle`)
+  } else if (kind === 'ellipse') {
+    context.number(boundary, 'radius', `${path}.radius`, {
+      greaterThan: 0,
+      max: 100_000,
+    })
+    // 1 would collapse the ellipse to a line segment and destroy the level set.
+    const eccentricity = context.number(
+      boundary,
+      'eccentricity',
+      `${path}.eccentricity`,
+      { min: 0, max: 1 },
+    )
+    if (eccentricity !== null && eccentricity >= 1) {
+      context.issue(
+        `${path}.eccentricity`,
+        'Expected a value below 1; an eccentricity of 1 collapses the ellipse.',
+      )
+    }
+  } else if (kind === 'band') {
+    const inner = context.number(boundary, 'innerRadius', `${path}.innerRadius`, {
+      min: 0,
+      max: 100_000,
+    })
+    const outer = context.number(boundary, 'outerRadius', `${path}.outerRadius`, {
+      greaterThan: 0,
+      max: 100_000,
+    })
+    if (inner !== null && outer !== null && outer <= inner) {
+      context.issue(
+        `${path}.outerRadius`,
+        `outerRadius ${outer} must exceed innerRadius ${inner}.`,
+      )
+    }
+  } else if (kind === 'grid') {
+    context.literal(boundary, 'axis', `${path}.axis`, ['x', 'y'])
+    context.number(boundary, 'offset', `${path}.offset`, {
+      min: -100_000,
+      max: 100_000,
+    })
+  } else if (kind === 'spiral') {
+    context.number(boundary, 'startRadius', `${path}.startRadius`, {
+      min: 0,
+      max: 100_000,
+    })
+    context.number(boundary, 'growthPerTurn', `${path}.growthPerTurn`, {
+      greaterThan: 0,
+      max: 100_000,
+    })
+    context.number(boundary, 'turns', `${path}.turns`, {
+      min: 1,
+      max: 64,
+      integer: true,
+    })
   }
 
   return index

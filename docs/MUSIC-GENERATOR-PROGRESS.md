@@ -15,10 +15,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 12 / 21 |
-| Packets active | 0 |
+| Packets active | 1 |
 | Packets blocked | 0 |
-| Next ready packet | MG-13, MG-14, and MG-15 are all `ready` |
-| Active agents | none |
+| Next ready packet | MG-13 is `in_review`; MG-14 and MG-15 are `ready` |
+| Active agents | Claude Opus 5 on MG-13 |
 | Integration branch | `agent/music-generator-planning` |
 | Last tracker update | 2026-08-05 |
 
@@ -93,7 +93,7 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| — | — | — | — | — | — | — | No packet is claimed. MG-13, MG-14, and MG-15 are ready. |
+| Claude Opus 5 | MG-13 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T22:22:00Z | 2026-08-05T23:52:00Z | Implementation and author validation complete. Browser check of the new Field overlays remains. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -114,7 +114,7 @@ their history.
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `done` | — | 2026-08-05 | Integrated at `992a97e`; vault transaction ordering confirmed correct. |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `done` | — | 2026-08-05 | Integrated at `7685bb6`; two review defects fixed with regression tests before closure. |
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | `done` | — | 2026-08-05 | Integrated at `b00847a`; user confirmed the reference Composition working in a browser. |
-| MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | `ready` | — | 2026-08-05 | Dependencies are `done`; the packet is unblocked and unclaimed. |
+| MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | `in_review` | Claude Opus 5 | 2026-08-05 | Implementation validated at `MG13_SHA`; browser check of the new Field overlays remains. |
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | `ready` | — | 2026-08-05 | Dependencies are `done`; the packet is unblocked and unclaimed. |
 | MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | `ready` | — | 2026-08-05 | Dependencies are `done`; the packet is unblocked and unclaimed. |
 | MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | `waiting` | — | 2026-08-05 | Complete MG-07, MG-11, and MG-14. |
@@ -157,6 +157,7 @@ the final column rather than relying on a statement that it was checked.
 | MG-09 | `ff6af91` | 25 files, 179 tests pass | pass | pass | refreshed after code | Hermes: Wheel cycles 1→2 changed 13→17 events; Play advanced to 1.25s; no page errors; 1600x1000 capture at `/tmp/spirophonic-mg09-hermes.png` | Claude Opus 5 |
 | MG-10 | `992a97e` | 27 files, 190 tests pass | pass | pass; matched worklet SHA-256 | refreshed after code | Hermes Chromium 147 + Firefox 148: SF2/SF3, 287 presets, two pitched presets + drums overlap, missing/corrupt rejection, clean disposal; bank/worklet digests in ADR 0001 | Claude Opus 5 |
 | MG-11 | `7685bb6` | 31 files, 204 tests pass | pass | pass; matched worklet SHA-256 | 1,199 nodes / 2,353 edges | Hermes Chromium 147: local SF2/SF3 banks, 287 presets each, two assigned presets/26 events concurrently, reload, missing-digest isolation, exact-digest relink, and no final page errors; digests in handoff | Claude Opus 5 |
+| MG-13 | `MG13_SHA` | 35 files, 258 tests pass | pass | pass | 1,298 nodes / 2,636 edges | **Not yet run** — no browser automation reachable from this session; the new Field overlays deserve a real-browser look | Pending |
 | MG-12 | `b00847a` | 34 files, 243 tests pass | pass | pass | 1,244 nodes / 2,512 edges | User ran the reference Composition in a browser on 2026-08-05 and confirmed it working. Not independently observed by the packet author. | Michael Rose |
 | MG-01–MG-11 | `3576320` | 31 files, 206 tests pass | pass | pass; matched worklet SHA-256 | 1,199 nodes / 2,353 edges | Cumulative integration review: two SoundFont defects found, fixed, and covered by regression tests that fail against `13ba9f5`. See [cumulative review](#2026-08-05-mg-01mg-11-cumulative-review). | Claude Opus 5 |
 

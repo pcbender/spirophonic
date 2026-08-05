@@ -1,9 +1,28 @@
 import type { Point2 } from './composition'
 import {
   boundarySignedDistance,
+  boundaryToleranceScale,
   spokeRayCoordinate,
   type BoundaryGeometry,
 } from './fields'
+
+/**
+ * Resolves a Boundary's geometry at an absolute time. Static Fields return an
+ * identical value at every time; moving Fields return where the Boundary
+ * actually is when the path reaches it, so refinement converges on the true
+ * meeting point rather than on a stale snapshot.
+ */
+export type BoundaryResolver = (timeSeconds: number) => BoundaryGeometry
+
+/**
+ * Callers with a static Field may pass the geometry directly; only moving
+ * Fields need a resolver. This keeps MG-05 and MG-06 call sites and fixtures
+ * unchanged now that geometry is time-dependent.
+ */
+export type BoundaryInput = BoundaryGeometry | BoundaryResolver
+
+const asResolver = (input: BoundaryInput): BoundaryResolver =>
+  typeof input === 'function' ? input : () => input
 
 export type TimedPathPoint = Readonly<{
   timeSeconds: number
@@ -116,6 +135,9 @@ const crossingLiesOnBoundary = (
   spokeRayCoordinate(boundary.center, boundary.angle, position) >=
     -spatialTolerance
 
+const toleranceFor = (boundary: BoundaryGeometry, spatialTolerance: number) =>
+  spatialTolerance * boundaryToleranceScale(boundary)
+
 const refinedResult = (
   boundary: BoundaryGeometry,
   point: TimedPathPoint,
@@ -141,12 +163,13 @@ const refinedResult = (
   })
 
 export const refineBoundaryCrossing = (
-  boundary: BoundaryGeometry,
+  boundaryInput: BoundaryInput,
   from: TimedPathPoint,
   to: TimedPathPoint,
   pointAt: (timeSeconds: number) => TimedPathPoint,
   options: CrossingRefinementOptions = {},
 ): RefinedBoundaryCrossing => {
+  const boundaryAt = asResolver(boundaryInput)
   const normalized = normalizeOptions(options)
 
   if (from.timeSeconds >= to.timeSeconds) {
@@ -155,28 +178,29 @@ export const refineBoundaryCrossing = (
   assertPathPoint(from, from.timeSeconds)
   assertPathPoint(to, to.timeSeconds)
 
+  // Geometry is sampled at each probe time so a moving Field is met where it
+  // actually is. Identity fields never change, so the start snapshot names it.
+  const identity = boundaryAt(from.timeSeconds)
+  const tolerance = toleranceFor(identity, normalized.spatialTolerance)
+  const distanceAt = (point: TimedPathPoint) =>
+    boundarySignedDistance(boundaryAt(point.timeSeconds), point.position)
+
   const intervalStartSeconds = from.timeSeconds
   const intervalEndSeconds = to.timeSeconds
-  const fromDistance = boundarySignedDistance(boundary, from.position)
-  const toDistance = boundarySignedDistance(boundary, to.position)
+  const fromDistance = distanceAt(from)
+  const toDistance = distanceAt(to)
   let left = from
   let right = to
   let leftDistance = fromDistance
-  const leftSign = signWithTolerance(
-    leftDistance,
-    normalized.spatialTolerance,
-  )
-  const rightSign = signWithTolerance(
-    toDistance,
-    normalized.spatialTolerance,
-  )
+  const leftSign = signWithTolerance(leftDistance, tolerance)
+  const rightSign = signWithTolerance(toDistance, tolerance)
 
   if (leftSign !== 0 && rightSign !== 0 && leftSign === rightSign) {
     throw new RangeError('A crossing bracket must contain a signed-distance root.')
   }
   if (leftSign === 0) {
     return refinedResult(
-      boundary,
+      identity,
       left,
       intervalStartSeconds,
       intervalEndSeconds,
@@ -188,7 +212,7 @@ export const refineBoundaryCrossing = (
   }
   if (rightSign === 0) {
     return refinedResult(
-      boundary,
+      identity,
       right,
       intervalStartSeconds,
       intervalEndSeconds,
@@ -203,18 +227,14 @@ export const refineBoundaryCrossing = (
     const middleTime = (left.timeSeconds + right.timeSeconds) / 2
     const middle = pointAt(middleTime)
     assertPathPoint(middle, middleTime)
-    const middleDistance = boundarySignedDistance(boundary, middle.position)
-    const middleSign = signWithTolerance(
-      middleDistance,
-      normalized.spatialTolerance,
-    )
+    const middleDistance = distanceAt(middle)
+    const middleSign = signWithTolerance(middleDistance, tolerance)
     const timeConverged =
-      right.timeSeconds - left.timeSeconds <=
-      normalized.timeToleranceSeconds
+      right.timeSeconds - left.timeSeconds <= normalized.timeToleranceSeconds
 
     if (middleSign === 0 || timeConverged) {
       return refinedResult(
-        boundary,
+        identity,
         middle,
         intervalStartSeconds,
         intervalEndSeconds,
@@ -225,10 +245,7 @@ export const refineBoundaryCrossing = (
       )
     }
 
-    if (
-      signWithTolerance(leftDistance, normalized.spatialTolerance) ===
-      middleSign
-    ) {
+    if (signWithTolerance(leftDistance, tolerance) === middleSign) {
       left = middle
       leftDistance = middleDistance
     } else {
@@ -241,7 +258,7 @@ export const refineBoundaryCrossing = (
   assertPathPoint(middle, middleTime)
 
   return refinedResult(
-    boundary,
+    identity,
     middle,
     intervalStartSeconds,
     intervalEndSeconds,
@@ -253,11 +270,12 @@ export const refineBoundaryCrossing = (
 }
 
 export const scanBoundaryCrossings = (
-  boundary: BoundaryGeometry,
+  boundaryInput: BoundaryInput,
   sampleTimes: ReadonlyArray<number>,
   pointAt: (timeSeconds: number) => TimedPathPoint,
   options: CrossingRefinementOptions = {},
 ): CrossingScanResult => {
+  const boundaryAt = asResolver(boundaryInput)
   const normalized = normalizeOptions(options)
 
   if (sampleTimes.length < 2) {
@@ -272,13 +290,15 @@ export const scanBoundaryCrossings = (
     }
   }
 
+  const identity = boundaryAt(sampleTimes[0])
+  const tolerance = toleranceFor(identity, normalized.spatialTolerance)
   const samples: Array<SampleWithDistance> = sampleTimes.map((timeSeconds) => {
     const point = pointAt(timeSeconds)
     assertPathPoint(point, timeSeconds)
     return Object.freeze({
       timeSeconds,
       position: freezePoint(point.position),
-      distance: boundarySignedDistance(boundary, point.position),
+      distance: boundarySignedDistance(boundaryAt(timeSeconds), point.position),
     })
   })
   const crossings: Array<RefinedBoundaryCrossing> = []
@@ -287,16 +307,13 @@ export const scanBoundaryCrossings = (
   for (let index = 0; index < samples.length - 1; index += 1) {
     const from = samples[index]
     const to = samples[index + 1]
-    const fromSign = signWithTolerance(
-      from.distance,
-      normalized.spatialTolerance,
-    )
-    const toSign = signWithTolerance(to.distance, normalized.spatialTolerance)
+    const fromSign = signWithTolerance(from.distance, tolerance)
+    const toSign = signWithTolerance(to.distance, tolerance)
 
     if (fromSign * toSign >= 0) continue
 
     const crossing = refineBoundaryCrossing(
-      boundary,
+      boundaryAt,
       from,
       to,
       pointAt,
@@ -304,9 +321,9 @@ export const scanBoundaryCrossings = (
     )
     if (
       crossingLiesOnBoundary(
-        boundary,
+        boundaryAt(crossing.timeSeconds),
         crossing.position,
-        normalized.spatialTolerance,
+        tolerance,
       )
     ) {
       crossings.push(crossing)
@@ -315,8 +332,8 @@ export const scanBoundaryCrossings = (
       diagnostics.push(
         Object.freeze({
           code: 'refinement-limit',
-          fieldId: boundary.fieldId,
-          boundaryId: boundary.boundaryId,
+          fieldId: identity.fieldId,
+          boundaryId: identity.boundaryId,
           intervalStartSeconds: from.timeSeconds,
           intervalEndSeconds: to.timeSeconds,
           message: `Crossing refinement reached ${normalized.maxIterations} iterations before the time tolerance.`,
@@ -327,10 +344,7 @@ export const scanBoundaryCrossings = (
 
   let index = 0
   while (index < samples.length) {
-    if (
-      signWithTolerance(samples[index].distance, normalized.spatialTolerance) !==
-      0
-    ) {
+    if (signWithTolerance(samples[index].distance, tolerance) !== 0) {
       index += 1
       continue
     }
@@ -338,10 +352,7 @@ export const scanBoundaryCrossings = (
     const zeroStart = index
     while (
       index + 1 < samples.length &&
-      signWithTolerance(
-        samples[index + 1].distance,
-        normalized.spatialTolerance,
-      ) === 0
+      signWithTolerance(samples[index + 1].distance, tolerance) === 0
     ) {
       index += 1
     }
@@ -353,8 +364,8 @@ export const scanBoundaryCrossings = (
       diagnostics.push(
         Object.freeze({
           code: 'boundary-overlap',
-          fieldId: boundary.fieldId,
-          boundaryId: boundary.boundaryId,
+          fieldId: identity.fieldId,
+          boundaryId: identity.boundaryId,
           intervalStartSeconds: samples[zeroStart].timeSeconds,
           intervalEndSeconds: samples[zeroEnd].timeSeconds,
           message:
@@ -363,11 +374,9 @@ export const scanBoundaryCrossings = (
       )
     } else {
       const previousSign = previous
-        ? signWithTolerance(previous.distance, normalized.spatialTolerance)
+        ? signWithTolerance(previous.distance, tolerance)
         : 0
-      const nextSign = next
-        ? signWithTolerance(next.distance, normalized.spatialTolerance)
-        : 0
+      const nextSign = next ? signWithTolerance(next.distance, tolerance) : 0
       const crossesAtWindowEdge = !previous || !next
       const passesThrough = previousSign * nextSign < 0
       const sample = samples[zeroStart]
@@ -375,14 +384,14 @@ export const scanBoundaryCrossings = (
       if (
         (crossesAtWindowEdge || passesThrough) &&
         crossingLiesOnBoundary(
-          boundary,
+          boundaryAt(sample.timeSeconds),
           sample.position,
-          normalized.spatialTolerance,
+          tolerance,
         )
       ) {
         crossings.push(
           refinedResult(
-            boundary,
+            boundaryAt(sample.timeSeconds),
             sample,
             previous?.timeSeconds ?? sample.timeSeconds,
             next?.timeSeconds ?? sample.timeSeconds,
@@ -398,9 +407,7 @@ export const scanBoundaryCrossings = (
     index += 1
   }
 
-  crossings.sort(
-    (left, right) => left.timeSeconds - right.timeSeconds,
-  )
+  crossings.sort((left, right) => left.timeSeconds - right.timeSeconds)
 
   return Object.freeze({
     crossings: Object.freeze(crossings),

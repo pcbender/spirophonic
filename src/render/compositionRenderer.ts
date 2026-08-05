@@ -124,6 +124,28 @@ export type SpokeBoundaryDrawCommand = Readonly<{
   lineWidth: number
 }>
 
+export type EllipseBoundaryDrawCommand = Readonly<{
+  kind: 'ellipse-boundary'
+  fieldId: string
+  boundaryId: string
+  center: Readonly<Point2>
+  radiusX: number
+  radiusY: number
+  rotation: number
+  color: string
+  lineWidth: number
+}>
+
+/** Sampled path, used for families with no primitive canvas form. */
+export type PolylineBoundaryDrawCommand = Readonly<{
+  kind: 'polyline-boundary'
+  fieldId: string
+  boundaryId: string
+  points: ReadonlyArray<Readonly<Point2>>
+  color: string
+  lineWidth: number
+}>
+
 export type BoundaryLabelDrawCommand = Readonly<{
   kind: 'boundary-label'
   fieldId: string
@@ -156,6 +178,8 @@ export type CompositionDrawCommand =
   | ClearDrawCommand
   | RingBoundaryDrawCommand
   | SpokeBoundaryDrawCommand
+  | EllipseBoundaryDrawCommand
+  | PolylineBoundaryDrawCommand
   | BoundaryLabelDrawCommand
   | TraceDrawCommand
   | HeadDrawCommand
@@ -404,6 +428,23 @@ export const buildCompositionDrawCommands = (
   const fieldLineWidth = Math.max(0.5, options.fieldLineWidth ?? 1)
   const headRadius = Math.max(1, options.headRadiusPixels ?? 5)
 
+  const pushBoundaryLabel = (
+    boundary: { fieldId: string; boundaryId: string; index: number; name: string },
+    position: Readonly<Point2>,
+  ) => {
+    if (!showBoundaryLabels) return
+    commands.push(
+      Object.freeze({
+        kind: 'boundary-label',
+        fieldId: boundary.fieldId,
+        boundaryId: boundary.boundaryId,
+        position,
+        text: `${boundary.index}: ${boundary.name}`,
+        color: fieldColor,
+      }),
+    )
+  }
+
   if (showFields) {
     for (const boundary of scene.boundaries) {
       const center = projectSpacePoint(boundary.center, projection)
@@ -437,7 +478,7 @@ export const buildCompositionDrawCommands = (
             }),
           )
         }
-      } else {
+      } else if (boundary.kind === 'spoke') {
         const length = Math.hypot(projection.width, projection.height) * 2
         const end = freezePoint({
           x: center.x + Math.cos(boundary.angle) * length,
@@ -470,6 +511,111 @@ export const buildCompositionDrawCommands = (
             }),
           )
         }
+      } else if (boundary.kind === 'ellipse') {
+        commands.push(
+          Object.freeze({
+            kind: 'ellipse-boundary',
+            fieldId: boundary.fieldId,
+            boundaryId: boundary.boundaryId,
+            center,
+            radiusX: boundary.semiMajor * projection.pixelsPerUnit,
+            radiusY: boundary.semiMinor * projection.pixelsPerUnit,
+            // Screen y grows downward, so the drawn tilt is the negated angle.
+            rotation: -boundary.rotation,
+            color: fieldColor,
+            lineWidth: fieldLineWidth,
+          }),
+        )
+        pushBoundaryLabel(
+          boundary,
+          freezePoint({
+            x: center.x + boundary.semiMajor * projection.pixelsPerUnit + 4,
+            y: center.y - 4,
+          }),
+        )
+      } else if (boundary.kind === 'band') {
+        // A band draws as its two edges, so entry and exit are both visible.
+        for (const radius of [boundary.innerRadius, boundary.outerRadius]) {
+          commands.push(
+            Object.freeze({
+              kind: 'ring-boundary',
+              fieldId: boundary.fieldId,
+              boundaryId: boundary.boundaryId,
+              center,
+              radius: radius * projection.pixelsPerUnit,
+              color: fieldColor,
+              lineWidth: fieldLineWidth,
+            }),
+          )
+        }
+        pushBoundaryLabel(
+          boundary,
+          freezePoint({
+            x: center.x + boundary.outerRadius * projection.pixelsPerUnit + 4,
+            y: center.y - 4,
+          }),
+        )
+      } else if (boundary.kind === 'grid') {
+        const length = Math.hypot(projection.width, projection.height) * 2
+        const cos = Math.cos(boundary.rotation)
+        const sin = Math.sin(boundary.rotation)
+        // The line runs along the axis orthogonal to the one it offsets.
+        const along =
+          boundary.axis === 'x'
+            ? { x: -sin, y: cos }
+            : { x: cos, y: sin }
+        const anchor =
+          boundary.axis === 'x'
+            ? { x: cos * boundary.offset, y: sin * boundary.offset }
+            : { x: -sin * boundary.offset, y: cos * boundary.offset }
+        const anchorPixels = freezePoint({
+          x: center.x + anchor.x * projection.pixelsPerUnit,
+          y: center.y - anchor.y * projection.pixelsPerUnit,
+        })
+        commands.push(
+          Object.freeze({
+            kind: 'spoke-boundary',
+            fieldId: boundary.fieldId,
+            boundaryId: boundary.boundaryId,
+            from: freezePoint({
+              x: anchorPixels.x - along.x * length,
+              y: anchorPixels.y + along.y * length,
+            }),
+            to: freezePoint({
+              x: anchorPixels.x + along.x * length,
+              y: anchorPixels.y - along.y * length,
+            }),
+            color: fieldColor,
+            lineWidth: fieldLineWidth,
+          }),
+        )
+        pushBoundaryLabel(boundary, anchorPixels)
+      } else {
+        const steps = Math.max(32, boundary.turns * 48)
+        const points: Array<Readonly<Point2>> = []
+        for (let step = 0; step <= steps; step += 1) {
+          const theta = (step / steps) * boundary.turns * Math.PI * 2
+          const radius =
+            boundary.startRadius + boundary.growthPerTurn * (theta / (Math.PI * 2))
+          const angle = theta + boundary.rotation
+          points.push(
+            freezePoint({
+              x: center.x + Math.cos(angle) * radius * projection.pixelsPerUnit,
+              y: center.y - Math.sin(angle) * radius * projection.pixelsPerUnit,
+            }),
+          )
+        }
+        commands.push(
+          Object.freeze({
+            kind: 'polyline-boundary',
+            fieldId: boundary.fieldId,
+            boundaryId: boundary.boundaryId,
+            points: Object.freeze(points),
+            color: fieldColor,
+            lineWidth: fieldLineWidth,
+          }),
+        )
+        pushBoundaryLabel(boundary, points[points.length - 1] ?? center)
       }
     }
   }
@@ -561,6 +707,35 @@ export const drawCompositionCommands = (
       context.lineTo(command.to.x, command.to.y)
       context.stroke()
       context.restore()
+    } else if (command.kind === 'ellipse-boundary') {
+      context.save()
+      context.strokeStyle = command.color
+      context.lineWidth = command.lineWidth
+      context.beginPath()
+      context.ellipse(
+        command.center.x,
+        command.center.y,
+        command.radiusX,
+        command.radiusY,
+        command.rotation,
+        0,
+        Math.PI * 2,
+      )
+      context.stroke()
+      context.restore()
+    } else if (command.kind === 'polyline-boundary') {
+      if (command.points.length > 1) {
+        context.save()
+        context.strokeStyle = command.color
+        context.lineWidth = command.lineWidth
+        context.beginPath()
+        context.moveTo(command.points[0].x, command.points[0].y)
+        for (let index = 1; index < command.points.length; index += 1) {
+          context.lineTo(command.points[index].x, command.points[index].y)
+        }
+        context.stroke()
+        context.restore()
+      }
     } else if (command.kind === 'boundary-label') {
       context.save()
       context.fillStyle = command.color

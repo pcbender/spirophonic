@@ -4,6 +4,7 @@ import type {
   FieldSpec,
   Point2,
 } from '../core/composition'
+import type { BoundarySpec } from '../core/fields'
 import {
   addBoundary,
   addField,
@@ -24,6 +25,113 @@ export type FieldPanelProps = {
 
 const TAU = Math.PI * 2
 
+const fieldKindLabels: Record<FieldSpec['kind'], string> = {
+  rings: 'Ring Field',
+  spokes: 'Spoke Field',
+  ellipses: 'Ellipse Field',
+  bands: 'Band Field',
+  grid: 'Grid Field',
+  spiral: 'Spiral Field',
+}
+
+const boundaryLabels: Record<FieldSpec['kind'], string> = {
+  rings: 'Ring',
+  spokes: 'Spoke',
+  ellipses: 'Ellipse',
+  bands: 'Band',
+  grid: 'Line',
+  spiral: 'Spiral',
+}
+
+const motionKinds: Array<NonNullable<FieldSpec['motion']>['kind']> = [
+  'fixed',
+  'rotating',
+  'transport-rotating',
+  'wheel-attached',
+]
+
+const defaultMotion = (
+  kind: NonNullable<FieldSpec['motion']>['kind'],
+  wheelId: string,
+): NonNullable<FieldSpec['motion']> => {
+  if (kind === 'rotating') return { kind, turnsPerSecond: 0.25 }
+  if (kind === 'transport-rotating') {
+    return { kind, rate: { cycles: 1, beats: 8 } }
+  }
+  if (kind === 'wheel-attached') {
+    return { kind, wheelId, followRotation: true }
+  }
+  return { kind: 'fixed' }
+}
+
+/** A new Boundary that does not collide with its siblings. */
+const defaultBoundary = (
+  kind: FieldSpec['kind'],
+  id: string,
+  ordinal: number,
+  siblings: ReadonlyArray<BoundarySpec>,
+): BoundarySpec => {
+  const base = { ...newBoundaryBase(id, `${boundaryLabels[kind]} ${ordinal}`) }
+  const outermost = siblings.reduce((widest, item) => {
+    if (item.kind === 'ring' || item.kind === 'ellipse') {
+      return Math.max(widest, item.radius)
+    }
+    if (item.kind === 'band') return Math.max(widest, item.outerRadius)
+    return widest
+  }, 0)
+
+  // A fresh Field starts at a visible default; later Boundaries step outward
+  // from the widest sibling so they never land on top of one another.
+  if (kind === 'rings') {
+    return {
+      ...base,
+      kind: 'ring',
+      radius: siblings.length === 0 ? 50 : outermost + 20,
+    }
+  }
+  if (kind === 'spokes') {
+    const last = siblings.at(-1)
+    return {
+      ...base,
+      kind: 'spoke',
+      angle: last && last.kind === 'spoke' ? last.angle + TAU / 8 : 0,
+    }
+  }
+  if (kind === 'ellipses') {
+    return {
+      ...base,
+      kind: 'ellipse',
+      radius: siblings.length === 0 ? 80 : outermost + 30,
+      eccentricity: 0.6,
+    }
+  }
+  if (kind === 'bands') {
+    const inner = siblings.length === 0 ? 40 : outermost + 20
+    return {
+      ...base,
+      kind: 'band',
+      innerRadius: inner,
+      outerRadius: inner + 40,
+    }
+  }
+  if (kind === 'grid') {
+    const lines = siblings.filter((item) => item.kind === 'grid')
+    return {
+      ...base,
+      kind: 'grid',
+      axis: lines.length % 2 === 0 ? 'x' : 'y',
+      offset: Math.floor(lines.length / 2) * 40,
+    }
+  }
+  return {
+    ...base,
+    kind: 'spiral',
+    startRadius: 30,
+    growthPerTurn: 40,
+    turns: 3,
+  }
+}
+
 export function FieldPanel({ composition, onChange }: FieldPanelProps) {
   const commitFields = (fields: Array<FieldSpec>) =>
     onChange({ ...composition, fields })
@@ -33,36 +141,17 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
     const boundaryId = nextBoundaryId(composition.fields, id)
     const base = {
       id,
-      name: kind === 'rings' ? 'Ring Field' : 'Spoke Field',
+      name: fieldKindLabels[kind],
       enabled: true,
-      kind,
       center: { x: 0, y: 0 },
-    } as const
-    const field: FieldSpec =
-      kind === 'rings'
-        ? {
-            ...base,
-            kind: 'rings',
-            boundaries: [
-              {
-                ...newBoundaryBase(boundaryId, 'Ring 1'),
-                kind: 'ring',
-                radius: 50,
-              },
-            ],
-          }
-        : {
-            ...base,
-            kind: 'spokes',
-            rotation: 0,
-            boundaries: [
-              {
-                ...newBoundaryBase(boundaryId, 'Spoke 1'),
-                kind: 'spoke',
-                angle: 0,
-              },
-            ],
-          }
+    }
+    const field = {
+      ...base,
+      kind,
+      // Rings and bands are rotationally symmetric, so they stay rotation-free.
+      ...(kind === 'rings' || kind === 'bands' ? {} : { rotation: 0 }),
+      boundaries: [defaultBoundary(kind, boundaryId, 1, [])],
+    } as FieldSpec
 
     commitFields(addField(composition.fields, field))
   }
@@ -80,22 +169,12 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
 
   const createBoundary = (field: FieldSpec) => {
     const id = nextBoundaryId(composition.fields, field.id)
-    const boundary =
-      field.kind === 'rings'
-        ? {
-            ...newBoundaryBase(id, `Ring ${field.boundaries.length + 1}`),
-            kind: 'ring' as const,
-            radius:
-              Math.max(...field.boundaries.map((item) => item.radius), 0) + 20,
-          }
-        : {
-            ...newBoundaryBase(id, `Spoke ${field.boundaries.length + 1}`),
-            kind: 'spoke' as const,
-            angle:
-              field.boundaries.length === 0
-                ? 0
-                : field.boundaries.at(-1)!.angle + TAU / 8,
-          }
+    const boundary = defaultBoundary(
+      field.kind,
+      id,
+      field.boundaries.length + 1,
+      field.boundaries,
+    )
 
     commitFields(addBoundary(composition.fields, field.id, boundary))
   }
@@ -110,6 +189,18 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
           </button>
           <button type="button" onClick={() => createField('spokes')}>
             Add spokes
+          </button>
+          <button type="button" onClick={() => createField('ellipses')}>
+            Add ellipses
+          </button>
+          <button type="button" onClick={() => createField('bands')}>
+            Add bands
+          </button>
+          <button type="button" onClick={() => createField('grid')}>
+            Add grid
+          </button>
+          <button type="button" onClick={() => createField('spiral')}>
+            Add spiral
           </button>
         </div>
       </div>
@@ -165,20 +256,158 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                 onChange={(y) => patchCenter(field, { y })}
               />
 
-              {field.kind === 'spokes' && (
+              {field.kind !== 'rings' && field.kind !== 'bands' && (
                 <NumberField
                   label="Rotation (rad)"
                   ariaLabel={`Rotation ${field.id}`}
-                  value={field.rotation}
+                  value={field.rotation ?? 0}
                   step={0.01}
                   onChange={(rotation) =>
                     patchField(field.id, (current) =>
-                      current.kind === 'spokes'
-                        ? { ...current, rotation }
-                        : current,
+                      ({ ...current, rotation }) as FieldSpec,
                     )
                   }
                 />
+              )}
+
+              <label className="field">
+                <span>Motion</span>
+                <select
+                  aria-label={`Motion ${field.id}`}
+                  value={(field.motion ?? { kind: 'fixed' }).kind}
+                  onChange={(event) =>
+                    patchField(field.id, (current) =>
+                      ({
+                        ...current,
+                        motion: defaultMotion(
+                          event.currentTarget
+                            .value as NonNullable<FieldSpec['motion']>['kind'],
+                          composition.wheels[0]?.id ?? '',
+                        ),
+                      }) as FieldSpec,
+                    )
+                  }
+                >
+                  {motionKinds.map((kind) => (
+                    <option key={kind} value={kind}>
+                      {kind}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              {field.motion?.kind === 'rotating' && (
+                <NumberField
+                  label="Turns per second"
+                  ariaLabel={`Turns per second ${field.id}`}
+                  value={field.motion.turnsPerSecond}
+                  step={0.05}
+                  onChange={(turnsPerSecond) =>
+                    patchField(field.id, (current) =>
+                      ({
+                        ...current,
+                        motion: { kind: 'rotating', turnsPerSecond },
+                      }) as FieldSpec,
+                    )
+                  }
+                />
+              )}
+
+              {field.motion?.kind === 'transport-rotating' && (
+                <>
+                  <NumberField
+                    label="Turn cycles"
+                    ariaLabel={`Turn cycles ${field.id}`}
+                    value={field.motion.rate.cycles}
+                    min={0.01}
+                    step={0.25}
+                    onChange={(cycles) =>
+                      patchField(field.id, (current) =>
+                        current.motion?.kind === 'transport-rotating'
+                          ? ({
+                              ...current,
+                              motion: {
+                                ...current.motion,
+                                rate: { ...current.motion.rate, cycles },
+                              },
+                            } as FieldSpec)
+                          : current,
+                      )
+                    }
+                  />
+                  <NumberField
+                    label="Turn beats"
+                    ariaLabel={`Turn beats ${field.id}`}
+                    value={field.motion.rate.beats}
+                    min={0.01}
+                    step={0.25}
+                    onChange={(beats) =>
+                      patchField(field.id, (current) =>
+                        current.motion?.kind === 'transport-rotating'
+                          ? ({
+                              ...current,
+                              motion: {
+                                ...current.motion,
+                                rate: { ...current.motion.rate, beats },
+                              },
+                            } as FieldSpec)
+                          : current,
+                      )
+                    }
+                  />
+                </>
+              )}
+
+              {field.motion?.kind === 'wheel-attached' && (
+                <>
+                  <label className="field">
+                    <span>Attached Wheel</span>
+                    <select
+                      aria-label={`Attached Wheel ${field.id}`}
+                      value={field.motion.wheelId}
+                      onChange={(event) =>
+                        patchField(field.id, (current) =>
+                          current.motion?.kind === 'wheel-attached'
+                            ? ({
+                                ...current,
+                                motion: {
+                                  ...current.motion,
+                                  wheelId: event.currentTarget.value,
+                                },
+                              } as FieldSpec)
+                            : current,
+                        )
+                      }
+                    >
+                      {composition.wheels.map((wheel) => (
+                        <option key={wheel.id} value={wheel.id}>
+                          {wheel.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="field">
+                    <span>Follow rotation</span>
+                    <input
+                      type="checkbox"
+                      aria-label={`Follow rotation ${field.id}`}
+                      checked={field.motion.followRotation}
+                      onChange={(event) =>
+                        patchField(field.id, (current) =>
+                          current.motion?.kind === 'wheel-attached'
+                            ? ({
+                                ...current,
+                                motion: {
+                                  ...current.motion,
+                                  followRotation: event.currentTarget.checked,
+                                },
+                              } as FieldSpec)
+                            : current,
+                        )
+                      }
+                    />
+                  </label>
+                </>
               )}
 
               <div className="panel-actions">
@@ -215,7 +444,11 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                 >
                   Remove Field
                 </button>
-                <button type="button" onClick={() => createBoundary(field)}>
+                <button
+                  type="button"
+                  aria-label={`Add boundary ${field.id}`}
+                  onClick={() => createBoundary(field)}
+                >
                   Add Boundary
                 </button>
               </div>
@@ -269,26 +502,16 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                       />
                     </label>
 
-                    <NumberField
-                      label={boundary.kind === 'ring' ? 'Radius' : 'Angle (rad)'}
-                      ariaLabel={`Value ${boundary.id}`}
-                      value={
-                        boundary.kind === 'ring'
-                          ? boundary.radius
-                          : boundary.angle
-                      }
-                      min={boundary.kind === 'ring' ? 0.001 : undefined}
-                      step={boundary.kind === 'ring' ? 1 : 0.01}
-                      onChange={(value) =>
+                    <BoundaryFields
+                      boundary={boundary}
+                      onPatch={(patch) =>
                         commitFields(
                           updateBoundary(
                             composition.fields,
                             field.id,
                             boundary.id,
                             (current) =>
-                              current.kind === 'ring'
-                                ? { ...current, radius: Math.max(0.001, value) }
-                                : { ...current, angle: value },
+                              ({ ...current, ...patch }) as BoundarySpec,
                           ),
                         )
                       }
@@ -363,6 +586,141 @@ const newBoundaryBase = (id: string, name: string): BoundaryBase => ({
   enabled: true,
   index: 0,
 })
+
+type BoundaryFieldsProps = {
+  boundary: BoundarySpec
+  onPatch: (patch: Record<string, unknown>) => void
+}
+
+/** Numeric controls for whichever Boundary family is selected. */
+function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
+  if (boundary.kind === 'ring' || boundary.kind === 'ellipse') {
+    return (
+      <>
+        <NumberField
+          label="Radius"
+          ariaLabel={`Radius ${boundary.id}`}
+          value={boundary.radius}
+          min={0.001}
+          step={1}
+          onChange={(value) => onPatch({ radius: Math.max(0.001, value) })}
+        />
+        {boundary.kind === 'ellipse' && (
+          <NumberField
+            label="Eccentricity"
+            ariaLabel={`Eccentricity ${boundary.id}`}
+            value={boundary.eccentricity}
+            min={0}
+            step={0.05}
+            onChange={(value) =>
+              // 1 collapses the ellipse, so the control stops just short of it.
+              onPatch({ eccentricity: Math.min(0.99, Math.max(0, value)) })
+            }
+          />
+        )}
+      </>
+    )
+  }
+
+  if (boundary.kind === 'spoke') {
+    return (
+      <NumberField
+        label="Angle (rad)"
+        ariaLabel={`Angle ${boundary.id}`}
+        value={boundary.angle}
+        step={0.01}
+        onChange={(value) => onPatch({ angle: value })}
+      />
+    )
+  }
+
+  if (boundary.kind === 'band') {
+    return (
+      <>
+        <NumberField
+          label="Inner radius"
+          ariaLabel={`Inner radius ${boundary.id}`}
+          value={boundary.innerRadius}
+          min={0}
+          step={1}
+          onChange={(value) =>
+            onPatch({
+              innerRadius: Math.max(0, Math.min(value, boundary.outerRadius - 0.001)),
+            })
+          }
+        />
+        <NumberField
+          label="Outer radius"
+          ariaLabel={`Outer radius ${boundary.id}`}
+          value={boundary.outerRadius}
+          min={0.001}
+          step={1}
+          onChange={(value) =>
+            onPatch({
+              outerRadius: Math.max(boundary.innerRadius + 0.001, value),
+            })
+          }
+        />
+      </>
+    )
+  }
+
+  if (boundary.kind === 'grid') {
+    return (
+      <>
+        <label className="field">
+          <span>Axis</span>
+          <select
+            aria-label={`Axis ${boundary.id}`}
+            value={boundary.axis}
+            onChange={(event) => onPatch({ axis: event.currentTarget.value })}
+          >
+            <option value="x">X</option>
+            <option value="y">Y</option>
+          </select>
+        </label>
+        <NumberField
+          label="Offset"
+          ariaLabel={`Offset ${boundary.id}`}
+          value={boundary.offset}
+          step={1}
+          onChange={(value) => onPatch({ offset: value })}
+        />
+      </>
+    )
+  }
+
+  return (
+    <>
+      <NumberField
+        label="Start radius"
+        ariaLabel={`Start radius ${boundary.id}`}
+        value={boundary.startRadius}
+        min={0}
+        step={1}
+        onChange={(value) => onPatch({ startRadius: Math.max(0, value) })}
+      />
+      <NumberField
+        label="Growth per turn"
+        ariaLabel={`Growth ${boundary.id}`}
+        value={boundary.growthPerTurn}
+        min={0.001}
+        step={1}
+        onChange={(value) => onPatch({ growthPerTurn: Math.max(0.001, value) })}
+      />
+      <NumberField
+        label="Turns"
+        ariaLabel={`Turns ${boundary.id}`}
+        value={boundary.turns}
+        min={1}
+        step={1}
+        onChange={(value) =>
+          onPatch({ turns: Math.max(1, Math.round(value)) })
+        }
+      />
+    </>
+  )
+}
 
 type NumberFieldProps = {
   label: string

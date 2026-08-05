@@ -56,7 +56,7 @@ export const downloadCompositionSvg = (
   URL.revokeObjectURL(url)
 }
 
-const svgForCommand = (command: CompositionDrawCommand) => {
+const svgForCommand = (command: CompositionDrawCommand): string => {
   switch (command.kind) {
     case 'clear':
       return `  <rect width="${round(command.width)}" height="${round(command.height)}" fill="${escapeXml(command.color)}"/>`
@@ -68,6 +68,10 @@ const svgForCommand = (command: CompositionDrawCommand) => {
       return `  <polyline data-head-id="${escapeXml(command.headId)}" points="${command.points.map((point) => `${round(point.x)},${round(point.y)}`).join(' ')}" fill="none" stroke="${escapeXml(command.color)}" stroke-width="${round(command.lineWidth)}" opacity="${round(command.opacity)}" stroke-linecap="round" stroke-linejoin="round"/>`
     case 'head':
       return `  <circle data-head-id="${escapeXml(command.headId)}" cx="${round(command.position.x)}" cy="${round(command.position.y)}" r="${round(command.radius)}" fill="${escapeXml(command.color)}" opacity="${round(command.opacity)}"/>`
+    case 'ellipse-boundary':
+      return `  <ellipse data-boundary-id="${escapeXml(command.boundaryId)}" cx="${round(command.center.x)}" cy="${round(command.center.y)}" rx="${round(command.radiusX)}" ry="${round(command.radiusY)}" transform="rotate(${round((command.rotation * 180) / Math.PI)} ${round(command.center.x)} ${round(command.center.y)})" fill="none" stroke="${escapeXml(command.color)}" stroke-width="${round(command.lineWidth)}"/>`
+    case 'polyline-boundary':
+      return `  <polyline data-boundary-id="${escapeXml(command.boundaryId)}" points="${command.points.map((point) => `${round(point.x)},${round(point.y)}`).join(' ')}" fill="none" stroke="${escapeXml(command.color)}" stroke-width="${round(command.lineWidth)}"/>`
     case 'boundary-label':
     case 'label':
       return `  <text x="${round(command.position.x)}" y="${round(command.position.y)}" fill="${escapeXml(command.color)}">${escapeXml(command.text)}</text>`

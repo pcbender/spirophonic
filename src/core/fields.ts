@@ -1,35 +1,165 @@
 import type {
+  BoundarySpecUnion,
   Composition,
+  FieldMotionSpec,
   FieldSpec,
   Point2,
-  RingBoundarySpec,
-  SpokeBoundarySpec,
 } from './composition'
+import { normalizeCycleRate, transportAddressAtSeconds } from './transport'
 
-export type BoundarySpec = RingBoundarySpec | SpokeBoundarySpec
+export type BoundarySpec = BoundarySpecUnion
 
-export type RingBoundaryGeometry = Readonly<{
-  kind: 'ring'
+const TAU = Math.PI * 2
+
+type GeometryBase = {
   fieldId: string
   boundaryId: string
   name: string
   index: number
   center: Readonly<Point2>
-  radius: number
-}>
+}
 
-export type SpokeBoundaryGeometry = Readonly<{
-  kind: 'spoke'
-  fieldId: string
-  boundaryId: string
-  name: string
-  index: number
+export type RingBoundaryGeometry = Readonly<
+  GeometryBase & { kind: 'ring'; radius: number }
+>
+
+export type SpokeBoundaryGeometry = Readonly<
+  GeometryBase & {
+    kind: 'spoke'
+    angle: number
+    direction: Readonly<Point2>
+  }
+>
+
+export type EllipseBoundaryGeometry = Readonly<
+  GeometryBase & {
+    kind: 'ellipse'
+    rotation: number
+    semiMajor: number
+    semiMinor: number
+  }
+>
+
+export type BandBoundaryGeometry = Readonly<
+  GeometryBase & {
+    kind: 'band'
+    innerRadius: number
+    outerRadius: number
+  }
+>
+
+export type GridBoundaryGeometry = Readonly<
+  GeometryBase & {
+    kind: 'grid'
+    rotation: number
+    axis: 'x' | 'y'
+    offset: number
+  }
+>
+
+export type SpiralBoundaryGeometry = Readonly<
+  GeometryBase & {
+    kind: 'spiral'
+    rotation: number
+    startRadius: number
+    growthPerTurn: number
+    turns: number
+  }
+>
+
+export type BoundaryGeometry =
+  | RingBoundaryGeometry
+  | SpokeBoundaryGeometry
+  | EllipseBoundaryGeometry
+  | BandBoundaryGeometry
+  | GridBoundaryGeometry
+  | SpiralBoundaryGeometry
+
+/**
+ * A Field's placement at one instant. Static Fields return the same value at
+ * every time, which is what keeps MG-05 ring and spoke fixtures unchanged.
+ */
+export type FieldPlacement = Readonly<{
   center: Readonly<Point2>
-  angle: number
-  direction: Readonly<Point2>
+  rotation: number
 }>
 
-export type BoundaryGeometry = RingBoundaryGeometry | SpokeBoundaryGeometry
+export const fieldMotionOf = (field: FieldSpec): FieldMotionSpec =>
+  field.motion ?? { kind: 'fixed' }
+
+/**
+ * Resolves where a Field sits at an absolute time. Wheel-attached Fields read
+ * the referenced Wheel's absolute state, so seeking to a time gives the same
+ * placement as playing to it.
+ */
+export const fieldPlacementAt = (
+  composition: Pick<Composition, 'fields' | 'wheels' | 'transport'>,
+  field: FieldSpec,
+  timeSeconds: number,
+): FieldPlacement => {
+  if (!Number.isFinite(timeSeconds)) {
+    throw new RangeError('timeSeconds must be a finite number.')
+  }
+
+  const baseRotation = field.rotation ?? 0
+  const motion = fieldMotionOf(field)
+
+  if (motion.kind === 'fixed') {
+    return Object.freeze({
+      center: freezePoint(field.center),
+      rotation: baseRotation,
+    })
+  }
+
+  if (motion.kind === 'rotating') {
+    return Object.freeze({
+      center: freezePoint(field.center),
+      rotation: baseRotation + TAU * motion.turnsPerSecond * timeSeconds,
+    })
+  }
+
+  if (motion.kind === 'transport-rotating') {
+    const rate = normalizeCycleRate(motion.rate)
+    const { absoluteBeat } = transportAddressAtSeconds(
+      composition.transport,
+      timeSeconds,
+    )
+    return Object.freeze({
+      center: freezePoint(field.center),
+      rotation:
+        baseRotation + TAU * absoluteBeat * (rate.cycles / rate.beats),
+    })
+  }
+
+  const wheel = composition.wheels.find(
+    (candidate) => candidate.id === motion.wheelId,
+  )
+  if (!wheel) {
+    throw new RangeError(
+      `Field "${field.id}" is attached to unknown Wheel "${motion.wheelId}".`,
+    )
+  }
+
+  const rate = normalizeCycleRate(wheel.rate)
+  const { absoluteBeat } = transportAddressAtSeconds(
+    composition.transport,
+    timeSeconds,
+  )
+  const directionSign = wheel.direction === 'reverse' ? -1 : 1
+  const cyclePosition =
+    wheel.phase + directionSign * absoluteBeat * (rate.cycles / rate.beats)
+
+  return Object.freeze({
+    // The Field's own centre is an offset from the Wheel it rides.
+    center: freezePoint({
+      x: wheel.center.x + field.center.x,
+      y: wheel.center.y + field.center.y,
+    }),
+    rotation: motion.followRotation
+      ? baseRotation + TAU * cyclePosition
+      : baseRotation,
+  })
+}
 
 export type BoundarySegmentCrossing = Readonly<{
   fieldId: string
@@ -52,8 +182,20 @@ const assertFinitePoint = (value: Point2, name: string) => {
   }
 }
 
+export const boundaryKindForField: Record<
+  FieldSpec['kind'],
+  BoundarySpec['kind']
+> = {
+  rings: 'ring',
+  spokes: 'spoke',
+  ellipses: 'ellipse',
+  bands: 'band',
+  grid: 'grid',
+  spiral: 'spiral',
+}
+
 const assertMatchingBoundary = (field: FieldSpec, boundary: BoundarySpec) => {
-  const expected = field.kind === 'rings' ? 'ring' : 'spoke'
+  const expected = boundaryKindForField[field.kind]
 
   if (boundary.kind !== expected) {
     throw new RangeError(
@@ -62,57 +204,129 @@ const assertMatchingBoundary = (field: FieldSpec, boundary: BoundarySpec) => {
   }
 }
 
-export const boundaryGeometry = (
+/** Geometry for a Boundary at an explicit Field placement. */
+export const boundaryGeometryAtPlacement = (
   field: FieldSpec,
   boundary: BoundarySpec,
+  placement: FieldPlacement,
 ): BoundaryGeometry => {
   assertMatchingBoundary(field, boundary)
 
-  if (field.kind === 'rings' && boundary.kind === 'ring') {
-    return Object.freeze({
-      kind: 'ring',
-      fieldId: field.id,
-      boundaryId: boundary.id,
-      name: boundary.name,
-      index: boundary.index,
-      center: freezePoint(field.center),
-      radius: boundary.radius,
-    })
+  const base = {
+    fieldId: field.id,
+    boundaryId: boundary.id,
+    name: boundary.name,
+    index: boundary.index,
+    center: placement.center,
   }
 
-  if (field.kind === 'spokes' && boundary.kind === 'spoke') {
-    const angle = field.rotation + boundary.angle
+  if (boundary.kind === 'ring') {
+    return Object.freeze({ ...base, kind: 'ring', radius: boundary.radius })
+  }
 
+  if (boundary.kind === 'spoke') {
+    const angle = placement.rotation + boundary.angle
     return Object.freeze({
+      ...base,
       kind: 'spoke',
-      fieldId: field.id,
-      boundaryId: boundary.id,
-      name: boundary.name,
-      index: boundary.index,
-      center: freezePoint(field.center),
       angle,
       direction: freezePoint({ x: Math.cos(angle), y: Math.sin(angle) }),
     })
   }
 
-  throw new RangeError('Unsupported Field and Boundary combination.')
+  if (boundary.kind === 'ellipse') {
+    return Object.freeze({
+      ...base,
+      kind: 'ellipse',
+      rotation: placement.rotation,
+      semiMajor: boundary.radius,
+      semiMinor:
+        boundary.radius * Math.sqrt(1 - boundary.eccentricity ** 2),
+    })
+  }
+
+  if (boundary.kind === 'band') {
+    return Object.freeze({
+      ...base,
+      kind: 'band',
+      innerRadius: boundary.innerRadius,
+      outerRadius: boundary.outerRadius,
+    })
+  }
+
+  if (boundary.kind === 'grid') {
+    return Object.freeze({
+      ...base,
+      kind: 'grid',
+      rotation: placement.rotation,
+      axis: boundary.axis,
+      offset: boundary.offset,
+    })
+  }
+
+  return Object.freeze({
+    ...base,
+    kind: 'spiral',
+    rotation: placement.rotation,
+    startRadius: boundary.startRadius,
+    growthPerTurn: boundary.growthPerTurn,
+    turns: boundary.turns,
+  })
 }
 
-export const activeBoundaryGeometries = (
+/** Static-Field convenience used by drawing code and MG-05 era callers. */
+export const boundaryGeometry = (
+  field: FieldSpec,
+  boundary: BoundarySpec,
+): BoundaryGeometry =>
+  boundaryGeometryAtPlacement(field, boundary, {
+    center: freezePoint(field.center),
+    rotation: field.rotation ?? 0,
+  })
+
+export type ActiveBoundary = Readonly<{
+  field: FieldSpec
+  boundary: BoundarySpec
+}>
+
+/** Enabled Field/Boundary pairs, independent of time. */
+export const activeBoundaries = (
   composition: Pick<Composition, 'fields'>,
-): ReadonlyArray<BoundaryGeometry> => {
-  const geometries: Array<BoundaryGeometry> = []
+): ReadonlyArray<ActiveBoundary> => {
+  const active: Array<ActiveBoundary> = []
 
   for (const field of composition.fields) {
     if (!field.enabled) continue
-
     for (const boundary of field.boundaries) {
-      if (boundary.enabled) geometries.push(boundaryGeometry(field, boundary))
+      if (boundary.enabled) active.push(Object.freeze({ field, boundary }))
     }
   }
 
-  return Object.freeze(geometries)
+  return Object.freeze(active)
 }
+
+export const activeBoundaryGeometriesAt = (
+  composition: Pick<Composition, 'fields' | 'wheels' | 'transport'>,
+  timeSeconds: number,
+): ReadonlyArray<BoundaryGeometry> =>
+  Object.freeze(
+    activeBoundaries(composition).map(({ field, boundary }) =>
+      boundaryGeometryAtPlacement(
+        field,
+        boundary,
+        fieldPlacementAt(composition, field, timeSeconds),
+      ),
+    ),
+  )
+
+export const activeBoundaryGeometries = (
+  composition: Pick<Composition, 'fields'>,
+): ReadonlyArray<BoundaryGeometry> =>
+  Object.freeze(
+    activeBoundaries(composition).map(({ field, boundary }) =>
+      boundaryGeometry(field, boundary),
+    ),
+  )
 
 export const ringSignedDistance = (
   center: Point2,
@@ -163,13 +377,187 @@ export const spokeRayCoordinate = (
   )
 }
 
+/** Rotates a world point into the Field's own frame. */
+const toLocal = (
+  center: Point2,
+  rotation: number,
+  value: Point2,
+): Point2 => {
+  const dx = value.x - center.x
+  const dy = value.y - center.y
+  const cos = Math.cos(-rotation)
+  const sin = Math.sin(-rotation)
+  return { x: dx * cos - dy * sin, y: dx * sin + dy * cos }
+}
+
+/**
+ * Negative inside the ellipse, positive outside. The normalized level set is
+ * scaled by the smaller semi-axis so the result is in world-like units and a
+ * single spatial tolerance stays meaningful across families.
+ */
+export const ellipseSignedDistance = (
+  center: Point2,
+  rotation: number,
+  semiMajor: number,
+  semiMinor: number,
+  value: Point2,
+) => {
+  assertFinitePoint(center, 'center')
+  assertFinitePoint(value, 'value')
+  if (!Number.isFinite(semiMajor) || semiMajor <= 0) {
+    throw new RangeError('semiMajor must be finite and positive.')
+  }
+  if (!Number.isFinite(semiMinor) || semiMinor <= 0) {
+    throw new RangeError('semiMinor must be finite and positive.')
+  }
+
+  const local = toLocal(center, rotation, value)
+  const normalized = Math.hypot(local.x / semiMajor, local.y / semiMinor)
+  return (normalized - 1) * Math.min(semiMajor, semiMinor)
+}
+
+/** Negative inside the annulus, positive outside either edge. */
+export const bandSignedDistance = (
+  center: Point2,
+  innerRadius: number,
+  outerRadius: number,
+  value: Point2,
+) => {
+  assertFinitePoint(center, 'center')
+  assertFinitePoint(value, 'value')
+  if (!Number.isFinite(innerRadius) || innerRadius < 0) {
+    throw new RangeError('innerRadius must be finite and non-negative.')
+  }
+  if (!Number.isFinite(outerRadius) || outerRadius <= innerRadius) {
+    throw new RangeError('outerRadius must be finite and exceed innerRadius.')
+  }
+
+  const radius = Math.hypot(value.x - center.x, value.y - center.y)
+  const middle = (innerRadius + outerRadius) / 2
+  const halfWidth = (outerRadius - innerRadius) / 2
+  return Math.abs(radius - middle) - halfWidth
+}
+
+export const gridSignedDistance = (
+  center: Point2,
+  rotation: number,
+  axis: 'x' | 'y',
+  offset: number,
+  value: Point2,
+) => {
+  assertFinitePoint(center, 'center')
+  assertFinitePoint(value, 'value')
+  if (!Number.isFinite(offset)) {
+    throw new RangeError('offset must be finite.')
+  }
+
+  const local = toLocal(center, rotation, value)
+  return (axis === 'x' ? local.x : local.y) - offset
+}
+
+/**
+ * Radial distance to the nearest arm of an Archimedean spiral. Each of the
+ * `turns` windings is a separate arm at the sampled angle; the nearest one wins,
+ * which keeps the level set continuous across the angular branch cut.
+ */
+export const spiralSignedDistance = (
+  center: Point2,
+  rotation: number,
+  startRadius: number,
+  growthPerTurn: number,
+  turns: number,
+  value: Point2,
+) => {
+  assertFinitePoint(center, 'center')
+  assertFinitePoint(value, 'value')
+  if (!Number.isFinite(startRadius) || startRadius < 0) {
+    throw new RangeError('startRadius must be finite and non-negative.')
+  }
+  if (!Number.isFinite(growthPerTurn) || growthPerTurn <= 0) {
+    throw new RangeError('growthPerTurn must be finite and positive.')
+  }
+  if (!Number.isInteger(turns) || turns < 1) {
+    throw new RangeError('turns must be a positive integer.')
+  }
+
+  const local = toLocal(center, rotation, value)
+  const radius = Math.hypot(local.x, local.y)
+  const theta = Math.atan2(local.y, local.x)
+  const wrapped = (theta % TAU + TAU) % TAU
+  let nearest = Number.POSITIVE_INFINITY
+
+  for (let turn = 0; turn < turns; turn += 1) {
+    const armRadius =
+      startRadius + growthPerTurn * (wrapped / TAU + turn)
+    const difference = radius - armRadius
+    if (Math.abs(difference) < Math.abs(nearest)) nearest = difference
+  }
+
+  return nearest
+}
+
 export const boundarySignedDistance = (
   geometry: BoundaryGeometry,
   value: Point2,
-) =>
-  geometry.kind === 'ring'
-    ? ringSignedDistance(geometry.center, geometry.radius, value)
-    : spokeSignedDistance(geometry.center, geometry.angle, value)
+) => {
+  if (geometry.kind === 'ring') {
+    return ringSignedDistance(geometry.center, geometry.radius, value)
+  }
+  if (geometry.kind === 'spoke') {
+    return spokeSignedDistance(geometry.center, geometry.angle, value)
+  }
+  if (geometry.kind === 'ellipse') {
+    return ellipseSignedDistance(
+      geometry.center,
+      geometry.rotation,
+      geometry.semiMajor,
+      geometry.semiMinor,
+      value,
+    )
+  }
+  if (geometry.kind === 'band') {
+    return bandSignedDistance(
+      geometry.center,
+      geometry.innerRadius,
+      geometry.outerRadius,
+      value,
+    )
+  }
+  if (geometry.kind === 'grid') {
+    return gridSignedDistance(
+      geometry.center,
+      geometry.rotation,
+      geometry.axis,
+      geometry.offset,
+      value,
+    )
+  }
+  return spiralSignedDistance(
+    geometry.center,
+    geometry.rotation,
+    geometry.startRadius,
+    geometry.growthPerTurn,
+    geometry.turns,
+    value,
+  )
+}
+
+/**
+ * Per-family spatial tolerance multiplier. Ellipse and spiral level sets are
+ * approximations of true Euclidean distance, so they need a looser zero band
+ * than the exact ring, spoke, band, and grid solvers.
+ */
+export const boundaryToleranceScale = (
+  geometry: BoundaryGeometry,
+): number => {
+  if (geometry.kind === 'ellipse') {
+    return Math.max(1, geometry.semiMajor / Math.max(1e-9, geometry.semiMinor))
+  }
+  if (geometry.kind === 'spiral') {
+    return 10
+  }
+  return 1
+}
 
 const interpolatePoint = (from: Point2, to: Point2, fraction: number) =>
   freezePoint({
@@ -296,8 +684,19 @@ export const reorderField = (
   return next
 }
 
-const reindexBoundaries = <T extends BoundarySpec>(boundaries: Array<T>) =>
+const reindexBoundaries = (boundaries: ReadonlyArray<BoundarySpec>) =>
   boundaries.map((boundary, index) => ({ ...boundary, index }))
+
+/**
+ * Every Field kind carries a homogeneous Boundary array whose element kind is
+ * fixed by the Field kind, so these edits are kind-agnostic once
+ * assertMatchingBoundary has run. The cast re-attaches the discriminated
+ * correlation that spreading erases.
+ */
+const withBoundaries = (
+  field: FieldSpec,
+  boundaries: ReadonlyArray<BoundarySpec>,
+): FieldSpec => ({ ...field, boundaries } as FieldSpec)
 
 export const addBoundary = (
   fields: ReadonlyArray<FieldSpec>,
@@ -310,21 +709,10 @@ export const addBoundary = (
 
   return updateField(fields, fieldId, (field) => {
     assertMatchingBoundary(field, boundary)
-
-    if (field.kind === 'rings' && boundary.kind === 'ring') {
-      return {
-        ...field,
-        boundaries: reindexBoundaries([...field.boundaries, boundary]),
-      }
-    }
-    if (field.kind === 'spokes' && boundary.kind === 'spoke') {
-      return {
-        ...field,
-        boundaries: reindexBoundaries([...field.boundaries, boundary]),
-      }
-    }
-
-    throw new RangeError('Unsupported Field and Boundary combination.')
+    return withBoundaries(
+      field,
+      reindexBoundaries([...field.boundaries, boundary]),
+    )
   })
 }
 
@@ -344,25 +732,14 @@ export const updateBoundary = (
     if (next.id !== current.id || next.kind !== current.kind) {
       throw new RangeError('Boundary identity and kind cannot change during an edit.')
     }
+    assertMatchingBoundary(field, next)
 
-    if (field.kind === 'rings' && next.kind === 'ring') {
-      return {
-        ...field,
-        boundaries: field.boundaries.map((boundary) =>
-          boundary.id === boundaryId ? next : boundary,
-        ),
-      }
-    }
-    if (field.kind === 'spokes' && next.kind === 'spoke') {
-      return {
-        ...field,
-        boundaries: field.boundaries.map((boundary) =>
-          boundary.id === boundaryId ? next : boundary,
-        ),
-      }
-    }
-
-    throw new RangeError('Unsupported Field and Boundary combination.')
+    return withBoundaries(
+      field,
+      field.boundaries.map((boundary) =>
+        boundary.id === boundaryId ? next : boundary,
+      ),
+    )
   })
 
 export const removeBoundary = (
@@ -378,21 +755,12 @@ export const removeBoundary = (
       throw new RangeError('A Field must retain at least one Boundary.')
     }
 
-    if (field.kind === 'rings') {
-      return {
-        ...field,
-        boundaries: reindexBoundaries(
-          field.boundaries.filter((boundary) => boundary.id !== boundaryId),
-        ),
-      }
-    }
-
-    return {
-      ...field,
-      boundaries: reindexBoundaries(
+    return withBoundaries(
+      field,
+      reindexBoundaries(
         field.boundaries.filter((boundary) => boundary.id !== boundaryId),
       ),
-    }
+    )
   })
 
 export const reorderBoundary = (
@@ -407,30 +775,19 @@ export const reorderBoundary = (
     )
     if (fromIndex < 0) throw new RangeError(`Unknown Boundary "${boundaryId}".`)
 
-    if (field.kind === 'rings') {
-      const boundaries = [...field.boundaries]
-      const [boundary] = boundaries.splice(fromIndex, 1)
-      boundaries.splice(
-        Math.min(boundaries.length, Math.max(0, toIndex)),
-        0,
-        boundary,
-      )
-      return { ...field, boundaries: reindexBoundaries(boundaries) }
-    }
-
-    const boundaries = [...field.boundaries]
+    const boundaries: Array<BoundarySpec> = [...field.boundaries]
     const [boundary] = boundaries.splice(fromIndex, 1)
     boundaries.splice(
       Math.min(boundaries.length, Math.max(0, toIndex)),
       0,
       boundary,
     )
-    return { ...field, boundaries: reindexBoundaries(boundaries) }
+    return withBoundaries(field, reindexBoundaries(boundaries))
   })
 
 export const nextFieldId = (
   fields: ReadonlyArray<FieldSpec>,
-  prefix: 'rings' | 'spokes',
+  prefix: FieldSpec['kind'],
 ) => nextStableId(allFieldIds(fields), `field-${prefix}`)
 
 export const nextBoundaryId = (

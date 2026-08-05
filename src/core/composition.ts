@@ -165,26 +165,117 @@ export type SpokeBoundarySpec = BoundaryBase & {
   angle: number
 }
 
-export type RingFieldSpec = {
+/** Concentric ellipse. `radius` is the semi-major axis. */
+export type EllipseBoundarySpec = BoundaryBase & {
+  kind: 'ellipse'
+  radius: number
+  eccentricity: number
+}
+
+/**
+ * An annulus between two radii. Crossing its inner or outer edge produces a
+ * paired entry/exit Encounter, so time inside the band can become duration.
+ */
+export type BandBoundarySpec = BoundaryBase & {
+  kind: 'band'
+  innerRadius: number
+  outerRadius: number
+}
+
+/** One axis-aligned grid line, offset from the Field centre along `axis`. */
+export type GridBoundarySpec = BoundaryBase & {
+  kind: 'grid'
+  axis: 'x' | 'y'
+  offset: number
+}
+
+/** One turn of an Archimedean spiral r = a + b*theta. */
+export type SpiralBoundarySpec = BoundaryBase & {
+  kind: 'spiral'
+  startRadius: number
+  growthPerTurn: number
+  turns: number
+}
+
+export type BoundarySpecUnion =
+  | RingBoundarySpec
+  | SpokeBoundarySpec
+  | EllipseBoundarySpec
+  | BandBoundarySpec
+  | GridBoundarySpec
+  | SpiralBoundarySpec
+
+/**
+ * How a Field moves. `fixed` is the MG-05 behaviour. `rotating` turns at its
+ * own constant rate in turns per second, independent of Transport. Both
+ * `transport-rotating` and `wheel-attached` derive their state from absolute
+ * Transport time, so seeking stays deterministic.
+ */
+export type FieldMotionSpec =
+  | { kind: 'fixed' }
+  | { kind: 'rotating'; turnsPerSecond: number }
+  | { kind: 'transport-rotating'; rate: CycleRate }
+  | {
+      kind: 'wheel-attached'
+      wheelId: string
+      followRotation: boolean
+    }
+
+/**
+ * `rotation` and `motion` are optional so MG-05 ring Fields keep validating
+ * byte-for-byte. Absent rotation is 0 and absent motion is fixed. Families
+ * whose shape actually depends on orientation require rotation explicitly.
+ */
+export type FieldBase = {
   id: string
   name: string
   enabled: boolean
-  kind: 'rings'
   center: Point2
+  rotation?: number
+  motion?: FieldMotionSpec
+}
+
+export type RingFieldSpec = FieldBase & {
+  kind: 'rings'
   boundaries: Array<RingBoundarySpec>
 }
 
-export type SpokeFieldSpec = {
-  id: string
-  name: string
-  enabled: boolean
+export type SpokeFieldSpec = FieldBase & {
   kind: 'spokes'
-  center: Point2
   rotation: number
   boundaries: Array<SpokeBoundarySpec>
 }
 
-export type FieldSpec = RingFieldSpec | SpokeFieldSpec
+export type EllipseFieldSpec = FieldBase & {
+  kind: 'ellipses'
+  rotation: number
+  boundaries: Array<EllipseBoundarySpec>
+}
+
+export type BandFieldSpec = FieldBase & {
+  kind: 'bands'
+  boundaries: Array<BandBoundarySpec>
+}
+
+export type GridFieldSpec = FieldBase & {
+  kind: 'grid'
+  rotation: number
+  boundaries: Array<GridBoundarySpec>
+}
+
+export type SpiralFieldSpec = FieldBase & {
+  kind: 'spiral'
+  rotation: number
+  boundaries: Array<SpiralBoundarySpec>
+}
+
+export type FieldSpec =
+  | RingFieldSpec
+  | SpokeFieldSpec
+  | EllipseFieldSpec
+  | BandFieldSpec
+  | GridFieldSpec
+  | SpiralFieldSpec
 
 export type RelationEventKind =
   | 'boundary-crossing'

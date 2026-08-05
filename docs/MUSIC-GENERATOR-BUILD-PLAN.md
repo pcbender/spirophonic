@@ -775,11 +775,24 @@ Composition stays the first-run experience.
 
 **Goal:** Expand spatial structure without changing Part or Instrument APIs.
 
-**Files:** `src/core/fields.ts`, `src/core/fields.test.ts`,
+**Files:** `src/core/composition.ts`, `src/core/compositionValidation.ts`,
+`src/core/compositionValidation.test.ts`,
+`src/core/fields.ts`, `src/core/fields.test.ts`,
 `src/core/crossings.ts`, `src/core/crossings.test.ts`,
+`src/core/encounters.ts`, `src/core/encounters.test.ts`,
 `src/render/compositionRenderer.ts`,
-`src/render/compositionRenderer.test.ts`, `src/ui/FieldPanel.tsx`,
-`src/ui/FieldPanel.test.tsx`
+`src/render/compositionRenderer.test.ts`, `src/export/svgExport.ts`,
+`src/ui/FieldPanel.tsx`, `src/ui/FieldPanel.test.tsx`
+
+**Scope note (2026-08-05):** the original file list omitted the schema and the
+Encounter engine, which this packet cannot avoid. New Boundary and Field kinds
+are Composition data, so `composition.ts` and its validation are in scope.
+Moving Fields make Boundary geometry a function of time rather than a constant,
+so `crossings.ts` and `encounters.ts` must resolve geometry per sample instead
+of once per scan. Static ring and spoke Fields resolve to the same geometry at
+every time, which is what keeps their fixtures unchanged. `svgExport.ts` joins
+the list because its draw-command switch has no default case, so a new command
+kind would silently vanish from exported SVG rather than fail.
 
 **Deliverables:**
 

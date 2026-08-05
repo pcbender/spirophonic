@@ -6,12 +6,16 @@ import type {
 } from './composition'
 import {
   scanBoundaryCrossings,
+  type BoundaryInput,
   type CrossingRefinementOptions,
   type CrossingScanDiagnostic,
   type TimedPathPoint,
 } from './crossings'
 import {
-  activeBoundaryGeometries,
+  activeBoundaries,
+  boundaryGeometryAtPlacement,
+  boundarySignedDistance,
+  fieldPlacementAt,
   type BoundaryGeometry,
 } from './fields'
 import { headStateAt } from './heads'
@@ -80,7 +84,8 @@ export type BoundaryEncounterPath = Readonly<{
   transport: TransportSpec
   wheelId: string
   headId: string
-  boundary: BoundaryGeometry
+  /** Static geometry, or a resolver for a moving Field. */
+  boundary: BoundaryInput
   sampleTimes: ReadonlyArray<number>
   stateAt: (timeSeconds: number) => EncounterPathState
 }>
@@ -138,6 +143,13 @@ const assertEncounterState = (
   }
 }
 
+const gradientStep = 1e-4
+
+/**
+ * Ring and spoke keep their exact analytic normals so MG-06 fixtures are
+ * untouched. The remaining families use the numerical gradient of their signed
+ * distance, which is correct for any level set without a per-family formula.
+ */
 const boundaryNormal = (
   boundary: BoundaryGeometry,
   position: Readonly<Point2>,
@@ -149,14 +161,54 @@ const boundaryNormal = (
     })
   }
 
-  const x = position.x - boundary.center.x
-  const y = position.y - boundary.center.y
-  const length = Math.hypot(x, y)
+  if (boundary.kind === 'ring') {
+    const x = position.x - boundary.center.x
+    const y = position.y - boundary.center.y
+    const length = Math.hypot(x, y)
+
+    return length <= epsilon
+      ? freezePoint({ x: 1, y: 0 })
+      : freezePoint({ x: x / length, y: y / length })
+  }
+
+  const dx =
+    (boundarySignedDistance(boundary, {
+      x: position.x + gradientStep,
+      y: position.y,
+    }) -
+      boundarySignedDistance(boundary, {
+        x: position.x - gradientStep,
+        y: position.y,
+      })) /
+    (2 * gradientStep)
+  const dy =
+    (boundarySignedDistance(boundary, {
+      x: position.x,
+      y: position.y + gradientStep,
+    }) -
+      boundarySignedDistance(boundary, {
+        x: position.x,
+        y: position.y - gradientStep,
+      })) /
+    (2 * gradientStep)
+  const length = Math.hypot(dx, dy)
 
   return length <= epsilon
     ? freezePoint({ x: 1, y: 0 })
-    : freezePoint({ x: x / length, y: y / length })
+    : freezePoint({ x: dx / length, y: dy / length })
 }
+
+/**
+ * Radial families report inward/outward; linear and angular families report
+ * clockwise/counterclockwise. A band's signed distance is negative inside, so
+ * a decreasing distance is an entry and an increasing one is the paired exit.
+ */
+const radialFamilies: ReadonlySet<BoundaryGeometry['kind']> = new Set([
+  'ring',
+  'ellipse',
+  'band',
+  'spiral',
+])
 
 const encounterId = (
   wheelId: string,
@@ -206,6 +258,8 @@ export const boundaryEncountersForPath = (
     stateCache.set(timeSeconds, state)
     return state
   }
+  const boundaryAt =
+    typeof input.boundary === 'function' ? input.boundary : () => input.boundary
   const scan = scanBoundaryCrossings(
     input.boundary,
     input.sampleTimes,
@@ -214,7 +268,8 @@ export const boundaryEncountersForPath = (
   )
   const encounters = scan.crossings.map((crossing) => {
     const state = stateAt(crossing.timeSeconds)
-    const normal = boundaryNormal(input.boundary, crossing.position)
+    const geometry = boundaryAt(crossing.timeSeconds) as BoundaryGeometry
+    const normal = boundaryNormal(geometry, crossing.position)
     const speed = Math.hypot(state.velocity.x, state.velocity.y)
     const normalSpeed =
       state.velocity.x * normal.x + state.velocity.y * normal.y
@@ -222,14 +277,15 @@ export const boundaryEncountersForPath = (
       speed <= epsilon
         ? 0
         : Math.min(1, Math.max(0, Math.abs(normalSpeed) / speed))
-    const direction: BoundaryEncounterDirection =
-      input.boundary.kind === 'ring'
-        ? crossing.toDistance > crossing.fromDistance
-          ? 'outward'
-          : 'inward'
-        : crossing.toDistance > crossing.fromDistance
-          ? 'counterclockwise'
-          : 'clockwise'
+    const direction: BoundaryEncounterDirection = radialFamilies.has(
+      geometry.kind,
+    )
+      ? crossing.toDistance > crossing.fromDistance
+        ? 'outward'
+        : 'inward'
+      : crossing.toDistance > crossing.fromDistance
+        ? 'counterclockwise'
+        : 'clockwise'
     const address = transportAddressAtSeconds(
       input.transport,
       crossing.timeSeconds,
@@ -250,8 +306,8 @@ export const boundaryEncountersForPath = (
       headId: input.headId,
       fieldId: crossing.fieldId,
       boundaryId: crossing.boundaryId,
-      boundaryIndex: input.boundary.index,
-      boundaryKind: input.boundary.kind,
+      boundaryIndex: geometry.index,
+      boundaryKind: geometry.kind,
       position: freezePoint(crossing.position),
       direction,
       strength: incidenceRatio,
@@ -307,11 +363,32 @@ export const compileBoundaryEncounters = (
   const transport = normalizeTransport(composition.transport)
   const diagnostics: Array<EncounterDiagnostic> = []
   const encounters: Array<BoundaryCrossingEncounter> = []
-  const boundaries = [...activeBoundaryGeometries(composition)].sort(
-    (left, right) =>
-      compareText(left.fieldId, right.fieldId) ||
-      compareText(left.boundaryId, right.boundaryId),
-  )
+  // Each Boundary gets a resolver so a moving Field is evaluated at the time
+  // the path reaches it. Placements are memoized per time because several
+  // Boundaries usually share one Field.
+  const placementCaches = new Map<string, Map<number, ReturnType<typeof fieldPlacementAt>>>()
+  const boundaries = [...activeBoundaries(composition)]
+    .sort(
+      (left, right) =>
+        compareText(left.field.id, right.field.id) ||
+        compareText(left.boundary.id, right.boundary.id),
+    )
+    .map(({ field, boundary }) => {
+      const resolve = (timeSeconds: number) => {
+        let cache = placementCaches.get(field.id)
+        if (!cache) {
+          cache = new Map()
+          placementCaches.set(field.id, cache)
+        }
+        let placement = cache.get(timeSeconds)
+        if (!placement) {
+          placement = fieldPlacementAt(composition, field, timeSeconds)
+          cache.set(timeSeconds, placement)
+        }
+        return boundaryGeometryAtPlacement(field, boundary, placement)
+      }
+      return { field, boundary, resolve }
+    })
   const subjects = composition.wheels
     .filter((wheel) => wheel.enabled)
     .flatMap((wheel) =>
@@ -365,13 +442,13 @@ export const compileBoundaryEncounters = (
       return encounterState
     }
 
-    for (const boundary of boundaries) {
+    for (const { resolve } of boundaries) {
       const result = boundaryEncountersForPath(
         {
           transport,
           wheelId: wheel.id,
           headId: head.id,
-          boundary,
+          boundary: resolve,
           sampleTimes,
           stateAt,
         },
