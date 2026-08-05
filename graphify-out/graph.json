@@ -410,7 +410,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_drumsynth",
-      "community": 35,
+      "community": 54,
       "norm_label": "drumsynth.ts"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "audio_drumsynth_drumshape",
-      "community": 35,
+      "community": 54,
       "norm_label": "drumshape"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "audio_drumsynth_shapes",
-      "community": 35,
+      "community": 54,
       "norm_label": "shapes"
     },
     {
@@ -440,7 +440,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "audio_drumsynth_fallback",
-      "community": 35,
+      "community": 54,
       "norm_label": "fallback"
     },
     {
@@ -450,7 +450,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "audio_drumsynth_noisebuffer",
-      "community": 35,
+      "community": 54,
       "norm_label": "noisebuffer()"
     },
     {
@@ -460,7 +460,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "audio_drumsynth_playdrum",
-      "community": 35,
+      "community": 54,
       "norm_label": "playdrum()"
     },
     {
@@ -470,7 +470,7 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "audio_drumsynth_tone",
-      "community": 35,
+      "community": 54,
       "norm_label": "tone()"
     },
     {
@@ -480,7 +480,7 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "audio_drumsynth_envelope",
-      "community": 35,
+      "community": 54,
       "norm_label": "envelope()"
     },
     {
@@ -680,7 +680,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "core_composition_spacespec",
-      "community": 36,
+      "community": 4,
       "norm_label": "spacespec"
     },
     {
@@ -780,7 +780,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "core_composition_motionspec",
-      "community": 43,
+      "community": 45,
       "norm_label": "motionspec"
     },
     {
@@ -840,7 +840,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "core_composition_headattachmentspec",
-      "community": 43,
+      "community": 45,
       "norm_label": "headattachmentspec"
     },
     {
@@ -850,7 +850,7 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "core_composition_tracepresentationspec",
-      "community": 36,
+      "community": 4,
       "norm_label": "tracepresentationspec"
     },
     {
@@ -1700,7 +1700,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_curves_test",
-      "community": 43,
+      "community": 52,
       "norm_label": "curves.test.ts"
     },
     {
@@ -1710,7 +1710,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_curves_test_withfamily",
-      "community": 43,
+      "community": 52,
       "norm_label": "withfamily()"
     },
     {
@@ -1760,7 +1760,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "core_curves_curvefamilies",
-      "community": 43,
+      "community": 52,
       "norm_label": "curvefamilies"
     },
     {
@@ -1910,7 +1910,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_defaultmodel_test",
-      "community": 43,
+      "community": 52,
       "norm_label": "defaultmodel.test.ts"
     },
     {
@@ -1920,7 +1920,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_defaultmodel",
-      "community": 43,
+      "community": 52,
       "norm_label": "defaultmodel.ts"
     },
     {
@@ -1930,7 +1930,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_defaultmodel_defaultpitch",
-      "community": 43,
+      "community": 52,
       "norm_label": "defaultpitch"
     },
     {
@@ -1940,7 +1940,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "core_defaultmodel_defaultvoices",
-      "community": 43,
+      "community": 52,
       "norm_label": "defaultvoices"
     },
     {
@@ -1950,7 +1950,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "core_defaultmodel_defaultmodel",
-      "community": 43,
+      "community": 52,
       "norm_label": "defaultmodel"
     },
     {
@@ -2000,7 +2000,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "core_events_test_circlepoints",
-      "community": 43,
+      "community": 48,
       "norm_label": "circlepoints()"
     },
     {
@@ -2220,7 +2220,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "core_heads_positionat",
-      "community": 40,
+      "community": 7,
       "norm_label": "positionat()"
     },
     {
@@ -2430,7 +2430,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_model_curvefamily",
-      "community": 44,
+      "community": 52,
       "norm_label": "curvefamily"
     },
     {
@@ -2450,7 +2450,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "core_model_curveeventsource",
-      "community": 48,
+      "community": 35,
       "norm_label": "curveeventsource"
     },
     {
@@ -2500,7 +2500,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "core_model_spirophonicmodel",
-      "community": 4,
+      "community": 53,
       "norm_label": "spirophonicmodel"
     },
     {
@@ -2520,7 +2520,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "core_model_pitchsource",
-      "community": 44,
+      "community": 32,
       "norm_label": "pitchsource"
     },
     {
@@ -2530,7 +2530,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "core_model_scalename",
-      "community": 4,
+      "community": 32,
       "norm_label": "scalename"
     },
     {
@@ -2540,7 +2540,7 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "core_model_pitchoptions",
-      "community": 43,
+      "community": 44,
       "norm_label": "pitchoptions"
     },
     {
@@ -2550,7 +2550,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "core_model_voice",
-      "community": 4,
+      "community": 35,
       "norm_label": "voice"
     },
     {
@@ -2560,7 +2560,7 @@
       "source_location": "L163",
       "_origin": "ast",
       "id": "core_model_familydefaults",
-      "community": 43,
+      "community": 46,
       "norm_label": "familydefaults"
     },
     {
@@ -2570,7 +2570,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_motion_test",
-      "community": 43,
+      "community": 45,
       "norm_label": "motion.test.ts"
     },
     {
@@ -2580,7 +2580,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "core_motion_test_cases",
-      "community": 43,
+      "community": 45,
       "norm_label": "cases"
     },
     {
@@ -2670,7 +2670,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_preview_test",
-      "community": 4,
+      "community": 35,
       "norm_label": "preview.test.ts"
     },
     {
@@ -2680,7 +2680,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "core_preview_test_allon",
-      "community": 4,
+      "community": 35,
       "norm_label": "allon"
     },
     {
@@ -2690,7 +2690,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_preview",
-      "community": 4,
+      "community": 35,
       "norm_label": "preview.ts"
     },
     {
@@ -2700,7 +2700,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "core_preview_previewhit",
-      "community": 4,
+      "community": 35,
       "norm_label": "previewhit"
     },
     {
@@ -2800,7 +2800,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "core_rhythm_shaperhythm",
-      "community": 52,
+      "community": 32,
       "norm_label": "shaperhythm()"
     },
     {
@@ -2850,7 +2850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_scales_test",
-      "community": 46,
+      "community": 32,
       "norm_label": "scales.test.ts"
     },
     {
@@ -2860,7 +2860,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_scales",
-      "community": 46,
+      "community": 32,
       "norm_label": "scales.ts"
     },
     {
@@ -2870,7 +2870,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "core_scales_scaleintervals",
-      "community": 46,
+      "community": 32,
       "norm_label": "scaleintervals"
     },
     {
@@ -2880,7 +2880,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "core_scales_scalenames",
-      "community": 46,
+      "community": 32,
       "norm_label": "scalenames"
     },
     {
@@ -2890,7 +2890,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "core_scales_notenames",
-      "community": 46,
+      "community": 32,
       "norm_label": "notenames"
     },
     {
@@ -2900,7 +2900,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "core_scales_frequencytomidi",
-      "community": 46,
+      "community": 32,
       "norm_label": "frequencytomidi()"
     },
     {
@@ -2910,7 +2910,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "core_scales_miditofrequency",
-      "community": 46,
+      "community": 32,
       "norm_label": "miditofrequency()"
     },
     {
@@ -2920,7 +2920,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "core_scales_miditoname",
-      "community": 46,
+      "community": 32,
       "norm_label": "miditoname()"
     },
     {
@@ -2930,7 +2930,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "core_scales_quantizetoscale",
-      "community": 46,
+      "community": 32,
       "norm_label": "quantizetoscale()"
     },
     {
@@ -2940,7 +2940,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "core_scales_toscaledegree",
-      "community": 46,
+      "community": 32,
       "norm_label": "toscaledegree()"
     },
     {
@@ -2950,7 +2950,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "core_scales_fromscaledegree",
-      "community": 46,
+      "community": 32,
       "norm_label": "fromscaledegree()"
     },
     {
@@ -2960,7 +2960,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "core_scales_quantizefrequency",
-      "community": 46,
+      "community": 32,
       "norm_label": "quantizefrequency()"
     },
     {
@@ -3170,7 +3170,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "core_transport_withoutnegativezero",
-      "community": 40,
+      "community": 7,
       "norm_label": "withoutnegativezero()"
     },
     {
@@ -3280,7 +3280,7 @@
       "source_location": "L266",
       "_origin": "ast",
       "id": "core_transport_wrapcyclephase",
-      "community": 40,
+      "community": 7,
       "norm_label": "wrapcyclephase()"
     },
     {
@@ -3300,7 +3300,7 @@
       "source_location": "L278",
       "_origin": "ast",
       "id": "core_transport_transportaddressatseconds",
-      "community": 40,
+      "community": 7,
       "norm_label": "transportaddressatseconds()"
     },
     {
@@ -3340,7 +3340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_trochoid_test",
-      "community": 43,
+      "community": 52,
       "norm_label": "trochoid.test.ts"
     },
     {
@@ -3350,7 +3350,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_trochoid",
-      "community": 43,
+      "community": 48,
       "norm_label": "trochoid.ts"
     },
     {
@@ -3370,7 +3370,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "core_trochoid_safedivisor",
-      "community": 43,
+      "community": 48,
       "norm_label": "safedivisor()"
     },
     {
@@ -3380,7 +3380,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "core_trochoid_getcycleend",
-      "community": 43,
+      "community": 48,
       "norm_label": "getcycleend()"
     },
     {
@@ -3400,7 +3400,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "core_trochoid_generatespiropoints",
-      "community": 43,
+      "community": 48,
       "norm_label": "generatespiropoints()"
     },
     {
@@ -3410,7 +3410,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "core_trochoid_hypotrochoidpointattheta",
-      "community": 43,
+      "community": 48,
       "norm_label": "hypotrochoidpointattheta()"
     },
     {
@@ -3420,7 +3420,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "core_trochoid_epitrochoidpointattheta",
-      "community": 43,
+      "community": 48,
       "norm_label": "epitrochoidpointattheta()"
     },
     {
@@ -3430,7 +3430,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_voices_test",
-      "community": 52,
+      "community": 32,
       "norm_label": "voices.test.ts"
     },
     {
@@ -3440,7 +3440,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_voices_test_rendervoice",
-      "community": 52,
+      "community": 32,
       "norm_label": "rendervoice()"
     },
     {
@@ -3450,7 +3450,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "core_voices_test_byid",
-      "community": 52,
+      "community": 32,
       "norm_label": "byid()"
     },
     {
@@ -3460,7 +3460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_voices",
-      "community": 4,
+      "community": 32,
       "norm_label": "voices.ts"
     },
     {
@@ -3480,7 +3480,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "core_voices_renderedvoice",
-      "community": 4,
+      "community": 32,
       "norm_label": "renderedvoice"
     },
     {
@@ -3490,7 +3490,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "core_voices_voicegeometry",
-      "community": 52,
+      "community": 32,
       "norm_label": "voicegeometry()"
     },
     {
@@ -3500,7 +3500,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "core_voices_rendervoice",
-      "community": 52,
+      "community": 32,
       "norm_label": "rendervoice()"
     },
     {
@@ -3510,7 +3510,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "core_voices_rendervoices",
-      "community": 4,
+      "community": 35,
       "norm_label": "rendervoices()"
     },
     {
@@ -3520,7 +3520,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "core_voices_notefor",
-      "community": 52,
+      "community": 32,
       "norm_label": "notefor()"
     },
     {
@@ -3590,7 +3590,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "core_wheels_wheelstateat",
-      "community": 40,
+      "community": 7,
       "norm_label": "wheelstateat()"
     },
     {
@@ -3740,7 +3740,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_jsonexport_test",
-      "community": 43,
+      "community": 46,
       "norm_label": "jsonexport.test.ts"
     },
     {
@@ -3750,7 +3750,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "export_jsonexport_test_legacydocument",
-      "community": 43,
+      "community": 46,
       "norm_label": "legacydocument"
     },
     {
@@ -3760,7 +3760,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_jsonexport",
-      "community": 43,
+      "community": 46,
       "norm_label": "jsonexport.ts"
     },
     {
@@ -3770,7 +3770,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "export_jsonexport_jsonimportresult",
-      "community": 43,
+      "community": 46,
       "norm_label": "jsonimportresult"
     },
     {
@@ -3780,7 +3780,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "export_jsonexport_supportedversions",
-      "community": 43,
+      "community": 46,
       "norm_label": "supportedversions"
     },
     {
@@ -3790,7 +3790,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "export_jsonexport_exportmodeltojson",
-      "community": 43,
+      "community": 46,
       "norm_label": "exportmodeltojson()"
     },
     {
@@ -3800,7 +3800,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "export_jsonexport_parsemodeljson",
-      "community": 43,
+      "community": 46,
       "norm_label": "parsemodeljson()"
     },
     {
@@ -3810,7 +3810,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "export_jsonexport_upgrademodel",
-      "community": 43,
+      "community": 46,
       "norm_label": "upgrademodel()"
     },
     {
@@ -3820,7 +3820,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "export_jsonexport_iscurvefamily",
-      "community": 43,
+      "community": 46,
       "norm_label": "iscurvefamily()"
     },
     {
@@ -3830,7 +3830,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "export_jsonexport_downloadmodeljson",
-      "community": 43,
+      "community": 46,
       "norm_label": "downloadmodeljson()"
     },
     {
@@ -3840,7 +3840,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "export_jsonexport_isspirophonicmodel",
-      "community": 43,
+      "community": 46,
       "norm_label": "isspirophonicmodel()"
     },
     {
@@ -3850,7 +3850,7 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "export_jsonexport_hasnumbers",
-      "community": 43,
+      "community": 46,
       "norm_label": "hasnumbers()"
     },
     {
@@ -3860,7 +3860,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "export_jsonexport_isrecord",
-      "community": 43,
+      "community": 46,
       "norm_label": "isrecord()"
     },
     {
@@ -4260,7 +4260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_strudelexport_test",
-      "community": 4,
+      "community": 32,
       "norm_label": "strudelexport.test.ts"
     },
     {
@@ -4270,7 +4270,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "export_strudelexport_test_enableonly",
-      "community": 4,
+      "community": 32,
       "norm_label": "enableonly()"
     },
     {
@@ -4280,7 +4280,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "export_strudelexport_test_counttokens",
-      "community": 4,
+      "community": 32,
       "norm_label": "counttokens()"
     },
     {
@@ -4290,7 +4290,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_strudelexport",
-      "community": 4,
+      "community": 32,
       "norm_label": "strudelexport.ts"
     },
     {
@@ -4300,7 +4300,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "export_strudelexport_drumsounds",
-      "community": 4,
+      "community": 32,
       "norm_label": "drumsounds"
     },
     {
@@ -4310,7 +4310,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "export_strudelexport_tonalscales",
-      "community": 4,
+      "community": 32,
       "norm_label": "tonalscales"
     },
     {
@@ -4320,7 +4320,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "export_strudelexport_strudelinstruments",
-      "community": 4,
+      "community": 32,
       "norm_label": "strudelinstruments"
     },
     {
@@ -4330,7 +4330,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "export_strudelexport_exportstrudelsnippet",
-      "community": 4,
+      "community": 41,
       "norm_label": "exportstrudelsnippet()"
     },
     {
@@ -4340,7 +4340,7 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "export_strudelexport_voicepart",
-      "community": 4,
+      "community": 32,
       "norm_label": "voicepart()"
     },
     {
@@ -4350,7 +4350,7 @@
       "source_location": "L128",
       "_origin": "ast",
       "id": "export_strudelexport_scalename",
-      "community": 4,
+      "community": 32,
       "norm_label": "scalename()"
     },
     {
@@ -4360,7 +4360,7 @@
       "source_location": "L138",
       "_origin": "ast",
       "id": "export_strudelexport_instrument",
-      "community": 4,
+      "community": 32,
       "norm_label": "instrument()"
     },
     {
@@ -4370,7 +4370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_svgexport_test",
-      "community": 43,
+      "community": 48,
       "norm_label": "svgexport.test.ts"
     },
     {
@@ -4380,7 +4380,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_svgexport",
-      "community": 43,
+      "community": 48,
       "norm_label": "svgexport.ts"
     },
     {
@@ -4390,7 +4390,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "export_svgexport_exporttracetosvg",
-      "community": 43,
+      "community": 48,
       "norm_label": "exporttracetosvg()"
     },
     {
@@ -4400,7 +4400,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "export_svgexport_downloadtracesvg",
-      "community": 43,
+      "community": 48,
       "norm_label": "downloadtracesvg()"
     },
     {
@@ -4410,7 +4410,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "export_svgexport_transformpoints",
-      "community": 43,
+      "community": 48,
       "norm_label": "transformpoints()"
     },
     {
@@ -4420,7 +4420,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "export_svgexport_round",
-      "community": 43,
+      "community": 48,
       "norm_label": "round()"
     },
     {
@@ -4430,7 +4430,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "export_svgexport_escapexml",
-      "community": 43,
+      "community": 48,
       "norm_label": "escapexml()"
     },
     {
@@ -4544,6 +4544,306 @@
       "norm_label": "pointtohsl()"
     },
     {
+      "label": "compositionRenderer.test.ts",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_test",
+      "community": 4,
+      "norm_label": "compositionrenderer.test.ts"
+    },
+    {
+      "label": "observation",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_test_observation",
+      "community": 4,
+      "norm_label": "observation"
+    },
+    {
+      "label": "compositionWithTwoHeads()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_test_compositionwithtwoheads",
+      "community": 4,
+      "norm_label": "compositionwithtwoheads()"
+    },
+    {
+      "label": "compositionRenderer.ts",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "render_compositionrenderer",
+      "community": 4,
+      "norm_label": "compositionrenderer.ts"
+    },
+    {
+      "label": "ObservationInterval",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_observationinterval",
+      "community": 4,
+      "norm_label": "observationinterval"
+    },
+    {
+      "label": "TraceMode",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_tracemode",
+      "community": 4,
+      "norm_label": "tracemode"
+    },
+    {
+      "label": "CompositionSceneOptions",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_compositionsceneoptions",
+      "community": 4,
+      "norm_label": "compositionsceneoptions"
+    },
+    {
+      "label": "TracePointSnapshot",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_tracepointsnapshot",
+      "community": 4,
+      "norm_label": "tracepointsnapshot"
+    },
+    {
+      "label": "HeadSnapshot",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_headsnapshot",
+      "community": 4,
+      "norm_label": "headsnapshot"
+    },
+    {
+      "label": "HeadTraceSnapshot",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_headtracesnapshot",
+      "community": 4,
+      "norm_label": "headtracesnapshot"
+    },
+    {
+      "label": "CompositionScene",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_compositionscene",
+      "community": 4,
+      "norm_label": "compositionscene"
+    },
+    {
+      "label": "CanvasViewport",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_canvasviewport",
+      "community": 4,
+      "norm_label": "canvasviewport"
+    },
+    {
+      "label": "SpaceProjection",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_spaceprojection",
+      "community": 4,
+      "norm_label": "spaceprojection"
+    },
+    {
+      "label": "CompositionDrawOptions",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L73",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_compositiondrawoptions",
+      "community": 4,
+      "norm_label": "compositiondrawoptions"
+    },
+    {
+      "label": "ClearDrawCommand",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L81",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_cleardrawcommand",
+      "community": 4,
+      "norm_label": "cleardrawcommand"
+    },
+    {
+      "label": "TraceDrawCommand",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L88",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_tracedrawcommand",
+      "community": 4,
+      "norm_label": "tracedrawcommand"
+    },
+    {
+      "label": "HeadDrawCommand",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L98",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_headdrawcommand",
+      "community": 4,
+      "norm_label": "headdrawcommand"
+    },
+    {
+      "label": "LabelDrawCommand",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L108",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_labeldrawcommand",
+      "community": 4,
+      "norm_label": "labeldrawcommand"
+    },
+    {
+      "label": "CompositionDrawCommand",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L117",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_compositiondrawcommand",
+      "community": 4,
+      "norm_label": "compositiondrawcommand"
+    },
+    {
+      "label": "freezePoint()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L123",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_freezepoint",
+      "community": 4,
+      "norm_label": "freezepoint()"
+    },
+    {
+      "label": "freezeHeadState()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L126",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_freezeheadstate",
+      "community": 4,
+      "norm_label": "freezeheadstate()"
+    },
+    {
+      "label": "validateObservation()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L134",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_validateobservation",
+      "community": 4,
+      "norm_label": "validateobservation()"
+    },
+    {
+      "label": "intervalTimes()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L165",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_intervaltimes",
+      "community": 4,
+      "norm_label": "intervaltimes()"
+    },
+    {
+      "label": "snapshotTracePoint()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L185",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_snapshottracepoint",
+      "community": 4,
+      "norm_label": "snapshottracepoint()"
+    },
+    {
+      "label": "buildCompositionScene()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L204",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_buildcompositionscene",
+      "community": 4,
+      "norm_label": "buildcompositionscene()"
+    },
+    {
+      "label": "sceneSpacePoints()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L258",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_scenespacepoints",
+      "community": 4,
+      "norm_label": "scenespacepoints()"
+    },
+    {
+      "label": "fitSpaceProjection()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L267",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_fitspaceprojection",
+      "community": 4,
+      "norm_label": "fitspaceprojection()"
+    },
+    {
+      "label": "projectSpacePoint()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L316",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_projectspacepoint",
+      "community": 4,
+      "norm_label": "projectspacepoint()"
+    },
+    {
+      "label": "buildCompositionDrawCommands()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L329",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_buildcompositiondrawcommands",
+      "community": 4,
+      "norm_label": "buildcompositiondrawcommands()"
+    },
+    {
+      "label": "drawCompositionCommands()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L402",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_drawcompositioncommands",
+      "community": 4,
+      "norm_label": "drawcompositioncommands()"
+    },
+    {
       "label": "setup.ts",
       "file_type": "code",
       "source_file": "src/test/setup.ts",
@@ -4620,7 +4920,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_canvasview",
-      "community": 4,
+      "community": 53,
       "norm_label": "canvasview.tsx"
     },
     {
@@ -4630,7 +4930,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "ui_canvasview_canvasviewprops",
-      "community": 4,
+      "community": 53,
       "norm_label": "canvasviewprops"
     },
     {
@@ -4640,8 +4940,78 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "ui_canvasview_canvasview",
-      "community": 41,
+      "community": 53,
       "norm_label": "canvasview()"
+    },
+    {
+      "label": "CompositionCanvas.test.tsx",
+      "file_type": "code",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ui_compositioncanvas_test",
+      "community": 4,
+      "norm_label": "compositioncanvas.test.tsx"
+    },
+    {
+      "label": "observation",
+      "file_type": "code",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "ui_compositioncanvas_test_observation",
+      "community": 4,
+      "norm_label": "observation"
+    },
+    {
+      "label": "context",
+      "file_type": "code",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "ui_compositioncanvas_test_context",
+      "community": 4,
+      "norm_label": "context"
+    },
+    {
+      "label": "CompositionCanvas.tsx",
+      "file_type": "code",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ui_compositioncanvas",
+      "community": 4,
+      "norm_label": "compositioncanvas.tsx"
+    },
+    {
+      "label": "CompositionCanvasProps",
+      "file_type": "code",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "ui_compositioncanvas_compositioncanvasprops",
+      "community": 4,
+      "norm_label": "compositioncanvasprops"
+    },
+    {
+      "label": "CanvasSize",
+      "file_type": "code",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "ui_compositioncanvas_canvassize",
+      "community": 4,
+      "norm_label": "canvassize"
+    },
+    {
+      "label": "CompositionCanvas()",
+      "file_type": "code",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "ui_compositioncanvas_compositioncanvas",
+      "community": 4,
+      "norm_label": "compositioncanvas()"
     },
     {
       "label": "ControlPanel.tsx",
@@ -4720,7 +5090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_importexportpanel",
-      "community": 43,
+      "community": 46,
       "norm_label": "importexportpanel.tsx"
     },
     {
@@ -4730,7 +5100,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "ui_importexportpanel_importexportpanelprops",
-      "community": 43,
+      "community": 46,
       "norm_label": "importexportpanelprops"
     },
     {
@@ -4740,7 +5110,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "ui_importexportpanel_importexportpanel",
-      "community": 43,
+      "community": 46,
       "norm_label": "importexportpanel()"
     },
     {
@@ -4840,7 +5210,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_voicepanel",
-      "community": 48,
+      "community": 35,
       "norm_label": "voicepanel.tsx"
     },
     {
@@ -4850,7 +5220,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "ui_voicepanel_voicepanelprops",
-      "community": 48,
+      "community": 35,
       "norm_label": "voicepanelprops"
     },
     {
@@ -4860,7 +5230,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "ui_voicepanel_triggerlabels",
-      "community": 48,
+      "community": 35,
       "norm_label": "triggerlabels"
     },
     {
@@ -4870,7 +5240,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "ui_voicepanel_shapelabels",
-      "community": 48,
+      "community": 35,
       "norm_label": "shapelabels"
     },
     {
@@ -4880,7 +5250,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "ui_voicepanel_drumoptions",
-      "community": 48,
+      "community": 35,
       "norm_label": "drumoptions"
     },
     {
@@ -4890,7 +5260,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "ui_voicepanel_voicepanel",
-      "community": 48,
+      "community": 35,
       "norm_label": "voicepanel()"
     },
     {
@@ -6717,7 +7087,7 @@
       "label": "Packet ledger",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L103",
+      "source_location": "L104",
       "_origin": "ast",
       "id": "docs_music_generator_progress_packet_ledger",
       "community": 39,
@@ -6727,7 +7097,7 @@
       "label": "Milestone rollup",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L132",
+      "source_location": "L133",
       "_origin": "ast",
       "id": "docs_music_generator_progress_milestone_rollup",
       "community": 39,
@@ -6737,7 +7107,7 @@
       "label": "Validation ledger",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L144",
+      "source_location": "L145",
       "_origin": "ast",
       "id": "docs_music_generator_progress_validation_ledger",
       "community": 39,
@@ -6747,7 +7117,7 @@
       "label": "Active packet records",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L166",
+      "source_location": "L168",
       "_origin": "ast",
       "id": "docs_music_generator_progress_active_packet_records",
       "community": 39,
@@ -6757,7 +7127,7 @@
       "label": "MG-01 \u2014 Composition schema and validation",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L168",
+      "source_location": "L170",
       "_origin": "ast",
       "id": "docs_music_generator_progress_mg_01_composition_schema_and_validation",
       "community": 39,
@@ -6767,7 +7137,7 @@
       "label": "MG-02 \u2014 Deterministic Transport and performance window",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L186",
+      "source_location": "L188",
       "_origin": "ast",
       "id": "docs_music_generator_progress_mg_02_deterministic_transport_and_performance_window",
       "community": 39,
@@ -6777,17 +7147,27 @@
       "label": "MG-03 \u2014 Wheel and multi-Head state engine",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L209",
+      "source_location": "L211",
       "_origin": "ast",
       "id": "docs_music_generator_progress_mg_03_wheel_and_multi_head_state_engine",
       "community": 39,
       "norm_label": "mg-03 \u2014 wheel and multi-head state engine"
     },
     {
+      "label": "MG-04 \u2014 Space projection and composition renderer",
+      "file_type": "document",
+      "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
+      "source_location": "L233",
+      "_origin": "ast",
+      "id": "docs_music_generator_progress_mg_04_space_projection_and_composition_renderer",
+      "community": 39,
+      "norm_label": "mg-04 \u2014 space projection and composition renderer"
+    },
+    {
       "label": "Blockers",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L232",
+      "source_location": "L256",
       "_origin": "ast",
       "id": "docs_music_generator_progress_blockers",
       "community": 39,
@@ -6797,7 +7177,7 @@
       "label": "Risk register",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L246",
+      "source_location": "L270",
       "_origin": "ast",
       "id": "docs_music_generator_progress_risk_register",
       "community": 39,
@@ -6807,7 +7187,7 @@
       "label": "Decision log",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L259",
+      "source_location": "L283",
       "_origin": "ast",
       "id": "docs_music_generator_progress_decision_log",
       "community": 39,
@@ -6817,7 +7197,7 @@
       "label": "Activity log",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L276",
+      "source_location": "L300",
       "_origin": "ast",
       "id": "docs_music_generator_progress_activity_log",
       "community": 39,
@@ -6827,7 +7207,7 @@
       "label": "Handoff records",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L292",
+      "source_location": "L319",
       "_origin": "ast",
       "id": "docs_music_generator_progress_handoff_records",
       "community": 39,
@@ -6837,7 +7217,7 @@
       "label": "2026-08-05 MG-01 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L294",
+      "source_location": "L321",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_01_author_handoff",
       "community": 39,
@@ -6847,17 +7227,27 @@
       "label": "2026-08-05 MG-02 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L329",
+      "source_location": "L356",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_02_author_handoff",
       "community": 39,
       "norm_label": "2026-08-05 mg-02 author handoff"
     },
     {
+      "label": "2026-08-05 MG-03 author handoff",
+      "file_type": "document",
+      "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
+      "source_location": "L389",
+      "_origin": "ast",
+      "id": "docs_music_generator_progress_2026_08_05_mg_03_author_handoff",
+      "community": 39,
+      "norm_label": "2026-08-05 mg-03 author handoff"
+    },
+    {
       "label": "Handoff template",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L366",
+      "source_location": "L427",
       "_origin": "ast",
       "id": "docs_music_generator_progress_handoff_template",
       "community": 39,
@@ -6867,7 +7257,7 @@
       "label": "Packet completion checklist",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L392",
+      "source_location": "L453",
       "_origin": "ast",
       "id": "docs_music_generator_progress_packet_completion_checklist",
       "community": 39,
@@ -10155,9 +10545,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports_from",
@@ -10166,9 +10556,9 @@
       "source_file": "src/core/heads.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_test",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports_from",
@@ -10177,9 +10567,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports_from",
@@ -10188,9 +10578,9 @@
       "source_file": "src/core/motion.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion_test",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports_from",
@@ -10221,9 +10611,9 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports_from",
@@ -10232,9 +10622,9 @@
       "source_file": "src/core/wheels.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels_test",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports_from",
@@ -10257,6 +10647,50 @@
       "confidence_score": 1.0,
       "source": "export_compositionjson_test",
       "target": "core_composition"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "core_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "core_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "core_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas_test",
+      "target": "core_composition",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -10298,9 +10732,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_composition_point2",
-      "confidence_score": 1.0
+      "target": "core_composition_point2"
     },
     {
       "relation": "imports",
@@ -10309,9 +10743,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_composition_point2",
-      "confidence_score": 1.0
+      "target": "core_composition_point2"
     },
     {
       "relation": "imports",
@@ -10320,8 +10754,30 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
+      "target": "core_composition_point2"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
       "target": "core_composition_point2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "core_composition_spacespec",
       "confidence_score": 1.0
     },
     {
@@ -10419,9 +10875,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_composition_motionspec",
-      "confidence_score": 1.0
+      "target": "core_composition_motionspec"
     },
     {
       "relation": "imports",
@@ -10430,9 +10886,9 @@
       "source_file": "src/core/motion.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion_test",
-      "target": "core_composition_motionspec",
-      "confidence_score": 1.0
+      "target": "core_composition_motionspec"
     },
     {
       "relation": "imports",
@@ -10463,9 +10919,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_composition_headattachmentspec",
-      "confidence_score": 1.0
+      "target": "core_composition_headattachmentspec"
     },
     {
       "relation": "imports",
@@ -10474,8 +10930,19 @@
       "source_file": "src/core/motion.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion_test",
-      "target": "core_composition_headattachmentspec",
+      "target": "core_composition_headattachmentspec"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "core_composition_tracepresentationspec",
       "confidence_score": 1.0
     },
     {
@@ -10485,9 +10952,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_composition_headspec",
-      "confidence_score": 1.0
+      "target": "core_composition_headspec"
     },
     {
       "relation": "imports",
@@ -10496,7 +10963,18 @@
       "source_file": "src/core/heads.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_test",
+      "target": "core_composition_headspec"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
       "target": "core_composition_headspec",
       "confidence_score": 1.0
     },
@@ -10507,9 +10985,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_composition_wheelspec",
-      "confidence_score": 1.0
+      "target": "core_composition_wheelspec"
     },
     {
       "relation": "imports",
@@ -10518,9 +10996,9 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
-      "target": "core_composition_wheelspec",
-      "confidence_score": 1.0
+      "target": "core_composition_wheelspec"
     },
     {
       "relation": "imports",
@@ -10617,9 +11095,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_composition_composition",
-      "confidence_score": 1.0
+      "target": "core_composition_composition"
     },
     {
       "relation": "imports",
@@ -10628,9 +11106,9 @@
       "source_file": "src/core/heads.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_test",
-      "target": "core_composition_composition",
-      "confidence_score": 1.0
+      "target": "core_composition_composition"
     },
     {
       "relation": "imports",
@@ -10639,9 +11117,9 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
-      "target": "core_composition_composition",
-      "confidence_score": 1.0
+      "target": "core_composition_composition"
     },
     {
       "relation": "imports",
@@ -10650,9 +11128,9 @@
       "source_file": "src/core/wheels.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels_test",
-      "target": "core_composition_composition",
-      "confidence_score": 1.0
+      "target": "core_composition_composition"
     },
     {
       "relation": "imports",
@@ -10675,6 +11153,50 @@
       "confidence_score": 1.0,
       "source": "export_compositionjson_test",
       "target": "core_composition_composition"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "core_composition_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "core_composition_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "core_composition_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas_test",
+      "target": "core_composition_composition",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -13143,9 +13665,9 @@
       "source_file": "src/core/curves.ts",
       "source_location": "L142",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_curves",
-      "target": "core_curves_harmonographpointattheta",
-      "confidence_score": 1.0
+      "target": "core_curves_harmonographpointattheta"
     },
     {
       "relation": "contains",
@@ -13153,9 +13675,9 @@
       "source_file": "src/core/curves.ts",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_curves",
-      "target": "core_curves_harmonographpointparameters",
-      "confidence_score": 1.0
+      "target": "core_curves_harmonographpointparameters"
     },
     {
       "relation": "contains",
@@ -13183,9 +13705,9 @@
       "source_file": "src/core/curves.ts",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_curves",
-      "target": "core_curves_lissajouspointattheta",
-      "confidence_score": 1.0
+      "target": "core_curves_lissajouspointattheta"
     },
     {
       "relation": "contains",
@@ -13223,9 +13745,9 @@
       "source_file": "src/core/curves.ts",
       "source_location": "L107",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_curves",
-      "target": "core_curves_rosepointattheta",
-      "confidence_score": 1.0
+      "target": "core_curves_rosepointattheta"
     },
     {
       "relation": "contains",
@@ -13253,9 +13775,9 @@
       "source_file": "src/core/curves.ts",
       "source_location": "L127",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_curves",
-      "target": "core_curves_superformulapointattheta",
-      "confidence_score": 1.0
+      "target": "core_curves_superformulapointattheta"
     },
     {
       "relation": "imports_from",
@@ -13341,9 +13863,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_curves",
-      "confidence_score": 1.0
+      "target": "core_curves"
     },
     {
       "relation": "imports_from",
@@ -13605,9 +14127,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_curves_lissajouspointattheta",
-      "confidence_score": 1.0
+      "target": "core_curves_lissajouspointattheta"
     },
     {
       "relation": "calls",
@@ -13638,9 +14160,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_curves_rosepointattheta",
-      "confidence_score": 1.0
+      "target": "core_curves_rosepointattheta"
     },
     {
       "relation": "calls",
@@ -13660,9 +14182,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_curves_superformulapointattheta",
-      "confidence_score": 1.0
+      "target": "core_curves_superformulapointattheta"
     },
     {
       "relation": "calls",
@@ -13682,9 +14204,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_curves_harmonographpointattheta",
-      "confidence_score": 1.0
+      "target": "core_curves_harmonographpointattheta"
     },
     {
       "relation": "calls",
@@ -13704,9 +14226,9 @@
       "source_file": "src/core/heads.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_test",
-      "target": "core_defaultcomposition",
-      "confidence_score": 1.0
+      "target": "core_defaultcomposition"
     },
     {
       "relation": "imports_from",
@@ -13715,9 +14237,9 @@
       "source_file": "src/core/wheels.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels_test",
-      "target": "core_defaultcomposition",
-      "confidence_score": 1.0
+      "target": "core_defaultcomposition"
     },
     {
       "relation": "imports_from",
@@ -13729,6 +14251,28 @@
       "confidence_score": 1.0,
       "source": "export_compositionjson_test",
       "target": "core_defaultcomposition"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "core_defaultcomposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas_test",
+      "target": "core_defaultcomposition",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -14729,9 +15273,9 @@
       "source_file": "src/core/heads.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_test",
-      "target": "core_heads",
-      "confidence_score": 1.0
+      "target": "core_heads"
     },
     {
       "relation": "imports",
@@ -14740,9 +15284,9 @@
       "source_file": "src/core/heads.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_test",
-      "target": "core_heads_headstateat",
-      "confidence_score": 1.0
+      "target": "core_heads_headstateat"
     },
     {
       "relation": "imports",
@@ -14751,9 +15295,9 @@
       "source_file": "src/core/heads.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_test",
-      "target": "core_heads_headstatesat",
-      "confidence_score": 1.0
+      "target": "core_heads_headstatesat"
     },
     {
       "relation": "contains",
@@ -14761,9 +15305,9 @@
       "source_file": "src/core/heads.test.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_test",
-      "target": "core_heads_test_clonedefault",
-      "confidence_score": 1.0
+      "target": "core_heads_test_clonedefault"
     },
     {
       "relation": "contains",
@@ -14771,9 +15315,9 @@
       "source_file": "src/core/heads.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_test",
-      "target": "core_heads_test_secondhead",
-      "confidence_score": 1.0
+      "target": "core_heads_test_secondhead"
     },
     {
       "relation": "contains",
@@ -14781,9 +15325,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_heads_findhead",
-      "confidence_score": 1.0
+      "target": "core_heads_findhead"
     },
     {
       "relation": "contains",
@@ -14791,9 +15335,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_heads_headstate",
-      "confidence_score": 1.0
+      "target": "core_heads_headstate"
     },
     {
       "relation": "contains",
@@ -14801,9 +15345,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L75",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_heads_headstateat",
-      "confidence_score": 1.0
+      "target": "core_heads_headstateat"
     },
     {
       "relation": "contains",
@@ -14811,9 +15355,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L139",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_heads_headstatesat",
-      "confidence_score": 1.0
+      "target": "core_heads_headstatesat"
     },
     {
       "relation": "contains",
@@ -14821,9 +15365,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_heads_locatedhead",
-      "confidence_score": 1.0
+      "target": "core_heads_locatedhead"
     },
     {
       "relation": "contains",
@@ -14831,9 +15375,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L45",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_heads_positionat",
-      "confidence_score": 1.0
+      "target": "core_heads_positionat"
     },
     {
       "relation": "imports_from",
@@ -14842,9 +15386,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_motion",
-      "confidence_score": 1.0
+      "target": "core_motion"
     },
     {
       "relation": "imports",
@@ -14853,9 +15397,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_motion_motionpointat",
-      "confidence_score": 1.0
+      "target": "core_motion_motionpointat"
     },
     {
       "relation": "imports_from",
@@ -14864,9 +15408,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_transport",
-      "confidence_score": 1.0
+      "target": "core_transport"
     },
     {
       "relation": "imports",
@@ -14875,9 +15419,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_transport_wrapcyclephase",
-      "confidence_score": 1.0
+      "target": "core_transport_wrapcyclephase"
     },
     {
       "relation": "imports_from",
@@ -14886,9 +15430,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_wheels",
-      "confidence_score": 1.0
+      "target": "core_wheels"
     },
     {
       "relation": "imports",
@@ -14897,9 +15441,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_wheels_findwheel",
-      "confidence_score": 1.0
+      "target": "core_wheels_findwheel"
     },
     {
       "relation": "imports",
@@ -14908,8 +15452,30 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads",
-      "target": "core_wheels_wheelstateat",
+      "target": "core_wheels_wheelstateat"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "core_heads",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "core_heads_headstate",
       "confidence_score": 1.0
     },
     {
@@ -14919,9 +15485,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_headstateat",
-      "target": "core_heads_findhead",
-      "confidence_score": 1.0
+      "target": "core_heads_findhead"
     },
     {
       "relation": "calls",
@@ -14930,9 +15496,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L81",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_headstateat",
-      "target": "core_heads_positionat",
-      "confidence_score": 1.0
+      "target": "core_heads_positionat"
     },
     {
       "relation": "calls",
@@ -14941,9 +15507,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L53",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_positionat",
-      "target": "core_motion_motionpointat",
-      "confidence_score": 1.0
+      "target": "core_motion_motionpointat"
     },
     {
       "relation": "calls",
@@ -14952,9 +15518,9 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_positionat",
-      "target": "core_transport_wrapcyclephase",
-      "confidence_score": 1.0
+      "target": "core_transport_wrapcyclephase"
     },
     {
       "relation": "calls",
@@ -14963,8 +15529,41 @@
       "source_file": "src/core/heads.ts",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_heads_positionat",
-      "target": "core_wheels_wheelstateat",
+      "target": "core_wheels_wheelstateat"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "core_heads_headstateat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L244",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_buildcompositionscene",
+      "target": "core_heads_headstateat"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L190",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_snapshottracepoint",
+      "target": "core_heads_headstateat",
       "confidence_score": 1.0
     },
     {
@@ -16243,9 +16842,9 @@
       "source_file": "src/core/motion.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion_test",
-      "target": "core_motion",
-      "confidence_score": 1.0
+      "target": "core_motion"
     },
     {
       "relation": "imports",
@@ -16254,9 +16853,9 @@
       "source_file": "src/core/motion.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion_test",
-      "target": "core_motion_motionpointat",
-      "confidence_score": 1.0
+      "target": "core_motion_motionpointat"
     },
     {
       "relation": "contains",
@@ -16264,9 +16863,9 @@
       "source_file": "src/core/motion.test.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion_test",
-      "target": "core_motion_test_cases",
-      "confidence_score": 1.0
+      "target": "core_motion_test_cases"
     },
     {
       "relation": "contains",
@@ -16274,9 +16873,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_motion_assertmatchingfamily",
-      "confidence_score": 1.0
+      "target": "core_motion_assertmatchingfamily"
     },
     {
       "relation": "contains",
@@ -16284,9 +16883,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_motion_motionevaluation",
-      "confidence_score": 1.0
+      "target": "core_motion_motionevaluation"
     },
     {
       "relation": "contains",
@@ -16294,9 +16893,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_motion_motionpointat",
-      "confidence_score": 1.0
+      "target": "core_motion_motionpointat"
     },
     {
       "relation": "contains",
@@ -16304,9 +16903,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_motion_point",
-      "confidence_score": 1.0
+      "target": "core_motion_point"
     },
     {
       "relation": "imports_from",
@@ -16315,9 +16914,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_trochoid",
-      "confidence_score": 1.0
+      "target": "core_trochoid"
     },
     {
       "relation": "imports",
@@ -16326,9 +16925,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_trochoid_epitrochoidpointattheta",
-      "confidence_score": 1.0
+      "target": "core_trochoid_epitrochoidpointattheta"
     },
     {
       "relation": "imports",
@@ -16337,9 +16936,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion",
-      "target": "core_trochoid_hypotrochoidpointattheta",
-      "confidence_score": 1.0
+      "target": "core_trochoid_hypotrochoidpointattheta"
     },
     {
       "relation": "calls",
@@ -16348,9 +16947,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L96",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion_motionpointat",
-      "target": "core_motion_point",
-      "confidence_score": 1.0
+      "target": "core_motion_point"
     },
     {
       "relation": "calls",
@@ -16359,9 +16958,9 @@
       "source_file": "src/core/motion.ts",
       "source_location": "L50",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_motion_motionpointat",
-      "target": "core_motion_assertmatchingfamily",
-      "confidence_score": 1.0
+      "target": "core_motion_assertmatchingfamily"
     },
     {
       "relation": "contains",
@@ -17983,7 +18582,18 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
+      "target": "core_transport"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
       "target": "core_transport",
       "confidence_score": 1.0
     },
@@ -18236,9 +18846,9 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
-      "target": "core_transport_normalizecyclerate",
-      "confidence_score": 1.0
+      "target": "core_transport_normalizecyclerate"
     },
     {
       "relation": "calls",
@@ -18357,9 +18967,9 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
-      "target": "core_transport_wrapcyclephase",
-      "confidence_score": 1.0
+      "target": "core_transport_wrapcyclephase"
     },
     {
       "relation": "calls",
@@ -18390,9 +19000,9 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
-      "target": "core_transport_transportaddressatseconds",
-      "confidence_score": 1.0
+      "target": "core_transport_transportaddressatseconds"
     },
     {
       "relation": "calls",
@@ -18444,9 +19054,9 @@
       "source_file": "src/core/trochoid.ts",
       "source_location": "L96",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_trochoid",
-      "target": "core_trochoid_epitrochoidpointattheta",
-      "confidence_score": 1.0
+      "target": "core_trochoid_epitrochoidpointattheta"
     },
     {
       "relation": "contains",
@@ -18484,9 +19094,9 @@
       "source_file": "src/core/trochoid.ts",
       "source_location": "L81",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_trochoid",
-      "target": "core_trochoid_hypotrochoidpointattheta",
-      "confidence_score": 1.0
+      "target": "core_trochoid_hypotrochoidpointattheta"
     },
     {
       "relation": "contains",
@@ -18724,9 +19334,9 @@
       "source_file": "src/core/trochoid.ts",
       "source_location": "L103",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_trochoid_epitrochoidpointattheta",
-      "target": "core_trochoid_safedivisor",
-      "confidence_score": 1.0
+      "target": "core_trochoid_safedivisor"
     },
     {
       "relation": "calls",
@@ -18735,9 +19345,9 @@
       "source_file": "src/core/trochoid.ts",
       "source_location": "L88",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_trochoid_hypotrochoidpointattheta",
-      "target": "core_trochoid_safedivisor",
-      "confidence_score": 1.0
+      "target": "core_trochoid_safedivisor"
     },
     {
       "relation": "calls",
@@ -18768,9 +19378,9 @@
       "source_file": "src/core/trochoid.ts",
       "source_location": "L62",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_trochoid_generatespiropoints",
-      "target": "core_trochoid_epitrochoidpointattheta",
-      "confidence_score": 1.0
+      "target": "core_trochoid_epitrochoidpointattheta"
     },
     {
       "relation": "calls",
@@ -18779,9 +19389,9 @@
       "source_file": "src/core/trochoid.ts",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_trochoid_generatespiropoints",
-      "target": "core_trochoid_hypotrochoidpointattheta",
-      "confidence_score": 1.0
+      "target": "core_trochoid_hypotrochoidpointattheta"
     },
     {
       "relation": "imports",
@@ -19166,9 +19776,9 @@
       "source_file": "src/core/wheels.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels_test",
-      "target": "core_wheels",
-      "confidence_score": 1.0
+      "target": "core_wheels"
     },
     {
       "relation": "contains",
@@ -19176,9 +19786,9 @@
       "source_file": "src/core/wheels.test.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels_test",
-      "target": "core_wheels_test_clonedefault",
-      "confidence_score": 1.0
+      "target": "core_wheels_test_clonedefault"
     },
     {
       "relation": "imports",
@@ -19187,9 +19797,9 @@
       "source_file": "src/core/wheels.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels_test",
-      "target": "core_wheels_wheelstateat",
-      "confidence_score": 1.0
+      "target": "core_wheels_wheelstateat"
     },
     {
       "relation": "imports",
@@ -19198,9 +19808,9 @@
       "source_file": "src/core/wheels.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels_test",
-      "target": "core_wheels_wheelstatesat",
-      "confidence_score": 1.0
+      "target": "core_wheels_wheelstatesat"
     },
     {
       "relation": "contains",
@@ -19208,9 +19818,9 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
-      "target": "core_wheels_findwheel",
-      "confidence_score": 1.0
+      "target": "core_wheels_findwheel"
     },
     {
       "relation": "contains",
@@ -19218,9 +19828,9 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
-      "target": "core_wheels_wheelstate",
-      "confidence_score": 1.0
+      "target": "core_wheels_wheelstate"
     },
     {
       "relation": "contains",
@@ -19228,9 +19838,9 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
-      "target": "core_wheels_wheelstateat",
-      "confidence_score": 1.0
+      "target": "core_wheels_wheelstateat"
     },
     {
       "relation": "contains",
@@ -19238,9 +19848,9 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels",
-      "target": "core_wheels_wheelstatesat",
-      "confidence_score": 1.0
+      "target": "core_wheels_wheelstatesat"
     },
     {
       "relation": "calls",
@@ -19249,9 +19859,9 @@
       "source_file": "src/core/wheels.ts",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_wheels_wheelstateat",
-      "target": "core_wheels_findwheel",
-      "confidence_score": 1.0
+      "target": "core_wheels_findwheel"
     },
     {
       "relation": "contains",
@@ -20980,6 +21590,550 @@
       "target": "render_color_pointtohsl"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "render_compositionrenderer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "render_compositionrenderer_buildcompositiondrawcommands",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "render_compositionrenderer_buildcompositionscene",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "render_compositionrenderer_fitspaceprojection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "render_compositionrenderer_observationinterval",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "render_compositionrenderer_projectspacepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "render_compositionrenderer_scenespacepoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "render_compositionrenderer_test_compositionwithtwoheads",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "render_compositionrenderer_test_observation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L329",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_buildcompositiondrawcommands",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L204",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_buildcompositionscene",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_canvasviewport",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L81",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_cleardrawcommand",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L117",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_compositiondrawcommand",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L73",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_compositiondrawoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_compositionscene",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_compositionsceneoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L402",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_drawcompositioncommands",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L267",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_fitspaceprojection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L126",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_freezeheadstate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L123",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_freezepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_headdrawcommand",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_headsnapshot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_headtracesnapshot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L165",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_intervaltimes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L108",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_labeldrawcommand",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_observationinterval",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L316",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_projectspacepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L258",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_scenespacepoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L185",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_snapshottracepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_spaceprojection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_tracedrawcommand",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_tracemode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_tracepointsnapshot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L134",
+      "weight": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_validateobservation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "render_compositionrenderer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "render_compositionrenderer_observationinterval",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "render_compositionrenderer_tracemode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L388",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_buildcompositiondrawcommands",
+      "target": "render_compositionrenderer_freezepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L307",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_fitspaceprojection",
+      "target": "render_compositionrenderer_freezepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L130",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_freezeheadstate",
+      "target": "render_compositionrenderer_freezepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L320",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_projectspacepoint",
+      "target": "render_compositionrenderer_freezepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L194",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_snapshottracepoint",
+      "target": "render_compositionrenderer_freezepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L244",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_buildcompositionscene",
+      "target": "render_compositionrenderer_freezeheadstate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L210",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_buildcompositionscene",
+      "target": "render_compositionrenderer_validateobservation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L229",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_buildcompositionscene",
+      "target": "render_compositionrenderer_intervaltimes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "render_compositionrenderer_buildcompositionscene",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "render_compositionrenderer_scenespacepoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "render_compositionrenderer_fitspaceprojection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L366",
+      "weight": 1.0,
+      "source": "render_compositionrenderer_buildcompositiondrawcommands",
+      "target": "render_compositionrenderer_projectspacepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "render_compositionrenderer_buildcompositiondrawcommands",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "render_compositionrenderer_drawcompositioncommands",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/test/setup.ts",
@@ -21048,6 +22202,78 @@
       "confidence_score": 1.0,
       "source": "ui_canvasview",
       "target": "ui_canvasview_canvasviewprops"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas_test",
+      "target": "ui_compositioncanvas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas_test",
+      "target": "ui_compositioncanvas_compositioncanvas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas_test",
+      "target": "ui_compositioncanvas_test_context",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas_test",
+      "target": "ui_compositioncanvas_test_observation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "ui_compositioncanvas_canvassize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "ui_compositioncanvas_compositioncanvas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "ui_compositioncanvas_compositioncanvasprops",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -23116,8 +24342,18 @@
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
       "source_location": "L209",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_music_generator_progress_active_packet_records",
-      "target": "docs_music_generator_progress_mg_03_wheel_and_multi_head_state_engine",
+      "target": "docs_music_generator_progress_mg_03_wheel_and_multi_head_state_engine"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
+      "source_location": "L233",
+      "weight": 1.0,
+      "source": "docs_music_generator_progress_active_packet_records",
+      "target": "docs_music_generator_progress_mg_04_space_projection_and_composition_renderer",
       "confidence_score": 1.0
     },
     {
@@ -23136,8 +24372,18 @@
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
       "source_location": "L329",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_music_generator_progress_handoff_records",
-      "target": "docs_music_generator_progress_2026_08_05_mg_02_author_handoff",
+      "target": "docs_music_generator_progress_2026_08_05_mg_02_author_handoff"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
+      "source_location": "L389",
+      "weight": 1.0,
+      "source": "docs_music_generator_progress_handoff_records",
+      "target": "docs_music_generator_progress_2026_08_05_mg_03_author_handoff",
       "confidence_score": 1.0
     },
     {
@@ -24412,5 +25658,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "9427e91d3e39a99d89e2ce7add890fd9e6926db3"
+  "built_at_commit": "24df11ee281706ddca2c283c885cb9971bd84ce3"
 }

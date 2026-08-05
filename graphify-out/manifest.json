@@ -370,8 +370,8 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1785950661.9364529,
-    "ast_hash": "624fde531379ca49e5e972395e40c0dc",
+    "mtime": 1785951402.8871515,
+    "ast_hash": "06feff81e371e65ff80836011a126ff8",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -417,6 +417,26 @@
   "src/core/wheels.ts": {
     "mtime": 1785950884.0520368,
     "ast_hash": "9115a9c79a8a33c57df5f6150fda98e7",
+    "semantic_hash": ""
+  },
+  "src/render/compositionRenderer.test.ts": {
+    "mtime": 1785951573.5527549,
+    "ast_hash": "a4a8db7c9580be6f8932e03445d483e4",
+    "semantic_hash": ""
+  },
+  "src/render/compositionRenderer.ts": {
+    "mtime": 1785951573.4467516,
+    "ast_hash": "d09c843486a7b96945d2ac6ff6e23534",
+    "semantic_hash": ""
+  },
+  "src/ui/CompositionCanvas.test.tsx": {
+    "mtime": 1785951629.0474713,
+    "ast_hash": "e0c424fbd5512b65be9363e6bc0b3e98",
+    "semantic_hash": ""
+  },
+  "src/ui/CompositionCanvas.tsx": {
+    "mtime": 1785951621.2995915,
+    "ast_hash": "a31d012e8c1fd7ce6a3e0f282bb76469",
     "semantic_hash": ""
   }
 }
