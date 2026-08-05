@@ -279,6 +279,9 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  /* Panels live in a narrow rail, so a header with several actions has to
+     stack rather than push its buttons past the panel edge. */
+  flex-wrap: wrap;
 }
 
 .panel-header button {
@@ -293,7 +296,9 @@ h1 {
 
 .panel-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+  min-width: 0;
 }
 
 .panel-actions button[aria-pressed='true'] {
