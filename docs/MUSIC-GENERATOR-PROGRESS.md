@@ -95,7 +95,7 @@ While working:
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Codex/root | MG-01 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T16:52:55Z | 2026-08-05T17:22:14Z | Implementation commit `1aaaa07`; integration review remains. |
 | Codex/root | MG-02 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:12:04Z | 2026-08-05T17:23:12Z | Implementation commit `0afa4e3`; integration review remains. |
-| Codex/root | MG-03 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:23:58Z | 2026-08-05T17:30:34Z | User directed work to continue over committed MG-01/MG-02 packets in review; implementation files do not overlap. |
+| Codex/root | MG-03 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:23:58Z | 2026-08-05T17:31:47Z | Implementation commit `a454b7c`; integration review remains. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -106,7 +106,7 @@ their history.
 | --- | --- | --- | --- | --- | --- | --- |
 | MG-01 | Composition schema and validation | — | `in_review` | Codex/root | 2026-08-05 | Implementation commit `1aaaa07` is validated; integration review remains. |
 | MG-02 | Deterministic Transport and performance window | MG-01 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `0afa4e3` is validated; integration review remains. |
-| MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | `in_progress` | Codex/root | 2026-08-05 | Author validation is green; review and commit the packet. |
+| MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `a454b7c` is validated; integration review remains. |
 | MG-04 | Space projection and composition renderer | MG-03 | `waiting` | — | 2026-08-05 | Complete MG-03. |
 | MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `waiting` | — | 2026-08-05 | Complete MG-01, MG-03, and MG-04. |
 | MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `waiting` | — | 2026-08-05 | Complete MG-02, MG-03, and MG-05. |
@@ -150,6 +150,7 @@ the final column rather than relying on a statement that it was checked.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | MG-01 | `1aaaa07` | 20 files, 194 tests pass | pass | pass | refreshed after code | Not required for schema packet | Pending |
 | MG-02 | `0afa4e3` | 21 files, 217 tests pass | pass | pass | refreshed after code | Not required for pure time-core packet | Pending |
+| MG-03 | `a454b7c` | 24 files, 237 tests pass | pass | pass | refreshed after code | Not required for pure state-core packet | Pending |
 
 Validation rules:
 
@@ -208,16 +209,16 @@ Validation rules:
 
 ### MG-03 — Wheel and multi-Head state engine
 
-- State: `in_progress`
+- State: `in_review`
 - Owner: Codex/root
 - Branch: `agent/music-generator-planning`
 - Cwd/worktree: `/home/mrose/spirophonic`
 - Contract: [MG-03 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-03--wheel-and-multi-head-state-engine)
 - Started UTC: 2026-08-05T17:23:58Z
-- Last updated UTC: 2026-08-05T17:30:34Z
-- Next action: review and commit MG-03, then rerun all gates against the exact
-  commit and move the packet to `in_review`.
-- Commits/PRs: none
+- Last updated UTC: 2026-08-05T17:31:47Z
+- Next action: integrate the reviewed packet, rerun gates on the integrated
+  commit, and mark MG-03 `done` before releasing dependent packets.
+- Commits/PRs: `a454b7c` — Implement MG-03 Wheel and Head state
 - Blockers: none
 - Validation evidence: 36 packet-relevant tests pass. Working-tree validation
   passes: `npm test` (24 files, 237 tests), `npm run lint`, and `npm run build`.
@@ -292,6 +293,7 @@ and releases. Do not log every edit.
 | 2026-08-05T17:23:12Z | Codex/root | MG-02 | Implementation committed | `0afa4e3` | Exact packet source passes 217 tests, lint, and build; integration review remains. |
 | 2026-08-05T17:23:58Z | Codex/root | MG-03 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement pure Wheel and multi-Head state in the packet files. |
 | 2026-08-05T17:30:34Z | Codex/root | MG-03 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-03 acceptance criteria and working-tree gates pass; packet commit is next. |
+| 2026-08-05T17:31:47Z | Codex/root | MG-03 | Implementation committed | `a454b7c` | Exact packet source passes 237 tests, lint, and build; integration review remains. |
 
 ## Handoff records
 

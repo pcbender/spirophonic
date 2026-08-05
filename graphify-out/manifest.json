@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "src/core/trochoid.ts": {
-    "mtime": 1785796119.9785278,
-    "ast_hash": "28c94a2e6d9c0efddc34438c8638edde",
+    "mtime": 1785950803.9769511,
+    "ast_hash": "8b001a94c353c69eb5f4ba63e17bd25a",
     "semantic_hash": ""
   },
   ".github/workflows/build.yml": {
@@ -220,8 +220,8 @@
     "semantic_hash": ""
   },
   "src/core/curves.ts": {
-    "mtime": 1785796119.9730744,
-    "ast_hash": "bc00a7533a81d148d5a10b8bb7cc1bfa",
+    "mtime": 1785950804.086028,
+    "ast_hash": "8b911cf914cfb48b3a420075254cc0bb",
     "semantic_hash": ""
   },
   "src/core/events.test.ts": {
@@ -370,8 +370,8 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1785949948.6887822,
-    "ast_hash": "d761e4bfdf7b3a809cd3f5505406783b",
+    "mtime": 1785950661.9364529,
+    "ast_hash": "624fde531379ca49e5e972395e40c0dc",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -387,6 +387,36 @@
   "src/core/transport.ts": {
     "mtime": 1785950284.5593877,
     "ast_hash": "31c622a058478310b4c3fbddfe4bfcdf",
+    "semantic_hash": ""
+  },
+  "src/core/heads.test.ts": {
+    "mtime": 1785950944.4049428,
+    "ast_hash": "b0a742238731f57c0913b753f0500ecc",
+    "semantic_hash": ""
+  },
+  "src/core/heads.ts": {
+    "mtime": 1785950973.6104991,
+    "ast_hash": "5173d9e3668712e8648d24da161a66b8",
+    "semantic_hash": ""
+  },
+  "src/core/motion.test.ts": {
+    "mtime": 1785950853.3408048,
+    "ast_hash": "de6aae7155b15873177599c565b5af50",
+    "semantic_hash": ""
+  },
+  "src/core/motion.ts": {
+    "mtime": 1785950853.2378488,
+    "ast_hash": "1106ffc331ba5179beedf8bf0d11b6ce",
+    "semantic_hash": ""
+  },
+  "src/core/wheels.test.ts": {
+    "mtime": 1785950884.154359,
+    "ast_hash": "d8efbf781922ab515291466ed35ed68f",
+    "semantic_hash": ""
+  },
+  "src/core/wheels.ts": {
+    "mtime": 1785950884.0520368,
+    "ast_hash": "9115a9c79a8a33c57df5f6150fda98e7",
     "semantic_hash": ""
   }
 }
