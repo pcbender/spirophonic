@@ -27,6 +27,10 @@ import {
   quantizeAbsoluteBeat,
 } from './rhythm'
 import {
+  compileTraceEncounters,
+  type TraceCrossingEncounter,
+} from './traceEncounters'
+import {
   beatsToSeconds,
   secondsToBeats,
   transportAddressAtSeconds,
@@ -64,6 +68,7 @@ export type PerformanceDiagnostic = Readonly<{
     | 'control-part'
     | 'encounter-scan'
     | 'relation-scan'
+    | 'trace-scan'
   message: string
   path?: string
   partId?: string
@@ -75,6 +80,7 @@ export type CanonicalPerformance = Readonly<{
   request: Readonly<PerformanceRequest>
   encounters: ReadonlyArray<BoundaryCrossingEncounter>
   relationEncounters: ReadonlyArray<RelationEncounter>
+  traceEncounters: ReadonlyArray<TraceCrossingEncounter>
   controlLanes: ReadonlyArray<ControlLane>
   interpretedEvents: ReadonlyArray<NoteMusicalEvent>
   performedEvents: ReadonlyArray<NoteMusicalEvent>
@@ -130,6 +136,7 @@ const emptyPerformance = (
     request: freezeRequest(request),
     encounters: emptyEncounters,
     relationEncounters: Object.freeze([]) as ReadonlyArray<RelationEncounter>,
+    traceEncounters: Object.freeze([]) as ReadonlyArray<TraceCrossingEncounter>,
     controlLanes: Object.freeze([]) as ReadonlyArray<ControlLane>,
     interpretedEvents: emptyEvents,
     performedEvents: emptyEvents,
@@ -393,6 +400,19 @@ export const compilePerformance = (
       }),
     ),
   )
+  const traceResult = compileTraceEncounters(
+    compositionValidation.composition,
+    requestValidation.request,
+  )
+  diagnostics.push(
+    ...traceResult.diagnostics.map((diagnostic) =>
+      Object.freeze({
+        severity: 'warning' as const,
+        code: 'trace-scan' as const,
+        message: diagnostic.message,
+      }),
+    ),
+  )
 
   const events: Array<NoteMusicalEvent> = []
   const controlLanes: Array<ControlLane> = []
@@ -488,6 +508,7 @@ export const compilePerformance = (
     request: freezeRequest(requestValidation.request),
     encounters: encounterResult.encounters,
     relationEncounters: relationResult.encounters,
+    traceEncounters: traceResult.encounters,
     controlLanes: Object.freeze(controlLanes),
     interpretedEvents,
     performedEvents: interpretedEvents,

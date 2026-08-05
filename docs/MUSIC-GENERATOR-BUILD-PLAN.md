@@ -858,11 +858,20 @@ named relation the same way it already selects a Field.
 
 **Goal:** Allow Heads to encounter the paths left by other Heads.
 
-**Files:** `src/core/traces.ts`, `src/core/traces.test.ts`,
+**Files:** `src/core/composition.ts`, `src/core/compositionValidation.ts`,
+`src/core/compositionValidation.test.ts`,
+`src/core/traces.ts`, `src/core/traces.test.ts`,
 `src/core/traceEncounters.ts`, `src/core/traceEncounters.test.ts`,
 `src/core/encounters.ts`, `src/render/compositionRenderer.ts`,
 `src/ui/HeadPanel.tsx`, `src/core/encounters.test.ts`,
 `src/render/compositionRenderer.test.ts`, `src/ui/HeadPanel.test.tsx`
+
+**Scope note (2026-08-05):** as with MG-12, MG-13, and MG-14, the schema is
+missing from the original list. Retention mode, observation window, sampling
+resolution, and segment limits are saved Composition data, not derived state,
+and the acceptance criterion that "retention changes are part of input and
+therefore reproduce the same events" only holds if they are. `TraceObservationSpec`
+therefore lives in `composition.ts` with matching validation.
 
 **Deliverables:**
 

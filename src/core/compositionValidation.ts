@@ -534,6 +534,43 @@ const validateFrequencies = (
   })
 }
 
+/**
+ * Trace observation is saved input, so the same document reproduces the same
+ * Trace encounters. Sample rate and segment limits are bounded here rather
+ * than clamped silently at compile time.
+ */
+const validateTraceObservation = (
+  context: ValidationContext,
+  value: unknown,
+  path: string,
+) => {
+  const observation = context.object(value, path)
+  if (!observation) return
+
+  context.knownKeys(observation, path, [
+    'enabled',
+    'retention',
+    'sampleRateHz',
+    'maxSegments',
+    'allowSelf',
+  ])
+  context.boolean(observation, 'enabled', `${path}.enabled`)
+  context.literal(observation, 'retention', `${path}.retention`, [
+    'window',
+    'full',
+  ])
+  context.number(observation, 'sampleRateHz', `${path}.sampleRateHz`, {
+    greaterThan: 0,
+    max: 1_000,
+  })
+  context.number(observation, 'maxSegments', `${path}.maxSegments`, {
+    min: 1,
+    max: 200_000,
+    integer: true,
+  })
+  context.boolean(observation, 'allowSelf', `${path}.allowSelf`)
+}
+
 const validateHead = (
   context: ValidationContext,
   value: unknown,
@@ -552,10 +589,14 @@ const validateHead = (
     'offset',
     'attachment',
     'trace',
+    'observation',
   ])
   context.id(head, 'id', `${path}.id`, context.headIds)
   context.string(head, 'name', `${path}.name`, { nonEmpty: true, maxLength: 200 })
   context.boolean(head, 'enabled', `${path}.enabled`)
+  if (head.observation !== undefined) {
+    validateTraceObservation(context, head.observation, `${path}.observation`)
+  }
   context.number(head, 'phaseOffset', `${path}.phaseOffset`)
   validatePoint(context, head.offset, `${path}.offset`)
   const attachmentKind = validateAttachment(

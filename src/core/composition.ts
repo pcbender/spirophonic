@@ -126,6 +126,25 @@ export type TracePresentationSpec = {
   historySeconds: number
 }
 
+/**
+ * How much of a Head's own past path is available for other Heads to encounter.
+ * This is input, not derived state: the same Composition and request must
+ * reproduce the same Trace encounters, so retention lives in the document.
+ *
+ * `window` retains `historySeconds` of path behind the observation time;
+ * `full` retains everything back to the start of the performance window.
+ * `maxSegments` is a hard ceiling that reports a diagnostic rather than
+ * silently truncating.
+ */
+export type TraceObservationSpec = {
+  enabled: boolean
+  retention: 'window' | 'full'
+  sampleRateHz: number
+  maxSegments: number
+  /** Whether a Head may encounter its own earlier path. */
+  allowSelf: boolean
+}
+
 export type HeadSpec = {
   id: string
   name: string
@@ -134,6 +153,8 @@ export type HeadSpec = {
   offset: Point2
   attachment: HeadAttachmentSpec
   trace: TracePresentationSpec
+  /** Optional so MG-01 through MG-14 documents stay valid; absent means off. */
+  observation?: TraceObservationSpec
 }
 
 export type WheelSpec = {

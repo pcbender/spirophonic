@@ -1,4 +1,5 @@
 import type { Composition, HeadAttachmentSpec, HeadSpec } from '../core/composition'
+import { traceObservationOf } from '../core/traces'
 
 export type HeadPanelProps = {
   composition: Composition
@@ -36,6 +37,7 @@ export function HeadPanel({
       ),
     })
   const patch = (next: Partial<HeadSpec>) => commit({ ...head, ...next })
+  const observation = traceObservationOf(head)
   const patchAttachment = (next: Record<string, number>) =>
     commit({
       ...head,
@@ -74,6 +76,90 @@ export function HeadPanel({
       </label>
       <NumberField label="Trace width" value={head.trace.lineWidth} min={0.1} step={0.1} onChange={(lineWidth) => patch({ trace: { ...head.trace, lineWidth } })} />
       <NumberField label="Trace history (seconds)" value={head.trace.historySeconds} min={0} step={0.25} onChange={(historySeconds) => patch({ trace: { ...head.trace, historySeconds } })} />
+
+      <label className="field">
+        <span>Observe Trace</span>
+        <input
+          type="checkbox"
+          aria-label={`Observe trace ${head.id}`}
+          checked={observation.enabled}
+          onChange={(event) =>
+            patch({
+              observation: {
+                ...observation,
+                enabled: event.currentTarget.checked,
+              },
+            })
+          }
+        />
+      </label>
+
+      {observation.enabled && (
+        <>
+          <label className="field">
+            <span>Retention</span>
+            <select
+              aria-label={`Trace retention ${head.id}`}
+              value={observation.retention}
+              onChange={(event) =>
+                patch({
+                  observation: {
+                    ...observation,
+                    retention: event.currentTarget.value as 'window' | 'full',
+                  },
+                })
+              }
+            >
+              <option value="window">Window (trace history)</option>
+              <option value="full">Full performance window</option>
+            </select>
+          </label>
+          <NumberField
+            label="Observation rate (Hz)"
+            value={observation.sampleRateHz}
+            min={1}
+            step={5}
+            onChange={(sampleRateHz) =>
+              patch({
+                observation: {
+                  ...observation,
+                  sampleRateHz: Math.max(1, sampleRateHz),
+                },
+              })
+            }
+          />
+          <NumberField
+            label="Max segments"
+            value={observation.maxSegments}
+            min={1}
+            step={100}
+            onChange={(maxSegments) =>
+              patch({
+                observation: {
+                  ...observation,
+                  maxSegments: Math.max(1, Math.round(maxSegments)),
+                },
+              })
+            }
+          />
+          <label className="field">
+            <span>Allow self-crossing</span>
+            <input
+              type="checkbox"
+              aria-label={`Allow self crossing ${head.id}`}
+              checked={observation.allowSelf}
+              onChange={(event) =>
+                patch({
+                  observation: {
+                    ...observation,
+                    allowSelf: event.currentTarget.checked,
+                  },
+                })
+              }
+            />
+          </label>
+        </>
+      )}
     </section>
   )
 }

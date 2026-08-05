@@ -15,10 +15,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 14 / 21 |
-| Packets active | 0 |
+| Packets active | 1 |
 | Packets blocked | 0 |
-| Next ready packet | MG-15 and MG-16 are `ready` |
-| Active agents | none |
+| Next ready packet | MG-15 is claimed; MG-16 is `ready` |
+| Active agents | Claude Opus 5 on MG-15 |
 | Integration branch | `agent/music-generator-planning` |
 | Last tracker update | 2026-08-05 |
 
@@ -93,7 +93,7 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| — | — | — | — | — | — | — | No packet is claimed. MG-15 and MG-16 are ready. |
+| Claude Opus 5 | MG-15 | `claimed` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T23:26:00Z | 2026-08-05T23:26:00Z | Dependencies MG-04, MG-06, MG-12 are `done` at `f7afb2a`. No overlapping claim; MG-16 remains unclaimed. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -116,7 +116,7 @@ their history.
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | `done` | — | 2026-08-05 | Integrated at `b00847a`; user confirmed the reference Composition working in a browser. |
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | `done` | — | 2026-08-05 | Integrated at `27e0390` with panel-overflow fix `b37e574`; user confirmed the new Field overlays working in a browser. |
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | `done` | — | 2026-08-05 | Integrated at `f2adb33`; browser evidence from the Playwright suite added in `11079d6`. |
-| MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | `ready` | — | 2026-08-05 | Dependencies are `done`; the packet is unblocked and unclaimed. |
+| MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | `claimed` | Claude Opus 5 | 2026-08-05 | Claimed at 2026-08-05T23:26:00Z on `agent/music-generator-planning`. |
 | MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | `ready` | — | 2026-08-05 | Dependencies are `done`; the packet is unblocked and unclaimed. |
 | MG-17 | Seeded variation | MG-03, MG-06, MG-07, MG-16 | `waiting` | — | 2026-08-05 | Complete MG-03, MG-06, MG-07, and MG-16. |
 | MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | `waiting` | — | 2026-08-05 | Complete MG-07 and MG-17. |

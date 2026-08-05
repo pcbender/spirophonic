@@ -165,3 +165,21 @@ test('a Relation and Control Part author cleanly', async ({ page }) => {
   })
   await expect(diagnostics).not.toContainText('error')
 })
+
+test('Trace observation authoring stays free of errors', async ({ page }) => {
+  const heads = page.getByRole('region', { name: 'Head controls' })
+  await heads.getByLabel(/^Observe trace/).check()
+
+  // Settings appear only once observation is on.
+  await expect(heads.getByLabel(/^Trace retention/)).toBeVisible()
+  await heads.getByLabel(/^Trace retention/).selectOption('full')
+  await heads.getByLabel(/^Allow self crossing/).check()
+
+  const diagnostics = page.getByRole('region', { name: 'Compile diagnostics' })
+  await expect(diagnostics).not.toContainText('error')
+
+  // Observation must not blank the canvas.
+  await expect
+    .poll(async () => canvasInk(page), { timeout: 15_000 })
+    .toBeGreaterThan(500)
+})
