@@ -295,13 +295,13 @@
     "semantic_hash": ""
   },
   "src/audio/drumSynth.ts": {
-    "mtime": 1785796119.9730744,
-    "ast_hash": "37c4f3d48449eeb7addbf8360ae1707b",
+    "mtime": 1785954516.4273856,
+    "ast_hash": "d8903dc4ef0a58eb1c682958f1480bac",
     "semantic_hash": ""
   },
   "src/audio/toneSynth.ts": {
-    "mtime": 1785796119.9730744,
-    "ast_hash": "60e27b1195509cf717b2647fa9d6b314",
+    "mtime": 1785954490.6130502,
+    "ast_hash": "b475ae5e0e7793145b136730ec45304f",
     "semantic_hash": ""
   },
   "src/audio/voicePreview.ts": {
@@ -370,8 +370,8 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1785953510.772497,
-    "ast_hash": "f5eb404b4b9a4b5bbcd156c8c4df266c",
+    "mtime": 1785954224.3249676,
+    "ast_hash": "44b40bf41373cbffe53dd5f971443489",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -497,6 +497,31 @@
   "src/core/performance.ts": {
     "mtime": 1785953954.5802002,
     "ast_hash": "9eadb921d5f7700fe2ee9c0ab339a976",
+    "semantic_hash": ""
+  },
+  "src/audio/instrumentEngine.ts": {
+    "mtime": 1785954384.4313319,
+    "ast_hash": "13764389879ff4d82fbb7d579d6789c4",
+    "semantic_hash": ""
+  },
+  "src/audio/nativeSynthEngine.test.ts": {
+    "mtime": 1785954802.883322,
+    "ast_hash": "45f815af8587d5b7f3e4fc8475fcbf5d",
+    "semantic_hash": ""
+  },
+  "src/audio/nativeSynthEngine.ts": {
+    "mtime": 1785954562.2001278,
+    "ast_hash": "250f60be1bf061baa2e38ddf8fdd2b8b",
+    "semantic_hash": ""
+  },
+  "src/audio/performanceScheduler.test.ts": {
+    "mtime": 1785954885.7437549,
+    "ast_hash": "77693b6bb71e1957ae265c8e2937774b",
+    "semantic_hash": ""
+  },
+  "src/audio/performanceScheduler.ts": {
+    "mtime": 1785954885.637312,
+    "ast_hash": "05c685b90b4e9cb45f48d20116431c06",
     "semantic_hash": ""
   }
 }

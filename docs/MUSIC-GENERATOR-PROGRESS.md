@@ -17,7 +17,7 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Packets complete | 0 / 21 |
 | Packets active | 8 |
 | Packets blocked | 0 |
-| Next ready packet | MG-08 active by user direction; MG-01–MG-07 integration remains pending |
+| Next ready packet | MG-09 awaits integration; MG-01–MG-08 are implemented and in review |
 | Active agents | Codex/root on MG-01 through MG-08 |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-05 |
@@ -100,7 +100,7 @@ While working:
 | Codex/root | MG-05 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:53:05Z | 2026-08-05T17:56:09Z | Implementation commit `68631b5`; integration review remains. |
 | Codex/root | MG-06 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:59:01Z | 2026-08-05T18:09:08Z | Implementation commit `7baa1a7`; integration review remains. |
 | Codex/root | MG-07 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:11:29Z | 2026-08-05T18:21:38Z | Implementation commit `842acb7`; integration review remains. |
-| Codex/root | MG-08 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:23:26Z | 2026-08-05T18:36:04Z | Author validation passes; implementation commit and exact-commit gates are next. |
+| Codex/root | MG-08 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:23:26Z | 2026-08-05T18:37:10Z | Implementation commit `7f2d487`; integration review remains. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -116,7 +116,7 @@ their history.
 | MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `68631b5` is validated; integration review remains. |
 | MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `7baa1a7` is validated; integration review remains. |
 | MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `842acb7` is validated; integration review remains. |
-| MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `in_progress` | Codex/root | 2026-08-05 | Working-tree implementation and validation pass; create the implementation commit and validate its exact SHA. |
+| MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `7f2d487` is validated; integration review remains. |
 | MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `waiting` | — | 2026-08-05 | Complete the foundation packets. |
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `waiting` | — | 2026-08-05 | Complete MG-01 and MG-08. |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `waiting` | — | 2026-08-05 | Complete MG-07, MG-08, and MG-10. |
@@ -160,6 +160,7 @@ the final column rather than relying on a statement that it was checked.
 | MG-05 | `68631b5` | 28 files, 267 tests pass | pass | pass | refreshed after code | Geometry, command, and component tests; no route before MG-09 | Pending |
 | MG-06 | `7baa1a7` | 30 files, 281 tests pass | pass | pass | refreshed after code | Deterministic core fixtures; no browser/audio surface | Pending |
 | MG-07 | `842acb7` | 32 files, 298 tests pass | pass | pass | refreshed after code | Deterministic compiler fixtures; no browser/audio surface | Pending |
+| MG-08 | `7f2d487` | 34 files, 309 tests pass | pass | pass | refreshed after code | Fake clock/engine and native routing tests; app integration is MG-09 | Pending |
 
 Validation rules:
 
@@ -331,19 +332,19 @@ Validation rules:
 
 ### MG-08 — Native instrument engine and live scheduler
 
-- State: `in_progress`
+- State: `in_review`
 - Owner: Codex/root
 - Branch: `agent/music-generator-planning`
 - Cwd/worktree: `/home/mrose/spirophonic`
 - Contract: [MG-08 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-08--native-instrument-engine-and-live-scheduler)
 - Started UTC: 2026-08-05T18:23:26Z
-- Last updated UTC: 2026-08-05T18:36:04Z
-- Next action: commit the implementation, rerun all gates against its exact
-  SHA, then move MG-08 to `in_review` and push.
-- Commits/PRs: none yet
+- Last updated UTC: 2026-08-05T18:37:10Z
+- Next action: integrate the reviewed packet, rerun gates on the integrated
+  commit, and mark MG-08 `done` before releasing dependent packets.
+- Commits/PRs: `7f2d487` — Implement MG-08 native audio scheduler
 - Blockers: none
-- Validation evidence: 11 targeted scheduler/native-engine tests pass.
-  Working-tree validation passes: `npm test` (34 files, 309 tests),
+- Validation evidence: 11 targeted scheduler/native-engine tests pass. Exact
+  implementation commit `7f2d487` passes `npm test` (34 files, 309 tests),
   `npm run lint`, and `npm run build`. `graphify update .` rebuilt the graph
   after the final code change and confirms the canonical performance-to-audio
   adapter boundary.
@@ -431,6 +432,7 @@ and releases. Do not log every edit.
 | 2026-08-05T18:21:38Z | Codex/root | MG-07 | Implementation committed | `842acb7` | Exact packet source passes 298 tests, lint, and build; integration review remains. |
 | 2026-08-05T18:23:26Z | Codex/root | MG-08 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement native Instrument routing and deterministic live scheduling. |
 | 2026-08-05T18:36:04Z | Codex/root | MG-08 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-08 acceptance criteria and working-tree gates pass; implementation commit and exact-commit validation are next. |
+| 2026-08-05T18:37:10Z | Codex/root | MG-08 | Implementation committed | `7f2d487` | Exact packet source passes 309 tests, lint, and build; integration review remains. |
 
 ## Handoff records
 
