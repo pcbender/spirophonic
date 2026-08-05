@@ -6,6 +6,9 @@
  * what they sound like.
  */
 
+import type { NativeDrumInstrumentSpec } from '../core/composition'
+import type { ScheduledAudioVoice } from './instrumentEngine'
+
 type DrumShape = {
   kind: 'tone' | 'noise'
   /** Starting frequency, or filter cutoff for noise. */
@@ -51,6 +54,15 @@ const fallback: DrumShape = {
   level: 0.5,
 }
 
+const nativeVoiceNotes: Record<NativeDrumInstrumentSpec['voice'], number> = {
+  kick: 36,
+  snare: 38,
+  hat: 42,
+  tom: 45,
+  clap: 39,
+  cymbal: 49,
+}
+
 let noise: AudioBuffer | null = null
 let noiseContext: AudioContext | null = null
 
@@ -79,13 +91,12 @@ export const playDrum = (
   note: number,
   at: number,
   level: number,
-) => {
+): ScheduledAudioVoice => {
   const shape = shapes[note] ?? fallback
   const peak = level * shape.level
 
   if (shape.kind === 'tone') {
-    tone(context, destination, shape, at, peak)
-    return
+    return tone(context, destination, shape, at, peak)
   }
 
   const source = context.createBufferSource()
@@ -103,18 +114,40 @@ export const playDrum = (
   filter.connect(gain)
   gain.connect(destination)
   source.start(at)
-  source.stop(at + shape.decay + 0.02)
+  const endsAt = at + shape.decay
+  source.stop(endsAt + 0.02)
+
+  const noiseVoice = scheduledVoice(source, gain, at, endsAt)
 
   if (shape.body) {
-    tone(
+    const bodyVoice = tone(
       context,
       destination,
       { ...shape, kind: 'tone', frequency: shape.body, bend: 0.7, decay: shape.decay * 0.6 },
       at,
       peak * 0.6,
     )
+
+    return Object.freeze({
+      startsAtSeconds: at,
+      endsAtSeconds: Math.max(noiseVoice.endsAtSeconds, bodyVoice.endsAtSeconds),
+      cancel: (atSeconds: number) => {
+        noiseVoice.cancel(atSeconds)
+        bodyVoice.cancel(atSeconds)
+      },
+    })
   }
+
+  return noiseVoice
 }
+
+export const playNativeDrum = (
+  context: AudioContext,
+  destination: AudioNode,
+  voice: NativeDrumInstrumentSpec['voice'],
+  at: number,
+  level: number,
+) => playDrum(context, destination, nativeVoiceNotes[voice], at, level)
 
 const tone = (
   context: AudioContext,
@@ -122,7 +155,7 @@ const tone = (
   shape: DrumShape,
   at: number,
   peak: number,
-) => {
+): ScheduledAudioVoice => {
   const oscillator = context.createOscillator()
   const gain = context.createGain()
 
@@ -142,7 +175,10 @@ const tone = (
   oscillator.connect(gain)
   gain.connect(destination)
   oscillator.start(at)
-  oscillator.stop(at + shape.decay + 0.02)
+  const endsAt = at + shape.decay
+  oscillator.stop(endsAt + 0.02)
+
+  return scheduledVoice(oscillator, gain, at, endsAt)
 }
 
 const envelope = (gain: GainNode, at: number, peak: number, decay: number) => {
@@ -150,3 +186,24 @@ const envelope = (gain: GainNode, at: number, peak: number, decay: number) => {
   gain.gain.linearRampToValueAtTime(Math.max(0.0001, peak), at + 0.002)
   gain.gain.exponentialRampToValueAtTime(0.0001, at + decay)
 }
+
+const scheduledVoice = (
+  source: AudioScheduledSourceNode,
+  gain: GainNode,
+  startsAtSeconds: number,
+  endsAtSeconds: number,
+): ScheduledAudioVoice =>
+  Object.freeze({
+    startsAtSeconds,
+    endsAtSeconds,
+    cancel: (atSeconds: number) => {
+      gain.gain.cancelScheduledValues(atSeconds)
+      gain.gain.setValueAtTime(0.0001, atSeconds)
+
+      try {
+        source.stop(atSeconds + 0.01)
+      } catch {
+        // A source may already have ended when a late panic reaches it.
+      }
+    },
+  })

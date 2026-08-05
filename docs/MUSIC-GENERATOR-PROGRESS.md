@@ -15,10 +15,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 0 / 21 |
-| Packets active | 7 |
+| Packets active | 8 |
 | Packets blocked | 0 |
-| Next ready packet | MG-07 integration review; MG-01–MG-06 integration also remains pending |
-| Active agents | Codex/root on MG-01 through MG-07 |
+| Next ready packet | MG-08 active by user direction; MG-01–MG-07 integration remains pending |
+| Active agents | Codex/root on MG-01 through MG-08 |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-05 |
 
@@ -100,6 +100,7 @@ While working:
 | Codex/root | MG-05 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:53:05Z | 2026-08-05T17:56:09Z | Implementation commit `68631b5`; integration review remains. |
 | Codex/root | MG-06 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:59:01Z | 2026-08-05T18:09:08Z | Implementation commit `7baa1a7`; integration review remains. |
 | Codex/root | MG-07 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:11:29Z | 2026-08-05T18:21:38Z | Implementation commit `842acb7`; integration review remains. |
+| Codex/root | MG-08 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:23:26Z | 2026-08-05T18:36:04Z | Author validation passes; implementation commit and exact-commit gates are next. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -115,7 +116,7 @@ their history.
 | MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `68631b5` is validated; integration review remains. |
 | MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `7baa1a7` is validated; integration review remains. |
 | MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `842acb7` is validated; integration review remains. |
-| MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `waiting` | — | 2026-08-05 | Complete MG-02 and MG-07. |
+| MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `in_progress` | Codex/root | 2026-08-05 | Working-tree implementation and validation pass; create the implementation commit and validate its exact SHA. |
 | MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `waiting` | — | 2026-08-05 | Complete the foundation packets. |
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `waiting` | — | 2026-08-05 | Complete MG-01 and MG-08. |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `waiting` | — | 2026-08-05 | Complete MG-07, MG-08, and MG-10. |
@@ -328,6 +329,29 @@ Validation rules:
   committed MG-01, MG-02, and MG-06 packets while their integration review
   remains pending. MG-07 consumes those exact committed contracts.
 
+### MG-08 — Native instrument engine and live scheduler
+
+- State: `in_progress`
+- Owner: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Contract: [MG-08 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-08--native-instrument-engine-and-live-scheduler)
+- Started UTC: 2026-08-05T18:23:26Z
+- Last updated UTC: 2026-08-05T18:36:04Z
+- Next action: commit the implementation, rerun all gates against its exact
+  SHA, then move MG-08 to `in_review` and push.
+- Commits/PRs: none yet
+- Blockers: none
+- Validation evidence: 11 targeted scheduler/native-engine tests pass.
+  Working-tree validation passes: `npm test` (34 files, 309 tests),
+  `npm run lint`, and `npm run build`. `graphify update .` rebuilt the graph
+  after the final code change and confirms the canonical performance-to-audio
+  adapter boundary.
+- Handoff: [2026-08-05 MG-08 author handoff](#2026-08-05-mg-08-author-handoff)
+- Dependency exception: the user explicitly directed MG-08 to begin after the
+  committed MG-02 and MG-07 packets while their integration review remains
+  pending. MG-08 consumes those exact committed contracts.
+
 This is the initial ready-packet record. Once work begins, keep one subsection
 for every `claimed`, `in_progress`, `blocked`, or `in_review` packet. Move each
 finished record into the Activity log, Validation ledger, and Handoff records.
@@ -405,6 +429,8 @@ and releases. Do not log every edit.
 | 2026-08-05T18:11:29Z | Codex/root | MG-07 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement canonical Part interpretation and performance layers. |
 | 2026-08-05T18:20:40Z | Codex/root | MG-07 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-07 acceptance criteria and working-tree gates pass; packet commit is next. |
 | 2026-08-05T18:21:38Z | Codex/root | MG-07 | Implementation committed | `842acb7` | Exact packet source passes 298 tests, lint, and build; integration review remains. |
+| 2026-08-05T18:23:26Z | Codex/root | MG-08 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement native Instrument routing and deterministic live scheduling. |
+| 2026-08-05T18:36:04Z | Codex/root | MG-08 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-08 acceptance criteria and working-tree gates pass; implementation commit and exact-commit validation are next. |
 
 ## Handoff records
 
@@ -660,6 +686,47 @@ and releases. Do not log every edit.
   MG-07 claim; only packet files, coordination metadata, and generated Graphify
   output changed.
 - Next exact action: commit MG-07, rerun all gates against the exact commit,
+  then move it to `in_review`, add the SHA to the Validation ledger, and push
+  the branch.
+
+### 2026-08-05 MG-08 author handoff
+
+- Packet: MG-08 — Native instrument engine and live scheduler
+- State: `in_progress`; implementation and author validation are complete, but
+  the packet does not yet have an exact commit for `in_review` evidence.
+- Agent: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Started/last updated UTC:
+  2026-08-05T18:23:26Z / 2026-08-05T18:36:04Z
+- Commits: none
+- Edited files: `src/audio/instrumentEngine.ts`,
+  `src/audio/nativeSynthEngine.ts`, `src/audio/nativeSynthEngine.test.ts`,
+  `src/audio/performanceScheduler.ts`,
+  `src/audio/performanceScheduler.test.ts`, `src/audio/drumSynth.ts`,
+  `src/audio/toneSynth.ts`, and this tracker. `graphify update .` also
+  refreshed tracked generated files.
+- Acceptance criteria complete: the scheduler submits the compiler's exact
+  performed-event objects and durations in stable order; delayed timer calls
+  preserve their requested absolute audio timestamps; pause, seek, stop,
+  panic, and disposal cancel scheduled or active voices; looping uses exact
+  request-duration recurrence; edits hand over at the next beat or an explicit
+  future absolute beat; and concurrent Parts route through their selected
+  native synth or drum Instrument without a global waveform.
+- Acceptance criteria remaining: none at working-tree level.
+- Validation run and exact results: 11 targeted scheduler/native-engine tests
+  pass; `npm test` passed 34 test files and 309 tests; `npm run lint` passed;
+  `npm run build` passed; `graphify update .` completed after the final code
+  change; and a source scan confirms `src/core/` contains no Web Audio types.
+- Manual/browser/audio evidence: MG-08 adds the tested audio runtime but no
+  route or controls; browser-visible and interactive audio integration remains
+  MG-09, the roadmap's first user-visible milestone.
+- Blockers or risks: none. SoundFont Instruments fail explicitly in this native
+  backend until MG-10 selects the browser engine and MG-11 adds routing.
+- Unrelated user/agent changes preserved: the worktree was clean before the
+  MG-08 claim; only packet files, coordination metadata, and generated Graphify
+  output changed.
+- Next exact action: commit MG-08, rerun all gates against the exact commit,
   then move it to `in_review`, add the SHA to the Validation ledger, and push
   the branch.
 
