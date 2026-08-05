@@ -277,6 +277,7 @@ describe('NativeSynthEngine', () => {
       soundBankId: 'bank',
       bank: 0,
       program: 0,
+      presetName: 'Grand Piano',
       percussion: false,
       reverb: 0,
       chorus: 0,

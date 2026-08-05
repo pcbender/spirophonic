@@ -820,7 +820,15 @@ const validateInstrument = (
       : kind === 'native-drum'
         ? ['voice']
         : kind === 'soundfont'
-          ? ['soundBankId', 'bank', 'program', 'percussion', 'reverb', 'chorus']
+          ? [
+              'soundBankId',
+              'bank',
+              'program',
+              'presetName',
+              'percussion',
+              'reverb',
+              'chorus',
+            ]
           : []
   context.knownKeys(instrument, path, [
     'id',
@@ -877,6 +885,10 @@ const validateInstrument = (
       min: 0,
       max: 127,
       integer: true,
+    })
+    context.string(instrument, 'presetName', `${path}.presetName`, {
+      nonEmpty: true,
+      maxLength: 200,
     })
     context.boolean(instrument, 'percussion', `${path}.percussion`)
     context.number(instrument, 'reverb', `${path}.reverb`, { min: 0, max: 1 })

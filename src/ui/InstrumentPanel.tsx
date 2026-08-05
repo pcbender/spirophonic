@@ -3,6 +3,7 @@ import type {
   InstrumentSpec,
   NativeDrumInstrumentSpec,
   NativeSynthInstrumentSpec,
+  SoundFontInstrumentSpec,
 } from '../core/composition'
 
 export type InstrumentPanelProps = {
@@ -25,6 +26,34 @@ const drumVoices: Array<NativeDrumInstrumentSpec['voice']> = [
   'clap',
   'cymbal',
 ]
+
+const nativeSynthFallback = (
+  instrument: SoundFontInstrumentSpec,
+): NativeSynthInstrumentSpec => ({
+  id: instrument.id,
+  name: `${instrument.name} · native fallback`,
+  kind: 'native-synth',
+  gain: instrument.gain,
+  pan: instrument.pan,
+  waveform: 'triangle',
+  envelope: {
+    attackSeconds: 0.01,
+    decaySeconds: 0.12,
+    sustain: 0.68,
+    releaseSeconds: 0.24,
+  },
+})
+
+const nativeDrumFallback = (
+  instrument: SoundFontInstrumentSpec,
+): NativeDrumInstrumentSpec => ({
+  id: instrument.id,
+  name: `${instrument.name} · native drum fallback`,
+  kind: 'native-drum',
+  gain: instrument.gain,
+  pan: instrument.pan,
+  voice: 'kick',
+})
 
 export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps) {
   const update = (id: string, next: (instrument: InstrumentSpec) => InstrumentSpec) =>
@@ -72,7 +101,69 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
               </label>
             )}
             {instrument.kind === 'soundfont' && (
-              <p>SoundFont playback arrives in MG-11.</p>
+              <>
+                <p className="instrument-preset">
+                  <strong>{instrument.presetName}</strong><br />
+                  Bank {instrument.bank} · Program {instrument.program}
+                  {instrument.percussion ? ' · drums' : ''}
+                </p>
+                <NumberField
+                  label={`Reverb ${instrument.id}`}
+                  shortLabel="Reverb"
+                  value={instrument.reverb}
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  onChange={(reverb) =>
+                    update(instrument.id, (current) =>
+                      current.kind === 'soundfont'
+                        ? { ...current, reverb }
+                        : current,
+                    )
+                  }
+                />
+                <NumberField
+                  label={`Chorus ${instrument.id}`}
+                  shortLabel="Chorus"
+                  value={instrument.chorus}
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  onChange={(chorus) =>
+                    update(instrument.id, (current) =>
+                      current.kind === 'soundfont'
+                        ? { ...current, chorus }
+                        : current,
+                    )
+                  }
+                />
+                <div className="panel-actions instrument-fallbacks">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      update(instrument.id, (current) =>
+                        current.kind === 'soundfont'
+                          ? nativeSynthFallback(current)
+                          : current,
+                      )
+                    }
+                  >
+                    Use native synth
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      update(instrument.id, (current) =>
+                        current.kind === 'soundfont'
+                          ? nativeDrumFallback(current)
+                          : current,
+                      )
+                    }
+                  >
+                    Use native drum
+                  </button>
+                </div>
+              </>
             )}
           </li>
         ))}

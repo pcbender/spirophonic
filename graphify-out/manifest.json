@@ -15,13 +15,13 @@
     "semantic_hash": ""
   },
   "src/App.test.tsx": {
-    "mtime": 1785956099.354674,
-    "ast_hash": "6b6375c3a157e068d8b585b6b5d9ff3e",
+    "mtime": 1785960532.1914623,
+    "ast_hash": "bd82213107a1d677b6a45efd6914efca",
     "semantic_hash": ""
   },
   "src/App.tsx": {
-    "mtime": 1785956099.2513547,
-    "ast_hash": "84b1af2b545cf39f6983a2fad2f7a584",
+    "mtime": 1785959981.3350687,
+    "ast_hash": "fa263b6d4266987dc6cd6327e46540fd",
     "semantic_hash": ""
   },
   "src/export/strudelExport.test.ts": {
@@ -205,18 +205,18 @@
     "semantic_hash": ""
   },
   "src/core/composition.ts": {
-    "mtime": 1785957330.396877,
-    "ast_hash": "e6b105ad167efeea207cb1ed0edf260b",
+    "mtime": 1785959167.8437986,
+    "ast_hash": "59e0df50037c1b905892da5257265ac1",
     "semantic_hash": ""
   },
   "src/core/compositionValidation.test.ts": {
-    "mtime": 1785955423.336067,
-    "ast_hash": "c32cb833618d8c94ab25bf34a27bf35f",
+    "mtime": 1785959168.0549986,
+    "ast_hash": "ccd6cfca7b05c5cf6d88a55b3a6b96c8",
     "semantic_hash": ""
   },
   "src/core/compositionValidation.ts": {
-    "mtime": 1785949534.586611,
-    "ast_hash": "e374935469b78164adc310f247ca78b9",
+    "mtime": 1785959167.9537985,
+    "ast_hash": "fce22c1fa0aa5780ef0353300acfac0a",
     "semantic_hash": ""
   },
   "src/core/defaultComposition.ts": {
@@ -235,13 +235,13 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-BUILD-PLAN.md": {
-    "mtime": 1785958076.5285187,
-    "ast_hash": "a518d2bcb1036e7c6fbb53e663c9791e",
+    "mtime": 1785960262.2238111,
+    "ast_hash": "4ae9d9d8e2c1776b1cdee81800fccf37",
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1785956894.2701783,
-    "ast_hash": "3aafcbf4f358a82abd8eebd027d47463",
+    "mtime": 1785960716.3771038,
+    "ast_hash": "95d57c70411f3a5d8fd793be6ea1911e",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -375,8 +375,8 @@
     "semantic_hash": ""
   },
   "src/audio/nativeSynthEngine.test.ts": {
-    "mtime": 1785954802.883322,
-    "ast_hash": "45f815af8587d5b7f3e4fc8475fcbf5d",
+    "mtime": 1785959168.1605985,
+    "ast_hash": "3241ee4ee088baeae68c2640225e5ab0",
     "semantic_hash": ""
   },
   "src/audio/nativeSynthEngine.ts": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "src/ui/InstrumentPanel.tsx": {
-    "mtime": 1785955806.5398357,
-    "ast_hash": "f0e362b956d3396583735864b277f67f",
+    "mtime": 1785959594.3193583,
+    "ast_hash": "113fd2af029b56faad6b4bbd1962c8a3",
     "semantic_hash": ""
   },
   "src/ui/PartPanel.tsx": {
@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "src/audio/soundbankStore.ts": {
-    "mtime": 1785958232.5704849,
-    "ast_hash": "89581a888e58e226c7537e4eeeaa37c8",
+    "mtime": 1785960262.1117647,
+    "ast_hash": "b4178925d56ec5e22f3d3bf30e6e0d52",
     "semantic_hash": ""
   },
   "src/audio/soundfontProbe.test.ts": {
@@ -447,6 +447,41 @@
   "docs/decisions/0001-soundfont-engine.md": {
     "mtime": 1785958076.6297185,
     "ast_hash": "115ada0e15c9db4d7480aae85656db80",
+    "semantic_hash": ""
+  },
+  "src/audio/instrumentRouter.test.ts": {
+    "mtime": 1785959422.7179203,
+    "ast_hash": "a1ff1609ee9329b26106932d15eeba6b",
+    "semantic_hash": ""
+  },
+  "src/audio/instrumentRouter.ts": {
+    "mtime": 1785959322.4542572,
+    "ast_hash": "dfe23b303db9fdf3a6def655548c06f2",
+    "semantic_hash": ""
+  },
+  "src/audio/soundfontEngine.test.ts": {
+    "mtime": 1785960532.2970622,
+    "ast_hash": "06051c33e7d40f5e41a52d307d654588",
+    "semantic_hash": ""
+  },
+  "src/audio/soundfontEngine.ts": {
+    "mtime": 1785960634.706557,
+    "ast_hash": "98a51d07ce3f30ce52f528a726683428",
+    "semantic_hash": ""
+  },
+  "src/ui/InstrumentPanel.test.tsx": {
+    "mtime": 1785959834.3086057,
+    "ast_hash": "637245a3e4ce1359b1a97b8a98918928",
+    "semantic_hash": ""
+  },
+  "src/ui/SoundBankPanel.test.tsx": {
+    "mtime": 1785959640.6973932,
+    "ast_hash": "ad7dc5c87d516c66760fc16cb3e8c3bd",
+    "semantic_hash": ""
+  },
+  "src/ui/SoundBankPanel.tsx": {
+    "mtime": 1785959834.2059836,
+    "ast_hash": "026b88c36972f6fda019bfe2197e556b",
     "semantic_hash": ""
   }
 }

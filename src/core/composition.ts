@@ -326,6 +326,7 @@ export type SoundFontInstrumentSpec = InstrumentBase & {
   soundBankId: string
   bank: number
   program: number
+  presetName: string
   percussion: boolean
   reverb: number
   chorus: number

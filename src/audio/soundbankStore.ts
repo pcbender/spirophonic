@@ -250,6 +250,7 @@ export class SoundBankStore {
       [BANK_METADATA_STORE, BANK_BYTES_STORE],
       'readonly',
     )
+    const completed = transactionComplete(transaction, 'read a SoundFont bank')
     const [metadata, byteRecord] = await Promise.all([
       requestResult(
         transaction.objectStore(BANK_METADATA_STORE).get(digest),
@@ -260,7 +261,7 @@ export class SoundBankStore {
         'read SoundFont bytes',
       ),
     ])
-    await transactionComplete(transaction, 'read a SoundFont bank')
+    await completed
     if (metadata === undefined && byteRecord === undefined) return undefined
     if (
       !validMetadata(metadata) ||
@@ -282,11 +283,12 @@ export class SoundBankStore {
   async list(): Promise<Array<StoredSoundBankMetadata>> {
     const database = await this.database()
     const transaction = database.transaction(BANK_METADATA_STORE, 'readonly')
+    const completed = transactionComplete(transaction, 'list SoundFont banks')
     const records = await requestResult(
       transaction.objectStore(BANK_METADATA_STORE).getAll(),
       'list SoundFont banks',
     )
-    await transactionComplete(transaction, 'list SoundFont banks')
+    await completed
     return records
       .map((record) => {
         if (!validMetadata(record)) {
@@ -312,9 +314,10 @@ export class SoundBankStore {
       [BANK_METADATA_STORE, BANK_BYTES_STORE],
       'readwrite',
     )
+    const completed = transactionComplete(transaction, 'delete a SoundFont bank')
     transaction.objectStore(BANK_METADATA_STORE).delete(digest)
     transaction.objectStore(BANK_BYTES_STORE).delete(digest)
-    await transactionComplete(transaction, 'delete a SoundFont bank')
+    await completed
     return true
   }
 
@@ -435,11 +438,12 @@ export class SoundBankStore {
   private async metadata(digest: string) {
     const database = await this.database()
     const transaction = database.transaction(BANK_METADATA_STORE, 'readonly')
+    const completed = transactionComplete(transaction, 'read SoundFont metadata')
     const metadata = await requestResult(
       transaction.objectStore(BANK_METADATA_STORE).get(digest),
       'read SoundFont metadata',
     )
-    await transactionComplete(transaction, 'read SoundFont metadata')
+    await completed
     if (metadata === undefined) return undefined
     if (!validMetadata(metadata)) {
       throw new SoundBankStoreError(
@@ -456,11 +460,12 @@ export class SoundBankStore {
       [BANK_METADATA_STORE, BANK_BYTES_STORE],
       'readwrite',
     )
+    const completed = transactionComplete(transaction, 'store a SoundFont bank')
     transaction.objectStore(BANK_METADATA_STORE).put(metadata)
     transaction.objectStore(BANK_BYTES_STORE).put({
       digest: metadata.digest,
       bytes: cloneBytes(bytes),
     })
-    await transactionComplete(transaction, 'store a SoundFont bank')
+    await completed
   }
 }

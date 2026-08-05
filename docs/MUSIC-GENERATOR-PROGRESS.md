@@ -15,10 +15,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 0 / 21 |
-| Packets active | 10 |
+| Packets active | 11 |
 | Packets blocked | 0 |
-| Next ready packet | MG-10 author validation complete; MG-01–MG-10 integration remains pending |
-| Active agents | Codex/root on MG-01 through MG-10 |
+| Next ready packet | MG-11 author validation complete; MG-01–MG-11 integration remains pending |
+| Active agents | Codex/root on MG-01 through MG-11 |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-05 |
 
@@ -103,6 +103,7 @@ While working:
 | Codex/root | MG-08 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:23:26Z | 2026-08-05T18:37:10Z | Implementation commit `7f2d487`; integration review remains. |
 | Codex/root | MG-09 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T18:39:36Z | 2026-08-05T19:03:51Z | Implementation commit `ff6af91`; exact-commit gates and Hermes browser playback pass; integration review remains. |
 | Codex/root | MG-10 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T19:07:49Z | 2026-08-05T19:34:43Z | Implementation commit `992a97e`; exact-commit gates and Chromium/Firefox SoundFont probes pass; integration review remains. |
+| Codex/root | MG-11 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T19:45:18Z | 2026-08-05T20:10:54Z | Engine/router, visible bank workflow, reload, failure recovery, and real SF2/SF3 concurrent playback pass; exact-commit validation is next. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -121,7 +122,7 @@ their history.
 | MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `7f2d487` is validated; integration review remains. |
 | MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `ff6af91` is validated; integration review remains. |
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `992a97e` is validated; integration review remains. |
-| MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `waiting` | — | 2026-08-05 | Complete MG-07, MG-08, and MG-10. |
+| MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `in_review` | Codex/root | 2026-08-05 | Author validation passes; commit the packet, rerun exact-commit gates, and record the SHA. |
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | `waiting` | — | 2026-08-05 | Complete MG-09 and MG-11. |
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | `waiting` | — | 2026-08-05 | Complete MG-05, MG-06, and MG-12. |
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | `waiting` | — | 2026-08-05 | Complete MG-06, MG-07, and MG-12. |
@@ -406,6 +407,31 @@ Validation rules:
   committed MG-01 and MG-08 packets while their integration review remains
   pending. MG-10 consumes those exact committed contracts.
 
+### MG-11 — SoundFont playback and instrument browser
+
+- State: `in_review`
+- Owner: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Contract: [MG-11 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-11--soundfont-playback-and-instrument-browser)
+- Started UTC: 2026-08-05T19:45:18Z
+- Last updated UTC: 2026-08-05T20:10:54Z
+- Next action: commit the packet, rerun the three gates on that exact commit,
+  add its SHA to the validation ledger, and push the branch.
+- Commits/PRs: none yet
+- Blockers: none
+- Validation evidence: 7 focused files/40 tests and the full 31-file/204-test
+  suite pass; lint, build, diff check, and Graphify refresh pass. Hermes loaded
+  both local GeneralUser SF3 and SF2 banks with 287 presets each, restored the
+  SF3 after page reload, auditioned and assigned Piano & Str.-Fade, played it
+  concurrently with Fast Strings as 26 events, showed a missing-digest relink
+  error without stopping Transport, and recovered by exact-digest relink with
+  no final page errors.
+- Handoff: [2026-08-05 MG-11 author handoff](#2026-08-05-mg-11-author-handoff)
+- Dependency exception: the user explicitly directed MG-11 to begin after the
+  committed MG-07, MG-08, and MG-10 packets while their integration review
+  remains pending. MG-11 consumes those exact committed contracts.
+
 This is the initial ready-packet record. Once work begins, keep one subsection
 for every `claimed`, `in_progress`, `blocked`, or `in_review` packet. Move each
 finished record into the Activity log, Validation ledger, and Handoff records.
@@ -492,6 +518,8 @@ and releases. Do not log every edit.
 | 2026-08-05T19:07:49Z | Codex/root | MG-10 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement local SoundFont ownership and select a reproducible browser engine. |
 | 2026-08-05T19:32:36Z | Codex/root | MG-10 | Author handoff | `agent/music-generator-planning` / uncommitted | Digest-keyed vault, pinned SpessaSynth worklet, SF2/SF3 probes, packaging, licensing boundary, and all working-tree gates pass; commit and exact-commit validation are next. |
 | 2026-08-05T19:34:43Z | Codex/root | MG-10 | Implementation committed | `992a97e` | Exact packet source passes 190 tests, lint, build, reproducible worklet sync, Graphify refresh, and Hermes Chromium/Firefox probes; integration review remains. |
+| 2026-08-05T19:45:18Z | Codex/root | MG-11 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; make local SoundFont banks and presets a visible, concurrent Instrument workflow. |
+| 2026-08-05T20:10:54Z | Codex/root | MG-11 | Author handoff | `agent/music-generator-planning` / uncommitted | SF2/SF3 import, preset browsing/audition/assignment, concurrent routing, reload, missing-bank isolation/relink, explicit native fallback, and all working-tree gates pass; commit is next. |
 
 ## Handoff records
 
@@ -883,6 +911,61 @@ and releases. Do not log every edit.
   and generated Graphify output changed.
 - Next exact action: review and integrate `992a97e`, rerun the full gates on
   the integrated commit, then mark MG-10 `done` and re-evaluate MG-11.
+
+### 2026-08-05 MG-11 author handoff
+
+- Packet: MG-11 — SoundFont playback and instrument browser
+- State: `in_review`; implementation and author validation are complete, but
+  the packet does not yet have its exact implementation commit record.
+- Agent: Codex/root
+- Branch: `agent/music-generator-planning`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Started/last updated UTC:
+  2026-08-05T19:45:18Z / 2026-08-05T20:10:54Z
+- Commits: none yet
+- Edited files: SoundFont engine/router and tests; SoundBank and Instrument
+  panels and tests; Composition SoundFont preset name and validation; App
+  runtime, reload persistence, Strict Mode-safe disposal, tests, and styling;
+  the vault's real-browser transaction ordering; explicit build-plan scope;
+  this tracker; and refreshed tracked Graphify output.
+- Acceptance criteria complete: SF2/SF3 banks import locally and expose
+  provenance, licensing, search, 287-preset browsing, audition, assignment,
+  relink, and byte removal; two Parts using different presets share one bank
+  concurrently; bank/program/drum, velocity, duration, gain, pan, reverb, and
+  chorus reach the backend; missing/unsupported/failed routes are visible and
+  isolated while ready/native routes continue; page reload restores references
+  and presets from local storage; and explicit native synth/drum fallbacks
+  remain available without any SoundFont.
+- Acceptance criteria remaining: none at working-tree level.
+- Validation run and exact results: the focused engine/router/panel/App/
+  validation lane passed 7 files and 40 tests; `npm test` passed 31 files and
+  204 tests; `npm run lint`, `npm run build`, and `git diff --check` passed;
+  and `graphify update .` rebuilt 1,199 nodes and 2,353 edges. Build reproduces
+  the pinned 397,904-byte AudioWorklet SHA-256 from MG-10.
+- Manual/browser/audio evidence: the `~/.hermes` Chromium session imported and
+  restored GeneralUserGS.sf3 (8,423,728 bytes,
+  `e2ed326ff44d15f78f2fdc72403b6fa6b77ee7266d3aad0d2198bc95797bc66c`)
+  and GeneralUser-GS.sf2 (32,319,396 bytes,
+  `9575028c7a1f589f5770fccc8cff2734566af40cd26ed836944e9a5152688cfe`),
+  enumerating 287 presets for each. It filtered/auditioned C4 on Piano &
+  Str.-Fade, assigned it, restored the assignment after reload, then played it
+  with Fast Strings as two SoundFont Instruments/Parts: Transport reached
+  1.07s with 26 events and no page errors. Removing local bytes showed the
+  digest-specific relink alert while Transport reached 1.95s; relinking the
+  exact SF3 restored ready state. Captures:
+  `/tmp/spirophonic-mg11-hermes.png`,
+  `/tmp/spirophonic-mg11-bank-browser-hermes.png`, and
+  `/tmp/spirophonic-mg11-banks-hermes.png`. Banks remain local and uncommitted.
+- Blockers or risks: none. The 522.65 kB minified app chunk now crosses Vite's
+  500 kB advisory threshold; MG-21 should evaluate lazy-loading the SoundFont
+  adapter. Headless Web Audio logged device-renderer warnings but the page and
+  worklet reported no final errors.
+- Unrelated user/agent changes preserved: the worktree was clean before the
+  MG-11 claim; only packet files, explicitly documented integration scope, and
+  generated Graphify output changed.
+- Next exact action: commit MG-11, rerun all three gates against the exact
+  implementation commit, add its SHA to the validation ledger, commit that
+  evidence, and push the branch.
 
 Append detailed handoffs here under a dated packet/agent heading and add a
 one-line summary to the Activity log. Do not overwrite an earlier handoff; a

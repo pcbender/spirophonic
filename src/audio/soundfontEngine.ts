@@ -1,0 +1,611 @@
+import { WorkletSynthesizer } from 'spessasynth_lib'
+
+import type {
+  SoundBankReference,
+  SoundFontInstrumentSpec,
+} from '../core/composition'
+import type { NoteMusicalEvent } from '../core/performance'
+import type { InstrumentEngine } from './instrumentEngine'
+import { type SoundBankStore } from './soundbankStore'
+import { soundBankContainerKind } from './soundfontProbe'
+import { registerSpessaSynthWorklet } from './spessasynthWorklet'
+
+export type SoundFontPreset = Readonly<{
+  name: string
+  program: number
+  bankMSB: number
+  bankLSB: number
+  isDrum: boolean
+}>
+
+export type SoundFontIssueCode =
+  | 'bank-reference-missing'
+  | 'bank-bytes-missing'
+  | 'bank-unsupported'
+  | 'bank-load-failed'
+  | 'preset-missing'
+  | 'channel-limit'
+
+export type SoundFontIssue = Readonly<{
+  code: SoundFontIssueCode
+  instrumentId: string
+  soundBankId: string
+  message: string
+}>
+
+export type SoundFontPreparation = Readonly<{
+  readyInstrumentIds: ReadonlyArray<string>
+  issues: ReadonlyArray<SoundFontIssue>
+  presetsByBankId: Readonly<Record<string, ReadonlyArray<SoundFontPreset>>>
+}>
+
+export type SoundFontBankStatus =
+  | Readonly<{ state: 'idle' | 'loading' }>
+  | Readonly<{
+      state: 'ready'
+      presets: ReadonlyArray<SoundFontPreset>
+    }>
+  | Readonly<{ state: 'missing' | 'unsupported' | 'failed'; message: string }>
+
+type SoundFontChannel = {
+  setDrums: (isDrum: boolean) => void
+  setSystemParameter: (parameter: 'gain' | 'pan', value: number) => void
+}
+
+export type SoundFontSynthesizer = {
+  readonly currentTime: number
+  readonly isReady: Promise<unknown>
+  readonly presetList: ReadonlyArray<SoundFontPreset>
+  readonly midiChannels: ReadonlyArray<SoundFontChannel>
+  readonly soundBankManager: {
+    addSoundBank: (bytes: ArrayBuffer, id: string) => Promise<void>
+  }
+  noteOn: (
+    channel: number,
+    note: number,
+    velocity: number,
+    options?: { time?: number },
+  ) => void
+  noteOff: (
+    channel: number,
+    note: number,
+    options?: { time?: number },
+  ) => void
+  controllerChange: (
+    channel: number,
+    controller: number,
+    value: number,
+    options?: { time?: number },
+  ) => void
+  programChange: (
+    channel: number,
+    program: number,
+    options?: { time?: number },
+  ) => void
+  stopAll: (force?: boolean) => void
+  destroy: () => void
+}
+
+export type SoundFontEngineOptions = Readonly<{
+  store: SoundBankStore
+  contextFactory?: () => AudioContext
+  registerWorklet?: (context: BaseAudioContext) => Promise<void>
+  synthesizerFactory?: (context: BaseAudioContext) => SoundFontSynthesizer
+  loadTimeoutMilliseconds?: number
+  maxVoices?: number
+}>
+
+type LoadedBank = {
+  digest: string
+  synthesizer: SoundFontSynthesizer
+  presets: ReadonlyArray<SoundFontPreset>
+}
+
+type InstrumentRoute = {
+  instrument: SoundFontInstrumentSpec
+  channel: number
+  bank: LoadedBank
+}
+
+type TrackedVoice = {
+  synthesizer: SoundFontSynthesizer
+  channel: number
+  note: number
+  startsAtSeconds: number
+  endsAtSeconds: number
+}
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value))
+
+export const soundFontBankNumber = (preset: SoundFontPreset) =>
+  preset.bankMSB * 128 + preset.bankLSB
+
+export const splitSoundFontBankNumber = (bank: number) => ({
+  bankMSB: Math.floor(bank / 128),
+  bankLSB: bank % 128,
+})
+
+const asPreset = (preset: SoundFontPreset): SoundFontPreset =>
+  Object.freeze({
+    name: preset.name,
+    program: preset.program,
+    bankMSB: preset.bankMSB,
+    bankLSB: preset.bankLSB,
+    isDrum: preset.isDrum,
+  })
+
+class SoundFontBankError extends Error {
+  readonly state: 'missing' | 'unsupported' | 'failed'
+
+  constructor(
+    state: 'missing' | 'unsupported' | 'failed',
+    message: string,
+  ) {
+    super(message)
+    this.name = 'SoundFontBankError'
+    this.state = state
+  }
+}
+
+const withTimeout = async <T>(
+  promise: Promise<T>,
+  milliseconds: number,
+  message: string,
+) => {
+  let handle: ReturnType<typeof setTimeout> | undefined
+  const timeout = new Promise<never>((_resolve, reject) => {
+    handle = setTimeout(() => reject(new Error(message)), milliseconds)
+  })
+  try {
+    return await Promise.race([promise, timeout])
+  } finally {
+    if (handle !== undefined) clearTimeout(handle)
+  }
+}
+
+/**
+ * Preloaded SpessaSynth adapter. All IndexedDB and worklet work happens before
+ * the synchronous scheduler starts handing it timestamped musical events.
+ */
+export class SoundFontEngine implements InstrumentEngine {
+  private readonly store: SoundBankStore
+  private readonly contextFactory: () => AudioContext
+  private readonly registerWorklet: (context: BaseAudioContext) => Promise<void>
+  private readonly synthesizerFactory: (
+    context: BaseAudioContext,
+  ) => SoundFontSynthesizer
+  private readonly loadTimeoutMilliseconds: number
+  private readonly maxVoices: number
+  private readonly banks = new Map<string, LoadedBank>()
+  private readonly bankLoads = new Map<string, Promise<LoadedBank>>()
+  private readonly bankStatuses = new Map<string, SoundFontBankStatus>()
+  private readonly routes = new Map<string, InstrumentRoute>()
+  private readonly voices: Array<TrackedVoice> = []
+  private context: AudioContext | null = null
+  private workletReady: Promise<void> | null = null
+  private disposed = false
+
+  constructor(options: SoundFontEngineOptions) {
+    this.store = options.store
+    this.contextFactory = options.contextFactory ?? (() => new AudioContext())
+    this.registerWorklet =
+      options.registerWorklet ?? registerSpessaSynthWorklet
+    this.synthesizerFactory =
+      options.synthesizerFactory ??
+      ((context) =>
+        new WorkletSynthesizer(context) as unknown as SoundFontSynthesizer)
+    this.loadTimeoutMilliseconds = options.loadTimeoutMilliseconds ?? 15_000
+    this.maxVoices = options.maxVoices ?? 64
+  }
+
+  get currentTimeSeconds() {
+    return this.context?.currentTime ?? 0
+  }
+
+  statusFor(soundBankId: string): SoundFontBankStatus {
+    return this.bankStatuses.get(soundBankId) ?? { state: 'idle' }
+  }
+
+  isInstrumentReady(instrumentId: string) {
+    return this.routes.has(instrumentId)
+  }
+
+  async inspectBank(reference: SoundBankReference) {
+    return (await this.ensureBank(reference)).presets
+  }
+
+  async prepare(
+    references: ReadonlyArray<SoundBankReference>,
+    instruments: ReadonlyArray<SoundFontInstrumentSpec>,
+  ): Promise<SoundFontPreparation> {
+    this.assertUsable()
+    this.routes.clear()
+    const referenceById = new Map(
+      references.map((reference) => [reference.id, reference]),
+    )
+    const issues: Array<SoundFontIssue> = []
+    const readyInstrumentIds: Array<string> = []
+    const presetsByBankId: Record<string, ReadonlyArray<SoundFontPreset>> = {}
+    const channelCountByBank = new Map<string, number>()
+
+    for (const instrument of [...instruments].sort((left, right) =>
+      left.id.localeCompare(right.id),
+    )) {
+      const reference = referenceById.get(instrument.soundBankId)
+      if (!reference) {
+        issues.push(
+          this.issue(
+            'bank-reference-missing',
+            instrument,
+            `Instrument ${instrument.name} references unavailable bank ${instrument.soundBankId}.`,
+          ),
+        )
+        continue
+      }
+
+      let bank: LoadedBank
+      try {
+        bank = await this.ensureBank(reference)
+      } catch (error) {
+        const bankError =
+          error instanceof SoundFontBankError
+            ? error
+            : new SoundFontBankError('failed', String(error))
+        const code: SoundFontIssueCode =
+          bankError.state === 'missing'
+            ? 'bank-bytes-missing'
+            : bankError.state === 'unsupported'
+              ? 'bank-unsupported'
+              : 'bank-load-failed'
+        issues.push(this.issue(code, instrument, bankError.message))
+        continue
+      }
+      presetsByBankId[reference.id] = bank.presets
+
+      const selected = bank.presets.find(
+        (preset) =>
+          soundFontBankNumber(preset) === instrument.bank &&
+          preset.program === instrument.program &&
+          preset.isDrum === instrument.percussion,
+      )
+      if (!selected) {
+        issues.push(
+          this.issue(
+            'preset-missing',
+            instrument,
+            `Preset ${instrument.presetName} (${instrument.bank}:${instrument.program}) is not available in ${reference.name}.`,
+          ),
+        )
+        continue
+      }
+
+      const channel = channelCountByBank.get(reference.id) ?? 0
+      if (channel >= 15) {
+        issues.push(
+          this.issue(
+            'channel-limit',
+            instrument,
+            `${reference.name} already has 15 concurrent SoundFont Instruments; channel 16 is reserved for audition.`,
+          ),
+        )
+        continue
+      }
+      channelCountByBank.set(reference.id, channel + 1)
+      this.routes.set(instrument.id, { instrument, channel, bank })
+      readyInstrumentIds.push(instrument.id)
+    }
+
+    return Object.freeze({
+      readyInstrumentIds: Object.freeze(readyInstrumentIds),
+      issues: Object.freeze(issues),
+      presetsByBankId: Object.freeze(presetsByBankId),
+    })
+  }
+
+  async audition(
+    reference: SoundBankReference,
+    preset: SoundFontPreset,
+    note: number,
+    durationSeconds = 0.6,
+  ) {
+    const bank = await this.ensureBank(reference)
+    const context = this.ensureContext()
+    await context.resume()
+    const synthesizer = bank.synthesizer
+    const channel = 15
+    const at = synthesizer.currentTime + 0.05
+    const { bankMSB, bankLSB } = splitSoundFontBankNumber(
+      soundFontBankNumber(preset),
+    )
+    synthesizer.midiChannels[channel].setDrums(preset.isDrum)
+    synthesizer.midiChannels[channel].setSystemParameter('gain', 0.8)
+    synthesizer.midiChannels[channel].setSystemParameter('pan', 0)
+    this.selectPreset(synthesizer, channel, bankMSB, bankLSB, preset.program, at)
+    synthesizer.noteOn(channel, clamp(Math.round(note), 0, 127), 105, {
+      time: at,
+    })
+    synthesizer.noteOff(channel, clamp(Math.round(note), 0, 127), {
+      time: at + durationSeconds,
+    })
+  }
+
+  invalidateBank(soundBankId: string) {
+    const loaded = this.banks.get(soundBankId)
+    loaded?.synthesizer.stopAll(true)
+    loaded?.synthesizer.destroy()
+    this.banks.delete(soundBankId)
+    this.bankLoads.delete(soundBankId)
+    this.bankStatuses.delete(soundBankId)
+    for (const [instrumentId, route] of this.routes) {
+      if (route.instrument.soundBankId === soundBankId) {
+        this.routes.delete(instrumentId)
+      }
+    }
+  }
+
+  async resume() {
+    if (this.context) await this.context.resume()
+  }
+
+  async suspend() {
+    if (this.context?.state === 'running') await this.context.suspend()
+  }
+
+  schedule(
+    event: NoteMusicalEvent,
+    instrument: SoundFontInstrumentSpec,
+    audioTimeSeconds: number,
+  ) {
+    this.assertUsable()
+    if (event.instrumentId !== instrument.id) {
+      throw new RangeError(
+        `Event ${event.id} targets instrument ${event.instrumentId}, not ${instrument.id}.`,
+      )
+    }
+    const route = this.routes.get(instrument.id)
+    if (!route) {
+      throw new Error(`SoundFont Instrument ${instrument.name} is not ready.`)
+    }
+
+    this.pruneVoices()
+    if (this.voices.length >= this.maxVoices) {
+      this.voices.sort(
+        (left, right) =>
+          left.endsAtSeconds - right.endsAtSeconds ||
+          left.startsAtSeconds - right.startsAtSeconds,
+      )
+      const stolen = this.voices.shift()
+      stolen?.synthesizer.noteOff(stolen.channel, stolen.note, {
+        time: audioTimeSeconds,
+      })
+    }
+
+    const synthesizer = route.bank.synthesizer
+    const { bankMSB, bankLSB } = splitSoundFontBankNumber(instrument.bank)
+    const channel = route.channel
+    const note = clamp(Math.round(event.midiNote ?? 69), 0, 127)
+    const options = { time: audioTimeSeconds }
+    synthesizer.midiChannels[channel].setDrums(instrument.percussion)
+    synthesizer.midiChannels[channel].setSystemParameter(
+      'gain',
+      instrument.gain,
+    )
+    synthesizer.midiChannels[channel].setSystemParameter('pan', instrument.pan)
+    this.selectPreset(
+      synthesizer,
+      channel,
+      bankMSB,
+      bankLSB,
+      instrument.program,
+      audioTimeSeconds,
+    )
+    synthesizer.controllerChange(
+      channel,
+      91,
+      Math.round(clamp(instrument.reverb, 0, 1) * 127),
+      options,
+    )
+    synthesizer.controllerChange(
+      channel,
+      93,
+      Math.round(clamp(instrument.chorus, 0, 1) * 127),
+      options,
+    )
+    synthesizer.noteOn(channel, note, clamp(Math.round(event.velocity), 1, 127), options)
+    synthesizer.noteOff(channel, note, {
+      time: audioTimeSeconds + event.durationSeconds,
+    })
+    this.voices.push({
+      synthesizer,
+      channel,
+      note,
+      startsAtSeconds: audioTimeSeconds,
+      endsAtSeconds: audioTimeSeconds + event.durationSeconds,
+    })
+  }
+
+  cancelScheduledFrom() {
+    for (const bank of this.banks.values()) bank.synthesizer.stopAll(true)
+    this.voices.length = 0
+  }
+
+  panic() {
+    for (const bank of this.banks.values()) bank.synthesizer.stopAll(true)
+    this.voices.length = 0
+  }
+
+  async dispose() {
+    if (this.disposed) return
+    this.disposed = true
+    for (const bank of this.banks.values()) {
+      bank.synthesizer.stopAll(true)
+      bank.synthesizer.destroy()
+    }
+    this.banks.clear()
+    this.bankLoads.clear()
+    this.bankStatuses.clear()
+    this.routes.clear()
+    this.voices.length = 0
+    const context = this.context
+    this.context = null
+    if (context && context.state !== 'closed') await context.close()
+  }
+
+  private issue(
+    code: SoundFontIssueCode,
+    instrument: SoundFontInstrumentSpec,
+    message: string,
+  ): SoundFontIssue {
+    return Object.freeze({
+      code,
+      instrumentId: instrument.id,
+      soundBankId: instrument.soundBankId,
+      message,
+    })
+  }
+
+  private ensureContext() {
+    this.assertUsable()
+    if (!this.context) this.context = this.contextFactory()
+    return this.context
+  }
+
+  private async ensureWorklet() {
+    if (this.workletReady) return this.workletReady
+    const context = this.ensureContext()
+    this.workletReady = this.registerWorklet(context)
+    try {
+      await this.workletReady
+    } catch (error) {
+      this.workletReady = null
+      throw error
+    }
+  }
+
+  private ensureBank(reference: SoundBankReference): Promise<LoadedBank> {
+    this.assertUsable()
+    const loaded = this.banks.get(reference.id)
+    if (loaded?.digest === reference.digest) return Promise.resolve(loaded)
+    if (loaded) this.invalidateBank(reference.id)
+    const pending = this.bankLoads.get(reference.id)
+    if (pending) return pending
+
+    this.bankStatuses.set(reference.id, { state: 'loading' })
+    const load = this.loadBank(reference)
+      .then((bank) => {
+        this.banks.set(reference.id, bank)
+        this.bankStatuses.set(reference.id, {
+          state: 'ready',
+          presets: bank.presets,
+        })
+        return bank
+      })
+      .catch((error) => {
+        const bankError =
+          error instanceof SoundFontBankError
+            ? error
+            : new SoundFontBankError(
+                'failed',
+                `Could not load ${reference.name}: ${
+                  error instanceof Error ? error.message : String(error)
+                }`,
+              )
+        this.bankStatuses.set(reference.id, {
+          state: bankError.state,
+          message: bankError.message,
+        })
+        throw bankError
+      })
+      .finally(() => this.bankLoads.delete(reference.id))
+    this.bankLoads.set(reference.id, load)
+    return load
+  }
+
+  private async loadBank(reference: SoundBankReference): Promise<LoadedBank> {
+    if (reference.format !== 'sf2' && reference.format !== 'sf3') {
+      throw new SoundFontBankError(
+        'unsupported',
+        `${reference.name} uses unsupported ${reference.format.toUpperCase()} format; MG-11 accepts SF2 and SF3.`,
+      )
+    }
+    const stored = await this.store.get(reference.digest)
+    if (!stored) {
+      throw new SoundFontBankError(
+        'missing',
+        `${reference.name} is not in local storage. Relink its ${reference.digest.slice(0, 12)}… digest.`,
+      )
+    }
+    if (soundBankContainerKind(stored.bytes) !== 'soundfont') {
+      throw new SoundFontBankError(
+        'unsupported',
+        `${reference.name} is not a supported SF2/SF3 RIFF bank.`,
+      )
+    }
+
+    await this.ensureWorklet()
+    const synthesizer = this.synthesizerFactory(this.ensureContext())
+    try {
+      await withTimeout(
+        synthesizer.isReady.then(() => undefined),
+        this.loadTimeoutMilliseconds,
+        `Timed out initializing ${reference.name}.`,
+      )
+      await withTimeout(
+        synthesizer.soundBankManager.addSoundBank(
+          stored.bytes.slice(0),
+          reference.id,
+        ),
+        this.loadTimeoutMilliseconds,
+        `Timed out loading ${reference.name}.`,
+      )
+      await withTimeout(
+        synthesizer.isReady.then(() => undefined),
+        this.loadTimeoutMilliseconds,
+        `Timed out finalizing ${reference.name}.`,
+      )
+      const presets = Object.freeze(
+        synthesizer.presetList.map(asPreset).sort(
+          (left, right) =>
+            Number(left.isDrum) - Number(right.isDrum) ||
+            left.bankMSB - right.bankMSB ||
+            left.bankLSB - right.bankLSB ||
+            left.program - right.program ||
+            left.name.localeCompare(right.name),
+        ),
+      )
+      if (presets.length === 0) {
+        throw new Error(`${reference.name} exposes no playable presets.`)
+      }
+      return { digest: reference.digest, synthesizer, presets }
+    } catch (error) {
+      synthesizer.destroy()
+      throw error
+    }
+  }
+
+  private selectPreset(
+    synthesizer: SoundFontSynthesizer,
+    channel: number,
+    bankMSB: number,
+    bankLSB: number,
+    program: number,
+    atSeconds: number,
+  ) {
+    const options = { time: atSeconds }
+    synthesizer.controllerChange(channel, 0, bankMSB, options)
+    synthesizer.controllerChange(channel, 32, bankLSB, options)
+    synthesizer.programChange(channel, program, options)
+  }
+
+  private pruneVoices() {
+    const now = this.currentTimeSeconds
+    for (let index = this.voices.length - 1; index >= 0; index -= 1) {
+      if (this.voices[index].endsAtSeconds < now) this.voices.splice(index, 1)
+    }
+  }
+
+  private assertUsable() {
+    if (this.disposed) throw new Error('SoundFontEngine has been disposed.')
+  }
+}

@@ -689,10 +689,17 @@ surface required to prove a package-matched, non-CDN AudioWorklet.
 `src/audio/soundfontEngine.test.ts`, `src/audio/instrumentRouter.ts`,
 `src/audio/instrumentRouter.test.ts`, `src/ui/SoundBankPanel.tsx`,
 `src/ui/SoundBankPanel.test.tsx`, `src/ui/InstrumentPanel.tsx`,
-`src/core/composition.ts`, `src/audio/spessasynthWorklet.ts`,
+`src/ui/InstrumentPanel.test.tsx`, `src/core/composition.ts`,
+`src/core/compositionValidation.ts`, `src/core/compositionValidation.test.ts`,
+`src/App.tsx`, `src/App.test.tsx`, `src/App.css`,
+`src/audio/soundbankStore.ts`, `src/audio/soundbankStore.test.ts`,
+`src/audio/spessasynthWorklet.ts`,
 `scripts/sync-spessasynth-worklet.mjs`, `package.json`, and
 `package-lock.json`. The final four paths are the exact package-matched worklet
-packaging surface selected and proven in MG-10.
+packaging surface selected and proven in MG-10. The App, validation, and test
+paths are the explicit integration surface required for visible runtime
+readiness, page-reload restoration, the new required preset name, and the
+real-browser missing-digest transaction path.
 
 **Deliverables:**
 
