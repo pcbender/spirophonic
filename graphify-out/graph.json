@@ -410,7 +410,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_drumsynth",
-      "community": 32,
+      "community": 54,
       "norm_label": "drumsynth.ts"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "audio_drumsynth_drumshape",
-      "community": 32,
+      "community": 54,
       "norm_label": "drumshape"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "audio_drumsynth_shapes",
-      "community": 32,
+      "community": 54,
       "norm_label": "shapes"
     },
     {
@@ -440,7 +440,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "audio_drumsynth_fallback",
-      "community": 32,
+      "community": 54,
       "norm_label": "fallback"
     },
     {
@@ -450,7 +450,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "audio_drumsynth_noisebuffer",
-      "community": 32,
+      "community": 54,
       "norm_label": "noisebuffer()"
     },
     {
@@ -460,7 +460,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "audio_drumsynth_playdrum",
-      "community": 32,
+      "community": 54,
       "norm_label": "playdrum()"
     },
     {
@@ -470,7 +470,7 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "audio_drumsynth_tone",
-      "community": 32,
+      "community": 54,
       "norm_label": "tone()"
     },
     {
@@ -480,7 +480,7 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "audio_drumsynth_envelope",
-      "community": 32,
+      "community": 54,
       "norm_label": "envelope()"
     },
     {
@@ -490,7 +490,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_tonesynth",
-      "community": 32,
+      "community": 53,
       "norm_label": "tonesynth.ts"
     },
     {
@@ -500,7 +500,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "audio_tonesynth_playtone",
-      "community": 32,
+      "community": 53,
       "norm_label": "playtone()"
     },
     {
@@ -510,7 +510,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_voicepreview",
-      "community": 32,
+      "community": 53,
       "norm_label": "voicepreview.ts"
     },
     {
@@ -520,7 +520,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "audio_voicepreview_voicepreview",
-      "community": 32,
+      "community": 53,
       "norm_label": "voicepreview"
     },
     {
@@ -530,7 +530,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "audio_voicepreview_voicepreview_playing",
-      "community": 32,
+      "community": 53,
       "norm_label": ".playing()"
     },
     {
@@ -540,7 +540,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "audio_voicepreview_voicepreview_start",
-      "community": 32,
+      "community": 53,
       "norm_label": ".start()"
     },
     {
@@ -550,7 +550,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "audio_voicepreview_voicepreview_update",
-      "community": 32,
+      "community": 53,
       "norm_label": ".update()"
     },
     {
@@ -560,7 +560,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "audio_voicepreview_voicepreview_stop",
-      "community": 32,
+      "community": 53,
       "norm_label": ".stop()"
     },
     {
@@ -570,7 +570,7 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "audio_voicepreview_voicepreview_schedule",
-      "community": 32,
+      "community": 53,
       "norm_label": ".schedule()"
     },
     {
@@ -640,7 +640,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_composition_test",
-      "community": 45,
+      "community": 42,
       "norm_label": "composition.test.ts"
     },
     {
@@ -660,7 +660,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "core_composition_compositionversion",
-      "community": 45,
+      "community": 42,
       "norm_label": "compositionversion"
     },
     {
@@ -670,7 +670,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "core_composition_point2",
-      "community": 7,
+      "community": 45,
       "norm_label": "point2"
     },
     {
@@ -690,7 +690,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "core_composition_meterspec",
-      "community": 36,
+      "community": 7,
       "norm_label": "meterspec"
     },
     {
@@ -700,7 +700,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "core_composition_loopspec",
-      "community": 36,
+      "community": 7,
       "norm_label": "loopspec"
     },
     {
@@ -780,7 +780,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "core_composition_motionspec",
-      "community": 36,
+      "community": 46,
       "norm_label": "motionspec"
     },
     {
@@ -840,7 +840,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "core_composition_headattachmentspec",
-      "community": 36,
+      "community": 46,
       "norm_label": "headattachmentspec"
     },
     {
@@ -870,7 +870,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "core_composition_wheelspec",
-      "community": 7,
+      "community": 45,
       "norm_label": "wheelspec"
     },
     {
@@ -910,7 +910,7 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "core_composition_ringfieldspec",
-      "community": 45,
+      "community": 35,
       "norm_label": "ringfieldspec"
     },
     {
@@ -950,7 +950,7 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "core_composition_encounterdirection",
-      "community": 36,
+      "community": 43,
       "norm_label": "encounterdirection"
     },
     {
@@ -1040,7 +1040,7 @@
       "source_location": "L276",
       "_origin": "ast",
       "id": "core_composition_notepartspec",
-      "community": 45,
+      "community": 34,
       "norm_label": "notepartspec"
     },
     {
@@ -1150,7 +1150,7 @@
       "source_location": "L354",
       "_origin": "ast",
       "id": "core_composition_composition",
-      "community": 45,
+      "community": 42,
       "norm_label": "composition"
     },
     {
@@ -1160,7 +1160,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_compositionvalidation_test",
-      "community": 45,
+      "community": 34,
       "norm_label": "compositionvalidation.test.ts"
     },
     {
@@ -1170,7 +1170,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "core_compositionvalidation_test_clonedefault",
-      "community": 45,
+      "community": 34,
       "norm_label": "clonedefault()"
     },
     {
@@ -1180,7 +1180,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "core_compositionvalidation_test_ringfield",
-      "community": 45,
+      "community": 34,
       "norm_label": "ringfield"
     },
     {
@@ -1190,7 +1190,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "core_compositionvalidation_test_notepart",
-      "community": 45,
+      "community": 34,
       "norm_label": "notepart"
     },
     {
@@ -1200,7 +1200,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "core_compositionvalidation_test_motioncases",
-      "community": 45,
+      "community": 34,
       "norm_label": "motioncases"
     },
     {
@@ -1210,7 +1210,7 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "core_compositionvalidation_test_issueat",
-      "community": 45,
+      "community": 34,
       "norm_label": "issueat()"
     },
     {
@@ -1694,13 +1694,223 @@
       "norm_label": "validatepoint()"
     },
     {
+      "label": "crossings.test.ts",
+      "file_type": "code",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_crossings_test",
+      "community": 35,
+      "norm_label": "crossings.test.ts"
+    },
+    {
+      "label": "ring",
+      "file_type": "code",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "core_crossings_test_ring",
+      "community": 35,
+      "norm_label": "ring"
+    },
+    {
+      "label": "spoke",
+      "file_type": "code",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "core_crossings_test_spoke",
+      "community": 35,
+      "norm_label": "spoke"
+    },
+    {
+      "label": "point()",
+      "file_type": "code",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "core_crossings_test_point",
+      "community": 35,
+      "norm_label": "point()"
+    },
+    {
+      "label": "crossings.ts",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_crossings",
+      "community": 35,
+      "norm_label": "crossings.ts"
+    },
+    {
+      "label": "TimedPathPoint",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "core_crossings_timedpathpoint",
+      "community": 35,
+      "norm_label": "timedpathpoint"
+    },
+    {
+      "label": "RefinedBoundaryCrossing",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "core_crossings_refinedboundarycrossing",
+      "community": 35,
+      "norm_label": "refinedboundarycrossing"
+    },
+    {
+      "label": "CrossingScanDiagnostic",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "core_crossings_crossingscandiagnostic",
+      "community": 35,
+      "norm_label": "crossingscandiagnostic"
+    },
+    {
+      "label": "CrossingScanResult",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "core_crossings_crossingscanresult",
+      "community": 35,
+      "norm_label": "crossingscanresult"
+    },
+    {
+      "label": "CrossingRefinementOptions",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "core_crossings_crossingrefinementoptions",
+      "community": 35,
+      "norm_label": "crossingrefinementoptions"
+    },
+    {
+      "label": "crossingRefinementDefaults",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "core_crossings_crossingrefinementdefaults",
+      "community": 35,
+      "norm_label": "crossingrefinementdefaults"
+    },
+    {
+      "label": "RequiredCrossingOptions",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "core_crossings_requiredcrossingoptions",
+      "community": 35,
+      "norm_label": "requiredcrossingoptions"
+    },
+    {
+      "label": "SampleWithDistance",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "core_crossings_samplewithdistance",
+      "community": 35,
+      "norm_label": "samplewithdistance"
+    },
+    {
+      "label": "freezePoint()",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L65",
+      "_origin": "ast",
+      "id": "core_crossings_freezepoint",
+      "community": 35,
+      "norm_label": "freezepoint()"
+    },
+    {
+      "label": "signWithTolerance()",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L68",
+      "_origin": "ast",
+      "id": "core_crossings_signwithtolerance",
+      "community": 35,
+      "norm_label": "signwithtolerance()"
+    },
+    {
+      "label": "normalizeOptions()",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L73",
+      "_origin": "ast",
+      "id": "core_crossings_normalizeoptions",
+      "community": 35,
+      "norm_label": "normalizeoptions()"
+    },
+    {
+      "label": "assertPathPoint()",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L97",
+      "_origin": "ast",
+      "id": "core_crossings_assertpathpoint",
+      "community": 35,
+      "norm_label": "assertpathpoint()"
+    },
+    {
+      "label": "crossingLiesOnBoundary()",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L110",
+      "_origin": "ast",
+      "id": "core_crossings_crossingliesonboundary",
+      "community": 35,
+      "norm_label": "crossingliesonboundary()"
+    },
+    {
+      "label": "refinedResult()",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L119",
+      "_origin": "ast",
+      "id": "core_crossings_refinedresult",
+      "community": 35,
+      "norm_label": "refinedresult()"
+    },
+    {
+      "label": "refineBoundaryCrossing()",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L143",
+      "_origin": "ast",
+      "id": "core_crossings_refineboundarycrossing",
+      "community": 35,
+      "norm_label": "refineboundarycrossing()"
+    },
+    {
+      "label": "scanBoundaryCrossings()",
+      "file_type": "code",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L255",
+      "_origin": "ast",
+      "id": "core_crossings_scanboundarycrossings",
+      "community": 35,
+      "norm_label": "scanboundarycrossings()"
+    },
+    {
       "label": "curves.test.ts",
       "file_type": "code",
       "source_file": "src/core/curves.test.ts",
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_curves_test",
-      "community": 43,
+      "community": 46,
       "norm_label": "curves.test.ts"
     },
     {
@@ -1710,7 +1920,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_curves_test_withfamily",
-      "community": 43,
+      "community": 46,
       "norm_label": "withfamily()"
     },
     {
@@ -1720,7 +1930,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_curves",
-      "community": 43,
+      "community": 46,
       "norm_label": "curves.ts"
     },
     {
@@ -1730,7 +1940,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "core_curves_geometry",
-      "community": 43,
+      "community": 46,
       "norm_label": "geometry"
     },
     {
@@ -1740,7 +1950,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "core_curves_parametriccurve",
-      "community": 43,
+      "community": 46,
       "norm_label": "parametriccurve"
     },
     {
@@ -1750,7 +1960,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "core_curves_harmonographpointparameters",
-      "community": 43,
+      "community": 46,
       "norm_label": "harmonographpointparameters"
     },
     {
@@ -1760,7 +1970,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "core_curves_curvefamilies",
-      "community": 43,
+      "community": 46,
       "norm_label": "curvefamilies"
     },
     {
@@ -1770,7 +1980,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "core_curves_generatecurvepoints",
-      "community": 43,
+      "community": 46,
       "norm_label": "generatecurvepoints()"
     },
     {
@@ -1780,7 +1990,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "core_curves_lissajous",
-      "community": 43,
+      "community": 46,
       "norm_label": "lissajous()"
     },
     {
@@ -1790,7 +2000,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "core_curves_lissajouspointattheta",
-      "community": 7,
+      "community": 46,
       "norm_label": "lissajouspointattheta()"
     },
     {
@@ -1800,7 +2010,7 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "core_curves_rose",
-      "community": 43,
+      "community": 46,
       "norm_label": "rose()"
     },
     {
@@ -1810,7 +2020,7 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "core_curves_rosepointattheta",
-      "community": 7,
+      "community": 46,
       "norm_label": "rosepointattheta()"
     },
     {
@@ -1820,7 +2030,7 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "core_curves_superformula",
-      "community": 43,
+      "community": 46,
       "norm_label": "superformula()"
     },
     {
@@ -1830,7 +2040,7 @@
       "source_location": "L127",
       "_origin": "ast",
       "id": "core_curves_superformulapointattheta",
-      "community": 7,
+      "community": 46,
       "norm_label": "superformulapointattheta()"
     },
     {
@@ -1840,7 +2050,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "core_curves_harmonographpointattheta",
-      "community": 7,
+      "community": 46,
       "norm_label": "harmonographpointattheta()"
     },
     {
@@ -1850,7 +2060,7 @@
       "source_location": "L167",
       "_origin": "ast",
       "id": "core_curves_harmonographpoints",
-      "community": 43,
+      "community": 46,
       "norm_label": "harmonographpoints()"
     },
     {
@@ -1860,7 +2070,7 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "core_curves_sample",
-      "community": 43,
+      "community": 46,
       "norm_label": "sample()"
     },
     {
@@ -1870,7 +2080,7 @@
       "source_location": "L208",
       "_origin": "ast",
       "id": "core_curves_fit",
-      "community": 43,
+      "community": 46,
       "norm_label": "fit()"
     },
     {
@@ -1880,7 +2090,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "core_curves_close",
-      "community": 43,
+      "community": 46,
       "norm_label": "close()"
     },
     {
@@ -1890,7 +2100,7 @@
       "source_location": "L233",
       "_origin": "ast",
       "id": "core_curves_point",
-      "community": 43,
+      "community": 46,
       "norm_label": "point()"
     },
     {
@@ -1900,7 +2110,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_defaultcomposition",
-      "community": 45,
+      "community": 42,
       "norm_label": "defaultcomposition.ts"
     },
     {
@@ -1910,7 +2120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_defaultmodel_test",
-      "community": 41,
+      "community": 46,
       "norm_label": "defaultmodel.test.ts"
     },
     {
@@ -1920,7 +2130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_defaultmodel",
-      "community": 41,
+      "community": 46,
       "norm_label": "defaultmodel.ts"
     },
     {
@@ -1930,7 +2140,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_defaultmodel_defaultpitch",
-      "community": 41,
+      "community": 46,
       "norm_label": "defaultpitch"
     },
     {
@@ -1950,8 +2160,268 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "core_defaultmodel_defaultmodel",
-      "community": 41,
+      "community": 46,
       "norm_label": "defaultmodel"
+    },
+    {
+      "label": "encounters.test.ts",
+      "file_type": "code",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_encounters_test",
+      "community": 43,
+      "norm_label": "encounters.test.ts"
+    },
+    {
+      "label": "ring",
+      "file_type": "code",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "core_encounters_test_ring",
+      "community": 43,
+      "norm_label": "ring"
+    },
+    {
+      "label": "spoke",
+      "file_type": "code",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "core_encounters_test_spoke",
+      "community": 43,
+      "norm_label": "spoke"
+    },
+    {
+      "label": "linearState()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "core_encounters_test_linearstate",
+      "community": 43,
+      "norm_label": "linearstate()"
+    },
+    {
+      "label": "handPath()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "core_encounters_test_handpath",
+      "community": 43,
+      "norm_label": "handpath()"
+    },
+    {
+      "label": "ellipseComposition()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "core_encounters_test_ellipsecomposition",
+      "community": 43,
+      "norm_label": "ellipsecomposition()"
+    },
+    {
+      "label": "encounters.ts",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_encounters",
+      "community": 43,
+      "norm_label": "encounters.ts"
+    },
+    {
+      "label": "BoundaryEncounterDirection",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "core_encounters_boundaryencounterdirection",
+      "community": 43,
+      "norm_label": "boundaryencounterdirection"
+    },
+    {
+      "label": "BoundaryCrossingEncounter",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "core_encounters_boundarycrossingencounter",
+      "community": 43,
+      "norm_label": "boundarycrossingencounter"
+    },
+    {
+      "label": "EncounterPathState",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L54",
+      "_origin": "ast",
+      "id": "core_encounters_encounterpathstate",
+      "community": 43,
+      "norm_label": "encounterpathstate"
+    },
+    {
+      "label": "EncounterDiagnostic",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "core_encounters_encounterdiagnostic",
+      "community": 43,
+      "norm_label": "encounterdiagnostic"
+    },
+    {
+      "label": "EncounterScanResult",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L74",
+      "_origin": "ast",
+      "id": "core_encounters_encounterscanresult",
+      "community": 43,
+      "norm_label": "encounterscanresult"
+    },
+    {
+      "label": "BoundaryEncounterPath",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L79",
+      "_origin": "ast",
+      "id": "core_encounters_boundaryencounterpath",
+      "community": 43,
+      "norm_label": "boundaryencounterpath"
+    },
+    {
+      "label": "EncounterScanOptions",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L88",
+      "_origin": "ast",
+      "id": "core_encounters_encounterscanoptions",
+      "community": 43,
+      "norm_label": "encounterscanoptions"
+    },
+    {
+      "label": "encounterScanDefaults",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L94",
+      "_origin": "ast",
+      "id": "core_encounters_encounterscandefaults",
+      "community": 43,
+      "norm_label": "encounterscandefaults"
+    },
+    {
+      "label": "freezePoint()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L101",
+      "_origin": "ast",
+      "id": "core_encounters_freezepoint",
+      "community": 43,
+      "norm_label": "freezepoint()"
+    },
+    {
+      "label": "compareText()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L104",
+      "_origin": "ast",
+      "id": "core_encounters_comparetext",
+      "community": 43,
+      "norm_label": "comparetext()"
+    },
+    {
+      "label": "compareBoundaryEncounters()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L107",
+      "_origin": "ast",
+      "id": "core_encounters_compareboundaryencounters",
+      "community": 43,
+      "norm_label": "compareboundaryencounters()"
+    },
+    {
+      "label": "sortBoundaryEncounters()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L118",
+      "_origin": "ast",
+      "id": "core_encounters_sortboundaryencounters",
+      "community": 43,
+      "norm_label": "sortboundaryencounters()"
+    },
+    {
+      "label": "assertEncounterState()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L123",
+      "_origin": "ast",
+      "id": "core_encounters_assertencounterstate",
+      "community": 43,
+      "norm_label": "assertencounterstate()"
+    },
+    {
+      "label": "boundaryNormal()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L141",
+      "_origin": "ast",
+      "id": "core_encounters_boundarynormal",
+      "community": 43,
+      "norm_label": "boundarynormal()"
+    },
+    {
+      "label": "encounterId()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L161",
+      "_origin": "ast",
+      "id": "core_encounters_encounterid",
+      "community": 43,
+      "norm_label": "encounterid()"
+    },
+    {
+      "label": "mapCrossingDiagnostic()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L179",
+      "_origin": "ast",
+      "id": "core_encounters_mapcrossingdiagnostic",
+      "community": 43,
+      "norm_label": "mapcrossingdiagnostic()"
+    },
+    {
+      "label": "boundaryEncountersForPath()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L195",
+      "_origin": "ast",
+      "id": "core_encounters_boundaryencountersforpath",
+      "community": 43,
+      "norm_label": "boundaryencountersforpath()"
+    },
+    {
+      "label": "normalizeEngineOptions()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L278",
+      "_origin": "ast",
+      "id": "core_encounters_normalizeengineoptions",
+      "community": 43,
+      "norm_label": "normalizeengineoptions()"
+    },
+    {
+      "label": "compileBoundaryEncounters()",
+      "file_type": "code",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L300",
+      "_origin": "ast",
+      "id": "core_encounters_compileboundaryencounters",
+      "community": 43,
+      "norm_label": "compileboundaryencounters()"
     },
     {
       "label": "events.test.ts",
@@ -2000,7 +2470,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "core_events_test_circlepoints",
-      "community": 40,
+      "community": 46,
       "norm_label": "circlepoints()"
     },
     {
@@ -2270,7 +2740,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "core_fields_activeboundarygeometries",
-      "community": 35,
+      "community": 43,
       "norm_label": "activeboundarygeometries()"
     },
     {
@@ -2510,7 +2980,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_heads",
-      "community": 7,
+      "community": 45,
       "norm_label": "heads.ts"
     },
     {
@@ -2520,7 +2990,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "core_heads_headstate",
-      "community": 4,
+      "community": 45,
       "norm_label": "headstate"
     },
     {
@@ -2530,7 +3000,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "core_heads_locatedhead",
-      "community": 7,
+      "community": 45,
       "norm_label": "locatedhead"
     },
     {
@@ -2540,7 +3010,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "core_heads_findhead",
-      "community": 4,
+      "community": 45,
       "norm_label": "findhead()"
     },
     {
@@ -2550,7 +3020,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "core_heads_positionat",
-      "community": 7,
+      "community": 45,
       "norm_label": "positionat()"
     },
     {
@@ -2560,7 +3030,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "core_heads_headstateat",
-      "community": 4,
+      "community": 45,
       "norm_label": "headstateat()"
     },
     {
@@ -2570,7 +3040,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "core_heads_headstatesat",
-      "community": 7,
+      "community": 45,
       "norm_label": "headstatesat()"
     },
     {
@@ -2580,7 +3050,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_mapping_test",
-      "community": 52,
+      "community": 2,
       "norm_label": "mapping.test.ts"
     },
     {
@@ -2590,7 +3060,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_mapping",
-      "community": 52,
+      "community": 2,
       "norm_label": "mapping.ts"
     },
     {
@@ -2600,7 +3070,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "core_mapping_clamp",
-      "community": 52,
+      "community": 2,
       "norm_label": "clamp()"
     },
     {
@@ -2610,7 +3080,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "core_mapping_normalize",
-      "community": 52,
+      "community": 2,
       "norm_label": "normalize()"
     },
     {
@@ -2620,7 +3090,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "core_mapping_maprange",
-      "community": 52,
+      "community": 2,
       "norm_label": "maprange()"
     },
     {
@@ -2630,7 +3100,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "core_mapping_getpointbounds",
-      "community": 52,
+      "community": 2,
       "norm_label": "getpointbounds()"
     },
     {
@@ -2640,7 +3110,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "core_mapping_pointtofrequency",
-      "community": 52,
+      "community": 2,
       "norm_label": "pointtofrequency()"
     },
     {
@@ -2650,7 +3120,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "core_mapping_pointtopan",
-      "community": 52,
+      "community": 2,
       "norm_label": "pointtopan()"
     },
     {
@@ -2660,7 +3130,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "core_mapping_approximatevelocity",
-      "community": 52,
+      "community": 2,
       "norm_label": "approximatevelocity()"
     },
     {
@@ -2670,7 +3140,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "core_mapping_approximatecurvature",
-      "community": 52,
+      "community": 2,
       "norm_label": "approximatecurvature()"
     },
     {
@@ -2680,7 +3150,7 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "core_mapping_pointtohue",
-      "community": 52,
+      "community": 2,
       "norm_label": "pointtohue()"
     },
     {
@@ -2690,7 +3160,7 @@
       "source_location": "L147",
       "_origin": "ast",
       "id": "core_mapping_normalizeangle",
-      "community": 52,
+      "community": 2,
       "norm_label": "normalizeangle()"
     },
     {
@@ -2700,7 +3170,7 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "core_mapping_normalizesignedangle",
-      "community": 52,
+      "community": 2,
       "norm_label": "normalizesignedangle()"
     },
     {
@@ -2730,7 +3200,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "core_model_waveform",
-      "community": 32,
+      "community": 53,
       "norm_label": "waveform"
     },
     {
@@ -2760,7 +3230,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_model_curvefamily",
-      "community": 43,
+      "community": 44,
       "norm_label": "curvefamily"
     },
     {
@@ -2780,7 +3250,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "core_model_curveeventsource",
-      "community": 32,
+      "community": 55,
       "norm_label": "curveeventsource"
     },
     {
@@ -2870,7 +3340,7 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "core_model_pitchoptions",
-      "community": 44,
+      "community": 46,
       "norm_label": "pitchoptions"
     },
     {
@@ -2900,7 +3370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_motion_test",
-      "community": 36,
+      "community": 46,
       "norm_label": "motion.test.ts"
     },
     {
@@ -2910,7 +3380,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "core_motion_test_cases",
-      "community": 36,
+      "community": 46,
       "norm_label": "cases"
     },
     {
@@ -2920,7 +3390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_motion",
-      "community": 7,
+      "community": 46,
       "norm_label": "motion.ts"
     },
     {
@@ -2930,7 +3400,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "core_motion_motionevaluation",
-      "community": 7,
+      "community": 46,
       "norm_label": "motionevaluation"
     },
     {
@@ -2940,7 +3410,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "core_motion_point",
-      "community": 7,
+      "community": 46,
       "norm_label": "point()"
     },
     {
@@ -2950,7 +3420,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "core_motion_assertmatchingfamily",
-      "community": 7,
+      "community": 46,
       "norm_label": "assertmatchingfamily()"
     },
     {
@@ -2960,7 +3430,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "core_motion_motionpointat",
-      "community": 7,
+      "community": 46,
       "norm_label": "motionpointat()"
     },
     {
@@ -2970,7 +3440,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_presets",
-      "community": 41,
+      "community": 56,
       "norm_label": "presets.ts"
     },
     {
@@ -2980,7 +3450,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "core_presets_withmodel",
-      "community": 41,
+      "community": 56,
       "norm_label": "withmodel()"
     },
     {
@@ -2990,7 +3460,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "core_presets_presets",
-      "community": 41,
+      "community": 56,
       "norm_label": "presets"
     },
     {
@@ -3000,7 +3470,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_preview_test",
-      "community": 32,
+      "community": 48,
       "norm_label": "preview.test.ts"
     },
     {
@@ -3010,7 +3480,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "core_preview_test_allon",
-      "community": 32,
+      "community": 48,
       "norm_label": "allon"
     },
     {
@@ -3020,7 +3490,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_preview",
-      "community": 32,
+      "community": 48,
       "norm_label": "preview.ts"
     },
     {
@@ -3030,7 +3500,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "core_preview_previewhit",
-      "community": 32,
+      "community": 48,
       "norm_label": "previewhit"
     },
     {
@@ -3040,7 +3510,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "core_preview_previewplan",
-      "community": 32,
+      "community": 53,
       "norm_label": "previewplan"
     },
     {
@@ -3130,7 +3600,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "core_rhythm_shaperhythm",
-      "community": 32,
+      "community": 48,
       "norm_label": "shaperhythm()"
     },
     {
@@ -3180,7 +3650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_scales_test",
-      "community": 32,
+      "community": 52,
       "norm_label": "scales.test.ts"
     },
     {
@@ -3190,7 +3660,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_scales",
-      "community": 32,
+      "community": 52,
       "norm_label": "scales.ts"
     },
     {
@@ -3200,7 +3670,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "core_scales_scaleintervals",
-      "community": 32,
+      "community": 52,
       "norm_label": "scaleintervals"
     },
     {
@@ -3210,7 +3680,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "core_scales_scalenames",
-      "community": 32,
+      "community": 52,
       "norm_label": "scalenames"
     },
     {
@@ -3220,7 +3690,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "core_scales_notenames",
-      "community": 32,
+      "community": 52,
       "norm_label": "notenames"
     },
     {
@@ -3230,7 +3700,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "core_scales_frequencytomidi",
-      "community": 32,
+      "community": 52,
       "norm_label": "frequencytomidi()"
     },
     {
@@ -3240,7 +3710,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "core_scales_miditofrequency",
-      "community": 32,
+      "community": 52,
       "norm_label": "miditofrequency()"
     },
     {
@@ -3250,7 +3720,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "core_scales_miditoname",
-      "community": 32,
+      "community": 52,
       "norm_label": "miditoname()"
     },
     {
@@ -3260,7 +3730,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "core_scales_quantizetoscale",
-      "community": 32,
+      "community": 52,
       "norm_label": "quantizetoscale()"
     },
     {
@@ -3270,7 +3740,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "core_scales_toscaledegree",
-      "community": 32,
+      "community": 52,
       "norm_label": "toscaledegree()"
     },
     {
@@ -3280,7 +3750,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "core_scales_fromscaledegree",
-      "community": 32,
+      "community": 52,
       "norm_label": "fromscaledegree()"
     },
     {
@@ -3290,7 +3760,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "core_scales_quantizefrequency",
-      "community": 32,
+      "community": 52,
       "norm_label": "quantizefrequency()"
     },
     {
@@ -3300,7 +3770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_time_test",
-      "community": 32,
+      "community": 41,
       "norm_label": "time.test.ts"
     },
     {
@@ -3310,7 +3780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_time",
-      "community": 32,
+      "community": 41,
       "norm_label": "time.ts"
     },
     {
@@ -3320,7 +3790,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "core_time_geteffectivecyclespersecond",
-      "community": 32,
+      "community": 41,
       "norm_label": "geteffectivecyclespersecond()"
     },
     {
@@ -3330,7 +3800,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "core_time_clampcyclespersecond",
-      "community": 32,
+      "community": 41,
       "norm_label": "clampcyclespersecond()"
     },
     {
@@ -3340,7 +3810,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "core_time_formatcyclesetting",
-      "community": 32,
+      "community": 41,
       "norm_label": "formatcyclesetting()"
     },
     {
@@ -3350,7 +3820,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "core_time_formatloopseconds",
-      "community": 32,
+      "community": 41,
       "norm_label": "formatloopseconds()"
     },
     {
@@ -3390,7 +3860,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "core_transport_performancerequest",
-      "community": 7,
+      "community": 43,
       "norm_label": "performancerequest"
     },
     {
@@ -3670,7 +4140,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_trochoid_test",
-      "community": 41,
+      "community": 46,
       "norm_label": "trochoid.test.ts"
     },
     {
@@ -3680,7 +4150,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_trochoid",
-      "community": 48,
+      "community": 46,
       "norm_label": "trochoid.ts"
     },
     {
@@ -3700,7 +4170,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "core_trochoid_safedivisor",
-      "community": 48,
+      "community": 46,
       "norm_label": "safedivisor()"
     },
     {
@@ -3710,7 +4180,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "core_trochoid_getcycleend",
-      "community": 48,
+      "community": 46,
       "norm_label": "getcycleend()"
     },
     {
@@ -3720,7 +4190,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "core_trochoid_greatestcommondivisor",
-      "community": 43,
+      "community": 46,
       "norm_label": "greatestcommondivisor()"
     },
     {
@@ -3730,7 +4200,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "core_trochoid_generatespiropoints",
-      "community": 48,
+      "community": 46,
       "norm_label": "generatespiropoints()"
     },
     {
@@ -3740,7 +4210,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "core_trochoid_hypotrochoidpointattheta",
-      "community": 48,
+      "community": 46,
       "norm_label": "hypotrochoidpointattheta()"
     },
     {
@@ -3750,7 +4220,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "core_trochoid_epitrochoidpointattheta",
-      "community": 48,
+      "community": 46,
       "norm_label": "epitrochoidpointattheta()"
     },
     {
@@ -3760,7 +4230,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_voices_test",
-      "community": 32,
+      "community": 48,
       "norm_label": "voices.test.ts"
     },
     {
@@ -3770,7 +4240,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_voices_test_rendervoice",
-      "community": 32,
+      "community": 48,
       "norm_label": "rendervoice()"
     },
     {
@@ -3780,7 +4250,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "core_voices_test_byid",
-      "community": 32,
+      "community": 48,
       "norm_label": "byid()"
     },
     {
@@ -3790,7 +4260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_voices",
-      "community": 32,
+      "community": 48,
       "norm_label": "voices.ts"
     },
     {
@@ -3820,7 +4290,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "core_voices_voicegeometry",
-      "community": 32,
+      "community": 48,
       "norm_label": "voicegeometry()"
     },
     {
@@ -3830,7 +4300,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "core_voices_rendervoice",
-      "community": 32,
+      "community": 48,
       "norm_label": "rendervoice()"
     },
     {
@@ -3840,7 +4310,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "core_voices_rendervoices",
-      "community": 32,
+      "community": 48,
       "norm_label": "rendervoices()"
     },
     {
@@ -3850,7 +4320,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "core_voices_notefor",
-      "community": 32,
+      "community": 48,
       "norm_label": "notefor()"
     },
     {
@@ -3870,7 +4340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_wheels_test",
-      "community": 45,
+      "community": 42,
       "norm_label": "wheels.test.ts"
     },
     {
@@ -3880,7 +4350,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "core_wheels_test_clonedefault",
-      "community": 45,
+      "community": 42,
       "norm_label": "clonedefault()"
     },
     {
@@ -3890,7 +4360,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_wheels",
-      "community": 7,
+      "community": 45,
       "norm_label": "wheels.ts"
     },
     {
@@ -3900,7 +4370,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "core_wheels_wheelstate",
-      "community": 7,
+      "community": 45,
       "norm_label": "wheelstate"
     },
     {
@@ -3910,7 +4380,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "core_wheels_findwheel",
-      "community": 7,
+      "community": 45,
       "norm_label": "findwheel()"
     },
     {
@@ -3930,7 +4400,7 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "core_wheels_wheelstatesat",
-      "community": 7,
+      "community": 42,
       "norm_label": "wheelstatesat()"
     },
     {
@@ -4700,7 +5170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_svgexport_test",
-      "community": 48,
+      "community": 46,
       "norm_label": "svgexport.test.ts"
     },
     {
@@ -4710,7 +5180,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_svgexport",
-      "community": 48,
+      "community": 46,
       "norm_label": "svgexport.ts"
     },
     {
@@ -4720,7 +5190,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "export_svgexport_exporttracetosvg",
-      "community": 48,
+      "community": 46,
       "norm_label": "exporttracetosvg()"
     },
     {
@@ -4730,7 +5200,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "export_svgexport_downloadtracesvg",
-      "community": 48,
+      "community": 46,
       "norm_label": "downloadtracesvg()"
     },
     {
@@ -4740,7 +5210,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "export_svgexport_transformpoints",
-      "community": 48,
+      "community": 46,
       "norm_label": "transformpoints()"
     },
     {
@@ -4750,7 +5220,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "export_svgexport_round",
-      "community": 48,
+      "community": 46,
       "norm_label": "round()"
     },
     {
@@ -4760,7 +5230,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "export_svgexport_escapexml",
-      "community": 48,
+      "community": 46,
       "norm_label": "escapexml()"
     },
     {
@@ -5320,7 +5790,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_compositioncanvas_test",
-      "community": 45,
+      "community": 4,
       "norm_label": "compositioncanvas.test.tsx"
     },
     {
@@ -5330,7 +5800,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "ui_compositioncanvas_test_observation",
-      "community": 45,
+      "community": 4,
       "norm_label": "observation"
     },
     {
@@ -5340,7 +5810,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "ui_compositioncanvas_test_context",
-      "community": 45,
+      "community": 4,
       "norm_label": "context"
     },
     {
@@ -5430,7 +5900,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "ui_controlpanel_controlpanel",
-      "community": 44,
+      "community": 41,
       "norm_label": "controlpanel()"
     },
     {
@@ -5460,7 +5930,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_fieldpanel_test",
-      "community": 45,
+      "community": 35,
       "norm_label": "fieldpanel.test.tsx"
     },
     {
@@ -5470,7 +5940,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "ui_fieldpanel_test_withrings",
-      "community": 45,
+      "community": 35,
       "norm_label": "withrings()"
     },
     {
@@ -5500,7 +5970,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "ui_fieldpanel_fieldpanel",
-      "community": 45,
+      "community": 35,
       "norm_label": "fieldpanel()"
     },
     {
@@ -5570,7 +6040,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_presetpicker",
-      "community": 41,
+      "community": 56,
       "norm_label": "presetpicker.tsx"
     },
     {
@@ -5580,7 +6050,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "ui_presetpicker_presetpickerprops",
-      "community": 41,
+      "community": 56,
       "norm_label": "presetpickerprops"
     },
     {
@@ -5590,7 +6060,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "ui_presetpicker_presetpicker",
-      "community": 41,
+      "community": 56,
       "norm_label": "presetpicker()"
     },
     {
@@ -5660,7 +6130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_voicepanel",
-      "community": 32,
+      "community": 55,
       "norm_label": "voicepanel.tsx"
     },
     {
@@ -5670,7 +6140,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "ui_voicepanel_voicepanelprops",
-      "community": 32,
+      "community": 55,
       "norm_label": "voicepanelprops"
     },
     {
@@ -5680,7 +6150,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "ui_voicepanel_triggerlabels",
-      "community": 32,
+      "community": 55,
       "norm_label": "triggerlabels"
     },
     {
@@ -5690,7 +6160,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "ui_voicepanel_shapelabels",
-      "community": 32,
+      "community": 55,
       "norm_label": "shapelabels"
     },
     {
@@ -5700,7 +6170,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "ui_voicepanel_drumoptions",
-      "community": 32,
+      "community": 55,
       "norm_label": "drumoptions"
     },
     {
@@ -5710,7 +6180,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "ui_voicepanel_voicepanel",
-      "community": 32,
+      "community": 41,
       "norm_label": "voicepanel()"
     },
     {
@@ -7537,7 +8007,7 @@
       "label": "Packet ledger",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L105",
+      "source_location": "L106",
       "_origin": "ast",
       "id": "docs_music_generator_progress_packet_ledger",
       "community": 39,
@@ -7547,7 +8017,7 @@
       "label": "Milestone rollup",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L134",
+      "source_location": "L135",
       "_origin": "ast",
       "id": "docs_music_generator_progress_milestone_rollup",
       "community": 39,
@@ -7557,7 +8027,7 @@
       "label": "Validation ledger",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L146",
+      "source_location": "L147",
       "_origin": "ast",
       "id": "docs_music_generator_progress_validation_ledger",
       "community": 39,
@@ -7567,7 +8037,7 @@
       "label": "Active packet records",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L170",
+      "source_location": "L172",
       "_origin": "ast",
       "id": "docs_music_generator_progress_active_packet_records",
       "community": 39,
@@ -7577,7 +8047,7 @@
       "label": "MG-01 \u2014 Composition schema and validation",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L172",
+      "source_location": "L174",
       "_origin": "ast",
       "id": "docs_music_generator_progress_mg_01_composition_schema_and_validation",
       "community": 39,
@@ -7587,7 +8057,7 @@
       "label": "MG-02 \u2014 Deterministic Transport and performance window",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L190",
+      "source_location": "L192",
       "_origin": "ast",
       "id": "docs_music_generator_progress_mg_02_deterministic_transport_and_performance_window",
       "community": 39,
@@ -7597,7 +8067,7 @@
       "label": "MG-03 \u2014 Wheel and multi-Head state engine",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L213",
+      "source_location": "L215",
       "_origin": "ast",
       "id": "docs_music_generator_progress_mg_03_wheel_and_multi_head_state_engine",
       "community": 39,
@@ -7607,7 +8077,7 @@
       "label": "MG-04 \u2014 Space projection and composition renderer",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L235",
+      "source_location": "L237",
       "_origin": "ast",
       "id": "docs_music_generator_progress_mg_04_space_projection_and_composition_renderer",
       "community": 39,
@@ -7617,17 +8087,27 @@
       "label": "MG-05 \u2014 Ring and spoke Fields",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L257",
+      "source_location": "L259",
       "_origin": "ast",
       "id": "docs_music_generator_progress_mg_05_ring_and_spoke_fields",
       "community": 39,
       "norm_label": "mg-05 \u2014 ring and spoke fields"
     },
     {
+      "label": "MG-06 \u2014 Boundary-crossing Encounter engine",
+      "file_type": "document",
+      "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
+      "source_location": "L282",
+      "_origin": "ast",
+      "id": "docs_music_generator_progress_mg_06_boundary_crossing_encounter_engine",
+      "community": 39,
+      "norm_label": "mg-06 \u2014 boundary-crossing encounter engine"
+    },
+    {
       "label": "Blockers",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L280",
+      "source_location": "L305",
       "_origin": "ast",
       "id": "docs_music_generator_progress_blockers",
       "community": 39,
@@ -7637,7 +8117,7 @@
       "label": "Risk register",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L294",
+      "source_location": "L319",
       "_origin": "ast",
       "id": "docs_music_generator_progress_risk_register",
       "community": 39,
@@ -7647,7 +8127,7 @@
       "label": "Decision log",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L307",
+      "source_location": "L332",
       "_origin": "ast",
       "id": "docs_music_generator_progress_decision_log",
       "community": 39,
@@ -7657,7 +8137,7 @@
       "label": "Activity log",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L324",
+      "source_location": "L349",
       "_origin": "ast",
       "id": "docs_music_generator_progress_activity_log",
       "community": 39,
@@ -7667,7 +8147,7 @@
       "label": "Handoff records",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L346",
+      "source_location": "L374",
       "_origin": "ast",
       "id": "docs_music_generator_progress_handoff_records",
       "community": 39,
@@ -7677,7 +8157,7 @@
       "label": "2026-08-05 MG-01 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L348",
+      "source_location": "L376",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_01_author_handoff",
       "community": 39,
@@ -7687,7 +8167,7 @@
       "label": "2026-08-05 MG-02 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L383",
+      "source_location": "L411",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_02_author_handoff",
       "community": 39,
@@ -7697,7 +8177,7 @@
       "label": "2026-08-05 MG-03 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L416",
+      "source_location": "L444",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_03_author_handoff",
       "community": 39,
@@ -7707,17 +8187,27 @@
       "label": "2026-08-05 MG-04 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L450",
+      "source_location": "L478",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_04_author_handoff",
       "community": 39,
       "norm_label": "2026-08-05 mg-04 author handoff"
     },
     {
+      "label": "2026-08-05 MG-05 author handoff",
+      "file_type": "document",
+      "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
+      "source_location": "L515",
+      "_origin": "ast",
+      "id": "docs_music_generator_progress_2026_08_05_mg_05_author_handoff",
+      "community": 39,
+      "norm_label": "2026-08-05 mg-05 author handoff"
+    },
+    {
       "label": "Handoff template",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L491",
+      "source_location": "L559",
       "_origin": "ast",
       "id": "docs_music_generator_progress_handoff_template",
       "community": 39,
@@ -7727,7 +8217,7 @@
       "label": "Packet completion checklist",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L517",
+      "source_location": "L585",
       "_origin": "ast",
       "id": "docs_music_generator_progress_packet_completion_checklist",
       "community": 39,
@@ -11001,6 +11491,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/defaultComposition.ts",
       "source_location": "L1",
       "weight": 1.0,
@@ -11012,12 +11513,34 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/fields.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports_from",
@@ -11026,9 +11549,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports_from",
@@ -11191,9 +11714,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports_from",
@@ -11202,9 +11725,9 @@
       "source_file": "src/ui/FieldPanel.test.tsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel_test",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports",
@@ -11243,12 +11766,34 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_composition_point2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_composition_point2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/fields.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_composition_point2",
-      "confidence_score": 1.0
+      "target": "core_composition_point2"
     },
     {
       "relation": "imports",
@@ -11301,9 +11846,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_composition_point2",
-      "confidence_score": 1.0
+      "target": "core_composition_point2"
     },
     {
       "relation": "imports",
@@ -11337,6 +11882,17 @@
       "confidence_score": 1.0,
       "source": "core_transport",
       "target": "core_composition_loopspec"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_composition_transportspec",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -11543,9 +12099,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_composition_boundarybase",
-      "confidence_score": 1.0
+      "target": "core_composition_boundarybase"
     },
     {
       "relation": "imports",
@@ -11554,9 +12110,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_composition_ringboundaryspec",
-      "confidence_score": 1.0
+      "target": "core_composition_ringboundaryspec"
     },
     {
       "relation": "imports",
@@ -11565,9 +12121,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_composition_spokeboundaryspec",
-      "confidence_score": 1.0
+      "target": "core_composition_spokeboundaryspec"
     },
     {
       "relation": "imports",
@@ -11587,9 +12143,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_composition_ringfieldspec",
-      "confidence_score": 1.0
+      "target": "core_composition_ringfieldspec"
     },
     {
       "relation": "imports",
@@ -11598,9 +12154,9 @@
       "source_file": "src/render/compositionRenderer.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "render_compositionrenderer_test",
-      "target": "core_composition_ringfieldspec",
-      "confidence_score": 1.0
+      "target": "core_composition_ringfieldspec"
     },
     {
       "relation": "imports",
@@ -11609,9 +12165,9 @@
       "source_file": "src/ui/FieldPanel.test.tsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel_test",
-      "target": "core_composition_ringfieldspec",
-      "confidence_score": 1.0
+      "target": "core_composition_ringfieldspec"
     },
     {
       "relation": "imports",
@@ -11620,9 +12176,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_composition_spokefieldspec",
-      "confidence_score": 1.0
+      "target": "core_composition_spokefieldspec"
     },
     {
       "relation": "imports",
@@ -11631,9 +12187,9 @@
       "source_file": "src/render/compositionRenderer.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "render_compositionrenderer_test",
-      "target": "core_composition_spokefieldspec",
-      "confidence_score": 1.0
+      "target": "core_composition_spokefieldspec"
     },
     {
       "relation": "imports",
@@ -11642,9 +12198,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_composition_fieldspec",
-      "confidence_score": 1.0
+      "target": "core_composition_fieldspec"
     },
     {
       "relation": "imports",
@@ -11653,9 +12209,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_composition_fieldspec",
-      "confidence_score": 1.0
+      "target": "core_composition_fieldspec"
     },
     {
       "relation": "imports",
@@ -11678,6 +12234,17 @@
       "confidence_score": 1.0,
       "source": "core_compositionvalidation",
       "target": "core_composition_encounterdirection"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_composition_encounterdirection",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -11738,12 +12305,34 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_composition_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_composition_composition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/fields.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_composition_composition",
-      "confidence_score": 1.0
+      "target": "core_composition_composition"
     },
     {
       "relation": "imports",
@@ -11752,9 +12341,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_composition_composition",
-      "confidence_score": 1.0
+      "target": "core_composition_composition"
     },
     {
       "relation": "imports",
@@ -11873,9 +12462,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_composition_composition",
-      "confidence_score": 1.0
+      "target": "core_composition_composition"
     },
     {
       "relation": "imports",
@@ -11884,9 +12473,9 @@
       "source_file": "src/ui/FieldPanel.test.tsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel_test",
-      "target": "core_composition_composition",
-      "confidence_score": 1.0
+      "target": "core_composition_composition"
     },
     {
       "relation": "imports_from",
@@ -14161,6 +14750,493 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_crossings_test",
+      "target": "core_crossings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_crossings_test",
+      "target": "core_crossings_scanboundarycrossings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "core_crossings_test",
+      "target": "core_crossings_test_point",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "core_crossings_test",
+      "target": "core_crossings_test_ring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "core_crossings_test",
+      "target": "core_crossings_test_spoke",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_crossings_test",
+      "target": "core_crossings_timedpathpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_crossings_test",
+      "target": "core_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "core_crossings_test",
+      "target": "core_fields_boundarygeometry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L97",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_assertpathpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_crossingliesonboundary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_crossingrefinementdefaults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_crossingrefinementoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_crossingscandiagnostic",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_crossingscanresult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_freezepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L73",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_normalizeoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L143",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_refineboundarycrossing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_refinedboundarycrossing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L119",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_refinedresult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_requiredcrossingoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_samplewithdistance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L255",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_scanboundarycrossings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_signwithtolerance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_crossings_timedpathpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_fields_boundarygeometry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_fields_boundarysigneddistance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "core_crossings",
+      "target": "core_fields_spokeraycoordinate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_crossings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_crossings_timedpathpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_crossings_crossingscandiagnostic",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_crossings_crossingrefinementoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L134",
+      "weight": 1.0,
+      "source": "core_crossings_refinedresult",
+      "target": "core_crossings_freezepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L165",
+      "weight": 1.0,
+      "source": "core_crossings_refineboundarycrossing",
+      "target": "core_crossings_signwithtolerance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L290",
+      "weight": 1.0,
+      "source": "core_crossings_scanboundarycrossings",
+      "target": "core_crossings_signwithtolerance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L150",
+      "weight": 1.0,
+      "source": "core_crossings_refineboundarycrossing",
+      "target": "core_crossings_normalizeoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L261",
+      "weight": 1.0,
+      "source": "core_crossings_scanboundarycrossings",
+      "target": "core_crossings_normalizeoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L155",
+      "weight": 1.0,
+      "source": "core_crossings_refineboundarycrossing",
+      "target": "core_crossings_assertpathpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L116",
+      "weight": 1.0,
+      "source": "core_crossings_crossingliesonboundary",
+      "target": "core_fields_spokeraycoordinate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L306",
+      "weight": 1.0,
+      "source": "core_crossings_scanboundarycrossings",
+      "target": "core_crossings_crossingliesonboundary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L178",
+      "weight": 1.0,
+      "source": "core_crossings_refineboundarycrossing",
+      "target": "core_crossings_refinedresult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L384",
+      "weight": 1.0,
+      "source": "core_crossings_scanboundarycrossings",
+      "target": "core_crossings_refinedresult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L160",
+      "weight": 1.0,
+      "source": "core_crossings_refineboundarycrossing",
+      "target": "core_fields_boundarysigneddistance"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/crossings.ts",
+      "source_location": "L298",
+      "weight": 1.0,
+      "source": "core_crossings_scanboundarycrossings",
+      "target": "core_crossings_refineboundarycrossing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_crossings_scanboundarycrossings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L209",
+      "weight": 1.0,
+      "source": "core_encounters_boundaryencountersforpath",
+      "target": "core_crossings_scanboundarycrossings"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/curves.test.ts",
       "source_location": "L3",
       "weight": 1.0,
@@ -14913,12 +15989,23 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_defaultcomposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/fields.test.ts",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_defaultcomposition",
-      "confidence_score": 1.0
+      "target": "core_defaultcomposition"
     },
     {
       "relation": "imports_from",
@@ -14982,9 +16069,9 @@
       "source_file": "src/ui/FieldPanel.test.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel_test",
-      "target": "core_defaultcomposition",
-      "confidence_score": 1.0
+      "target": "core_defaultcomposition"
     },
     {
       "relation": "imports_from",
@@ -15367,6 +16454,554 @@
       "confidence_score": 1.0,
       "source": "export_svgexport_test",
       "target": "core_defaultmodel_defaultmodel"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_encounters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_encounters_boundarycrossingencounter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_encounters_boundaryencountersforpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_encounters_compileboundaryencounters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_encounters_encounterpathstate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_encounters_sortboundaryencounters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_encounters_test_ellipsecomposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_encounters_test_handpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_encounters_test_linearstate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_encounters_test_ring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_encounters_test_spoke",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "core_encounters_test",
+      "target": "core_fields_boundarygeometry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.test.ts",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "core_encounters_test_handpath",
+      "target": "core_encounters_boundaryencountersforpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L123",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_assertencounterstate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_boundarycrossingencounter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_boundaryencounterdirection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_boundaryencounterpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L195",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_boundaryencountersforpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L141",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_boundarynormal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L107",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_compareboundaryencounters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L104",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_comparetext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L300",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_compileboundaryencounters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_encounterdiagnostic",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L161",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_encounterid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L54",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_encounterpathstate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_encounterscandefaults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_encounterscanoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L74",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_encounterscanresult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L101",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_freezepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L179",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_mapcrossingdiagnostic",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L278",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_normalizeengineoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L118",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_encounters_sortboundaryencounters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_fields_activeboundarygeometries",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_fields_boundarygeometry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_heads",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_heads_headstateat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_transport",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_transport_normalizecyclerate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_transport_normalizetransport",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_transport_performancerequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "core_encounters",
+      "target": "core_transport_transportaddressatseconds",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L146",
+      "weight": 1.0,
+      "source": "core_encounters_boundarynormal",
+      "target": "core_encounters_freezepoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L112",
+      "weight": 1.0,
+      "source": "core_encounters_compareboundaryencounters",
+      "target": "core_encounters_comparetext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L269",
+      "weight": 1.0,
+      "source": "core_encounters_boundaryencountersforpath",
+      "target": "core_encounters_sortboundaryencounters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L392",
+      "weight": 1.0,
+      "source": "core_encounters_compileboundaryencounters",
+      "target": "core_encounters_sortboundaryencounters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L369",
+      "weight": 1.0,
+      "source": "core_encounters_compileboundaryencounters",
+      "target": "core_encounters_boundaryencountersforpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L305",
+      "weight": 1.0,
+      "source": "core_encounters_compileboundaryencounters",
+      "target": "core_encounters_normalizeengineoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L310",
+      "weight": 1.0,
+      "source": "core_encounters_compileboundaryencounters",
+      "target": "core_fields_activeboundarygeometries"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L331",
+      "weight": 1.0,
+      "source": "core_encounters_compileboundaryencounters",
+      "target": "core_transport_normalizecyclerate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/core/encounters.ts",
+      "source_location": "L307",
+      "weight": 1.0,
+      "source": "core_encounters_compileboundaryencounters",
+      "target": "core_transport_normalizetransport"
     },
     {
       "relation": "imports_from",
@@ -15985,9 +17620,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields",
-      "confidence_score": 1.0
+      "target": "core_fields"
     },
     {
       "relation": "imports",
@@ -15996,9 +17631,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_activeboundarygeometries",
-      "confidence_score": 1.0
+      "target": "core_fields_activeboundarygeometries"
     },
     {
       "relation": "imports",
@@ -16007,9 +17642,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_addboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_addboundary"
     },
     {
       "relation": "imports",
@@ -16018,9 +17653,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_addfield",
-      "confidence_score": 1.0
+      "target": "core_fields_addfield"
     },
     {
       "relation": "imports",
@@ -16029,9 +17664,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_boundarygeometry",
-      "confidence_score": 1.0
+      "target": "core_fields_boundarygeometry"
     },
     {
       "relation": "imports",
@@ -16040,9 +17675,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_boundarysigneddistance",
-      "confidence_score": 1.0
+      "target": "core_fields_boundarysigneddistance"
     },
     {
       "relation": "imports",
@@ -16051,9 +17686,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_nextboundaryid",
-      "confidence_score": 1.0
+      "target": "core_fields_nextboundaryid"
     },
     {
       "relation": "imports",
@@ -16062,9 +17697,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_nextfieldid",
-      "confidence_score": 1.0
+      "target": "core_fields_nextfieldid"
     },
     {
       "relation": "imports",
@@ -16073,9 +17708,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_removeboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_removeboundary"
     },
     {
       "relation": "imports",
@@ -16084,9 +17719,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_reorderboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_reorderboundary"
     },
     {
       "relation": "imports",
@@ -16095,9 +17730,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_reorderfield",
-      "confidence_score": 1.0
+      "target": "core_fields_reorderfield"
     },
     {
       "relation": "imports",
@@ -16106,9 +17741,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_ringsigneddistance",
-      "confidence_score": 1.0
+      "target": "core_fields_ringsigneddistance"
     },
     {
       "relation": "imports",
@@ -16117,9 +17752,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_segmentboundarycrossing",
-      "confidence_score": 1.0
+      "target": "core_fields_segmentboundarycrossing"
     },
     {
       "relation": "imports",
@@ -16128,9 +17763,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_spokeraycoordinate",
-      "confidence_score": 1.0
+      "target": "core_fields_spokeraycoordinate"
     },
     {
       "relation": "imports",
@@ -16139,9 +17774,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_spokesigneddistance",
-      "confidence_score": 1.0
+      "target": "core_fields_spokesigneddistance"
     },
     {
       "relation": "contains",
@@ -16149,9 +17784,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_test_rings",
-      "confidence_score": 1.0
+      "target": "core_fields_test_rings"
     },
     {
       "relation": "contains",
@@ -16159,9 +17794,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_test_spokes",
-      "confidence_score": 1.0
+      "target": "core_fields_test_spokes"
     },
     {
       "relation": "imports",
@@ -16170,9 +17805,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_updateboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_updateboundary"
     },
     {
       "relation": "imports",
@@ -16181,9 +17816,9 @@
       "source_file": "src/core/fields.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_test",
-      "target": "core_fields_updatefield",
-      "confidence_score": 1.0
+      "target": "core_fields_updatefield"
     },
     {
       "relation": "contains",
@@ -16191,9 +17826,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L101",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_activeboundarygeometries",
-      "confidence_score": 1.0
+      "target": "core_fields_activeboundarygeometries"
     },
     {
       "relation": "contains",
@@ -16201,9 +17836,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L302",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_addboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_addboundary"
     },
     {
       "relation": "contains",
@@ -16211,9 +17846,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L241",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_addfield",
-      "confidence_score": 1.0
+      "target": "core_fields_addfield"
     },
     {
       "relation": "contains",
@@ -16221,9 +17856,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L226",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_allfieldids",
-      "confidence_score": 1.0
+      "target": "core_fields_allfieldids"
     },
     {
       "relation": "contains",
@@ -16231,9 +17866,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_assertfinitepoint",
-      "confidence_score": 1.0
+      "target": "core_fields_assertfinitepoint"
     },
     {
       "relation": "contains",
@@ -16241,9 +17876,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_assertmatchingboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_assertmatchingboundary"
     },
     {
       "relation": "contains",
@@ -16251,9 +17886,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_boundarygeometry",
-      "confidence_score": 1.0
+      "target": "core_fields_boundarygeometry"
     },
     {
       "relation": "contains",
@@ -16261,9 +17896,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L34",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_boundarysegmentcrossing",
-      "confidence_score": 1.0
+      "target": "core_fields_boundarysegmentcrossing"
     },
     {
       "relation": "contains",
@@ -16271,9 +17906,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L166",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_boundarysigneddistance",
-      "confidence_score": 1.0
+      "target": "core_fields_boundarysigneddistance"
     },
     {
       "relation": "contains",
@@ -16281,9 +17916,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_boundaryspec",
-      "confidence_score": 1.0
+      "target": "core_fields_boundaryspec"
     },
     {
       "relation": "contains",
@@ -16291,9 +17926,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L234",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_fieldat",
-      "confidence_score": 1.0
+      "target": "core_fields_fieldat"
     },
     {
       "relation": "contains",
@@ -16301,9 +17936,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L46",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_freezepoint",
-      "confidence_score": 1.0
+      "target": "core_fields_freezepoint"
     },
     {
       "relation": "contains",
@@ -16311,9 +17946,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L174",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_interpolatepoint",
-      "confidence_score": 1.0
+      "target": "core_fields_interpolatepoint"
     },
     {
       "relation": "contains",
@@ -16321,9 +17956,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L436",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_nextboundaryid",
-      "confidence_score": 1.0
+      "target": "core_fields_nextboundaryid"
     },
     {
       "relation": "contains",
@@ -16331,9 +17966,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L431",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_nextfieldid",
-      "confidence_score": 1.0
+      "target": "core_fields_nextfieldid"
     },
     {
       "relation": "contains",
@@ -16341,9 +17976,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L441",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_nextstableid",
-      "confidence_score": 1.0
+      "target": "core_fields_nextstableid"
     },
     {
       "relation": "contains",
@@ -16351,9 +17986,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L299",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_reindexboundaries",
-      "confidence_score": 1.0
+      "target": "core_fields_reindexboundaries"
     },
     {
       "relation": "contains",
@@ -16361,9 +17996,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L368",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_removeboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_removeboundary"
     },
     {
       "relation": "contains",
@@ -16371,9 +18006,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L262",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_removefield",
-      "confidence_score": 1.0
+      "target": "core_fields_removefield"
     },
     {
       "relation": "contains",
@@ -16381,9 +18016,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L398",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_reorderboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_reorderboundary"
     },
     {
       "relation": "contains",
@@ -16391,9 +18026,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L285",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_reorderfield",
-      "confidence_score": 1.0
+      "target": "core_fields_reorderfield"
     },
     {
       "relation": "contains",
@@ -16401,9 +18036,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_ringboundarygeometry",
-      "confidence_score": 1.0
+      "target": "core_fields_ringboundarygeometry"
     },
     {
       "relation": "contains",
@@ -16411,9 +18046,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L117",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_ringsigneddistance",
-      "confidence_score": 1.0
+      "target": "core_fields_ringsigneddistance"
     },
     {
       "relation": "contains",
@@ -16421,9 +18056,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L180",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_segmentboundarycrossing",
-      "confidence_score": 1.0
+      "target": "core_fields_segmentboundarycrossing"
     },
     {
       "relation": "contains",
@@ -16431,9 +18066,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_spokeboundarygeometry",
-      "confidence_score": 1.0
+      "target": "core_fields_spokeboundarygeometry"
     },
     {
       "relation": "contains",
@@ -16441,9 +18076,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L149",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_spokeraycoordinate",
-      "confidence_score": 1.0
+      "target": "core_fields_spokeraycoordinate"
     },
     {
       "relation": "contains",
@@ -16451,9 +18086,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L132",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_spokesigneddistance",
-      "confidence_score": 1.0
+      "target": "core_fields_spokesigneddistance"
     },
     {
       "relation": "contains",
@@ -16461,9 +18096,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L331",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_updateboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_updateboundary"
     },
     {
       "relation": "contains",
@@ -16471,9 +18106,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L270",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields",
-      "target": "core_fields_updatefield",
-      "confidence_score": 1.0
+      "target": "core_fields_updatefield"
     },
     {
       "relation": "imports_from",
@@ -16482,9 +18117,9 @@
       "source_file": "src/render/compositionRenderer.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "render_compositionrenderer",
-      "target": "core_fields",
-      "confidence_score": 1.0
+      "target": "core_fields"
     },
     {
       "relation": "imports_from",
@@ -16493,9 +18128,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_fields",
-      "confidence_score": 1.0
+      "target": "core_fields"
     },
     {
       "relation": "calls",
@@ -16515,9 +18150,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L69",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_boundarygeometry",
-      "target": "core_fields_assertmatchingboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_assertmatchingboundary"
     },
     {
       "relation": "calls",
@@ -16526,9 +18161,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L78",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_boundarygeometry",
-      "target": "core_fields_freezepoint",
-      "confidence_score": 1.0
+      "target": "core_fields_freezepoint"
     },
     {
       "relation": "calls",
@@ -16548,9 +18183,9 @@
       "source_file": "src/render/compositionRenderer.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "render_compositionrenderer",
-      "target": "core_fields_boundarygeometry",
-      "confidence_score": 1.0
+      "target": "core_fields_boundarygeometry"
     },
     {
       "relation": "calls",
@@ -16559,9 +18194,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L175",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_interpolatepoint",
-      "target": "core_fields_freezepoint",
-      "confidence_score": 1.0
+      "target": "core_fields_freezepoint"
     },
     {
       "relation": "calls",
@@ -16570,9 +18205,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L122",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_ringsigneddistance",
-      "target": "core_fields_assertfinitepoint",
-      "confidence_score": 1.0
+      "target": "core_fields_assertfinitepoint"
     },
     {
       "relation": "calls",
@@ -16581,9 +18216,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L188",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_segmentboundarycrossing",
-      "target": "core_fields_assertfinitepoint",
-      "confidence_score": 1.0
+      "target": "core_fields_assertfinitepoint"
     },
     {
       "relation": "calls",
@@ -16592,9 +18227,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L154",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_spokeraycoordinate",
-      "target": "core_fields_assertfinitepoint",
-      "confidence_score": 1.0
+      "target": "core_fields_assertfinitepoint"
     },
     {
       "relation": "calls",
@@ -16603,9 +18238,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L137",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_spokesigneddistance",
-      "target": "core_fields_assertfinitepoint",
-      "confidence_score": 1.0
+      "target": "core_fields_assertfinitepoint"
     },
     {
       "relation": "imports",
@@ -16614,9 +18249,9 @@
       "source_file": "src/render/compositionRenderer.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "render_compositionrenderer",
-      "target": "core_fields_activeboundarygeometries",
-      "confidence_score": 1.0
+      "target": "core_fields_activeboundarygeometries"
     },
     {
       "relation": "calls",
@@ -16636,9 +18271,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L171",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_boundarysigneddistance",
-      "target": "core_fields_ringsigneddistance",
-      "confidence_score": 1.0
+      "target": "core_fields_ringsigneddistance"
     },
     {
       "relation": "calls",
@@ -16647,9 +18282,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L172",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_boundarysigneddistance",
-      "target": "core_fields_spokesigneddistance",
-      "confidence_score": 1.0
+      "target": "core_fields_spokesigneddistance"
     },
     {
       "relation": "calls",
@@ -16658,9 +18293,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L210",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_segmentboundarycrossing",
-      "target": "core_fields_spokeraycoordinate",
-      "confidence_score": 1.0
+      "target": "core_fields_spokeraycoordinate"
     },
     {
       "relation": "calls",
@@ -16669,9 +18304,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L191",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_segmentboundarycrossing",
-      "target": "core_fields_boundarysigneddistance",
-      "confidence_score": 1.0
+      "target": "core_fields_boundarysigneddistance"
     },
     {
       "relation": "calls",
@@ -16680,9 +18315,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L206",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_segmentboundarycrossing",
-      "target": "core_fields_interpolatepoint",
-      "confidence_score": 1.0
+      "target": "core_fields_interpolatepoint"
     },
     {
       "relation": "calls",
@@ -16691,9 +18326,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L307",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_addboundary",
-      "target": "core_fields_allfieldids",
-      "confidence_score": 1.0
+      "target": "core_fields_allfieldids"
     },
     {
       "relation": "calls",
@@ -16702,9 +18337,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L245",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_addfield",
-      "target": "core_fields_allfieldids",
-      "confidence_score": 1.0
+      "target": "core_fields_allfieldids"
     },
     {
       "relation": "calls",
@@ -16713,9 +18348,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L439",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_nextboundaryid",
-      "target": "core_fields_allfieldids",
-      "confidence_score": 1.0
+      "target": "core_fields_allfieldids"
     },
     {
       "relation": "calls",
@@ -16724,9 +18359,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L434",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_nextfieldid",
-      "target": "core_fields_allfieldids",
-      "confidence_score": 1.0
+      "target": "core_fields_allfieldids"
     },
     {
       "relation": "calls",
@@ -16735,9 +18370,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L266",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_removefield",
-      "target": "core_fields_fieldat",
-      "confidence_score": 1.0
+      "target": "core_fields_fieldat"
     },
     {
       "relation": "calls",
@@ -16746,9 +18381,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L275",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_updatefield",
-      "target": "core_fields_fieldat",
-      "confidence_score": 1.0
+      "target": "core_fields_fieldat"
     },
     {
       "relation": "imports",
@@ -16757,9 +18392,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_fields_addfield",
-      "confidence_score": 1.0
+      "target": "core_fields_addfield"
     },
     {
       "relation": "imports",
@@ -16768,9 +18403,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_fields_removefield",
-      "confidence_score": 1.0
+      "target": "core_fields_removefield"
     },
     {
       "relation": "calls",
@@ -16779,9 +18414,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L311",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_addboundary",
-      "target": "core_fields_updatefield",
-      "confidence_score": 1.0
+      "target": "core_fields_updatefield"
     },
     {
       "relation": "calls",
@@ -16790,9 +18425,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L373",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_removeboundary",
-      "target": "core_fields_updatefield",
-      "confidence_score": 1.0
+      "target": "core_fields_updatefield"
     },
     {
       "relation": "calls",
@@ -16801,9 +18436,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L404",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_reorderboundary",
-      "target": "core_fields_updatefield",
-      "confidence_score": 1.0
+      "target": "core_fields_updatefield"
     },
     {
       "relation": "calls",
@@ -16812,9 +18447,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L337",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_updateboundary",
-      "target": "core_fields_updatefield",
-      "confidence_score": 1.0
+      "target": "core_fields_updatefield"
     },
     {
       "relation": "imports",
@@ -16823,9 +18458,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_fields_updatefield",
-      "confidence_score": 1.0
+      "target": "core_fields_updatefield"
     },
     {
       "relation": "imports",
@@ -16834,9 +18469,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_fields_reorderfield",
-      "confidence_score": 1.0
+      "target": "core_fields_reorderfield"
     },
     {
       "relation": "imports",
@@ -16845,9 +18480,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_fields_addboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_addboundary"
     },
     {
       "relation": "imports",
@@ -16856,9 +18491,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_fields_updateboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_updateboundary"
     },
     {
       "relation": "imports",
@@ -16867,9 +18502,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_fields_removeboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_removeboundary"
     },
     {
       "relation": "imports",
@@ -16878,9 +18513,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_fields_reorderboundary",
-      "confidence_score": 1.0
+      "target": "core_fields_reorderboundary"
     },
     {
       "relation": "calls",
@@ -16889,9 +18524,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L434",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_nextfieldid",
-      "target": "core_fields_nextstableid",
-      "confidence_score": 1.0
+      "target": "core_fields_nextstableid"
     },
     {
       "relation": "imports",
@@ -16900,9 +18535,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_fields_nextfieldid",
-      "confidence_score": 1.0
+      "target": "core_fields_nextfieldid"
     },
     {
       "relation": "calls",
@@ -16911,9 +18546,9 @@
       "source_file": "src/core/fields.ts",
       "source_location": "L439",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "core_fields_nextboundaryid",
-      "target": "core_fields_nextstableid",
-      "confidence_score": 1.0
+      "target": "core_fields_nextstableid"
     },
     {
       "relation": "imports",
@@ -16922,9 +18557,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "core_fields_nextboundaryid",
-      "confidence_score": 1.0
+      "target": "core_fields_nextboundaryid"
     },
     {
       "relation": "imports_from",
@@ -23342,9 +24977,9 @@
       "source_file": "src/render/compositionRenderer.test.ts",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "render_compositionrenderer_test",
-      "target": "render_compositionrenderer_test_fields",
-      "confidence_score": 1.0
+      "target": "render_compositionrenderer_test_fields"
     },
     {
       "relation": "contains",
@@ -23362,9 +24997,9 @@
       "source_file": "src/render/compositionRenderer.ts",
       "source_location": "L127",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "render_compositionrenderer",
-      "target": "render_compositionrenderer_boundarylabeldrawcommand",
-      "confidence_score": 1.0
+      "target": "render_compositionrenderer_boundarylabeldrawcommand"
     },
     {
       "relation": "contains",
@@ -23562,9 +25197,9 @@
       "source_file": "src/render/compositionRenderer.ts",
       "source_location": "L107",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "render_compositionrenderer",
-      "target": "render_compositionrenderer_ringboundarydrawcommand",
-      "confidence_score": 1.0
+      "target": "render_compositionrenderer_ringboundarydrawcommand"
     },
     {
       "relation": "contains",
@@ -23602,9 +25237,9 @@
       "source_file": "src/render/compositionRenderer.ts",
       "source_location": "L117",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "render_compositionrenderer",
-      "target": "render_compositionrenderer_spokeboundarydrawcommand",
-      "confidence_score": 1.0
+      "target": "render_compositionrenderer_spokeboundarydrawcommand"
     },
     {
       "relation": "contains",
@@ -24053,9 +25688,9 @@
       "source_file": "src/ui/FieldPanel.test.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel_test",
-      "target": "ui_fieldpanel",
-      "confidence_score": 1.0
+      "target": "ui_fieldpanel"
     },
     {
       "relation": "imports",
@@ -24064,9 +25699,9 @@
       "source_file": "src/ui/FieldPanel.test.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel_test",
-      "target": "ui_fieldpanel_fieldpanel",
-      "confidence_score": 1.0
+      "target": "ui_fieldpanel_fieldpanel"
     },
     {
       "relation": "contains",
@@ -24074,9 +25709,9 @@
       "source_file": "src/ui/FieldPanel.test.tsx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel_test",
-      "target": "ui_fieldpanel_test_withrings",
-      "confidence_score": 1.0
+      "target": "ui_fieldpanel_test_withrings"
     },
     {
       "relation": "contains",
@@ -24084,9 +25719,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "ui_fieldpanel_fieldpanel",
-      "confidence_score": 1.0
+      "target": "ui_fieldpanel_fieldpanel"
     },
     {
       "relation": "contains",
@@ -24094,9 +25729,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "ui_fieldpanel_fieldpanelprops",
-      "confidence_score": 1.0
+      "target": "ui_fieldpanel_fieldpanelprops"
     },
     {
       "relation": "contains",
@@ -24104,9 +25739,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L360",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "ui_fieldpanel_newboundarybase",
-      "confidence_score": 1.0
+      "target": "ui_fieldpanel_newboundarybase"
     },
     {
       "relation": "contains",
@@ -24114,9 +25749,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L376",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "ui_fieldpanel_numberfield",
-      "confidence_score": 1.0
+      "target": "ui_fieldpanel_numberfield"
     },
     {
       "relation": "contains",
@@ -24124,9 +25759,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L367",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "ui_fieldpanel_numberfieldprops",
-      "confidence_score": 1.0
+      "target": "ui_fieldpanel_numberfieldprops"
     },
     {
       "relation": "contains",
@@ -26144,8 +27779,18 @@
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
       "source_location": "L257",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_music_generator_progress_active_packet_records",
-      "target": "docs_music_generator_progress_mg_05_ring_and_spoke_fields",
+      "target": "docs_music_generator_progress_mg_05_ring_and_spoke_fields"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
+      "source_location": "L282",
+      "weight": 1.0,
+      "source": "docs_music_generator_progress_active_packet_records",
+      "target": "docs_music_generator_progress_mg_06_boundary_crossing_encounter_engine",
       "confidence_score": 1.0
     },
     {
@@ -26184,8 +27829,18 @@
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
       "source_location": "L450",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_music_generator_progress_handoff_records",
-      "target": "docs_music_generator_progress_2026_08_05_mg_04_author_handoff",
+      "target": "docs_music_generator_progress_2026_08_05_mg_04_author_handoff"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
+      "source_location": "L515",
+      "weight": 1.0,
+      "source": "docs_music_generator_progress_handoff_records",
+      "target": "docs_music_generator_progress_2026_08_05_mg_05_author_handoff",
       "confidence_score": 1.0
     },
     {
@@ -27460,5 +29115,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "750f7a5530888ebdc1d95eab4f3cb89c731b4427"
+  "built_at_commit": "cfb95fa7b04749db9c6b06a1b6088056b5f01ba8"
 }

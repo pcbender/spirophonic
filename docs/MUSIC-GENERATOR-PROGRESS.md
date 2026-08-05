@@ -17,7 +17,7 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Packets complete | 0 / 21 |
 | Packets active | 6 |
 | Packets blocked | 0 |
-| Next ready packet | MG-06 active by user direction; MG-01–MG-05 integration remains pending |
+| Next ready packet | MG-06 integration review; MG-01–MG-05 integration also remains pending |
 | Active agents | Codex/root on MG-01 through MG-06 |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-05 |
@@ -98,7 +98,7 @@ While working:
 | Codex/root | MG-03 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:23:58Z | 2026-08-05T17:31:47Z | Implementation commit `a454b7c`; integration review remains. |
 | Codex/root | MG-04 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:36:24Z | 2026-08-05T17:42:34Z | Implementation commit `6960442`; integration review remains. |
 | Codex/root | MG-05 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:53:05Z | 2026-08-05T17:56:09Z | Implementation commit `68631b5`; integration review remains. |
-| Codex/root | MG-06 | `in_progress` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:59:01Z | 2026-08-05T18:07:52Z | Author validation passes; implementation commit and exact-commit gates are next. |
+| Codex/root | MG-06 | `in_review` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-05T17:59:01Z | 2026-08-05T18:09:08Z | Implementation commit `7baa1a7`; integration review remains. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -112,7 +112,7 @@ their history.
 | MG-03 | Wheel and multi-Head state engine | MG-01, MG-02 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `a454b7c` is validated; integration review remains. |
 | MG-04 | Space projection and composition renderer | MG-03 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `6960442` is validated; integration review remains. |
 | MG-05 | Ring and spoke Fields | MG-01, MG-03, MG-04 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `68631b5` is validated; integration review remains. |
-| MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `in_progress` | Codex/root | 2026-08-05 | Implement and validate deterministic crossing scans, refinement, measurements, and diagnostics. |
+| MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `in_review` | Codex/root | 2026-08-05 | Implementation commit `7baa1a7` is validated; integration review remains. |
 | MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `waiting` | — | 2026-08-05 | Complete MG-01, MG-02, and MG-06. |
 | MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `waiting` | — | 2026-08-05 | Complete MG-02 and MG-07. |
 | MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `waiting` | — | 2026-08-05 | Complete the foundation packets. |
@@ -156,6 +156,7 @@ the final column rather than relying on a statement that it was checked.
 | MG-03 | `a454b7c` | 24 files, 237 tests pass | pass | pass | refreshed after code | Not required for pure state-core packet | Pending |
 | MG-04 | `6960442` | 26 files, 249 tests pass | pass | pass | refreshed after code | Command/component tests; no route before MG-09 | Pending |
 | MG-05 | `68631b5` | 28 files, 267 tests pass | pass | pass | refreshed after code | Geometry, command, and component tests; no route before MG-09 | Pending |
+| MG-06 | `7baa1a7` | 30 files, 281 tests pass | pass | pass | refreshed after code | Deterministic core fixtures; no browser/audio surface | Pending |
 
 Validation rules:
 
@@ -281,22 +282,22 @@ Validation rules:
 
 ### MG-06 — Boundary-crossing Encounter engine
 
-- State: `in_progress`
+- State: `in_review`
 - Owner: Codex/root
 - Branch: `agent/music-generator-planning`
 - Cwd/worktree: `/home/mrose/spirophonic`
 - Contract: [MG-06 acceptance criteria](MUSIC-GENERATOR-BUILD-PLAN.md#mg-06--boundary-crossing-encounter-engine)
 - Started UTC: 2026-08-05T17:59:01Z
-- Last updated UTC: 2026-08-05T18:07:52Z
-- Next action: commit the tested implementation and rerun the three gates at
-  that exact commit before moving MG-06 to `in_review`.
-- Commits/PRs: none yet
+- Last updated UTC: 2026-08-05T18:09:08Z
+- Next action: integrate the reviewed packet, rerun gates on the integrated
+  commit, and mark MG-06 `done` before releasing dependent packets.
+- Commits/PRs: `7baa1a7` — Implement MG-06 boundary encounters
 - Blockers: none
-- Validation evidence: 14 targeted crossing/Encounter tests pass. Working-tree
-  validation passes: `npm test` (30 files, 281 tests), `npm run lint`, and
-  `npm run build`. `graphify update .` rebuilt the graph after the final code
-  change and confirms Encounter compilation consumes Head state, shared signed
-  distance geometry, and Transport addressing.
+- Validation evidence: 14 targeted crossing/Encounter tests pass. Exact
+  implementation commit `7baa1a7` passes `npm test` (30 files, 281 tests),
+  `npm run lint`, and `npm run build`. `graphify update .` rebuilt the graph
+  after the final code change and confirms Encounter compilation consumes Head
+  state, shared signed-distance geometry, and Transport addressing.
 - Handoff: [2026-08-05 MG-06 author handoff](#2026-08-05-mg-06-author-handoff)
 - Dependency exception: the user explicitly directed MG-06 to begin after the
   committed MG-02, MG-03, and MG-05 packets while their integration review
@@ -375,6 +376,7 @@ and releases. Do not log every edit.
 | 2026-08-05T17:56:09Z | Codex/root | MG-05 | Implementation committed | `68631b5` | Exact packet source passes 267 tests, lint, and build; integration review remains. |
 | 2026-08-05T17:59:01Z | Codex/root | MG-06 | Packet claimed | `agent/music-generator-planning` / uncommitted | User directed work to continue over committed dependencies; implement deterministic boundary-crossing Encounters. |
 | 2026-08-05T18:07:52Z | Codex/root | MG-06 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-06 acceptance criteria and working-tree gates pass; packet commit is next. |
+| 2026-08-05T18:09:08Z | Codex/root | MG-06 | Implementation committed | `7baa1a7` | Exact packet source passes 281 tests, lint, and build; integration review remains. |
 
 ## Handoff records
 

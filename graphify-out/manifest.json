@@ -370,8 +370,8 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1785952409.2342565,
-    "ast_hash": "398513963cecf0b3e3866bb244b6224e",
+    "mtime": 1785952761.6591961,
+    "ast_hash": "61775f65403d719f63c35b3ea2a37436",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -457,6 +457,26 @@
   "src/ui/FieldPanel.tsx": {
     "mtime": 1785952322.5588164,
     "ast_hash": "d01c91702930d4b6f3cb4e7b9d35ae63",
+    "semantic_hash": ""
+  },
+  "src/core/crossings.test.ts": {
+    "mtime": 1785953120.5786505,
+    "ast_hash": "1d97a0c583d013767840498786fd790f",
+    "semantic_hash": ""
+  },
+  "src/core/crossings.ts": {
+    "mtime": 1785953220.976408,
+    "ast_hash": "4d28040483a2c7624625eb5da6b35ec6",
+    "semantic_hash": ""
+  },
+  "src/core/encounters.test.ts": {
+    "mtime": 1785953189.6372275,
+    "ast_hash": "a358b153d3dc35eb6e957ac35003881f",
+    "semantic_hash": ""
+  },
+  "src/core/encounters.ts": {
+    "mtime": 1785953079.064497,
+    "ast_hash": "a330016e7934fbd92756cfa9c89240b0",
     "semantic_hash": ""
   }
 }
