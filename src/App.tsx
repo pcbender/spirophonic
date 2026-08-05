@@ -28,6 +28,7 @@ import { InstrumentPanel } from './ui/InstrumentPanel'
 import { PartPanel } from './ui/PartPanel'
 import { SoundBankPanel } from './ui/SoundBankPanel'
 import { Transport } from './ui/Transport'
+import { VariationPanel } from './ui/VariationPanel'
 import { WheelPanel } from './ui/WheelPanel'
 
 const performanceRequestFor = (
@@ -407,6 +408,7 @@ function App() {
             invalidateBank={invalidateSoundBank}
           />
           <InstrumentPanel composition={composition} onChange={setComposition} />
+          <VariationPanel composition={composition} onChange={setComposition} />
         </div>
       </section>
     </main>

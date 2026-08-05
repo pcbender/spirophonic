@@ -1,7 +1,9 @@
 import type {
   Composition,
   NotePartSpec,
+  ScaleName,
 } from './composition'
+import { midiToFrequency, scaleIntervals } from './scales'
 import { validateComposition } from './compositionValidation'
 import {
   compileBoundaryEncounters,
@@ -32,6 +34,13 @@ import {
   type TraceCrossingEncounter,
 } from './traceEncounters'
 import {
+  applyInitialConditionVariation,
+  interpretationVariationFor,
+  performanceVariationFor,
+  variationIsActive,
+  type VariationTraceEntry,
+} from './variation'
+import {
   beatsToSeconds,
   secondsToBeats,
   transportAddressAtSeconds,
@@ -55,8 +64,9 @@ export type NoteMusicalEvent = Readonly<{
   velocity: number
   durationBeats: number
   durationSeconds: number
-  rest: false
-  probability: 1
+  /** Variation may silence a note without removing it from the layer. */
+  rest: boolean
+  probability: number
 }>
 
 export type PerformanceDiagnostic = Readonly<{
@@ -85,6 +95,8 @@ export type CanonicalPerformance = Readonly<{
   controlLanes: ReadonlyArray<ControlLane>
   interpretedEvents: ReadonlyArray<NoteMusicalEvent>
   performedEvents: ReadonlyArray<NoteMusicalEvent>
+  /** Which variation rule changed which output value, and by how much. */
+  variationTrace: ReadonlyArray<VariationTraceEntry>
   diagnostics: ReadonlyArray<PerformanceDiagnostic>
 }>
 
@@ -141,6 +153,7 @@ const emptyPerformance = (
     controlLanes: Object.freeze([]) as ReadonlyArray<ControlLane>,
     interpretedEvents: emptyEvents,
     performedEvents: emptyEvents,
+    variationTrace: Object.freeze([]) as ReadonlyArray<VariationTraceEntry>,
     diagnostics: Object.freeze([...diagnostics]),
   })
 }
@@ -280,12 +293,44 @@ const durationForCandidate = (
   return Math.max(1e-9, endBeat - candidate.absoluteBeat)
 }
 
+/** Moves a MIDI note by scale degrees, or by semitones when there is no scale. */
+const shiftMidiByScaleDegrees = (
+  midiNote: number,
+  degrees: number,
+  scale: ScaleName | undefined,
+) => {
+  if (!scale) {
+    return Math.min(127, Math.max(0, midiNote + degrees))
+  }
+  const intervals = scaleIntervals[scale]
+  const size = intervals.length
+  // Find the nearest degree the note already sits on, then step from there.
+  let nearest = 0
+  let bestDistance = Number.POSITIVE_INFINITY
+  for (let index = 0; index < size; index += 1) {
+    const distance = Math.abs(((midiNote % 12) + 12) % 12 - intervals[index])
+    if (distance < bestDistance) {
+      bestDistance = distance
+      nearest = index
+    }
+  }
+  const baseOctave = Math.floor(midiNote / 12)
+  const target = nearest + degrees
+  const octaveShift = Math.floor(target / size)
+  const within = ((target % size) + size) % size
+  return Math.min(
+    127,
+    Math.max(0, (baseOctave + octaveShift) * 12 + intervals[within]),
+  )
+}
+
 const interpretNotePart = (
   part: NotePartSpec,
   composition: Composition,
   request: PerformanceRequest,
   allEncounters: ReadonlyArray<BoundaryCrossingEncounter>,
   diagnostics: Array<PerformanceDiagnostic>,
+  variationTrace: Array<VariationTraceEntry>,
 ) => {
   const selectedEncounters = selectPartEncounters(part, allEncounters)
   const candidates = quantizedCandidates(
@@ -298,6 +343,15 @@ const interpretNotePart = (
       left.absoluteBeat - right.absoluteBeat ||
       compareText(left.encounter.id, right.encounter.id),
   )
+
+  const scaleForPart =
+    part.pitch.kind === 'boundary-degree' ||
+    part.pitch.kind === 'spatial' ||
+    part.pitch.kind === 'contour'
+      ? part.pitch.scale
+      : part.pitch.kind === 'melodic-contour'
+        ? part.pitch.scale
+        : undefined
 
   return candidates.map((candidate, index): NoteMusicalEvent => {
     const durationBeats = durationForCandidate(
@@ -318,6 +372,31 @@ const interpretNotePart = (
       timeSeconds,
     )
 
+    // Interpretation variation is scoped by Part and source Encounter, so a
+    // Part's notes are unaffected by what other Parts exist.
+    const interpretation = interpretationVariationFor(
+      composition.variation,
+      part.id,
+      candidate.encounter.id,
+      1,
+    )
+    variationTrace.push(...interpretation.trace)
+    const shiftedMidi =
+      candidate.pitch.midiNote === undefined || interpretation.degreeShift === 0
+        ? candidate.pitch.midiNote
+        : shiftMidiByScaleDegrees(
+            candidate.pitch.midiNote,
+            interpretation.degreeShift,
+            scaleForPart,
+          )
+    const variedPitch =
+      shiftedMidi === undefined || shiftedMidi === candidate.pitch.midiNote
+        ? candidate.pitch
+        : {
+            midiNote: shiftedMidi,
+            frequencyHz: midiToFrequency(shiftedMidi),
+          }
+
     return Object.freeze({
       id: eventId(part.id, candidate.encounter.id),
       sourceEncounterId: candidate.encounter.id,
@@ -329,18 +408,18 @@ const interpretNotePart = (
       barIndex: address.barIndex,
       beatInBar: address.beatInBar,
       barPhase: address.barPhase,
-      ...(candidate.pitch.midiNote === undefined
+      ...(variedPitch.midiNote === undefined
         ? {}
-        : { midiNote: candidate.pitch.midiNote }),
-      frequencyHz: candidate.pitch.frequencyHz,
+        : { midiNote: variedPitch.midiNote }),
+      frequencyHz: variedPitch.frequencyHz,
       velocity: candidate.velocity,
       durationBeats,
       durationSeconds: beatsToSeconds(
         durationBeats,
         composition.transport.tempoBpm,
       ),
-      rest: false,
-      probability: 1,
+      rest: !interpretation.sounds,
+      probability: interpretation.sounds ? 1 : 0,
     })
   })
 }
@@ -382,8 +461,14 @@ export const compilePerformance = (
     return emptyPerformance(composition.id, request, diagnostics)
   }
 
+  // Initial-condition variation produces a varied Composition before any
+  // geometry runs, so the compiler below never has to know about variation.
+  const initial = applyInitialConditionVariation(compositionValidation.composition)
+  const varied = initial.value
+  const variationTrace: Array<VariationTraceEntry> = [...initial.trace]
+
   const encounterResult = compileBoundaryEncounters(
-    compositionValidation.composition,
+    varied,
     requestValidation.request,
     options,
   )
@@ -397,7 +482,7 @@ export const compilePerformance = (
     ),
   )
   const relationResult = compileRelationEncounters(
-    compositionValidation.composition,
+    varied,
     requestValidation.request,
   )
   diagnostics.push(
@@ -410,7 +495,7 @@ export const compilePerformance = (
     ),
   )
   const traceResult = compileTraceEncounters(
-    compositionValidation.composition,
+    varied,
     requestValidation.request,
   )
   diagnostics.push(
@@ -506,11 +591,65 @@ export const compilePerformance = (
         request,
         encounterResult.encounters,
         diagnostics,
+        variationTrace,
       ),
     )
   }
 
   const interpretedEvents = Object.freeze(events.sort(compareEvents))
+
+  /**
+   * The performed layer is the interpreted layer plus bounded deltas. Each
+   * performed event keeps its interpreted id, so identity survives variation
+   * and the trace explains every difference. With variation off the two layers
+   * are the same array, which is what makes the disabled path exactly the
+   * unvaried path rather than a re-derivation that happens to match.
+   */
+  const performedEvents = !variationIsActive(composition.variation)
+    ? interpretedEvents
+    : Object.freeze(
+        interpretedEvents
+          .map((event) => {
+            const applied = performanceVariationFor(
+              composition.variation,
+              event.id,
+            )
+            variationTrace.push(...applied.trace)
+
+            const absoluteBeat = event.absoluteBeat + applied.timingBeats
+            const timeSeconds = beatsToSeconds(
+              absoluteBeat,
+              composition.transport.tempoBpm,
+            )
+            const address = transportAddressAtSeconds(
+              composition.transport,
+              timeSeconds,
+            )
+            const durationBeats = Math.max(
+              1e-9,
+              event.durationBeats * applied.durationScale,
+            )
+
+            return Object.freeze({
+              ...event,
+              timeSeconds,
+              absoluteBeat,
+              barIndex: address.barIndex,
+              beatInBar: address.beatInBar,
+              barPhase: address.barPhase,
+              velocity: Math.min(
+                127,
+                Math.max(1, Math.round(event.velocity + applied.velocityDelta)),
+              ),
+              durationBeats,
+              durationSeconds: beatsToSeconds(
+                durationBeats,
+                composition.transport.tempoBpm,
+              ),
+            })
+          })
+          .sort(compareEvents),
+      )
 
   return Object.freeze({
     compositionId: composition.id,
@@ -520,7 +659,8 @@ export const compilePerformance = (
     traceEncounters: traceResult.encounters,
     controlLanes: Object.freeze(controlLanes),
     interpretedEvents,
-    performedEvents: interpretedEvents,
+    performedEvents,
+    variationTrace: Object.freeze(variationTrace),
     diagnostics: Object.freeze(diagnostics),
   })
 }

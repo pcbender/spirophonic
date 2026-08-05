@@ -1755,8 +1755,33 @@ const validateVariation = (
 ) => {
   const variation = context.object(value, path)
   if (!variation) return
-  context.knownKeys(variation, path, ['enabled', 'seed'])
+  context.knownKeys(variation, path, [
+    'enabled',
+    'seed',
+    'version',
+    'initialConditions',
+    'interpretation',
+    'performance',
+  ])
   context.boolean(variation, 'enabled', `${path}.enabled`)
+  if (variation.version !== undefined) {
+    context.number(variation, 'version', `${path}.version`, {
+      min: 0,
+      max: 1_000_000,
+      integer: true,
+    })
+  }
+  for (const layer of ['initialConditions', 'interpretation', 'performance'] as const) {
+    if (variation[layer] === undefined) continue
+    const spec = context.object(variation[layer], `${path}.${layer}`)
+    if (!spec) continue
+    context.knownKeys(spec, `${path}.${layer}`, ['enabled', 'amount'])
+    context.boolean(spec, 'enabled', `${path}.${layer}.enabled`)
+    context.number(spec, 'amount', `${path}.${layer}.amount`, {
+      min: 0,
+      max: 1,
+    })
+  }
   context.string(variation, 'seed', `${path}.seed`, {
     nonEmpty: true,
     maxLength: 256,

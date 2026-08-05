@@ -70,6 +70,7 @@ const performance = (
     encounters: Object.freeze([]),
     relationEncounters: Object.freeze([]),
     traceEncounters: Object.freeze([]),
+    variationTrace: Object.freeze([]),
     controlLanes: Object.freeze([]),
     interpretedEvents: events,
     performedEvents: events,

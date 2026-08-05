@@ -563,9 +563,34 @@ export type SoundBankReference = {
   attribution: string
 }
 
+/**
+ * One variation layer. `amount` scales the layer's documented maximum delta, so
+ * 0 is no change and 1 is the full bound. Bounds live in variation.ts, not
+ * here, because they are engine behaviour rather than saved data.
+ */
+export type VariationLayerSpec = {
+  enabled: boolean
+  amount: number
+}
+
+/**
+ * Seeded variation. `enabled` and `seed` stay required so MG-01 through MG-16
+ * documents keep validating; every layer is optional and absent means off.
+ *
+ * `version` records which engine randomness produced a result. It is written
+ * on save so a later engine can report that it would reroll rather than
+ * silently producing different music from the same seed.
+ */
 export type VariationSpec = {
   enabled: boolean
   seed: string
+  version?: number
+  /** Wheel phase, Head phase, and Field rotation offsets. */
+  initialConditions?: VariationLayerSpec
+  /** Pitch choice within the Part's scale, and note probability. */
+  interpretation?: VariationLayerSpec
+  /** Performed timing, velocity, and duration. */
+  performance?: VariationLayerSpec
 }
 
 export type Composition = {

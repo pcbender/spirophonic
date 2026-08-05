@@ -20,8 +20,8 @@
     "semantic_hash": ""
   },
   "src/App.tsx": {
-    "mtime": 1785967600.7872221,
-    "ast_hash": "33d5bcafd28b18b4c3203aca672b8699",
+    "mtime": 1785973864.4199474,
+    "ast_hash": "31dd2613b11d1360441df3666f7bd904",
     "semantic_hash": ""
   },
   "src/export/strudelExport.test.ts": {
@@ -85,8 +85,8 @@
     "semantic_hash": ""
   },
   "vite.config.ts": {
-    "mtime": 1784400727.5380607,
-    "ast_hash": "3036b98683a9df0270dd3e1cf5a8368f",
+    "mtime": 1785973778.2127006,
+    "ast_hash": "8379f6796ff4c1c6c8dee54e6acc3091",
     "semantic_hash": ""
   },
   "AGENTS.md": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "src/core/composition.ts": {
-    "mtime": 1785972942.292321,
-    "ast_hash": "9b0fbd6e8039a3dc44099c8f8a6f386e",
+    "mtime": 1785973630.47575,
+    "ast_hash": "91115ae6eb332556ed36b828db0ecf8f",
     "semantic_hash": ""
   },
   "src/core/compositionValidation.test.ts": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "src/core/compositionValidation.ts": {
-    "mtime": 1785973098.2101352,
-    "ast_hash": "1b87736bc5b464ed429138c10f1253b5",
+    "mtime": 1785973839.7358263,
+    "ast_hash": "02025a5bd1a82abe69d41cfea4c74a52",
     "semantic_hash": ""
   },
   "src/core/defaultComposition.ts": {
@@ -235,13 +235,13 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-BUILD-PLAN.md": {
-    "mtime": 1785972924.8613565,
-    "ast_hash": "83d568b8df9a950604e834f501ee7dff",
+    "mtime": 1785973523.779523,
+    "ast_hash": "f6873b51750c954e1319de5baa9ddf22",
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1785972924.8498068,
-    "ast_hash": "9b77157c189b33ea46ee0d370a6e7461",
+    "mtime": 1785973603.9644783,
+    "ast_hash": "1e82646ee44c3236be10ee6c1016e79f",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -365,8 +365,8 @@
     "semantic_hash": ""
   },
   "src/core/performance.ts": {
-    "mtime": 1785973041.6408298,
-    "ast_hash": "7381e6cb413b3b62ebb188534a467833",
+    "mtime": 1785973722.5205545,
+    "ast_hash": "65710a147b917fee965edb369d6628fc",
     "semantic_hash": ""
   },
   "src/audio/instrumentEngine.ts": {
@@ -385,8 +385,8 @@
     "semantic_hash": ""
   },
   "src/audio/performanceScheduler.test.ts": {
-    "mtime": 1785972555.8755882,
-    "ast_hash": "22c14c7868ea8fbcbbe786d234ede436",
+    "mtime": 1785973722.5324667,
+    "ast_hash": "635263f685b16df97dd60645526a7506",
     "semantic_hash": ""
   },
   "src/audio/performanceScheduler.ts": {
@@ -572,6 +572,31 @@
   "src/core/tuning.ts": {
     "mtime": 1785973009.6763701,
     "ast_hash": "f0be88bcfc5271ccaf9529d6d54b8727",
+    "semantic_hash": ""
+  },
+  "src/core/random.ts": {
+    "mtime": 1785973622.9432511,
+    "ast_hash": "ee9f1ddfc3328bd73a1ec1813678815f",
+    "semantic_hash": ""
+  },
+  "src/core/variation.test.ts": {
+    "mtime": 1785973818.024941,
+    "ast_hash": "6d5ee5ee872cbcec9f3fda609eca621d",
+    "semantic_hash": ""
+  },
+  "src/core/variation.ts": {
+    "mtime": 1785973667.6912417,
+    "ast_hash": "5a41e3fa25923ccda6423006584753db",
+    "semantic_hash": ""
+  },
+  "src/ui/VariationPanel.test.tsx": {
+    "mtime": 1785973883.304934,
+    "ast_hash": "f6af70676a9a4e4ebea44ab03ccf325a",
+    "semantic_hash": ""
+  },
+  "src/ui/VariationPanel.tsx": {
+    "mtime": 1785973864.4095297,
+    "ast_hash": "4834b92424c8df89636285ba428e8c48",
     "semantic_hash": ""
   }
 }
