@@ -5,16 +5,17 @@
   "type": "module",
   "scripts": {
     "sync:soundfont-worklet": "node scripts/sync-spessasynth-worklet.mjs",
-    "predev": "npm run sync:soundfont-worklet",
+    "predev": "npm run sync:soundfont-worklet && npm run fetch:soundbank",
     "dev": "vite",
-    "prebuild": "npm run sync:soundfont-worklet",
+    "prebuild": "npm run sync:soundfont-worklet && npm run fetch:soundbank",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "fetch:soundbank": "node scripts/fetch-soundbank.mjs"
   },
   "dependencies": {
     "react": "^19.2.6",

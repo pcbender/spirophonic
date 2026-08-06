@@ -43,3 +43,9 @@ graphify-out/
 /e2e/.artifacts/
 /playwright-report/
 /test-results/
+
+# Fetched at build time by scripts/fetch-soundbank.mjs and verified by digest.
+# 38 MB of binary that never changes has no business in git history.
+public/soundbanks/*.sf2
+public/soundbanks/*.sf3
+public/soundbanks/*.partial
