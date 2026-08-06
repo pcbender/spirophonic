@@ -6,6 +6,10 @@ import {
   PerformanceScheduler,
   type PlaybackStatus,
 } from './audio/performanceScheduler'
+import {
+  ensureBundledSoundBank,
+  type BundledBankState,
+} from './audio/bundledSoundBank'
 import { SoundBankStore } from './audio/soundbankStore'
 import type { Composition } from './core/composition'
 import { defaultComposition } from './core/defaultComposition'
@@ -87,6 +91,9 @@ function App() {
     message: string
     forComposition: Composition
   }> | null>(null)
+  const [bundledBankState, setBundledBankState] = useState<BundledBankState>({
+    state: 'idle',
+  })
   const [selection, setSelection] = useState<TreeSelection>(() => ({
     kind: 'wheel',
     id: '',
@@ -161,6 +168,34 @@ function App() {
       setRuntimeError(message ? { message, forComposition } : null),
     [],
   )
+
+  /**
+   * Puts the bundled General MIDI bank in the vault, once per browser.
+   *
+   * Deliberately not awaited and deliberately not during first paint: it is a
+   * 38 MB download, and the app is fully usable without it because every
+   * default Instrument is native. Once it lands, its presets are assignable
+   * with no import step. A failure is not surfaced as an error — nothing the
+   * user asked for has failed — but it is reported to the Sound banks panel.
+   */
+  useEffect(() => {
+    const controller = new AbortController()
+    const idle =
+      globalThis.requestIdleCallback ??
+      ((callback: () => void) => globalThis.setTimeout(callback, 1_000))
+    const handle = idle(() => {
+      void ensureBundledSoundBank({
+        store: audio.store,
+        signal: controller.signal,
+        baseUrl: import.meta.env.BASE_URL,
+        onState: setBundledBankState,
+      })
+    })
+    return () => {
+      controller.abort()
+      globalThis.cancelIdleCallback?.(handle as number)
+    }
+  }, [audio.store])
 
   useEffect(() => {
     try {
@@ -432,6 +467,7 @@ function App() {
           <PartPanel composition={composition} onChange={setComposition} />
           <SoundBankPanel
             composition={composition}
+            bundledBankState={bundledBankState}
             onChange={setComposition}
             vault={audio.store}
             inspectBank={inspectSoundBank}

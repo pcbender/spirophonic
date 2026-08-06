@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 
+import {
+  bundledSoundBank,
+  type BundledBankState,
+} from '../audio/bundledSoundBank'
 import type {
   Composition,
   SoundBankFormat,
@@ -23,6 +27,8 @@ export type SoundBankVault = Pick<
 
 export type SoundBankPanelProps = {
   composition: Composition
+  /** Progress of the bundled General MIDI bank, which arrives on its own. */
+  bundledBankState?: BundledBankState
   onChange: (composition: Composition) => void
   vault: SoundBankVault
   inspectBank: (
@@ -88,6 +94,7 @@ const errorMessage = (error: unknown) =>
 
 export function SoundBankPanel({
   composition,
+  bundledBankState,
   onChange,
   vault,
   inspectBank,
@@ -112,6 +119,16 @@ export function SoundBankPanel({
   useEffect(() => {
     let cancelled = false
     for (const reference of composition.soundBanks) {
+      // The bundled bank arrives on its own, in the background. Inspecting it
+      // before it lands would report "not in local storage" as a failure, when
+      // in fact nothing has gone wrong and nothing is expected of the user.
+      if (
+        reference.digest === bundledSoundBank.digest &&
+        bundledBankState &&
+        bundledBankState.state !== 'present'
+      ) {
+        continue
+      }
       void inspectBank(reference)
         .then((presets) => {
           if (cancelled) return
@@ -144,7 +161,7 @@ export function SoundBankPanel({
     return () => {
       cancelled = true
     }
-  }, [composition.soundBanks, inspectBank])
+  }, [bundledBankState, composition.soundBanks, inspectBank])
 
   const importSelected = async () => {
     if (!file) {
@@ -314,6 +331,15 @@ export function SoundBankPanel({
           Import local bank
         </button>
       </div>
+      {bundledBankState && bundledBankState.state !== 'present' ? (
+        <p className="bundled-bank-status" aria-live="polite">
+          {bundledBankState.state === 'fetching'
+            ? 'Downloading the bundled MuseScore General bank (38 MB). Native Instruments play meanwhile.'
+            : bundledBankState.state === 'failed'
+              ? bundledBankState.message
+              : ''}
+        </p>
+      ) : null}
       <output aria-live="polite">{message}</output>
       <ol className="sound-bank-list">
         {composition.soundBanks.map((reference) => (

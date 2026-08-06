@@ -1,7 +1,31 @@
 import {
   compositionVersion,
   type Composition,
+  type SoundBankReference,
 } from './composition'
+
+/**
+ * The sound bank that ships with the app.
+ *
+ * MuseScore_General is General MIDI under the MIT licence, so unlike an
+ * arbitrary SF2 it may be redistributed — provided its copyright notices travel
+ * with it, which is why the attribution below is not decoration and why
+ * `MuseScore_General_License.md` sits beside the bank in `public/soundbanks/`.
+ *
+ * The reference lives here, in core, because it is Composition data. Fetching
+ * and verifying the bytes belongs to `src/audio/bundledSoundBank.ts`; core
+ * neither knows nor cares how the bank arrives.
+ */
+export const bundledSoundBank: SoundBankReference = Object.freeze({
+  id: 'bank-musescore-general',
+  name: 'MuseScore General',
+  digest: '5b85b6c2c61d10b2b91cddd41efcce7b25cd31c8271d511c73afafbef20b6fa3',
+  format: 'sf3',
+  source: 'bundled',
+  license: 'MIT',
+  attribution:
+    'FluidR3 by Frank Wen (2000-02); FluidR3Mono by Michael Cowgill (2014-17); MuseScore_General by S. Christian Collins (2018-20). Temple Blocks by Ethan Winer (2002); Drumline Cymbals by Michael Schorsch (2016).',
+})
 
 export const defaultComposition = {
   version: compositionVersion,
@@ -104,7 +128,13 @@ export const defaultComposition = {
       ],
     },
   ],
-  soundBanks: [],
+  soundBanks: [
+    // The bundled General MIDI bank is available from the start. It is fetched
+    // in the background on first run and cached in the vault, so it costs
+    // nothing until a Composition assigns one of its presets. Instruments here
+    // stay native, which keeps the first-run experience instant and offline.
+    { ...bundledSoundBank },
+  ],
   instruments: [
     {
       id: 'instrument-1',
@@ -268,7 +298,7 @@ export const referenceComposition = {
       ],
     },
   ],
-  soundBanks: [],
+  soundBanks: [{ ...bundledSoundBank }],
   instruments: [
     {
       id: 'instrument-bass',

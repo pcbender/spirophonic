@@ -570,3 +570,106 @@ test('an imported SoundFont bank survives a reload', async ({ browser }) => {
   expect(errors, `page errors: ${errors.join(' | ')}`).toEqual([])
   await context.close()
 })
+
+/**
+ * The bundled General MIDI bank. This is the only place the real 38 MB file is
+ * exercised: the unit tests stand a generated 890-byte SoundFont in for it,
+ * because the policy under test there does not depend on which bytes arrive.
+ */
+test('the bundled bank is served and matches its declared digest', async ({
+  request,
+}) => {
+  // Fetched through the API context rather than the page: a 38 MB response
+  // repeatedly written to the browser cache fails with ERR_CACHE_WRITE_FAILURE
+  // headless, and what is under test here is the served file, not the browser.
+  const response = await request.get('/soundbanks/MuseScore_General.sf3')
+  expect(response.ok()).toBe(true)
+
+  const body = await response.body()
+  const { createHash } = await import('node:crypto')
+  const digest = createHash('sha256').update(body).digest('hex')
+
+  expect(body.byteLength).toBe(39_900_972)
+  expect(body.subarray(0, 4).toString('latin1')).toBe('RIFF')
+  expect(body.subarray(8, 12).toString('latin1')).toBe('sfbk')
+  // The digest the app checks before storing anything.
+  expect(digest).toBe(
+    '5b85b6c2c61d10b2b91cddd41efcce7b25cd31c8271d511c73afafbef20b6fa3',
+  )
+})
+
+test('the bundled bank licence ships beside it', async ({ request }) => {
+  const response = await request.get(
+    '/soundbanks/MuseScore_General_License.md',
+  )
+  expect(response.ok()).toBe(true)
+
+  const text = await response.text()
+  // MIT requires the copyright notices to travel with the work.
+  expect(text).toMatch(/MIT license/i)
+  expect(text).toMatch(/Frank Wen/)
+  expect(text).toMatch(/S\. Christian Collins/)
+})
+
+test('the bundled bank reaches the vault and its presets load', async ({
+  browser,
+}) => {
+  // 38 MB to fetch and hash, then a bank load and a two-second render. This is
+  // the slowest check in the suite by design; it is the only one that touches
+  // the real file.
+  test.setTimeout(180_000)
+  // Its own context: the shared beforeEach clears storage on every navigation,
+  // and this test is about the bank persisting into the vault.
+  const context = await browser.newContext({
+    viewport: { width: 1600, height: 1000 },
+  })
+  const fresh = await context.newPage()
+  await fresh.goto('/')
+  await expect(
+    fresh.getByRole('heading', { level: 1, name: 'Spirophonic' }),
+  ).toBeVisible()
+
+  // Wait on the UI, not on IndexedDB. Opening the database from here without a
+  // version creates an empty one at version 1, which would stop the app's own
+  // upgrade from ever running and permanently break the vault it is meant to
+  // observe. The Sound banks panel lists presets only after the bank has been
+  // fetched, digest-verified, stored, and parsed by the app's own engine, so it
+  // is both a safer signal and a stronger one.
+  const banks = fresh.getByRole('region', { name: 'Sound banks' })
+  // Exact: "Find preset …" and "Assign preset …" also contain this label.
+  const presets = banks.getByLabel('Preset bank-musescore-general', {
+    exact: true,
+  })
+  await expect(presets).toBeVisible({ timeout: 150_000 })
+
+  const names = await presets.locator('option').allTextContents()
+  expect(names.length).toBeGreaterThan(100)
+  expect(names.join(' ')).toMatch(/Grand Piano/)
+
+  // Only now, once the app owns the database, read what it stored.
+  const stored = await fresh.evaluate(async () => {
+    const digest =
+      '5b85b6c2c61d10b2b91cddd41efcce7b25cd31c8271d511c73afafbef20b6fa3'
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('spirophonic-soundbanks')
+      request.onsuccess = () => resolve(request.result)
+      request.onerror = () => reject(request.error)
+    })
+    const record = await new Promise<{ bytes: ArrayBuffer } | undefined>(
+      (resolve, reject) => {
+        const get = database
+          .transaction('soundbank-bytes', 'readonly')
+          .objectStore('soundbank-bytes')
+          .get(digest)
+        get.onsuccess = () => resolve(get.result)
+        get.onerror = () => reject(get.error)
+      },
+    )
+    database.close()
+    return record ? record.bytes.byteLength : 0
+  })
+
+  expect(stored).toBe(39_900_972)
+
+  await context.close()
+})

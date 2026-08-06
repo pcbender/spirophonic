@@ -386,6 +386,9 @@ describe('MG-20 bundle acceptance', () => {
 
   it('imports a bank-free Composition with nothing to resolve', async () => {
     const composition = structuredClone(defaultComposition) as Composition
+    // The default Composition now ships with the bundled bank referenced, so
+    // a genuinely bank-free document has to be made explicitly.
+    composition.soundBanks = []
     const exported = await createProjectBundle({ composition })
     const imported = await importProjectBundle(exported.bundle)
 

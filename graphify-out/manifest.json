@@ -20,8 +20,8 @@
     "semantic_hash": ""
   },
   "src/App.tsx": {
-    "mtime": 1786031420.2267897,
-    "ast_hash": "d31831c70653b32d0c4d6a83338b87e3",
+    "mtime": 1786034701.5510974,
+    "ast_hash": "755f5963f1a4a1ae42f7f2918a2ab2dc",
     "semantic_hash": ""
   },
   "src/export/strudelExport.test.ts": {
@@ -220,8 +220,8 @@
     "semantic_hash": ""
   },
   "src/core/defaultComposition.ts": {
-    "mtime": 1785962698.447271,
-    "ast_hash": "83b343aecd1f447731b4f04dfef688c6",
+    "mtime": 1786035014.8211172,
+    "ast_hash": "bc78cdda4a910f79d950c614df33d853",
     "semantic_hash": ""
   },
   "src/export/compositionJson.test.ts": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1786031477.5177088,
-    "ast_hash": "2c9b218d9599aea9f3d167258241bc06",
+    "mtime": 1786033013.2955897,
+    "ast_hash": "9806f12d3455e488f98188ba8562f489",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -475,13 +475,13 @@
     "semantic_hash": ""
   },
   "src/ui/SoundBankPanel.test.tsx": {
-    "mtime": 1785959640.6973932,
-    "ast_hash": "ad7dc5c87d516c66760fc16cb3e8c3bd",
+    "mtime": 1786034891.7855704,
+    "ast_hash": "d57b21268573fca45e4c0d0972e86c31",
     "semantic_hash": ""
   },
   "src/ui/SoundBankPanel.tsx": {
-    "mtime": 1785959834.2059836,
-    "ast_hash": "026b88c36972f6fda019bfe2197e556b",
+    "mtime": 1786034817.514682,
+    "ast_hash": "efb60811af48a46e99e7d5eed10d48e7",
     "semantic_hash": ""
   },
   "src/core/compositionEdits.test.ts": {
@@ -530,8 +530,8 @@
     "semantic_hash": ""
   },
   "e2e/app.spec.ts": {
-    "mtime": 1786032845.5307713,
-    "ast_hash": "9e042bbd049e6cac0dc6c46532bca935",
+    "mtime": 1786036324.6988869,
+    "ast_hash": "f737ab7e07f8c1491c721545ad2f3c98",
     "semantic_hash": ""
   },
   "playwright.config.ts": {
@@ -655,8 +655,8 @@
     "semantic_hash": ""
   },
   "src/export/projectBundle.test.ts": {
-    "mtime": 1786028622.5441778,
-    "ast_hash": "d7531e694145dc07dc3504c4858df035",
+    "mtime": 1786034817.515155,
+    "ast_hash": "04b81971797efeb771e5e127ab8c16cb",
     "semantic_hash": ""
   },
   "src/export/projectBundle.ts": {
@@ -700,8 +700,8 @@
     "semantic_hash": ""
   },
   "src/test/fixtures/compositions.ts": {
-    "mtime": 1786032926.262999,
-    "ast_hash": "3d5bca0262e92cdda796c0409097d372",
+    "mtime": 1786035014.8209836,
+    "ast_hash": "8e362039e7c2ccde675f0486b51b847d",
     "semantic_hash": ""
   },
   "docs/examples/BENCHMARKS.md": {
@@ -717,6 +717,21 @@
   "src/audio/soundbank.bench.test.ts": {
     "mtime": 1786032557.4321985,
     "ast_hash": "5e8fd005a5434b50ad3dc94475cc4b47",
+    "semantic_hash": ""
+  },
+  "src/audio/bundledSoundBank.test.ts": {
+    "mtime": 1786034561.4177165,
+    "ast_hash": "edff33345ee1eee05f6fd459c023a96a",
+    "semantic_hash": ""
+  },
+  "src/audio/bundledSoundBank.ts": {
+    "mtime": 1786034638.5065918,
+    "ast_hash": "3917f0bc1a4eabc1c5d95b0068d8dab4",
+    "semantic_hash": ""
+  },
+  "public/soundbanks/MuseScore_General_License.md": {
+    "mtime": 1786034423.27386,
+    "ast_hash": "bc7b4fbe58b37788876b6c36f19577d0",
     "semantic_hash": ""
   }
 }

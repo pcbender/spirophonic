@@ -52,10 +52,17 @@ type HarnessProps = Omit<
   'composition' | 'onChange'
 > & { initial?: Composition }
 
+const bankFreeDefault = () => {
+  const composition = structuredClone(defaultComposition) as Composition
+  // These tests exercise importing a bank into a Composition that has none.
+  // The default now ships with the bundled bank referenced, so it is cleared
+  // rather than left to appear as a second bank card in every assertion.
+  composition.soundBanks = []
+  return composition
+}
+
 function Harness({ initial, ...props }: HarnessProps) {
-  const [composition, setComposition] = useState(
-    initial ?? (structuredClone(defaultComposition) as Composition),
-  )
+  const [composition, setComposition] = useState(initial ?? bankFreeDefault)
   return (
     <>
       <SoundBankPanel
