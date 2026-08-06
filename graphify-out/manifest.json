@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "src/export/strudelExport.ts": {
-    "mtime": 1785955589.6105611,
-    "ast_hash": "4990863a3c5e3cfc9d102edf2c2eb206",
+    "mtime": 1785976634.308209,
+    "ast_hash": "8c8eee9120f4213b51aac77266f1700c",
     "semantic_hash": ""
   },
   "src/export/svgExport.test.ts": {
@@ -160,8 +160,8 @@
     "semantic_hash": ""
   },
   "src/export/midi/smf.ts": {
-    "mtime": 1785796119.9827013,
-    "ast_hash": "d330d0ba958f7b01b341429658bd30aa",
+    "mtime": 1785976500.8256152,
+    "ast_hash": "1ad3a1007fd1052276ecfd3c04a93ff8",
     "semantic_hash": ""
   },
   "src/export/midiExport.test.ts": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "src/export/midiExport.ts": {
-    "mtime": 1785955985.5943186,
-    "ast_hash": "e0dbd5c3b1e85947405e7983e88b9225",
+    "mtime": 1785976726.1183832,
+    "ast_hash": "231cacad34c7b26237230e4e1ea7413d",
     "semantic_hash": ""
   },
   "docs/SOUND-AND-MIDI-DESIGN.md": {
@@ -235,13 +235,13 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-BUILD-PLAN.md": {
-    "mtime": 1785974058.538096,
-    "ast_hash": "3c8cd9c7f82bbf6dd9fee8365cd7045a",
+    "mtime": 1785976405.609949,
+    "ast_hash": "1528397b7d860dc84a2b998ebf0c41c0",
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1785974124.979852,
-    "ast_hash": "35673c3092dffb9c566f2e32f2660895",
+    "mtime": 1785976476.2474248,
+    "ast_hash": "2b95246546eb72f602e6726e62665e11",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -632,6 +632,11 @@
   "src/vite-env.d.ts": {
     "mtime": 1785976283.9084375,
     "ast_hash": "a07c98fc0ee39d7b1a29953c9e8e6544",
+    "semantic_hash": ""
+  },
+  "src/export/exportPolicy.test.ts": {
+    "mtime": 1785976709.938655,
+    "ast_hash": "f2325eaf5f3bad4b337ffc6a9e756284",
     "semantic_hash": ""
   }
 }

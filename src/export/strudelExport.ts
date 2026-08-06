@@ -1,6 +1,7 @@
 import type { Composition, InstrumentSpec, NotePartSpec } from '../core/composition'
-import type { CanonicalPerformance, NoteMusicalEvent } from '../core/performance'
+import type { NoteMusicalEvent } from '../core/performance'
 import { frequencyToMidi, midiToName } from '../core/scales'
+import type { ExportablePerformance } from './midiExport'
 import { secondsToBeats } from '../core/transport'
 
 const REST = '~'
@@ -33,11 +34,31 @@ export type PerformancePatternPart = Readonly<{
   clip: number
   sound: string
   percussion: boolean
+  /** True when any event needed a frequency token to keep its tuning. */
+  usesFrequency: boolean
 }>
+
+/** Within this many cents of a semitone, a note name is an exact description. */
+export const equalTemperedToleranceCents = 1
+
+export const isEqualTempered = (event: NoteMusicalEvent) => {
+  const exact = event.midiNote ?? frequencyToMidi(event.frequencyHz)
+  return Math.abs(exact - Math.round(exact)) * 100 <= equalTemperedToleranceCents
+}
 
 const noteName = (event: NoteMusicalEvent) =>
   midiToName(Math.round(event.midiNote ?? frequencyToMidi(event.frequencyHz)))
     .toLowerCase()
+
+/**
+ * A note token is a name when the event is equal-tempered and a frequency when
+ * it is not. Ratio tuning cannot survive a note name, so those events emit Hz
+ * rather than being rounded to the nearest semitone.
+ */
+const pitchToken = (event: NoteMusicalEvent) =>
+  isEqualTempered(event)
+    ? noteName(event)
+    : String(Number(event.frequencyHz.toFixed(4)))
 
 const soundFor = (instrument: InstrumentSpec) => {
   if (instrument.kind === 'native-synth') return instrument.waveform
@@ -49,7 +70,7 @@ const patternForPart = (
   part: NotePartSpec,
   instrument: InstrumentSpec,
   events: ReadonlyArray<NoteMusicalEvent>,
-  performance: CanonicalPerformance,
+  performance: ExportablePerformance,
   composition: Composition,
 ): PerformancePatternPart => {
   const startBeat = secondsToBeats(
@@ -76,15 +97,21 @@ const patternForPart = (
   }
 
   const firstEvent = slots.find((event) => event !== null)
+  // One pattern cannot mix note names and frequencies, so if any event needs a
+  // frequency to keep its tuning, the whole part is emitted as frequencies.
+  const usesFrequency =
+    instrument.kind !== 'native-drum' &&
+    slots.some((event) => event !== null && !isEqualTempered(event))
+
   return Object.freeze({
     partId: part.id,
     label: part.name,
+    usesFrequency,
     tokens: Object.freeze(
       slots.map((event) => {
         if (!event) return REST
-        return instrument.kind === 'native-drum'
-          ? drumSounds[instrument.voice]
-          : noteName(event)
+        if (instrument.kind === 'native-drum') return drumSounds[instrument.voice]
+        return usesFrequency ? pitchToken(event) : noteName(event)
       }),
     ),
     gains: Object.freeze(
@@ -101,7 +128,7 @@ const patternForPart = (
 }
 
 export const buildPerformancePatternParts = (
-  performance: CanonicalPerformance,
+  performance: ExportablePerformance,
   composition: Composition,
 ): ReadonlyArray<PerformancePatternPart> => {
   const instruments = new Map(
@@ -130,7 +157,7 @@ export const buildPerformancePatternParts = (
 }
 
 export const exportPerformanceStrudel = (
-  performance: CanonicalPerformance,
+  performance: ExportablePerformance,
   composition: Composition,
 ) => {
   const cps = Number((1 / performance.request.durationSeconds).toFixed(6))
@@ -142,7 +169,10 @@ export const exportPerformanceStrudel = (
     const gains = part.gains.join(' ')
     const head = part.percussion
       ? `s("${tokens}")`
-      : `note("${tokens}").s("${part.sound}")`
+      : part.usesFrequency
+        ? // freq() preserves exact ratio tuning that note() would round away.
+          `freq("${tokens}").s("${part.sound}")`
+        : `note("${tokens}").s("${part.sound}")`
     const clip = part.clip === 1 ? '' : `.clip(${part.clip})`
     return `  // ${part.label}\n  ${head}.gain("${gains}")${clip}`
   })
