@@ -424,6 +424,125 @@ const interpretNotePart = (
   })
 }
 
+export type InterpretationResult = Readonly<{
+  events: ReadonlyArray<NoteMusicalEvent>
+  controlLanes: ReadonlyArray<ControlLane>
+  diagnostics: ReadonlyArray<PerformanceDiagnostic>
+  variationTrace: ReadonlyArray<VariationTraceEntry>
+}>
+
+/**
+ * Interprets a supplied set of Encounters through a Composition's Parts.
+ *
+ * compilePerformance calls this with Encounters it just derived from geometry.
+ * MG-18 reinterpretation calls it with Encounters read back from a Recording,
+ * which is why it takes them as an argument instead of computing them: the
+ * Wheels and Fields that produced them may no longer exist.
+ */
+export const interpretEncounters = (
+  composition: Composition,
+  request: PerformanceRequest,
+  encounters: ReadonlyArray<BoundaryCrossingEncounter>,
+): InterpretationResult => {
+  const diagnostics: Array<PerformanceDiagnostic> = []
+  const variationTrace: Array<VariationTraceEntry> = []
+  const events: Array<NoteMusicalEvent> = []
+  const controlLanes: Array<ControlLane> = []
+  const audible = audiblePartIds(composition)
+  const parts = composition.parts
+    .map((part, partIndex) => ({ part, partIndex }))
+    .sort((left, right) => compareText(left.part.id, right.part.id))
+
+  for (const { part, partIndex } of parts) {
+    if (!audible.has(part.id)) continue
+
+    const rangeIssues = validatePartMusicalRange(
+      part,
+      `$.parts[${partIndex}]`,
+    )
+    if (rangeIssues.length > 0) {
+      diagnostics.push(
+        ...rangeIssues.map((issue) =>
+          Object.freeze({
+            severity: 'error' as const,
+            code: 'invalid-musical-range' as const,
+            path: issue.path,
+            message: issue.message,
+            partId: part.id,
+          }),
+        ),
+      )
+      continue
+    }
+
+    if (part.kind === 'control') {
+      // A Control Part drives a lane rather than notes. It needs a Head pair,
+      // which it takes from the relation it selects, or from the first pair of
+      // enabled Heads when it names none.
+      const relation = (composition.relations ?? []).find(
+        (candidate) =>
+          part.encounterQuery.relationIds?.includes(candidate.id) ?? false,
+      )
+      const { pairs } = relationPairs(
+        composition,
+        relation ?? {
+          id: `${part.id}-implicit`,
+          name: part.name,
+          enabled: true,
+          kind: 'conjunction',
+          headIds: part.encounterQuery.headIds,
+          threshold: 1,
+          hysteresis: 0,
+          minSeparationSeconds: 0,
+        },
+      )
+      const pair = pairs[0]
+
+      if (!pair) {
+        diagnostics.push(
+          Object.freeze({
+            severity: 'warning',
+            code: 'control-part',
+            message: `Control Part "${part.name}" needs two enabled Heads to measure; it produced no lane.`,
+            partId: part.id,
+          }),
+        )
+        continue
+      }
+
+      controlLanes.push(
+        compileControlLane(
+          composition,
+          request,
+          part,
+          pair,
+          relation?.threshold ?? 1,
+        ),
+      )
+      continue
+    }
+
+    events.push(
+      ...interpretNotePart(
+        part,
+        composition,
+        request,
+        encounters,
+        diagnostics,
+        variationTrace,
+      ),
+    )
+  }
+
+
+  return Object.freeze({
+    events: Object.freeze([...events].sort(compareEvents)),
+    controlLanes,
+    diagnostics: Object.freeze(diagnostics),
+    variationTrace: Object.freeze(variationTrace),
+  })
+}
+
 export const compilePerformance = (
   composition: Composition,
   request: PerformanceRequest,
@@ -508,93 +627,15 @@ export const compilePerformance = (
     ),
   )
 
-  const events: Array<NoteMusicalEvent> = []
-  const controlLanes: Array<ControlLane> = []
-  const audible = audiblePartIds(composition)
-  const parts = composition.parts
-    .map((part, partIndex) => ({ part, partIndex }))
-    .sort((left, right) => compareText(left.part.id, right.part.id))
-
-  for (const { part, partIndex } of parts) {
-    if (!audible.has(part.id)) continue
-
-    const rangeIssues = validatePartMusicalRange(
-      part,
-      `$.parts[${partIndex}]`,
-    )
-    if (rangeIssues.length > 0) {
-      diagnostics.push(
-        ...rangeIssues.map((issue) =>
-          Object.freeze({
-            severity: 'error' as const,
-            code: 'invalid-musical-range' as const,
-            path: issue.path,
-            message: issue.message,
-            partId: part.id,
-          }),
-        ),
-      )
-      continue
-    }
-
-    if (part.kind === 'control') {
-      // A Control Part drives a lane rather than notes. It needs a Head pair,
-      // which it takes from the relation it selects, or from the first pair of
-      // enabled Heads when it names none.
-      const relation = (composition.relations ?? []).find(
-        (candidate) =>
-          part.encounterQuery.relationIds?.includes(candidate.id) ?? false,
-      )
-      const { pairs } = relationPairs(
-        composition,
-        relation ?? {
-          id: `${part.id}-implicit`,
-          name: part.name,
-          enabled: true,
-          kind: 'conjunction',
-          headIds: part.encounterQuery.headIds,
-          threshold: 1,
-          hysteresis: 0,
-          minSeparationSeconds: 0,
-        },
-      )
-      const pair = pairs[0]
-
-      if (!pair) {
-        diagnostics.push(
-          Object.freeze({
-            severity: 'warning',
-            code: 'control-part',
-            message: `Control Part "${part.name}" needs two enabled Heads to measure; it produced no lane.`,
-            partId: part.id,
-          }),
-        )
-        continue
-      }
-
-      controlLanes.push(
-        compileControlLane(
-          composition,
-          request,
-          part,
-          pair,
-          relation?.threshold ?? 1,
-        ),
-      )
-      continue
-    }
-
-    events.push(
-      ...interpretNotePart(
-        part,
-        composition,
-        request,
-        encounterResult.encounters,
-        diagnostics,
-        variationTrace,
-      ),
-    )
-  }
+  const interpretation = interpretEncounters(
+    composition,
+    request,
+    encounterResult.encounters,
+  )
+  diagnostics.push(...interpretation.diagnostics)
+  variationTrace.push(...interpretation.variationTrace)
+  const events = [...interpretation.events]
+  const controlLanes = interpretation.controlLanes
 
   const interpretedEvents = Object.freeze(events.sort(compareEvents))
 

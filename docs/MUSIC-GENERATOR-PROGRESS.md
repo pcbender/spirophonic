@@ -15,10 +15,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 17 / 21 |
-| Packets active | 0 |
+| Packets active | 1 |
 | Packets blocked | 0 |
-| Next ready packet | MG-18 — Recorder, replay, and reinterpretation |
-| Active agents | none |
+| Next ready packet | MG-18 is claimed; MG-19 unblocks when it lands |
+| Active agents | Claude Opus 5 on MG-18 |
 | Integration branch | `agent/music-generator-planning` |
 | Last tracker update | 2026-08-05 |
 
@@ -93,7 +93,7 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| — | — | — | — | — | — | — | No packet is claimed. MG-18 is ready. |
+| Claude Opus 5 | MG-18 | `claimed` | `agent/music-generator-planning` | `/home/mrose/spirophonic` | 2026-08-06T01:15:00Z | 2026-08-06T01:15:00Z | Dependencies MG-07 and MG-17 are `done` at `3dfa540`. File list audited in `2cb20aa`. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -119,7 +119,7 @@ their history.
 | MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | `done` | — | 2026-08-05 | Integrated at `9c8096d`; unit and browser gates pass on that commit. |
 | MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | `done` | — | 2026-08-05 | Integrated at `32b7b37`; unit and browser gates pass on that commit. |
 | MG-17 | Seeded variation | MG-03, MG-06, MG-07, MG-16 | `done` | — | 2026-08-06 | Integrated at `7d30989`; unit and browser gates pass on that commit, exit code verified. |
-| MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | `ready` | — | 2026-08-06 | Dependencies are `done`; the packet is unblocked and unclaimed. |
+| MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | `claimed` | Claude Opus 5 | 2026-08-06 | Claimed at 2026-08-06T01:15:00Z on `agent/music-generator-planning`. |
 | MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | `waiting` | — | 2026-08-05 | Complete MG-16 and MG-18. |
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | `waiting` | — | 2026-08-05 | Complete MG-10, MG-11, MG-18, and MG-19. |
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | `waiting` | — | 2026-08-05 | Complete every implementation packet. |
@@ -182,7 +182,7 @@ Validation rules:
 MG-01 through MG-12 are `done`; their records live in the Validation ledger,
 Activity log, and Handoff records below.
 
-No packet is claimed. MG-18 is `ready` and unclaimed.
+MG-18 is claimed. No other packet is ready.
 
 Keep one subsection here for every `claimed`, `in_progress`, `blocked`, or
 `in_review` packet, then move each finished record into the Activity log,

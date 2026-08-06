@@ -27,6 +27,7 @@ import { ImportExportPanel } from './ui/ImportExportPanel'
 import { InstrumentPanel } from './ui/InstrumentPanel'
 import { PartPanel } from './ui/PartPanel'
 import { SoundBankPanel } from './ui/SoundBankPanel'
+import { RecorderPanel } from './ui/RecorderPanel'
 import { Transport } from './ui/Transport'
 import { VariationPanel } from './ui/VariationPanel'
 import { WheelPanel } from './ui/WheelPanel'
@@ -409,6 +410,11 @@ function App() {
           />
           <InstrumentPanel composition={composition} onChange={setComposition} />
           <VariationPanel composition={composition} onChange={setComposition} />
+          <RecorderPanel
+            composition={composition}
+            performance={performance}
+            positionSeconds={renderTime}
+          />
         </div>
       </section>
     </main>
