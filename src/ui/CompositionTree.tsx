@@ -20,6 +20,7 @@ import {
   setWheelEnabled,
   type RemovalImpact,
 } from '../core/compositionEdits'
+import { RailPanel } from './RailPanel'
 
 export type TreeSelection =
   | { kind: 'wheel'; id: string }
@@ -77,9 +78,13 @@ export function CompositionTree({
   )
 
   return (
-    <section className="control-panel composition-tree" aria-label="Composition tree">
-      <div className="tree-header">
-        <h2>Composition</h2>
+    <RailPanel
+      label="Composition tree"
+      // Distinct from the "Composition" panel above it, which holds the name
+      // and the Transport. This one is the Wheel / Head / Part structure.
+      title="Composition tree"
+      className="composition-tree"
+      actions={
         <button
           type="button"
           onClick={() => {
@@ -93,8 +98,8 @@ export function CompositionTree({
         >
           Add Wheel
         </button>
-      </div>
-
+      }
+    >
       <ul className="tree-list">
         {composition.wheels.map((wheel, wheelIndex) => (
           <li key={wheel.id} className="tree-wheel">
@@ -416,6 +421,6 @@ export function CompositionTree({
           )}
         </div>
       )}
-    </section>
+    </RailPanel>
   )
 }

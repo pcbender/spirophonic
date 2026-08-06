@@ -1,6 +1,7 @@
 import type { Composition, VariationSpec } from '../core/composition'
 import { randomVersion } from '../core/random'
 import { variationBounds } from '../core/variation'
+import { RailPanel } from './RailPanel'
 
 export type VariationPanelProps = {
   composition: Composition
@@ -30,15 +31,17 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
 
   if (!variation) {
     return (
-      <section className="control-panel" aria-label="Variation">
-        <div className="panel-header">
-          <h2>Variation</h2>
+      <RailPanel
+        label="Variation"
+        title="Variation"
+        actions={
           <button type="button" onClick={() => commit(defaultVariation())}>
             Enable variation
           </button>
-        </div>
+        }
+      >
         <p>No variation. The compiler runs its exact unvaried path.</p>
-      </section>
+      </RailPanel>
     )
   }
 
@@ -46,14 +49,15 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
     commit({ ...variation, ...next, version: randomVersion })
 
   return (
-    <section className="control-panel" aria-label="Variation">
-      <div className="panel-header">
-        <h2>Variation</h2>
+    <RailPanel
+      label="Variation"
+      title="Variation"
+      actions={
         <button type="button" onClick={() => commit(undefined)}>
           Remove
         </button>
-      </div>
-
+      }
+    >
       <label className="field">
         <span>Enabled</span>
         <input
@@ -115,6 +119,6 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
         {variationBounds.timingBeats} beats and velocity up to{' '}
         {variationBounds.velocity}.
       </p>
-    </section>
+    </RailPanel>
   )
 }

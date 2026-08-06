@@ -9,6 +9,7 @@ import {
 } from '../core/recording'
 import { replayRecording } from '../core/replay'
 import { exportRecordingToJson } from '../export/recordingJson'
+import { RailPanel } from './RailPanel'
 
 export type RecorderPanelProps = {
   composition: Composition
@@ -59,9 +60,10 @@ export function RecorderPanel({
   const warnings = recording ? provenanceWarnings(recording) : []
 
   return (
-    <section className="control-panel" aria-label="Recorder">
-      <div className="panel-header">
-        <h2>Recorder</h2>
+    <RailPanel
+      label="Recorder"
+      title="Recorder"
+      actions={
         <div className="panel-actions">
           <button type="button" onClick={start} disabled={startSeconds !== null}>
             Record
@@ -70,8 +72,8 @@ export function RecorderPanel({
             Stop
           </button>
         </div>
-      </div>
-
+      }
+    >
       {startSeconds !== null && (
         <p className="panel-context">
           Recording from {startSeconds.toFixed(2)}s. Move the Transport, then
@@ -112,6 +114,6 @@ export function RecorderPanel({
           </div>
         </>
       )}
-    </section>
+    </RailPanel>
   )
 }

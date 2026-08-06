@@ -12,7 +12,8 @@
   padding: 14px 18px 18px;
 }
 
-/* Title, transport, and file actions share one line and wrap together. */
+/* Title and file actions share one line and wrap together. The transport is
+   not here: it lives under the trace, in the stage. */
 .app-topbar {
   display: flex;
   align-items: center;
@@ -93,12 +94,24 @@ h1 {
 }
 
 /*
- * A trace is a closed curve around an origin, so the stage is square. Sizing it
- * from the smaller of the cell's two dimensions keeps the whole curve visible
- * without ever pushing the page wider or taller than the viewport.
+ * The stage is the trace with its transport beneath it: the canvas takes what
+ * is left after the controls have their row.
  */
 .canvas-stage {
   grid-area: stage;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+}
+
+/*
+ * The frame holds the trace and nothing else. It carries the query container so
+ * the transport's row is subtracted before the canvas is measured, and it is
+ * what the narrow breakpoint constrains to a square.
+ */
+.canvas-frame {
   container-type: size;
   display: grid;
   place-items: center;
@@ -140,8 +153,9 @@ h1 {
 .transport {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 10px;
-  flex: 1 1 380px;
   min-width: 0;
 }
 
@@ -254,6 +268,57 @@ h1 {
   color: #f2c14e;
   font-size: 0.94rem;
   letter-spacing: 0.01em;
+}
+
+/*
+ * Collapsible panels. A rail stacks more panels than fit in it and every panel
+ * grows with the Composition, so the title row doubles as the control that
+ * gets a panel out of the way.
+ */
+.panel-disclosure > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.panel-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.panel-disclosure > summary::before {
+  content: '▸';
+  display: inline-block;
+  color: #f2c14e;
+  font-size: 0.8rem;
+  line-height: 1;
+  transition: transform 120ms ease;
+}
+
+.panel-disclosure[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+/* The title carries the panel's whole bottom margin only when open, so a
+   collapsed panel is exactly one row tall. */
+.panel-disclosure > summary h2 {
+  margin: 0;
+}
+
+.panel-disclosure[open] > summary {
+  margin-bottom: 12px;
+}
+
+.panel-disclosure > summary:hover h2 {
+  color: #f6d98a;
+}
+
+.panel-disclosure > summary:focus-visible {
+  outline: 2px solid #42cafd;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 .panel-header {
@@ -435,7 +500,8 @@ h1 {
 }
 
 .voice-row button,
-.control-panel > button {
+.control-panel > button,
+.control-panel > .panel-disclosure > button {
   min-height: 30px;
   border: 1px solid rgba(246, 244, 239, 0.22);
   border-radius: 6px;
@@ -491,7 +557,8 @@ h1 {
   white-space: nowrap;
 }
 
-.sound-bank-panel > output {
+.sound-bank-panel > output,
+.sound-bank-panel > .panel-disclosure > output {
   display: block;
   margin-top: 10px;
   color: #d8d3ca;
@@ -674,7 +741,7 @@ h1 {
     overflow-y: visible;
   }
 
-  .canvas-stage {
+  .canvas-frame {
     container-type: inline-size;
     aspect-ratio: 1 / 1;
     max-height: 70dvh;

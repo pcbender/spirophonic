@@ -19,6 +19,7 @@ import {
   soundFontBankNumber,
   type SoundFontPreset,
 } from '../audio/soundfontEngine'
+import { RailPanel } from './RailPanel'
 
 export type SoundBankVault = Pick<
   SoundBankStore,
@@ -299,8 +300,11 @@ export function SoundBankPanel({
   }
 
   return (
-    <section className="control-panel sound-bank-panel" aria-label="Sound banks">
-      <h2>Sound banks</h2>
+    <RailPanel
+      label="Sound banks"
+      title="Sound banks"
+      className="sound-bank-panel"
+    >
       <div className="sound-bank-import">
         <label className="field">
           <span>SF2 or SF3 file</span>
@@ -381,7 +385,7 @@ export function SoundBankPanel({
           />
         ))}
       </ol>
-    </section>
+    </RailPanel>
   )
 }
 

@@ -5,6 +5,7 @@ import type {
   NativeSynthInstrumentSpec,
   SoundFontInstrumentSpec,
 } from '../core/composition'
+import { RailPanel } from './RailPanel'
 
 export type InstrumentPanelProps = {
   composition: Composition
@@ -65,8 +66,7 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
     })
 
   return (
-    <section className="control-panel" aria-label="Instruments">
-      <h2>Instruments</h2>
+    <RailPanel label="Instruments" title="Instruments">
       <ol className="voice-list">
         {composition.instruments.map((instrument) => (
           <li key={instrument.id} className="voice-row">
@@ -168,7 +168,7 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
           </li>
         ))}
       </ol>
-    </section>
+    </RailPanel>
   )
 }
 

@@ -1,4 +1,5 @@
 import type { Composition, MeterSpec } from '../core/composition'
+import { RailPanel } from './RailPanel'
 
 export type ControlPanelProps = {
   composition: Composition
@@ -13,8 +14,7 @@ export function ControlPanel({ composition, onChange }: ControlPanelProps) {
     })
 
   return (
-    <section className="control-panel" aria-label="Composition controls">
-      <h2>Composition</h2>
+    <RailPanel label="Composition controls" title="Composition">
       <label className="field">
         <span>Name</span>
         <input
@@ -94,7 +94,7 @@ export function ControlPanel({ composition, onChange }: ControlPanelProps) {
           })
         }
       />
-    </section>
+    </RailPanel>
   )
 }
 

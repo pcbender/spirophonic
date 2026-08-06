@@ -8,6 +8,7 @@ import type {
   ScaleName,
 } from '../core/composition'
 import { scaleNames } from '../core/scales'
+import { RailPanel } from './RailPanel'
 
 export type PartPanelProps = {
   composition: Composition
@@ -193,16 +194,18 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
   }
 
   return (
-    <section className="control-panel" aria-label="Parts">
-      <div className="panel-header">
-        <h2>Parts</h2>
+    <RailPanel
+      label="Parts"
+      title="Parts"
+      actions={
         <div className="panel-actions">
           <button type="button" onClick={addPart}>Add Part</button>
           <button type="button" onClick={addRelation}>Add Relation</button>
           <button type="button" onClick={addControlPart}>Add Control</button>
           <button type="button" onClick={addTuningContext}>Add Tuning</button>
         </div>
-      </div>
+      }
+    >
 
       {tuningContexts.length > 0 && (
         <ol className="voice-list" aria-label="Tuning contexts">
@@ -564,7 +567,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
           </li>
         ))}
       </ol>
-    </section>
+    </RailPanel>
   )
 }
 

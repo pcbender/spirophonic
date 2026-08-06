@@ -4,6 +4,7 @@ import type {
   MotionSpec,
   WheelSpec,
 } from '../core/composition'
+import { RailPanel } from './RailPanel'
 
 export type WheelPanelProps = {
   composition: Composition
@@ -50,8 +51,7 @@ export function WheelPanel({
   }
 
   return (
-    <section className="control-panel" aria-label="Wheel controls">
-      <h2>Wheel — {wheel.name}</h2>
+    <RailPanel label="Wheel controls" title={`Wheel — ${wheel.name}`}>
       <label className="field">
         <span>Name</span>
         <input
@@ -149,7 +149,7 @@ export function WheelPanel({
           <NumberField label="Damping" value={wheel.motion.damping} min={0} step={0.005} onChange={(damping) => patchMotion({ damping })} />
         </>
       )}
-    </section>
+    </RailPanel>
   )
 }
 

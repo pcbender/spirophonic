@@ -31,6 +31,7 @@ import { HeadPanel } from './ui/HeadPanel'
 import { ImportExportPanel } from './ui/ImportExportPanel'
 import { InstrumentPanel } from './ui/InstrumentPanel'
 import { PartPanel } from './ui/PartPanel'
+import { RailPanel } from './ui/RailPanel'
 import { SoundBankPanel } from './ui/SoundBankPanel'
 import { RecorderPanel } from './ui/RecorderPanel'
 import { Transport } from './ui/Transport'
@@ -405,21 +406,6 @@ function App() {
           <h1>Spirophonic</h1>
           <p className="tagline">Compose relationships. Hear encounters.</p>
         </div>
-        <Transport
-          status={status}
-          looping={looping}
-          positionSeconds={renderTime}
-          startSeconds={request.startSeconds}
-          durationSeconds={request.durationSeconds}
-          eventCount={performance.performedEvents.length}
-          compiling={compiling}
-          pendingBoundarySeconds={pendingBoundarySeconds}
-          onPlay={() => void play()}
-          onPause={() => void pause()}
-          onStop={() => void stop()}
-          onSeek={seek}
-          onLoopChange={setLoop}
-        />
         <div className="topbar-io">
           <ImportExportPanel
             composition={compiledComposition}
@@ -451,16 +437,38 @@ function App() {
           />
         </div>
 
+        {/*
+          The transport sits under the trace it drives, not in the topbar. It is
+          read against the shape while playing, and a control you watch while
+          watching something else belongs beside that thing.
+        */}
         <div className="canvas-stage">
-          <CompositionCanvas
-            composition={composition}
-            timeSeconds={renderTime}
-            observation={{
-              startSeconds: request.startSeconds,
-              endSeconds: requestEnd,
-              sampleRateHz: request.sampleRateHz,
-            }}
-            recentEncounters={recentEncounters}
+          <div className="canvas-frame">
+            <CompositionCanvas
+              composition={composition}
+              timeSeconds={renderTime}
+              observation={{
+                startSeconds: request.startSeconds,
+                endSeconds: requestEnd,
+                sampleRateHz: request.sampleRateHz,
+              }}
+              recentEncounters={recentEncounters}
+            />
+          </div>
+          <Transport
+            status={status}
+            looping={looping}
+            positionSeconds={renderTime}
+            startSeconds={request.startSeconds}
+            durationSeconds={request.durationSeconds}
+            eventCount={performance.performedEvents.length}
+            compiling={compiling}
+            pendingBoundarySeconds={pendingBoundarySeconds}
+            onPlay={() => void play()}
+            onPause={() => void pause()}
+            onStop={() => void stop()}
+            onSeek={seek}
+            onLoopChange={setLoop}
           />
         </div>
 
@@ -501,16 +509,14 @@ type DiagnosticsProps = {
 function Diagnostics({ diagnostics, runtimeError }: DiagnosticsProps) {
   if (diagnostics.length === 0 && !runtimeError) {
     return (
-      <section className="control-panel" aria-label="Compile diagnostics">
-        <h2>Performance</h2>
+      <RailPanel label="Compile diagnostics" title="Performance">
         <p>No compile diagnostics.</p>
-      </section>
+      </RailPanel>
     )
   }
 
   return (
-    <section className="control-panel" aria-label="Compile diagnostics">
-      <h2>Performance diagnostics</h2>
+    <RailPanel label="Compile diagnostics" title="Performance diagnostics">
       {runtimeError && <p role="alert">{runtimeError}</p>}
       <ul>
         {diagnostics.map((diagnostic, index) => (
@@ -519,7 +525,7 @@ function Diagnostics({ diagnostics, runtimeError }: DiagnosticsProps) {
           </li>
         ))}
       </ul>
-    </section>
+    </RailPanel>
   )
 }
 

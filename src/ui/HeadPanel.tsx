@@ -1,5 +1,6 @@
 import type { Composition, HeadAttachmentSpec, HeadSpec } from '../core/composition'
 import { traceObservationOf } from '../core/traces'
+import { RailPanel } from './RailPanel'
 
 export type HeadPanelProps = {
   composition: Composition
@@ -45,8 +46,10 @@ export function HeadPanel({
     })
 
   return (
-    <section className="control-panel" aria-label="Head controls">
-      <h2>Head and Trace — {head.name}</h2>
+    <RailPanel
+      label="Head controls"
+      title={`Head and Trace — ${head.name}`}
+    >
       <p className="panel-context">on {wheel.name}</p>
       <label className="field">
         <span>Name</span>
@@ -160,7 +163,7 @@ export function HeadPanel({
           </label>
         </>
       )}
-    </section>
+    </RailPanel>
   )
 }
 

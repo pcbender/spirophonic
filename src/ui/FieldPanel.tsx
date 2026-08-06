@@ -17,6 +17,7 @@ import {
   updateBoundary,
   updateField,
 } from '../core/fields'
+import { RailPanel } from './RailPanel'
 
 export type FieldPanelProps = {
   composition: Composition
@@ -180,9 +181,11 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
   }
 
   return (
-    <section className="control-panel field-panel" aria-label="Fields">
-      <div className="panel-header">
-        <h2>Fields</h2>
+    <RailPanel
+      label="Fields"
+      title="Fields"
+      className="field-panel"
+      actions={
         <div className="panel-actions">
           <button type="button" onClick={() => createField('rings')}>
             Add rings
@@ -203,8 +206,8 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
             Add spiral
           </button>
         </div>
-      </div>
-
+      }
+    >
       {composition.fields.length === 0 ? (
         <p>No Fields yet.</p>
       ) : (
@@ -576,7 +579,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
           ))}
         </ol>
       )}
-    </section>
+    </RailPanel>
   )
 }
 
