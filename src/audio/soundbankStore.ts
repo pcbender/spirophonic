@@ -119,7 +119,10 @@ export const sha256Hex = async (
 ) => {
   try {
     if (!subtleCrypto) throw new Error('Web Crypto is unavailable.')
-    const digest = await subtleCrypto.digest('SHA-256', bytes)
+    // A typed-array view rather than the raw buffer: both are valid
+    // BufferSource, but an ArrayBuffer allocated in a different realm fails
+    // the host's instance check, which a view sidesteps.
+    const digest = await subtleCrypto.digest('SHA-256', new Uint8Array(bytes))
     return Array.from(new Uint8Array(digest), (value) =>
       value.toString(16).padStart(2, '0'),
     ).join('')

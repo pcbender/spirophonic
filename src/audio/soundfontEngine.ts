@@ -5,7 +5,7 @@ import type {
   SoundFontInstrumentSpec,
 } from '../core/composition'
 import type { NoteMusicalEvent } from '../core/performance'
-import type { InstrumentEngine } from './instrumentEngine'
+import type { InstrumentEngine, RenderContext } from './instrumentEngine'
 import { type SoundBankStore } from './soundbankStore'
 import { soundBankContainerKind } from './soundfontProbe'
 import { registerSpessaSynthWorklet } from './spessasynthWorklet'
@@ -93,7 +93,7 @@ export type SoundFontSynthesizer = {
 
 export type SoundFontEngineOptions = Readonly<{
   store: SoundBankStore
-  contextFactory?: () => AudioContext
+  contextFactory?: () => RenderContext
   registerWorklet?: (context: BaseAudioContext) => Promise<void>
   synthesizerFactory?: (context: BaseAudioContext) => SoundFontSynthesizer
   loadTimeoutMilliseconds?: number
@@ -177,7 +177,7 @@ const withTimeout = async <T>(
  */
 export class SoundFontEngine implements InstrumentEngine {
   private readonly store: SoundBankStore
-  private readonly contextFactory: () => AudioContext
+  private readonly contextFactory: () => RenderContext
   private readonly registerWorklet: (context: BaseAudioContext) => Promise<void>
   private readonly synthesizerFactory: (
     context: BaseAudioContext,
@@ -190,7 +190,7 @@ export class SoundFontEngine implements InstrumentEngine {
   private readonly bankStatuses = new Map<string, SoundFontBankStatus>()
   private readonly routes = new Map<string, InstrumentRoute>()
   private readonly voices: Array<TrackedVoice> = []
-  private context: AudioContext | null = null
+  private context: RenderContext | null = null
   private workletReady: Promise<void> | null = null
   private disposed = false
 
@@ -328,7 +328,7 @@ export class SoundFontEngine implements InstrumentEngine {
   ) {
     const bank = await this.ensureBank(reference)
     const context = this.ensureContext()
-    await context.resume()
+    await context.resume?.()
     const synthesizer = bank.synthesizer
     const channel = 15
     const at = synthesizer.currentTime + 0.05
@@ -362,11 +362,12 @@ export class SoundFontEngine implements InstrumentEngine {
   }
 
   async resume() {
-    if (this.context) await this.context.resume()
+    // An OfflineAudioContext has no transport to resume; rendering drives it.
+    if (this.context) await this.context.resume?.()
   }
 
   async suspend() {
-    if (this.context?.state === 'running') await this.context.suspend()
+    if (this.context?.state === 'running') await this.context.suspend?.()
   }
 
   schedule(
@@ -501,7 +502,9 @@ export class SoundFontEngine implements InstrumentEngine {
     this.voices.length = 0
     const context = this.context
     this.context = null
-    if (context && context.state !== 'closed') await context.close()
+    // Only a live AudioContext can be closed; an offline one is finished when
+    // its render resolves, and calling close() on it would throw.
+    if (context?.close && context.state !== 'closed') await context.close()
   }
 
   private issue(

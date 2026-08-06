@@ -355,6 +355,7 @@ function App() {
             composition={composition}
             performance={performance}
             onImport={setComposition}
+            vault={audio.store}
           />
         </div>
       </header>

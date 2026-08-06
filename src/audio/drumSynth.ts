@@ -7,7 +7,8 @@
  */
 
 import type { NativeDrumInstrumentSpec } from '../core/composition'
-import type { ScheduledAudioVoice } from './instrumentEngine'
+import { createSequence } from '../core/random'
+import type { RenderContext, ScheduledAudioVoice } from './instrumentEngine'
 
 type DrumShape = {
   kind: 'tone' | 'noise'
@@ -64,19 +65,29 @@ const nativeVoiceNotes: Record<NativeDrumInstrumentSpec['voice'], number> = {
 }
 
 let noise: AudioBuffer | null = null
-let noiseContext: AudioContext | null = null
+let noiseContext: RenderContext | null = null
 
-/** One second of white noise, built once and reused by every hit. */
-const noiseBuffer = (context: AudioContext) => {
+/**
+ * One second of white noise, built once per context and reused by every hit.
+ *
+ * The samples come from a fixed seed rather than `Math.random()`. Perceptually
+ * one white-noise buffer is as good as another, but an unseeded one differs on
+ * every context — which would make two offline renders of the same Composition
+ * disagree sample-for-sample, and no amount of care elsewhere could recover it.
+ */
+export const noiseSeed = 'spirophonic/drum-noise/v1'
+
+const noiseBuffer = (context: RenderContext) => {
   if (noise && noiseContext === context) {
     return noise
   }
 
   const buffer = context.createBuffer(1, context.sampleRate, context.sampleRate)
   const channel = buffer.getChannelData(0)
+  const sequence = createSequence(noiseSeed)
 
   for (let index = 0; index < channel.length; index += 1) {
-    channel[index] = Math.random() * 2 - 1
+    channel[index] = sequence() * 2 - 1
   }
 
   noise = buffer
@@ -86,7 +97,7 @@ const noiseBuffer = (context: AudioContext) => {
 }
 
 export const playDrum = (
-  context: AudioContext,
+  context: RenderContext,
   destination: AudioNode,
   note: number,
   at: number,
@@ -142,7 +153,7 @@ export const playDrum = (
 }
 
 export const playNativeDrum = (
-  context: AudioContext,
+  context: RenderContext,
   destination: AudioNode,
   voice: NativeDrumInstrumentSpec['voice'],
   at: number,
@@ -150,7 +161,7 @@ export const playNativeDrum = (
 ) => playDrum(context, destination, nativeVoiceNotes[voice], at, level)
 
 const tone = (
-  context: AudioContext,
+  context: RenderContext,
   destination: AudioNode,
   shape: DrumShape,
   at: number,

@@ -1101,7 +1101,10 @@ asset manifest.
 `src/audio/soundbankStore.ts`, `src/audio/soundbankStore.test.ts`,
 `src/audio/spessasynthWorklet.ts`,
 `scripts/sync-spessasynth-worklet.mjs`,
-`src/ui/ImportExportPanel.tsx`
+`src/ui/ImportExportPanel.tsx`,
+`src/audio/instrumentEngine.ts`, `src/audio/nativeSynthEngine.ts`,
+`src/audio/toneSynth.ts`, `src/audio/drumSynth.ts`,
+`src/audio/drumSynth.test.ts`, `src/App.tsx`, `e2e/app.spec.ts`
 
 **File-list audit (2026-08-05):** "the worker files selected in MG-10" resolves
 to `spessasynthWorklet.ts` and its sync script, now named explicitly.
@@ -1109,6 +1112,32 @@ to `spessasynthWorklet.ts` and its sync script, now named explicitly.
 synthesizer from an `OfflineAudioContext` rather than the live one, and
 `soundbankStore.ts` because bundle import writes verified bank bytes into the
 vault without overwriting what is already there.
+
+**File-list amendment (2026-08-06):** the audit above named the SoundFont engine
+as the thing an offline context has to reach, but the native path has the same
+requirement and was not listed. Four files are added, each for a stated reason:
+
+- `instrumentEngine.ts` — the engine boundary types `contextFactory` as
+  `AudioContext`. An `OfflineAudioContext` is a `BaseAudioContext` and has no
+  `close()`, so the shared render-context type belongs on the boundary rather
+  than being cast at each call site.
+- `nativeSynthEngine.ts` — native Instruments are named in the first
+  deliverable, so the native engine must accept an offline context and must not
+  call `close()` on one.
+- `toneSynth.ts`, `drumSynth.ts` — both build their graphs from
+  `BaseAudioContext` members only; their `AudioContext` parameter is a
+  needless narrowing. `drumSynth.ts` additionally seeds its shared noise buffer
+  from `Math.random()`, which makes every render of a noise-based drum voice
+  differ from the last. That directly contradicts this packet's repeat-render
+  acceptance criterion, so the noise is seeded deterministically instead.
+- `App.tsx` — the panel needs the sound-bank vault to render or bundle
+  SoundFont banks, and only `App.tsx` owns it. This is the third time a packet
+  has changed a panel's props without listing the file that mounts it; the
+  2026-08-05 audit called it out for MG-17 and MG-18 and it recurs here.
+- `e2e/app.spec.ts` — this packet's repeat-render criterion is not decidable in
+  jsdom, which has no Web Audio at all. The browser check is the only place the
+  claim can be tested rather than asserted, so it is written here even though
+  `e2e/` is otherwise MG-21's.
 
 **Deliverables:**
 

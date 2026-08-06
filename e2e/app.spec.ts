@@ -79,7 +79,10 @@ test('no panel overflows its rail horizontally', async ({ page }) => {
   // that would have caught the MG-13 Fields button overflow.
   const overflows = await page.evaluate(() => {
     const bad: Array<{ label: string; overflow: number }> = []
-    for (const panel of document.querySelectorAll('.control-panel')) {
+    // `.import-export` is included because MG-20 added four controls to it.
+    for (const panel of document.querySelectorAll(
+      '.control-panel, .import-export',
+    )) {
       const overflow = panel.scrollWidth - panel.clientWidth
       if (overflow > 1) {
         bad.push({
@@ -182,4 +185,74 @@ test('Trace observation authoring stays free of errors', async ({ page }) => {
   await expect
     .poll(async () => canvasInk(page), { timeout: 15_000 })
     .toBeGreaterThan(500)
+})
+
+/**
+ * MG-20 renders audio through a real OfflineAudioContext. jsdom has no Web
+ * Audio at all, so whether a repeated render actually reproduces can only be
+ * settled here, in the browser that will do the rendering.
+ */
+test('a native offline render reproduces byte-for-byte', async ({ page }) => {
+  const comparison = await page.evaluate(async () => {
+    // Two independent contexts, the same schedule in each: this is exactly
+    // what pressing Export WAV twice does.
+    const renderOnce = async () => {
+      const context = new OfflineAudioContext(2, 44_100 * 2, 44_100)
+      const master = context.createGain()
+      master.gain.value = 0.3
+      master.connect(context.destination)
+
+      for (let index = 0; index < 8; index += 1) {
+        const oscillator = context.createOscillator()
+        const gain = context.createGain()
+        const at = index * 0.2
+        oscillator.type = 'sawtooth'
+        oscillator.frequency.setValueAtTime(220 * (1 + index / 8), at)
+        gain.gain.setValueAtTime(0.0001, at)
+        gain.gain.linearRampToValueAtTime(0.8, at + 0.01)
+        gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.18)
+        oscillator.connect(gain)
+        gain.connect(master)
+        oscillator.start(at)
+        oscillator.stop(at + 0.2)
+      }
+
+      const buffer = await context.startRendering()
+      return [
+        Float32Array.from(buffer.getChannelData(0)),
+        Float32Array.from(buffer.getChannelData(1)),
+      ]
+    }
+
+    const first = await renderOnce()
+    const second = await renderOnce()
+
+    let largest = 0
+    let nonSilent = 0
+    for (let channel = 0; channel < first.length; channel += 1) {
+      for (let index = 0; index < first[channel].length; index += 1) {
+        const difference = Math.abs(first[channel][index] - second[channel][index])
+        if (difference > largest) largest = difference
+        if (Math.abs(first[channel][index]) > 1e-4) nonSilent += 1
+      }
+    }
+    return { largest, nonSilent }
+  })
+
+  // Something was actually rendered, so equality is not equality of silence.
+  expect(comparison.nonSilent).toBeGreaterThan(1000)
+  expect(comparison.largest).toBe(0)
+})
+
+test('the offline render controls are reachable and report their result', async ({
+  page,
+}) => {
+  const io = page.getByRole('region', { name: 'Import and export' })
+  await expect(io.getByRole('button', { name: 'Export WAV' })).toBeVisible()
+  await expect(io.getByRole('button', { name: 'Export bundle' })).toBeVisible()
+  await expect(io.getByRole('button', { name: 'Import bundle' })).toBeVisible()
+
+  // A manifest-only bundle export must say what it did without a vault entry.
+  await io.getByRole('button', { name: 'Export bundle' }).click()
+  await expect(io.locator('output')).toContainText(/Bundled|manifest/)
 })

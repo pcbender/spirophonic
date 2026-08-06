@@ -7,12 +7,13 @@ import type { NoteMusicalEvent } from '../core/performance'
 import { playNativeDrum } from './drumSynth'
 import type {
   InstrumentEngine,
+  RenderContext,
   ScheduledAudioVoice,
 } from './instrumentEngine'
 import { playSynthTone } from './toneSynth'
 
 export type NativeTonePlayer = (
-  context: AudioContext,
+  context: RenderContext,
   destination: AudioNode,
   frequencyHz: number,
   atSeconds: number,
@@ -23,7 +24,7 @@ export type NativeTonePlayer = (
 ) => ScheduledAudioVoice
 
 export type NativeDrumPlayer = (
-  context: AudioContext,
+  context: RenderContext,
   destination: AudioNode,
   voice: NativeDrumInstrumentSpec['voice'],
   atSeconds: number,
@@ -31,7 +32,7 @@ export type NativeDrumPlayer = (
 ) => ScheduledAudioVoice
 
 export type NativeSynthEngineOptions = Readonly<{
-  contextFactory?: () => AudioContext
+  contextFactory?: () => RenderContext
   tonePlayer?: NativeTonePlayer
   drumPlayer?: NativeDrumPlayer
   masterGain?: number
@@ -49,13 +50,13 @@ type TrackedVoice = Readonly<{
 
 /** Web Audio backend for the dependency-free native synth and drum voices. */
 export class NativeSynthEngine implements InstrumentEngine {
-  private readonly contextFactory: () => AudioContext
+  private readonly contextFactory: () => RenderContext
   private readonly tonePlayer: NativeTonePlayer
   private readonly drumPlayer: NativeDrumPlayer
   private readonly masterGain: number
   private readonly buses = new Map<string, InstrumentBus>()
   private readonly voices: Array<TrackedVoice> = []
-  private context: AudioContext | null = null
+  private context: RenderContext | null = null
   private master: GainNode | null = null
   private disposed = false
 
@@ -71,12 +72,13 @@ export class NativeSynthEngine implements InstrumentEngine {
   }
 
   async resume() {
-    await this.ensureContext().resume()
+    // An OfflineAudioContext has no transport to resume; rendering drives it.
+    await this.ensureContext().resume?.()
   }
 
   async suspend() {
     if (this.context?.state === 'running') {
-      await this.context.suspend()
+      await this.context.suspend?.()
     }
   }
 
@@ -160,7 +162,9 @@ export class NativeSynthEngine implements InstrumentEngine {
     this.context = null
     this.disposed = true
 
-    if (context && context.state !== 'closed') {
+    // Only a live AudioContext can be closed; an offline one is finished when
+    // its render resolves, and calling close() on it would throw.
+    if (context?.close && context.state !== 'closed') {
       await context.close()
     }
   }

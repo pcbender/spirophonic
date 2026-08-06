@@ -1,6 +1,22 @@
 import type { InstrumentSpec } from '../core/composition'
 import type { NoteMusicalEvent } from '../core/performance'
 
+/**
+ * A context an engine can build voices in and drive.
+ *
+ * Live playback uses an `AudioContext`; offline render uses an
+ * `OfflineAudioContext`, which is a `BaseAudioContext` and therefore has no
+ * `close()` and no meaningful `suspend()`. Both are accepted here, and the
+ * lifecycle methods are optional so engines must check for them rather than
+ * assume a live context.
+ */
+export type RenderContext = BaseAudioContext &
+  Readonly<{
+    resume?: () => Promise<void>
+    suspend?: () => Promise<void>
+    close?: () => Promise<void>
+  }>
+
 export type ScheduledAudioVoice = Readonly<{
   startsAtSeconds: number
   endsAtSeconds: number

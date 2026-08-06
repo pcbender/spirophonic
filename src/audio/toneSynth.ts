@@ -2,7 +2,7 @@ import type {
   EnvelopeSpec,
   NativeSynthInstrumentSpec,
 } from '../core/composition'
-import type { ScheduledAudioVoice } from './instrumentEngine'
+import type { RenderContext, ScheduledAudioVoice } from './instrumentEngine'
 
 type NativeWaveform = NativeSynthInstrumentSpec['waveform']
 
@@ -20,7 +20,7 @@ const stopSource = (source: OscillatorNode, atSeconds: number) => {
  * normalized velocity.
  */
 export const playSynthTone = (
-  context: AudioContext,
+  context: RenderContext,
   destination: AudioNode,
   frequencyHz: number,
   at: number,
