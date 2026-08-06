@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Build Plan
 
-Status: **implementation contract; all packets are planned.**
+Status: **implementation contract; all packets are done.**
 
 This document turns [Spirophonic-Domain-Model.md](Spirophonic-Domain-Model.md)
 into a dependency-ordered build plan. It is the active contract for moving the
@@ -388,7 +388,7 @@ sweep, it does not license silent scope growth.
 | MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | **done** |
 | MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | **done** |
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | **done** |
-| MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | **ready** |
+| MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | **done** |
 
 The first user-visible milestone is MG-09. MG-11 makes that slice sound like a
 composition tool. MG-12 proves concurrent Wheels and Heads before advanced
@@ -1173,13 +1173,27 @@ loads and make its architecture legible to future work.
 `src/audio/audio.integration.test.ts`,
 `src/App.test.tsx`, `e2e/`, `playwright.config.ts`,
 `src/test/fixtures/`, `docs/examples/`, `README.md`, `AGENTS.md`,
-`docs/MUSIC-GENERATOR-BUILD-PLAN.md`
+`docs/MUSIC-GENERATOR-BUILD-PLAN.md`, `src/App.tsx`
 
 **File-list audit (2026-08-05):** the browser-check deliverable predates the
 Playwright harness added on 2026-08-05, so `e2e/` and `playwright.config.ts`
 are now the place those checks live. A trace-indexing benchmark is called for by
 the deliverables but had no file; MG-15 introduced the code it measures.
 `AGENTS.md` carries the contributor-facing gate list.
+
+**File-list amendment (2026-08-06):** `src/App.tsx` is added. The
+keyboard/accessibility and error-recovery deliverables are app behaviour, not
+only app tests: the accessibility pass found nothing to fix, but error recovery
+did — a runtime error latched until the next play attempt, so a user who
+corrected the fault still saw the failure message and had no way to tell their
+fix had worked. Clearing it when the Composition changes is a one-line change in
+`App.tsx`, and there is nowhere else it could live.
+
+This is the fourth packet to change app behaviour or panel wiring without
+listing `App.tsx`; the 2026-08-05 audit named it for MG-17 and MG-18, MG-20
+amended for it, and MG-21 does again. The lists are drafted from what a packet
+*produces* rather than from what it must *touch*, and the mounting file is the
+consistent casualty.
 
 **Deliverables:**
 
@@ -1205,6 +1219,71 @@ the deliverables but had no file; MG-15 introduced the code it measures.
 - No exporter or audio backend reaches backward into geometry.
 - Every planned packet is done, deferred with a named replacement milestone, or
   explicitly removed from scope in this contract.
+
+### Packet-close audit, 2026-08-06
+
+**Every packet MG-01 through MG-21 is `done`.** None was removed from scope and
+none was replaced by a later milestone. What follows is the honest accounting of
+what inside MG-21 is delivered, and what is delivered only as far as this
+repository can reach.
+
+**Delivered in full:**
+
+- Reference fixtures for all six named shapes, plus a Trace-observation fixture
+  the trace-indexing benchmark needs. They are built in code
+  (`src/test/fixtures/compositions.ts`) rather than stored as JSON, so a schema
+  change breaks them at compile time instead of leaving a file that silently
+  stops parsing. Each is asserted to validate, compile without errors, and
+  produce the behaviour it claims.
+- Benchmarks for state evaluation, Encounter compilation, trace indexing,
+  scheduling load, and offline render memory, with checked-in budgets. They
+  assert deterministic work counts and growth shape rather than wall-clock time,
+  so they mean the same thing on every machine. Reference measurements are in
+  `docs/examples/BENCHMARKS.md`.
+- Browser checks in Chromium 151 and Firefox 153: AudioWorklet, IndexedDB
+  byte-fidelity, reload persistence, background-tab recovery, device change, and
+  the full showcase workflow. Fifteen checks per engine, thirty in total.
+- SoundFont failure isolation (`src/audio/audio.integration.test.ts`): a bank
+  that cannot load is reported, the native engine keeps playing every other
+  Instrument, exports still contain every Part, and no Composition data is lost.
+- Keyboard and accessibility pass, and error recovery. The accessibility audit
+  found no unnamed control and no broken tab order. Error recovery found a real
+  defect, fixed here — see the file-list amendment above.
+- Updated product documentation. `README.md` still described the v0.2 curve
+  sonifier that MG-09 deleted, down to module names that no longer exist;
+  `AGENTS.md` named `SOUND-AND-MIDI-DESIGN.md` as the active contract, which it
+  has not been since MG-09. Both now describe what the code is.
+
+**Delivered structurally, not audibly — one item:**
+
+The showcase's fourth Instrument is a SoundFont, and every structural claim
+about it is asserted: four Wheels of three Heads, four routed Instruments of
+which exactly one is a SoundFont, a resolvable bank reference, and a full
+workflow that plays, seeks, edits, loops, exports MIDI/Strudel/WAV, saves JSON,
+and bundles. What is **not** verified anywhere in this repository is how that
+Instrument *sounds*, because no SF2/SF3 bank ships here and none can: invariant
+11 keeps bank bytes out of Composition JSON, and MG-10 settled that
+redistributing a bank needs a licence this project does not hold.
+
+This is a deliberate constraint of the product, not an unfinished packet, so it
+is recorded as a limit rather than deferred to a later milestone. The path a
+user takes — import a bank, relink the digest, hear all four — is covered by
+MG-11's tests; the path without a bank is covered by MG-21's isolation tests.
+
+**Two benchmark subjects have no checked-in budget, for the same reason:**
+sound-bank initialization and the memory cost of rendering SoundFont voices both
+need a real bank to measure. Native offline render memory *is* budgeted. If a
+redistributable bank is ever licensed, those two budgets are the work to add.
+
+**Known costs recorded rather than fixed**, because fixing them is not this
+packet's scope and neither is a correctness problem:
+
+- Compilation runs synchronously in a `useMemo`, so the reference Composition
+  blocks the render thread for roughly 500 ms on every edit. No benchmark will
+  catch this; the work itself is not the problem, its thread is.
+- The production chunk is ~606 kB minified, over Vite's 500 kB advisory.
+
+Both are in the progress tracker's risk register with owners.
 
 ## Packet rules
 

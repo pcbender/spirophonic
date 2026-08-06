@@ -37,6 +37,26 @@ export default defineConfig({
         },
       },
     },
+    {
+      // MG-21 requires a second current engine. Firefox is the meaningful
+      // choice: it is the other independent implementation of AudioWorklet,
+      // IndexedDB, and Canvas that this app depends on, so it catches
+      // Chromium-specific assumptions that a second Chromium never would.
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox'],
+        viewport: { width: 1600, height: 1000 },
+        launchOptions: {
+          firefoxUserPrefs: {
+            // Firefox has no autoplay flag; these are the equivalent prefs.
+            'media.autoplay.default': 0,
+            'media.autoplay.blocking_policy': 0,
+            'media.navigator.streams.fake': true,
+            'media.navigator.permission.disabled': true,
+          },
+        },
+      },
+    },
   ],
   webServer: {
     // Preview serves the production build, so these checks exercise exactly

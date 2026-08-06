@@ -256,3 +256,219 @@ test('the offline render controls are reachable and report their result', async 
   await io.getByRole('button', { name: 'Export bundle' }).click()
   await expect(io.locator('output')).toContainText(/Bundled|manifest/)
 })
+
+/**
+ * MG-21 platform checks. These confirm the browser APIs the instrument depends
+ * on are present and behave, in both supported engines. They are deliberately
+ * about the platform contract rather than about musical behaviour, which the
+ * Vitest suite owns.
+ */
+test('the platform APIs the instrument depends on are available', async ({
+  page,
+}) => {
+  const support = await page.evaluate(() => ({
+    audioWorklet: typeof AudioWorklet !== 'undefined',
+    audioContextWorklet:
+      typeof AudioContext !== 'undefined' &&
+      'audioWorklet' in AudioContext.prototype,
+    offlineAudioContext: typeof OfflineAudioContext !== 'undefined',
+    indexedDB: typeof indexedDB !== 'undefined',
+    subtleCrypto: typeof crypto !== 'undefined' && !!crypto.subtle,
+    structuredClone: typeof structuredClone === 'function',
+  }))
+
+  expect(support).toEqual({
+    audioWorklet: true,
+    audioContextWorklet: true,
+    offlineAudioContext: true,
+    indexedDB: true,
+    subtleCrypto: true,
+    structuredClone: true,
+  })
+})
+
+test('IndexedDB stores and returns bank bytes intact', async ({ page }) => {
+  // The vault is where sound banks live. If a browser's IndexedDB mangles
+  // ArrayBuffers, every SoundFont Instrument fails in a way that looks like a
+  // bad bank, so it is worth confirming directly.
+  const roundTrip = await page.evaluate(async () => {
+    const open = () =>
+      new Promise<IDBDatabase>((resolve, reject) => {
+        const request = indexedDB.open('spirophonic-e2e-probe', 1)
+        request.onupgradeneeded = () =>
+          request.result.createObjectStore('bytes', { keyPath: 'id' })
+        request.onsuccess = () => resolve(request.result)
+        request.onerror = () => reject(request.error)
+      })
+
+    const database = await open()
+    const source = new Uint8Array([0, 1, 2, 253, 254, 255])
+    await new Promise<void>((resolve, reject) => {
+      const transaction = database.transaction('bytes', 'readwrite')
+      transaction.objectStore('bytes').put({ id: 'a', bytes: source.buffer })
+      transaction.oncomplete = () => resolve()
+      transaction.onerror = () => reject(transaction.error)
+    })
+
+    const stored = await new Promise<{ bytes: ArrayBuffer }>((resolve, reject) => {
+      const request = database
+        .transaction('bytes', 'readonly')
+        .objectStore('bytes')
+        .get('a')
+      request.onsuccess = () => resolve(request.result)
+      request.onerror = () => reject(request.error)
+    })
+
+    database.close()
+    indexedDB.deleteDatabase('spirophonic-e2e-probe')
+    return Array.from(new Uint8Array(stored.bytes))
+  })
+
+  expect(roundTrip).toEqual([0, 1, 2, 253, 254, 255])
+})
+
+test('an edited Composition survives a reload', async ({ browser }) => {
+  // A dedicated context: the shared `beforeEach` installs an init script that
+  // clears localStorage on *every* navigation, which would wipe the workspace
+  // during the reload this test exists to check.
+  const context = await browser.newContext({
+    viewport: { width: 1600, height: 1000 },
+  })
+  const fresh = await context.newPage()
+  const errors: Array<string> = []
+  fresh.on('pageerror', (error) => errors.push(error.message))
+
+  await fresh.goto('/')
+  await fresh.getByRole('button', { name: 'Load reference' }).click()
+  await expect(fresh.getByText('Wheel 4')).toBeVisible()
+
+  const tempo = fresh.getByLabel(/^Tempo/)
+  await tempo.fill('96')
+  await expect(tempo).toHaveValue('96')
+
+  await fresh.reload()
+  await expect(
+    fresh.getByRole('heading', { level: 1, name: 'Spirophonic' }),
+  ).toBeVisible()
+
+  await expect(fresh.getByLabel(/^Tempo/)).toHaveValue('96')
+  await expect(fresh.getByText('Wheel 4')).toBeVisible()
+  expect(errors, `page errors: ${errors.join(' | ')}`).toEqual([])
+
+  await context.close()
+})
+
+test('playback recovers after the tab goes to the background', async ({
+  page,
+}) => {
+  await loadReference(page)
+  await page.getByRole('button', { name: 'Play' }).click()
+
+  const position = () =>
+    page.evaluate(() => {
+      const slider = document.querySelector<HTMLInputElement>(
+        'input[type="range"]',
+      )
+      return Number(slider?.value ?? 0)
+    })
+  await expect.poll(position, { timeout: 10_000 }).toBeGreaterThan(0.1)
+
+  // Browsers throttle timers in a hidden tab. The Transport is driven by the
+  // audio clock rather than by those timers, so it must keep its place.
+  await page.evaluate(() => {
+    Object.defineProperty(document, 'visibilityState', {
+      configurable: true,
+      get: () => 'hidden',
+    })
+    document.dispatchEvent(new Event('visibilitychange'))
+  })
+  const hiddenAt = await position()
+
+  await page.evaluate(() => {
+    Object.defineProperty(document, 'visibilityState', {
+      configurable: true,
+      get: () => 'visible',
+    })
+    document.dispatchEvent(new Event('visibilitychange'))
+  })
+
+  await expect.poll(position, { timeout: 10_000 }).toBeGreaterThanOrEqual(
+    hiddenAt,
+  )
+  await page.getByRole('button', { name: 'Pause' }).click()
+})
+
+test('an audio device change does not lose the Composition', async ({ page }) => {
+  await loadReference(page)
+  await page.getByRole('button', { name: 'Play' }).click()
+  await expect
+    .poll(
+      async () =>
+        page.evaluate(() => {
+          const slider = document.querySelector<HTMLInputElement>(
+            'input[type="range"]',
+          )
+          return Number(slider?.value ?? 0)
+        }),
+      { timeout: 10_000 },
+    )
+    .toBeGreaterThan(0.1)
+
+  // A device change fires on the media device list, not on the AudioContext.
+  // Whatever the audio stack does, the document must survive it.
+  await page.evaluate(() => {
+    navigator.mediaDevices?.dispatchEvent(new Event('devicechange'))
+  })
+
+  await expect(page.getByText('Wheel 4')).toBeVisible()
+  await expect(page.getByLabel(/^Tempo/)).toHaveValue('110')
+  await page.getByRole('button', { name: 'Pause' }).click()
+})
+
+/**
+ * The MG-21 showcase acceptance criterion, end to end in a real browser:
+ * play, seek, edit, loop, export MIDI/Strudel/WAV, save JSON, and bundle.
+ */
+test('the showcase runs the full workflow without errors', async ({ page }) => {
+  await loadReference(page)
+  const io = page.getByRole('region', { name: 'Import and export' })
+
+  // Play and seek.
+  await page.getByRole('button', { name: 'Play' }).click()
+  await expect
+    .poll(
+      async () =>
+        page.evaluate(() => {
+          const slider = document.querySelector<HTMLInputElement>(
+            'input[type="range"]',
+          )
+          return Number(slider?.value ?? 0)
+        }),
+      { timeout: 10_000 },
+    )
+    .toBeGreaterThan(0.1)
+  await page.getByRole('button', { name: 'Pause' }).click()
+  await page.getByRole('slider', { name: 'Transport position' }).fill('1.2')
+
+  // Edit at a safe boundary: the Composition must stay compilable throughout.
+  await page.getByLabel(/^Tempo/).fill('104')
+  const diagnostics = page.getByRole('region', { name: 'Compile diagnostics' })
+  await expect(diagnostics).not.toContainText('error')
+
+  // Every export path runs. Downloads are captured rather than written.
+  for (const name of ['Export MIDI', 'Export SVG', 'Export JSON']) {
+    const download = page.waitForEvent('download')
+    await io.getByRole('button', { name }).click()
+    expect((await download).suggestedFilename()).toBeTruthy()
+  }
+
+  const wav = page.waitForEvent('download')
+  await io.getByRole('button', { name: 'Export WAV' }).click()
+  expect((await wav).suggestedFilename()).toMatch(/\.wav$/)
+
+  const bundle = page.waitForEvent('download')
+  await io.getByRole('button', { name: 'Export bundle' }).click()
+  expect((await bundle).suggestedFilename()).toMatch(/\.spirophonic$/)
+
+  await expect(diagnostics).not.toContainText('error')
+})

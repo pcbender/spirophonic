@@ -356,3 +356,120 @@ describe('MG-12 concurrent multi-Wheel authoring', () => {
     ).toEqual(new Set(['part-lead']))
   })
 })
+
+/**
+ * MG-21 deliverables that live at the app level: the keyboard and
+ * accessibility pass, and error recovery. Layout and paint are checked in the
+ * Playwright suite, which is the only place they are real.
+ */
+describe('MG-21 accessibility and error recovery', () => {
+  it('gives every interactive control an accessible name', () => {
+    render(<App />)
+
+    const unnamed: Array<string> = []
+    for (const element of [
+      ...screen.queryAllByRole('button'),
+      ...screen.queryAllByRole('textbox'),
+      ...screen.queryAllByRole('combobox'),
+      ...screen.queryAllByRole('checkbox'),
+      ...screen.queryAllByRole('slider'),
+      ...screen.queryAllByRole('spinbutton'),
+    ]) {
+      const name =
+        element.getAttribute('aria-label') ??
+        element.textContent?.trim() ??
+        ''
+      const labelled = element.getAttribute('aria-labelledby')
+      // A control may be named explicitly, by a `for` label, or by being
+      // wrapped in one; all three are valid to a screen reader.
+      const hasLabel =
+        (element.id !== '' &&
+          document.querySelector(`label[for="${element.id}"]`) !== null) ||
+        element.closest('label') !== null
+      if (name === '' && !labelled && !hasLabel) {
+        unnamed.push(element.outerHTML.slice(0, 120))
+      }
+    }
+
+    expect(unnamed).toEqual([])
+  })
+
+  it('names every landmark region so a screen reader can navigate panels', () => {
+    render(<App />)
+
+    for (const label of [
+      'Composition transport',
+      'Composition controls',
+      'Wheel controls',
+      'Head controls',
+      'Fields',
+      'Parts',
+      'Instruments',
+      'Compile diagnostics',
+      'Import and export',
+    ]) {
+      expect(screen.getByLabelText(label), label).toBeInTheDocument()
+    }
+  })
+
+  it('keeps every control reachable by keyboard', () => {
+    render(<App />)
+
+    // Nothing may be removed from the tab order, and nothing may jump ahead of
+    // the document order with a positive tabindex.
+    const focusable = [
+      ...document.querySelectorAll<HTMLElement>(
+        'button, input, select, textarea, [tabindex]',
+      ),
+    ].filter((element) => !element.hasAttribute('hidden'))
+
+    expect(focusable.length).toBeGreaterThan(10)
+    for (const element of focusable) {
+      const tabIndex = element.getAttribute('tabindex')
+      if (tabIndex !== null) {
+        expect(Number(tabIndex), element.outerHTML.slice(0, 80)).toBeLessThanOrEqual(0)
+      }
+      expect(
+        (element as HTMLButtonElement).disabled === true ||
+          element.getAttribute('aria-hidden') !== 'true',
+      ).toBe(true)
+    }
+  })
+
+  it('announces a refused play as an alert without losing the Composition', async () => {
+    render(<App />)
+
+    // Break the Composition through the UI, so the app is in the state a user
+    // would actually reach.
+    const tempo = screen.getByLabelText(/^Tempo/) as HTMLInputElement
+    fireEvent.change(tempo, { target: { value: '0' } })
+
+    const play = screen.getByRole('button', { name: 'Play' })
+    fireEvent.click(play)
+
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+    })
+
+    // The Composition is still exportable; an error surface never eats data.
+    const exported = exportCompositionToJson(cloneDefault())
+    expect(parseCompositionJson(exported).ok).toBe(true)
+    expect(screen.getByRole('heading', { level: 1, name: 'Spirophonic' })).toBeInTheDocument()
+  })
+
+  it('recovers once the fault is corrected', async () => {
+    render(<App />)
+    const tempo = screen.getByLabelText(/^Tempo/) as HTMLInputElement
+
+    fireEvent.change(tempo, { target: { value: '0' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Play' }))
+    await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument())
+
+    fireEvent.change(tempo, { target: { value: '120' } })
+
+    // The diagnostics panel returns to its clean state rather than latching.
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+  })
+})

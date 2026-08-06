@@ -79,7 +79,14 @@ function App() {
   const [pendingBoundarySeconds, setPendingBoundarySeconds] = useState<
     number | null
   >(null)
-  const [runtimeError, setRuntimeError] = useState('')
+  // An error describes one attempt against one Composition, so it is stored
+  // with the Composition it belongs to. Visibility is then derived during
+  // render: a corrected Composition clears the message without an effect, and
+  // a message never outlives its cause and tells the user their fix failed.
+  const [runtimeError, setRuntimeError] = useState<Readonly<{
+    message: string
+    forComposition: Composition
+  }> | null>(null)
   const [selection, setSelection] = useState<TreeSelection>(() => ({
     kind: 'wheel',
     id: '',
@@ -145,6 +152,15 @@ function App() {
       encounter.timeSeconds <= renderTime &&
       renderTime - encounter.timeSeconds <= 0.35,
   )
+  const visibleRuntimeError =
+    runtimeError && runtimeError.forComposition === composition
+      ? runtimeError.message
+      : ''
+  const reportRuntimeError = useCallback(
+    (message: string, forComposition: Composition) =>
+      setRuntimeError(message ? { message, forComposition } : null),
+    [],
+  )
 
   useEffect(() => {
     try {
@@ -159,7 +175,7 @@ function App() {
 
   const play = async () => {
     if (performance.diagnostics.some((item) => item.severity === 'error')) {
-      setRuntimeError('Resolve compile errors before playing.')
+      reportRuntimeError('Resolve compile errors before playing.', composition)
       return
     }
 
@@ -182,12 +198,16 @@ function App() {
       scheduledTempoRef.current = composition.transport.tempoBpm
       setPositionSeconds(startAt)
       setPendingBoundarySeconds(null)
-      setRuntimeError(
+      reportRuntimeError(
         preparation.issues.map((issue) => issue.message).join(' '),
+        composition,
       )
       setStatus(active.status)
     } catch (error) {
-      setRuntimeError(error instanceof Error ? error.message : String(error))
+      reportRuntimeError(
+        error instanceof Error ? error.message : String(error),
+        composition,
+      )
     }
   }
 
@@ -272,12 +292,16 @@ function App() {
         }
         scheduledPerformanceRef.current = performance
         scheduledTempoRef.current = composition.transport.tempoBpm
-        setRuntimeError(
+        reportRuntimeError(
           preparation.issues.map((issue) => issue.message).join(' '),
+          composition,
         )
       } catch (error) {
         if (!cancelled) {
-          setRuntimeError(error instanceof Error ? error.message : String(error))
+          reportRuntimeError(
+            error instanceof Error ? error.message : String(error),
+            composition,
+          )
         }
       }
     }
@@ -287,11 +311,16 @@ function App() {
     }
   }, [
     audio,
+    // The whole Composition is a dependency because a reported error is scoped
+    // to it. This does not widen when the effect runs: `performance` is derived
+    // from `composition`, so any change already re-triggers through it.
+    composition,
     composition.instruments,
     composition.soundBanks,
     composition.transport.tempoBpm,
     looping,
     performance,
+    reportRuntimeError,
     request.startSeconds,
     status,
   ])
@@ -397,7 +426,7 @@ function App() {
         <div className="rail rail-voices">
           <Diagnostics
             diagnostics={performance.diagnostics}
-            runtimeError={runtimeError}
+            runtimeError={visibleRuntimeError}
           />
           <FieldPanel composition={composition} onChange={setComposition} />
           <PartPanel composition={composition} onChange={setComposition} />

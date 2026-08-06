@@ -1,19 +1,53 @@
 ## Current work
 
-Active design contract: [docs/SOUND-AND-MIDI-DESIGN.md](docs/SOUND-AND-MIDI-DESIGN.md).
-Read it before touching `src/core/`, `src/export/`, or the audio engine. It
-carries a packet table with dependencies, per-packet file lists, and acceptance
-criteria, and it is written for hand-off between sessions and agents. Update the
-packet status table in the same commit that lands the work.
+Active design contract:
+[docs/MUSIC-GENERATOR-BUILD-PLAN.md](docs/MUSIC-GENERATOR-BUILD-PLAN.md).
+Read it before touching `src/core/`, `src/audio/`, or `src/export/`. It carries
+the packet table with dependencies, per-packet file lists, architectural
+invariants, and acceptance criteria. A packet must stay inside its named files
+unless the contract is amended first, in the same commit.
 
-Gate every change on `npm test`, `npm run lint`, and `npm run build`.
+Live state, validation evidence, risks, and handoffs are in
+[docs/MUSIC-GENERATOR-PROGRESS.md](docs/MUSIC-GENERATOR-PROGRESS.md). Update the
+Progress table in the build plan and the ledger in the tracker in the same
+commit that lands the work.
 
-Browser checks run with `npm run test:e2e` (Playwright, Chromium, against the
-production preview build). They cover what jsdom cannot reach: real layout,
-real Canvas painting, and a real Web Audio clock. Run them for any packet whose
-acceptance criteria are visual or audible. Deterministic core and scheduler
-behaviour stays in the Vitest suite; the browser checks supplement it and never
-replace it. First run on a new machine needs `npx playwright install chromium`.
+`docs/SOUND-AND-MIDI-DESIGN.md` is the historical contract for the v0.2 curve
+sonifier that MG-09 removed. It is useful background and is not the active
+contract.
+
+## Gates
+
+```bash
+npm test        # must exit 0
+npm run lint
+npm run build
+```
+
+**Check the exit code, not the summary line.** A runner can print "Tests 307
+passed" and still exit non-zero; that happened here for several commits and the
+failures were reported as green. Use `cmd; echo "EXIT: $?"`, and remember that
+piping to `tail` hides failures printed above the part you read — `${PIPESTATUS[0]}`
+holds the real status.
+
+Browser checks run with `npm run test:e2e` (Playwright, Chromium and Firefox,
+against the production preview build). They cover what jsdom cannot reach: real
+layout, real Canvas painting, a real Web Audio clock, real IndexedDB, and a real
+`OfflineAudioContext`. Run them for any change that is visual or audible.
+Deterministic core and scheduler behaviour stays in the Vitest suite; the
+browser checks supplement it and never replace it. First run on a new machine
+needs `npx playwright install chromium firefox`.
+
+Benchmarks live in `src/**/*.bench.test.ts` and assert deterministic work counts
+rather than wall-clock time, so they mean the same thing on every machine. The
+recorded reference measurements are in `docs/examples/BENCHMARKS.md`.
+
+## Verifying a guard
+
+A passing test is not evidence that it would catch anything. Before claiming a
+fix is covered, break the thing on purpose and confirm the test fails. Several
+real defects in this repository — a silenced note that still sounded, an ignored
+cancellation time, an unseeded noise buffer — lived under a fully green suite.
 
 ## graphify
 
