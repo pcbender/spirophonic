@@ -385,7 +385,7 @@ sweep, it does not license silent scope growth.
 | MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | **done** |
 | MG-16 | Relationship tuning, melody, and harmony | MG-07, MG-11, MG-14 | **done** |
 | MG-17 | Seeded variation | MG-03, MG-06, MG-07, MG-16 | **done** |
-| MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | **planned** |
+| MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | **done** |
 | MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | **planned** |
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | **planned** |
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | **planned** |
