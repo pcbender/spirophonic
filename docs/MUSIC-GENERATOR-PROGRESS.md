@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Progress Tracker
 
-Status: **active**
+Status: **complete**
 
 Initialized: **2026-08-05**
 
@@ -14,10 +14,10 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 
 | Measure | Current value |
 | --- | --- |
-| Packets complete | 20 / 21 |
+| Packets complete | 21 / 21 |
 | Packets active | 0 |
 | Packets blocked | 0 |
-| Next ready packet | MG-21 — Scalability hardening, example works, and release |
+| Next ready packet | none — every packet is `done` |
 | Active agents | none |
 | Integration branch | `agent/music-generator-planning` |
 | Last tracker update | 2026-08-06 |
@@ -93,7 +93,7 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| — | — | — | — | — | — | — | No packet is claimed. MG-21 is ready. |
+| — | — | — | — | — | — | — | No packet is claimed. Every packet is `done`. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -122,7 +122,7 @@ their history.
 | MG-18 | Recorder, replay, and reinterpretation | MG-07, MG-17 | `done` | — | 2026-08-06 | Integrated at `592b8d6`; unit and browser gates pass, exit code verified. |
 | MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | `done` | — | 2026-08-06 | Integrated at `c2b00e0`; unit and browser gates pass, exit code verified. |
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | `done` | — | 2026-08-06 | Integrated at `90c809d`; unit and browser gates pass, exit code verified. |
-| MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | `ready` | — | 2026-08-06 | Dependencies are `done`; the packet is unblocked and unclaimed. |
+| MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | `done` | — | 2026-08-06 | Integrated at `44ea458`; unit and two-engine browser gates pass, exit code verified. |
 
 When a packet becomes `done`, evaluate every direct dependent immediately and
 promote it from `waiting` to `ready` if all dependencies are complete.
@@ -137,7 +137,7 @@ promote it from `waiting` to `ready` if all dependencies are complete.
 | Concurrent composition | MG-12 | Several Wheels with several Heads play, render, seek, loop, save, and reload together. | 1 / 1 — complete |
 | Relational composition depth | MG-13–MG-18 | Advanced Fields, relations, Trace encounters, tuning, variation, and Recording work. | 6 / 6 — complete |
 | Portable outputs | MG-19–MG-20 | MIDI, Strudel, audio render, and bundles consume canonical events/Recordings. | 2 / 2 — complete |
-| Release | MG-21 | Reference works, performance budgets, browser checks, and full workflow pass. | 0 / 1 — MG-21 ready |
+| Release | MG-21 | Reference works, performance budgets, browser checks, and full workflow pass. | 1 / 1 — complete |
 
 ## Validation ledger
 
@@ -157,6 +157,7 @@ the final column rather than relying on a statement that it was checked.
 | MG-09 | `ff6af91` | 25 files, 179 tests pass | pass | pass | refreshed after code | Hermes: Wheel cycles 1→2 changed 13→17 events; Play advanced to 1.25s; no page errors; 1600x1000 capture at `/tmp/spirophonic-mg09-hermes.png` | Claude Opus 5 |
 | MG-10 | `992a97e` | 27 files, 190 tests pass | pass | pass; matched worklet SHA-256 | refreshed after code | Hermes Chromium 147 + Firefox 148: SF2/SF3, 287 presets, two pitched presets + drums overlap, missing/corrupt rejection, clean disposal; bank/worklet digests in ADR 0001 | Claude Opus 5 |
 | MG-11 | `7685bb6` | 31 files, 204 tests pass | pass | pass; matched worklet SHA-256 | 1,199 nodes / 2,353 edges | Hermes Chromium 147: local SF2/SF3 banks, 287 presets each, two assigned presets/26 events concurrently, reload, missing-digest isolation, exact-digest relink, and no final page errors; digests in handoff | Claude Opus 5 |
+| MG-21 | `44ea458` | 54 files, 433 tests pass (exit 0 verified) | pass | pass | 1,623 nodes / 3,526 edges | Playwright Chromium 151 **and Firefox 153**: 15 checks per engine, 30 total, all pass. Both engines render byte-identical offline audio. Guard removal verified for error recovery, the trace spatial index, and SoundFont failure isolation. Reference measurements recorded in `docs/examples/BENCHMARKS.md`. | Claude Opus 5 |
 | Defect: `rest` | `11fd8c2` | 49 files, 388 tests pass (exit 0 verified) | pass | pass | 1,571 nodes / 3,389 edges | Playwright Chromium 151: 9 checks pass. Fix verified by reverting all four consumer changes and confirming all four new tests fail; the pre-fix suite passed, so the guard is the evidence, not the suite. | Claude Opus 5 |
 | MG-20 | `90c809d` | 52 files, 383 tests pass (exit 0 verified) | pass | pass | 1,568 nodes / 3,368 edges | Playwright Chromium 151: 9 checks pass. Two independent OfflineAudioContext renders of the same schedule differ by 0.0 at every sample, against 1000+ non-silent samples, so the criterion's byte-identical branch is measured rather than assumed. Guard removal verified for the window offset, seeded noise, bundle digest check, and no-overwrite rule. | Claude Opus 5 |
 | MG-19 | `c2b00e0` | 46 files, 343 tests pass (exit 0 verified) | pass | pass | 1,505 nodes / 3,199 edges | Playwright Chromium 151: 7-check browser suite passes. Geometry-independence of the exporters verified by adding a forbidden import and confirming the test fails. | Claude Opus 5 |
@@ -186,7 +187,7 @@ Validation rules:
 MG-01 through MG-12 are `done`; their records live in the Validation ledger,
 Activity log, and Handoff records below.
 
-No packet is claimed. MG-21 is `ready` and unclaimed.
+No packet is claimed. Every packet is `done`; see the packet-close audit in the build plan.
 
 Keep one subsection here for every `claimed`, `in_progress`, `blocked`, or
 `in_review` packet, then move each finished record into the Activity log,
@@ -217,10 +218,12 @@ decisions, or explicit limits before completion.
 | Visual and audible regressions invisible to jsdom | All | Playwright Chromium checks in `e2e/` run against the production preview build, including a guard that no panel overflows its rail. Added 2026-08-05 after three packets shipped layout or paint bugs that only a real browser caught. | Mitigated |
 | SoundFont browser API churn and worklet packaging | MG-10 | SpessaSynth 4.3.12/core 4.3.16 are pinned, their matched worklet is copied and hash-checked automatically, and the adapter remains replaceable. | Mitigated |
 | Sound bank redistribution and attribution | MG-10, MG-20 | Bundles are manifest-first: bank bytes travel only when the caller permits that specific bank, and licence plus attribution are written into every asset entry whether or not the bytes go with it. Import verifies each embedded digest and never overwrites a local bank. | Mitigated |
-| Event growth with many Heads, Fields, and long windows | MG-12, MG-15, MG-21 | Reference compositions, spatial indexing, request limits, and checked-in benchmarks. | Open |
-| Exact microtonal pitch in MIDI 1.0 | MG-16, MG-19 | Preserve exact internal frequency; use explicit pitch-bend allocation and fail visibly when capacity is exceeded. | Open |
+| Event growth with many Heads, Fields, and long windows | MG-12, MG-15, MG-21 | Checked-in budgets in `src/**/*.bench.test.ts` assert exact Encounter counts, linear growth in window/Boundary/Head count, and an index that beats a linear scan by 10x and widens that gap as the Trace grows. A 10,000-Encounter cap with a visible diagnostic bounds the pathological case. | Mitigated |
+| Exact microtonal pitch in MIDI 1.0 | MG-16, MG-19 | Preserve exact internal frequency; use explicit pitch-bend allocation and fail visibly when capacity is exceeded. Covered by per-event `bend-capacity` diagnostics. | Mitigated |
+| Compilation blocks the render thread | none — open at release | The app compiles in a synchronous `useMemo`, so the concurrent-Wheels reference blocks the UI for roughly 500 ms per edit. No benchmark will catch it: the work is not excessive, its thread is. Moving compilation off the render thread is the fix and is not scoped to any packet. | Open |
+| Production chunk exceeds the bundle advisory | none — open at release | ~606 kB minified against Vite's 500 kB advisory. Lazy-loading the SoundFont path is the obvious lever. | Open |
 | The `rest` flag on a performed event is written but never read | — | Found during MG-20 and fixed in `11fd8c2`. `core/performance.ts` now exports `eventSounds`/`soundingEvents` as the single definition of what is audible, and the live scheduler, offline renderer, MIDI exporter, and Strudel exporter all consult it. Guarded by a cross-consumer suite in `src/export/agreement.test.ts` that fails on all four when the fix is reverted. | Mitigated |
-| Multi-agent edits to shared files or tracker rows | All | Single packet owner, overlap check, frequent heartbeat, and explicit handoff. | Open |
+| Multi-agent edits to shared files or tracker rows | All | Single packet owner, overlap check, frequent heartbeat, and explicit handoff. No conflict occurred across 21 packets. | Mitigated |
 
 ## Decision log
 
@@ -284,6 +287,8 @@ and releases. Do not log every edit.
 | 2026-08-05T20:32:00Z | Claude Opus 5 | MG-11 | Review fixes committed | `3576320` | Both defects fixed with regression tests that fail against `13ba9f5`. Full gates rerun on the integrated commit: 206 tests, lint, build with matched worklet SHA-256, `git diff --check`, and Graphify refresh. |
 | 2026-08-05T20:32:00Z | Claude Opus 5 | MG-01–MG-11 | Packets integrated and closed | `3576320` | All eleven packets are `done` in this tracker and the build plan Progress table. Claims cleared, milestone rollup refreshed, MG-12 promoted from `waiting` to `ready`. |
 | 2026-08-05T20:38:08Z | Claude Opus 5 | MG-12 | Packet claimed | `agent/music-generator-planning` / `7e97a5c` | Dependencies verified `done`; build-plan file list amended explicitly before any packet code changed. |
+| 2026-08-06T09:05:00Z | Claude Opus 5 | MG-21 | Packet closed | `44ea458` | Reference fixtures and the showcase, benchmark budgets for five of six named subjects, a Chromium + Firefox browser matrix, SoundFont failure isolation, an accessibility and error-recovery pass, and rewritten product documentation. **Every packet MG-01 through MG-21 is now `done`; none was removed from scope or deferred to a replacement milestone.** Two limits are recorded rather than hidden: the showcase's SoundFont Instrument is verified structurally but not audibly, because no redistributable bank exists to ship, and the two benchmark subjects that need a real bank have no budget for the same reason. See the packet-close audit in the build plan. |
+| 2026-08-06T08:55:00Z | Claude Opus 5 | MG-21 | File list amended | `44ea458` | `src/App.tsx` added before code changed. Fourth packet to alter app behaviour without listing the mounting file; the amendment names the pattern rather than only fixing the instance. |
 | 2026-08-06T08:35:00Z | Claude Opus 5 | Defect | Silenced notes made audible everywhere | `11fd8c2` | `NoteMusicalEvent.rest` had been written by the compiler and read by no consumer since MG-17, so interpretation variation could not actually silence anything: the note sounded in live playback, MIDI, Strudel, and the offline render. Fixed by giving the compiler one exported definition of audibility and having every consumer use it. The full suite passed before the fix, which is why the defect survived four packets; the new tests fail on all four consumers when it is reverted. Not folded into MG-21 — it is a defect fix across closed packets, not release work. |
 | 2026-08-06T08:15:00Z | Claude Opus 5 | MG-20 | Packet closed | `90c809d` | Offline WAV render, portable `.spirophonic` bundles, and the engine changes an offline context needs. The repeat-render criterion was blocked by `drumSynth` seeding its noise from `Math.random()`, not by the SoundFont backend; seeded from `core/random` instead. Two independent real-browser renders now measure byte-identical. Marked `done`; MG-21 promoted to `ready`. |
 | 2026-08-06T07:50:00Z | Claude Opus 5 | MG-20 | File list amended | `90c809d` | Six files added to the packet contract before code changed: the engine boundary, native engine, both voice modules, `App.tsx`, and `e2e/app.spec.ts`, each with its reason. `App.tsx` is the third packet to change a panel's props without listing the file that mounts it. |
