@@ -121,6 +121,22 @@ h1 {
   height: 100%;
 }
 
+.composition-canvas-shell {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(246, 244, 239, 0.16);
+  border-radius: 10px;
+  background: #101014;
+}
+
+.composition-canvas-shell canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .transport {
   display: flex;
   align-items: center;
@@ -153,6 +169,12 @@ h1 {
 .transport .progress-meter {
   flex: 1 1 90px;
   min-width: 60px;
+}
+
+.transport > input[type='range'] {
+  flex: 1 1 120px;
+  min-width: 80px;
+  accent-color: #42cafd;
 }
 
 .sound-toggle {
@@ -203,6 +225,7 @@ h1 {
 .import-export {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
   min-width: 0;
 }
@@ -256,6 +279,9 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  /* Panels live in a narrow rail, so a header with several actions has to
+     stack rather than push its buttons past the panel edge. */
+  flex-wrap: wrap;
 }
 
 .panel-header button {
@@ -270,7 +296,9 @@ h1 {
 
 .panel-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+  min-width: 0;
 }
 
 .panel-actions button[aria-pressed='true'] {
@@ -325,6 +353,26 @@ h1 {
 .field select {
   width: 100%;
   min-width: 0;
+}
+
+.field input[type='text'],
+.field input[type='number'],
+.field input:not([type]),
+.voice-row input:not([type]),
+.voice-row input[type='text'] {
+  min-height: 32px;
+  border: 1px solid rgba(246, 244, 239, 0.2);
+  border-radius: 6px;
+  padding: 5px 8px;
+  color: #f6f4ef;
+  background: #18181f;
+}
+
+.field input[type='color'] {
+  min-height: 34px;
+  border: 0;
+  padding: 0;
+  background: transparent;
 }
 
 .field input[type='range'] {
@@ -404,6 +452,24 @@ h1 {
   accent-color: #42cafd;
 }
 
+.voice-row button,
+.control-panel > button {
+  min-height: 30px;
+  border: 1px solid rgba(246, 244, 239, 0.22);
+  border-radius: 6px;
+  padding: 4px 9px;
+  color: #f6f4ef;
+  background: #18181f;
+  cursor: pointer;
+}
+
+.control-panel p,
+.control-panel li {
+  color: #d8d3ca;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
 /* Name and count share one line above the controls. */
 .voice-row .voice-head {
   display: flex;
@@ -412,6 +478,12 @@ h1 {
   gap: 12px;
   grid-column: 1 / -1;
   min-width: 0;
+}
+
+/* Nested boundary lists and row-level actions belong to the whole parent row. */
+.voice-row > .voice-list,
+.voice-row > .panel-actions {
+  grid-column: 1 / -1;
 }
 
 .voice-row .voice-enable {
@@ -435,6 +507,155 @@ h1 {
   font-size: 0.72rem;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+
+.sound-bank-panel > output {
+  display: block;
+  margin-top: 10px;
+  color: #d8d3ca;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.sound-bank-import {
+  display: grid;
+  gap: 8px;
+}
+
+.sound-bank-import button,
+.preset-assignment button,
+.sound-bank-card .panel-actions button {
+  min-height: 32px;
+  border: 1px solid rgba(246, 244, 239, 0.22);
+  border-radius: 6px;
+  padding: 5px 10px;
+  color: #f6f4ef;
+  background: #18181f;
+  cursor: pointer;
+}
+
+.sound-bank-list {
+  display: grid;
+  gap: 14px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sound-bank-card {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid rgba(246, 244, 239, 0.12);
+  padding-top: 12px;
+  min-width: 0;
+}
+
+.sound-bank-card .voice-head,
+.sound-bank-card dl > div,
+.preset-assignment {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sound-bank-card dl {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.sound-bank-card dt {
+  color: rgba(246, 244, 239, 0.56);
+  font-size: 0.72rem;
+}
+
+.sound-bank-card dd {
+  min-width: 0;
+  margin: 0;
+  color: #d8d3ca;
+  font-size: 0.76rem;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.bank-state {
+  border: 1px solid rgba(246, 244, 239, 0.2);
+  border-radius: 999px;
+  padding: 2px 8px;
+  color: #d8d3ca;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.bank-state-ready {
+  border-color: rgba(112, 208, 137, 0.7);
+  color: #70d089;
+}
+
+.bank-state-missing,
+.bank-state-unsupported,
+.bank-state-failed {
+  border-color: rgba(255, 121, 121, 0.72);
+  color: #ff7979;
+}
+
+.audition-keyboard {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.audition-keyboard button {
+  min-width: 0;
+  min-height: 38px;
+  border: 1px solid rgba(246, 244, 239, 0.24);
+  border-radius: 4px;
+  padding: 3px;
+  color: #101014;
+  background: #e9e2d6;
+  font-size: 0.65rem;
+  cursor: pointer;
+}
+
+.audition-keyboard button:nth-child(2),
+.audition-keyboard button:nth-child(4),
+.audition-keyboard button:nth-child(7),
+.audition-keyboard button:nth-child(9),
+.audition-keyboard button:nth-child(11) {
+  color: #f6f4ef;
+  background: #18181f;
+}
+
+.preset-assignment {
+  align-items: end;
+}
+
+.preset-assignment .field {
+  flex: 1;
+  margin: 0;
+}
+
+.relink-button {
+  display: inline-grid;
+  place-items: center;
+  min-height: 30px;
+  border: 1px solid rgba(246, 244, 239, 0.22);
+  border-radius: 6px;
+  padding: 4px 9px;
+  color: #f6f4ef;
+  background: #18181f;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.relink-button input {
+  display: none;
+}
+
+.instrument-preset,
+.instrument-fallbacks {
+  grid-column: 1 / -1;
 }
 
 /* Two rails do not fit beside a usable stage, so the shape controls move under
@@ -488,4 +709,126 @@ h1 {
   .topbar-io {
     flex-wrap: wrap;
   }
+}
+
+/* Composition tree (MG-12) */
+.composition-tree .tree-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.composition-tree .tree-list {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.composition-tree .tree-heads {
+  list-style: none;
+  margin: 0.1rem 0 0.35rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.composition-tree .tree-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  padding: 0.15rem 0.3rem;
+  border-radius: 4px;
+  /* A Wheel row carries six actions beside its name; in the narrow rail they
+     have to wrap onto a second line rather than push past the panel edge. */
+  flex-wrap: wrap;
+}
+
+.composition-tree .tree-row.is-selected {
+  background: rgba(111, 214, 194, 0.16);
+  outline: 1px solid rgba(111, 214, 194, 0.5);
+}
+
+.composition-tree .tree-row.is-disabled .tree-label {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+.composition-tree .tree-label {
+  flex: 1 1 auto;
+  text-align: left;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.1rem 0.2rem;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composition-tree .tree-label small {
+  opacity: 0.6;
+}
+
+.composition-tree .tree-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.2rem;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.composition-tree .tree-actions button {
+  padding: 0.05rem 0.35rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.composition-tree .tree-actions button.is-active {
+  background: rgba(242, 184, 128, 0.35);
+  border-color: rgba(242, 184, 128, 0.8);
+}
+
+.composition-tree .tree-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+.composition-tree .removal-impact {
+  margin-top: 0.6rem;
+  padding: 0.5rem;
+  border: 1px solid rgba(242, 184, 128, 0.7);
+  border-radius: 6px;
+  background: rgba(242, 184, 128, 0.1);
+}
+
+.composition-tree .removal-impact h3 {
+  margin: 0 0 0.3rem;
+  font-size: 0.9rem;
+}
+
+.composition-tree .removal-impact ul {
+  margin: 0.2rem 0 0.5rem;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+}
+
+.panel-context {
+  margin: -0.3rem 0 0.4rem;
+  font-size: 0.78rem;
+  opacity: 0.65;
 }

@@ -1,4 +1,4 @@
-import type { ScaleName } from './model'
+import type { ScaleName } from './composition'
 
 export type { ScaleName }
 
@@ -101,3 +101,42 @@ export const fromScaleDegree = (degree: number, scale: ScaleName, root: number) 
 
 export const quantizeFrequency = (hz: number, scale: ScaleName, root: number) =>
   midiToFrequency(quantizeToScale(frequencyToMidi(hz), scale, root))
+
+/**
+ * Resolves an explicit scale degree while keeping the Part inside its declared
+ * octave range. Reordering may deliberately remap degrees, but the Boundary's
+ * stable ID and every source Encounter identity remain unchanged.
+ */
+export const scaleMidiForDegree = (
+  degree: number,
+  scale: ScaleName,
+  root: number,
+  octaves: number,
+) => {
+  const octaveCount = Math.max(0, Math.floor(octaves))
+  const degreeCount = scaleIntervals[scale].length * octaveCount
+  const wrappedDegree =
+    degreeCount === 0
+      ? 0
+      : ((Math.floor(degree) % degreeCount) + degreeCount) % degreeCount
+
+  return fromScaleDegree(wrappedDegree, scale, root)
+}
+
+/** Maps a normalized relationship measurement across a Part's scale range. */
+export const scaleMidiForUnitValue = (
+  value: number,
+  scale: ScaleName,
+  root: number,
+  octaves: number,
+) => {
+  const octaveCount = Math.max(0, Math.floor(octaves))
+  const degreeCount = scaleIntervals[scale].length * octaveCount
+
+  if (degreeCount === 0) return root
+
+  const unit = Math.min(1, Math.max(0, value))
+  const degree = Math.min(degreeCount - 1, Math.floor(unit * degreeCount))
+
+  return fromScaleDegree(degree, scale, root)
+}

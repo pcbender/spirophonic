@@ -10,6 +10,18 @@ export type MidiNote = {
   note: number
   velocity: number
   duration: number
+  /**
+   * 14-bit pitch wheel value written just before the note-on, centre 8192.
+   * Present only when the note is not a whole semitone.
+   */
+  pitchBend?: number
+}
+
+/** A control change written once at the top of the track. */
+export type MidiController = {
+  channel: number
+  controller: number
+  value: number
 }
 
 export type MidiTrack = {
@@ -18,6 +30,10 @@ export type MidiTrack = {
   /** General MIDI program, selected once at the top of the track. */
   program?: number
   channel?: number
+  /** Bank select MSB/LSB, written before the program change. */
+  bankMSB?: number
+  bankLSB?: number
+  controllers?: Array<MidiController>
 }
 
 export type TimeSignature = {
@@ -43,6 +59,8 @@ const META_END_OF_TRACK = 0x2f
 const NOTE_OFF = 0x80
 const NOTE_ON = 0x90
 const PROGRAM_CHANGE = 0xc0
+const CONTROL_CHANGE = 0xb0
+const PITCH_BEND = 0xe0
 
 export const encodeVariableLength = (value: number): Array<number> => {
   let remaining = Math.max(0, Math.floor(value))
@@ -122,6 +140,21 @@ const buildNoteTrack = (track: MidiTrack) => {
     const end = start + Math.max(1, Math.round(note.duration))
 
     return [
+      ...(note.pitchBend === undefined
+        ? []
+        : [
+            {
+              // Bend is written before the note-on at the same tick, so the
+              // voice starts already detuned rather than sliding into pitch.
+              tick: start,
+              order: -1,
+              bytes: [
+                PITCH_BEND | channel,
+                note.pitchBend & 0x7f,
+                (note.pitchBend >> 7) & 0x7f,
+              ],
+            },
+          ]),
       { tick: start, order: 1, bytes: [NOTE_ON | channel, pitch, clampVelocity(note.velocity)] },
       { tick: end, order: 0, bytes: [NOTE_OFF | channel, pitch, 0x40] },
     ]
@@ -136,12 +169,31 @@ const buildNoteTrack = (track: MidiTrack) => {
   let previousTick = 0
   const payload: Array<number> = [...event(0, metaText(META_NAME, track.name))]
 
-  if (track.program !== undefined) {
+  const trackChannel = clampChannel(track.channel ?? 0)
+
+  for (const controller of track.controllers ?? []) {
     payload.push(
       ...event(0, [
-        PROGRAM_CHANGE | clampChannel(track.channel ?? 0),
-        clampByte(track.program),
+        CONTROL_CHANGE | clampChannel(controller.channel),
+        clampByte(controller.controller),
+        clampByte(controller.value),
       ]),
+    )
+  }
+  // Bank select must precede the program change to select the right bank.
+  if (track.bankMSB !== undefined) {
+    payload.push(
+      ...event(0, [CONTROL_CHANGE | trackChannel, 0, clampByte(track.bankMSB)]),
+    )
+  }
+  if (track.bankLSB !== undefined) {
+    payload.push(
+      ...event(0, [CONTROL_CHANGE | trackChannel, 32, clampByte(track.bankLSB)]),
+    )
+  }
+  if (track.program !== undefined) {
+    payload.push(
+      ...event(0, [PROGRAM_CHANGE | trackChannel, clampByte(track.program)]),
     )
   }
 

@@ -4,19 +4,27 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "sync:soundfont-worklet": "node scripts/sync-spessasynth-worklet.mjs",
+    "predev": "npm run sync:soundfont-worklet && npm run fetch:soundbank",
     "dev": "vite",
+    "prebuild": "npm run sync:soundfont-worklet && npm run fetch:soundbank",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "preview": "vite preview --host 127.0.0.1 --port 4173"
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "fetch:soundbank": "node scripts/fetch-soundbank.mjs"
   },
   "dependencies": {
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "spessasynth_lib": "4.3.12"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.62.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^24.12.3",
@@ -26,6 +34,7 @@
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "fake-indexeddb": "6.2.5",
     "globals": "^17.6.0",
     "jsdom": "^27.3.0",
     "typescript": "~6.0.2",

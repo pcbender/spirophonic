@@ -6,6 +6,10 @@
  * what they sound like.
  */
 
+import type { NativeDrumInstrumentSpec } from '../core/composition'
+import { createSequence } from '../core/random'
+import type { RenderContext, ScheduledAudioVoice } from './instrumentEngine'
+
 type DrumShape = {
   kind: 'tone' | 'noise'
   /** Starting frequency, or filter cutoff for noise. */
@@ -51,20 +55,39 @@ const fallback: DrumShape = {
   level: 0.5,
 }
 
-let noise: AudioBuffer | null = null
-let noiseContext: AudioContext | null = null
+const nativeVoiceNotes: Record<NativeDrumInstrumentSpec['voice'], number> = {
+  kick: 36,
+  snare: 38,
+  hat: 42,
+  tom: 45,
+  clap: 39,
+  cymbal: 49,
+}
 
-/** One second of white noise, built once and reused by every hit. */
-const noiseBuffer = (context: AudioContext) => {
+let noise: AudioBuffer | null = null
+let noiseContext: RenderContext | null = null
+
+/**
+ * One second of white noise, built once per context and reused by every hit.
+ *
+ * The samples come from a fixed seed rather than `Math.random()`. Perceptually
+ * one white-noise buffer is as good as another, but an unseeded one differs on
+ * every context — which would make two offline renders of the same Composition
+ * disagree sample-for-sample, and no amount of care elsewhere could recover it.
+ */
+export const noiseSeed = 'spirophonic/drum-noise/v1'
+
+const noiseBuffer = (context: RenderContext) => {
   if (noise && noiseContext === context) {
     return noise
   }
 
   const buffer = context.createBuffer(1, context.sampleRate, context.sampleRate)
   const channel = buffer.getChannelData(0)
+  const sequence = createSequence(noiseSeed)
 
   for (let index = 0; index < channel.length; index += 1) {
-    channel[index] = Math.random() * 2 - 1
+    channel[index] = sequence() * 2 - 1
   }
 
   noise = buffer
@@ -74,18 +97,17 @@ const noiseBuffer = (context: AudioContext) => {
 }
 
 export const playDrum = (
-  context: AudioContext,
+  context: RenderContext,
   destination: AudioNode,
   note: number,
   at: number,
   level: number,
-) => {
+): ScheduledAudioVoice => {
   const shape = shapes[note] ?? fallback
   const peak = level * shape.level
 
   if (shape.kind === 'tone') {
-    tone(context, destination, shape, at, peak)
-    return
+    return tone(context, destination, shape, at, peak)
   }
 
   const source = context.createBufferSource()
@@ -103,26 +125,48 @@ export const playDrum = (
   filter.connect(gain)
   gain.connect(destination)
   source.start(at)
-  source.stop(at + shape.decay + 0.02)
+  const endsAt = at + shape.decay
+  source.stop(endsAt + 0.02)
+
+  const noiseVoice = scheduledVoice(source, gain, at, endsAt)
 
   if (shape.body) {
-    tone(
+    const bodyVoice = tone(
       context,
       destination,
       { ...shape, kind: 'tone', frequency: shape.body, bend: 0.7, decay: shape.decay * 0.6 },
       at,
       peak * 0.6,
     )
+
+    return Object.freeze({
+      startsAtSeconds: at,
+      endsAtSeconds: Math.max(noiseVoice.endsAtSeconds, bodyVoice.endsAtSeconds),
+      cancel: (atSeconds: number) => {
+        noiseVoice.cancel(atSeconds)
+        bodyVoice.cancel(atSeconds)
+      },
+    })
   }
+
+  return noiseVoice
 }
 
+export const playNativeDrum = (
+  context: RenderContext,
+  destination: AudioNode,
+  voice: NativeDrumInstrumentSpec['voice'],
+  at: number,
+  level: number,
+) => playDrum(context, destination, nativeVoiceNotes[voice], at, level)
+
 const tone = (
-  context: AudioContext,
+  context: RenderContext,
   destination: AudioNode,
   shape: DrumShape,
   at: number,
   peak: number,
-) => {
+): ScheduledAudioVoice => {
   const oscillator = context.createOscillator()
   const gain = context.createGain()
 
@@ -142,7 +186,10 @@ const tone = (
   oscillator.connect(gain)
   gain.connect(destination)
   oscillator.start(at)
-  oscillator.stop(at + shape.decay + 0.02)
+  const endsAt = at + shape.decay
+  oscillator.stop(endsAt + 0.02)
+
+  return scheduledVoice(oscillator, gain, at, endsAt)
 }
 
 const envelope = (gain: GainNode, at: number, peak: number, decay: number) => {
@@ -150,3 +197,24 @@ const envelope = (gain: GainNode, at: number, peak: number, decay: number) => {
   gain.gain.linearRampToValueAtTime(Math.max(0.0001, peak), at + 0.002)
   gain.gain.exponentialRampToValueAtTime(0.0001, at + decay)
 }
+
+const scheduledVoice = (
+  source: AudioScheduledSourceNode,
+  gain: GainNode,
+  startsAtSeconds: number,
+  endsAtSeconds: number,
+): ScheduledAudioVoice =>
+  Object.freeze({
+    startsAtSeconds,
+    endsAtSeconds,
+    cancel: (atSeconds: number) => {
+      gain.gain.cancelScheduledValues(atSeconds)
+      gain.gain.setValueAtTime(0.0001, atSeconds)
+
+      try {
+        source.stop(atSeconds + 0.01)
+      } catch {
+        // A source may already have ended when a late panic reaches it.
+      }
+    },
+  })

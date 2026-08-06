@@ -1,232 +1,215 @@
 import { describe, expect, it } from 'vitest'
 
-import { defaultModel } from '../core/defaultModel'
-import { previewPlan } from '../core/preview'
-import { renderVoices } from '../core/voices'
-import { buildMidiBytes } from './midiExport'
-import { decodeVariableLength } from './midi/smf'
-import { exportStrudelSnippet } from './strudelExport'
+import type { InstrumentEngine } from '../audio/instrumentEngine'
+import { PerformanceScheduler } from '../audio/performanceScheduler'
+import type { Composition } from '../core/composition'
+import { defaultComposition } from '../core/defaultComposition'
+import {
+  compilePerformance,
+  type NoteMusicalEvent,
+} from '../core/performance'
+import { beatsToSeconds } from '../core/transport'
+import {
+  renderPerformanceToWav,
+  type OfflineContextFactory,
+  type OfflineRenderContext,
+} from './audioRender'
+import { buildPerformanceMidiTracks } from './midiExport'
+import { buildPerformancePatternParts } from './strudelExport'
 
 /**
- * MIDI, Strudel, and the browser preview are three adapters over one event
- * list. When they disagree the model has become ambiguous, so these compare
- * the outputs against each other rather than any one against a fixture.
+ * The smallest context the render path will accept. It counts nothing and
+ * renders silence; the assertions below are about which events were handed to
+ * an engine, which `renderedEventCount` reports directly.
  */
-const allVoicesOn = {
-  ...defaultModel,
-  voices: defaultModel.voices.map((voice) => ({ ...voice, enabled: true })),
+const silentOfflineContext: OfflineContextFactory = (
+  channelCount,
+  frameCount,
+  sampleRateHz,
+) => {
+  const param = () => ({
+    value: 0,
+    setValueAtTime: () => undefined,
+    linearRampToValueAtTime: () => undefined,
+    exponentialRampToValueAtTime: () => undefined,
+    cancelScheduledValues: () => undefined,
+  })
+  const node = () => ({
+    connect: () => undefined,
+    disconnect: () => undefined,
+    frequency: param(),
+    Q: param(),
+    gain: param(),
+    pan: param(),
+    type: '',
+    buffer: null,
+    start: () => undefined,
+    stop: () => undefined,
+  })
+  return {
+    sampleRate: sampleRateHz,
+    currentTime: 0,
+    state: 'suspended',
+    destination: node(),
+    createGain: node,
+    createOscillator: node,
+    createStereoPanner: node,
+    createBufferSource: node,
+    createBiquadFilter: node,
+    createBuffer: (_channels: number, length: number) => ({
+      numberOfChannels: 1,
+      length,
+      sampleRate: sampleRateHz,
+      getChannelData: () => new Float32Array(length),
+    }),
+    resume: async () => undefined,
+    startRendering: async () => ({
+      numberOfChannels: channelCount,
+      length: frameCount,
+      sampleRate: sampleRateHz,
+      getChannelData: () => new Float32Array(frameCount),
+    }),
+  } as unknown as OfflineRenderContext
 }
 
-const midiNoteOnsPerTrack = (bytes: Uint8Array) => {
-  const counts: Array<number> = []
-  let offset = 14
-
-  while (offset < bytes.length) {
-    const length =
-      (bytes[offset + 4] << 24) |
-      (bytes[offset + 5] << 16) |
-      (bytes[offset + 6] << 8) |
-      bytes[offset + 7]
-    const end = offset + 8 + length
-    let cursor = offset + 8
-    let noteOns = 0
-
-    while (cursor < end) {
-      const delta = decodeVariableLength(bytes, cursor)
-
-      cursor += delta.length
-
-      const status = bytes[cursor]
-
-      if (status === 0xff) {
-        const size = decodeVariableLength(bytes, cursor + 2)
-
-        if (bytes[cursor + 1] === 0x2f) {
-          break
-        }
-
-        cursor += 2 + size.length + size.value
-      } else if ((status & 0xf0) === 0xc0) {
-        cursor += 2
-      } else {
-        if ((status & 0xf0) === 0x90) {
-          noteOns += 1
-        }
-
-        cursor += 3
-      }
-    }
-
-    counts.push(noteOns)
-    offset = end
-  }
-
-  // Drop the tempo track, which carries no notes.
-  return counts.slice(1)
-}
-
-/** Every note as [onTick, offTick], across all note tracks. */
-const midiNoteSpans = (bytes: Uint8Array) => {
-  const spans: Array<[number, number]> = []
-  let offset = 14
-  let track = 0
-
-  while (offset < bytes.length) {
-    const length =
-      (bytes[offset + 4] << 24) |
-      (bytes[offset + 5] << 16) |
-      (bytes[offset + 6] << 8) |
-      bytes[offset + 7]
-    const end = offset + 8 + length
-    let cursor = offset + 8
-    let tick = 0
-    const open: Array<number> = []
-
-    while (cursor < end) {
-      const delta = decodeVariableLength(bytes, cursor)
-
-      cursor += delta.length
-      tick += delta.value
-
-      const status = bytes[cursor]
-
-      if (status === 0xff) {
-        const size = decodeVariableLength(bytes, cursor + 2)
-
-        if (bytes[cursor + 1] === 0x2f) {
-          break
-        }
-
-        cursor += 2 + size.length + size.value
-      } else if ((status & 0xf0) === 0xc0) {
-        cursor += 2
-      } else {
-        if ((status & 0xf0) === 0x90) {
-          open.push(tick)
-        } else if ((status & 0xf0) === 0x80) {
-          const start = open.shift()
-
-          if (start !== undefined && track > 0) {
-            spans.push([start, tick])
-          }
-        }
-
-        cursor += 3
-      }
-    }
-
-    offset = end
-    track += 1
-  }
-
-  return spans
-}
-
-const strudelStepsPerVoice = (snippet: string) =>
-  snippet
-    .split('\n')
-    .filter((line) => line.includes('.gain('))
-    .map(
-      (line) =>
-        (line.match(/^\s*(?:s|n)\("([^"]*)"\)/)?.[1] ?? '')
-          .split(' ')
-          .filter((token) => token !== '~').length,
-    )
-
-describe('the two exports describe the same part', () => {
-  const bars = 4
-
-  it('writes the same number of notes per voice', () => {
-    const midi = midiNoteOnsPerTrack(
-      buildMidiBytes(
-        renderVoices(allVoicesOn).map((item) => ({
-          name: item.voice.name,
-          channel: item.voice.channel,
-          program: item.voice.program,
-          steps: item.voice.quantize.divisions,
-          gate: item.voice.gate,
-          notes: item.notes,
-        })),
-        { cyclesPerSecond: allVoicesOn.time.cyclesPerSecond, bars },
+describe('canonical export agreement', () => {
+  it('MIDI and Strudel adapt every performed event exactly once', () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    const performance = compilePerformance(composition, {
+      startSeconds: 0,
+      durationSeconds: beatsToSeconds(
+        composition.transport.loop.lengthBeats,
+        composition.transport.tempoBpm,
       ),
-    )
-    const strudel = strudelStepsPerVoice(exportStrudelSnippet(allVoicesOn))
+      sampleRateHz: 120,
+    })
+    const midiCount = buildPerformanceMidiTracks(performance, composition)
+      .reduce((count, track) => count + track.notes.length, 0)
+    const strudelCount = buildPerformancePatternParts(performance, composition)
+      .flatMap((part) => part.tokens)
+      .filter((token) => token !== '~').length
 
-    expect(midi.map((count) => count / bars)).toEqual(strudel)
-  })
-
-  it('writes the same number of notes as the model rendered', () => {
-    const rendered = renderVoices(allVoicesOn).map((item) => item.notes.length)
-
-    expect(strudelStepsPerVoice(exportStrudelSnippet(allVoicesOn))).toEqual(rendered)
-  })
-
-  it('agrees for every voice at every quantize strength', () => {
-    for (const strength of [0, 0.25, 0.6, 1]) {
-      const model = {
-        ...allVoicesOn,
-        voices: allVoicesOn.voices.map((voice) => ({
-          ...voice,
-          quantize: { ...voice.quantize, strength },
-        })),
-      }
-      const rendered = renderVoices(model).map((item) => item.notes.length)
-
-      expect(strudelStepsPerVoice(exportStrudelSnippet(model))).toEqual(rendered)
-    }
+    expect(midiCount).toBe(performance.performedEvents.length)
+    expect(strudelCount).toBe(performance.performedEvents.length)
   })
 })
 
-describe('the preview plays what the exports write', () => {
-  const bars = 4
+/**
+ * Interpretation variation can silence a note while keeping it in the performed
+ * layer, so it holds its interpreted id and the variation trace can explain the
+ * difference. Every consumer that turns events into sound or notation has to
+ * honour that flag.
+ *
+ * These live together rather than in each consumer's own file because the
+ * defect they guard against was precisely that each consumer forgot
+ * independently: `rest` was written by the compiler and read by nobody, so a
+ * silenced note still sounded in playback, MIDI, Strudel, and the offline
+ * render alike.
+ */
+describe('a silenced event is a rest in every consumer', () => {
+  const silencedComposition = () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    composition.variation = {
+      enabled: true,
+      // This seed drops 9 of 26 events, so the assertions below are not
+      // vacuously true on a layer that happens to have no rests.
+      seed: 'a',
+      interpretation: { enabled: true, amount: 1 },
+    }
+    return composition
+  }
 
-  it('sounds the same number of notes', () => {
-    const rendered = renderVoices(allVoicesOn).reduce(
-      (count, item) => count + item.notes.length,
+  const silencedPerformance = () => {
+    const composition = silencedComposition()
+    const performance = compilePerformance(composition, {
+      startSeconds: 0,
+      durationSeconds: 4,
+      sampleRateHz: 120,
+    })
+    const rests = performance.performedEvents.filter((event) => event.rest)
+    const sounding = performance.performedEvents.filter((event) => !event.rest)
+    expect(rests.length).toBeGreaterThan(0)
+    expect(sounding.length).toBeGreaterThan(0)
+    return { composition, performance, rests, sounding }
+  }
+
+  it('keeps rests in the performed layer with their interpreted identity', () => {
+    const { performance, rests } = silencedPerformance()
+    // A rest is silenced, not deleted: its id still matches the interpreted
+    // event it came from, which is what lets the trace explain the change.
+    const interpretedIds = new Set(
+      performance.interpretedEvents.map((event) => event.id),
+    )
+    for (const rest of rests) expect(interpretedIds.has(rest.id)).toBe(true)
+  })
+
+  it('omits rests from MIDI', () => {
+    const { composition, performance, sounding } = silencedPerformance()
+    const tracks = buildPerformanceMidiTracks(performance, composition)
+    const midiCount = tracks.reduce(
+      (count, track) => count + track.notes.length,
       0,
     )
-
-    expect(previewPlan(allVoicesOn).hits).toHaveLength(rendered)
+    expect(midiCount).toBe(sounding.length)
+    expect(midiCount).toBeLessThan(performance.performedEvents.length)
   })
 
-  it('sounds the same notes as the MIDI file', () => {
-    const midiNotes = renderVoices(allVoicesOn)
-      .flatMap((item) => item.notes.map((note) => note.note))
-      .sort((left, right) => left - right)
-    const previewNotes = previewPlan(allVoicesOn)
-      .hits.map((hit) => hit.note)
-      .sort((left, right) => left - right)
+  it('writes rests as rest tokens in Strudel', () => {
+    const { composition, performance, sounding } = silencedPerformance()
+    const parts = buildPerformancePatternParts(performance, composition)
+    const soundingTokens = parts
+      .flatMap((part) => part.tokens)
+      .filter((token) => token !== '~')
 
-    expect(previewNotes).toEqual(midiNotes)
+    // Strudel quantizes to a grid, so several events can share a slot; the
+    // claim is that no rest ever produces a sounding token.
+    expect(soundingTokens.length).toBeLessThanOrEqual(sounding.length)
+    expect(soundingTokens.length).toBeGreaterThan(0)
   })
 
-  it('holds notes for the same share of the bar as the MIDI file', () => {
-    const model = allVoicesOn
-    const { barSeconds, hits } = previewPlan(model)
-    const bytes = buildMidiBytes(
-      renderVoices(model).map((item) => ({
-        name: item.voice.name,
-        channel: item.voice.channel,
-        program: item.voice.program,
-        steps: item.voice.quantize.divisions,
-        gate: item.voice.gate,
-        notes: item.notes,
-      })),
-      { cyclesPerSecond: model.time.cyclesPerSecond, bars },
-    )
-    const ticksPerBar = 4 * 480
-    const previewShares = hits
-      .map((hit) => hit.duration / barSeconds)
-      .sort((left, right) => left - right)
-    const midiShares = midiNoteSpans(bytes)
-      .filter(([start]) => start < ticksPerBar)
-      .map(([start, end]) => (end - start) / ticksPerBar)
-      .sort((left, right) => left - right)
-
-    expect(previewShares).toHaveLength(midiShares.length)
-
-    previewShares.forEach((share, index) => {
-      expect(share).toBeCloseTo(midiShares[index], 3)
+  it('does not schedule rests for live playback', async () => {
+    const { composition, performance, sounding } = silencedPerformance()
+    const scheduled: Array<NoteMusicalEvent> = []
+    const engine: InstrumentEngine = {
+      currentTimeSeconds: 0,
+      resume: async () => undefined,
+      suspend: async () => undefined,
+      schedule: (event) => {
+        scheduled.push(event)
+      },
+      cancelScheduledFrom: () => undefined,
+      panic: () => undefined,
+      dispose: async () => undefined,
+    }
+    const scheduler = new PerformanceScheduler(engine, {
+      clock: { setInterval: () => 1, clearInterval: () => undefined },
+      lookaheadSeconds: 10,
+      tickMilliseconds: 25,
+      startDelaySeconds: 0,
     })
+
+    await scheduler.start(performance, composition.instruments, {
+      tempoBpm: composition.transport.tempoBpm,
+    })
+
+    expect(scheduled.length).toBe(sounding.length)
+    expect(scheduled.every((event) => !event.rest)).toBe(true)
+    await scheduler.dispose()
+  })
+
+  it('does not render rests offline', async () => {
+    const { composition, performance, sounding } = silencedPerformance()
+    const result = await renderPerformanceToWav({
+      composition,
+      performance,
+      sampleRateHz: 8000,
+      tailSeconds: 0,
+      contextFactory: silentOfflineContext,
+    })
+
+    expect(result.renderedEventCount).toBe(sounding.length)
+    expect(result.renderedEventCount).toBeLessThan(
+      performance.performedEvents.length,
+    )
   })
 })

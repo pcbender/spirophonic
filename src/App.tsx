@@ -1,193 +1,525 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+
 import './App.css'
-import { WebAudioEngine } from './audio/webAudioEngine'
-import { defaultModel } from './core/defaultModel'
-import type { SpirophonicModel } from './core/model'
-import { generateCurvePoints } from './core/curves'
-import { getEffectiveCyclesPerSecond } from './core/time'
-import { CanvasView } from './ui/CanvasView'
+import { InstrumentRouter } from './audio/instrumentRouter'
+import {
+  PerformanceScheduler,
+  type PlaybackStatus,
+} from './audio/performanceScheduler'
+import {
+  ensureBundledSoundBank,
+  type BundledBankState,
+} from './audio/bundledSoundBank'
+import { SoundBankStore } from './audio/soundbankStore'
+import type { Composition } from './core/composition'
+import { defaultComposition } from './core/defaultComposition'
+import { compilePerformance } from './core/performance'
+import { beatsToSeconds, type PerformanceRequest } from './core/transport'
+import {
+  exportCompositionToJson,
+  parseCompositionJson,
+} from './export/compositionJson'
+import { usePerformanceCompiler } from './workers/usePerformanceCompiler'
+import { CompositionCanvas } from './ui/CompositionCanvas'
+import {
+  CompositionTree,
+  type TreeSelection,
+} from './ui/CompositionTree'
 import { ControlPanel } from './ui/ControlPanel'
-import { VoicePanel } from './ui/VoicePanel'
+import { FieldPanel } from './ui/FieldPanel'
+import { HeadPanel } from './ui/HeadPanel'
 import { ImportExportPanel } from './ui/ImportExportPanel'
-import { PresetPicker } from './ui/PresetPicker'
-import { StrudelExportPanel } from './ui/StrudelExportPanel'
+import { InstrumentPanel } from './ui/InstrumentPanel'
+import { PartPanel } from './ui/PartPanel'
+import { SoundBankPanel } from './ui/SoundBankPanel'
+import { RecorderPanel } from './ui/RecorderPanel'
 import { Transport } from './ui/Transport'
+import { VariationPanel } from './ui/VariationPanel'
+import { WheelPanel } from './ui/WheelPanel'
+
+const performanceRequestFor = (
+  composition: Composition,
+): PerformanceRequest => ({
+  startSeconds: beatsToSeconds(
+    composition.transport.loop.startBeat,
+    composition.transport.tempoBpm,
+  ),
+  durationSeconds: beatsToSeconds(
+    composition.transport.loop.lengthBeats,
+    composition.transport.tempoBpm,
+  ),
+  sampleRateHz: 120,
+})
+
+const WORKSPACE_STORAGE_KEY = 'spirophonic.composition.v1'
+
+const freshDefaultComposition = () =>
+  structuredClone(defaultComposition) as Composition
+
+const restoredComposition = () => {
+  try {
+    const saved = globalThis.localStorage?.getItem(WORKSPACE_STORAGE_KEY)
+    if (!saved) return freshDefaultComposition()
+    const parsed = parseCompositionJson(saved)
+    return parsed.ok ? parsed.composition : freshDefaultComposition()
+  } catch {
+    return freshDefaultComposition()
+  }
+}
+
+type AudioRuntime = {
+  store: SoundBankStore
+  router: InstrumentRouter
+  scheduler: PerformanceScheduler
+}
 
 function App() {
-  const [model, setModel] = useState<SpirophonicModel>(defaultModel)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [continuousPlay, setContinuousPlay] = useState(true)
-  const [progress, setProgress] = useState(1)
-  const progressRef = useRef(progress)
-  const audioRef = useRef<WebAudioEngine | null>(null)
-  const points = useMemo(() => generateCurvePoints(model), [model])
-  const activeIndex = Math.floor(progress * Math.max(0, points.length - 1))
-  const activePoint = points[activeIndex] ?? points[0]
-  const cyclesPerSecond = getEffectiveCyclesPerSecond(
-    model.time.cyclesPerSecond,
+  const [composition, setComposition] = useState<Composition>(restoredComposition)
+  const [status, setStatus] = useState<PlaybackStatus>('stopped')
+  const [looping, setLooping] = useState(true)
+  const initialRequest = performanceRequestFor(composition)
+  const [positionSeconds, setPositionSeconds] = useState(
+    initialRequest.startSeconds,
   )
-
-  useEffect(() => {
-    progressRef.current = progress
-  }, [progress])
-
-  useEffect(() => {
-    if (!isPlaying) {
-      return
+  const [pendingBoundarySeconds, setPendingBoundarySeconds] = useState<
+    number | null
+  >(null)
+  // An error describes one attempt against one Composition, so it is stored
+  // with the Composition it belongs to. Visibility is then derived during
+  // render: a corrected Composition clears the message without an effect, and
+  // a message never outlives its cause and tells the user their fix failed.
+  const [runtimeError, setRuntimeError] = useState<Readonly<{
+    message: string
+    forComposition: Composition
+  }> | null>(null)
+  const [bundledBankState, setBundledBankState] = useState<BundledBankState>({
+    state: 'idle',
+  })
+  const [selection, setSelection] = useState<TreeSelection>(() => ({
+    kind: 'wheel',
+    id: '',
+  }))
+  const [audio] = useState<AudioRuntime>(() => {
+    const store = new SoundBankStore()
+    const router = new InstrumentRouter({ store })
+    return {
+      store,
+      router,
+      scheduler: new PerformanceScheduler(router),
     }
+  })
+  const audioLifecycleRef = useRef<object | null>(null)
+  const scheduledPerformanceRef = useRef<ReturnType<
+    typeof compilePerformance
+  > | null>(null)
+  const scheduledTempoRef = useRef(composition.transport.tempoBpm)
+  const request = useMemo(
+    () => performanceRequestFor(composition),
+    [composition],
+  )
+  // Compilation runs in a worker so an edit does not block the frame. The last
+  // good performance stays on screen until the new one arrives.
+  const {
+    performance,
+    // The Composition the performance was actually compiled from. Editing uses
+    // `composition`; anything that consumes the performance uses this one, so
+    // an in-flight compile can never pair new Instruments with old events.
+    composition: compiledComposition,
+    pending: compiling,
+  } = usePerformanceCompiler(composition, request)
+  /**
+   * Selection is resolved against the live Composition every render, so an
+   * import, an undo, or a cascading removal can never leave a panel pointing
+   * at an object that no longer exists.
+   */
+  const resolvedSelection = useMemo((): TreeSelection => {
+    const wheelExists = composition.wheels.some(
+      (wheel) => wheel.id === selection.id,
+    )
+    const headExists = composition.wheels.some((wheel) =>
+      wheel.heads.some((head) => head.id === selection.id),
+    )
+    const partExists = composition.parts.some((part) => part.id === selection.id)
 
-    let frameId = 0
-    const startTime = performance.now()
-    const startProgress = progressRef.current
-
-    const animate = (timestamp: number) => {
-      const elapsedSeconds = (timestamp - startTime) / 1000
-      const rawProgress = startProgress + elapsedSeconds * cyclesPerSecond
-      const nextProgress = continuousPlay ? rawProgress % 1 : rawProgress
-
-      if (!continuousPlay && nextProgress >= 1) {
-        progressRef.current = 1
-        setProgress(1)
-        setIsPlaying(false)
-        return
-      }
-
-      progressRef.current = nextProgress
-      setProgress(nextProgress)
-
-      frameId = requestAnimationFrame(animate)
-    }
-
-    frameId = requestAnimationFrame(animate)
-
-    return () => cancelAnimationFrame(frameId)
-  }, [continuousPlay, cyclesPerSecond, isPlaying])
-
-  useEffect(() => {
-    if (!audioRef.current) {
-      audioRef.current = new WebAudioEngine()
-    }
-
-    if (!model.sound.enabled || !isPlaying || !activePoint) {
-      audioRef.current.stop()
-      return
-    }
-
-    void audioRef.current.start(model, activePoint, points)
-
-    return () => {
-      if (!model.sound.enabled || !isPlaying) {
-        audioRef.current?.stop()
-      }
-    }
-  }, [activePoint, isPlaying, model, points])
-
-  useEffect(
-    () => () => {
-      audioRef.current?.stop()
-    },
+    if (selection.kind === 'wheel' && wheelExists) return selection
+    if (selection.kind === 'head' && headExists) return selection
+    if (selection.kind === 'part' && partExists) return selection
+    return { kind: 'wheel', id: composition.wheels[0]?.id ?? '' }
+  }, [composition, selection])
+  const selectedWheelId =
+    resolvedSelection.kind === 'wheel'
+      ? resolvedSelection.id
+      : resolvedSelection.kind === 'head'
+        ? composition.wheels.find((wheel) =>
+            wheel.heads.some((head) => head.id === resolvedSelection.id),
+          )?.id
+        : undefined
+  const selectedHeadId =
+    resolvedSelection.kind === 'head' ? resolvedSelection.id : undefined
+  const requestEnd = request.startSeconds + request.durationSeconds
+  const renderTime = Math.min(
+    requestEnd,
+    Math.max(request.startSeconds, positionSeconds),
+  )
+  const recentEncounters = performance.encounters.filter(
+    (encounter) =>
+      encounter.timeSeconds <= renderTime &&
+      renderTime - encounter.timeSeconds <= 0.35,
+  )
+  const visibleRuntimeError =
+    runtimeError && runtimeError.forComposition === composition
+      ? runtimeError.message
+      : ''
+  const reportRuntimeError = useCallback(
+    (message: string, forComposition: Composition) =>
+      setRuntimeError(message ? { message, forComposition } : null),
     [],
   )
 
-  const handleReset = () => {
-    progressRef.current = 0
-    setProgress(0)
-    setIsPlaying(false)
-  }
-
-  const handlePlay = () => {
-    if (progressRef.current >= 1) {
-      progressRef.current = 0
-      setProgress(0)
+  /**
+   * Puts the bundled General MIDI bank in the vault, once per browser.
+   *
+   * Deliberately not awaited and deliberately not during first paint: it is a
+   * 38 MB download, and the app is fully usable without it because every
+   * default Instrument is native. Once it lands, its presets are assignable
+   * with no import step. A failure is not surfaced as an error — nothing the
+   * user asked for has failed — but it is reported to the Sound banks panel.
+   */
+  useEffect(() => {
+    const controller = new AbortController()
+    const idle =
+      globalThis.requestIdleCallback ??
+      ((callback: () => void) => globalThis.setTimeout(callback, 1_000))
+    const handle = idle(() => {
+      void ensureBundledSoundBank({
+        store: audio.store,
+        signal: controller.signal,
+        baseUrl: import.meta.env.BASE_URL,
+        onState: setBundledBankState,
+      })
+    })
+    return () => {
+      controller.abort()
+      globalThis.cancelIdleCallback?.(handle as number)
     }
-
-    setIsPlaying(true)
-  }
+  }, [audio.store])
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.code !== 'Space' || event.repeat || isEditableTarget(event.target)) {
-        return
-      }
+    try {
+      globalThis.localStorage?.setItem(
+        WORKSPACE_STORAGE_KEY,
+        exportCompositionToJson(composition),
+      )
+    } catch {
+      // Local persistence is a convenience; explicit JSON export stays primary.
+    }
+  }, [composition])
 
-      event.preventDefault()
-
-      if (isPlaying) {
-        setIsPlaying(false)
-      } else {
-        handlePlay()
-      }
+  const play = async () => {
+    if (performance.diagnostics.some((item) => item.severity === 'error')) {
+      reportRuntimeError('Resolve compile errors before playing.', composition)
+      return
     }
 
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [isPlaying])
-
-  const handleSoundToggle = (enabled: boolean) => {
-    setModel((currentModel) => ({
-      ...currentModel,
-      sound: { ...currentModel.sound, enabled },
-    }))
+    try {
+      const startAt =
+        positionSeconds >= requestEnd - 1e-6
+          ? request.startSeconds
+          : renderTime
+      const preparation = await audio.router.prepare(
+        compiledComposition.soundBanks,
+        compiledComposition.instruments,
+      )
+      const active = audio.scheduler
+      await active.start(performance, compiledComposition.instruments, {
+        tempoBpm: compiledComposition.transport.tempoBpm,
+        loop: looping,
+        positionSeconds: startAt,
+      })
+      scheduledPerformanceRef.current = performance
+      scheduledTempoRef.current = compiledComposition.transport.tempoBpm
+      setPositionSeconds(startAt)
+      setPendingBoundarySeconds(null)
+      reportRuntimeError(
+        preparation.issues.map((issue) => issue.message).join(' '),
+        composition,
+      )
+      setStatus(active.status)
+    } catch (error) {
+      reportRuntimeError(
+        error instanceof Error ? error.message : String(error),
+        composition,
+      )
+    }
   }
+
+  const pause = async () => {
+    const active = audio.scheduler
+    await active.pause()
+    setPositionSeconds(active.positionSeconds)
+    setStatus(active.status)
+  }
+
+  const stop = async () => {
+    await audio.scheduler.stop()
+    setStatus('stopped')
+    setPositionSeconds(request.startSeconds)
+    setPendingBoundarySeconds(null)
+  }
+
+  const seek = (nextPosition: number) => {
+    audio.scheduler.seek(nextPosition)
+    setPositionSeconds(nextPosition)
+  }
+
+  const setLoop = (nextLooping: boolean) => {
+    setLooping(nextLooping)
+    audio.scheduler.setLoop(nextLooping)
+  }
+
+  const inspectSoundBank = useCallback(
+    (reference: Composition['soundBanks'][number]) =>
+      audio.router.inspectBank(reference),
+    [audio],
+  )
+  const auditionSoundBank = useCallback(
+    (
+      reference: Composition['soundBanks'][number],
+      preset: Parameters<InstrumentRouter['audition']>[1],
+      note: number,
+    ) => audio.router.audition(reference, preset, note),
+    [audio],
+  )
+  const invalidateSoundBank = useCallback(
+    (soundBankId: string) =>
+      audio.router.invalidateBank(soundBankId),
+    [audio],
+  )
+
+  useEffect(() => {
+    if (status !== 'playing') return
+    const runtime = audio
+    const active = runtime.scheduler
+    const scheduled = scheduledPerformanceRef.current
+    if (!scheduled || scheduled === performance) return
+
+    let cancelled = false
+    const applyEdit = async () => {
+      try {
+        const preparation = await runtime.router.prepare(
+          compiledComposition.soundBanks,
+          compiledComposition.instruments,
+        )
+        if (cancelled) return
+        const sameWindow =
+          scheduled.request.startSeconds === performance.request.startSeconds &&
+          scheduled.request.durationSeconds ===
+            performance.request.durationSeconds
+        const sameTempo =
+          scheduledTempoRef.current === compiledComposition.transport.tempoBpm
+        if (sameWindow && sameTempo) {
+          active.queuePerformance(performance, compiledComposition.instruments)
+          setPendingBoundarySeconds(active.pendingBoundarySeconds)
+        } else {
+          await active.stop()
+          if (cancelled) return
+          await active.start(performance, compiledComposition.instruments, {
+            tempoBpm: compiledComposition.transport.tempoBpm,
+            loop: looping,
+            positionSeconds: request.startSeconds,
+          })
+          if (cancelled) return
+          setPositionSeconds(request.startSeconds)
+          setPendingBoundarySeconds(null)
+        }
+        scheduledPerformanceRef.current = performance
+        scheduledTempoRef.current = composition.transport.tempoBpm
+        reportRuntimeError(
+          preparation.issues.map((issue) => issue.message).join(' '),
+          composition,
+        )
+      } catch (error) {
+        if (!cancelled) {
+          reportRuntimeError(
+            error instanceof Error ? error.message : String(error),
+            composition,
+          )
+        }
+      }
+    }
+    void applyEdit()
+    return () => {
+      cancelled = true
+    }
+  }, [
+    audio,
+    // The whole Composition is a dependency because a reported error is scoped
+    // to it. This does not widen when the effect runs: `performance` is derived
+    // from `composition`, so any change already re-triggers through it.
+    composition,
+    compiledComposition,
+    looping,
+    performance,
+    reportRuntimeError,
+    request.startSeconds,
+    status,
+  ])
+
+  useEffect(() => {
+    if (status !== 'playing') return
+    let frameId = 0
+
+    const updatePosition = () => {
+      const active = audio.scheduler
+      const nextPosition = active.positionSeconds
+      setPositionSeconds(nextPosition)
+      setPendingBoundarySeconds(active.pendingBoundarySeconds)
+
+      if (!looping && nextPosition >= requestEnd - 1e-6) {
+        void active.stop().then(() => setStatus('stopped'))
+        return
+      }
+      frameId = requestAnimationFrame(updatePosition)
+    }
+
+    frameId = requestAnimationFrame(updatePosition)
+    return () => cancelAnimationFrame(frameId)
+  }, [audio, looping, requestEnd, status])
+
+  useEffect(() => {
+    const lifecycle = {}
+    audioLifecycleRef.current = lifecycle
+    return () => {
+      queueMicrotask(() => {
+        if (audioLifecycleRef.current !== lifecycle) return
+        audioLifecycleRef.current = null
+        void audio.scheduler.dispose().finally(() => audio.store.close())
+      })
+    }
+  }, [audio])
 
   return (
     <main className="app-shell">
       <header className="app-topbar">
         <div className="brand">
           <h1>Spirophonic</h1>
-          <p className="tagline">Hear the shape. See the sound.</p>
+          <p className="tagline">Compose relationships. Hear encounters.</p>
         </div>
-
         <Transport
-          isPlaying={isPlaying}
-          soundEnabled={model.sound.enabled}
-          continuousPlay={continuousPlay}
-          progress={progress}
-          onPlay={handlePlay}
-          onPause={() => setIsPlaying(false)}
-          onReset={handleReset}
-          onSoundToggle={handleSoundToggle}
-          onContinuousPlayToggle={setContinuousPlay}
+          status={status}
+          looping={looping}
+          positionSeconds={renderTime}
+          startSeconds={request.startSeconds}
+          durationSeconds={request.durationSeconds}
+          eventCount={performance.performedEvents.length}
+          compiling={compiling}
+          pendingBoundarySeconds={pendingBoundarySeconds}
+          onPlay={() => void play()}
+          onPause={() => void pause()}
+          onStop={() => void stop()}
+          onSeek={seek}
+          onLoopChange={setLoop}
         />
-
         <div className="topbar-io">
-          <PresetPicker model={model} onSelect={setModel} />
-          <ImportExportPanel model={model} points={points} onImport={setModel} />
+          <ImportExportPanel
+            composition={compiledComposition}
+            performance={performance}
+            onImport={setComposition}
+            vault={audio.store}
+          />
         </div>
       </header>
 
       <section className="workspace">
         <div className="rail rail-shape">
-          <ControlPanel model={model} onChange={setModel} />
+          <ControlPanel composition={composition} onChange={setComposition} />
+          <CompositionTree
+            composition={composition}
+            selection={resolvedSelection}
+            onSelect={setSelection}
+            onChange={setComposition}
+          />
+          <WheelPanel
+            composition={composition}
+            selectedWheelId={selectedWheelId}
+            onChange={setComposition}
+          />
+          <HeadPanel
+            composition={composition}
+            selectedHeadId={selectedHeadId}
+            onChange={setComposition}
+          />
         </div>
 
         <div className="canvas-stage">
-          <CanvasView
-            model={model}
-            points={points}
-            progress={progress}
-            showActivePoint={isPlaying}
+          <CompositionCanvas
+            composition={composition}
+            timeSeconds={renderTime}
+            observation={{
+              startSeconds: request.startSeconds,
+              endSeconds: requestEnd,
+              sampleRateHz: request.sampleRateHz,
+            }}
+            recentEncounters={recentEncounters}
           />
         </div>
 
         <div className="rail rail-voices">
-          <VoicePanel model={model} onChange={setModel} />
-          <StrudelExportPanel model={model} />
+          <Diagnostics
+            diagnostics={performance.diagnostics}
+            runtimeError={visibleRuntimeError}
+          />
+          <FieldPanel composition={composition} onChange={setComposition} />
+          <PartPanel composition={composition} onChange={setComposition} />
+          <SoundBankPanel
+            composition={composition}
+            bundledBankState={bundledBankState}
+            onChange={setComposition}
+            vault={audio.store}
+            inspectBank={inspectSoundBank}
+            audition={auditionSoundBank}
+            invalidateBank={invalidateSoundBank}
+          />
+          <InstrumentPanel composition={composition} onChange={setComposition} />
+          <VariationPanel composition={composition} onChange={setComposition} />
+          <RecorderPanel
+            composition={compiledComposition}
+            performance={performance}
+            positionSeconds={renderTime}
+          />
         </div>
       </section>
     </main>
   )
 }
 
-const isEditableTarget = (target: EventTarget | null) => {
-  if (!(target instanceof HTMLElement)) {
-    return false
+type DiagnosticsProps = {
+  diagnostics: ReturnType<typeof compilePerformance>['diagnostics']
+  runtimeError: string
+}
+
+function Diagnostics({ diagnostics, runtimeError }: DiagnosticsProps) {
+  if (diagnostics.length === 0 && !runtimeError) {
+    return (
+      <section className="control-panel" aria-label="Compile diagnostics">
+        <h2>Performance</h2>
+        <p>No compile diagnostics.</p>
+      </section>
+    )
   }
 
   return (
-    target.isContentEditable ||
-    ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'].includes(target.tagName)
+    <section className="control-panel" aria-label="Compile diagnostics">
+      <h2>Performance diagnostics</h2>
+      {runtimeError && <p role="alert">{runtimeError}</p>}
+      <ul>
+        {diagnostics.map((diagnostic, index) => (
+          <li key={`${diagnostic.code}-${diagnostic.path ?? ''}-${index}`}>
+            <strong>{diagnostic.severity}</strong>: {diagnostic.message}
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }
 
