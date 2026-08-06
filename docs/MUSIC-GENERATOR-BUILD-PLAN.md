@@ -1173,7 +1173,8 @@ loads and make its architecture legible to future work.
 `src/audio/audio.integration.test.ts`,
 `src/App.test.tsx`, `e2e/`, `playwright.config.ts`,
 `src/test/fixtures/`, `docs/examples/`, `README.md`, `AGENTS.md`,
-`docs/MUSIC-GENERATOR-BUILD-PLAN.md`, `src/App.tsx`
+`docs/MUSIC-GENERATOR-BUILD-PLAN.md`, `src/App.tsx`,
+`src/audio/soundbank.bench.test.ts`
 
 **File-list audit (2026-08-05):** the browser-check deliverable predates the
 Playwright harness added on 2026-08-05, so `e2e/` and `playwright.config.ts`
@@ -1254,26 +1255,35 @@ repository can reach.
   `AGENTS.md` named `SOUND-AND-MIDI-DESIGN.md` as the active contract, which it
   has not been since MG-09. Both now describe what the code is.
 
-**Delivered structurally, not audibly — one item:**
+**Revised 2026-08-06 — the SoundFont gap is closed.**
 
-The showcase's fourth Instrument is a SoundFont, and every structural claim
-about it is asserted: four Wheels of three Heads, four routed Instruments of
-which exactly one is a SoundFont, a resolvable bank reference, and a full
-workflow that plays, seeks, edits, loops, exports MIDI/Strudel/WAV, saves JSON,
-and bundles. What is **not** verified anywhere in this repository is how that
-Instrument *sounds*, because no SF2/SF3 bank ships here and none can: invariant
-11 keeps bank bytes out of Composition JSON, and MG-10 settled that
-redistributing a bank needs a licence this project does not hold.
+This audit originally recorded that the showcase's SoundFont Instrument was
+verified structurally but never heard, and that two benchmark subjects had no
+budget, because no bank shipped here and none could. The first half of that was
+right; the conclusion was not.
 
-This is a deliberate constraint of the product, not an unfinished packet, so it
-is recorded as a limit rather than deferred to a later milestone. The path a
-user takes — import a bank, relink the digest, hear all four — is covered by
-MG-11's tests; the path without a bank is covered by MG-21's isolation tests.
+`spessasynth_core`, already a dependency, exposes
+`BasicSoundBank.getSampleSoundBankFile()`: a valid 890-byte RIFF/sfbk SoundFont
+carrying one saw-wave preset, under the Apache 2.0 licence we already hold. It
+is generated in process, needs no download, and the container check already
+accepts it. What was missing was never a licence — it was noticing this.
 
-**Two benchmark subjects have no checked-in budget, for the same reason:**
-sound-bank initialization and the memory cost of rendering SoundFont voices both
-need a real bank to measure. Native offline render memory *is* budgeted. If a
-redistributable bank is ever licensed, those two budgets are the work to add.
+So the SoundFont path is now exercised for real:
+
+- `src/audio/soundbank.bench.test.ts` budgets sound-bank initialization
+  (container recognition, parse to presets, digest, vault write, re-import
+  de-duplication) and SoundFont render memory. Both named subjects now have
+  checked-in budgets.
+- The browser suite imports that bank through the actual UI in Chromium and
+  Firefox, confirms the worklet registers and the preset lists, assigns it to
+  an Instrument without breaking compilation, and confirms the bytes survive a
+  reload in IndexedDB.
+
+**What remains true:** the showcase's *intended* sound still needs a
+user-supplied bank. One saw wave is not General MIDI, and invariant 11 plus
+MG-10's licensing stance still keep a real GM bank out of this repository. That
+is a product decision and stays a limit. The weaker claim — that the SoundFont
+path could not be measured or heard at all — was wrong and is withdrawn.
 
 **Known costs recorded rather than fixed**, because fixing them is not this
 packet's scope and neither is a correctness problem:

@@ -472,3 +472,101 @@ test('the showcase runs the full workflow without errors', async ({ page }) => {
 
   await expect(diagnostics).not.toContainText('error')
 })
+
+/**
+ * The SoundFont path, end to end, with a real bank.
+ *
+ * `spessasynth_core` generates an 890-byte SF2 carrying a single saw-wave
+ * preset, so this drives the real import UI with a real bank without any bank
+ * shipping in the repository. The bytes are generated in the test process and
+ * handed to the file input, because the page runs the built bundle and cannot
+ * resolve a bare module specifier at runtime.
+ *
+ * Until this existed the SoundFont path could only be reasoned about.
+ */
+const sampleBankFile = async () => {
+  const { BasicSoundBank } = await import('spessasynth_core')
+  return {
+    name: 'sample-saw.sf2',
+    mimeType: 'application/octet-stream',
+    buffer: Buffer.from(BasicSoundBank.getSampleSoundBankFile()),
+  }
+}
+
+test('a real SoundFont bank imports, exposes its preset, and assigns', async ({
+  page,
+}) => {
+  const banks = page.getByRole('region', { name: 'Sound banks' })
+  const file = await sampleBankFile()
+  expect(file.buffer.byteLength).toBe(890)
+
+  await banks.getByLabel('SoundFont license').fill('Apache-2.0')
+  await banks.getByLabel('SoundFont attribution').fill('spessasynth_core')
+  await banks.getByLabel('SoundFont file').setInputFiles(file)
+  await banks.getByRole('button', { name: 'Import local bank' }).click()
+
+  // The bank reaches the Composition and its presets are listed, which only
+  // happens if the worklet registered and the bank actually parsed. Presets
+  // live in a select, so the assertion reads its options rather than text.
+  const presets = banks.getByLabel(/^Preset /)
+  await expect(presets).toBeVisible({ timeout: 30_000 })
+  await expect
+    .poll(async () => presets.locator('option').allTextContents(), {
+      timeout: 30_000,
+    })
+    .toEqual(expect.arrayContaining([expect.stringMatching(/Saw Wave/i)]))
+
+  // Assigning the preset to an Instrument must not break compilation.
+  await banks.getByLabel(/^Assign preset /).click()
+  const diagnostics = page.getByRole('region', { name: 'Compile diagnostics' })
+  await expect(diagnostics).not.toContainText('error')
+})
+
+test('an imported SoundFont bank survives a reload', async ({ browser }) => {
+  // Its own context, because the shared beforeEach clears storage on every
+  // navigation. IndexedDB is where a bank lives between sessions, so this is
+  // the check that a user does not have to re-import after closing the tab.
+  const context = await browser.newContext({
+    viewport: { width: 1600, height: 1000 },
+  })
+  const fresh = await context.newPage()
+  const errors: Array<string> = []
+  fresh.on('pageerror', (error) => errors.push(error.message))
+
+  await fresh.goto('/')
+  const banks = fresh.getByRole('region', { name: 'Sound banks' })
+  await banks.getByLabel('SoundFont license').fill('Apache-2.0')
+  await banks.getByLabel('SoundFont file').setInputFiles(await sampleBankFile())
+  await banks.getByRole('button', { name: 'Import local bank' }).click()
+  await expect(banks.getByLabel(/^Preset /)).toBeVisible({ timeout: 30_000 })
+
+  await fresh.reload()
+  await expect(
+    fresh.getByRole('heading', { level: 1, name: 'Spirophonic' }),
+  ).toBeVisible()
+
+  // The vault still holds the exact bytes, keyed by their digest.
+  const storedBytes = await fresh.evaluate(async () => {
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('spirophonic-soundbanks')
+      request.onsuccess = () => resolve(request.result)
+      request.onerror = () => reject(request.error)
+    })
+    const records = await new Promise<Array<{ bytes: ArrayBuffer }>>(
+      (resolve, reject) => {
+        const request = database
+          .transaction('soundbank-bytes', 'readonly')
+          .objectStore('soundbank-bytes')
+          .getAll()
+        request.onsuccess = () => resolve(request.result)
+        request.onerror = () => reject(request.error)
+      },
+    )
+    database.close()
+    return records.map((record) => record.bytes.byteLength)
+  })
+
+  expect(storedBytes).toEqual([890])
+  expect(errors, `page errors: ${errors.join(' | ')}`).toEqual([])
+  await context.close()
+})

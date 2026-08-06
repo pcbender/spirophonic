@@ -235,8 +235,8 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-BUILD-PLAN.md": {
-    "mtime": 1786031190.0151424,
-    "ast_hash": "1c7cf96ceffe3e6f63c330cb44f59d4f",
+    "mtime": 1786032926.274806,
+    "ast_hash": "a72b736521c6292885f219354ef0ab2e",
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
@@ -530,8 +530,8 @@
     "semantic_hash": ""
   },
   "e2e/app.spec.ts": {
-    "mtime": 1786030928.5120647,
-    "ast_hash": "b1859f5a7134e9d1f5a0689af7205843",
+    "mtime": 1786032845.5307713,
+    "ast_hash": "9e042bbd049e6cac0dc6c46532bca935",
     "semantic_hash": ""
   },
   "playwright.config.ts": {
@@ -700,18 +700,23 @@
     "semantic_hash": ""
   },
   "src/test/fixtures/compositions.ts": {
-    "mtime": 1786030435.8882937,
-    "ast_hash": "8a2b289d79c1633bda15afe7fc9c6203",
+    "mtime": 1786032926.262999,
+    "ast_hash": "3d5bca0262e92cdda796c0409097d372",
     "semantic_hash": ""
   },
   "docs/examples/BENCHMARKS.md": {
-    "mtime": 1786031093.0079854,
-    "ast_hash": "1e39ce3818b3ef3ee9d2ecd77be51c39",
+    "mtime": 1786032956.5611596,
+    "ast_hash": "ec57f804055185aa69056e0207b91c4d",
     "semantic_hash": ""
   },
   "docs/examples/README.md": {
-    "mtime": 1786031068.1299167,
-    "ast_hash": "1c21492b4faafcacf2b1bf26c0a2a6ac",
+    "mtime": 1786032956.5720186,
+    "ast_hash": "3cfdb393b786e5bc418a9c1996939ab4",
+    "semantic_hash": ""
+  },
+  "src/audio/soundbank.bench.test.ts": {
+    "mtime": 1786032557.4321985,
+    "ast_hash": "5e8fd005a5434b50ad3dc94475cc4b47",
     "semantic_hash": ""
   }
 }

@@ -93,15 +93,48 @@ divided by the segments a linear scan would examine. A linear scan's ratio is
 1.0 and stays flat; the index's must be below 0.1 **and must fall further as the
 Trace grows**. Both checks fail if the grid degenerates.
 
+## Sound-bank initialization and SoundFont render memory
+
+`src/audio/soundbank.bench.test.ts`, against a real 890-byte SoundFont generated
+by `spessasynth_core` (Apache 2.0, already a dependency — no bank is downloaded
+or committed).
+
+| Measure | Value |
+| --- | --- |
+| Generated bank | 890 bytes, one `Saw Wave` preset |
+| Container recognition | 12-byte header read, constant in bank size |
+| Parse to presets | 1 preset, 1 instrument, 1 sample |
+| Vault re-import | digest comparison only; no second write |
+| Bank share of a 10 s stereo render | under 0.1% |
+
+Worklet startup and voice rendering need a real `AudioWorklet` and are covered
+in the browser suite, which imports this bank through the actual UI in Chromium
+and Firefox.
+
+The bank's 890-byte size is asserted. If `spessasynth_core` changes it, the
+numbers here need rechecking rather than drifting silently.
+
+## Bundle size
+
+| | Minified | Gzipped |
+| --- | --- | --- |
+| Main chunk | 401.00 kB | 116.73 kB |
+| SpessaSynth (lazy) | 205.96 kB | 75.21 kB |
+
+SpessaSynth was 207 kB of a single 606 kB chunk until it was moved behind a
+dynamic import. It now loads only when a Composition actually uses a SoundFont
+Instrument, and the main chunk is under Vite's 500 kB advisory.
+
 ## Known costs not yet budgeted
 
 - **Compilation runs on the render thread.** The app compiles in a synchronous
-  `useMemo`, so the ~500 ms above is ~500 ms of blocked UI on every edit of the
-  concurrent-Wheels reference. Moving compilation off the render thread is the
-  fix; no budget here will catch it, because the work itself is not the problem.
-- **Bundle size.** The production chunk is ~606 kB minified, over Vite's 500 kB
-  advisory. Lazy-loading the SoundFont path is the obvious lever.
-- **Sound-bank initialization and offline render memory** are listed as
-  benchmark subjects in the MG-21 contract but have no checked-in budget. Both
-  need a real SF2 bank to measure, and none ships with this repository. See the
-  packet-close audit in the build plan.
+  `useMemo`. At the app's real settings — 120 Hz, loop-length window — that is
+  **5 ms** for the default Composition but **164 ms** for the concurrent-Wheels
+  reference, on every edit. Dragging a control on the reference therefore runs
+  at roughly 6 fps.
+
+  No budget here will catch it, because the work itself is not excessive; its
+  thread is. `useDeferredValue` would not fix it either — React cannot interrupt
+  a single 164 ms synchronous call, only deprioritize it. Moving compilation to
+  a Web Worker is the fix, and is affordable: `structuredClone` of the entire
+  compiled performance costs **1.7 ms**, about 1% of the compile.
