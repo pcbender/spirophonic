@@ -34,10 +34,6 @@ export function Transport({
 }: TransportProps) {
   const playing = status === 'playing'
   const endSeconds = startSeconds + durationSeconds
-  const progress = Math.min(
-    1,
-    Math.max(0, (positionSeconds - startSeconds) / durationSeconds),
-  )
 
   return (
     <div className="transport" aria-label="Composition transport">
@@ -55,6 +51,7 @@ export function Transport({
       </label>
       <input
         aria-label="Transport position"
+        title="Position in the loop. Drag to seek."
         type="range"
         min={startSeconds}
         max={endSeconds}
@@ -62,9 +59,6 @@ export function Transport({
         value={Math.min(endSeconds, Math.max(startSeconds, positionSeconds))}
         onChange={(event) => onSeek(Number(event.currentTarget.value))}
       />
-      <div className="progress-meter" aria-label="Loop progress">
-        <span style={{ inlineSize: `${Math.round(progress * 100)}%` }} />
-      </div>
       <output aria-label="Transport status">
         {positionSeconds.toFixed(2)}s · {eventCount} events
         {compiling ? ' · compiling…' : ''}

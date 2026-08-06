@@ -213,19 +213,36 @@ export function ImportExportPanel({
           Cancel render
         </button>
       ) : null}
-      <button type="button" onClick={() => void exportBundle()}>
+      <button
+        type="button"
+        title="Save the whole project — Composition plus its sound bank references — as one .spirophonic file."
+        onClick={() => void exportBundle()}
+      >
         Export bundle
       </button>
-      <button type="button" onClick={() => bundleInputRef.current?.click()}>
+      <button
+        type="button"
+        title="Open a .spirophonic project file, replacing the current Composition."
+        onClick={() => bundleInputRef.current?.click()}
+      >
         Import bundle
       </button>
-      <label className="embed-banks">
+      {/*
+        Governs Export bundle alone, so it is rendered against that button.
+        Without it a bundle names its banks by digest and only opens where those
+        banks are already in the vault; with it the bundle carries the audio and
+        opens anywhere, at the cost of tens of megabytes.
+      */}
+      <label
+        className="embed-banks"
+        title="Copy the sound bank audio into the bundle so it opens on any machine. Much larger file. Without this, the bundle only references banks by digest."
+      >
         <input
           type="checkbox"
           checked={embedBanks}
           onChange={(event) => setEmbedBanks(event.currentTarget.checked)}
         />
-        Include sound bank files
+        Embed sound banks in bundle
       </label>
       <input
         ref={inputRef}

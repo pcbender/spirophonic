@@ -166,11 +166,6 @@ h1 {
   white-space: nowrap;
 }
 
-.transport .progress-meter {
-  flex: 1 1 90px;
-  min-width: 60px;
-}
-
 .transport > input[type='range'] {
   flex: 1 1 120px;
   min-width: 80px;
@@ -188,19 +183,6 @@ h1 {
 
 .sound-toggle input {
   accent-color: #42cafd;
-}
-
-.progress-meter {
-  block-size: 8px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(246, 244, 239, 0.14);
-}
-
-.progress-meter span {
-  display: block;
-  block-size: 100%;
-  background: #42cafd;
 }
 
 .preset-picker {
