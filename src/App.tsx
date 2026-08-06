@@ -19,6 +19,7 @@ import {
   exportCompositionToJson,
   parseCompositionJson,
 } from './export/compositionJson'
+import { usePerformanceCompiler } from './workers/usePerformanceCompiler'
 import { CompositionCanvas } from './ui/CompositionCanvas'
 import {
   CompositionTree,
@@ -116,10 +117,16 @@ function App() {
     () => performanceRequestFor(composition),
     [composition],
   )
-  const performance = useMemo(
-    () => compilePerformance(composition, request),
-    [composition, request],
-  )
+  // Compilation runs in a worker so an edit does not block the frame. The last
+  // good performance stays on screen until the new one arrives.
+  const {
+    performance,
+    // The Composition the performance was actually compiled from. Editing uses
+    // `composition`; anything that consumes the performance uses this one, so
+    // an in-flight compile can never pair new Instruments with old events.
+    composition: compiledComposition,
+    pending: compiling,
+  } = usePerformanceCompiler(composition, request)
   /**
    * Selection is resolved against the live Composition every render, so an
    * import, an undo, or a cascading removal can never leave a panel pointing
@@ -220,17 +227,17 @@ function App() {
           ? request.startSeconds
           : renderTime
       const preparation = await audio.router.prepare(
-        composition.soundBanks,
-        composition.instruments,
+        compiledComposition.soundBanks,
+        compiledComposition.instruments,
       )
       const active = audio.scheduler
-      await active.start(performance, composition.instruments, {
-        tempoBpm: composition.transport.tempoBpm,
+      await active.start(performance, compiledComposition.instruments, {
+        tempoBpm: compiledComposition.transport.tempoBpm,
         loop: looping,
         positionSeconds: startAt,
       })
       scheduledPerformanceRef.current = performance
-      scheduledTempoRef.current = composition.transport.tempoBpm
+      scheduledTempoRef.current = compiledComposition.transport.tempoBpm
       setPositionSeconds(startAt)
       setPendingBoundarySeconds(null)
       reportRuntimeError(
@@ -300,8 +307,8 @@ function App() {
     const applyEdit = async () => {
       try {
         const preparation = await runtime.router.prepare(
-          composition.soundBanks,
-          composition.instruments,
+          compiledComposition.soundBanks,
+          compiledComposition.instruments,
         )
         if (cancelled) return
         const sameWindow =
@@ -309,15 +316,15 @@ function App() {
           scheduled.request.durationSeconds ===
             performance.request.durationSeconds
         const sameTempo =
-          scheduledTempoRef.current === composition.transport.tempoBpm
+          scheduledTempoRef.current === compiledComposition.transport.tempoBpm
         if (sameWindow && sameTempo) {
-          active.queuePerformance(performance, composition.instruments)
+          active.queuePerformance(performance, compiledComposition.instruments)
           setPendingBoundarySeconds(active.pendingBoundarySeconds)
         } else {
           await active.stop()
           if (cancelled) return
-          await active.start(performance, composition.instruments, {
-            tempoBpm: composition.transport.tempoBpm,
+          await active.start(performance, compiledComposition.instruments, {
+            tempoBpm: compiledComposition.transport.tempoBpm,
             loop: looping,
             positionSeconds: request.startSeconds,
           })
@@ -350,9 +357,7 @@ function App() {
     // to it. This does not widen when the effect runs: `performance` is derived
     // from `composition`, so any change already re-triggers through it.
     composition,
-    composition.instruments,
-    composition.soundBanks,
-    composition.transport.tempoBpm,
+    compiledComposition,
     looping,
     performance,
     reportRuntimeError,
@@ -407,6 +412,7 @@ function App() {
           startSeconds={request.startSeconds}
           durationSeconds={request.durationSeconds}
           eventCount={performance.performedEvents.length}
+          compiling={compiling}
           pendingBoundarySeconds={pendingBoundarySeconds}
           onPlay={() => void play()}
           onPause={() => void pause()}
@@ -416,7 +422,7 @@ function App() {
         />
         <div className="topbar-io">
           <ImportExportPanel
-            composition={composition}
+            composition={compiledComposition}
             performance={performance}
             onImport={setComposition}
             vault={audio.store}
@@ -477,7 +483,7 @@ function App() {
           <InstrumentPanel composition={composition} onChange={setComposition} />
           <VariationPanel composition={composition} onChange={setComposition} />
           <RecorderPanel
-            composition={composition}
+            composition={compiledComposition}
             performance={performance}
             positionSeconds={renderTime}
           />

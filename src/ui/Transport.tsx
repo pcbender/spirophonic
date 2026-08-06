@@ -7,6 +7,8 @@ export type TransportProps = {
   startSeconds: number
   durationSeconds: number
   eventCount: number
+  /** True while a newer performance is still compiling off the render thread. */
+  compiling?: boolean
   pendingBoundarySeconds: number | null
   onPlay: () => void
   onPause: () => void
@@ -22,6 +24,7 @@ export function Transport({
   startSeconds,
   durationSeconds,
   eventCount,
+  compiling,
   pendingBoundarySeconds,
   onPlay,
   onPause,
@@ -64,6 +67,7 @@ export function Transport({
       </div>
       <output aria-label="Transport status">
         {positionSeconds.toFixed(2)}s · {eventCount} events
+        {compiling ? ' · compiling…' : ''}
       </output>
       {pendingBoundarySeconds !== null && (
         <output aria-label="Pending edit">

@@ -125,16 +125,40 @@ SpessaSynth was 207 kB of a single 606 kB chunk until it was moved behind a
 dynamic import. It now loads only when a Composition actually uses a SoundFont
 Instrument, and the main chunk is under Vite's 500 kB advisory.
 
+## Compilation is off the render thread
+
+`src/workers/performanceWorker.ts` compiles in a Web Worker. The compiler is
+pure and has no DOM, audio, or storage dependency, which is what makes this
+possible: the worker imports `src/core` and nothing else, so the dependency
+still points into core rather than out of it.
+
+Measured in Chromium by recording `requestAnimationFrame` deltas across five
+consecutive tempo edits of the concurrent-Wheels reference:
+
+| | Longest frame gap |
+| --- | --- |
+| Compiling on the render thread | **128.8 ms** |
+| Compiling in a worker | **22.1 ms** |
+
+The browser check asserts under 100 ms, which is loose enough to survive a
+loaded CI box and still fails if the work moves back onto the main thread —
+verified by moving it back and watching it fail.
+
+Two things this cost:
+
+- The last good performance stays on screen while a new one compiles, so an
+  edit never blanks the canvas. `compiling` appears in the Transport status.
+- The performance and the Composition can now disagree while a compile is in
+  flight. The hook therefore returns the Composition the performance was
+  compiled *from*, and everything that consumes the performance — scheduling,
+  export, recording — reads Instruments and Transport from that document.
+  Pairing new Instruments with old events made the scheduler reject every event
+  whose Instrument id did not exist yet, which is exactly the bug the browser
+  suite caught.
+
 ## Known costs not yet budgeted
 
-- **Compilation runs on the render thread.** The app compiles in a synchronous
-  `useMemo`. At the app's real settings — 120 Hz, loop-length window — that is
-  **5 ms** for the default Composition but **164 ms** for the concurrent-Wheels
-  reference, on every edit. Dragging a control on the reference therefore runs
-  at roughly 6 fps.
-
-  No budget here will catch it, because the work itself is not excessive; its
-  thread is. `useDeferredValue` would not fix it either — React cannot interrupt
-  a single 164 ms synchronous call, only deprioritize it. Moving compilation to
-  a Web Worker is the fix, and is affordable: `structuredClone` of the entire
-  compiled performance costs **1.7 ms**, about 1% of the compile.
+- **Bundled sound bank download.** The 38 MB MuseScore General bank is fetched
+  on idle, once per browser, and cached in IndexedDB. Nothing waits on it: every
+  default Instrument is native. There is no budget on the download itself, which
+  is bounded by the network rather than by this repository.

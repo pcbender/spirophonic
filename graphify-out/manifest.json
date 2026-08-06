@@ -20,8 +20,8 @@
     "semantic_hash": ""
   },
   "src/App.tsx": {
-    "mtime": 1786034701.5510974,
-    "ast_hash": "755f5963f1a4a1ae42f7f2918a2ab2dc",
+    "mtime": 1786046459.5528595,
+    "ast_hash": "09b862659773346540f1039d66645245",
     "semantic_hash": ""
   },
   "src/export/strudelExport.test.ts": {
@@ -65,8 +65,8 @@
     "semantic_hash": ""
   },
   "src/ui/Transport.tsx": {
-    "mtime": 1785955821.359914,
-    "ast_hash": "edf243356c28d122203cf6c115cc95c1",
+    "mtime": 1786036547.6409335,
+    "ast_hash": "e1b5169bc6e5b55a6fcbad03ef42d762",
     "semantic_hash": ""
   },
   "tsconfig.app.json": {
@@ -530,8 +530,8 @@
     "semantic_hash": ""
   },
   "e2e/app.spec.ts": {
-    "mtime": 1786036324.6988869,
-    "ast_hash": "f737ab7e07f8c1491c721545ad2f3c98",
+    "mtime": 1786036760.3706675,
+    "ast_hash": "e5d720108cd75a159bc2b82a5c278680",
     "semantic_hash": ""
   },
   "playwright.config.ts": {
@@ -705,8 +705,8 @@
     "semantic_hash": ""
   },
   "docs/examples/BENCHMARKS.md": {
-    "mtime": 1786032956.5611596,
-    "ast_hash": "ec57f804055185aa69056e0207b91c4d",
+    "mtime": 1786046551.7678623,
+    "ast_hash": "ddbd55d927503e9595b90e40c900d64e",
     "semantic_hash": ""
   },
   "docs/examples/README.md": {
@@ -732,6 +732,21 @@
   "public/soundbanks/MuseScore_General_License.md": {
     "mtime": 1786034423.27386,
     "ast_hash": "bc7b4fbe58b37788876b6c36f19577d0",
+    "semantic_hash": ""
+  },
+  "src/workers/performanceWorker.ts": {
+    "mtime": 1786036442.2839303,
+    "ast_hash": "f5068b3b6bb44cc9881c23e5d7ad358c",
+    "semantic_hash": ""
+  },
+  "src/workers/usePerformanceCompiler.test.ts": {
+    "mtime": 1786036599.051914,
+    "ast_hash": "96aac63d26e8c8f08613185795e2669f",
+    "semantic_hash": ""
+  },
+  "src/workers/usePerformanceCompiler.ts": {
+    "mtime": 1786046388.6954467,
+    "ast_hash": "9ed6ef93c9e4aae9420e187af60ef126",
     "semantic_hash": ""
   }
 }

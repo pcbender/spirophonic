@@ -673,3 +673,67 @@ test('the bundled bank reaches the vault and its presets load', async ({
 
   await context.close()
 })
+
+/**
+ * Whether compilation actually left the render thread.
+ *
+ * This is the only place the claim can be tested. jsdom has no Worker, so the
+ * unit tests exercise the ordering rules against a stub and say nothing about
+ * blocking. Here the page is asked to record its own frame timing across a real
+ * edit of the reference Composition, which is the Composition that used to cost
+ * about 164 ms per keystroke.
+ */
+test('editing the reference Composition does not block the frame', async ({
+  page,
+}) => {
+  await loadReference(page)
+  // Let the first compile and paint settle before measuring.
+  await expect
+    .poll(async () => canvasInk(page), { timeout: 15_000 })
+    .toBeGreaterThan(500)
+
+  await page.evaluate(() => {
+    const window_ = window as unknown as {
+      __frames: Array<number>
+      __stop?: () => void
+    }
+    window_.__frames = []
+    let last = performance.now()
+    let running = true
+    const tick = () => {
+      if (!running) return
+      const now = performance.now()
+      window_.__frames.push(now - last)
+      last = now
+      requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+    window_.__stop = () => {
+      running = false
+    }
+  })
+
+  // A real edit: the tempo field recompiles the whole Composition.
+  const tempo = page.getByLabel(/^Tempo/)
+  for (const value of ['104', '108', '112', '116', '120']) {
+    await tempo.fill(value)
+    await page.waitForTimeout(120)
+  }
+
+  const frames = await page.evaluate(() => {
+    const window_ = window as unknown as {
+      __frames: Array<number>
+      __stop?: () => void
+    }
+    window_.__stop?.()
+    return window_.__frames
+  })
+
+  expect(frames.length).toBeGreaterThan(20)
+  const longest = Math.max(...frames)
+
+  // Compiling on the render thread put a ~164 ms gap in this record on every
+  // edit. The ceiling is generous enough to survive a loaded CI box while
+  // still failing if the work moves back onto the main thread.
+  expect(longest, `longest frame gap ${longest.toFixed(1)}ms`).toBeLessThan(100)
+})
