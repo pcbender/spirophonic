@@ -234,10 +234,20 @@
       "norm_label": "test:e2e:ui"
     },
     {
+      "label": "fetch:soundbank",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "package_scripts_fetch_soundbank",
+      "community": 6,
+      "norm_label": "fetch:soundbank"
+    },
+    {
       "label": "dependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "package_dependencies",
       "community": 6,
@@ -247,7 +257,7 @@
       "label": "react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "package_dependencies_react",
       "community": 6,
@@ -257,7 +267,7 @@
       "label": "react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "package_dependencies_react_dom",
       "community": 6,
@@ -267,7 +277,7 @@
       "label": "spessasynth_lib",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "package_dependencies_spessasynth_lib",
       "community": 6,
@@ -277,7 +287,7 @@
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 6,
@@ -287,7 +297,7 @@
       "label": "@eslint/js",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_js",
       "community": 6,
@@ -297,7 +307,7 @@
       "label": "@playwright/test",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "package_devdependencies_playwright_test",
       "community": 6,
@@ -307,7 +317,7 @@
       "label": "@testing-library/jest-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "package_devdependencies_testing_library_jest_dom",
       "community": 6,
@@ -317,7 +327,7 @@
       "label": "@testing-library/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_devdependencies_testing_library_react",
       "community": 6,
@@ -327,7 +337,7 @@
       "label": "@types/node",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_devdependencies_types_node",
       "community": 6,
@@ -337,7 +347,7 @@
       "label": "@types/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_devdependencies_types_react",
       "community": 6,
@@ -347,7 +357,7 @@
       "label": "@types/react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_dom",
       "community": 6,
@@ -357,7 +367,7 @@
       "label": "@vitejs/plugin-react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_devdependencies_vitejs_plugin_react",
       "community": 6,
@@ -367,7 +377,7 @@
       "label": "eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
       "community": 6,
@@ -377,7 +387,7 @@
       "label": "eslint-plugin-react-hooks",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_plugin_react_hooks",
       "community": 6,
@@ -387,7 +397,7 @@
       "label": "eslint-plugin-react-refresh",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_plugin_react_refresh",
       "community": 6,
@@ -397,7 +407,7 @@
       "label": "fake-indexeddb",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "package_devdependencies_fake_indexeddb",
       "community": 6,
@@ -407,7 +417,7 @@
       "label": "globals",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "package_devdependencies_globals",
       "community": 6,
@@ -417,7 +427,7 @@
       "label": "jsdom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "package_devdependencies_jsdom",
       "community": 6,
@@ -427,7 +437,7 @@
       "label": "typescript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
       "community": 6,
@@ -437,7 +447,7 @@
       "label": "typescript-eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "package_devdependencies_typescript_eslint",
       "community": 6,
@@ -447,7 +457,7 @@
       "label": "vite",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "package_devdependencies_vite",
       "community": 6,
@@ -457,7 +467,7 @@
       "label": "vitest",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "package_devdependencies_vitest",
       "community": 6,
@@ -467,7 +477,7 @@
       "label": "optionalDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L44",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "package_optionaldependencies",
       "community": 6,
@@ -477,7 +487,7 @@
       "label": "@rolldown/binding-win32-x64-msvc",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L45",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "package_optionaldependencies_rolldown_binding_win32_x64_msvc",
       "community": 6,
@@ -487,7 +497,7 @@
       "label": "lightningcss-win32-x64-msvc",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L46",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "package_optionaldependencies_lightningcss_win32_x64_msvc",
       "community": 6,
@@ -502,6 +512,66 @@
       "id": "playwright_config",
       "community": 81,
       "norm_label": "playwright.config.ts"
+    },
+    {
+      "label": "fetch-soundbank.mjs",
+      "file_type": "code",
+      "source_file": "scripts/fetch-soundbank.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_fetch_soundbank",
+      "community": 86,
+      "norm_label": "fetch-soundbank.mjs"
+    },
+    {
+      "label": "repositoryRoot",
+      "file_type": "code",
+      "source_file": "scripts/fetch-soundbank.mjs",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "scripts_fetch_soundbank_repositoryroot",
+      "community": 86,
+      "norm_label": "repositoryroot"
+    },
+    {
+      "label": "bank",
+      "file_type": "code",
+      "source_file": "scripts/fetch-soundbank.mjs",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "scripts_fetch_soundbank_bank",
+      "community": 86,
+      "norm_label": "bank"
+    },
+    {
+      "label": "digestOf()",
+      "file_type": "code",
+      "source_file": "scripts/fetch-soundbank.mjs",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "scripts_fetch_soundbank_digestof",
+      "community": 86,
+      "norm_label": "digestof()"
+    },
+    {
+      "label": "existing()",
+      "file_type": "code",
+      "source_file": "scripts/fetch-soundbank.mjs",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "scripts_fetch_soundbank_existing",
+      "community": 86,
+      "norm_label": "existing()"
+    },
+    {
+      "label": "destination",
+      "file_type": "code",
+      "source_file": "scripts/fetch-soundbank.mjs",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "scripts_fetch_soundbank_destination",
+      "community": 86,
+      "norm_label": "destination"
     },
     {
       "label": "sync-spessasynth-worklet.mjs",
@@ -590,7 +660,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_app_test_performancerequestfor",
-      "community": 77,
+      "community": 74,
       "norm_label": "performancerequestfor()"
     },
     {
@@ -790,7 +860,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_test",
-      "community": 73,
+      "community": 42,
       "norm_label": "bundledsoundbank.test.ts"
     },
     {
@@ -800,7 +870,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_test_freshvault",
-      "community": 73,
+      "community": 42,
       "norm_label": "freshvault()"
     },
     {
@@ -810,7 +880,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_test_stubbankbytes",
-      "community": 73,
+      "community": 42,
       "norm_label": "stubbankbytes()"
     },
     {
@@ -820,7 +890,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_test_respondwith",
-      "community": 73,
+      "community": 42,
       "norm_label": "respondwith()"
     },
     {
@@ -830,37 +900,37 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_bundledsoundbank",
-      "community": 73,
+      "community": 42,
       "norm_label": "bundledsoundbank.ts"
     },
     {
       "label": "BundledBankState",
       "file_type": "code",
       "source_file": "src/audio/bundledSoundBank.ts",
-      "source_location": "L21",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_bundledbankstate",
-      "community": 73,
+      "community": 42,
       "norm_label": "bundledbankstate"
     },
     {
       "label": "EnsureBundledBankOptions",
       "file_type": "code",
       "source_file": "src/audio/bundledSoundBank.ts",
-      "source_location": "L26",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_ensurebundledbankoptions",
-      "community": 73,
+      "community": 42,
       "norm_label": "ensurebundledbankoptions"
     },
     {
       "label": "ensureBundledSoundBank()",
       "file_type": "code",
       "source_file": "src/audio/bundledSoundBank.ts",
-      "source_location": "L45",
+      "source_location": "L51",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_ensurebundledsoundbank",
-      "community": 73,
+      "community": 42,
       "norm_label": "ensurebundledsoundbank()"
     },
     {
@@ -1180,7 +1250,7 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "audio_instrumentrouter_test_fakesoundfontengine_prepare",
-      "community": 46,
+      "community": 72,
       "norm_label": ".prepare()"
     },
     {
@@ -2440,7 +2510,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "audio_soundbankstore_soundbankstoreerror",
-      "community": 71,
+      "community": 8,
       "norm_label": "soundbankstoreerror"
     },
     {
@@ -2450,7 +2520,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "audio_soundbankstore_soundbankstoreerror_constructor",
-      "community": 71,
+      "community": 8,
       "norm_label": ".constructor()"
     },
     {
@@ -2570,7 +2640,7 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "audio_soundbankstore_sha256hex",
-      "community": 73,
+      "community": 42,
       "norm_label": "sha256hex()"
     },
     {
@@ -2700,7 +2770,7 @@
       "source_location": "L332",
       "_origin": "ast",
       "id": "audio_soundbankstore_soundbankstore_toreference",
-      "community": 46,
+      "community": 72,
       "norm_label": ".toreference()"
     },
     {
@@ -3840,7 +3910,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "core_composition_point2",
-      "community": 87,
+      "community": 79,
       "norm_label": "point2"
     },
     {
@@ -3870,7 +3940,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "core_composition_loopspec",
-      "community": 36,
+      "community": 61,
       "norm_label": "loopspec"
     },
     {
@@ -4050,7 +4120,7 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "core_composition_wheelspec",
-      "community": 40,
+      "community": 75,
       "norm_label": "wheelspec"
     },
     {
@@ -4260,7 +4330,7 @@
       "source_location": "L331",
       "_origin": "ast",
       "id": "core_composition_relationkind",
-      "community": 64,
+      "community": 36,
       "norm_label": "relationkind"
     },
     {
@@ -4270,7 +4340,7 @@
       "source_location": "L354",
       "_origin": "ast",
       "id": "core_composition_relationspec",
-      "community": 52,
+      "community": 64,
       "norm_label": "relationspec"
     },
     {
@@ -4290,7 +4360,7 @@
       "source_location": "L370",
       "_origin": "ast",
       "id": "core_composition_scalename",
-      "community": 52,
+      "community": 88,
       "norm_label": "scalename"
     },
     {
@@ -4300,7 +4370,7 @@
       "source_location": "L378",
       "_origin": "ast",
       "id": "core_composition_pitchmapping",
-      "community": 57,
+      "community": 36,
       "norm_label": "pitchmapping"
     },
     {
@@ -4330,7 +4400,7 @@
       "source_location": "L441",
       "_origin": "ast",
       "id": "core_composition_ratiosourcespec",
-      "community": 62,
+      "community": 36,
       "norm_label": "ratiosourcespec"
     },
     {
@@ -4340,7 +4410,7 @@
       "source_location": "L445",
       "_origin": "ast",
       "id": "core_composition_melodycontourspec",
-      "community": 57,
+      "community": 71,
       "norm_label": "melodycontourspec"
     },
     {
@@ -4350,7 +4420,7 @@
       "source_location": "L456",
       "_origin": "ast",
       "id": "core_composition_velocitymapping",
-      "community": 86,
+      "community": 85,
       "norm_label": "velocitymapping"
     },
     {
@@ -4370,7 +4440,7 @@
       "source_location": "L465",
       "_origin": "ast",
       "id": "core_composition_quantizespec",
-      "community": 86,
+      "community": 85,
       "norm_label": "quantizespec"
     },
     {
@@ -4480,7 +4550,7 @@
       "source_location": "L552",
       "_origin": "ast",
       "id": "core_composition_soundbankformat",
-      "community": 45,
+      "community": 76,
       "norm_label": "soundbankformat"
     },
     {
@@ -4500,7 +4570,7 @@
       "source_location": "L556",
       "_origin": "ast",
       "id": "core_composition_soundbankreference",
-      "community": 46,
+      "community": 72,
       "norm_label": "soundbankreference"
     },
     {
@@ -4510,7 +4580,7 @@
       "source_location": "L571",
       "_origin": "ast",
       "id": "core_composition_variationlayerspec",
-      "community": 36,
+      "community": 54,
       "norm_label": "variationlayerspec"
     },
     {
@@ -4520,7 +4590,7 @@
       "source_location": "L584",
       "_origin": "ast",
       "id": "core_composition_variationspec",
-      "community": 74,
+      "community": 54,
       "norm_label": "variationspec"
     },
     {
@@ -4530,7 +4600,7 @@
       "source_location": "L596",
       "_origin": "ast",
       "id": "core_composition_composition",
-      "community": 84,
+      "community": 78,
       "norm_label": "composition"
     },
     {
@@ -5880,7 +5950,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "core_defaultcomposition_bundledsoundbank",
-      "community": 73,
+      "community": 42,
       "norm_label": "bundledsoundbank"
     },
     {
@@ -6040,7 +6110,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "core_encounters_boundarycrossingencounter",
-      "community": 4,
+      "community": 57,
       "norm_label": "boundarycrossingencounter"
     },
     {
@@ -6800,7 +6870,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "core_heads_headstate",
-      "community": 75,
+      "community": 4,
       "norm_label": "headstate"
     },
     {
@@ -6860,7 +6930,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_melody",
-      "community": 57,
+      "community": 71,
       "norm_label": "melody.ts"
     },
     {
@@ -6870,7 +6940,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "core_melody_contourstep",
-      "community": 57,
+      "community": 71,
       "norm_label": "contourstep"
     },
     {
@@ -6880,7 +6950,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "core_melody_clamp",
-      "community": 57,
+      "community": 71,
       "norm_label": "clamp()"
     },
     {
@@ -6890,7 +6960,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "core_melody_buildmelodiccontour",
-      "community": 57,
+      "community": 71,
       "norm_label": "buildmelodiccontour()"
     },
     {
@@ -6900,7 +6970,7 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "core_melody_normalizeseries",
-      "community": 57,
+      "community": 71,
       "norm_label": "normalizeseries()"
     },
     {
@@ -7230,7 +7300,7 @@
       "source_location": "L281",
       "_origin": "ast",
       "id": "core_parts_buildpartmelody",
-      "community": 57,
+      "community": 85,
       "norm_label": "buildpartmelody()"
     },
     {
@@ -7460,7 +7530,7 @@
       "source_location": "L186",
       "_origin": "ast",
       "id": "core_performance_quantizedcandidates",
-      "community": 86,
+      "community": 85,
       "norm_label": "quantizedcandidates()"
     },
     {
@@ -7470,7 +7540,7 @@
       "source_location": "L274",
       "_origin": "ast",
       "id": "core_performance_durationforcandidate",
-      "community": 61,
+      "community": 85,
       "norm_label": "durationforcandidate()"
     },
     {
@@ -8110,7 +8180,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_rhythm_test",
-      "community": 86,
+      "community": 85,
       "norm_label": "rhythm.test.ts"
     },
     {
@@ -8120,7 +8190,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_rhythm",
-      "community": 86,
+      "community": 85,
       "norm_label": "rhythm.ts"
     },
     {
@@ -8130,7 +8200,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "core_rhythm_clampunit",
-      "community": 86,
+      "community": 85,
       "norm_label": "clampunit()"
     },
     {
@@ -8140,7 +8210,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "core_rhythm_clampvelocity",
-      "community": 86,
+      "community": 85,
       "norm_label": "clampvelocity()"
     },
     {
@@ -8150,7 +8220,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_rhythm_quantizeabsolutebeat",
-      "community": 86,
+      "community": 85,
       "norm_label": "quantizeabsolutebeat()"
     },
     {
@@ -8160,7 +8230,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "core_rhythm_mapstrengthtovelocity",
-      "community": 86,
+      "community": 85,
       "norm_label": "mapstrengthtovelocity()"
     },
     {
@@ -8310,7 +8380,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_traceencounters_bench_test",
-      "community": 42,
+      "community": 79,
       "norm_label": "traceencounters.bench.test.ts"
     },
     {
@@ -8320,7 +8390,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "core_traceencounters_bench_test_window4s",
-      "community": 42,
+      "community": 79,
       "norm_label": "window4s"
     },
     {
@@ -8330,7 +8400,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "core_traceencounters_bench_test_firstobservedhead",
-      "community": 42,
+      "community": 79,
       "norm_label": "firstobservedhead()"
     },
     {
@@ -8380,7 +8450,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_traceencounters",
-      "community": 69,
+      "community": 79,
       "norm_label": "traceencounters.ts"
     },
     {
@@ -8390,7 +8460,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "core_traceencounters_tracecrossingdirection",
-      "community": 69,
+      "community": 79,
       "norm_label": "tracecrossingdirection"
     },
     {
@@ -8400,7 +8470,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "core_traceencounters_tracecrossingencounter",
-      "community": 69,
+      "community": 79,
       "norm_label": "tracecrossingencounter"
     },
     {
@@ -8410,7 +8480,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "core_traceencounters_traceencounterdiagnostic",
-      "community": 69,
+      "community": 79,
       "norm_label": "traceencounterdiagnostic"
     },
     {
@@ -8420,7 +8490,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "core_traceencounters_traceencounterresult",
-      "community": 69,
+      "community": 79,
       "norm_label": "traceencounterresult"
     },
     {
@@ -8430,7 +8500,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "core_traceencounters_traceencounteroptions",
-      "community": 69,
+      "community": 79,
       "norm_label": "traceencounteroptions"
     },
     {
@@ -8440,7 +8510,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "core_traceencounters_traceencounterdefaults",
-      "community": 69,
+      "community": 79,
       "norm_label": "traceencounterdefaults"
     },
     {
@@ -8450,7 +8520,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "core_traceencounters_comparetext",
-      "community": 69,
+      "community": 79,
       "norm_label": "comparetext()"
     },
     {
@@ -8460,7 +8530,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "core_traceencounters_freezepoint",
-      "community": 69,
+      "community": 79,
       "norm_label": "freezepoint()"
     },
     {
@@ -8470,7 +8540,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "core_traceencounters_segmentintersection",
-      "community": 69,
+      "community": 79,
       "norm_label": "segmentintersection"
     },
     {
@@ -8480,7 +8550,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "core_traceencounters_encounterid",
-      "community": 69,
+      "community": 79,
       "norm_label": "encounterid()"
     },
     {
@@ -8490,7 +8560,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "core_traceencounters_comparetraceencounters",
-      "community": 69,
+      "community": 79,
       "norm_label": "comparetraceencounters()"
     },
     {
@@ -8500,7 +8570,7 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "core_traceencounters_compiletraceencounters",
-      "community": 69,
+      "community": 75,
       "norm_label": "compiletraceencounters()"
     },
     {
@@ -8590,7 +8660,7 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex",
-      "community": 87,
+      "community": 79,
       "norm_label": "tracesegmentindex"
     },
     {
@@ -8600,7 +8670,7 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_constructor",
-      "community": 87,
+      "community": 79,
       "norm_label": ".constructor()"
     },
     {
@@ -8610,7 +8680,7 @@
       "source_location": "L151",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_size",
-      "community": 87,
+      "community": 79,
       "norm_label": ".size()"
     },
     {
@@ -8620,7 +8690,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_suggestcellsize",
-      "community": 87,
+      "community": 79,
       "norm_label": ".suggestcellsize()"
     },
     {
@@ -8630,7 +8700,7 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_key",
-      "community": 87,
+      "community": 79,
       "norm_label": ".key()"
     },
     {
@@ -8640,7 +8710,7 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_cellsfor",
-      "community": 87,
+      "community": 79,
       "norm_label": ".cellsfor()"
     },
     {
@@ -8650,7 +8720,7 @@
       "source_location": "L185",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_insert",
-      "community": 87,
+      "community": 79,
       "norm_label": ".insert()"
     },
     {
@@ -8660,7 +8730,7 @@
       "source_location": "L195",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_query",
-      "community": 87,
+      "community": 79,
       "norm_label": ".query()"
     },
     {
@@ -8700,7 +8770,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "core_transport_performancerequest",
-      "community": 42,
+      "community": 85,
       "norm_label": "performancerequest"
     },
     {
@@ -8840,7 +8910,7 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "core_transport_normalizecyclerate",
-      "community": 75,
+      "community": 61,
       "norm_label": "normalizecyclerate()"
     },
     {
@@ -8890,7 +8960,7 @@
       "source_location": "L242",
       "_origin": "ast",
       "id": "core_transport_beatstoseconds",
-      "community": 61,
+      "community": 74,
       "norm_label": "beatstoseconds()"
     },
     {
@@ -8920,7 +8990,7 @@
       "source_location": "L266",
       "_origin": "ast",
       "id": "core_transport_wrapcyclephase",
-      "community": 75,
+      "community": 61,
       "norm_label": "wrapcyclephase()"
     },
     {
@@ -9270,7 +9340,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "core_variation_variationbounds",
-      "community": 74,
+      "community": 54,
       "norm_label": "variationbounds"
     },
     {
@@ -9290,7 +9360,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "core_variation_variationtraceentry",
-      "community": 8,
+      "community": 85,
       "norm_label": "variationtraceentry"
     },
     {
@@ -9630,7 +9700,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "export_audiorender_renderprogress",
-      "community": 71,
+      "community": 59,
       "norm_label": "renderprogress"
     },
     {
@@ -9930,7 +10000,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "midi_smf_midinote",
-      "community": 41,
+      "community": 7,
       "norm_label": "midinote"
     },
     {
@@ -9950,7 +10020,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "midi_smf_miditrack",
-      "community": 41,
+      "community": 7,
       "norm_label": "miditrack"
     },
     {
@@ -10140,7 +10210,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_midiexport_test",
-      "community": 61,
+      "community": 74,
       "norm_label": "midiexport.test.ts"
     },
     {
@@ -10150,7 +10220,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "export_midiexport_test_compiledefault",
-      "community": 61,
+      "community": 74,
       "norm_label": "compiledefault()"
     },
     {
@@ -10160,7 +10230,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "export_midiexport_test_ascii",
-      "community": 61,
+      "community": 74,
       "norm_label": "ascii()"
     },
     {
@@ -10280,7 +10350,7 @@
       "source_location": "L208",
       "_origin": "ast",
       "id": "export_midiexport_exportableperformance",
-      "community": 88,
+      "community": 59,
       "norm_label": "exportableperformance"
     },
     {
@@ -10320,7 +10390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_projectbundle_test",
-      "community": 71,
+      "community": 8,
       "norm_label": "projectbundle.test.ts"
     },
     {
@@ -10330,7 +10400,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "export_projectbundle_test_abcbytes",
-      "community": 71,
+      "community": 8,
       "norm_label": "abcbytes()"
     },
     {
@@ -10340,7 +10410,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "export_projectbundle_test_freshstore",
-      "community": 71,
+      "community": 8,
       "norm_label": "freshstore()"
     },
     {
@@ -10350,7 +10420,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "export_projectbundle_test_bankedcomposition",
-      "community": 71,
+      "community": 8,
       "norm_label": "bankedcomposition()"
     },
     {
@@ -10360,7 +10430,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "export_projectbundle_test_stockedstore",
-      "community": 71,
+      "community": 8,
       "norm_label": "stockedstore()"
     },
     {
@@ -10370,7 +10440,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_projectbundle",
-      "community": 71,
+      "community": 8,
       "norm_label": "projectbundle.ts"
     },
     {
@@ -10380,7 +10450,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "export_projectbundle_bundleasset",
-      "community": 71,
+      "community": 8,
       "norm_label": "bundleasset"
     },
     {
@@ -10390,7 +10460,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "export_projectbundle_projectbundle",
-      "community": 71,
+      "community": 8,
       "norm_label": "projectbundle"
     },
     {
@@ -10400,7 +10470,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "export_projectbundle_embeddecision",
-      "community": 71,
+      "community": 8,
       "norm_label": "embeddecision"
     },
     {
@@ -10410,7 +10480,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "export_projectbundle_createbundleoptions",
-      "community": 71,
+      "community": 8,
       "norm_label": "createbundleoptions"
     },
     {
@@ -10420,7 +10490,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "export_projectbundle_createbundleresult",
-      "community": 71,
+      "community": 8,
       "norm_label": "createbundleresult"
     },
     {
@@ -10430,7 +10500,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "export_projectbundle_bundleassetstatus",
-      "community": 71,
+      "community": 8,
       "norm_label": "bundleassetstatus"
     },
     {
@@ -10440,7 +10510,7 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "export_projectbundle_bundleassetoutcome",
-      "community": 71,
+      "community": 8,
       "norm_label": "bundleassetoutcome"
     },
     {
@@ -10450,7 +10520,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "export_projectbundle_importbundleresult",
-      "community": 71,
+      "community": 8,
       "norm_label": "importbundleresult"
     },
     {
@@ -10460,7 +10530,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "export_projectbundle_bundleparseresult",
-      "community": 71,
+      "community": 8,
       "norm_label": "bundleparseresult"
     },
     {
@@ -10470,7 +10540,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "export_projectbundle_sortkeysdeep",
-      "community": 71,
+      "community": 8,
       "norm_label": "sortkeysdeep()"
     },
     {
@@ -10480,7 +10550,7 @@
       "source_location": "L125",
       "_origin": "ast",
       "id": "export_projectbundle_encodebase64",
-      "community": 71,
+      "community": 8,
       "norm_label": "encodebase64()"
     },
     {
@@ -10490,7 +10560,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "export_projectbundle_decodebase64",
-      "community": 71,
+      "community": 8,
       "norm_label": "decodebase64()"
     },
     {
@@ -10500,7 +10570,7 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "export_projectbundle_bundlefilename",
-      "community": 71,
+      "community": 8,
       "norm_label": "bundlefilename()"
     },
     {
@@ -10510,7 +10580,7 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "export_projectbundle_createprojectbundle",
-      "community": 71,
+      "community": 8,
       "norm_label": "createprojectbundle()"
     },
     {
@@ -10520,7 +10590,7 @@
       "source_location": "L242",
       "_origin": "ast",
       "id": "export_projectbundle_parseprojectbundle",
-      "community": 71,
+      "community": 8,
       "norm_label": "parseprojectbundle()"
     },
     {
@@ -10530,7 +10600,7 @@
       "source_location": "L303",
       "_origin": "ast",
       "id": "export_projectbundle_importprojectbundle",
-      "community": 71,
+      "community": 8,
       "norm_label": "importprojectbundle()"
     },
     {
@@ -10540,7 +10610,7 @@
       "source_location": "L432",
       "_origin": "ast",
       "id": "export_projectbundle_safeget",
-      "community": 71,
+      "community": 8,
       "norm_label": "safeget()"
     },
     {
@@ -10550,7 +10620,7 @@
       "source_location": "L442",
       "_origin": "ast",
       "id": "export_projectbundle_downloadprojectbundle",
-      "community": 71,
+      "community": 8,
       "norm_label": "downloadprojectbundle()"
     },
     {
@@ -10620,7 +10690,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "export_strudelexport_test_fixture",
-      "community": 88,
+      "community": 74,
       "norm_label": "fixture()"
     },
     {
@@ -11550,7 +11620,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_compositioncanvas_test",
-      "community": 4,
+      "community": 78,
       "norm_label": "compositioncanvas.test.tsx"
     },
     {
@@ -11560,7 +11630,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "ui_compositioncanvas_test_observation",
-      "community": 4,
+      "community": 78,
       "norm_label": "observation"
     },
     {
@@ -11570,7 +11640,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "ui_compositioncanvas_test_context",
-      "community": 4,
+      "community": 78,
       "norm_label": "context"
     },
     {
@@ -11610,7 +11680,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "ui_compositioncanvas_compositioncanvas",
-      "community": 4,
+      "community": 78,
       "norm_label": "compositioncanvas()"
     },
     {
@@ -12000,7 +12070,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_importexportpanel",
-      "community": 71,
+      "community": 59,
       "norm_label": "importexportpanel.tsx"
     },
     {
@@ -12010,7 +12080,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "ui_importexportpanel_importexportpanelprops",
-      "community": 71,
+      "community": 59,
       "norm_label": "importexportpanelprops"
     },
     {
@@ -12020,7 +12090,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "ui_importexportpanel_megabytes",
-      "community": 71,
+      "community": 59,
       "norm_label": "megabytes()"
     },
     {
@@ -12270,7 +12340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_recorderpanel_test",
-      "community": 85,
+      "community": 8,
       "norm_label": "recorderpanel.test.tsx"
     },
     {
@@ -12280,7 +12350,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "ui_recorderpanel_test_request",
-      "community": 85,
+      "community": 8,
       "norm_label": "request"
     },
     {
@@ -12290,7 +12360,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "ui_recorderpanel_test_base",
-      "community": 85,
+      "community": 8,
       "norm_label": "base()"
     },
     {
@@ -12300,7 +12370,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "ui_recorderpanel_test_setup",
-      "community": 85,
+      "community": 8,
       "norm_label": "setup()"
     },
     {
@@ -12600,7 +12670,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_variationpanel_test",
-      "community": 74,
+      "community": 54,
       "norm_label": "variationpanel.test.tsx"
     },
     {
@@ -12610,7 +12680,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "ui_variationpanel_test_base",
-      "community": 74,
+      "community": 54,
       "norm_label": "base()"
     },
     {
@@ -12620,7 +12690,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "ui_variationpanel_test_request",
-      "community": 74,
+      "community": 54,
       "norm_label": "request"
     },
     {
@@ -12630,7 +12700,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_variationpanel",
-      "community": 74,
+      "community": 54,
       "norm_label": "variationpanel.tsx"
     },
     {
@@ -12640,7 +12710,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "ui_variationpanel_variationpanelprops",
-      "community": 74,
+      "community": 54,
       "norm_label": "variationpanelprops"
     },
     {
@@ -12650,7 +12720,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "ui_variationpanel_layers",
-      "community": 74,
+      "community": 54,
       "norm_label": "layers"
     },
     {
@@ -12660,7 +12730,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "ui_variationpanel_defaultvariation",
-      "community": 74,
+      "community": 54,
       "norm_label": "defaultvariation()"
     },
     {
@@ -12670,7 +12740,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "ui_variationpanel_variationpanel",
-      "community": 74,
+      "community": 54,
       "norm_label": "variationpanel()"
     },
     {
@@ -12680,7 +12750,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_wheelpanel",
-      "community": 40,
+      "community": 69,
       "norm_label": "wheelpanel.tsx"
     },
     {
@@ -12690,7 +12760,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "ui_wheelpanel_wheelpanelprops",
-      "community": 40,
+      "community": 69,
       "norm_label": "wheelpanelprops"
     },
     {
@@ -12700,7 +12770,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "ui_wheelpanel_motionkinds",
-      "community": 40,
+      "community": 69,
       "norm_label": "motionkinds"
     },
     {
@@ -12710,7 +12780,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "ui_wheelpanel_wheelpanel",
-      "community": 40,
+      "community": 69,
       "norm_label": "wheelpanel()"
     },
     {
@@ -12720,7 +12790,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "ui_wheelpanel_motiondefaults",
-      "community": 40,
+      "community": 69,
       "norm_label": "motiondefaults()"
     },
     {
@@ -12730,7 +12800,7 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "ui_wheelpanel_numberfieldprops",
-      "community": 40,
+      "community": 69,
       "norm_label": "numberfieldprops"
     },
     {
@@ -12740,7 +12810,7 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "ui_wheelpanel_numberfield",
-      "community": 40,
+      "community": 69,
       "norm_label": "numberfield()"
     },
     {
@@ -12760,7 +12830,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workers_performanceworker",
-      "community": 42,
+      "community": 85,
       "norm_label": "performanceworker.ts"
     },
     {
@@ -12870,7 +12940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workers_useperformancecompiler",
-      "community": 42,
+      "community": 85,
       "norm_label": "useperformancecompiler.ts"
     },
     {
@@ -12880,7 +12950,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "workers_useperformancecompiler_compilerstate",
-      "community": 42,
+      "community": 85,
       "norm_label": "compilerstate"
     },
     {
@@ -12890,7 +12960,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "workers_useperformancecompiler_workersupported",
-      "community": 42,
+      "community": 85,
       "norm_label": "workersupported()"
     },
     {
@@ -13397,7 +13467,7 @@
       "label": "The model",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L38",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "readme_the_model",
       "community": 9,
@@ -13407,7 +13477,7 @@
       "label": "What it does",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L80",
+      "source_location": "L87",
       "_origin": "ast",
       "id": "readme_what_it_does",
       "community": 9,
@@ -13417,7 +13487,7 @@
       "label": "Sound banks",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L94",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "readme_sound_banks",
       "community": 9,
@@ -13427,7 +13497,7 @@
       "label": "Project shape",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L110",
+      "source_location": "L122",
       "_origin": "ast",
       "id": "readme_project_shape",
       "community": 9,
@@ -13437,7 +13507,7 @@
       "label": "Docs",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L136",
+      "source_location": "L148",
       "_origin": "ast",
       "id": "readme_docs",
       "community": 9,
@@ -13447,7 +13517,7 @@
       "label": "Boundaries",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L150",
+      "source_location": "L162",
       "_origin": "ast",
       "id": "readme_boundaries",
       "community": 9,
@@ -14677,7 +14747,7 @@
       "label": "Packet rules",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1298",
+      "source_location": "L1308",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_packet_rules",
       "community": 37,
@@ -14687,7 +14757,7 @@
       "label": "Definition of the first meaningful generator",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1323",
+      "source_location": "L1333",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_definition_of_the_first_meaningful_generator",
       "community": 37,
@@ -14797,7 +14867,7 @@
       "label": "Active packet records",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L187",
+      "source_location": "L188",
       "_origin": "ast",
       "id": "docs_music_generator_progress_active_packet_records",
       "community": 39,
@@ -14807,7 +14877,7 @@
       "label": "Blockers",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L198",
+      "source_location": "L199",
       "_origin": "ast",
       "id": "docs_music_generator_progress_blockers",
       "community": 39,
@@ -14817,7 +14887,7 @@
       "label": "Risk register",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L212",
+      "source_location": "L213",
       "_origin": "ast",
       "id": "docs_music_generator_progress_risk_register",
       "community": 39,
@@ -14827,7 +14897,7 @@
       "label": "Decision log",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L230",
+      "source_location": "L231",
       "_origin": "ast",
       "id": "docs_music_generator_progress_decision_log",
       "community": 39,
@@ -14837,7 +14907,7 @@
       "label": "Activity log",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L247",
+      "source_location": "L248",
       "_origin": "ast",
       "id": "docs_music_generator_progress_activity_log",
       "community": 39,
@@ -14847,7 +14917,7 @@
       "label": "Handoff records",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L312",
+      "source_location": "L315",
       "_origin": "ast",
       "id": "docs_music_generator_progress_handoff_records",
       "community": 39,
@@ -14857,7 +14927,7 @@
       "label": "2026-08-05 MG-01 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L314",
+      "source_location": "L317",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_01_author_handoff",
       "community": 39,
@@ -14867,7 +14937,7 @@
       "label": "2026-08-05 MG-02 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L349",
+      "source_location": "L352",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_02_author_handoff",
       "community": 39,
@@ -14877,7 +14947,7 @@
       "label": "2026-08-05 MG-03 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L382",
+      "source_location": "L385",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_03_author_handoff",
       "community": 39,
@@ -14887,7 +14957,7 @@
       "label": "2026-08-05 MG-04 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L416",
+      "source_location": "L419",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_04_author_handoff",
       "community": 39,
@@ -14897,7 +14967,7 @@
       "label": "2026-08-05 MG-05 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L453",
+      "source_location": "L456",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_05_author_handoff",
       "community": 39,
@@ -14907,7 +14977,7 @@
       "label": "2026-08-05 MG-06 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L493",
+      "source_location": "L496",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_06_author_handoff",
       "community": 39,
@@ -14917,7 +14987,7 @@
       "label": "2026-08-05 MG-07 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L531",
+      "source_location": "L534",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_07_author_handoff",
       "community": 39,
@@ -14927,7 +14997,7 @@
       "label": "2026-08-05 MG-08 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L569",
+      "source_location": "L572",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_08_author_handoff",
       "community": 39,
@@ -14937,7 +15007,7 @@
       "label": "2026-08-05 MG-09 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L610",
+      "source_location": "L613",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_09_author_handoff",
       "community": 39,
@@ -14947,7 +15017,7 @@
       "label": "2026-08-05 MG-10 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L654",
+      "source_location": "L657",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_10_author_handoff",
       "community": 39,
@@ -14957,7 +15027,7 @@
       "label": "2026-08-05 MG-11 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L703",
+      "source_location": "L706",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_11_author_handoff",
       "community": 39,
@@ -14967,7 +15037,7 @@
       "label": "2026-08-05 MG-01\u2013MG-11 cumulative review",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L757",
+      "source_location": "L760",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_01_mg_11_cumulative_review",
       "community": 39,
@@ -14977,7 +15047,7 @@
       "label": "2026-08-05 MG-12 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L820",
+      "source_location": "L823",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_12_author_handoff",
       "community": 39,
@@ -14987,7 +15057,7 @@
       "label": "Handoff template",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L891",
+      "source_location": "L894",
       "_origin": "ast",
       "id": "docs_music_generator_progress_handoff_template",
       "community": 39,
@@ -14997,7 +15067,7 @@
       "label": "Packet completion checklist",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L917",
+      "source_location": "L920",
       "_origin": "ast",
       "id": "docs_music_generator_progress_packet_completion_checklist",
       "community": 39,
@@ -16554,20 +16624,20 @@
       "norm_label": "the showcase"
     },
     {
-      "label": "The SoundFont Instrument names a bank rather than carrying one",
+      "label": "The SoundFont Instrument names the bundled bank",
       "file_type": "document",
       "source_file": "docs/examples/README.md",
       "source_location": "L32",
       "_origin": "ast",
-      "id": "examples_readme_the_soundfont_instrument_names_a_bank_rather_than_carrying_one",
+      "id": "examples_readme_the_soundfont_instrument_names_the_bundled_bank",
       "community": 90,
-      "norm_label": "the soundfont instrument names a bank rather than carrying one"
+      "norm_label": "the soundfont instrument names the bundled bank"
     },
     {
       "label": "Testing uses a real, generated bank",
       "file_type": "document",
       "source_file": "docs/examples/README.md",
-      "source_location": "L49",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "examples_readme_testing_uses_a_real_generated_bank",
       "community": 90,
@@ -16577,7 +16647,7 @@
       "label": "Benchmarks",
       "file_type": "document",
       "source_file": "docs/examples/README.md",
-      "source_location": "L65",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "examples_readme_benchmarks",
       "community": 90,
@@ -16744,6 +16814,16 @@
       "confidence_score": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_dev"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_fetch_soundbank",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -17064,6 +17144,56 @@
       "confidence_score": 1.0,
       "source": "package_optionaldependencies",
       "target": "package_optionaldependencies_rolldown_binding_win32_x64_msvc"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/fetch-soundbank.mjs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "scripts_fetch_soundbank",
+      "target": "scripts_fetch_soundbank_bank",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/fetch-soundbank.mjs",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "scripts_fetch_soundbank",
+      "target": "scripts_fetch_soundbank_destination",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/fetch-soundbank.mjs",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "scripts_fetch_soundbank",
+      "target": "scripts_fetch_soundbank_digestof",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/fetch-soundbank.mjs",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "scripts_fetch_soundbank",
+      "target": "scripts_fetch_soundbank_existing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/fetch-soundbank.mjs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "scripts_fetch_soundbank",
+      "target": "scripts_fetch_soundbank_repositoryroot",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -17960,9 +18090,9 @@
       "source_file": "src/App.tsx",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "workers_useperformancecompiler",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler"
     },
     {
       "relation": "imports",
@@ -17971,9 +18101,9 @@
       "source_file": "src/App.tsx",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "workers_useperformancecompiler_useperformancecompiler",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_useperformancecompiler"
     },
     {
       "relation": "imports_from",
@@ -18070,9 +18200,9 @@
       "source_file": "src/App.tsx",
       "source_location": "L129",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_app",
-      "target": "workers_useperformancecompiler_useperformancecompiler",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_useperformancecompiler"
     },
     {
       "relation": "imports",
@@ -27662,9 +27792,9 @@
       "source_file": "src/workers/performanceWorker.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_performanceworker",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports_from",
@@ -27673,9 +27803,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports_from",
@@ -27684,9 +27814,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "core_composition",
-      "confidence_score": 1.0
+      "target": "core_composition"
     },
     {
       "relation": "imports",
@@ -29884,9 +30014,9 @@
       "source_file": "src/workers/performanceWorker.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_performanceworker",
-      "target": "core_composition_composition",
-      "confidence_score": 1.0
+      "target": "core_composition_composition"
     },
     {
       "relation": "imports",
@@ -29895,9 +30025,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "core_composition_composition",
-      "confidence_score": 1.0
+      "target": "core_composition_composition"
     },
     {
       "relation": "imports",
@@ -29906,9 +30036,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "core_composition_composition",
-      "confidence_score": 1.0
+      "target": "core_composition_composition"
     },
     {
       "relation": "imports_from",
@@ -40280,9 +40410,9 @@
       "source_file": "src/workers/performanceWorker.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_performanceworker",
-      "target": "core_performance",
-      "confidence_score": 1.0
+      "target": "core_performance"
     },
     {
       "relation": "imports_from",
@@ -40291,9 +40421,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "core_performance",
-      "confidence_score": 1.0
+      "target": "core_performance"
     },
     {
       "relation": "imports_from",
@@ -40302,9 +40432,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "core_performance",
-      "confidence_score": 1.0
+      "target": "core_performance"
     },
     {
       "relation": "imports",
@@ -40434,9 +40564,9 @@
       "source_file": "src/workers/performanceWorker.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_performanceworker",
-      "target": "core_performance_canonicalperformance",
-      "confidence_score": 1.0
+      "target": "core_performance_canonicalperformance"
     },
     {
       "relation": "imports",
@@ -40445,9 +40575,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "core_performance_canonicalperformance",
-      "confidence_score": 1.0
+      "target": "core_performance_canonicalperformance"
     },
     {
       "relation": "calls",
@@ -41039,9 +41169,9 @@
       "source_file": "src/workers/performanceWorker.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_performanceworker",
-      "target": "core_performance_compileperformance",
-      "confidence_score": 1.0
+      "target": "core_performance_compileperformance"
     },
     {
       "relation": "imports",
@@ -41050,9 +41180,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "core_performance_compileperformance",
-      "confidence_score": 1.0
+      "target": "core_performance_compileperformance"
     },
     {
       "relation": "imports",
@@ -41061,9 +41191,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "core_performance_compileperformance",
-      "confidence_score": 1.0
+      "target": "core_performance_compileperformance"
     },
     {
       "relation": "contains",
@@ -44353,9 +44483,9 @@
       "source_file": "src/workers/performanceWorker.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_performanceworker",
-      "target": "core_transport",
-      "confidence_score": 1.0
+      "target": "core_transport"
     },
     {
       "relation": "imports_from",
@@ -44364,9 +44494,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "core_transport",
-      "confidence_score": 1.0
+      "target": "core_transport"
     },
     {
       "relation": "imports",
@@ -44375,9 +44505,9 @@
       "source_file": "src/workers/performanceWorker.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_performanceworker",
-      "target": "core_transport_performancerequest",
-      "confidence_score": 1.0
+      "target": "core_transport_performancerequest"
     },
     {
       "relation": "imports",
@@ -44386,9 +44516,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "core_transport_performancerequest",
-      "confidence_score": 1.0
+      "target": "core_transport_performancerequest"
     },
     {
       "relation": "calls",
@@ -49722,9 +49852,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "fixtures_compositions",
-      "confidence_score": 1.0
+      "target": "fixtures_compositions"
     },
     {
       "relation": "calls",
@@ -49821,9 +49951,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "fixtures_compositions_ringandspokecomposition",
-      "confidence_score": 1.0
+      "target": "fixtures_compositions_ringandspokecomposition"
     },
     {
       "relation": "calls",
@@ -49854,9 +49984,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "fixtures_compositions_concurrentwheelscomposition",
-      "confidence_score": 1.0
+      "target": "fixtures_compositions_concurrentwheelscomposition"
     },
     {
       "relation": "calls",
@@ -51268,9 +51398,9 @@
       "source_file": "src/workers/performanceWorker.ts",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_performanceworker",
-      "target": "workers_performanceworker_compilereplymessage",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker_compilereplymessage"
     },
     {
       "relation": "contains",
@@ -51278,9 +51408,9 @@
       "source_file": "src/workers/performanceWorker.ts",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_performanceworker",
-      "target": "workers_performanceworker_compilerequestmessage",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker_compilerequestmessage"
     },
     {
       "relation": "imports_from",
@@ -51289,9 +51419,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "workers_performanceworker",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker"
     },
     {
       "relation": "imports_from",
@@ -51300,9 +51430,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "workers_performanceworker",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker"
     },
     {
       "relation": "imports",
@@ -51311,9 +51441,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "workers_performanceworker_compilerequestmessage",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker_compilerequestmessage"
     },
     {
       "relation": "imports",
@@ -51322,9 +51452,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "workers_performanceworker_compilerequestmessage",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker_compilerequestmessage"
     },
     {
       "relation": "references",
@@ -51333,9 +51463,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test_stubworker",
-      "target": "workers_performanceworker_compilerequestmessage",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker_compilerequestmessage"
     },
     {
       "relation": "references",
@@ -51344,9 +51474,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test_stubworker_postmessage",
-      "target": "workers_performanceworker_compilerequestmessage",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker_compilerequestmessage"
     },
     {
       "relation": "imports",
@@ -51355,9 +51485,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "workers_performanceworker_compilereplymessage",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker_compilereplymessage"
     },
     {
       "relation": "imports",
@@ -51366,9 +51496,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "workers_performanceworker_compilereplymessage",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker_compilereplymessage"
     },
     {
       "relation": "references",
@@ -51377,9 +51507,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test_stubworker",
-      "target": "workers_performanceworker_compilereplymessage",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker_compilereplymessage"
     },
     {
       "relation": "references",
@@ -51388,9 +51518,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test_stubworker_reply",
-      "target": "workers_performanceworker_compilereplymessage",
-      "confidence_score": 1.0
+      "target": "workers_performanceworker_compilereplymessage"
     },
     {
       "relation": "imports_from",
@@ -51399,9 +51529,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "workers_useperformancecompiler",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler"
     },
     {
       "relation": "contains",
@@ -51409,9 +51539,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "workers_useperformancecompiler_test_request",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_test_request"
     },
     {
       "relation": "contains",
@@ -51419,9 +51549,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "workers_useperformancecompiler_test_stubworker",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_test_stubworker"
     },
     {
       "relation": "contains",
@@ -51429,9 +51559,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L45",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "workers_useperformancecompiler_test_usestubworker",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_test_usestubworker"
     },
     {
       "relation": "imports",
@@ -51440,9 +51570,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test",
-      "target": "workers_useperformancecompiler_useperformancecompiler",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_useperformancecompiler"
     },
     {
       "relation": "method",
@@ -51450,9 +51580,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test_stubworker",
-      "target": "workers_useperformancecompiler_test_stubworker_constructor",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_test_stubworker_constructor"
     },
     {
       "relation": "method",
@@ -51460,9 +51590,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test_stubworker",
-      "target": "workers_useperformancecompiler_test_stubworker_postmessage",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_test_stubworker_postmessage"
     },
     {
       "relation": "method",
@@ -51470,9 +51600,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test_stubworker",
-      "target": "workers_useperformancecompiler_test_stubworker_reply",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_test_stubworker_reply"
     },
     {
       "relation": "method",
@@ -51480,9 +51610,9 @@
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler_test_stubworker",
-      "target": "workers_useperformancecompiler_test_stubworker_terminate",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_test_stubworker_terminate"
     },
     {
       "relation": "contains",
@@ -51490,9 +51620,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "workers_useperformancecompiler_compilerstate",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_compilerstate"
     },
     {
       "relation": "contains",
@@ -51500,9 +51630,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L47",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "workers_useperformancecompiler_useperformancecompiler",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_useperformancecompiler"
     },
     {
       "relation": "contains",
@@ -51510,9 +51640,9 @@
       "source_file": "src/workers/usePerformanceCompiler.ts",
       "source_location": "L45",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "workers_useperformancecompiler",
-      "target": "workers_useperformancecompiler_workersupported",
-      "confidence_score": 1.0
+      "target": "workers_useperformancecompiler_workersupported"
     },
     {
       "relation": "contains",
@@ -54910,9 +55040,9 @@
       "source_file": "docs/examples/BENCHMARKS.md",
       "source_location": "L128",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "examples_benchmarks_release_benchmarks",
-      "target": "examples_benchmarks_compilation_is_off_the_render_thread",
-      "confidence_score": 1.0
+      "target": "examples_benchmarks_compilation_is_off_the_render_thread"
     },
     {
       "relation": "contains",
@@ -55030,9 +55160,9 @@
       "source_file": "docs/examples/README.md",
       "source_location": "L32",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "examples_readme_the_showcase",
-      "target": "examples_readme_the_soundfont_instrument_names_a_bank_rather_than_carrying_one"
+      "target": "examples_readme_the_soundfont_instrument_names_the_bundled_bank",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -55046,5 +55176,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "80dbf8d569b7022421f837d4e99e0b19400a985e"
+  "built_at_commit": "bbdd6007d5e7f2e396ebee70b95ee21cea67f91d"
 }

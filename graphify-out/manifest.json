@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1785971787.0078266,
-    "ast_hash": "4135e3d680f72da0d68ae9a357a22877",
+    "mtime": 1786046961.8671112,
+    "ast_hash": "4996fc70ef247d353e4e57b6ec5f55bb",
     "semantic_hash": ""
   },
   "src/App.test.tsx": {
@@ -95,8 +95,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1786031011.9335883,
-    "ast_hash": "ca680ac236d809653fc7de932125c2d6",
+    "mtime": 1786047646.7470865,
+    "ast_hash": "cc0b1305dee0f6feba4193c74cf5465b",
     "semantic_hash": ""
   },
   "docs/INITIAL-WBS-AND-CP-PACKETS.md": {
@@ -235,13 +235,13 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-BUILD-PLAN.md": {
-    "mtime": 1786032926.274806,
-    "ast_hash": "a72b736521c6292885f219354ef0ab2e",
+    "mtime": 1786047667.805896,
+    "ast_hash": "b9bbdb09bc9dcefc90c2e5213da46294",
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1786033013.2955897,
-    "ast_hash": "9806f12d3455e488f98188ba8562f489",
+    "mtime": 1786046647.5445735,
+    "ast_hash": "2a89e8e084d574e7b8042f34be32b411",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -705,13 +705,13 @@
     "semantic_hash": ""
   },
   "docs/examples/BENCHMARKS.md": {
-    "mtime": 1786046551.7678623,
-    "ast_hash": "ddbd55d927503e9595b90e40c900d64e",
+    "mtime": 1786047629.0865395,
+    "ast_hash": "5362d2641591f4d2f6da4d8a02802b62",
     "semantic_hash": ""
   },
   "docs/examples/README.md": {
-    "mtime": 1786032956.5720186,
-    "ast_hash": "3cfdb393b786e5bc418a9c1996939ab4",
+    "mtime": 1786047646.7489138,
+    "ast_hash": "2be22359c109d58baf20d303f8bb2712",
     "semantic_hash": ""
   },
   "src/audio/soundbank.bench.test.ts": {
@@ -725,8 +725,8 @@
     "semantic_hash": ""
   },
   "src/audio/bundledSoundBank.ts": {
-    "mtime": 1786034638.5065918,
-    "ast_hash": "3917f0bc1a4eabc1c5d95b0068d8dab4",
+    "mtime": 1786047629.085669,
+    "ast_hash": "d86724a95ca9b9d804487fa4342d4ce5",
     "semantic_hash": ""
   },
   "public/soundbanks/MuseScore_General_License.md": {
@@ -747,6 +747,11 @@
   "src/workers/usePerformanceCompiler.ts": {
     "mtime": 1786046388.6954467,
     "ast_hash": "9ed6ef93c9e4aae9420e187af60ef126",
+    "semantic_hash": ""
+  },
+  "scripts/fetch-soundbank.mjs": {
+    "mtime": 1786047525.3947985,
+    "ast_hash": "34c5dc8d59b222cbf95f1b88b9bd543f",
     "semantic_hash": ""
   }
 }

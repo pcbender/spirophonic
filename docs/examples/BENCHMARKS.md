@@ -159,6 +159,9 @@ Two things this cost:
 ## Known costs not yet budgeted
 
 - **Bundled sound bank download.** The 38 MB MuseScore General bank is fetched
-  on idle, once per browser, and cached in IndexedDB. Nothing waits on it: every
-  default Instrument is native. There is no budget on the download itself, which
-  is bounded by the network rather than by this repository.
+  twice over: once into `public/soundbanks/` at build time by
+  `scripts/fetch-soundbank.mjs`, and once from there into the browser's vault on
+  idle. Both verify the same SHA-256, and neither is committed to this
+  repository. Nothing waits on either: every default Instrument is native.
+  There is no budget on the download itself, which is bounded by the network
+  rather than by anything here.

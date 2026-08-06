@@ -19,6 +19,13 @@ npm run dev
 
 Vite prints a local URL, normally <http://localhost:5173/>.
 
+The first `npm run dev` or `npm run build` downloads the bundled General MIDI
+sound bank (38 MB) into `public/soundbanks/` and verifies its SHA-256. It is
+cached on disk afterwards, and it is not committed — a binary that size and that
+static belongs in a download, not in every clone. If the download fails the
+build still succeeds; the app reports the bundled bank as unavailable and every
+native Instrument plays as usual.
+
 Checks:
 
 ```bash
@@ -84,7 +91,8 @@ Canvas, IndexedDB, Web Audio, worker, or network API.
 - Boundary crossings, Head-to-Head relations, and Trace self-crossings
 - Parts with scale, spatial, and ratio-tuned pitch, plus continuous control lanes
 - Native oscillator and drum voices with no dependencies, and SoundFont
-  playback through user-supplied SF2/SF3 banks in a local vault
+  playback through a bundled General MIDI bank or your own SF2/SF3 banks,
+  held in a local vault
 - Seeded variation across initial conditions, interpretation, and performance,
   with a trace explaining every difference
 - Recording, exact replay, and reinterpretation of a recorded performance
@@ -93,15 +101,19 @@ Canvas, IndexedDB, Web Audio, worker, or network API.
 
 ## Sound banks
 
-SF2 and SF3 banks are **user-supplied and stay local**. Composition JSON stores
+Spirophonic ships with **MuseScore General**, a 309-preset General MIDI bank
+under the MIT licence, fetched at build time and cached in the browser's vault
+on first run. Its licence and copyright notices travel with it, as that licence
+requires.
+
+Your own SF2 and SF3 banks are **user-supplied and stay local**. Composition JSON stores
 a content-addressed reference — name, SHA-256 digest, licence, attribution —
 never the bank bytes, so a saved Composition is small and shareable while the
 audio assets remain yours.
 
 A portable bundle is manifest-first for the same reason. Bank bytes travel only
 when you choose to embed that specific bank; otherwise the bundle names what it
-needs and the importer reports any digest it cannot resolve before playback. No
-bank ships with this repository.
+needs and the importer reports any digest it cannot resolve before playback.
 
 If a bank is missing, the SoundFont Instruments that need it are reported and
 stay silent. Everything else keeps playing, and nothing is lost from the

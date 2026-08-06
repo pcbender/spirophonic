@@ -1279,11 +1279,21 @@ So the SoundFont path is now exercised for real:
   an Instrument without breaking compilation, and confirms the bytes survive a
   reload in IndexedDB.
 
-**What remains true:** the showcase's *intended* sound still needs a
-user-supplied bank. One saw wave is not General MIDI, and invariant 11 plus
-MG-10's licensing stance still keep a real GM bank out of this repository. That
-is a product decision and stays a limit. The weaker claim — that the SoundFont
-path could not be measured or heard at all — was wrong and is withdrawn.
+**Revised again, 2026-08-06:** the remaining limit is gone too. MuseScore
+General is a 309-preset General MIDI bank under the MIT licence, so it may be
+redistributed with its copyright notices — which it now is. It is fetched at
+build time by `scripts/fetch-soundbank.mjs` into `public/soundbanks/` and
+verified by digest, so invariant 11 still holds: the bank is a content-addressed
+asset, never bytes inside a Composition, and never a binary in git history.
+
+The showcase's SoundFont Instrument names bank 0, program 89 — a preset that
+exists in the bank that ships. Its intended sound is no longer conditional on
+anything the user supplies.
+
+Both claims this audit originally made about SoundFonts were wrong, and both
+are withdrawn. The pattern is worth naming: each time, the blocker was assumed
+from a licensing premise rather than checked, and each time the check took
+minutes.
 
 **Known costs recorded rather than fixed**, because fixing them is not this
 packet's scope and neither is a correctness problem:

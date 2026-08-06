@@ -4,10 +4,16 @@ import { sha256Hex, type SoundBankStore } from './soundbankStore'
 /**
  * Fetching and verifying the bundled sound bank.
  *
- * The reference itself is Composition data and lives in core. The bytes live in
- * `public/` rather than in the JavaScript bundle: 38 MB has no business in a
- * chunk, and serving it as a static file means the browser caches it normally
- * and a Composition with no SoundFont Instrument never requests it.
+ * The reference itself is Composition data and lives in core. The bytes are not
+ * in this repository at all: `scripts/fetch-soundbank.mjs` downloads them into
+ * `public/soundbanks/` at build time and verifies the digest, because 38 MB of
+ * binary that never changes is paid for by every clone forever and is
+ * reproducible from its hash.
+ *
+ * Serving it as a static file rather than bundling it means the browser caches
+ * it normally and a Composition with no SoundFont Instrument never requests it.
+ * If the fetch failed, the app simply reports the bundled bank as unavailable
+ * and every native Instrument plays as usual.
  */
 export { bundledSoundBank }
 

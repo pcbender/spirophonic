@@ -29,22 +29,20 @@ It can play, seek, be edited at a safe boundary, loop, record, replay,
 reinterpret, export MIDI, Strudel, and WAV, save JSON, and round-trip a bundle.
 The full workflow runs in Chromium and Firefox in `e2e/app.spec.ts`.
 
-### The SoundFont Instrument names a bank rather than carrying one
+### The SoundFont Instrument names the bundled bank
 
-No General MIDI bank ships with this repository. That is a decision, not an
-omission: architectural invariant 11 keeps bank bytes out of Composition JSON,
-and MG-10 settled that redistributing a GM bank needs a licence this project
-does not hold.
+The showcase's fourth Instrument plays bank 0, program 89 — "Warm Pad" in
+MuseScore General, the MIT-licensed General MIDI bank the app ships. Its bytes
+are still not in Composition JSON, and still not in this repository: invariant 11
+keeps a bank content-addressed, and `scripts/fetch-soundbank.mjs` downloads it at
+build time into `public/soundbanks/`, verified by digest.
 
-So the showcase's SoundFont Instrument references a digest and waits for you to
-supply a matching bank. Import any SF2/SF3 through the Sound banks panel and
-assign its preset to hear all four Instruments together.
-
-Without a bank the showcase still works: MG-11's missing-bank isolation reports
-the unresolved reference, the three native Instruments play normally, and the
-Composition keeps every Part, event, and export. That path is covered in
-`src/audio/audio.integration.test.ts` — a SoundFont failure never takes down the
-native engine and never loses Composition data.
+Until that bank reaches the browser's vault, the showcase still works: MG-11's
+missing-bank isolation reports the unresolved reference, the three native
+Instruments play normally, and the Composition keeps every Part, event, and
+export. That path is covered in `src/audio/audio.integration.test.ts` — a
+SoundFont failure never takes down the native engine and never loses Composition
+data.
 
 ### Testing uses a real, generated bank
 
@@ -58,9 +56,9 @@ preset lists, assigns it, and confirms it survives a reload;
 `src/audio/soundbank.bench.test.ts` budgets initialization and render memory
 against it.
 
-One saw wave is not General MIDI, so it does not give the showcase its intended
-sound — that still needs your own bank. What it does is remove the claim that
-the path cannot be measured or heard at all.
+One saw wave is not General MIDI, so it is not what the showcase sounds like —
+that is the bundled bank's job. What the generated one does is let the unit
+tests and benchmarks exercise the SoundFont path without a 38 MB download.
 
 ## Benchmarks
 
