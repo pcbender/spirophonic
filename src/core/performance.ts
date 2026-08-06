@@ -128,6 +128,25 @@ export const audiblePartIds = (
   return new Set(audible.map((part) => part.id))
 }
 
+/**
+ * Whether a performed event is heard or written out.
+ *
+ * A performed event is not automatically a sounding one. Interpretation
+ * variation can silence a note while keeping it in the layer, so that it holds
+ * its interpreted id and the variation trace can explain the difference. Every
+ * consumer that turns events into sound or notation — the live scheduler, the
+ * offline renderer, and the MIDI and Strudel exporters — must ask this rather
+ * than assume the layer is uniformly audible.
+ *
+ * `rest` is the decision; `probability` records the roll that produced it and
+ * is not consulted here, so one flag stays the single answer.
+ */
+export const eventSounds = (event: NoteMusicalEvent) => !event.rest
+
+export const soundingEvents = (
+  events: ReadonlyArray<NoteMusicalEvent>,
+): ReadonlyArray<NoteMusicalEvent> => events.filter(eventSounds)
+
 const eventId = (partId: string, encounterId: string) =>
   ['musical-event', partId, encounterId].map(encodeURIComponent).join('/')
 

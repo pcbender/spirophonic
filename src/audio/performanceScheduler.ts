@@ -1,7 +1,8 @@
 import type { InstrumentSpec } from '../core/composition'
-import type {
-  CanonicalPerformance,
-  NoteMusicalEvent,
+import {
+  soundingEvents,
+  type CanonicalPerformance,
+  type NoteMusicalEvent,
 } from '../core/performance'
 import { beatsToSeconds, secondsToBeats } from '../core/transport'
 import type { InstrumentEngine } from './instrumentEngine'
@@ -437,7 +438,9 @@ export class PerformanceScheduler {
     }
 
     const duration = performance.request.durationSeconds
-    this.occurrences = [...performance.performedEvents]
+    // Events variation has silenced stay in the performed layer but must not
+    // be scheduled; they are rests, not notes.
+    this.occurrences = [...soundingEvents(performance.performedEvents)]
       .sort(compareEvents)
       .map((event) => {
         let nextTimelineSeconds = event.timeSeconds

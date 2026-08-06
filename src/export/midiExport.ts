@@ -1,5 +1,9 @@
 import type { Composition, InstrumentSpec } from '../core/composition'
-import type { CanonicalPerformance, NoteMusicalEvent } from '../core/performance'
+import {
+  eventSounds,
+  type CanonicalPerformance,
+  type NoteMusicalEvent,
+} from '../core/performance'
 import { frequencyToMidi } from '../core/scales'
 import { secondsToBeats } from '../core/transport'
 import { buildMidiFile, type MidiNote, type MidiTrack } from './midi/smf'
@@ -92,7 +96,9 @@ const trackForPart = (
     (instrument.kind === 'soundfont' && instrument.percussion)
   const channel = isPercussion ? percussionChannel : melodicChannel(partIndex)
   const notes: Array<MidiNote> = events
-    .filter((event) => event.partId === partId)
+    // A silenced event is a rest. MIDI has no rest to write, so it is simply
+    // absent from the track rather than emitted as an audible note.
+    .filter((event) => event.partId === partId && eventSounds(event))
     .map((event) => {
       const exact = exactMidiFor(event, instrument)
       const nearest = Math.min(127, Math.max(0, Math.round(exact)))

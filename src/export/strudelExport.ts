@@ -1,5 +1,5 @@
 import type { Composition, InstrumentSpec, NotePartSpec } from '../core/composition'
-import type { NoteMusicalEvent } from '../core/performance'
+import { eventSounds, type NoteMusicalEvent } from '../core/performance'
 import { frequencyToMidi, midiToName } from '../core/scales'
 import type { ExportablePerformance } from './midiExport'
 import { secondsToBeats } from '../core/transport'
@@ -88,7 +88,11 @@ const patternForPart = (
     () => null,
   )
 
-  for (const event of events.filter((candidate) => candidate.partId === part.id)) {
+  // A silenced event leaves its slot empty, which Strudel already writes as a
+  // rest token; it must not claim the slot and sound.
+  for (const event of events.filter(
+    (candidate) => candidate.partId === part.id && eventSounds(candidate),
+  )) {
     const slot =
       Math.round(((event.absoluteBeat - startBeat) / durationBeats) * steps) %
       steps

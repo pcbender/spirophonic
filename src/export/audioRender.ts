@@ -1,4 +1,5 @@
 import type { Composition, InstrumentSpec } from '../core/composition'
+import { eventSounds } from '../core/performance'
 import type { RenderContext } from '../audio/instrumentEngine'
 import { InstrumentRouter } from '../audio/instrumentRouter'
 import { NativeSynthEngine } from '../audio/nativeSynthEngine'
@@ -263,13 +264,12 @@ export const renderPerformanceToWav = async (
       }
       if (instrument.kind === 'soundfont' && !router) continue
 
+      // A silenced event is a rest: it stays in the performed layer to keep
+      // its interpreted id, but nothing is scheduled for it.
+      if (!eventSounds(event)) continue
+
       // Offline time starts at zero; events are placed relative to the
       // window rather than to a running clock.
-      //
-      // Events flagged `rest` are scheduled anyway, because the live
-      // scheduler schedules them too and this render must match what plays.
-      // Nothing in the engine honours that flag today — see the MG-20 risk
-      // register entry; fixing it belongs where live and offline both change.
       engine.schedule(event, instrument, event.timeSeconds - windowStart)
       renderedEventCount += 1
 

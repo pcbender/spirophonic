@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "src/export/strudelExport.ts": {
-    "mtime": 1785976634.308209,
-    "ast_hash": "8c8eee9120f4213b51aac77266f1700c",
+    "mtime": 1786029666.8957093,
+    "ast_hash": "896c6db6d5a85fbe013f3c9edf30ca43",
     "semantic_hash": ""
   },
   "src/export/svgExport.test.ts": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "src/export/midiExport.ts": {
-    "mtime": 1785976726.1183832,
-    "ast_hash": "231cacad34c7b26237230e4e1ea7413d",
+    "mtime": 1786029666.894624,
+    "ast_hash": "2ef241498e5bfe48a26ac33aa6784123",
     "semantic_hash": ""
   },
   "docs/SOUND-AND-MIDI-DESIGN.md": {
@@ -190,8 +190,8 @@
     "semantic_hash": ""
   },
   "src/export/agreement.test.ts": {
-    "mtime": 1785955985.8307328,
-    "ast_hash": "594b90b72b2a7d834cc17f9d96654c10",
+    "mtime": 1786029637.6886685,
+    "ast_hash": "a2a85da4fab9e403d9c598395e1ccfa5",
     "semantic_hash": ""
   },
   "docs/WHAT-IS-MISSING.md": {
@@ -235,13 +235,13 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-BUILD-PLAN.md": {
-    "mtime": 1786029043.8094704,
-    "ast_hash": "ebe9bfb64394f28b50950913118fe878",
+    "mtime": 1786029123.398349,
+    "ast_hash": "7002c92e9dc57cb643aaf20a0ca14ecd",
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1785977873.7045326,
-    "ast_hash": "32a00c734f59ed063ea9dfc18961d823",
+    "mtime": 1786029118.833817,
+    "ast_hash": "66d04f73d9db9ac6d8f1c4aee76e7fff",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -365,8 +365,8 @@
     "semantic_hash": ""
   },
   "src/core/performance.ts": {
-    "mtime": 1785974157.0804157,
-    "ast_hash": "be23bf0a3df5dff4b06295d3d940dbb4",
+    "mtime": 1786029666.8922052,
+    "ast_hash": "0bdcf821ad0014bcdf389267a7b5415d",
     "semantic_hash": ""
   },
   "src/audio/instrumentEngine.ts": {
@@ -390,8 +390,8 @@
     "semantic_hash": ""
   },
   "src/audio/performanceScheduler.ts": {
-    "mtime": 1785954885.637312,
-    "ast_hash": "05c685b90b4e9cb45f48d20116431c06",
+    "mtime": 1786029666.8934772,
+    "ast_hash": "1859759c7676b44f985f9bfcdfe6240b",
     "semantic_hash": ""
   },
   "src/ui/HeadPanel.tsx": {
@@ -650,8 +650,8 @@
     "semantic_hash": ""
   },
   "src/export/audioRender.ts": {
-    "mtime": 1786028408.4799204,
-    "ast_hash": "a732011448e98466e25085ab570d8386",
+    "mtime": 1786029666.8972192,
+    "ast_hash": "8fe8d1485e5002763a206de511f80106",
     "semantic_hash": ""
   },
   "src/export/projectBundle.test.ts": {
