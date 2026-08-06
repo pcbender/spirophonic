@@ -1,5 +1,3 @@
-import { WorkletSynthesizer } from 'spessasynth_lib'
-
 import type {
   SoundBankReference,
   SoundFontInstrumentSpec,
@@ -95,7 +93,13 @@ export type SoundFontEngineOptions = Readonly<{
   store: SoundBankStore
   contextFactory?: () => RenderContext
   registerWorklet?: (context: BaseAudioContext) => Promise<void>
-  synthesizerFactory?: (context: BaseAudioContext) => SoundFontSynthesizer
+  /**
+   * May return a promise: the default implementation imports the synthesizer
+   * on demand. A synchronous factory is still valid, and tests use one.
+   */
+  synthesizerFactory?: (
+    context: BaseAudioContext,
+  ) => SoundFontSynthesizer | Promise<SoundFontSynthesizer>
   loadTimeoutMilliseconds?: number
   maxVoices?: number
   /** Bend range in semitones each channel is configured for. */
@@ -181,7 +185,7 @@ export class SoundFontEngine implements InstrumentEngine {
   private readonly registerWorklet: (context: BaseAudioContext) => Promise<void>
   private readonly synthesizerFactory: (
     context: BaseAudioContext,
-  ) => SoundFontSynthesizer
+  ) => SoundFontSynthesizer | Promise<SoundFontSynthesizer>
   private readonly loadTimeoutMilliseconds: number
   private readonly maxVoices: number
   private readonly pitchBendRangeSemitones: number
@@ -201,8 +205,13 @@ export class SoundFontEngine implements InstrumentEngine {
       options.registerWorklet ?? registerSpessaSynthWorklet
     this.synthesizerFactory =
       options.synthesizerFactory ??
-      ((context) =>
-        new WorkletSynthesizer(context) as unknown as SoundFontSynthesizer)
+      // Imported on demand rather than at module load. SpessaSynth is roughly
+      // 207 kB of the production bundle, and a Composition with no SoundFont
+      // Instrument never needs it, so it must not be in the initial chunk.
+      (async (context) => {
+        const { WorkletSynthesizer } = await import('spessasynth_lib')
+        return new WorkletSynthesizer(context) as unknown as SoundFontSynthesizer
+      })
     this.loadTimeoutMilliseconds = options.loadTimeoutMilliseconds ?? 15_000
     this.maxVoices = options.maxVoices ?? 64
     this.pitchBendRangeSemitones = options.pitchBendRangeSemitones ?? 2
@@ -599,7 +608,7 @@ export class SoundFontEngine implements InstrumentEngine {
     }
 
     await this.ensureWorklet()
-    const synthesizer = this.synthesizerFactory(this.ensureContext())
+    const synthesizer = await this.synthesizerFactory(this.ensureContext())
     try {
       await withTimeout(
         synthesizer.isReady.then(() => undefined),

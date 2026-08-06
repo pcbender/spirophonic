@@ -1,7 +1,7 @@
 # Graph Report - spirophonic  (2026-08-06)
 
 ## Corpus Check
-- 140 files · ~128,786 words
+- 140 files · ~129,274 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ae02ecfc`
+- Built from commit: `6d62e004`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -336,8 +336,8 @@ Cohesion: 0.09
 Nodes (7): soundFontBankNumber(), SoundFontSynthesizer, FakeContext, FakeSynth, instrument(), presets, RecordedCall
 
 ### Community 57 - "Community 57"
-Cohesion: 0.11
-Nodes (8): emptyPreparation, InstrumentRouterOptions, SoundFontRouteEngine, FakeEngine, FakeSoundFontEngine, native, SoundFontPreparation, NoteMusicalEvent
+Cohesion: 0.12
+Nodes (5): SoundFontRouteEngine, FakeEngine, FakeSoundFontEngine, native, SoundFontPreparation
 
 ### Community 58 - "Community 58"
 Cohesion: 0.33
@@ -388,8 +388,8 @@ Cohesion: 0.12
 Nodes (9): CompositionVersion, referenceHead(), referenceWheel(), traceColors, request, CompositionCanvas(), context, observation (+1 more)
 
 ### Community 70 - "Community 70"
-Cohesion: 0.17
-Nodes (3): InstrumentEngine, InstrumentRouter, SoundFontPreset
+Cohesion: 0.11
+Nodes (7): request, InstrumentEngine, emptyPreparation, InstrumentRouter, InstrumentRouterOptions, SoundFontPreset, NoteMusicalEvent
 
 ### Community 71 - "Community 71"
 Cohesion: 0.20
@@ -455,11 +455,11 @@ Nodes (4): Benchmarks, Reference works, The showcase, The SoundFont Instrument n
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Composition` connect `Community 77` to `Community 2`, `Community 4`, `Community 8`, `Community 32`, `Community 34`, `Community 35`, `Community 36`, `Community 41`, `Community 42`, `Community 44`, `Community 48`, `Community 52`, `Community 54`, `Community 59`, `Community 61`, `Community 62`, `Community 64`, `Community 65`, `Community 66`, `Community 67`, `Community 68`, `Community 69`, `Community 71`, `Community 75`, `Community 79`, `Community 84`, `Community 85`, `Community 86`?**
+- **Why does `Composition` connect `Community 77` to `Community 2`, `Community 4`, `Community 8`, `Community 32`, `Community 34`, `Community 35`, `Community 36`, `Community 41`, `Community 42`, `Community 44`, `Community 48`, `Community 52`, `Community 54`, `Community 59`, `Community 61`, `Community 62`, `Community 64`, `Community 65`, `Community 66`, `Community 67`, `Community 68`, `Community 69`, `Community 70`, `Community 71`, `Community 75`, `Community 79`, `Community 84`, `Community 85`?**
   _High betweenness centrality (0.057) - this node is a cross-community bridge._
-- **Why does `PerformanceScheduler` connect `Community 43` to `Community 70`, `Community 71`, `Community 44`, `Community 86`, `Community 59`?**
+- **Why does `PerformanceScheduler` connect `Community 43` to `Community 59`, `Community 44`, `Community 70`, `Community 71`?**
   _High betweenness centrality (0.022) - this node is a cross-community bridge._
-- **Why does `SoundFontEngine` connect `Community 46` to `Community 70`, `Community 76`, `Community 78`, `Community 86`, `Community 56`, `Community 57`, `Community 59`, `Community 60`?**
+- **Why does `SoundFontEngine` connect `Community 46` to `Community 70`, `Community 76`, `Community 78`, `Community 56`, `Community 59`, `Community 60`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._
 - **What connects `pageErrors`, `name`, `private` to the rest of the system?**
   _608 weakly-connected nodes found - possible documentation gaps or missing edges._

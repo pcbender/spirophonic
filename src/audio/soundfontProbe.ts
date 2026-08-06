@@ -1,4 +1,4 @@
-import { WorkletSynthesizer } from 'spessasynth_lib'
+import type { WorkletSynthesizer } from 'spessasynth_lib'
 
 import type { SoundBankFormat } from '../core/composition'
 import { sha256Hex } from './soundbankStore'
@@ -136,6 +136,9 @@ export class SpessaSynthProbeBackend implements SoundFontProbeBackend {
     const context = new AudioContext({ latencyHint: 'interactive' })
     this.context = context
     await registerSpessaSynthWorklet(context)
+    // Imported here rather than at module load: the synthesizer is ~207 kB of
+    // the bundle and is only needed once a bank is actually being used.
+    const { WorkletSynthesizer } = await import('spessasynth_lib')
     const synthesizer = new WorkletSynthesizer(context)
     this.synthesizer = synthesizer
     await synthesizer.isReady
