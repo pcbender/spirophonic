@@ -198,6 +198,38 @@ describe('CompositionTree', () => {
     expect(screen.queryByRole('button', { name: 'Remove anyway' })).toBeNull()
   })
 
+  /*
+   * These three rows looked identical and shared one tooltip that named no
+   * panel and no rail — "edit it in the panels on the left", read inside a tree
+   * that is itself on the left. Worse, it promised Parts an edit surface the
+   * selection does not drive: a Part selection changes nothing but the
+   * highlight. Each row now says what it actually does.
+   */
+  it('tells each row kind where its edits actually happen', () => {
+    const composition = base()
+    setup(composition)
+
+    const hint = (name: string | RegExp) =>
+      screen.getByRole('button', { name }).getAttribute('title') ?? ''
+
+    const wheel = hint(composition.wheels[0].name)
+    const head = hint(composition.wheels[0].heads[0].name)
+    // A Part row's label carries its Instrument after the name.
+    const part = hint(new RegExp(`^${composition.parts[0].name}`))
+
+    expect(wheel).toContain('Wheel panel')
+    expect(head).toContain('Head and Trace panel')
+    // Named its own panel and rail, rather than sending the reader "left".
+    expect(part).toContain('Parts panel')
+    expect(part).toContain('right rail')
+
+    // No row may claim the vague original, and no two may share a hint.
+    for (const text of [wheel, head, part]) {
+      expect(text).not.toContain('panels on the left')
+    }
+    expect(new Set([wheel, head, part]).size).toBe(3)
+  })
+
   it('moves selection off an object it just removed', () => {
     const composition = twoWheels()
     const target = composition.wheels[1]

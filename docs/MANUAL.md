@@ -117,8 +117,18 @@ appears to do nothing, lengthen the loop before changing anything else.
 ## Composition tree
 
 The structure of the piece, and the selector for the Wheel and Head panels.
-Click any name to select it. **Add Wheel** adds a Wheel, carrying one Head, and
-selects it.
+**Add Wheel** adds a Wheel, carrying one Head, and selects it.
+
+Clicking a name does different things depending on what you clicked:
+
+| Clicking | Does |
+|---|---|
+| A **Wheel** name | Shows it in the **Wheel** panel, further down the left rail. |
+| A **Head** name | Shows it in the **Head and Trace** panel, further down the left rail. |
+| A **Part** name | Highlights the row, and nothing else. Parts are not edited through the tree — the **Parts** panel in the right rail lists every Part, each with its own row. |
+
+The Wheel and Head panels are an inspector, not a list: they always show
+whatever the tree has selected.
 
 **Wheel rows** — `On` (include in the performance), `↑` `↓` (reorder), `Copy`
 (duplicate with its Heads), `+Head` (add a Head), `Remove`.

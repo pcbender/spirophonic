@@ -244,9 +244,19 @@ export const help = {
     'Equal temperament quantizes to fixed divisions per octave. Rational keeps exact ratios, which is what makes a 3:2 an actual perfect fifth rather than an approximation of one.',
   'tuning.name': 'Names this tuning context.',
   'control.name': 'Names this Control Part.',
-  'tree.select':
-    'Select this, to edit it in the panels on the left.',
-  'tree.selectPart': 'Select this Part.',
+  /*
+   * One string used to serve all three row kinds, and it named no panel and no
+   * rail: "the panels on the left" locates nothing when the tree you are
+   * reading it in is itself on the left. Each row now names the panel it drives
+   * and where that panel is. The Part row says what it does instead of
+   * promising an edit surface it does not have.
+   */
+  'tree.selectWheel':
+    'Show this Wheel in the Wheel panel, further down this rail, where its motion, rate, and phase are set.',
+  'tree.selectHead':
+    'Show this Head in the Head and Trace panel, further down this rail, where its attachment and Trace are set.',
+  'tree.selectPart':
+    'Highlight this Part. Unlike a Wheel or Head, a Part is not edited through this tree — every Part has its own row in the Parts panel, in the right rail.',
   'tuning.remove': 'Remove this tuning context.',
 
   // Instruments

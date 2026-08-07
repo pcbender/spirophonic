@@ -113,7 +113,7 @@ export function CompositionTree({
               <button
                 type="button"
                 className="tree-label"
-                title={help['tree.select']}
+                title={help['tree.selectWheel']}
                 aria-pressed={isSelected(selection, 'wheel', wheel.id)}
                 onClick={() => onSelect({ kind: 'wheel', id: wheel.id })}
               >
@@ -214,7 +214,7 @@ export function CompositionTree({
                     <button
                       type="button"
                       className="tree-label"
-                      title={help['tree.select']}
+                      title={help['tree.selectHead']}
                       aria-pressed={isSelected(selection, 'head', head.id)}
                       onClick={() => onSelect({ kind: 'head', id: head.id })}
                     >
@@ -330,7 +330,7 @@ export function CompositionTree({
                 <button
                   type="button"
                   className="tree-label"
-                  title={help['tree.select']}
+                  title={help['tree.selectPart']}
                   aria-pressed={isSelected(selection, 'part', part.id)}
                   onClick={() => onSelect({ kind: 'part', id: part.id })}
                 >
