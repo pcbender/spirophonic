@@ -28,6 +28,7 @@ there too**; they are two lengths of the same sentence.
 - [Fields](#fields)
 - [Parts](#parts)
 - [Sound banks](#sound-banks)
+- [Settings](#settings)
 - [Instruments](#instruments)
 - [Variation](#variation)
 - [Recorder](#recorder)
@@ -59,7 +60,7 @@ Several Parts may read the same Encounter and disagree.
 
 | Region | Holds |
 |---|---|
-| Top bar | **New**, **Load example**, and the file actions |
+| Top bar | **New**, **Load example**, the file actions, and **Settings** |
 | Left rail | Composition, Composition tree, Wheel, Head and Trace |
 | Centre | The canvas, with the Transport beneath it |
 | Right rail | Performance, Fields, Parts, Sound banks, Instruments, Variation, Recorder |
@@ -366,30 +367,49 @@ same key rather than each carrying an unrelated root.
 
 ## Sound banks
 
-Manages SoundFont banks. Everything here is optional — every default Instrument
-is native and needs no bank.
+Uses SoundFont banks. Everything here is optional — every default Instrument is
+native and needs no bank.
+
+The work splits across two places. **This panel** is where you pick a sound:
+find a preset, hear it, give it to an Instrument. **Settings → Sound banks** is
+where banks themselves are managed — imported, relinked, removed. You set a bank
+up once; you assign presets constantly, so only the second lives in the rail.
+
+| Control | Notes |
+|---|---|
+| Bank name and state | `ready`, `loading`, or a failure. A bank that cannot be reached says why and offers **Open Settings**, which is where the fix is. |
+| **Find preset** | Filters the preset list. |
+| **Preset (n)** | The bank's presets; `n` is how many match the current filter. |
+| Audition keyboard | A row of note buttons (C3 upward) that play the selected preset without assigning it, so you can hear a preset before committing to it. |
+| **Assign to Instrument** | Chooses which Instrument the preset is destined for. |
+| **Use preset** | Applies the selected preset to that Instrument, converting it to a `soundfont` Instrument. It keeps the Instrument's id, gain, and pan — so every Part routed to it keeps playing — and replaces its name with the preset's. A native Instrument's waveform and envelope are discarded, because a preset carries its own. |
+| **Manage banks** | Opens Settings. |
+
+Banks are stored in IndexedDB and keyed by SHA-256 digest, so the same bank
+imported twice is stored once, and a Composition referencing a digest finds it
+without re-import.
+
+## Settings
+
+Setup that is not part of the Composition. Opened from **Settings** in the top
+bar, closed with Escape, the **Close** button, or a click outside it. Nothing is
+applied on close — every change takes effect when you make it.
+
+### Sound banks
 
 The bundled **MuseScore General** bank (38 MB, MIT licensed) is fetched in the
-background on first run and cached in the browser. Its status shows in this
-panel. If the download fails the app still works; the bank simply reports as
+background on first run and cached in the browser. Its download status shows
+here. If the download fails the app still works; the bank simply reports as
 unavailable.
 
 | Control | Notes |
 |---|---|
 | **SF2 or SF3 file** | Choose a bank to import. |
-| **License / usage terms**, **Provenance / attribution** | Recorded with the bank. Redistribution terms travel with the file, which matters when you export a bundle with banks embedded. |
+| **License / usage terms**, **Provenance / attribution** | Recorded with the bank. Redistribution terms travel with the file, which matters when you export a bundle with banks embedded. A bank will not import without a licence recorded. |
 | **Import local bank** | Adds the chosen file to the browser's vault. |
-| **Find preset** | Filters the preset list. |
-| **Preset (n)** | The bank's presets; `n` is how many match the current filter. |
-| Audition keyboard | A row of note buttons (C3 upward) that play the selected preset without assigning it, so you can hear a preset before committing to it. |
-| **Assign to Instrument** | Chooses which Instrument the preset is destined for. |
-| **Use preset** | Applies the selected preset to that Instrument, converting it to a `soundfont` Instrument. |
-| **Relink bank** | Reconnects a Composition's bank reference to a file you supply — for a bundle that arrived as a manifest without its audio. |
+| Format, Digest, Source, License, Attribution | The reference as the Composition stores it. The Composition holds this and never the audio. |
+| **Relink bank** | Reconnects a Composition's bank reference to a file you supply — for a bundle that arrived as a manifest without its audio. The file must match the reference's format. |
 | **Remove local bytes** | Evicts a bank's audio from the browser's vault, keeping the reference. The Composition still names the bank; it will not sound until relinked. |
-
-Banks are stored in IndexedDB and keyed by SHA-256 digest, so the same bank
-imported twice is stored once, and a Composition referencing a digest finds it
-without re-import.
 
 ## Instruments
 

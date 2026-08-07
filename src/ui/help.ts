@@ -301,6 +301,12 @@ export const help = {
     'Copy the sound bank audio into the bundle so it opens on any machine. Much larger file. Without this, the bundle only references banks by digest.',
 
   // Sound banks
+  'settings.close':
+    'Close Settings and return to the workspace. Nothing here is applied on close — every change took effect when you made it.',
+  'settings.open':
+    'Setup that is not part of the Composition: importing sound banks, recording their licences, relinking and removing them.',
+  'bank.manage':
+    'Open Settings, where banks are imported, relinked, and removed. Nothing there changes the Composition’s sound on its own.',
   'bank.file': 'Choose an SF2 or SF3 SoundFont to import.',
   'bank.license':
     'Redistribution terms, recorded with the bank. These travel with the file when a bundle embeds it.',

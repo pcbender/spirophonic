@@ -198,7 +198,13 @@ describe('MG-09 playable Composition app', () => {
 
     expect(screen.getByText('Reloaded.sf2', { selector: 'strong' })).toBeInTheDocument()
     expect(screen.getByText('Grand Piano', { selector: 'strong' })).toBeInTheDocument()
+
+    // Provenance lives in Settings, beside the controls that act on it. The
+    // rail carries only what a bank is called and whether it can be reached.
+    expect(screen.queryByText('User supplied')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Settings' }))
     expect(screen.getByText('User supplied')).toBeInTheDocument()
+    expect(screen.getByText('Reload fixture')).toBeInTheDocument()
   })
 
   it('persists Composition edits locally without replacing explicit JSON export', async () => {

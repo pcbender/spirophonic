@@ -503,21 +503,86 @@ const sampleBankFile = async () => {
   }
 }
 
+/**
+ * Imports the sample bank through the real Settings dialog.
+ *
+ * Bank setup lives behind the Settings door and preset assignment stays in the
+ * rail, so an import now crosses two surfaces sharing one inspection. Driving
+ * both here is the only place that seam is exercised in a real browser.
+ */
+const importSampleBank = async (
+  page: Page,
+  fields: { license: string; attribution?: string },
+) => {
+  await page.getByRole('button', { name: 'Settings', exact: true }).click()
+  const settings = page.getByRole('region', { name: 'Sound bank settings' })
+  await expect(settings).toBeVisible()
+
+  await settings.getByLabel('SoundFont license').fill(fields.license)
+  if (fields.attribution) {
+    await settings.getByLabel('SoundFont attribution').fill(fields.attribution)
+  }
+  await settings.getByLabel('SoundFont file').setInputFiles(await sampleBankFile())
+  await settings.getByRole('button', { name: 'Import local bank' }).click()
+  return settings
+}
+
+/**
+ * jsdom ships <dialog> without showModal even at v27, so the unit suite falls
+ * back to opening it non-modally and cannot see the focus trap, the inert
+ * background, or Escape. Those are the whole reason for using the element, so
+ * they are checked here, where the browser is real.
+ */
+test('Settings opens as a true modal and closes on Escape', async ({ page }) => {
+  const dialog = page.getByRole('dialog', { name: 'Settings' })
+  await expect(dialog).toBeHidden()
+
+  await page.getByRole('button', { name: 'Settings', exact: true }).click()
+  await expect(dialog).toBeVisible()
+
+  // Modal, not merely on top: the workspace behind it is inert, so a control
+  // in the rail cannot be reached while Settings is open.
+  const tempo = page.getByLabel('Tempo')
+  await expect(tempo).not.toBeFocused()
+  await expect(dialog).toHaveJSProperty('open', true)
+  expect(
+    await page.evaluate(() => {
+      const element = document.querySelector('dialog.settings-dialog')
+      return element instanceof HTMLDialogElement && element.matches(':modal')
+    }),
+  ).toBe(true)
+
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+
+  // React owns the open state: reopening has to work, which it does not if the
+  // element closed itself behind React's back on the first Escape.
+  await page.getByRole('button', { name: 'Settings', exact: true }).click()
+  await expect(dialog).toBeVisible()
+})
+
 test('a real SoundFont bank imports, exposes its preset, and assigns', async ({
   page,
 }) => {
-  const banks = page.getByRole('region', { name: 'Sound banks' })
   const file = await sampleBankFile()
   expect(file.buffer.byteLength).toBe(890)
 
-  await banks.getByLabel('SoundFont license').fill('Apache-2.0')
-  await banks.getByLabel('SoundFont attribution').fill('spessasynth_core')
-  await banks.getByLabel('SoundFont file').setInputFiles(file)
-  await banks.getByRole('button', { name: 'Import local bank' }).click()
+  const settings = await importSampleBank(page, {
+    license: 'Apache-2.0',
+    attribution: 'spessasynth_core',
+  })
+
+  // Provenance is reported where the controls that act on it live.
+  await expect(settings).toContainText('Apache-2.0', { timeout: 30_000 })
+  await expect(settings).toContainText('spessasynth_core')
+
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(settings).toBeHidden()
 
   // The bank reaches the Composition and its presets are listed, which only
   // happens if the worklet registered and the bank actually parsed. Presets
   // live in a select, so the assertion reads its options rather than text.
+  const banks = page.getByRole('region', { name: 'Sound banks' })
   const presets = banks.getByLabel(/^Preset /)
   await expect(presets).toBeVisible({ timeout: 30_000 })
   await expect
@@ -544,10 +609,9 @@ test('an imported SoundFont bank survives a reload', async ({ browser }) => {
   fresh.on('pageerror', (error) => errors.push(error.message))
 
   await fresh.goto('/')
+  await importSampleBank(fresh, { license: 'Apache-2.0' })
+  await fresh.getByRole('button', { name: 'Close settings' }).click()
   const banks = fresh.getByRole('region', { name: 'Sound banks' })
-  await banks.getByLabel('SoundFont license').fill('Apache-2.0')
-  await banks.getByLabel('SoundFont file').setInputFiles(await sampleBankFile())
-  await banks.getByRole('button', { name: 'Import local bank' }).click()
   await expect(banks.getByLabel(/^Preset /)).toBeVisible({ timeout: 30_000 })
 
   await fresh.reload()

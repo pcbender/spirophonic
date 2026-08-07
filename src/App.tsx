@@ -37,7 +37,10 @@ import { ImportExportPanel } from './ui/ImportExportPanel'
 import { InstrumentPanel } from './ui/InstrumentPanel'
 import { PartPanel } from './ui/PartPanel'
 import { RailPanel } from './ui/RailPanel'
+import { SettingsDialog } from './ui/SettingsDialog'
 import { SoundBankPanel } from './ui/SoundBankPanel'
+import { SoundBankSettings } from './ui/SoundBankSettings'
+import { useSoundBankViews } from './ui/useSoundBankViews'
 import { RecorderPanel } from './ui/RecorderPanel'
 import { Transport } from './ui/Transport'
 import { VariationPanel } from './ui/VariationPanel'
@@ -103,6 +106,7 @@ function App() {
     'blank' | 'example' | null
   >(null)
   const [restoreNoticeSeen, setRestoreNoticeSeen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const [status, setStatus] = useState<PlaybackStatus>('stopped')
   const [looping, setLooping] = useState(true)
   const initialRequest = performanceRequestFor(composition)
@@ -347,6 +351,14 @@ function App() {
       audio.router.invalidateBank(soundBankId),
     [audio],
   )
+  // Lifted out of the panel: the rail browses these banks and Settings manages
+  // them, and they must be looking at the same inspection.
+  const soundBankViews = useSoundBankViews({
+    composition,
+    bundledBankState,
+    inspectBank: inspectSoundBank,
+  })
+  const openSettings = useCallback(() => setSettingsOpen(true), [])
 
   useEffect(() => {
     if (status !== 'playing') return
@@ -513,8 +525,27 @@ function App() {
             onImport={setComposition}
             vault={audio.store}
           />
+          <button
+            type="button"
+            className="settings-button"
+            title={help['settings.open']}
+            onClick={openSettings}
+          >
+            Settings
+          </button>
         </div>
       </header>
+
+      <SettingsDialog open={settingsOpen} onClose={() => setSettingsOpen(false)}>
+        <SoundBankSettings
+          composition={composition}
+          bundledBankState={bundledBankState}
+          onChange={setComposition}
+          vault={audio.store}
+          banks={soundBankViews}
+          invalidateBank={invalidateSoundBank}
+        />
+      </SettingsDialog>
 
       <section className="workspace">
         <div className="rail rail-shape">
@@ -582,12 +613,10 @@ function App() {
           <PartPanel composition={composition} onChange={setComposition} />
           <SoundBankPanel
             composition={composition}
-            bundledBankState={bundledBankState}
             onChange={setComposition}
-            vault={audio.store}
-            inspectBank={inspectSoundBank}
+            banks={soundBankViews}
             audition={auditionSoundBank}
-            invalidateBank={invalidateSoundBank}
+            onOpenSettings={openSettings}
           />
           <InstrumentPanel composition={composition} onChange={setComposition} />
           <VariationPanel composition={composition} onChange={setComposition} />

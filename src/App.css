@@ -649,6 +649,13 @@ h1 {
   gap: 8px;
 }
 
+/* Relink is a <label> wrapping a hidden file input and Remove is a <button>.
+   They sit side by side and have to read as one pair, so the type size is set
+   for both rather than left to each element's default. */
+.sound-bank-card .panel-actions button {
+  font-size: 0.75rem;
+}
+
 .sound-bank-import button,
 .preset-assignment button,
 .sound-bank-card .panel-actions button {
@@ -958,4 +965,98 @@ h1 {
   margin: -0.3rem 0 0.4rem;
   font-size: 0.78rem;
   opacity: 0.65;
+}
+
+/* The Settings dialog.
+
+   Setup lives behind a door: importing a bank, recording its licence, and
+   removing its bytes are done once and then not again while composing, so they
+   must not sit on top of the controls that browse and assign presets forever.
+   A <dialog> in the top layer keeps the workspace exactly where it was. */
+.settings-dialog {
+  width: min(680px, calc(100vw - 32px));
+  max-height: min(84dvh, 900px);
+  margin: auto;
+  border: 1px solid rgba(246, 244, 239, 0.18);
+  border-radius: 12px;
+  padding: 0;
+  color: #f6f4ef;
+  background: #101014;
+  overflow: hidden;
+}
+
+.settings-dialog::backdrop {
+  background: rgba(6, 6, 10, 0.66);
+}
+
+.settings-dialog-frame {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  max-height: inherit;
+  min-height: 0;
+}
+
+.settings-dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid rgba(246, 244, 239, 0.12);
+  padding: 14px 18px;
+}
+
+.settings-dialog-head h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.settings-dialog-head button,
+.settings-button {
+  min-height: 32px;
+  border: 1px solid rgba(246, 244, 239, 0.22);
+  border-radius: 6px;
+  padding: 0 12px;
+  color: #f6f4ef;
+  background: #18181f;
+  cursor: pointer;
+}
+
+/* The body scrolls, not the dialog: the header stays reachable however many
+   banks are listed. */
+.settings-dialog-body {
+  min-height: 0;
+  padding: 16px 18px 18px;
+  overflow-y: auto;
+}
+
+.settings-section h3 {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+}
+
+.settings-note {
+  margin: 0 0 14px;
+  color: #a9a297;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.settings-section > output {
+  display: block;
+  margin-top: 10px;
+  color: #d8d3ca;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+/* Reads as prose, not as a control: it sits inside the sentence that reports
+   the bank could not be reached. */
+.link-button {
+  border: 0;
+  padding: 0;
+  color: #42cafd;
+  background: none;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
 }
