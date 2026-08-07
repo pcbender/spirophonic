@@ -1,4 +1,6 @@
 import type { Composition, MeterSpec } from '../core/composition'
+import { RailPanel } from './RailPanel'
+import { help } from './help'
 
 export type ControlPanelProps = {
   composition: Composition
@@ -13,9 +15,8 @@ export function ControlPanel({ composition, onChange }: ControlPanelProps) {
     })
 
   return (
-    <section className="control-panel" aria-label="Composition controls">
-      <h2>Composition</h2>
-      <label className="field">
+    <RailPanel label="Composition controls" title="Composition">
+      <label className="field" title={help['composition.name']}>
         <span>Name</span>
         <input
           aria-label="Composition name"
@@ -29,6 +30,7 @@ export function ControlPanel({ composition, onChange }: ControlPanelProps) {
       <h2>Transport</h2>
       <NumberField
         label="Tempo (BPM)"
+        hint={help['composition.tempo']}
         value={composition.transport.tempoBpm}
         min={20}
         max={400}
@@ -37,6 +39,7 @@ export function ControlPanel({ composition, onChange }: ControlPanelProps) {
       />
       <NumberField
         label="Beats per bar"
+        hint={help['composition.beatsPerBar']}
         value={composition.transport.meter.beatsPerBar}
         min={1}
         max={32}
@@ -50,7 +53,7 @@ export function ControlPanel({ composition, onChange }: ControlPanelProps) {
           })
         }
       />
-      <label className="field">
+      <label className="field" title={help['composition.beatUnit']}>
         <span>Beat unit</span>
         <select
           aria-label="Beat unit"
@@ -71,6 +74,7 @@ export function ControlPanel({ composition, onChange }: ControlPanelProps) {
       </label>
       <NumberField
         label="Loop start (beats)"
+        hint={help['composition.loopStart']}
         value={composition.transport.loop.startBeat}
         min={0}
         step={0.25}
@@ -82,6 +86,7 @@ export function ControlPanel({ composition, onChange }: ControlPanelProps) {
       />
       <NumberField
         label="Loop length (beats)"
+        hint={help['composition.loopLength']}
         value={composition.transport.loop.lengthBeats}
         min={0.25}
         step={0.25}
@@ -94,7 +99,40 @@ export function ControlPanel({ composition, onChange }: ControlPanelProps) {
           })
         }
       />
-    </section>
+
+      <h2>Space</h2>
+      <NumberField
+        label="View zoom"
+        hint={help['composition.viewZoom']}
+        value={composition.space.scale}
+        min={0.1}
+        max={10}
+        step={0.1}
+        onChange={(scale) =>
+          onChange({
+            ...composition,
+            space: { ...composition.space, scale: Math.max(0.1, scale) },
+          })
+        }
+      />
+      <NumberField
+        label="Pitch reference"
+        hint={help['composition.pitchReference']}
+        value={composition.space.pitchReference ?? composition.space.scale}
+        min={1}
+        max={100_000}
+        step={10}
+        onChange={(pitchReference) =>
+          onChange({
+            ...composition,
+            space: {
+              ...composition.space,
+              pitchReference: Math.max(1, pitchReference),
+            },
+          })
+        }
+      />
+    </RailPanel>
   )
 }
 
@@ -104,12 +142,14 @@ type NumberFieldProps = {
   min: number
   max?: number
   step: number
+  /** Hover help. See `./help`. */
+  hint?: string
   onChange: (value: number) => void
 }
 
-function NumberField({ label, value, min, max, step, onChange }: NumberFieldProps) {
+function NumberField({ label, value, min, max, step, hint, onChange }: NumberFieldProps) {
   return (
-    <label className="field">
+    <label className="field" title={hint}>
       <span>{label}</span>
       <input
         aria-label={label}

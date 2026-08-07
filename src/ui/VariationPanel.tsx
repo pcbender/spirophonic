@@ -1,6 +1,8 @@
 import type { Composition, VariationSpec } from '../core/composition'
 import { randomVersion } from '../core/random'
 import { variationBounds } from '../core/variation'
+import { help } from './help'
+import { RailPanel } from './RailPanel'
 
 export type VariationPanelProps = {
   composition: Composition
@@ -30,15 +32,17 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
 
   if (!variation) {
     return (
-      <section className="control-panel" aria-label="Variation">
-        <div className="panel-header">
-          <h2>Variation</h2>
-          <button type="button" onClick={() => commit(defaultVariation())}>
+      <RailPanel
+        label="Variation"
+        title="Variation"
+        actions={
+          <button type="button" title={help['variation.enable']} onClick={() => commit(defaultVariation())}>
             Enable variation
           </button>
-        </div>
+        }
+      >
         <p>No variation. The compiler runs its exact unvaried path.</p>
-      </section>
+      </RailPanel>
     )
   }
 
@@ -46,18 +50,20 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
     commit({ ...variation, ...next, version: randomVersion })
 
   return (
-    <section className="control-panel" aria-label="Variation">
-      <div className="panel-header">
-        <h2>Variation</h2>
-        <button type="button" onClick={() => commit(undefined)}>
+    <RailPanel
+      label="Variation"
+      title="Variation"
+      actions={
+        <button type="button" title={help['variation.remove']} onClick={() => commit(undefined)}>
           Remove
         </button>
-      </div>
-
+      }
+    >
       <label className="field">
         <span>Enabled</span>
         <input
           type="checkbox"
+          title={help['variation.enabled']}
           aria-label="Variation enabled"
           checked={variation.enabled}
           onChange={(event) => patch({ enabled: event.currentTarget.checked })}
@@ -67,6 +73,7 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
       <label className="field">
         <span>Seed</span>
         <input
+          title={help['variation.seed']}
           aria-label="Variation seed"
           value={variation.seed}
           onChange={(event) => patch({ seed: event.currentTarget.value })}
@@ -83,6 +90,7 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
               <span>On</span>
               <input
                 type="checkbox"
+                title={help['variation.layerEnabled']}
                 aria-label={`${label} enabled`}
                 checked={layer.enabled}
                 onChange={(event) =>
@@ -94,6 +102,7 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
               <span>Amount</span>
               <input
                 type="range"
+                title={help['variation.amount']}
                 aria-label={`${label} amount`}
                 min={0}
                 max={1}
@@ -115,6 +124,6 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
         {variationBounds.timingBeats} beats and velocity up to{' '}
         {variationBounds.velocity}.
       </p>
-    </section>
+    </RailPanel>
   )
 }

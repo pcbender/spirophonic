@@ -19,6 +19,8 @@ import {
   soundFontBankNumber,
   type SoundFontPreset,
 } from '../audio/soundfontEngine'
+import { help } from './help'
+import { RailPanel } from './RailPanel'
 
 export type SoundBankVault = Pick<
   SoundBankStore,
@@ -299,10 +301,13 @@ export function SoundBankPanel({
   }
 
   return (
-    <section className="control-panel sound-bank-panel" aria-label="Sound banks">
-      <h2>Sound banks</h2>
+    <RailPanel
+      label="Sound banks"
+      title="Sound banks"
+      className="sound-bank-panel"
+    >
       <div className="sound-bank-import">
-        <label className="field">
+        <label className="field" title={help['bank.file']}>
           <span>SF2 or SF3 file</span>
           <input
             aria-label="SoundFont file"
@@ -311,7 +316,7 @@ export function SoundBankPanel({
             onChange={(event) => setFile(event.currentTarget.files?.[0] ?? null)}
           />
         </label>
-        <label className="field">
+        <label className="field" title={help['bank.license']}>
           <span>License / usage terms</span>
           <input
             aria-label="SoundFont license"
@@ -319,7 +324,7 @@ export function SoundBankPanel({
             onChange={(event) => setLicense(event.currentTarget.value)}
           />
         </label>
-        <label className="field">
+        <label className="field" title={help['bank.attribution']}>
           <span>Provenance / attribution</span>
           <input
             aria-label="SoundFont attribution"
@@ -327,7 +332,7 @@ export function SoundBankPanel({
             onChange={(event) => setAttribution(event.currentTarget.value)}
           />
         </label>
-        <button type="button" onClick={() => void importSelected()}>
+        <button type="button" title={help['bank.import']} onClick={() => void importSelected()}>
           Import local bank
         </button>
       </div>
@@ -381,7 +386,7 @@ export function SoundBankPanel({
           />
         ))}
       </ol>
-    </section>
+    </RailPanel>
   )
 }
 
@@ -442,7 +447,7 @@ function BankCard({
       </dl>
       {view.state === 'ready' ? (
         <>
-          <label className="field">
+          <label className="field" title={help['bank.find']}>
             <span>Find preset</span>
             <input
               aria-label={`Find preset ${reference.id}`}
@@ -453,6 +458,7 @@ function BankCard({
           <label className="field">
             <span>Preset ({filtered.length})</span>
             <select
+              title={help['bank.preset']}
               aria-label={`Preset ${reference.id}`}
               value={preset ? filtered.indexOf(preset) : ''}
               onChange={(event) => onPresetChange(Number(event.currentTarget.value))}
@@ -470,6 +476,7 @@ function BankCard({
                 key={note}
                 type="button"
                 disabled={!preset}
+                title={help['bank.audition']}
                 aria-label={`Audition ${noteName(note)} ${reference.id}`}
                 onClick={() => preset && onAudition(preset, note)}
               >
@@ -478,7 +485,7 @@ function BankCard({
             ))}
           </div>
           <div className="preset-assignment">
-            <label className="field">
+            <label className="field" title={help['bank.assign']}>
               <span>Assign to Instrument</span>
               <select
                 aria-label={`Assign preset ${reference.id}`}
@@ -490,7 +497,7 @@ function BankCard({
                 ))}
               </select>
             </label>
-            <button type="button" disabled={!preset} onClick={() => preset && onAssign(preset)}>
+            <button type="button" disabled={!preset} onClick={() => preset && onAssign(preset)} title={help['bank.usePreset']}>
               Use preset
             </button>
           </div>
@@ -504,6 +511,7 @@ function BankCard({
         <label className="relink-button">
           Relink bank
           <input
+            title={help['bank.relink']}
             aria-label={`Relink ${reference.id}`}
             type="file"
             accept={`.${reference.format}`}
@@ -513,7 +521,7 @@ function BankCard({
             }}
           />
         </label>
-        <button type="button" onClick={onRemove}>Remove local bytes</button>
+        <button type="button" onClick={onRemove} title={help['bank.removeBytes']}>Remove local bytes</button>
       </div>
     </li>
   )

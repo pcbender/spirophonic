@@ -2,8 +2,8 @@ import { useMemo, useRef, useState } from 'react'
 
 import type { SoundBankStore } from '../audio/soundbankStore'
 import type { Composition } from '../core/composition'
-import { referenceComposition } from '../core/defaultComposition'
 import type { CanonicalPerformance } from '../core/performance'
+import { help } from './help'
 import {
   estimateRenderBytes,
   renderPerformanceToWav,
@@ -182,50 +182,59 @@ export function ImportExportPanel({
 
   return (
     <section className="import-export" aria-label="Import and export">
-      <button type="button" onClick={() => downloadCompositionJson(composition)}>
+      <button type="button" title={help['files.exportJson']} onClick={() => downloadCompositionJson(composition)}>
         Export JSON
       </button>
-      <button type="button" onClick={() => inputRef.current?.click()}>
+      <button type="button" title={help['files.importJson']} onClick={() => inputRef.current?.click()}>
         Import JSON
       </button>
-      <button
-        type="button"
-        onClick={() =>
-          onImport(structuredClone(referenceComposition) as Composition)
-        }
-      >
-        Load reference
-      </button>
-      <button type="button" onClick={() => downloadPerformanceMidi(performance, composition)}>
+      <button type="button" title={help['files.exportMidi']} onClick={() => downloadPerformanceMidi(performance, composition)}>
         Export MIDI
       </button>
-      <button type="button" onClick={() => downloadCompositionSvg(composition, observation)}>
+      <button type="button" title={help['files.exportSvg']} onClick={() => downloadCompositionSvg(composition, observation)}>
         Export SVG
       </button>
-      <button type="button" onClick={() => void copyStrudel()}>
+      <button type="button" title={help['files.copyStrudel']} onClick={() => void copyStrudel()}>
         Copy Strudel
       </button>
-      <button type="button" disabled={progress !== null} onClick={() => void exportWav()}>
+      <button type="button" title={help['files.exportWav']} disabled={progress !== null} onClick={() => void exportWav()}>
         {progress ? 'Rendering…' : 'Export WAV'}
       </button>
       {progress ? (
-        <button type="button" onClick={() => abortRef.current?.abort()}>
+        <button type="button" title={help['files.cancelRender']} onClick={() => abortRef.current?.abort()}>
           Cancel render
         </button>
       ) : null}
-      <button type="button" onClick={() => void exportBundle()}>
+      <button
+        type="button"
+        title={help['files.exportBundle']}
+        onClick={() => void exportBundle()}
+      >
         Export bundle
       </button>
-      <button type="button" onClick={() => bundleInputRef.current?.click()}>
+      <button
+        type="button"
+        title={help['files.importBundle']}
+        onClick={() => bundleInputRef.current?.click()}
+      >
         Import bundle
       </button>
-      <label className="embed-banks">
+      {/*
+        Governs Export bundle alone, so it is rendered against that button.
+        Without it a bundle names its banks by digest and only opens where those
+        banks are already in the vault; with it the bundle carries the audio and
+        opens anywhere, at the cost of tens of megabytes.
+      */}
+      <label
+        className="embed-banks"
+        title={help['files.embedBanks']}
+      >
         <input
           type="checkbox"
           checked={embedBanks}
           onChange={(event) => setEmbedBanks(event.currentTarget.checked)}
         />
-        Include sound bank files
+        Embed sound banks in bundle
       </label>
       <input
         ref={inputRef}

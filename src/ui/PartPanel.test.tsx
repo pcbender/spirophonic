@@ -115,3 +115,295 @@ describe('MG-16 tuning authoring', () => {
     expect(validateComposition(composition).ok).toBe(true)
   })
 })
+
+describe('Part targeting', () => {
+  /** Two Wheels, two Heads each, so a filter has something to choose between. */
+  const twoWheels = (): Composition => {
+    const composition = base()
+    const second = structuredClone(composition.wheels[0])
+    second.id = 'wheel-2'
+    second.name = 'Wheel 2'
+    second.heads = second.heads.map((head, index) => ({
+      ...head,
+      id: `head-2-${index + 1}`,
+      name: `W2 Head ${index + 1}`,
+    }))
+    composition.wheels.push(second)
+    return composition
+  }
+
+  it('adds a Part that listens to every Wheel, not only the first', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={twoWheels()} onChange={onChange} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Add Part' }))
+    const composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    const added = composition.parts.at(-1)
+
+    // Empty is the query language's "any", so a new Part hears the whole
+    // Composition rather than being silently pinned to Wheel 1.
+    expect(added?.encounterQuery.wheelIds).toEqual([])
+    expect(added?.encounterQuery.headIds).toEqual([])
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+
+  it('retargets an existing Part onto a chosen Wheel', () => {
+    const onChange = vi.fn()
+    const composition = twoWheels()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    const partId = composition.parts[0].id
+    fireEvent.click(screen.getByLabelText(`Wheel 2 for ${partId}`))
+
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    expect(next.parts[0].encounterQuery.wheelIds).toContain('wheel-2')
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('keeps a multi-Wheel filter intact when one more Wheel is added', () => {
+    const onChange = vi.fn()
+    const composition = twoWheels()
+    composition.parts[0].encounterQuery.wheelIds = ['wheel-1', 'wheel-2']
+    const { rerender } = render(
+      <PartPanel composition={composition} onChange={onChange} />,
+    )
+    const partId = composition.parts[0].id
+
+    // Both boxes read as checked, which a single-choice control could not show.
+    expect(
+      (screen.getByLabelText(`Wheel 1 for ${partId}`) as HTMLInputElement)
+        .checked,
+    ).toBe(true)
+    expect(
+      (screen.getByLabelText(`Wheel 2 for ${partId}`) as HTMLInputElement)
+        .checked,
+    ).toBe(true)
+
+    fireEvent.click(screen.getByLabelText(`Wheel 1 for ${partId}`))
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    expect(next.parts[0].encounterQuery.wheelIds).toEqual(['wheel-2'])
+    rerender(<PartPanel composition={next} onChange={onChange} />)
+  })
+
+  it('drops Head filters belonging to a Wheel it stops listening to', () => {
+    const onChange = vi.fn()
+    const composition = twoWheels()
+    const partId = composition.parts[0].id
+    composition.parts[0].encounterQuery.wheelIds = ['wheel-1', 'wheel-2']
+    composition.parts[0].encounterQuery.headIds = ['head-1', 'head-2-1']
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.click(screen.getByLabelText(`Wheel 2 for ${partId}`))
+
+    // head-2-1 lives on the Wheel just removed; keeping it would leave a
+    // filter that can never match.
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    expect(next.parts[0].encounterQuery.wheelIds).toEqual(['wheel-1'])
+    expect(next.parts[0].encounterQuery.headIds).toEqual(['head-1'])
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('offers only the Heads on the Wheels a Part listens to', () => {
+    const onChange = vi.fn()
+    const composition = twoWheels()
+    const partId = composition.parts[0].id
+    composition.parts[0].encounterQuery.wheelIds = ['wheel-2']
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    expect(screen.getByLabelText(`Wheel 2 W2 Head 1 for ${partId}`)).toBeTruthy()
+    expect(screen.queryByLabelText(`Wheel 1 Head 1 for ${partId}`)).toBeNull()
+  })
+})
+
+describe('pitch mappings', () => {
+  const kinds = [
+    'fixed-midi',
+    'fixed-frequency',
+    'boundary-degree',
+    'spatial',
+    'contour',
+    'melodic-contour',
+    'ratio',
+    'tuned-ratio',
+  ] as const
+
+  it('offers every pitch mapping the format defines', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={base()} onChange={onChange} />)
+
+    const options = Array.from(
+      (screen.getByLabelText(/^Pitch mapping/) as HTMLSelectElement).options,
+    ).map((option) => option.value)
+    expect(new Set(options)).toEqual(new Set(kinds))
+  })
+
+  it.each(kinds)('switches to %s and stays valid', (kind) => {
+    const onChange = vi.fn()
+    const composition = base()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Pitch mapping/), {
+      target: { value: kind },
+    })
+
+    // Switching cannot carry parameters across, so each kind must arrive
+    // complete rather than half-filled and rejected on the next import.
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    const part = next.parts[0]
+    expect(part.kind === 'note' && part.pitch.kind).toBe(kind)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('edits the parameters belonging to the selected mapping', () => {
+    const onChange = vi.fn()
+    let composition = base()
+    const rerenderWith = (next: Composition) => {
+      composition = next
+      cleanup()
+      render(<PartPanel composition={composition} onChange={onChange} />)
+    }
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Pitch mapping/), {
+      target: { value: 'melodic-contour' },
+    })
+    rerenderWith(onChange.mock.calls.at(-1)?.[0] as Composition)
+
+    // A melodic line is the deepest of the mappings: its own source, scale, and
+    // five contour bounds, none of which any other kind owns.
+    fireEvent.change(screen.getByLabelText(/^Max step/), {
+      target: { value: '5' },
+    })
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    const part = next.parts[0]
+    expect(
+      part.kind === 'note' &&
+        part.pitch.kind === 'melodic-contour' &&
+        part.pitch.contour.maxStep,
+    ).toBe(5)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+})
+
+describe('note shaping', () => {
+  const editedPart = (onChange: ReturnType<typeof vi.fn>) => {
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    const part = next.parts[0]
+    return { next, part: part.kind === 'note' ? part : null }
+  }
+
+  it('switches velocity to a constant and back, staying valid', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={base()} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Velocity part/), {
+      target: { value: 'constant' },
+    })
+    const { next, part } = editedPart(onChange)
+    expect(part?.velocity.kind).toBe('constant')
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('edits the strength curve that shapes velocity', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={base()} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Velocity gamma/), {
+      target: { value: '2' },
+    })
+    const { next, part } = editedPart(onChange)
+    expect(
+      part?.velocity.kind === 'encounter-strength' && part.velocity.gamma,
+    ).toBe(2)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it.each(['fixed', 'until-next', 'inside-band'] as const)(
+    'switches duration to %s and stays valid',
+    (kind) => {
+      const onChange = vi.fn()
+      render(<PartPanel composition={base()} onChange={onChange} />)
+
+      fireEvent.change(screen.getByLabelText(/^Duration kind/), {
+        target: { value: kind },
+      })
+      const { next, part } = editedPart(onChange)
+      expect(part?.duration.kind).toBe(kind)
+      expect(validateComposition(next).ok).toBe(true)
+    },
+  )
+
+  it('edits quantize strength, which had no control at all', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={base()} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Grid strength/), {
+      target: { value: '0' },
+    })
+    const { next, part } = editedPart(onChange)
+    expect(part?.quantize?.strength).toBe(0)
+    // Grid spacing must survive an edit to the pull, and vice versa.
+    expect(part?.quantize?.gridBeats).toBe(0.25)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('filters weak Encounters by minimum strength', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={base()} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Minimum strength/), {
+      target: { value: '0.5' },
+    })
+    const { next, part } = editedPart(onChange)
+    expect(part?.encounterQuery.minStrength).toBe(0.5)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('names a specific Relation once a Relation kind is accepted', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.relations = [
+      {
+        id: 'relation-1',
+        name: 'Relation 1',
+        enabled: true,
+        kind: 'conjunction',
+        headIds: [],
+        threshold: 40,
+        hysteresis: 10,
+        minSeparationSeconds: 0.1,
+      },
+    ]
+    const part = composition.parts[0]
+    if (part.kind === 'note') part.encounterQuery.kinds = ['conjunction']
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.click(screen.getByLabelText(`Relation 1 for ${part.id}`))
+    const { next, part: edited } = editedPart(onChange)
+    expect(edited?.encounterQuery.relationIds).toEqual(['relation-1'])
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('hides the Relation filter when no Relation kind is accepted', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.relations = [
+      {
+        id: 'relation-1',
+        name: 'Relation 1',
+        enabled: true,
+        kind: 'conjunction',
+        headIds: [],
+        threshold: 40,
+        hysteresis: 10,
+        minSeparationSeconds: 0.1,
+      },
+    ]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    // The Part accepts boundary crossings only, so naming a Relation would be
+    // offering a filter that cannot apply.
+    const partId = composition.parts[0].id
+    expect(screen.queryByLabelText(`Relation 1 for ${partId}`)).toBeNull()
+  })
+})

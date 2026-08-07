@@ -20,6 +20,8 @@ import {
   setWheelEnabled,
   type RemovalImpact,
 } from '../core/compositionEdits'
+import { help } from './help'
+import { RailPanel } from './RailPanel'
 
 export type TreeSelection =
   | { kind: 'wheel'; id: string }
@@ -77,9 +79,13 @@ export function CompositionTree({
   )
 
   return (
-    <section className="control-panel composition-tree" aria-label="Composition tree">
-      <div className="tree-header">
-        <h2>Composition</h2>
+    <RailPanel
+      label="Composition tree"
+      // Distinct from the "Composition" panel above it, which holds the name
+      // and the Transport. This one is the Wheel / Head / Part structure.
+      title="Composition tree"
+      className="composition-tree"
+      actions={
         <button
           type="button"
           onClick={() => {
@@ -90,11 +96,12 @@ export function CompositionTree({
             onSelect({ kind: 'wheel', id: wheelId })
             onChange(next)
           }}
+          title={help['tree.addWheel']}
         >
           Add Wheel
         </button>
-      </div>
-
+      }
+    >
       <ul className="tree-list">
         {composition.wheels.map((wheel, wheelIndex) => (
           <li key={wheel.id} className="tree-wheel">
@@ -106,6 +113,7 @@ export function CompositionTree({
               <button
                 type="button"
                 className="tree-label"
+                title={help['tree.select']}
                 aria-pressed={isSelected(selection, 'wheel', wheel.id)}
                 onClick={() => onSelect({ kind: 'wheel', id: wheel.id })}
               >
@@ -115,7 +123,8 @@ export function CompositionTree({
                 <label className="tree-toggle">
                   <input
                     type="checkbox"
-                    aria-label={`${wheel.name} enabled`}
+                  title={help['tree.wheelEnabled']}
+                  aria-label={`${wheel.name} enabled`}
                     checked={wheel.enabled}
                     onChange={(event) =>
                       onChange(
@@ -131,6 +140,7 @@ export function CompositionTree({
                 </label>
                 <button
                   type="button"
+                  title={help['tree.move']}
                   aria-label={`Move ${wheel.name} up`}
                   disabled={wheelIndex === 0}
                   onClick={() =>
@@ -141,6 +151,7 @@ export function CompositionTree({
                 </button>
                 <button
                   type="button"
+                  title={help['tree.move']}
                   aria-label={`Move ${wheel.name} down`}
                   disabled={wheelIndex === composition.wheels.length - 1}
                   onClick={() =>
@@ -151,6 +162,7 @@ export function CompositionTree({
                 </button>
                 <button
                   type="button"
+                  title={help['tree.duplicateWheel']}
                   aria-label={`Duplicate ${wheel.name}`}
                   onClick={() => {
                     const { composition: next, wheelId } = duplicateWheel(
@@ -165,6 +177,7 @@ export function CompositionTree({
                 </button>
                 <button
                   type="button"
+                  title={help['tree.addHead']}
                   aria-label={`Add Head to ${wheel.name}`}
                   onClick={() => {
                     const { composition: next, headId } = addHead(
@@ -179,6 +192,7 @@ export function CompositionTree({
                 </button>
                 <button
                   type="button"
+                  title={help['tree.removeWheel']}
                   aria-label={`Remove ${wheel.name}`}
                   onClick={() => requestRemoval('wheel', wheel.id)}
                 >
@@ -200,6 +214,7 @@ export function CompositionTree({
                     <button
                       type="button"
                       className="tree-label"
+                      title={help['tree.select']}
                       aria-pressed={isSelected(selection, 'head', head.id)}
                       onClick={() => onSelect({ kind: 'head', id: head.id })}
                     >
@@ -209,7 +224,8 @@ export function CompositionTree({
                       <label className="tree-toggle">
                         <input
                           type="checkbox"
-                          aria-label={`${wheel.name} ${head.name} enabled`}
+                  title={help['tree.headEnabled']}
+                  aria-label={`${wheel.name} ${head.name} enabled`}
                           checked={head.enabled}
                           onChange={(event) =>
                             onChange(
@@ -226,7 +242,8 @@ export function CompositionTree({
                       <label className="tree-toggle">
                         <input
                           type="checkbox"
-                          aria-label={`${wheel.name} ${head.name} trace visible`}
+                  title={help['tree.traceVisible']}
+                  aria-label={`${wheel.name} ${head.name} trace visible`}
                           checked={head.trace.visible}
                           onChange={(event) =>
                             onChange(
@@ -242,7 +259,8 @@ export function CompositionTree({
                       </label>
                       <button
                         type="button"
-                        aria-label={`Move ${wheel.name} ${head.name} up`}
+                  title={help['tree.move']}
+                  aria-label={`Move ${wheel.name} ${head.name} up`}
                         disabled={headIndex === 0}
                         onClick={() =>
                           onChange(moveHead(composition, head.id, headIndex - 1))
@@ -252,7 +270,8 @@ export function CompositionTree({
                       </button>
                       <button
                         type="button"
-                        aria-label={`Move ${wheel.name} ${head.name} down`}
+                  title={help['tree.move']}
+                  aria-label={`Move ${wheel.name} ${head.name} down`}
                         disabled={headIndex === wheel.heads.length - 1}
                         onClick={() =>
                           onChange(moveHead(composition, head.id, headIndex + 1))
@@ -262,7 +281,8 @@ export function CompositionTree({
                       </button>
                       <button
                         type="button"
-                        aria-label={`Duplicate ${wheel.name} ${head.name}`}
+                  title={help['tree.duplicateHead']}
+                  aria-label={`Duplicate ${wheel.name} ${head.name}`}
                         onClick={() => {
                           const { composition: next, headId } = duplicateHead(
                             composition,
@@ -276,7 +296,8 @@ export function CompositionTree({
                       </button>
                       <button
                         type="button"
-                        aria-label={`Remove ${wheel.name} ${head.name}`}
+                  title={help['tree.removeHead']}
+                  aria-label={`Remove ${wheel.name} ${head.name}`}
                         onClick={() => requestRemoval('head', head.id)}
                       >
                         Remove
@@ -309,6 +330,7 @@ export function CompositionTree({
                 <button
                   type="button"
                   className="tree-label"
+                  title={help['tree.select']}
                   aria-pressed={isSelected(selection, 'part', part.id)}
                   onClick={() => onSelect({ kind: 'part', id: part.id })}
                 >
@@ -319,7 +341,8 @@ export function CompositionTree({
                   <label className="tree-toggle">
                     <input
                       type="checkbox"
-                      aria-label={`${part.name} enabled`}
+                  title={help['tree.partEnabled']}
+                  aria-label={`${part.name} enabled`}
                       checked={part.enabled}
                       onChange={(event) =>
                         onChange(
@@ -335,7 +358,8 @@ export function CompositionTree({
                   </label>
                   <button
                     type="button"
-                    aria-label={`Mute ${part.name}`}
+                  title={help['tree.mute']}
+                  aria-label={`Mute ${part.name}`}
                     aria-pressed={part.mute}
                     className={part.mute ? 'is-active' : ''}
                     onClick={() =>
@@ -346,7 +370,8 @@ export function CompositionTree({
                   </button>
                   <button
                     type="button"
-                    aria-label={`Solo ${part.name}`}
+                  title={help['tree.solo']}
+                  aria-label={`Solo ${part.name}`}
                     aria-pressed={part.solo}
                     className={part.solo ? 'is-active' : ''}
                     onClick={() =>
@@ -357,7 +382,8 @@ export function CompositionTree({
                   </button>
                   <button
                     type="button"
-                    aria-label={`Remove ${part.name}`}
+                  title={help['tree.removePart']}
+                  aria-label={`Remove ${part.name}`}
                     onClick={() => requestRemoval('part', part.id)}
                   >
                     Remove
@@ -416,6 +442,6 @@ export function CompositionTree({
           )}
         </div>
       )}
-    </section>
+    </RailPanel>
   )
 }

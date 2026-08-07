@@ -2,12 +2,18 @@ import type {
   Composition,
   ControlPartSpec,
   EncounterDirection,
+  EncounterQuery,
   NotePartSpec,
   PartSpec,
+  PitchMapping,
+  RelationEventKind,
   RelationSpec,
   ScaleName,
+  WheelSpec,
 } from '../core/composition'
 import { scaleNames } from '../core/scales'
+import { help } from './help'
+import { RailPanel } from './RailPanel'
 
 export type PartPanelProps = {
   composition: Composition
@@ -45,6 +51,113 @@ const directions: Array<Extract<
   EncounterDirection,
   'inward' | 'outward' | 'clockwise' | 'counterclockwise'
 >> = ['inward', 'outward', 'clockwise', 'counterclockwise']
+
+/**
+ * The Heads a Part could currently select, which is the Heads on the Wheels it
+ * listens to. A Head on an unlisted Wheel can never match — an Encounter has
+ * to satisfy both lists — so offering it would be offering a no-op.
+ */
+const headsInScope = (composition: Composition, query: EncounterQuery) =>
+  composition.wheels
+    .filter(
+      (wheel) =>
+        query.wheelIds.length === 0 || query.wheelIds.includes(wheel.id),
+    )
+    .flatMap((wheel) => wheel.heads.map((head) => ({ wheel, head })))
+
+type PartDurationKind = NotePartSpec['duration']['kind']
+
+/** A complete duration of each kind, for when the dropdown switches. */
+const durationFor = (kind: PartDurationKind): NotePartSpec['duration'] => {
+  if (kind === 'until-next') return { kind, maxBeats: 4 }
+  if (kind === 'inside-band') return { kind }
+  return { kind: 'fixed', beats: 0.25 }
+}
+
+const toggled = (list: ReadonlyArray<string>, id: string) =>
+  list.includes(id) ? list.filter((value) => value !== id) : [...list, id]
+
+/** Every kind a note Part can accept, with a label that fits a narrow rail. */
+const encounterKinds: ReadonlyArray<readonly [RelationEventKind, string]> = [
+  ['boundary-crossing', 'boundary'],
+  ['trace-crossing', 'trace'],
+  ['conjunction', 'conjunction'],
+  ['closest-approach', 'closest approach'],
+  ['radial-alignment', 'radial align'],
+  ['angular-alignment', 'angular align'],
+  ['opposition', 'opposition'],
+  ['direction-match', 'direction match'],
+]
+
+/**
+ * What the current selection means, and when it cannot produce anything.
+ *
+ * Accepting a kind is not enough on its own: trace crossings need a Head that
+ * observes its Trace, and the six Relation kinds need a Relation to detect
+ * them. Both are configured in other panels, so a Part can be set up correctly
+ * and stay silent for a reason that is nowhere in view. This says so here.
+ */
+const kindCaption = (
+  composition: Composition,
+  kinds: ReadonlyArray<RelationEventKind>,
+) => {
+  const unmet: Array<string> = []
+  const observing = composition.wheels.flatMap((wheel) =>
+    wheel.heads.filter(
+      (head) => head.enabled && head.observation?.enabled === true,
+    ),
+  )
+  // A Trace crossing needs a probe and a path, and both come from the observing
+  // Heads. One observing Head can only cross its own Trace, and only if it is
+  // allowed to — so one is not enough unless self-crossing is on.
+  const canCrossTraces =
+    observing.length > 1 ||
+    observing.some((head) => head.observation?.allowSelf === true)
+  const hasRelation = (composition.relations ?? []).some(
+    (relation) => relation.enabled,
+  )
+
+  if (kinds.includes('trace-crossing') && !canCrossTraces) {
+    unmet.push(
+      observing.length === 0
+        ? 'no Head observes its Trace'
+        : 'only one Head observes its Trace, and it may not cross its own',
+    )
+  }
+  if (
+    kinds.some(
+      (kind) => kind !== 'boundary-crossing' && kind !== 'trace-crossing',
+    ) &&
+    !hasRelation
+  ) {
+    unmet.push('no Relation exists yet')
+  }
+
+  const summary = `${kinds.length} of ${encounterKinds.length} kinds`
+  return unmet.length > 0 ? `${summary} — silent: ${unmet.join('; ')}` : summary
+}
+
+/**
+ * Adds or removes a Wheel from a Part's filter.
+ *
+ * An empty list means *every* Wheel — that is the query language, not a null
+ * state — so unchecking the last Wheel widens the Part rather than silencing
+ * it. Head filters for a Wheel the Part no longer listens to are dropped with
+ * it: an Encounter must satisfy both lists, so such a Head could never match
+ * again and would only sit there as a dead reference.
+ */
+const withWheelToggled = (
+  query: EncounterQuery,
+  wheel: WheelSpec,
+): EncounterQuery => {
+  const wheelIds = toggled(query.wheelIds, wheel.id)
+  const headIds = wheelIds.includes(wheel.id)
+    ? query.headIds
+    : query.headIds.filter(
+        (id) => !wheel.heads.some((head) => head.id === id),
+      )
+  return { ...query, wheelIds, headIds }
+}
 
 export function PartPanel({ composition, onChange }: PartPanelProps) {
   const parts = composition.parts.filter(
@@ -175,8 +288,11 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
         kind: 'note',
         encounterQuery: {
           kinds: ['boundary-crossing'],
-          wheelIds: [composition.wheels[0].id],
-          headIds: [composition.wheels[0].heads[0].id],
+          // Every Wheel and every Head. Binding a new Part to the first of each
+          // made it deaf to the rest of a multi-Wheel Composition, which looked
+          // like a Part that produced no notes.
+          wheelIds: [],
+          headIds: [],
           fieldIds: [],
           boundaryIds: [],
           directions: [],
@@ -193,16 +309,18 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
   }
 
   return (
-    <section className="control-panel" aria-label="Parts">
-      <div className="panel-header">
-        <h2>Parts</h2>
+    <RailPanel
+      label="Parts"
+      title="Parts"
+      actions={
         <div className="panel-actions">
-          <button type="button" onClick={addPart}>Add Part</button>
-          <button type="button" onClick={addRelation}>Add Relation</button>
-          <button type="button" onClick={addControlPart}>Add Control</button>
-          <button type="button" onClick={addTuningContext}>Add Tuning</button>
+          <button type="button" title={help['part.add']} onClick={addPart}>Add Part</button>
+          <button type="button" title={help['part.addRelation']} onClick={addRelation}>Add Relation</button>
+          <button type="button" title={help['part.addControl']} onClick={addControlPart}>Add Control</button>
+          <button type="button" title={help['part.addTuning']} onClick={addTuningContext}>Add Tuning</button>
         </div>
-      </div>
+      }
+    >
 
       {tuningContexts.length > 0 && (
         <ol className="voice-list" aria-label="Tuning contexts">
@@ -212,6 +330,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                 <span>{tuning.name}</span>
                 <button
                   type="button"
+                  title={help['tuning.remove']}
                   aria-label={`Remove ${tuning.id}`}
                   onClick={() =>
                     onChange({
@@ -225,7 +344,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   Remove
                 </button>
               </div>
-              <label>
+              <label title={help['tuning.rootHz']}>
                 <span>Root (Hz)</span>
                 <input
                   aria-label={`Root frequency ${tuning.id}`}
@@ -251,7 +370,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   }
                 />
               </label>
-              <label>
+              <label title={help['tuning.system']}>
                 <span>System</span>
                 <select
                   aria-label={`Tuning system ${tuning.id}`}
@@ -289,7 +408,8 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               <div className="voice-head">
                 <label className="voice-enable">
                   <input
-                    aria-label={`Enable ${relation.id}`}
+                  title={help['relation.enabled']}
+                  aria-label={`Enable ${relation.id}`}
                     type="checkbox"
                     checked={relation.enabled}
                     onChange={(event) =>
@@ -303,6 +423,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                 </label>
                 <button
                   type="button"
+                  title={help['relation.remove']}
                   aria-label={`Remove ${relation.id}`}
                   onClick={() =>
                     onChange({
@@ -316,7 +437,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   Remove
                 </button>
               </div>
-              <label>
+              <label title={help['relation.kind']}>
                 <span>Kind</span>
                 <select
                   aria-label={`Relation kind ${relation.id}`}
@@ -335,7 +456,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   ))}
                 </select>
               </label>
-              <label>
+              <label title={help['relation.threshold']}>
                 <span>Threshold</span>
                 <input
                   aria-label={`Threshold ${relation.id}`}
@@ -351,7 +472,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   }
                 />
               </label>
-              <label>
+              <label title={help['relation.hysteresis']}>
                 <span>Hysteresis</span>
                 <input
                   aria-label={`Hysteresis ${relation.id}`}
@@ -367,7 +488,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   }
                 />
               </label>
-              <label>
+              <label title={help['relation.minSeparation']}>
                 <span>Min separation (s)</span>
                 <input
                   aria-label={`Min separation ${relation.id}`}
@@ -398,7 +519,8 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               <div className="voice-head">
                 <label className="voice-enable">
                   <input
-                    aria-label={`Enable ${part.id}`}
+                  title={help['part.enabled']}
+                  aria-label={`Enable ${part.id}`}
                     type="checkbox"
                     checked={part.enabled}
                     onChange={(event) =>
@@ -415,6 +537,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                 </label>
                 <button
                   type="button"
+                  title={help['part.remove']}
                   aria-label={`Remove ${part.id}`}
                   onClick={() =>
                     commit(
@@ -425,7 +548,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   Remove
                 </button>
               </div>
-              <label>
+              <label title={help['control.source']}>
                 <span>Source</span>
                 <select
                   aria-label={`Control source ${part.id}`}
@@ -448,7 +571,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   ))}
                 </select>
               </label>
-              <label>
+              <label title={help['control.relation']}>
                 <span>Relation</span>
                 <select
                   aria-label={`Control relation ${part.id}`}
@@ -473,7 +596,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   ))}
                 </select>
               </label>
-              <label>
+              <label title={help['control.rate']}>
                 <span>Rate (Hz)</span>
                 <input
                   aria-label={`Control rate ${part.id}`}
@@ -505,6 +628,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
             <div className="voice-head">
               <label className="voice-enable">
                 <input
+                  title={help['part.enabled']}
                   aria-label={`Enable ${part.id}`}
                   type="checkbox"
                   checked={part.enabled}
@@ -512,59 +636,408 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                 />
                 <span>{part.name}</span>
               </label>
-              <button type="button" aria-label={`Remove ${part.id}`} onClick={() => commit(composition.parts.filter((item) => item.id !== part.id))}>Remove</button>
+              <button type="button" title={help['part.remove']}
+                  aria-label={`Remove ${part.id}`} onClick={() => commit(composition.parts.filter((item) => item.id !== part.id))}>Remove</button>
             </div>
             <label>
               <span>Name</span>
-              <input aria-label={`Name ${part.id}`} value={part.name} onChange={(event) => update(part.id, (current) => ({ ...current, name: event.currentTarget.value }))} />
+              <input title={help['part.name']}
+                  aria-label={`Name ${part.id}`} value={part.name} onChange={(event) => update(part.id, (current) => ({ ...current, name: event.currentTarget.value }))} />
             </label>
-            <label>
+
+            {/*
+              Which Heads this Part hears. Checking nothing means every one —
+              stated in words under each row, because an empty set reading as
+              "all" is the opposite of what an empty set usually means.
+            */}
+            <fieldset className="query-scope">
+              <legend title={help['part.wheels']}>Listens to</legend>
+
+              <div className="query-toggles" role="group" aria-label={`Kinds ${part.id}`} title={help['part.kinds']}>
+                {encounterKinds.map(([kind, label]) => (
+                  <label key={kind} className="tree-toggle">
+                    <input
+                      type="checkbox"
+                      aria-label={`${label} for ${part.id}`}
+                      checked={part.encounterQuery.kinds.includes(kind)}
+                      onChange={() => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, kinds: toggled(current.encounterQuery.kinds, kind) as Array<RelationEventKind> } }))}
+                    />
+                    <span>{label}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="panel-context">
+                {part.encounterQuery.kinds.length === 0
+                  ? 'Every kind of Encounter'
+                  : kindCaption(composition, part.encounterQuery.kinds)}
+              </p>
+
+              <div className="query-toggles" role="group" aria-label={`Wheels ${part.id}`} title={help['part.wheels']}>
+                {composition.wheels.map((wheel) => (
+                  <label key={wheel.id} className="tree-toggle">
+                    <input
+                      type="checkbox"
+                      aria-label={`${wheel.name} for ${part.id}`}
+                      checked={part.encounterQuery.wheelIds.includes(wheel.id)}
+                      onChange={() => update(part.id, (current) => ({ ...current, encounterQuery: withWheelToggled(current.encounterQuery, wheel) }))}
+                    />
+                    <span>{wheel.name}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="panel-context">
+                {part.encounterQuery.wheelIds.length === 0
+                  ? `Every Wheel (${composition.wheels.length})`
+                  : `${part.encounterQuery.wheelIds.length} of ${composition.wheels.length} Wheels`}
+              </p>
+
+              <div className="query-toggles" role="group" aria-label={`Heads ${part.id}`} title={help['part.heads']}>
+                {headsInScope(composition, part.encounterQuery).map(({ wheel, head }) => (
+                  <label key={head.id} className="tree-toggle">
+                    <input
+                      type="checkbox"
+                      aria-label={`${wheel.name} ${head.name} for ${part.id}`}
+                      checked={part.encounterQuery.headIds.includes(head.id)}
+                      onChange={() => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, headIds: toggled(current.encounterQuery.headIds, head.id) } }))}
+                    />
+                    <span>{head.name}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="panel-context">
+                {part.encounterQuery.headIds.length === 0
+                  ? 'Every Head on those Wheels'
+                  : `${part.encounterQuery.headIds.length} Head(s)`}
+              </p>
+
+              {relations.length > 0 &&
+                part.encounterQuery.kinds.some((kind) => relationKinds.includes(kind as RelationSpec['kind'])) && (
+                <>
+                  <div className="query-toggles" role="group" aria-label={`Relations ${part.id}`} title={help['part.relations']}>
+                    {relations.map((relation) => (
+                      <label key={relation.id} className="tree-toggle">
+                        <input
+                          type="checkbox"
+                          aria-label={`${relation.name} for ${part.id}`}
+                          checked={(part.encounterQuery.relationIds ?? []).includes(relation.id)}
+                          onChange={() => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, relationIds: toggled(current.encounterQuery.relationIds ?? [], relation.id) } }))}
+                        />
+                        <span>{relation.name}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <p className="panel-context">
+                    {(part.encounterQuery.relationIds ?? []).length === 0
+                      ? 'Every Relation of the kinds above'
+                      : `${(part.encounterQuery.relationIds ?? []).length} named Relation(s)`}
+                  </p>
+                </>
+              )}
+
+              <NumberField label={`Minimum strength ${part.id}`} shortLabel="Min strength" hint={help['part.minStrength']} value={part.encounterQuery.minStrength} min={0} max={1} step={0.05} onChange={(minStrength) => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, minStrength } }))} />
+            </fieldset>
+
+            <label title={help['part.boundary']}>
               <span>Boundary</span>
               <select aria-label={`Boundary ${part.id}`} value={part.encounterQuery.boundaryIds[0] ?? ''} onChange={(event) => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, boundaryIds: event.currentTarget.value ? [event.currentTarget.value] : [] } }))}>
                 <option value="">All boundaries</option>
                 {boundaries.map((boundary) => <option key={boundary.id} value={boundary.id}>{boundary.label}</option>)}
               </select>
             </label>
-            <label>
+            <label title={help['part.direction']}>
               <span>Direction</span>
               <select aria-label={`Direction ${part.id}`} value={part.encounterQuery.directions[0] ?? ''} onChange={(event) => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, directions: event.currentTarget.value ? [event.currentTarget.value as EncounterDirection] : [] } }))}>
                 <option value="">Any direction</option>
                 {directions.map((direction) => <option key={direction} value={direction}>{direction}</option>)}
               </select>
             </label>
-            <label>
+            <label title={help['part.instrument']}>
               <span>Instrument</span>
               <select aria-label={`Instrument ${part.id}`} value={part.instrumentId} onChange={(event) => update(part.id, (current) => ({ ...current, instrumentId: event.currentTarget.value }))}>
                 {composition.instruments.map((instrument) => <option key={instrument.id} value={instrument.id}>{instrument.name}</option>)}
               </select>
             </label>
-            <label>
+            <label title={help['part.pitchMapping']}>
               <span>Pitch mapping</span>
-              <select aria-label={`Pitch mapping ${part.id}`} value={part.pitch.kind === 'boundary-degree' ? 'boundary-degree' : 'fixed-midi'} onChange={(event) => update(part.id, (current) => ({ ...current, pitch: event.currentTarget.value === 'boundary-degree' ? { kind: 'boundary-degree', root: 48, scale: 'pentatonic-minor', octaves: 3 } : { kind: 'fixed-midi', note: 60 } }))}>
-                <option value="boundary-degree">Boundary degree</option>
-                <option value="fixed-midi">Fixed MIDI</option>
+              <select aria-label={`Pitch mapping ${part.id}`} value={part.pitch.kind} onChange={(event) => update(part.id, (current) => ({ ...current, pitch: defaultPitchFor(event.currentTarget.value as PitchMapping['kind']) }))}>
+                {pitchKinds.map(([kind, label]) => <option key={kind} value={kind}>{label}</option>)}
               </select>
             </label>
-            {part.pitch.kind === 'fixed-midi' && (
-              <NumberField label={`MIDI note ${part.id}`} shortLabel="MIDI note" value={part.pitch.note} min={0} max={127} step={1} onChange={(note) => update(part.id, (current) => ({ ...current, pitch: { kind: 'fixed-midi', note } }))} />
-            )}
-            {part.pitch.kind === 'boundary-degree' && (
+            <PitchControls
+              part={part}
+              composition={composition}
+              onPitch={(pitch) => update(part.id, (current) => ({ ...current, pitch }))}
+            />
+
+            <label title={help['part.velocityKind']}>
+              <span>Velocity</span>
+              <select
+                aria-label={`Velocity ${part.id}`}
+                value={part.velocity.kind}
+                onChange={(event) => update(part.id, (current) => ({ ...current, velocity: event.currentTarget.value === 'constant' ? { kind: 'constant', value: 96 } : { kind: 'encounter-strength', min: 48, max: 118, gamma: 1 } }))}
+              >
+                <option value="encounter-strength">From Encounter strength</option>
+                <option value="constant">Constant</option>
+              </select>
+            </label>
+            {part.velocity.kind === 'constant' ? (
+              <NumberField label={`Velocity value ${part.id}`} shortLabel="Velocity" hint={help['part.velocityValue']} value={part.velocity.value} min={1} max={127} step={1} onChange={(value) => update(part.id, (current) => ({ ...current, velocity: { kind: 'constant', value } }))} />
+            ) : (
               <>
-                <NumberField label={`Root ${part.id}`} shortLabel="Root" value={part.pitch.root} min={0} max={127} step={1} onChange={(root) => update(part.id, (current) => current.pitch.kind === 'boundary-degree' ? { ...current, pitch: { ...current.pitch, root } } : current)} />
-                <label>
-                  <span>Scale</span>
-                  <select aria-label={`Scale ${part.id}`} value={part.pitch.scale} onChange={(event) => update(part.id, (current) => current.pitch.kind === 'boundary-degree' ? { ...current, pitch: { ...current.pitch, scale: event.currentTarget.value as ScaleName } } : current)}>
-                    {scaleNames.map((scale) => <option key={scale} value={scale}>{scale}</option>)}
-                  </select>
-                </label>
+                <NumberField label={`Velocity min ${part.id}`} shortLabel="Vel min" hint={help['part.velocityMin']} value={part.velocity.min} min={1} max={127} step={1} onChange={(min) => update(part.id, (current) => current.velocity.kind === 'encounter-strength' ? { ...current, velocity: { ...current.velocity, min } } : current)} />
+                <NumberField label={`Velocity max ${part.id}`} shortLabel="Vel max" hint={help['part.velocityMax']} value={part.velocity.max} min={1} max={127} step={1} onChange={(max) => update(part.id, (current) => current.velocity.kind === 'encounter-strength' ? { ...current, velocity: { ...current.velocity, max } } : current)} />
+                <NumberField label={`Velocity gamma ${part.id}`} shortLabel="Vel curve" hint={help['part.velocityGamma']} value={part.velocity.gamma} min={0.05} max={10} step={0.05} onChange={(gamma) => update(part.id, (current) => current.velocity.kind === 'encounter-strength' ? { ...current, velocity: { ...current.velocity, gamma } } : current)} />
               </>
             )}
-            <NumberField label={`Duration ${part.id}`} shortLabel="Duration (beats)" value={part.duration.kind === 'fixed' ? part.duration.beats : 0.25} min={0.01} step={0.05} onChange={(beats) => update(part.id, (current) => ({ ...current, duration: { kind: 'fixed', beats } }))} />
-            <NumberField label={`Grid ${part.id}`} shortLabel="Grid (beats)" value={part.quantize?.gridBeats ?? 0.25} min={0.01} step={0.05} onChange={(gridBeats) => update(part.id, (current) => ({ ...current, quantize: { gridBeats, strength: current.quantize?.strength ?? 0.75 } }))} />
+
+            <label title={help['part.durationKind']}>
+              <span>Duration</span>
+              <select
+                aria-label={`Duration kind ${part.id}`}
+                value={part.duration.kind}
+                onChange={(event) => update(part.id, (current) => ({ ...current, duration: durationFor(event.currentTarget.value as PartDurationKind) }))}
+              >
+                <option value="fixed">Fixed</option>
+                <option value="until-next">Until next note</option>
+                <option value="inside-band">Time inside a band</option>
+              </select>
+            </label>
+            {part.duration.kind === 'fixed' && (
+              <NumberField label={`Duration ${part.id}`} shortLabel="Duration (beats)" hint={help['part.duration']} value={part.duration.beats} min={0.01} max={10_000} step={0.05} onChange={(beats) => update(part.id, (current) => ({ ...current, duration: { kind: 'fixed', beats } }))} />
+            )}
+            {part.duration.kind === 'until-next' && (
+              <NumberField label={`Max duration ${part.id}`} shortLabel="Max (beats)" hint={help['part.maxBeats']} value={part.duration.maxBeats} min={0.01} max={10_000} step={0.25} onChange={(maxBeats) => update(part.id, (current) => ({ ...current, duration: { kind: 'until-next', maxBeats } }))} />
+            )}
+
+            <NumberField label={`Grid ${part.id}`} shortLabel="Grid (beats)" hint={help['part.grid']} value={part.quantize?.gridBeats ?? 0.25} min={0.01} max={10_000} step={0.05} onChange={(gridBeats) => update(part.id, (current) => ({ ...current, quantize: { gridBeats, strength: current.quantize?.strength ?? 0.75 } }))} />
+            <NumberField label={`Grid strength ${part.id}`} shortLabel="Grid pull" hint={help['part.quantizeStrength']} value={part.quantize?.strength ?? 0.75} min={0} max={1} step={0.05} onChange={(strength) => update(part.id, (current) => ({ ...current, quantize: { gridBeats: current.quantize?.gridBeats ?? 0.25, strength } }))} />
           </li>
         ))}
       </ol>
-    </section>
+    </RailPanel>
+  )
+}
+
+/** Every pitch mapping the format defines, with a label for the dropdown. */
+const pitchKinds: ReadonlyArray<readonly [PitchMapping['kind'], string]> = [
+  ['fixed-midi', 'Fixed MIDI'],
+  ['fixed-frequency', 'Fixed frequency'],
+  ['boundary-degree', 'Boundary degree'],
+  ['spatial', 'Spatial'],
+  ['contour', 'Contour'],
+  ['melodic-contour', 'Melodic line'],
+  ['ratio', 'Ratio'],
+  ['tuned-ratio', 'Tuned ratio'],
+]
+
+const spatialSources: ReadonlyArray<'x' | 'y' | 'radius' | 'angle'> = [
+  'x',
+  'y',
+  'radius',
+  'angle',
+]
+
+/**
+ * A valid mapping of each kind, used when the dropdown switches.
+ *
+ * Switching kind cannot carry the old parameters across — the shapes barely
+ * overlap — so each arrives complete and playable rather than half-filled and
+ * rejected by validation.
+ */
+const defaultPitchFor = (kind: PitchMapping['kind']): PitchMapping => {
+  if (kind === 'fixed-frequency') return { kind, frequencyHz: 440 }
+  if (kind === 'boundary-degree') {
+    return { kind, root: 48, scale: 'pentatonic-minor', octaves: 3 }
+  }
+  if (kind === 'ratio') return { kind, rootFrequencyHz: 261.63, octaveFold: true }
+  if (kind === 'spatial' || kind === 'contour') {
+    return { kind, source: 'radius', root: 48, scale: 'pentatonic-minor', octaves: 3 }
+  }
+  if (kind === 'melodic-contour') {
+    return {
+      kind,
+      source: 'radius',
+      scale: 'pentatonic-minor',
+      contour: {
+        maxStep: 2,
+        directionBias: 0.7,
+        lowDegree: 0,
+        highDegree: 12,
+        startDegree: 4,
+      },
+    }
+  }
+  if (kind === 'tuned-ratio') {
+    return { kind, ratio: { kind: 'explicit', numerator: 3, denominator: 2 } }
+  }
+  return { kind: 'fixed-midi', note: 60 }
+}
+
+type PitchControlsProps = {
+  part: NotePartSpec
+  composition: Composition
+  onPitch: (pitch: PitchMapping) => void
+}
+
+/**
+ * The parameters belonging to whichever pitch mapping is selected.
+ *
+ * Split out because eight mappings inline would bury the rest of the Part row.
+ * Each branch edits its own shape and never reaches for fields another kind
+ * owns, which is what keeps a switch from producing an invalid Composition.
+ */
+function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
+  const pitch = part.pitch
+
+  const scaleSelect = (
+    value: ScaleName,
+    onScale: (scale: ScaleName) => void,
+  ) => (
+    <label title={help['part.scale']}>
+      <span>Scale</span>
+      <select
+        aria-label={`Scale ${part.id}`}
+        value={value}
+        onChange={(event) => onScale(event.currentTarget.value as ScaleName)}
+      >
+        {scaleNames.map((scale) => (
+          <option key={scale} value={scale}>{scale}</option>
+        ))}
+      </select>
+    </label>
+  )
+
+  const sourceSelect = (
+    value: 'x' | 'y' | 'radius' | 'angle',
+    onSource: (source: 'x' | 'y' | 'radius' | 'angle') => void,
+  ) => (
+    <label title={help['part.pitchSource']}>
+      <span>Source</span>
+      <select
+        aria-label={`Pitch source ${part.id}`}
+        value={value}
+        onChange={(event) =>
+          onSource(event.currentTarget.value as 'x' | 'y' | 'radius' | 'angle')
+        }
+      >
+        {spatialSources.map((source) => (
+          <option key={source} value={source}>{source}</option>
+        ))}
+      </select>
+    </label>
+  )
+
+  if (pitch.kind === 'fixed-midi') {
+    return (
+      <NumberField label={`MIDI note ${part.id}`} shortLabel="MIDI note" hint={help['part.midiNote']} value={pitch.note} min={0} max={127} step={1} onChange={(note) => onPitch({ kind: 'fixed-midi', note })} />
+    )
+  }
+
+  if (pitch.kind === 'fixed-frequency') {
+    return (
+      <NumberField label={`Frequency ${part.id}`} shortLabel="Frequency (Hz)" hint={help['part.frequencyHz']} value={pitch.frequencyHz} min={1} max={20_000} step={1} onChange={(frequencyHz) => onPitch({ kind: 'fixed-frequency', frequencyHz })} />
+    )
+  }
+
+  if (pitch.kind === 'boundary-degree') {
+    return (
+      <>
+        <NumberField label={`Root ${part.id}`} shortLabel="Root" hint={help['part.root']} value={pitch.root} min={0} max={127} step={1} onChange={(root) => onPitch({ ...pitch, root })} />
+        {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
+        <NumberField label={`Octaves ${part.id}`} shortLabel="Octaves" hint={help['part.octaves']} value={pitch.octaves} min={0} max={10} step={1} onChange={(octaves) => onPitch({ ...pitch, octaves })} />
+      </>
+    )
+  }
+
+  if (pitch.kind === 'spatial' || pitch.kind === 'contour') {
+    return (
+      <>
+        {sourceSelect(pitch.source, (source) => onPitch({ ...pitch, source }))}
+        <NumberField label={`Root ${part.id}`} shortLabel="Root" hint={help['part.root']} value={pitch.root} min={0} max={127} step={1} onChange={(root) => onPitch({ ...pitch, root })} />
+        {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
+        <NumberField label={`Octaves ${part.id}`} shortLabel="Octaves" hint={help['part.octaves']} value={pitch.octaves} min={0} max={10} step={1} onChange={(octaves) => onPitch({ ...pitch, octaves })} />
+      </>
+    )
+  }
+
+  if (pitch.kind === 'melodic-contour') {
+    const contour = pitch.contour
+    return (
+      <>
+        {sourceSelect(pitch.source, (source) => onPitch({ ...pitch, source }))}
+        {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
+        <NumberField label={`Max step ${part.id}`} shortLabel="Max step" hint={help['part.maxStep']} value={contour.maxStep} min={0} max={64} step={1} onChange={(maxStep) => onPitch({ ...pitch, contour: { ...contour, maxStep } })} />
+        <NumberField label={`Direction bias ${part.id}`} shortLabel="Direction bias" hint={help['part.directionBias']} value={contour.directionBias} min={0} max={1} step={0.05} onChange={(directionBias) => onPitch({ ...pitch, contour: { ...contour, directionBias } })} />
+        <NumberField label={`Low degree ${part.id}`} shortLabel="Low degree" hint={help['part.lowDegree']} value={contour.lowDegree} min={-128} max={128} step={1} onChange={(lowDegree) => onPitch({ ...pitch, contour: { ...contour, lowDegree } })} />
+        <NumberField label={`High degree ${part.id}`} shortLabel="High degree" hint={help['part.highDegree']} value={contour.highDegree} min={-128} max={128} step={1} onChange={(highDegree) => onPitch({ ...pitch, contour: { ...contour, highDegree } })} />
+        <NumberField label={`Start degree ${part.id}`} shortLabel="Start degree" hint={help['part.startDegree']} value={contour.startDegree} min={-128} max={128} step={1} onChange={(startDegree) => onPitch({ ...pitch, contour: { ...contour, startDegree } })} />
+      </>
+    )
+  }
+
+  if (pitch.kind === 'ratio') {
+    return (
+      <>
+        <NumberField label={`Ratio root ${part.id}`} shortLabel="Root (Hz)" hint={help['part.ratioRoot']} value={pitch.rootFrequencyHz} min={1} max={20_000} step={1} onChange={(rootFrequencyHz) => onPitch({ ...pitch, rootFrequencyHz })} />
+        <label title={help['part.octaveFold']}>
+          <span>Octave fold</span>
+          <input
+            type="checkbox"
+            aria-label={`Octave fold ${part.id}`}
+            checked={pitch.octaveFold}
+            onChange={(event) => onPitch({ ...pitch, octaveFold: event.currentTarget.checked })}
+          />
+        </label>
+      </>
+    )
+  }
+
+  // tuned-ratio
+  const ratio = pitch.ratio
+  return (
+    <>
+      <label title={help['part.ratioSource']}>
+        <span>Ratio from</span>
+        <select
+          aria-label={`Ratio source ${part.id}`}
+          value={ratio.kind}
+          onChange={(event) =>
+            onPitch({
+              ...pitch,
+              ratio:
+                event.currentTarget.value === 'wheel-motion'
+                  ? {
+                      kind: 'wheel-motion',
+                      wheelId: composition.wheels[0]?.id ?? '',
+                    }
+                  : { kind: 'explicit', numerator: 3, denominator: 2 },
+            })
+          }
+        >
+          <option value="explicit">Explicit ratio</option>
+          <option value="wheel-motion">Wheel motion</option>
+        </select>
+      </label>
+      {ratio.kind === 'explicit' ? (
+        <>
+          <NumberField label={`Numerator ${part.id}`} shortLabel="Numerator" hint={help['part.ratioNumerator']} value={ratio.numerator} min={1} max={10_000} step={1} onChange={(numerator) => onPitch({ ...pitch, ratio: { ...ratio, numerator } })} />
+          <NumberField label={`Denominator ${part.id}`} shortLabel="Denominator" hint={help['part.ratioDenominator']} value={ratio.denominator} min={1} max={10_000} step={1} onChange={(denominator) => onPitch({ ...pitch, ratio: { ...ratio, denominator } })} />
+        </>
+      ) : (
+        <label title={help['part.ratioWheel']}>
+          <span>Ratio Wheel</span>
+          <select
+            aria-label={`Ratio Wheel ${part.id}`}
+            value={ratio.wheelId}
+            onChange={(event) => onPitch({ ...pitch, ratio: { ...ratio, wheelId: event.currentTarget.value } })}
+          >
+            {composition.wheels.map((wheel) => (
+              <option key={wheel.id} value={wheel.id}>{wheel.name}</option>
+            ))}
+          </select>
+        </label>
+      )}
+    </>
   )
 }
 
@@ -582,12 +1055,14 @@ type NumberFieldProps = {
   min: number
   max?: number
   step: number
+  /** Hover help. See `./help`. */
+  hint?: string
   onChange: (value: number) => void
 }
 
-function NumberField({ label, shortLabel, value, min, max, step, onChange }: NumberFieldProps) {
+function NumberField({ label, shortLabel, value, min, max, step, hint, onChange }: NumberFieldProps) {
   return (
-    <label>
+    <label title={hint}>
       <span>{shortLabel}</span>
       <input aria-label={label} type="number" value={value} min={min} max={max} step={step} onChange={(event) => onChange(Number(event.currentTarget.value))} />
     </label>

@@ -34,6 +34,9 @@ export const defaultComposition = {
   space: {
     center: { x: 0, y: 0 },
     scale: 1,
+    // The Wheels here sweep a radius of about 180, so that is the size a
+    // position is measured against for Spatial pitch.
+    pitchReference: 180,
   },
   transport: {
     tempoBpm: 120,
@@ -188,6 +191,92 @@ export const defaultComposition = {
   ],
 } satisfies Composition
 
+/**
+ * A clean slate.
+ *
+ * Not literally empty: `compositionValidation` requires at least one Wheel and
+ * at least one Instrument, and `compositionEdits` refuses to remove the last
+ * Wheel, the last Head on a Wheel, or the last Instrument. The emptiest legal
+ * Composition is therefore one Wheel carrying one Head, plus one Instrument
+ * with nothing routed to it.
+ *
+ * It has no Fields and no Parts, which means it draws a Trace and makes no
+ * sound. That is the honest starting point rather than a defect: an Encounter
+ * needs a Boundary to cross, and a note needs a Part to decide it. The
+ * Performance panel says so, in those terms, until both exist.
+ */
+export const blankComposition = {
+  version: compositionVersion,
+  id: 'untitled',
+  name: 'Untitled',
+  space: {
+    center: { x: 0, y: 0 },
+    scale: 1,
+    // The Wheels here sweep a radius of about 180, so that is the size a
+    // position is measured against for Spatial pitch.
+    pitchReference: 180,
+  },
+  transport: {
+    tempoBpm: 120,
+    meter: { beatsPerBar: 4, beatUnit: 4 },
+    loop: { startBeat: 0, lengthBeats: 4 },
+  },
+  wheels: [
+    {
+      id: 'wheel-1',
+      name: 'Wheel 1',
+      enabled: true,
+      center: { x: 0, y: 0 },
+      rate: { cycles: 1, beats: 4 },
+      phase: 0,
+      direction: 'forward',
+      motion: {
+        kind: 'spirogram',
+        fixedRadius: 180,
+        movingRadius: 65,
+        rotation: 'inside',
+      },
+      heads: [
+        {
+          id: 'head-1',
+          name: 'Head 1',
+          enabled: true,
+          phaseOffset: 0,
+          offset: { x: 0, y: 0 },
+          attachment: { kind: 'spirogram', penOffset: 95 },
+          trace: {
+            visible: true,
+            color: '#6fd6c2',
+            lineWidth: 2,
+            opacity: 0.9,
+            mode: 'animated',
+            historySeconds: 8,
+          },
+        },
+      ],
+    },
+  ],
+  fields: [],
+  soundBanks: [{ ...bundledSoundBank }],
+  instruments: [
+    {
+      id: 'instrument-1',
+      name: 'Native Synth',
+      kind: 'native-synth',
+      gain: 0.5,
+      pan: 0,
+      waveform: 'triangle',
+      envelope: {
+        attackSeconds: 0.01,
+        decaySeconds: 0.08,
+        sustain: 0.7,
+        releaseSeconds: 0.15,
+      },
+    },
+  ],
+  parts: [],
+} satisfies Composition
+
 const traceColors = [
   '#6fd6c2',
   '#f2b880',
@@ -257,7 +346,7 @@ export const referenceComposition = {
   version: compositionVersion,
   id: 'reference-concurrent-wheels',
   name: 'Concurrent Wheels Reference',
-  space: { center: { x: 0, y: 0 }, scale: 1 },
+  space: { center: { x: 0, y: 0 }, scale: 1, pitchReference: 180 },
   transport: {
     tempoBpm: 110,
     meter: { beatsPerBar: 4, beatUnit: 4 },

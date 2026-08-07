@@ -12,7 +12,8 @@
   padding: 14px 18px 18px;
 }
 
-/* Title, transport, and file actions share one line and wrap together. */
+/* Title and file actions share one line and wrap together. The transport is
+   not here: it lives under the trace, in the stage. */
 .app-topbar {
   display: flex;
   align-items: center;
@@ -58,6 +59,49 @@ h1 {
   min-width: 0;
 }
 
+/* Starting over and loading the example sit apart from the file actions: they
+   replace the workspace rather than move it in or out of a file. */
+.topbar-workspace {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.topbar-workspace button {
+  min-height: 32px;
+  border: 1px solid rgba(246, 244, 239, 0.22);
+  border-radius: 6px;
+  padding: 0 12px;
+  color: #f6f4ef;
+  background: #18181f;
+  cursor: pointer;
+}
+
+.topbar-workspace button:hover {
+  border-color: rgba(66, 202, 253, 0.8);
+}
+
+.replace-warning {
+  color: #f2c14e;
+  font-size: 0.84rem;
+}
+
+.restore-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #a9a297;
+  font-size: 0.8rem;
+}
+
+.restore-notice button {
+  min-height: 26px;
+  padding: 0 8px;
+  font-size: 0.78rem;
+}
+
 /*
  * Controls on the left, the trace in the middle, the composition on the right.
  * The rails are sized in their own right so nothing inside them has to overflow
@@ -93,12 +137,24 @@ h1 {
 }
 
 /*
- * A trace is a closed curve around an origin, so the stage is square. Sizing it
- * from the smaller of the cell's two dimensions keeps the whole curve visible
- * without ever pushing the page wider or taller than the viewport.
+ * The stage is the trace with its transport beneath it: the canvas takes what
+ * is left after the controls have their row.
  */
 .canvas-stage {
   grid-area: stage;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+}
+
+/*
+ * The frame holds the trace and nothing else. It carries the query container so
+ * the transport's row is subtracted before the canvas is measured, and it is
+ * what the narrow breakpoint constrains to a square.
+ */
+.canvas-frame {
   container-type: size;
   display: grid;
   place-items: center;
@@ -140,8 +196,9 @@ h1 {
 .transport {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 10px;
-  flex: 1 1 380px;
   min-width: 0;
 }
 
@@ -166,11 +223,6 @@ h1 {
   white-space: nowrap;
 }
 
-.transport .progress-meter {
-  flex: 1 1 90px;
-  min-width: 60px;
-}
-
 .transport > input[type='range'] {
   flex: 1 1 120px;
   min-width: 80px;
@@ -188,19 +240,6 @@ h1 {
 
 .sound-toggle input {
   accent-color: #42cafd;
-}
-
-.progress-meter {
-  block-size: 8px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(246, 244, 239, 0.14);
-}
-
-.progress-meter span {
-  display: block;
-  block-size: 100%;
-  background: #42cafd;
 }
 
 .preset-picker {
@@ -274,6 +313,57 @@ h1 {
   letter-spacing: 0.01em;
 }
 
+/*
+ * Collapsible panels. A rail stacks more panels than fit in it and every panel
+ * grows with the Composition, so the title row doubles as the control that
+ * gets a panel out of the way.
+ */
+.panel-disclosure > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.panel-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.panel-disclosure > summary::before {
+  content: '▸';
+  display: inline-block;
+  color: #f2c14e;
+  font-size: 0.8rem;
+  line-height: 1;
+  transition: transform 120ms ease;
+}
+
+.panel-disclosure[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+/* The title carries the panel's whole bottom margin only when open, so a
+   collapsed panel is exactly one row tall. */
+.panel-disclosure > summary h2 {
+  margin: 0;
+}
+
+.panel-disclosure[open] > summary {
+  margin-bottom: 12px;
+}
+
+.panel-disclosure > summary:hover h2 {
+  color: #f6d98a;
+}
+
+.panel-disclosure > summary:focus-visible {
+  outline: 2px solid #42cafd;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 .panel-header {
   display: flex;
   align-items: center;
@@ -299,6 +389,41 @@ h1 {
   flex-wrap: wrap;
   gap: 8px;
   min-width: 0;
+}
+
+/* A Part's Wheel and Head filters. Several short toggles rather than a select,
+   because the filter is a set: the shipped example listens to two named Wheels
+   at once, and a single-choice control could not express that without dropping
+   one of them. */
+.query-scope {
+  /* A Part row is an auto-fit grid of ~96px columns. Left in one of those
+     cells the toggles stack one per line and the hint text collides with the
+     next control, so the filter takes the whole row. */
+  grid-column: 1 / -1;
+  margin: 10px 0 0;
+  border: 1px solid rgba(246, 244, 239, 0.16);
+  border-radius: 8px;
+  padding: 8px 10px 4px;
+  min-width: 0;
+}
+
+.query-scope legend {
+  padding: 0 6px;
+  color: #a9a297;
+  font-size: 0.78rem;
+}
+
+.query-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  min-width: 0;
+}
+
+.query-scope .panel-context {
+  margin: 2px 0 8px;
+  color: #8f877c;
+  font-size: 0.74rem;
 }
 
 .panel-actions button[aria-pressed='true'] {
@@ -453,7 +578,8 @@ h1 {
 }
 
 .voice-row button,
-.control-panel > button {
+.control-panel > button,
+.control-panel > .panel-disclosure > button {
   min-height: 30px;
   border: 1px solid rgba(246, 244, 239, 0.22);
   border-radius: 6px;
@@ -509,7 +635,8 @@ h1 {
   white-space: nowrap;
 }
 
-.sound-bank-panel > output {
+.sound-bank-panel > output,
+.sound-bank-panel > .panel-disclosure > output {
   display: block;
   margin-top: 10px;
   color: #d8d3ca;
@@ -692,7 +819,7 @@ h1 {
     overflow-y: visible;
   }
 
-  .canvas-stage {
+  .canvas-frame {
     container-type: inline-size;
     aspect-ratio: 1 / 1;
     max-height: 70dvh;

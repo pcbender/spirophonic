@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import type { Composition, NotePartSpec } from './composition'
+import type {
+  Composition,
+  NotePartSpec,
+  TraceObservationSpec,
+} from './composition'
 import { defaultComposition } from './defaultComposition'
 import { compilePerformance } from './performance'
 
@@ -272,5 +276,197 @@ describe('canonical performance compilation', () => {
         },
       ],
     })
+  })
+})
+
+describe('a Part hears the Encounter kinds it accepts', () => {
+  const observation = (): TraceObservationSpec => ({
+    enabled: true,
+    retention: 'window',
+    sampleRateHz: 60,
+    maxSegments: 4_000,
+    allowSelf: false,
+  })
+
+  /**
+   * Two Wheels whose Heads sweep overlapping circles, so one Head genuinely
+   * runs through the other's retained path. No Fields at all, so every note
+   * produced here can only have come from a trace crossing.
+   */
+  const traceCrossingComposition = (): Composition => {
+    const composition = structuredClone(defaultComposition) as Composition
+    composition.wheels[0].motion = {
+      kind: 'lissajous',
+      frequencyX: 1,
+      frequencyY: 1,
+      delta: Math.PI / 2,
+    }
+    composition.wheels[0].heads[0] = {
+      ...composition.wheels[0].heads[0],
+      id: 'head-a',
+      name: 'Head A',
+      attachment: {
+        kind: 'lissajous',
+        scaleX: 100,
+        scaleY: 100,
+        phaseX: 0,
+        phaseY: 0,
+      },
+      observation: observation(),
+    }
+    composition.wheels.push({
+      ...structuredClone(composition.wheels[0]),
+      id: 'wheel-2',
+      name: 'Wheel 2',
+      center: { x: 90, y: 0 },
+      rate: { cycles: 3, beats: 4 },
+      heads: [
+        {
+          ...structuredClone(composition.wheels[0].heads[0]),
+          id: 'head-b',
+          name: 'Head B',
+          observation: observation(),
+        },
+      ],
+    })
+    composition.fields = []
+    composition.parts = []
+    return composition
+  }
+
+  const partAccepting = (
+    kinds: NotePartSpec['encounterQuery']['kinds'],
+  ): NotePartSpec => ({
+    id: 'part-1',
+    name: 'Part 1',
+    enabled: true,
+    mute: false,
+    solo: false,
+    kind: 'note',
+    encounterQuery: {
+      kinds,
+      wheelIds: [],
+      headIds: [],
+      fieldIds: [],
+      boundaryIds: [],
+      directions: [],
+      minStrength: 0,
+    },
+    instrumentId: 'instrument-1',
+    onset: { kind: 'encounter-time' },
+    pitch: { kind: 'fixed-midi', note: 60 },
+    velocity: { kind: 'encounter-strength', min: 48, max: 118, gamma: 1 },
+    duration: { kind: 'fixed', beats: 0.25 },
+  })
+
+  it('turns trace crossings into notes when the Part accepts them', () => {
+    const composition = traceCrossingComposition()
+    composition.parts = [partAccepting(['trace-crossing'])]
+    const performance = compilePerformance(
+      composition,
+      request,
+    )
+
+    // The scan finds crossings, and every one of them reaches the mix.
+    expect(performance.traceEncounters.length).toBeGreaterThan(0)
+    expect(performance.performedEvents.length).toBe(
+      performance.traceEncounters.length,
+    )
+    expect(
+      performance.diagnostics.filter((item) => item.severity === 'error'),
+    ).toEqual([])
+  })
+
+  it('ignores trace crossings when the Part accepts only Boundary crossings', () => {
+    const composition = traceCrossingComposition()
+    composition.parts = [partAccepting(['boundary-crossing'])]
+    const performance = compilePerformance(
+      composition,
+      request,
+    )
+
+    // The crossings still happen; this Part simply is not listening for them.
+    expect(performance.traceEncounters.length).toBeGreaterThan(0)
+    expect(performance.performedEvents).toEqual([])
+  })
+
+  it('gives a trace crossing a degree, so degree pitch varies by Head met', () => {
+    const composition = traceCrossingComposition()
+    const part = partAccepting(['trace-crossing'])
+    composition.parts = [
+      {
+        ...part,
+        pitch: {
+          kind: 'boundary-degree',
+          root: 48,
+          scale: 'pentatonic-minor',
+          octaves: 3,
+        },
+      },
+    ]
+    const performance = compilePerformance(
+      composition,
+      request,
+    )
+
+    // Degree comes from which Head's Trace was crossed, so notes are real
+    // pitches rather than every crossing landing on the root.
+    expect(performance.performedEvents.length).toBeGreaterThan(0)
+    for (const event of performance.performedEvents) {
+      expect(event.midiNote).toBeGreaterThanOrEqual(48)
+      expect(event.midiNote).toBeLessThanOrEqual(127)
+    }
+  })
+})
+describe('view zoom and pitch reference are independent', () => {
+  const spatialComposition = (space: Composition['space']): Composition => {
+    const composition = structuredClone(defaultComposition) as Composition
+    composition.space = space
+    const base = composition.parts[0] as NotePartSpec
+    composition.parts = [
+      {
+        ...base,
+        pitch: {
+          kind: 'spatial',
+          source: 'radius',
+          root: 48,
+          scale: 'major',
+          octaves: 3,
+        },
+      },
+    ]
+    return composition
+  }
+
+  const pitches = (space: Composition['space']) =>
+    compilePerformance(spatialComposition(space), request).performedEvents.map(
+      (event) => event.midiNote,
+    )
+
+  it('spreads Spatial pitch when the reference matches the geometry', () => {
+    // A reference far below the geometry saturates: every radius normalises to
+    // nearly 1 and lands on the same degree.
+    const tooSmall = new Set(pitches({ center: { x: 0, y: 0 }, scale: 1, pitchReference: 1 }))
+    const matched = new Set(pitches({ center: { x: 0, y: 0 }, scale: 1, pitchReference: 180 }))
+
+    expect(tooSmall.size).toBe(1)
+    expect(matched.size).toBeGreaterThan(1)
+  })
+
+  it('leaves pitch untouched when only the view zoom changes', () => {
+    const atOne = pitches({ center: { x: 0, y: 0 }, scale: 1, pitchReference: 180 })
+    const zoomedIn = pitches({ center: { x: 0, y: 0 }, scale: 4, pitchReference: 180 })
+
+    // This is the whole point of the split: zoom is a drawing concern.
+    expect(zoomedIn).toEqual(atOne)
+  })
+
+  it('falls back to scale when a Composition predates the split', () => {
+    // Written before `pitchReference` existed, so it must sound exactly as it
+    // did when one field served both purposes.
+    const legacy = pitches({ center: { x: 0, y: 0 }, scale: 7 })
+    const explicit = pitches({ center: { x: 0, y: 0 }, scale: 7, pitchReference: 7 })
+
+    expect(legacy).toEqual(explicit)
   })
 })

@@ -1,6 +1,8 @@
 import type {
   Composition,
+  EncounterDirection,
   EncounterQuery,
+  RelationEventKind,
   NotePartSpec,
   PartSpec,
   PitchMapping,
@@ -38,15 +40,63 @@ const epsilon = 1e-12
 const includesOrAny = <T>(values: ReadonlyArray<T>, candidate: T) =>
   values.length === 0 || values.includes(candidate)
 
+/**
+ * Any Encounter a note Part can interpret.
+ *
+ * A Boundary crossing is one kind of Encounter, not the only kind: the model
+ * also produces trace crossings and the six Relation kinds, and a Part declares
+ * which of them it accepts. This is the shape they share once selected.
+ *
+ * `BoundaryCrossingEncounter` is assignable to it, so the boundary path is
+ * unchanged. The differences are all widenings:
+ *
+ * - `kind` and `direction` cover every kind, not only the boundary ones.
+ * - `fieldId` and `boundaryId` are empty strings for Encounters that involve no
+ *   Boundary. A query filtering on either therefore selects nothing among them,
+ *   which is correct — a trace crossing did not cross a Boundary.
+ * - `partnerWheelId` / `partnerHeadId` name the other subject where there is
+ *   one: the Head whose Trace was crossed, or the far side of a Relation.
+ * - `boundaryIndex` keeps its name but generalises to *which countable thing
+ *   was met* — the Boundary's index for a crossing, the other Head's index
+ *   otherwise. It is what degree-based pitch mappings read.
+ */
+export type InterpretableEncounter = Readonly<
+  Omit<BoundaryCrossingEncounter, 'kind' | 'direction'> & {
+    kind: RelationEventKind
+    direction: EncounterDirection
+    partnerWheelId?: string
+    partnerHeadId?: string
+    relationId?: string
+  }
+>
+
+/**
+ * Wheel and Head filters match on either subject.
+ *
+ * An Encounter between two Heads belongs to both of them, so filtering on one
+ * Head selects the Encounters it takes part in, whichever side it is on. For a
+ * Boundary crossing there is no partner and this reduces to a plain match.
+ */
 export const encounterMatchesQuery = (
-  encounter: BoundaryCrossingEncounter,
+  encounter: InterpretableEncounter,
   query: EncounterQuery,
 ) =>
   includesOrAny(query.kinds, encounter.kind) &&
-  includesOrAny(query.wheelIds, encounter.wheelId) &&
-  includesOrAny(query.headIds, encounter.headId) &&
+  (query.wheelIds.length === 0 ||
+    query.wheelIds.includes(encounter.wheelId) ||
+    (encounter.partnerWheelId !== undefined &&
+      query.wheelIds.includes(encounter.partnerWheelId))) &&
+  (query.headIds.length === 0 ||
+    query.headIds.includes(encounter.headId) ||
+    (encounter.partnerHeadId !== undefined &&
+      query.headIds.includes(encounter.partnerHeadId))) &&
   includesOrAny(query.fieldIds, encounter.fieldId) &&
   includesOrAny(query.boundaryIds, encounter.boundaryId) &&
+  // A query naming Relations selects only Encounters that came from one.
+  (query.relationIds === undefined ||
+    query.relationIds.length === 0 ||
+    (encounter.relationId !== undefined &&
+      query.relationIds.includes(encounter.relationId))) &&
   includesOrAny(query.directions, encounter.direction) &&
   encounter.strength >= query.minStrength
 
@@ -84,8 +134,8 @@ export const selectPartRelations = (
 
 export const selectPartEncounters = (
   part: PartSpec,
-  encounters: ReadonlyArray<BoundaryCrossingEncounter>,
-): ReadonlyArray<BoundaryCrossingEncounter> =>
+  encounters: ReadonlyArray<InterpretableEncounter>,
+): ReadonlyArray<InterpretableEncounter> =>
   part.enabled
     ? Object.freeze(
         encounters.filter((encounter) =>
@@ -95,7 +145,7 @@ export const selectPartEncounters = (
     : Object.freeze([])
 
 const relativePoint = (
-  encounter: BoundaryCrossingEncounter,
+  encounter: InterpretableEncounter,
   space: SpaceSpec,
 ): Point2 => ({
   x: encounter.position.x - space.center.x,
@@ -103,7 +153,7 @@ const relativePoint = (
 })
 
 export const encounterSpatialSource = (
-  encounter: BoundaryCrossingEncounter,
+  encounter: InterpretableEncounter,
   source: 'x' | 'y' | 'radius' | 'angle',
   space: SpaceSpec,
 ) => {
@@ -116,12 +166,14 @@ export const encounterSpatialSource = (
 }
 
 export const encounterSpatialUnit = (
-  encounter: BoundaryCrossingEncounter,
+  encounter: InterpretableEncounter,
   source: 'x' | 'y' | 'radius' | 'angle',
   space: SpaceSpec,
 ) => {
   const value = encounterSpatialSource(encounter, source, space)
-  const scale = Math.max(epsilon, space.scale)
+  // The pitch reference, not the view zoom. Falling back to `scale` keeps a
+  // Composition written before the two were separated sounding as it did.
+  const scale = Math.max(epsilon, space.pitchReference ?? space.scale)
 
   if (source === 'angle') return ((value / TAU) % 1 + 1) % 1
   if (source === 'radius') return value / (value + scale)
@@ -130,7 +182,7 @@ export const encounterSpatialUnit = (
 }
 
 export const normalizeEncounterContour = (
-  encounters: ReadonlyArray<BoundaryCrossingEncounter>,
+  encounters: ReadonlyArray<InterpretableEncounter>,
   source: 'x' | 'y' | 'radius' | 'angle',
   space: SpaceSpec,
 ): ReadonlyArray<number> => {
@@ -175,7 +227,7 @@ export type PitchMappingContext = Readonly<{
 }>
 
 export const mapEncounterPitch = (
-  encounter: BoundaryCrossingEncounter,
+  encounter: InterpretableEncounter,
   mapping: NotePartSpec['pitch'],
   space: SpaceSpec,
   contourUnit?: number,
@@ -280,7 +332,7 @@ export const mapEncounterPitch = (
 /** The melodic line a Part's Encounters walk, or undefined if it has none. */
 export const buildPartMelody = (
   part: NotePartSpec,
-  encounters: ReadonlyArray<BoundaryCrossingEncounter>,
+  encounters: ReadonlyArray<InterpretableEncounter>,
   space: SpaceSpec,
 ): ReadonlyArray<number> | undefined => {
   if (part.pitch.kind !== 'melodic-contour') return undefined
