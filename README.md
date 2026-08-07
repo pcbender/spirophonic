@@ -10,6 +10,9 @@ structure.
 
 *Hear the shape. See the sound.*
 
+**New here?** [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) takes you from
+a blank screen to a sound you made on purpose, in about ten minutes.
+
 ## Run the app
 
 ```bash
