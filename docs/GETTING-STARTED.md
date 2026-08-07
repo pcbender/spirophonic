@@ -175,15 +175,13 @@ rails remember what you folded.
 - **Export SVG** — the traces, as vector art.
 - **Copy Strudel** — the pattern as Strudel code.
 
-## What the interface does not reach
+## Working in the format directly
 
-The model is a little larger than the panels. A Part's velocity curve, its
-onset rule, and how hard quantization pulls are all configurable in the
-Composition format and are not offered as controls.
-
-They are reachable by exporting JSON, editing by hand, and importing it back.
-Anything valid will load; the app validates on import and tells you what it
-rejected. The [manual](MANUAL.md) lists everything in this category.
+Everything that changes what you hear has a control, so you never *have* to
+edit JSON. But **Export JSON** gives you the whole Composition in a readable
+form, which is the way to script one, diff two of them, or keep a version you
+can hand to someone else. **Import JSON** reads it back, validates it, and tells
+you what it rejected rather than partly applying it.
 
 ## Where to go next
 

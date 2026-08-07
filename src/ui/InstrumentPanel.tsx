@@ -90,6 +90,8 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
                   </select>
                 </label>
                 <NumberField label={`Attack ${instrument.id}`} shortLabel="Attack" hint={help['instrument.attack']} value={instrument.envelope.attackSeconds} min={0} max={10} step={0.01} onChange={(attackSeconds) => update(instrument.id, (current) => current.kind === 'native-synth' ? { ...current, envelope: { ...current.envelope, attackSeconds } } : current)} />
+                <NumberField label={`Decay ${instrument.id}`} shortLabel="Decay" hint={help['instrument.decay']} value={instrument.envelope.decaySeconds} min={0} max={60} step={0.01} onChange={(decaySeconds) => update(instrument.id, (current) => current.kind === 'native-synth' ? { ...current, envelope: { ...current.envelope, decaySeconds } } : current)} />
+                <NumberField label={`Sustain ${instrument.id}`} shortLabel="Sustain" hint={help['instrument.sustain']} value={instrument.envelope.sustain} min={0} max={1} step={0.01} onChange={(sustain) => update(instrument.id, (current) => current.kind === 'native-synth' ? { ...current, envelope: { ...current.envelope, sustain } } : current)} />
                 <NumberField label={`Release ${instrument.id}`} shortLabel="Release" hint={help['instrument.release']} value={instrument.envelope.releaseSeconds} min={0} max={10} step={0.01} onChange={(releaseSeconds) => update(instrument.id, (current) => current.kind === 'native-synth' ? { ...current, envelope: { ...current.envelope, releaseSeconds } } : current)} />
               </>
             )}

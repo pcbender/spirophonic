@@ -200,6 +200,23 @@ export const help = {
   'part.midiNote': 'The single MIDI note every Encounter plays. 60 is middle C.',
   'part.root': 'Lowest MIDI note of the scale that Boundary degrees map onto.',
   'part.scale': 'Which scale the degrees land on. Pentatonic minor is the forgiving default.',
+  'part.relations':
+    'Which Relations this Part fires on. Check none and it hears every Relation of the kinds above.',
+  'part.minStrength':
+    'Ignore Encounters weaker than this. Strength runs 0 to 1 — a glancing crossing is weak, a square-on one is strong — so this thins a busy Part down to its firmest hits.',
+  'part.velocityKind':
+    'Where loudness comes from: the force of each Encounter, or one fixed value for every note.',
+  'part.velocityValue': 'The MIDI velocity every note is played at, 1 to 127.',
+  'part.velocityMin': 'Velocity for the weakest Encounter.',
+  'part.velocityMax': 'Velocity for the strongest Encounter.',
+  'part.velocityGamma':
+    'Bends the curve between the two. 1 is straight; below 1 favours louder, above 1 favours quieter.',
+  'part.durationKind':
+    'What decides note length: a fixed value, the gap until this Part’s next note, or the time the Head spent inside a band.',
+  'part.maxBeats':
+    'Longest a note may run when its length comes from the gap to the next one — it also ends the final note of the loop.',
+  'part.quantizeStrength':
+    'How hard onsets are pulled to the grid. 0 leaves the geometry’s own timing; 1 snaps exactly.',
   'part.duration': 'How long each note lasts, in beats.',
   'part.grid':
     'Quantization grid in beats. Onsets are pulled toward it, so crossings land musically.',
@@ -239,6 +256,8 @@ export const help = {
   'instrument.gain': 'Output level of this Instrument.',
   'instrument.pan': 'Stereo position. -1 is hard left, 1 is hard right.',
   'instrument.attack': 'Seconds to reach full level after a note starts.',
+  'instrument.decay': 'Seconds to fall from full level to the sustain level.',
+  'instrument.sustain': 'Level the note holds at after the decay, as a fraction of full.',
   'instrument.release': 'Seconds to fade to silence after a note ends.',
   'instrument.reverb': 'Reverb send for this SoundFont Instrument.',
   'instrument.chorus': 'Chorus send for this SoundFont Instrument.',

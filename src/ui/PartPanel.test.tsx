@@ -284,3 +284,126 @@ describe('pitch mappings', () => {
     expect(validateComposition(next).ok).toBe(true)
   })
 })
+
+describe('note shaping', () => {
+  const editedPart = (onChange: ReturnType<typeof vi.fn>) => {
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    const part = next.parts[0]
+    return { next, part: part.kind === 'note' ? part : null }
+  }
+
+  it('switches velocity to a constant and back, staying valid', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={base()} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Velocity part/), {
+      target: { value: 'constant' },
+    })
+    const { next, part } = editedPart(onChange)
+    expect(part?.velocity.kind).toBe('constant')
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('edits the strength curve that shapes velocity', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={base()} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Velocity gamma/), {
+      target: { value: '2' },
+    })
+    const { next, part } = editedPart(onChange)
+    expect(
+      part?.velocity.kind === 'encounter-strength' && part.velocity.gamma,
+    ).toBe(2)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it.each(['fixed', 'until-next', 'inside-band'] as const)(
+    'switches duration to %s and stays valid',
+    (kind) => {
+      const onChange = vi.fn()
+      render(<PartPanel composition={base()} onChange={onChange} />)
+
+      fireEvent.change(screen.getByLabelText(/^Duration kind/), {
+        target: { value: kind },
+      })
+      const { next, part } = editedPart(onChange)
+      expect(part?.duration.kind).toBe(kind)
+      expect(validateComposition(next).ok).toBe(true)
+    },
+  )
+
+  it('edits quantize strength, which had no control at all', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={base()} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Grid strength/), {
+      target: { value: '0' },
+    })
+    const { next, part } = editedPart(onChange)
+    expect(part?.quantize?.strength).toBe(0)
+    // Grid spacing must survive an edit to the pull, and vice versa.
+    expect(part?.quantize?.gridBeats).toBe(0.25)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('filters weak Encounters by minimum strength', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={base()} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Minimum strength/), {
+      target: { value: '0.5' },
+    })
+    const { next, part } = editedPart(onChange)
+    expect(part?.encounterQuery.minStrength).toBe(0.5)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('names a specific Relation once a Relation kind is accepted', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.relations = [
+      {
+        id: 'relation-1',
+        name: 'Relation 1',
+        enabled: true,
+        kind: 'conjunction',
+        headIds: [],
+        threshold: 40,
+        hysteresis: 10,
+        minSeparationSeconds: 0.1,
+      },
+    ]
+    const part = composition.parts[0]
+    if (part.kind === 'note') part.encounterQuery.kinds = ['conjunction']
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.click(screen.getByLabelText(`Relation 1 for ${part.id}`))
+    const { next, part: edited } = editedPart(onChange)
+    expect(edited?.encounterQuery.relationIds).toEqual(['relation-1'])
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('hides the Relation filter when no Relation kind is accepted', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.relations = [
+      {
+        id: 'relation-1',
+        name: 'Relation 1',
+        enabled: true,
+        kind: 'conjunction',
+        headIds: [],
+        threshold: 40,
+        hysteresis: 10,
+        minSeparationSeconds: 0.1,
+      },
+    ]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    // The Part accepts boundary crossings only, so naming a Relation would be
+    // offering a filter that cannot apply.
+    const partId = composition.parts[0].id
+    expect(screen.queryByLabelText(`Relation 1 for ${partId}`)).toBeNull()
+  })
+})

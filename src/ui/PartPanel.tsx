@@ -65,6 +65,15 @@ const headsInScope = (composition: Composition, query: EncounterQuery) =>
     )
     .flatMap((wheel) => wheel.heads.map((head) => ({ wheel, head })))
 
+type PartDurationKind = NotePartSpec['duration']['kind']
+
+/** A complete duration of each kind, for when the dropdown switches. */
+const durationFor = (kind: PartDurationKind): NotePartSpec['duration'] => {
+  if (kind === 'until-next') return { kind, maxBeats: 4 }
+  if (kind === 'inside-band') return { kind }
+  return { kind: 'fixed', beats: 0.25 }
+}
+
 const toggled = (list: ReadonlyArray<string>, id: string) =>
   list.includes(id) ? list.filter((value) => value !== id) : [...list, id]
 
@@ -700,6 +709,32 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   ? 'Every Head on those Wheels'
                   : `${part.encounterQuery.headIds.length} Head(s)`}
               </p>
+
+              {relations.length > 0 &&
+                part.encounterQuery.kinds.some((kind) => relationKinds.includes(kind as RelationSpec['kind'])) && (
+                <>
+                  <div className="query-toggles" role="group" aria-label={`Relations ${part.id}`} title={help['part.relations']}>
+                    {relations.map((relation) => (
+                      <label key={relation.id} className="tree-toggle">
+                        <input
+                          type="checkbox"
+                          aria-label={`${relation.name} for ${part.id}`}
+                          checked={(part.encounterQuery.relationIds ?? []).includes(relation.id)}
+                          onChange={() => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, relationIds: toggled(current.encounterQuery.relationIds ?? [], relation.id) } }))}
+                        />
+                        <span>{relation.name}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <p className="panel-context">
+                    {(part.encounterQuery.relationIds ?? []).length === 0
+                      ? 'Every Relation of the kinds above'
+                      : `${(part.encounterQuery.relationIds ?? []).length} named Relation(s)`}
+                  </p>
+                </>
+              )}
+
+              <NumberField label={`Minimum strength ${part.id}`} shortLabel="Min strength" hint={help['part.minStrength']} value={part.encounterQuery.minStrength} min={0} max={1} step={0.05} onChange={(minStrength) => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, minStrength } }))} />
             </fieldset>
 
             <label title={help['part.boundary']}>
@@ -733,8 +768,49 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               composition={composition}
               onPitch={(pitch) => update(part.id, (current) => ({ ...current, pitch }))}
             />
-            <NumberField label={`Duration ${part.id}`} shortLabel="Duration (beats)" hint={help['part.duration']} value={part.duration.kind === 'fixed' ? part.duration.beats : 0.25} min={0.01} step={0.05} onChange={(beats) => update(part.id, (current) => ({ ...current, duration: { kind: 'fixed', beats } }))} />
-            <NumberField label={`Grid ${part.id}`} shortLabel="Grid (beats)" hint={help['part.grid']} value={part.quantize?.gridBeats ?? 0.25} min={0.01} step={0.05} onChange={(gridBeats) => update(part.id, (current) => ({ ...current, quantize: { gridBeats, strength: current.quantize?.strength ?? 0.75 } }))} />
+
+            <label title={help['part.velocityKind']}>
+              <span>Velocity</span>
+              <select
+                aria-label={`Velocity ${part.id}`}
+                value={part.velocity.kind}
+                onChange={(event) => update(part.id, (current) => ({ ...current, velocity: event.currentTarget.value === 'constant' ? { kind: 'constant', value: 96 } : { kind: 'encounter-strength', min: 48, max: 118, gamma: 1 } }))}
+              >
+                <option value="encounter-strength">From Encounter strength</option>
+                <option value="constant">Constant</option>
+              </select>
+            </label>
+            {part.velocity.kind === 'constant' ? (
+              <NumberField label={`Velocity value ${part.id}`} shortLabel="Velocity" hint={help['part.velocityValue']} value={part.velocity.value} min={1} max={127} step={1} onChange={(value) => update(part.id, (current) => ({ ...current, velocity: { kind: 'constant', value } }))} />
+            ) : (
+              <>
+                <NumberField label={`Velocity min ${part.id}`} shortLabel="Vel min" hint={help['part.velocityMin']} value={part.velocity.min} min={1} max={127} step={1} onChange={(min) => update(part.id, (current) => current.velocity.kind === 'encounter-strength' ? { ...current, velocity: { ...current.velocity, min } } : current)} />
+                <NumberField label={`Velocity max ${part.id}`} shortLabel="Vel max" hint={help['part.velocityMax']} value={part.velocity.max} min={1} max={127} step={1} onChange={(max) => update(part.id, (current) => current.velocity.kind === 'encounter-strength' ? { ...current, velocity: { ...current.velocity, max } } : current)} />
+                <NumberField label={`Velocity gamma ${part.id}`} shortLabel="Vel curve" hint={help['part.velocityGamma']} value={part.velocity.gamma} min={0.05} max={10} step={0.05} onChange={(gamma) => update(part.id, (current) => current.velocity.kind === 'encounter-strength' ? { ...current, velocity: { ...current.velocity, gamma } } : current)} />
+              </>
+            )}
+
+            <label title={help['part.durationKind']}>
+              <span>Duration</span>
+              <select
+                aria-label={`Duration kind ${part.id}`}
+                value={part.duration.kind}
+                onChange={(event) => update(part.id, (current) => ({ ...current, duration: durationFor(event.currentTarget.value as PartDurationKind) }))}
+              >
+                <option value="fixed">Fixed</option>
+                <option value="until-next">Until next note</option>
+                <option value="inside-band">Time inside a band</option>
+              </select>
+            </label>
+            {part.duration.kind === 'fixed' && (
+              <NumberField label={`Duration ${part.id}`} shortLabel="Duration (beats)" hint={help['part.duration']} value={part.duration.beats} min={0.01} max={10_000} step={0.05} onChange={(beats) => update(part.id, (current) => ({ ...current, duration: { kind: 'fixed', beats } }))} />
+            )}
+            {part.duration.kind === 'until-next' && (
+              <NumberField label={`Max duration ${part.id}`} shortLabel="Max (beats)" hint={help['part.maxBeats']} value={part.duration.maxBeats} min={0.01} max={10_000} step={0.25} onChange={(maxBeats) => update(part.id, (current) => ({ ...current, duration: { kind: 'until-next', maxBeats } }))} />
+            )}
+
+            <NumberField label={`Grid ${part.id}`} shortLabel="Grid (beats)" hint={help['part.grid']} value={part.quantize?.gridBeats ?? 0.25} min={0.01} max={10_000} step={0.05} onChange={(gridBeats) => update(part.id, (current) => ({ ...current, quantize: { gridBeats, strength: current.quantize?.strength ?? 0.75 } }))} />
+            <NumberField label={`Grid strength ${part.id}`} shortLabel="Grid pull" hint={help['part.quantizeStrength']} value={part.quantize?.strength ?? 0.75} min={0} max={1} step={0.05} onChange={(strength) => update(part.id, (current) => ({ ...current, quantize: { gridBeats: current.quantize?.gridBeats ?? 0.25, strength } }))} />
           </li>
         ))}
       </ol>

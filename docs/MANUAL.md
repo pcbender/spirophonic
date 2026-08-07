@@ -285,10 +285,16 @@ Turns Encounters into notes.
 | **Listens to → Heads** | Which Heads, among those on the Wheels above. Check none and it hears all of them. Only Heads on listened-to Wheels are offered, because a Head on any other Wheel could never match. |
 | **Boundary** | `All boundaries`, or one specific Boundary. |
 | **Direction** | `Any direction`, or one of inward, outward, clockwise, counterclockwise, approaching, receding. |
+| **Listens to → Relations** | Which named Relations it fires on, shown once a Relation kind is accepted. Check none and it hears every Relation of those kinds. |
+| **Min strength** | Ignore Encounters weaker than this, 0 to 1. A glancing crossing is weak, a square-on one strong, so this thins a Part to its firmest hits. |
 | **Instrument** | Which Instrument renders this Part's notes. |
 | **Pitch mapping** | How an Encounter chooses a pitch. All eight are listed below; the parameters beneath the dropdown change with the choice. |
-| **Duration (beats)** | Note length. |
-| **Grid (beats)** | Quantization grid. Onsets are pulled toward it. |
+| **Velocity** | Loudness from each Encounter's strength, or one constant value. |
+| **Vel min**, **Vel max**, **Vel curve** | Under Encounter strength: the velocity range, and the gamma bending the curve between them. 1 is straight, below 1 favours louder, above 1 quieter. |
+| **Duration** | `Fixed` a set length, `Until next note` the gap to this Part's next note, or `Time inside a band` — a Head entering a band starts the note and leaving it ends the note, so length comes from the geometry. |
+| **Duration (beats)** / **Max (beats)** | The length, or the cap on one derived from the gap. |
+| **Grid (beats)** | Quantization grid. |
+| **Grid pull** | How hard onsets are pulled to it. 0 keeps the geometry's own timing; 1 snaps exactly. |
 
 A new Part starts at **Fixed MIDI note 60**, so your first sound is a rhythm on
 one repeated pitch. Switch to **Boundary degree** to let which Boundary was
@@ -393,7 +399,7 @@ Common to all kinds: **Name**, **Gain**, **Pan**.
 
 | Kind | Controls |
 |---|---|
-| **native-synth** | **Waveform** — sine, triangle, square, sawtooth — plus **Attack** and **Release**. The format also carries decay and sustain; the panel does not expose them. |
+| **native-synth** | **Waveform** — sine, triangle, square, sawtooth — and the full envelope: **Attack**, **Decay**, **Sustain**, **Release**. |
 | **native-drum** | **Voice** — kick, snare, hat, tom, clap, cymbal. |
 | **soundfont** | **Reverb** and **Chorus** sends. Bank, program, preset name, and the percussion flag come from the Sound banks panel when you assign a preset. |
 
@@ -495,23 +501,20 @@ These are structural and cannot be turned off.
 
 ## What the interface does not reach
 
-The Composition format is larger than the panels. Everything below is valid,
-supported, and reachable only by **Export JSON**, editing, and **Import JSON**.
-Imports are validated, so a malformed edit is refused with reasons.
+Nothing that changes what you hear. Every field the Composition format defines
+for geometry, selection, interpretation, and rendering now has a control.
 
-**Velocity, onset, and quantize strength.** Parts are created with velocity
-derived from Encounter strength (48–118), onset at encounter time, and
-quantize strength 0.75. The panel exposes none of these.
+Two things remain out of view, and neither is a choice:
 
-**Naming a specific Relation.** A note Part accepting a Relation kind fires on
-every Relation of that kind. `encounterQuery.relationIds` narrows it to named
-ones; the panel filters by kind, not by instance.
+- **`onset`** has exactly one kind, `encounter-time`. A crossing happens when it
+  happens; there is no alternative to pick, so there is no control.
+- **`id` fields** are generated and kept stable so that Parts, Instruments, and
+  sound banks can refer to one another across an export.
 
-**Minimum strength.** `encounterQuery.minStrength` filters weak Encounters. Not
-exposed.
-
-**Envelope decay and sustain.** `native-synth` instruments carry a four-stage
-envelope; the panel offers Attack and Release.
+Everything else is editable in the panels. If you still want to work in the
+format directly — to script a Composition, or to diff two of them — **Export
+JSON**, edit, and **Import JSON**. Imports are validated and a malformed edit is
+refused with reasons rather than partly applied.
 
 ---
 
