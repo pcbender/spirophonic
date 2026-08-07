@@ -59,6 +59,49 @@ h1 {
   min-width: 0;
 }
 
+/* Starting over and loading the example sit apart from the file actions: they
+   replace the workspace rather than move it in or out of a file. */
+.topbar-workspace {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.topbar-workspace button {
+  min-height: 32px;
+  border: 1px solid rgba(246, 244, 239, 0.22);
+  border-radius: 6px;
+  padding: 0 12px;
+  color: #f6f4ef;
+  background: #18181f;
+  cursor: pointer;
+}
+
+.topbar-workspace button:hover {
+  border-color: rgba(66, 202, 253, 0.8);
+}
+
+.replace-warning {
+  color: #f2c14e;
+  font-size: 0.84rem;
+}
+
+.restore-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #a9a297;
+  font-size: 0.8rem;
+}
+
+.restore-notice button {
+  min-height: 26px;
+  padding: 0 8px;
+  font-size: 0.78rem;
+}
+
 /*
  * Controls on the left, the trace in the middle, the composition on the right.
  * The rails are sized in their own right so nothing inside them has to overflow

@@ -48,8 +48,11 @@ const canvasInk = (page: Page) =>
     return lit
   })
 
+// Loading the example replaces the workspace, so it is confirmed rather than
+// applied on the first click.
 const loadReference = async (page: Page) => {
-  await page.getByRole('button', { name: 'Load reference' }).click()
+  await page.getByRole('button', { name: 'Load example' }).click()
+  await page.getByRole('button', { name: 'Discard and load example' }).click()
   await expect(page.getByText('Wheel 4')).toBeVisible()
 }
 
@@ -339,8 +342,7 @@ test('an edited Composition survives a reload', async ({ browser }) => {
   fresh.on('pageerror', (error) => errors.push(error.message))
 
   await fresh.goto('/')
-  await fresh.getByRole('button', { name: 'Load reference' }).click()
-  await expect(fresh.getByText('Wheel 4')).toBeVisible()
+  await loadReference(fresh)
 
   const tempo = fresh.getByLabel(/^Tempo/)
   await tempo.fill('96')

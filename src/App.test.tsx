@@ -270,7 +270,10 @@ describe('MG-12 concurrent multi-Wheel authoring', () => {
   it('loads the reference Composition and plays it through four Instruments', () => {
     render(<App />)
 
-    fireEvent.click(screen.getByRole('button', { name: 'Load reference' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Load example' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Discard and load example' }),
+    )
 
     // Four Wheels, three Heads each, are all present in the tree.
     for (let wheelIndex = 1; wheelIndex <= 4; wheelIndex += 1) {
@@ -306,7 +309,10 @@ describe('MG-12 concurrent multi-Wheel authoring', () => {
   it('survives a cascading Wheel removal without leaving the panels dangling', () => {
     render(<App />)
 
-    fireEvent.click(screen.getByRole('button', { name: 'Load reference' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Load example' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Discard and load example' }),
+    )
     fireEvent.click(screen.getByRole('button', { name: 'Wheel 3' }))
     fireEvent.click(screen.getByRole('button', { name: 'Remove Wheel 3' }))
     fireEvent.click(screen.getByRole('button', { name: 'Remove anyway' }))
@@ -324,7 +330,10 @@ describe('MG-12 concurrent multi-Wheel authoring', () => {
 
   it('silences a soloed mix without losing the muted Parts configuration', () => {
     render(<App />)
-    fireEvent.click(screen.getByRole('button', { name: 'Load reference' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Load example' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Discard and load example' }),
+    )
 
     const before = parseCompositionJson(
       localStorage.getItem('spirophonic.composition.v1') ?? '',
@@ -471,5 +480,90 @@ describe('MG-21 accessibility and error recovery', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
+  })
+})
+
+describe('starting over', () => {
+  it('replaces the workspace with a clean slate only after confirmation', () => {
+    render(<App />)
+
+    fireEvent.change(screen.getByLabelText('Composition name'), {
+      target: { value: 'Work in progress' },
+    })
+
+    fireEvent.click(screen.getByRole('button', { name: 'New' }))
+    // The first click asks; it does not discard.
+    expect(
+      (screen.getByLabelText('Composition name') as HTMLInputElement).value,
+    ).toBe('Work in progress')
+    expect(screen.getByRole('alert')).toHaveTextContent('Work in progress')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    expect(
+      (screen.getByLabelText('Composition name') as HTMLInputElement).value,
+    ).toBe('Work in progress')
+
+    fireEvent.click(screen.getByRole('button', { name: 'New' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Discard and start new' }),
+    )
+
+    expect(
+      (screen.getByLabelText('Composition name') as HTMLInputElement).value,
+    ).toBe('Untitled')
+  })
+
+  it('starts blank with no Fields and no Parts, and says so', () => {
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: 'New' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Discard and start new' }),
+    )
+
+    // A blank Composition is the emptiest one the model allows: the Wheel,
+    // Head, and Instrument cannot be removed, so they are what remains.
+    const saved = localStorage.getItem('spirophonic.composition.v1') ?? ''
+    const parsed = parseCompositionJson(saved)
+    expect(parsed.ok).toBe(true)
+    if (!parsed.ok) return
+    expect(parsed.composition.fields).toHaveLength(0)
+    expect(parsed.composition.parts).toHaveLength(0)
+    expect(parsed.composition.wheels).toHaveLength(1)
+    expect(parsed.composition.instruments).toHaveLength(1)
+  })
+
+  it('says why a blank Composition is silent, in the model’s own terms', () => {
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: 'New' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Discard and start new' }),
+    )
+
+    // Silence here is structural, not a fault: it compiles clean and plays
+    // nothing, so the panel names the missing link rather than reporting health.
+    const panel = screen.getByLabelText('Compile diagnostics')
+    expect(panel).toHaveTextContent(/No Fields/)
+    expect(panel).not.toHaveTextContent('No compile diagnostics.')
+  })
+
+  it('tells a returning user their session was restored, once', () => {
+    const { unmount } = render(<App />)
+    fireEvent.change(screen.getByLabelText('Composition name'), {
+      target: { value: 'Yesterday' },
+    })
+    // A fresh first visit has nothing to restore and says nothing.
+    expect(screen.queryByText(/Restored your last session/)).toBeNull()
+    unmount()
+
+    render(<App />)
+    expect(screen.getByText(/Restored your last session/)).toBeInTheDocument()
+    expect(
+      (screen.getByLabelText('Composition name') as HTMLInputElement).value,
+    ).toBe('Yesterday')
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Dismiss restore notice' }),
+    )
+    expect(screen.queryByText(/Restored your last session/)).toBeNull()
   })
 })
