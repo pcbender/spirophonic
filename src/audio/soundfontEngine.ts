@@ -86,6 +86,13 @@ export type SoundFontSynthesizer = {
     options?: { time?: number },
   ) => void
   stopAll: (force?: boolean) => void
+  /**
+   * Required, not optional. A synthesizer that is never connected renders into
+   * nothing and is silent in a way no unit test with a stub can notice, so the
+   * type forces every double to model the connection too.
+   */
+  connect: (destination: AudioNode) => unknown
+  disconnect: (destination?: AudioNode) => unknown
   destroy: () => void
 }
 
@@ -136,6 +143,15 @@ export const splitSoundFontBankNumber = (bank: number) => ({
   bankMSB: Math.floor(bank / 128),
   bankLSB: bank % 128,
 })
+
+/**
+ * Unwires a synthesizer before discarding it. Destroying a still-connected
+ * node leaves the graph holding a reference to a dead worklet.
+ */
+const retireSynthesizer = (synthesizer: SoundFontSynthesizer) => {
+  synthesizer.disconnect()
+  synthesizer.destroy()
+}
 
 const asPreset = (preset: SoundFontPreset): SoundFontPreset =>
   Object.freeze({
@@ -359,7 +375,7 @@ export class SoundFontEngine implements InstrumentEngine {
   invalidateBank(soundBankId: string) {
     const loaded = this.banks.get(soundBankId)
     loaded?.synthesizer.stopAll(true)
-    loaded?.synthesizer.destroy()
+    if (loaded) retireSynthesizer(loaded.synthesizer)
     this.banks.delete(soundBankId)
     this.bankLoads.delete(soundBankId)
     this.bankStatuses.delete(soundBankId)
@@ -502,7 +518,7 @@ export class SoundFontEngine implements InstrumentEngine {
     this.disposed = true
     for (const bank of this.banks.values()) {
       bank.synthesizer.stopAll(true)
-      bank.synthesizer.destroy()
+      retireSynthesizer(bank.synthesizer)
     }
     this.banks.clear()
     this.bankLoads.clear()
@@ -608,8 +624,13 @@ export class SoundFontEngine implements InstrumentEngine {
     }
 
     await this.ensureWorklet()
-    const synthesizer = await this.synthesizerFactory(this.ensureContext())
+    const context = this.ensureContext()
+    const synthesizer = await this.synthesizerFactory(context)
     try {
+      // SpessaSynth's worklet node produces nothing audible until it is wired
+      // to a destination, and it does not connect itself. Live playback and
+      // offline render both reach here, so both are covered by this one line.
+      synthesizer.connect(context.destination)
       await withTimeout(
         synthesizer.isReady.then(() => undefined),
         this.loadTimeoutMilliseconds,
@@ -643,7 +664,7 @@ export class SoundFontEngine implements InstrumentEngine {
       }
       return { digest: reference.digest, synthesizer, presets }
     } catch (error) {
-      synthesizer.destroy()
+      retireSynthesizer(synthesizer)
       throw error
     }
   }
