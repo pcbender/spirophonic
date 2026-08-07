@@ -97,6 +97,15 @@ Name and time. Everything here affects the whole Composition.
 | **Beats per bar** / **Beat unit** | The meter. Affects quantization grids and MIDI export. |
 | **Loop start (beats)** | Where the window begins. |
 | **Loop length (beats)** | How long the window is. |
+| **View zoom** | How large the geometry is drawn. 1 fits it to the canvas, 2 draws it twice as big. Affects the picture only. |
+| **Pitch reference** | The size Spatial pitch measures positions against, in world units. Affects the notes only. |
+
+**View zoom and Pitch reference were one field.** `space.scale` both zoomed the
+canvas and calibrated Spatial pitch, so setting a reference that spread pitch
+across a scale also zoomed the drawing away. They are now `scale` and
+`pitchReference`, and each does one job. A Composition saved before the split
+has no `pitchReference` and falls back to `scale`, so it sounds exactly as it
+did.
 
 **Loop length is the most consequential control in the app.** The compiler only
 produces Encounters inside the window, so the window decides how much of a
@@ -301,16 +310,12 @@ crossed choose the note.
 **Scales** are chromatic, major, minor, dorian, pentatonic-major, and
 pentatonic-minor.
 
-> **Spatial is calibrated by Space scale, which is also the view zoom.**
-> `space.scale` normalises positions for Spatial pitch *and* multiplies
-> `pixelsPerUnit` in the renderer. It is 1 in every Composition the app can
-> make, and at 1 a radius of 90 and a radius of 180 normalise to nearly the
-> same value and pick the same note — so Spatial with a `radius` or `x` source
-> is flatter than you would expect. `angle` is unaffected, being modular, and
-> **Contour** sidesteps the problem entirely by normalising against the
-> Encounters actually present. Raising `space.scale` by hand in JSON sharpens
-> Spatial pitch and zooms the canvas at the same time; the two cannot currently
-> be set independently.
+**Spatial is calibrated by Pitch reference**, in the Composition panel. Set it
+near the size of your geometry — the shipped Compositions use 180, the radius
+their Wheels sweep. Far below it, every position normalises to nearly the same
+value and picks the same note, which reads as a broken mapping. `angle` is
+unaffected, being modular, and **Contour** sidesteps the question entirely by
+normalising against the Encounters actually present.
 
 A new Part listens to **every** Wheel and Head. Narrow it with the *Listens to*
 checkboxes — several Wheels at once is normal, and is what the shipped example
@@ -493,11 +498,6 @@ These are structural and cannot be turned off.
 The Composition format is larger than the panels. Everything below is valid,
 supported, and reachable only by **Export JSON**, editing, and **Import JSON**.
 Imports are validated, so a malformed edit is refused with reasons.
-
-**Space scale.** `space.scale` calibrates Spatial pitch and multiplies the
-renderer's `pixelsPerUnit`. One field, two unrelated jobs, so it is not offered
-as a control — raising it to sharpen Spatial pitch would zoom the canvas by the
-same factor. Editable in JSON, with that caveat.
 
 **Velocity, onset, and quantize strength.** Parts are created with velocity
 derived from Encounter strength (48–118), onset at encounter time, and

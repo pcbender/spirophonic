@@ -33,6 +33,11 @@ export const help = {
   'composition.loopLength':
     'How long the loop window is. Only Encounters inside the window are heard, so this decides how much of a curve you ever hear — lengthen it if an edit seems to do nothing.',
 
+  'composition.viewZoom':
+    'How large the geometry is drawn. 1 fits it to the canvas; 2 draws it twice as big. Affects the picture only — never the notes.',
+  'composition.pitchReference':
+    'The size Spatial pitch measures positions against, in world units. Set it near the size of your geometry: far below it every Encounter normalises to the same value and picks the same note. Affects the notes only — never the picture.',
+
   // Composition tree
   'tree.addWheel': 'Add a Wheel, carrying one Head, and select it.',
   'tree.wheelEnabled':

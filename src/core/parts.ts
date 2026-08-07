@@ -171,7 +171,9 @@ export const encounterSpatialUnit = (
   space: SpaceSpec,
 ) => {
   const value = encounterSpatialSource(encounter, source, space)
-  const scale = Math.max(epsilon, space.scale)
+  // The pitch reference, not the view zoom. Falling back to `scale` keeps a
+  // Composition written before the two were separated sounding as it did.
+  const scale = Math.max(epsilon, space.pitchReference ?? space.scale)
 
   if (source === 'angle') return ((value / TAU) % 1 + 1) % 1
   if (source === 'radius') return value / (value + scale)

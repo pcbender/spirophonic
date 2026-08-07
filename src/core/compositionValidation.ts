@@ -354,9 +354,17 @@ const validateSpace = (
 
   if (!space) return
 
-  context.knownKeys(space, path, ['center', 'scale'])
+  context.knownKeys(space, path, ['center', 'scale', 'pitchReference'])
   validatePoint(context, space.center, `${path}.center`)
   context.number(space, 'scale', `${path}.scale`, { greaterThan: 0, max: 1_000 })
+  if (space.pitchReference !== undefined) {
+    // World units rather than a multiplier, so its ceiling is the geometry's,
+    // not the zoom's.
+    context.number(space, 'pitchReference', `${path}.pitchReference`, {
+      greaterThan: 0,
+      max: 100_000,
+    })
+  }
 }
 
 const validateTransport = (

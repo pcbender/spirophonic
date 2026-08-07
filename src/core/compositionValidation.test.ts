@@ -390,3 +390,30 @@ describe('Composition validation', () => {
     expect(isComposition({ version: '1.0' })).toBe(false)
   })
 })
+
+describe('space pitch reference', () => {
+  const withSpace = (space: unknown) => {
+    const composition = structuredClone(defaultComposition) as Record<string, unknown>
+    composition.space = space
+    return validateComposition(composition)
+  }
+
+  it('accepts a Composition without one, so older files still load', () => {
+    expect(withSpace({ center: { x: 0, y: 0 }, scale: 1 }).ok).toBe(true)
+  })
+
+  it('accepts a reference sized to real geometry', () => {
+    expect(
+      withSpace({ center: { x: 0, y: 0 }, scale: 1, pitchReference: 180 }).ok,
+    ).toBe(true)
+  })
+
+  it('rejects a reference that is not a positive size', () => {
+    expect(
+      withSpace({ center: { x: 0, y: 0 }, scale: 1, pitchReference: 0 }).ok,
+    ).toBe(false)
+    expect(
+      withSpace({ center: { x: 0, y: 0 }, scale: 1, pitchReference: -5 }).ok,
+    ).toBe(false)
+  })
+})

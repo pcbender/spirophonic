@@ -418,3 +418,55 @@ describe('a Part hears the Encounter kinds it accepts', () => {
     }
   })
 })
+describe('view zoom and pitch reference are independent', () => {
+  const spatialComposition = (space: Composition['space']): Composition => {
+    const composition = structuredClone(defaultComposition) as Composition
+    composition.space = space
+    const base = composition.parts[0] as NotePartSpec
+    composition.parts = [
+      {
+        ...base,
+        pitch: {
+          kind: 'spatial',
+          source: 'radius',
+          root: 48,
+          scale: 'major',
+          octaves: 3,
+        },
+      },
+    ]
+    return composition
+  }
+
+  const pitches = (space: Composition['space']) =>
+    compilePerformance(spatialComposition(space), request).performedEvents.map(
+      (event) => event.midiNote,
+    )
+
+  it('spreads Spatial pitch when the reference matches the geometry', () => {
+    // A reference far below the geometry saturates: every radius normalises to
+    // nearly 1 and lands on the same degree.
+    const tooSmall = new Set(pitches({ center: { x: 0, y: 0 }, scale: 1, pitchReference: 1 }))
+    const matched = new Set(pitches({ center: { x: 0, y: 0 }, scale: 1, pitchReference: 180 }))
+
+    expect(tooSmall.size).toBe(1)
+    expect(matched.size).toBeGreaterThan(1)
+  })
+
+  it('leaves pitch untouched when only the view zoom changes', () => {
+    const atOne = pitches({ center: { x: 0, y: 0 }, scale: 1, pitchReference: 180 })
+    const zoomedIn = pitches({ center: { x: 0, y: 0 }, scale: 4, pitchReference: 180 })
+
+    // This is the whole point of the split: zoom is a drawing concern.
+    expect(zoomedIn).toEqual(atOne)
+  })
+
+  it('falls back to scale when a Composition predates the split', () => {
+    // Written before `pitchReference` existed, so it must sound exactly as it
+    // did when one field served both purposes.
+    const legacy = pitches({ center: { x: 0, y: 0 }, scale: 7 })
+    const explicit = pitches({ center: { x: 0, y: 0 }, scale: 7, pitchReference: 7 })
+
+    expect(legacy).toEqual(explicit)
+  })
+})

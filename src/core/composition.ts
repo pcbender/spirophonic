@@ -9,7 +9,25 @@ export type Point2 = {
 
 export type SpaceSpec = {
   center: Point2
+  /**
+   * View zoom. Multiplies the renderer's fit, so 1 fits the geometry to the
+   * viewport and 2 draws it twice as large. Affects only what is drawn.
+   */
   scale: number
+  /**
+   * The size Spatial pitch measures positions against, in world units.
+   *
+   * Separate from `scale` because the two answer different questions — how
+   * large to draw, and how far across the geometry a position sits — and one
+   * number could not serve both: raising it to spread pitch across a scale
+   * also zoomed the canvas by the same factor.
+   *
+   * Set it near the size of your geometry. Far below it every position
+   * normalises to nearly 1 and picks the same note; far above it, nearly 0.
+   * Absent, it falls back to `scale`, so a Composition written before the two
+   * were separated sounds exactly as it did.
+   */
+  pitchReference?: number
 }
 
 export type MeterSpec = {

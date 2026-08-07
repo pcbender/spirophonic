@@ -99,6 +99,39 @@ export function ControlPanel({ composition, onChange }: ControlPanelProps) {
           })
         }
       />
+
+      <h2>Space</h2>
+      <NumberField
+        label="View zoom"
+        hint={help['composition.viewZoom']}
+        value={composition.space.scale}
+        min={0.1}
+        max={10}
+        step={0.1}
+        onChange={(scale) =>
+          onChange({
+            ...composition,
+            space: { ...composition.space, scale: Math.max(0.1, scale) },
+          })
+        }
+      />
+      <NumberField
+        label="Pitch reference"
+        hint={help['composition.pitchReference']}
+        value={composition.space.pitchReference ?? composition.space.scale}
+        min={1}
+        max={100_000}
+        step={10}
+        onChange={(pitchReference) =>
+          onChange({
+            ...composition,
+            space: {
+              ...composition.space,
+              pitchReference: Math.max(1, pitchReference),
+            },
+          })
+        }
+      />
     </RailPanel>
   )
 }

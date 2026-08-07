@@ -34,6 +34,9 @@ export const defaultComposition = {
   space: {
     center: { x: 0, y: 0 },
     scale: 1,
+    // The Wheels here sweep a radius of about 180, so that is the size a
+    // position is measured against for Spatial pitch.
+    pitchReference: 180,
   },
   transport: {
     tempoBpm: 120,
@@ -209,6 +212,9 @@ export const blankComposition = {
   space: {
     center: { x: 0, y: 0 },
     scale: 1,
+    // The Wheels here sweep a radius of about 180, so that is the size a
+    // position is measured against for Spatial pitch.
+    pitchReference: 180,
   },
   transport: {
     tempoBpm: 120,
@@ -340,7 +346,7 @@ export const referenceComposition = {
   version: compositionVersion,
   id: 'reference-concurrent-wheels',
   name: 'Concurrent Wheels Reference',
-  space: { center: { x: 0, y: 0 }, scale: 1 },
+  space: { center: { x: 0, y: 0 }, scale: 1, pitchReference: 180 },
   transport: {
     tempoBpm: 110,
     meter: { beatsPerBar: 4, beatUnit: 4 },
