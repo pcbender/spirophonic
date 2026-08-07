@@ -11,6 +11,11 @@ the vocabulary — what an Encounter *is*, what guarantees a Trace makes — see
 [Spirophonic-Domain-Model.md](Spirophonic-Domain-Model.md). Where the two
 disagree, the domain model is correct and this page is stale.
 
+Every control in the app also carries hover help — the short form of what is
+written here. Those sentences live in `src/ui/help.ts`, and a test fails if a
+control ships without one. **When you change an explanation here, change it
+there too**; they are two lengths of the same sentence.
+
 ## Contents
 
 - [The chain](#the-chain)

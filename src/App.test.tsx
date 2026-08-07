@@ -580,3 +580,64 @@ describe('starting over', () => {
     expect(screen.queryByText(/Restored your last session/)).toBeNull()
   })
 })
+
+describe('hover help', () => {
+  /**
+   * Every control explains itself, and stays explained.
+   *
+   * The help text is derived from `docs/MANUAL.md` and lives in `ui/help.ts`.
+   * Without a check, a control added later simply arrives bare and nobody
+   * notices until a user hovers it and gets nothing. Help on an ancestor counts:
+   * a group of checkboxes is often best described once, on the group.
+   */
+  const describedControls = (root: HTMLElement) => {
+    const bare: Array<string> = []
+    let total = 0
+    for (const element of root.querySelectorAll(
+      'button, input:not([type="file"]), select, textarea',
+    )) {
+      // A disclosure summary is its own label; it needs no separate help.
+      if (element.closest('summary')) continue
+      total += 1
+      let described = false
+      for (
+        let node: Element | null = element;
+        node && node !== root;
+        node = node.parentElement
+      ) {
+        if (node.getAttribute('title')) {
+          described = true
+          break
+        }
+      }
+      if (!described) {
+        bare.push(
+          element.getAttribute('aria-label') ??
+            element.closest('label')?.querySelector('span')?.textContent ??
+            element.textContent ??
+            element.outerHTML.slice(0, 60),
+        )
+      }
+    }
+    return { total, bare }
+  }
+
+  it('gives every control hover help', () => {
+    const { container } = render(<App />)
+    const { total, bare } = describedControls(container)
+
+    expect(total).toBeGreaterThan(40)
+    expect(bare).toEqual([])
+  })
+
+  it('still covers every control once the example is loaded', () => {
+    const { container } = render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: 'Load example' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Discard and load example' }),
+    )
+
+    const { bare } = describedControls(container)
+    expect(bare).toEqual([])
+  })
+})

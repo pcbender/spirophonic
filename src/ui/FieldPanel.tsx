@@ -17,6 +17,7 @@ import {
   updateBoundary,
   updateField,
 } from '../core/fields'
+import { help } from './help'
 import { RailPanel } from './RailPanel'
 
 export type FieldPanelProps = {
@@ -187,22 +188,22 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
       className="field-panel"
       actions={
         <div className="panel-actions">
-          <button type="button" onClick={() => createField('rings')}>
+          <button type="button" title={help['field.add']} onClick={() => createField('rings')}>
             Add rings
           </button>
-          <button type="button" onClick={() => createField('spokes')}>
+          <button type="button" title={help['field.add']} onClick={() => createField('spokes')}>
             Add spokes
           </button>
-          <button type="button" onClick={() => createField('ellipses')}>
+          <button type="button" title={help['field.add']} onClick={() => createField('ellipses')}>
             Add ellipses
           </button>
-          <button type="button" onClick={() => createField('bands')}>
+          <button type="button" title={help['field.add']} onClick={() => createField('bands')}>
             Add bands
           </button>
-          <button type="button" onClick={() => createField('grid')}>
+          <button type="button" title={help['field.add']} onClick={() => createField('grid')}>
             Add grid
           </button>
-          <button type="button" onClick={() => createField('spiral')}>
+          <button type="button" title={help['field.add']} onClick={() => createField('spiral')}>
             Add spiral
           </button>
         </div>
@@ -217,7 +218,8 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
               <div className="voice-head">
                 <label className="voice-enable">
                   <input
-                    aria-label={`Enable ${field.id}`}
+                  title={help['field.enabled']}
+                  aria-label={`Enable ${field.id}`}
                     type="checkbox"
                     checked={field.enabled}
                     onChange={(event) =>
@@ -235,6 +237,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
               <label>
                 <span>Name</span>
                 <input
+                  title={help['field.name']}
                   aria-label={`Name ${field.id}`}
                   value={field.name}
                   onChange={(event) =>
@@ -247,13 +250,13 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
               </label>
 
               <NumberField
-                label="Center X"
+                label="Center X" hint={help['field.centerX']}
                 ariaLabel={`Center X ${field.id}`}
                 value={field.center.x}
                 onChange={(x) => patchCenter(field, { x })}
               />
               <NumberField
-                label="Center Y"
+                label="Center Y" hint={help['field.centerY']}
                 ariaLabel={`Center Y ${field.id}`}
                 value={field.center.y}
                 onChange={(y) => patchCenter(field, { y })}
@@ -261,7 +264,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
 
               {field.kind !== 'rings' && field.kind !== 'bands' && (
                 <NumberField
-                  label="Rotation (rad)"
+                  label="Rotation (rad)" hint={help['field.rotation']}
                   ariaLabel={`Rotation ${field.id}`}
                   value={field.rotation ?? 0}
                   step={0.01}
@@ -273,7 +276,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                 />
               )}
 
-              <label className="field">
+              <label className="field" title={help['field.motion']}>
                 <span>Motion</span>
                 <select
                   aria-label={`Motion ${field.id}`}
@@ -301,7 +304,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
 
               {field.motion?.kind === 'rotating' && (
                 <NumberField
-                  label="Turns per second"
+                  label="Turns per second" hint={help['field.turnsPerSecond']}
                   ariaLabel={`Turns per second ${field.id}`}
                   value={field.motion.turnsPerSecond}
                   step={0.05}
@@ -319,7 +322,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
               {field.motion?.kind === 'transport-rotating' && (
                 <>
                   <NumberField
-                    label="Turn cycles"
+                    label="Turn cycles" hint={help['field.turnCycles']}
                     ariaLabel={`Turn cycles ${field.id}`}
                     value={field.motion.rate.cycles}
                     min={0.01}
@@ -339,7 +342,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                     }
                   />
                   <NumberField
-                    label="Turn beats"
+                    label="Turn beats" hint={help['field.turnBeats']}
                     ariaLabel={`Turn beats ${field.id}`}
                     value={field.motion.rate.beats}
                     min={0.01}
@@ -363,7 +366,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
 
               {field.motion?.kind === 'wheel-attached' && (
                 <>
-                  <label className="field">
+                  <label className="field" title={help['field.attachedWheel']}>
                     <span>Attached Wheel</span>
                     <select
                       aria-label={`Attached Wheel ${field.id}`}
@@ -389,7 +392,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                       ))}
                     </select>
                   </label>
-                  <label className="field">
+                  <label className="field" title={help['field.followRotation']}>
                     <span>Follow rotation</span>
                     <input
                       type="checkbox"
@@ -416,6 +419,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
               <div className="panel-actions">
                 <button
                   type="button"
+                  title={help['field.moveField']}
                   aria-label={`Move ${field.id} up`}
                   disabled={fieldIndex === 0}
                   onClick={() =>
@@ -428,6 +432,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                 </button>
                 <button
                   type="button"
+                  title={help['field.moveField']}
                   aria-label={`Move ${field.id} down`}
                   disabled={fieldIndex === composition.fields.length - 1}
                   onClick={() =>
@@ -440,6 +445,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                 </button>
                 <button
                   type="button"
+                  title={help['field.removeField']}
                   aria-label={`Remove ${field.id}`}
                   onClick={() =>
                     commitFields(removeField(composition.fields, field.id))
@@ -449,6 +455,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                 </button>
                 <button
                   type="button"
+                  title={help['field.addBoundary']}
                   aria-label={`Add boundary ${field.id}`}
                   onClick={() => createBoundary(field)}
                 >
@@ -462,7 +469,8 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                     <div className="voice-head">
                       <label className="voice-enable">
                         <input
-                          aria-label={`Enable ${boundary.id}`}
+                  title={help['boundary.enabled']}
+                  aria-label={`Enable ${boundary.id}`}
                           type="checkbox"
                           checked={boundary.enabled}
                           onChange={(event) =>
@@ -487,7 +495,8 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                     <label>
                       <span>Name</span>
                       <input
-                        aria-label={`Name ${boundary.id}`}
+                  title={help['boundary.name']}
+                  aria-label={`Name ${boundary.id}`}
                         value={boundary.name}
                         onChange={(event) =>
                           commitFields(
@@ -523,7 +532,8 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                     <div className="panel-actions">
                       <button
                         type="button"
-                        aria-label={`Move ${boundary.id} up`}
+                  title={help['boundary.move']}
+                  aria-label={`Move ${boundary.id} up`}
                         disabled={boundaryIndex === 0}
                         onClick={() =>
                           commitFields(
@@ -540,7 +550,8 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                       </button>
                       <button
                         type="button"
-                        aria-label={`Move ${boundary.id} down`}
+                  title={help['boundary.move']}
+                  aria-label={`Move ${boundary.id} down`}
                         disabled={boundaryIndex === field.boundaries.length - 1}
                         onClick={() =>
                           commitFields(
@@ -568,7 +579,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                             ),
                           )
                         }
-                      >
+                       title={help['boundary.remove']}>
                         Remove Boundary
                       </button>
                     </div>
@@ -601,7 +612,7 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
     return (
       <>
         <NumberField
-          label="Radius"
+          label="Radius" hint={help['boundary.radius']}
           ariaLabel={`Radius ${boundary.id}`}
           value={boundary.radius}
           min={0.001}
@@ -610,7 +621,7 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
         />
         {boundary.kind === 'ellipse' && (
           <NumberField
-            label="Eccentricity"
+            label="Eccentricity" hint={help['boundary.eccentricity']}
             ariaLabel={`Eccentricity ${boundary.id}`}
             value={boundary.eccentricity}
             min={0}
@@ -628,7 +639,7 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
   if (boundary.kind === 'spoke') {
     return (
       <NumberField
-        label="Angle (rad)"
+        label="Angle (rad)" hint={help['boundary.angle']}
         ariaLabel={`Angle ${boundary.id}`}
         value={boundary.angle}
         step={0.01}
@@ -641,7 +652,7 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
     return (
       <>
         <NumberField
-          label="Inner radius"
+          label="Inner radius" hint={help['boundary.innerRadius']}
           ariaLabel={`Inner radius ${boundary.id}`}
           value={boundary.innerRadius}
           min={0}
@@ -653,7 +664,7 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
           }
         />
         <NumberField
-          label="Outer radius"
+          label="Outer radius" hint={help['boundary.outerRadius']}
           ariaLabel={`Outer radius ${boundary.id}`}
           value={boundary.outerRadius}
           min={0.001}
@@ -671,7 +682,7 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
   if (boundary.kind === 'grid') {
     return (
       <>
-        <label className="field">
+        <label className="field" title={help['boundary.axis']}>
           <span>Axis</span>
           <select
             aria-label={`Axis ${boundary.id}`}
@@ -683,7 +694,7 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
           </select>
         </label>
         <NumberField
-          label="Offset"
+          label="Offset" hint={help['boundary.offset']}
           ariaLabel={`Offset ${boundary.id}`}
           value={boundary.offset}
           step={1}
@@ -696,7 +707,7 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
   return (
     <>
       <NumberField
-        label="Start radius"
+        label="Start radius" hint={help['boundary.startRadius']}
         ariaLabel={`Start radius ${boundary.id}`}
         value={boundary.startRadius}
         min={0}
@@ -704,7 +715,7 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
         onChange={(value) => onPatch({ startRadius: Math.max(0, value) })}
       />
       <NumberField
-        label="Growth per turn"
+        label="Growth per turn" hint={help['boundary.growthPerTurn']}
         ariaLabel={`Growth ${boundary.id}`}
         value={boundary.growthPerTurn}
         min={0.001}
@@ -712,7 +723,7 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
         onChange={(value) => onPatch({ growthPerTurn: Math.max(0.001, value) })}
       />
       <NumberField
-        label="Turns"
+        label="Turns" hint={help['boundary.turns']}
         ariaLabel={`Turns ${boundary.id}`}
         value={boundary.turns}
         min={1}
@@ -731,6 +742,8 @@ type NumberFieldProps = {
   value: number
   min?: number
   step?: number
+  /** Hover help. See `./help`. */
+  hint?: string
   onChange: (value: number) => void
 }
 
@@ -740,10 +753,11 @@ function NumberField({
   value,
   min,
   step = 1,
+  hint,
   onChange,
 }: NumberFieldProps) {
   return (
-    <label>
+    <label title={hint}>
       <span>{label}</span>
       <input
         aria-label={ariaLabel}

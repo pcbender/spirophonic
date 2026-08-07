@@ -9,6 +9,7 @@ import {
 } from '../core/recording'
 import { replayRecording } from '../core/replay'
 import { exportRecordingToJson } from '../export/recordingJson'
+import { help } from './help'
 import { RailPanel } from './RailPanel'
 
 export type RecorderPanelProps = {
@@ -65,10 +66,10 @@ export function RecorderPanel({
       title="Recorder"
       actions={
         <div className="panel-actions">
-          <button type="button" onClick={start} disabled={startSeconds !== null}>
+          <button type="button" title={help['recorder.record']} onClick={start} disabled={startSeconds !== null}>
             Record
           </button>
-          <button type="button" onClick={stop} disabled={startSeconds === null}>
+          <button type="button" title={help['recorder.stop']} onClick={stop} disabled={startSeconds === null}>
             Stop
           </button>
         </div>
@@ -105,10 +106,10 @@ export function RecorderPanel({
             re-evaluating geometry.
           </p>
           <div className="panel-actions">
-            <button type="button" onClick={() => download(recording)}>
+            <button type="button" title={help['recorder.export']} onClick={() => download(recording)}>
               Export Recording
             </button>
-            <button type="button" onClick={() => setRecording(null)}>
+            <button type="button" title={help['recorder.discard']} onClick={() => setRecording(null)}>
               Discard
             </button>
           </div>

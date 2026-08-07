@@ -1,4 +1,5 @@
 import type { PlaybackStatus } from '../audio/performanceScheduler'
+import { help } from './help'
 
 export type TransportProps = {
   status: PlaybackStatus
@@ -37,11 +38,11 @@ export function Transport({
 
   return (
     <div className="transport" aria-label="Composition transport">
-      <button type="button" onClick={playing ? onPause : onPlay}>
+      <button type="button" title={help['transport.play']} onClick={playing ? onPause : onPlay}>
         {playing ? 'Pause' : 'Play'}
       </button>
-      <button type="button" onClick={onStop}>Stop</button>
-      <label className="sound-toggle">
+      <button type="button" title={help['transport.stop']} onClick={onStop}>Stop</button>
+      <label className="sound-toggle" title={help['transport.loop']}>
         <input
           type="checkbox"
           checked={looping}
@@ -51,7 +52,7 @@ export function Transport({
       </label>
       <input
         aria-label="Transport position"
-        title="Position in the loop. Drag to seek."
+        title={help['transport.position']}
         type="range"
         min={startSeconds}
         max={endSeconds}
@@ -59,7 +60,7 @@ export function Transport({
         value={Math.min(endSeconds, Math.max(startSeconds, positionSeconds))}
         onChange={(event) => onSeek(Number(event.currentTarget.value))}
       />
-      <output aria-label="Transport status">
+      <output aria-label="Transport status" title={help['transport.status']}>
         {positionSeconds.toFixed(2)}s · {eventCount} events
         {compiling ? ' · compiling…' : ''}
       </output>

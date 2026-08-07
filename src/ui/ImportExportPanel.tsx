@@ -3,6 +3,7 @@ import { useMemo, useRef, useState } from 'react'
 import type { SoundBankStore } from '../audio/soundbankStore'
 import type { Composition } from '../core/composition'
 import type { CanonicalPerformance } from '../core/performance'
+import { help } from './help'
 import {
   estimateRenderBytes,
   renderPerformanceToWav,
@@ -181,39 +182,39 @@ export function ImportExportPanel({
 
   return (
     <section className="import-export" aria-label="Import and export">
-      <button type="button" onClick={() => downloadCompositionJson(composition)}>
+      <button type="button" title={help['files.exportJson']} onClick={() => downloadCompositionJson(composition)}>
         Export JSON
       </button>
-      <button type="button" onClick={() => inputRef.current?.click()}>
+      <button type="button" title={help['files.importJson']} onClick={() => inputRef.current?.click()}>
         Import JSON
       </button>
-      <button type="button" onClick={() => downloadPerformanceMidi(performance, composition)}>
+      <button type="button" title={help['files.exportMidi']} onClick={() => downloadPerformanceMidi(performance, composition)}>
         Export MIDI
       </button>
-      <button type="button" onClick={() => downloadCompositionSvg(composition, observation)}>
+      <button type="button" title={help['files.exportSvg']} onClick={() => downloadCompositionSvg(composition, observation)}>
         Export SVG
       </button>
-      <button type="button" onClick={() => void copyStrudel()}>
+      <button type="button" title={help['files.copyStrudel']} onClick={() => void copyStrudel()}>
         Copy Strudel
       </button>
-      <button type="button" disabled={progress !== null} onClick={() => void exportWav()}>
+      <button type="button" title={help['files.exportWav']} disabled={progress !== null} onClick={() => void exportWav()}>
         {progress ? 'Rendering…' : 'Export WAV'}
       </button>
       {progress ? (
-        <button type="button" onClick={() => abortRef.current?.abort()}>
+        <button type="button" title={help['files.cancelRender']} onClick={() => abortRef.current?.abort()}>
           Cancel render
         </button>
       ) : null}
       <button
         type="button"
-        title="Save the whole project — Composition plus its sound bank references — as one .spirophonic file."
+        title={help['files.exportBundle']}
         onClick={() => void exportBundle()}
       >
         Export bundle
       </button>
       <button
         type="button"
-        title="Open a .spirophonic project file, replacing the current Composition."
+        title={help['files.importBundle']}
         onClick={() => bundleInputRef.current?.click()}
       >
         Import bundle
@@ -226,7 +227,7 @@ export function ImportExportPanel({
       */}
       <label
         className="embed-banks"
-        title="Copy the sound bank audio into the bundle so it opens on any machine. Much larger file. Without this, the bundle only references banks by digest."
+        title={help['files.embedBanks']}
       >
         <input
           type="checkbox"

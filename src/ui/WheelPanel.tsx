@@ -5,6 +5,7 @@ import type {
   WheelSpec,
 } from '../core/composition'
 import { RailPanel } from './RailPanel'
+import { help } from './help'
 
 export type WheelPanelProps = {
   composition: Composition
@@ -52,7 +53,7 @@ export function WheelPanel({
 
   return (
     <RailPanel label="Wheel controls" title={`Wheel — ${wheel.name}`}>
-      <label className="field">
+      <label className="field" title={help['wheel.name']}>
         <span>Name</span>
         <input
           aria-label="Wheel name"
@@ -60,7 +61,7 @@ export function WheelPanel({
           onChange={(event) => patch({ name: event.currentTarget.value })}
         />
       </label>
-      <label className="field">
+      <label className="field" title={help['wheel.motion']}>
         <span>Motion</span>
         <select
           aria-label="Wheel motion"
@@ -76,6 +77,7 @@ export function WheelPanel({
       </label>
       <NumberField
         label="Cycles"
+        hint={help['wheel.cycles']}
         value={wheel.rate.cycles}
         min={0.01}
         step={0.25}
@@ -83,6 +85,7 @@ export function WheelPanel({
       />
       <NumberField
         label="Cycle beats"
+        hint={help['wheel.cycleBeats']}
         value={wheel.rate.beats}
         min={0.01}
         step={0.25}
@@ -90,11 +93,12 @@ export function WheelPanel({
       />
       <NumberField
         label="Wheel phase (turns)"
+        hint={help['wheel.phase']}
         value={wheel.phase}
         step={0.01}
         onChange={(phase) => patch({ phase })}
       />
-      <label className="field">
+      <label className="field" title={help['wheel.direction']}>
         <span>Direction</span>
         <select
           aria-label="Wheel direction"
@@ -110,9 +114,9 @@ export function WheelPanel({
 
       {wheel.motion.kind === 'spirogram' && (
         <>
-          <NumberField label="Fixed radius" value={wheel.motion.fixedRadius} min={1} step={1} onChange={(fixedRadius) => patchMotion({ fixedRadius })} />
-          <NumberField label="Moving radius" value={wheel.motion.movingRadius} min={1} step={1} onChange={(movingRadius) => patchMotion({ movingRadius })} />
-          <label className="field">
+          <NumberField label="Fixed radius" hint={help['wheel.fixedRadius']} value={wheel.motion.fixedRadius} min={1} step={1} onChange={(fixedRadius) => patchMotion({ fixedRadius })} />
+          <NumberField label="Moving radius" hint={help['wheel.movingRadius']} value={wheel.motion.movingRadius} min={1} step={1} onChange={(movingRadius) => patchMotion({ movingRadius })} />
+          <label className="field" title={help['wheel.rotation']}>
             <span>Rotation</span>
             <select aria-label="Wheel rotation" value={wheel.motion.rotation} onChange={(event) => patchMotion({ rotation: event.currentTarget.value as 'inside' | 'outside' })}>
               <option value="inside">Inside</option>
@@ -123,30 +127,30 @@ export function WheelPanel({
       )}
       {wheel.motion.kind === 'lissajous' && (
         <>
-          <NumberField label="X frequency" value={wheel.motion.frequencyX} min={0.01} step={0.1} onChange={(frequencyX) => patchMotion({ frequencyX })} />
-          <NumberField label="Y frequency" value={wheel.motion.frequencyY} min={0.01} step={0.1} onChange={(frequencyY) => patchMotion({ frequencyY })} />
-          <NumberField label="Delta (rad)" value={wheel.motion.delta} step={0.01} onChange={(delta) => patchMotion({ delta })} />
+          <NumberField label="X frequency" hint={help['wheel.frequencyX']} value={wheel.motion.frequencyX} min={0.01} step={0.1} onChange={(frequencyX) => patchMotion({ frequencyX })} />
+          <NumberField label="Y frequency" hint={help['wheel.frequencyY']} value={wheel.motion.frequencyY} min={0.01} step={0.1} onChange={(frequencyY) => patchMotion({ frequencyY })} />
+          <NumberField label="Delta (rad)" hint={help['wheel.delta']} value={wheel.motion.delta} step={0.01} onChange={(delta) => patchMotion({ delta })} />
         </>
       )}
       {wheel.motion.kind === 'rose' && (
         <>
-          <NumberField label="Numerator" value={wheel.motion.numerator} min={1} step={1} onChange={(numerator) => patchMotion({ numerator })} />
-          <NumberField label="Denominator" value={wheel.motion.denominator} min={1} step={1} onChange={(denominator) => patchMotion({ denominator })} />
+          <NumberField label="Numerator" hint={help['wheel.numerator']} value={wheel.motion.numerator} min={1} step={1} onChange={(numerator) => patchMotion({ numerator })} />
+          <NumberField label="Denominator" hint={help['wheel.denominator']} value={wheel.motion.denominator} min={1} step={1} onChange={(denominator) => patchMotion({ denominator })} />
         </>
       )}
       {wheel.motion.kind === 'superformula' && (
         <>
-          <NumberField label="Symmetry" value={wheel.motion.symmetry} min={0} step={1} onChange={(symmetry) => patchMotion({ symmetry })} />
-          <NumberField label="N1" value={wheel.motion.n1} min={0.01} step={0.05} onChange={(n1) => patchMotion({ n1 })} />
-          <NumberField label="N2" value={wheel.motion.n2} min={0.01} step={0.05} onChange={(n2) => patchMotion({ n2 })} />
-          <NumberField label="N3" value={wheel.motion.n3} min={0.01} step={0.05} onChange={(n3) => patchMotion({ n3 })} />
+          <NumberField label="Symmetry" hint={help['wheel.symmetry']} value={wheel.motion.symmetry} min={0} step={1} onChange={(symmetry) => patchMotion({ symmetry })} />
+          <NumberField label="N1" hint={help['wheel.n1']} value={wheel.motion.n1} min={0.01} step={0.05} onChange={(n1) => patchMotion({ n1 })} />
+          <NumberField label="N2" hint={help['wheel.n2']} value={wheel.motion.n2} min={0.01} step={0.05} onChange={(n2) => patchMotion({ n2 })} />
+          <NumberField label="N3" hint={help['wheel.n3']} value={wheel.motion.n3} min={0.01} step={0.05} onChange={(n3) => patchMotion({ n3 })} />
         </>
       )}
       {wheel.motion.kind === 'harmonograph' && (
         <>
-          <NumberField label="X frequency" value={wheel.motion.frequencyX} min={0.01} step={0.01} onChange={(frequencyX) => patchMotion({ frequencyX })} />
-          <NumberField label="Y frequency" value={wheel.motion.frequencyY} min={0.01} step={0.01} onChange={(frequencyY) => patchMotion({ frequencyY })} />
-          <NumberField label="Damping" value={wheel.motion.damping} min={0} step={0.005} onChange={(damping) => patchMotion({ damping })} />
+          <NumberField label="X frequency" hint={help['wheel.frequencyX']} value={wheel.motion.frequencyX} min={0.01} step={0.01} onChange={(frequencyX) => patchMotion({ frequencyX })} />
+          <NumberField label="Y frequency" hint={help['wheel.frequencyY']} value={wheel.motion.frequencyY} min={0.01} step={0.01} onChange={(frequencyY) => patchMotion({ frequencyY })} />
+          <NumberField label="Damping" hint={help['wheel.damping']} value={wheel.motion.damping} min={0} step={0.005} onChange={(damping) => patchMotion({ damping })} />
         </>
       )}
     </RailPanel>
@@ -198,12 +202,14 @@ type NumberFieldProps = {
   value: number
   min?: number
   step: number
+  /** Hover help. See `./help`. */
+  hint?: string
   onChange: (value: number) => void
 }
 
-function NumberField({ label, value, min, step, onChange }: NumberFieldProps) {
+function NumberField({ label, value, min, step, hint, onChange }: NumberFieldProps) {
   return (
-    <label className="field">
+    <label className="field" title={hint}>
       <span>{label}</span>
       <input aria-label={label} type="number" value={value} min={min} step={step} onChange={(event) => onChange(Number(event.currentTarget.value))} />
     </label>

@@ -10,6 +10,7 @@ import type {
   WheelSpec,
 } from '../core/composition'
 import { scaleNames } from '../core/scales'
+import { help } from './help'
 import { RailPanel } from './RailPanel'
 
 export type PartPanelProps = {
@@ -242,10 +243,10 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
       title="Parts"
       actions={
         <div className="panel-actions">
-          <button type="button" onClick={addPart}>Add Part</button>
-          <button type="button" onClick={addRelation}>Add Relation</button>
-          <button type="button" onClick={addControlPart}>Add Control</button>
-          <button type="button" onClick={addTuningContext}>Add Tuning</button>
+          <button type="button" title={help['part.add']} onClick={addPart}>Add Part</button>
+          <button type="button" title={help['part.addRelation']} onClick={addRelation}>Add Relation</button>
+          <button type="button" title={help['part.addControl']} onClick={addControlPart}>Add Control</button>
+          <button type="button" title={help['part.addTuning']} onClick={addTuningContext}>Add Tuning</button>
         </div>
       }
     >
@@ -258,6 +259,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                 <span>{tuning.name}</span>
                 <button
                   type="button"
+                  title={help['tuning.remove']}
                   aria-label={`Remove ${tuning.id}`}
                   onClick={() =>
                     onChange({
@@ -271,7 +273,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   Remove
                 </button>
               </div>
-              <label>
+              <label title={help['tuning.rootHz']}>
                 <span>Root (Hz)</span>
                 <input
                   aria-label={`Root frequency ${tuning.id}`}
@@ -297,7 +299,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   }
                 />
               </label>
-              <label>
+              <label title={help['tuning.system']}>
                 <span>System</span>
                 <select
                   aria-label={`Tuning system ${tuning.id}`}
@@ -335,7 +337,8 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               <div className="voice-head">
                 <label className="voice-enable">
                   <input
-                    aria-label={`Enable ${relation.id}`}
+                  title={help['relation.enabled']}
+                  aria-label={`Enable ${relation.id}`}
                     type="checkbox"
                     checked={relation.enabled}
                     onChange={(event) =>
@@ -349,6 +352,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                 </label>
                 <button
                   type="button"
+                  title={help['relation.remove']}
                   aria-label={`Remove ${relation.id}`}
                   onClick={() =>
                     onChange({
@@ -362,7 +366,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   Remove
                 </button>
               </div>
-              <label>
+              <label title={help['relation.kind']}>
                 <span>Kind</span>
                 <select
                   aria-label={`Relation kind ${relation.id}`}
@@ -381,7 +385,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   ))}
                 </select>
               </label>
-              <label>
+              <label title={help['relation.threshold']}>
                 <span>Threshold</span>
                 <input
                   aria-label={`Threshold ${relation.id}`}
@@ -397,7 +401,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   }
                 />
               </label>
-              <label>
+              <label title={help['relation.hysteresis']}>
                 <span>Hysteresis</span>
                 <input
                   aria-label={`Hysteresis ${relation.id}`}
@@ -413,7 +417,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   }
                 />
               </label>
-              <label>
+              <label title={help['relation.minSeparation']}>
                 <span>Min separation (s)</span>
                 <input
                   aria-label={`Min separation ${relation.id}`}
@@ -444,7 +448,8 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               <div className="voice-head">
                 <label className="voice-enable">
                   <input
-                    aria-label={`Enable ${part.id}`}
+                  title={help['part.enabled']}
+                  aria-label={`Enable ${part.id}`}
                     type="checkbox"
                     checked={part.enabled}
                     onChange={(event) =>
@@ -461,6 +466,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                 </label>
                 <button
                   type="button"
+                  title={help['part.remove']}
                   aria-label={`Remove ${part.id}`}
                   onClick={() =>
                     commit(
@@ -471,7 +477,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   Remove
                 </button>
               </div>
-              <label>
+              <label title={help['control.source']}>
                 <span>Source</span>
                 <select
                   aria-label={`Control source ${part.id}`}
@@ -494,7 +500,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   ))}
                 </select>
               </label>
-              <label>
+              <label title={help['control.relation']}>
                 <span>Relation</span>
                 <select
                   aria-label={`Control relation ${part.id}`}
@@ -519,7 +525,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   ))}
                 </select>
               </label>
-              <label>
+              <label title={help['control.rate']}>
                 <span>Rate (Hz)</span>
                 <input
                   aria-label={`Control rate ${part.id}`}
@@ -551,6 +557,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
             <div className="voice-head">
               <label className="voice-enable">
                 <input
+                  title={help['part.enabled']}
                   aria-label={`Enable ${part.id}`}
                   type="checkbox"
                   checked={part.enabled}
@@ -558,11 +565,13 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                 />
                 <span>{part.name}</span>
               </label>
-              <button type="button" aria-label={`Remove ${part.id}`} onClick={() => commit(composition.parts.filter((item) => item.id !== part.id))}>Remove</button>
+              <button type="button" title={help['part.remove']}
+                  aria-label={`Remove ${part.id}`} onClick={() => commit(composition.parts.filter((item) => item.id !== part.id))}>Remove</button>
             </div>
             <label>
               <span>Name</span>
-              <input aria-label={`Name ${part.id}`} value={part.name} onChange={(event) => update(part.id, (current) => ({ ...current, name: event.currentTarget.value }))} />
+              <input title={help['part.name']}
+                  aria-label={`Name ${part.id}`} value={part.name} onChange={(event) => update(part.id, (current) => ({ ...current, name: event.currentTarget.value }))} />
             </label>
 
             {/*
@@ -571,9 +580,9 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               "all" is the opposite of what an empty set usually means.
             */}
             <fieldset className="query-scope">
-              <legend>Listens to</legend>
+              <legend title={help['part.wheels']}>Listens to</legend>
 
-              <div className="query-toggles" role="group" aria-label={`Wheels ${part.id}`}>
+              <div className="query-toggles" role="group" aria-label={`Wheels ${part.id}`} title={help['part.wheels']}>
                 {composition.wheels.map((wheel) => (
                   <label key={wheel.id} className="tree-toggle">
                     <input
@@ -592,7 +601,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   : `${part.encounterQuery.wheelIds.length} of ${composition.wheels.length} Wheels`}
               </p>
 
-              <div className="query-toggles" role="group" aria-label={`Heads ${part.id}`}>
+              <div className="query-toggles" role="group" aria-label={`Heads ${part.id}`} title={help['part.heads']}>
                 {headsInScope(composition, part.encounterQuery).map(({ wheel, head }) => (
                   <label key={head.id} className="tree-toggle">
                     <input
@@ -612,27 +621,27 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               </p>
             </fieldset>
 
-            <label>
+            <label title={help['part.boundary']}>
               <span>Boundary</span>
               <select aria-label={`Boundary ${part.id}`} value={part.encounterQuery.boundaryIds[0] ?? ''} onChange={(event) => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, boundaryIds: event.currentTarget.value ? [event.currentTarget.value] : [] } }))}>
                 <option value="">All boundaries</option>
                 {boundaries.map((boundary) => <option key={boundary.id} value={boundary.id}>{boundary.label}</option>)}
               </select>
             </label>
-            <label>
+            <label title={help['part.direction']}>
               <span>Direction</span>
               <select aria-label={`Direction ${part.id}`} value={part.encounterQuery.directions[0] ?? ''} onChange={(event) => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, directions: event.currentTarget.value ? [event.currentTarget.value as EncounterDirection] : [] } }))}>
                 <option value="">Any direction</option>
                 {directions.map((direction) => <option key={direction} value={direction}>{direction}</option>)}
               </select>
             </label>
-            <label>
+            <label title={help['part.instrument']}>
               <span>Instrument</span>
               <select aria-label={`Instrument ${part.id}`} value={part.instrumentId} onChange={(event) => update(part.id, (current) => ({ ...current, instrumentId: event.currentTarget.value }))}>
                 {composition.instruments.map((instrument) => <option key={instrument.id} value={instrument.id}>{instrument.name}</option>)}
               </select>
             </label>
-            <label>
+            <label title={help['part.pitchMapping']}>
               <span>Pitch mapping</span>
               <select aria-label={`Pitch mapping ${part.id}`} value={part.pitch.kind === 'boundary-degree' ? 'boundary-degree' : 'fixed-midi'} onChange={(event) => update(part.id, (current) => ({ ...current, pitch: event.currentTarget.value === 'boundary-degree' ? { kind: 'boundary-degree', root: 48, scale: 'pentatonic-minor', octaves: 3 } : { kind: 'fixed-midi', note: 60 } }))}>
                 <option value="boundary-degree">Boundary degree</option>
@@ -640,12 +649,12 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               </select>
             </label>
             {part.pitch.kind === 'fixed-midi' && (
-              <NumberField label={`MIDI note ${part.id}`} shortLabel="MIDI note" value={part.pitch.note} min={0} max={127} step={1} onChange={(note) => update(part.id, (current) => ({ ...current, pitch: { kind: 'fixed-midi', note } }))} />
+              <NumberField label={`MIDI note ${part.id}`} shortLabel="MIDI note" hint={help['part.midiNote']} value={part.pitch.note} min={0} max={127} step={1} onChange={(note) => update(part.id, (current) => ({ ...current, pitch: { kind: 'fixed-midi', note } }))} />
             )}
             {part.pitch.kind === 'boundary-degree' && (
               <>
-                <NumberField label={`Root ${part.id}`} shortLabel="Root" value={part.pitch.root} min={0} max={127} step={1} onChange={(root) => update(part.id, (current) => current.pitch.kind === 'boundary-degree' ? { ...current, pitch: { ...current.pitch, root } } : current)} />
-                <label>
+                <NumberField label={`Root ${part.id}`} shortLabel="Root" hint={help['part.root']} value={part.pitch.root} min={0} max={127} step={1} onChange={(root) => update(part.id, (current) => current.pitch.kind === 'boundary-degree' ? { ...current, pitch: { ...current.pitch, root } } : current)} />
+                <label title={help['part.scale']}>
                   <span>Scale</span>
                   <select aria-label={`Scale ${part.id}`} value={part.pitch.scale} onChange={(event) => update(part.id, (current) => current.pitch.kind === 'boundary-degree' ? { ...current, pitch: { ...current.pitch, scale: event.currentTarget.value as ScaleName } } : current)}>
                     {scaleNames.map((scale) => <option key={scale} value={scale}>{scale}</option>)}
@@ -653,8 +662,8 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                 </label>
               </>
             )}
-            <NumberField label={`Duration ${part.id}`} shortLabel="Duration (beats)" value={part.duration.kind === 'fixed' ? part.duration.beats : 0.25} min={0.01} step={0.05} onChange={(beats) => update(part.id, (current) => ({ ...current, duration: { kind: 'fixed', beats } }))} />
-            <NumberField label={`Grid ${part.id}`} shortLabel="Grid (beats)" value={part.quantize?.gridBeats ?? 0.25} min={0.01} step={0.05} onChange={(gridBeats) => update(part.id, (current) => ({ ...current, quantize: { gridBeats, strength: current.quantize?.strength ?? 0.75 } }))} />
+            <NumberField label={`Duration ${part.id}`} shortLabel="Duration (beats)" hint={help['part.duration']} value={part.duration.kind === 'fixed' ? part.duration.beats : 0.25} min={0.01} step={0.05} onChange={(beats) => update(part.id, (current) => ({ ...current, duration: { kind: 'fixed', beats } }))} />
+            <NumberField label={`Grid ${part.id}`} shortLabel="Grid (beats)" hint={help['part.grid']} value={part.quantize?.gridBeats ?? 0.25} min={0.01} step={0.05} onChange={(gridBeats) => update(part.id, (current) => ({ ...current, quantize: { gridBeats, strength: current.quantize?.strength ?? 0.75 } }))} />
           </li>
         ))}
       </ol>
@@ -676,12 +685,14 @@ type NumberFieldProps = {
   min: number
   max?: number
   step: number
+  /** Hover help. See `./help`. */
+  hint?: string
   onChange: (value: number) => void
 }
 
-function NumberField({ label, shortLabel, value, min, max, step, onChange }: NumberFieldProps) {
+function NumberField({ label, shortLabel, value, min, max, step, hint, onChange }: NumberFieldProps) {
   return (
-    <label>
+    <label title={hint}>
       <span>{shortLabel}</span>
       <input aria-label={label} type="number" value={value} min={min} max={max} step={step} onChange={(event) => onChange(Number(event.currentTarget.value))} />
     </label>

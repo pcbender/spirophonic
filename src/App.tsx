@@ -32,6 +32,7 @@ import {
 import { ControlPanel } from './ui/ControlPanel'
 import { FieldPanel } from './ui/FieldPanel'
 import { HeadPanel } from './ui/HeadPanel'
+import { help } from './ui/help'
 import { ImportExportPanel } from './ui/ImportExportPanel'
 import { InstrumentPanel } from './ui/InstrumentPanel'
 import { PartPanel } from './ui/PartPanel'
@@ -478,14 +479,14 @@ function App() {
             <>
               <button
                 type="button"
-                title="Start from a clean slate: one Wheel, one Head, one Instrument, no Fields and no Parts."
+                title={help['files.new']}
                 onClick={() => setPendingReplacement('blank')}
               >
                 New
               </button>
               <button
                 type="button"
-                title="Load the reference Composition: four Wheels, twelve Heads, and four Instruments already routed."
+                title={help['files.loadExample']}
                 onClick={() => setPendingReplacement('example')}
               >
                 Load example

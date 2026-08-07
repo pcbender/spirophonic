@@ -1,6 +1,7 @@
 import type { Composition, HeadAttachmentSpec, HeadSpec } from '../core/composition'
 import { traceObservationOf } from '../core/traces'
 import { RailPanel } from './RailPanel'
+import { help } from './help'
 
 export type HeadPanelProps = {
   composition: Composition
@@ -51,36 +52,36 @@ export function HeadPanel({
       title={`Head and Trace — ${head.name}`}
     >
       <p className="panel-context">on {wheel.name}</p>
-      <label className="field">
+      <label className="field" title={help['head.name']}>
         <span>Name</span>
         <input aria-label="Head name" value={head.name} onChange={(event) => patch({ name: event.currentTarget.value })} />
       </label>
-      <NumberField label="Head phase (turns)" value={head.phaseOffset} step={0.01} onChange={(phaseOffset) => patch({ phaseOffset })} />
-      <NumberField label="Offset X" value={head.offset.x} step={1} onChange={(x) => patch({ offset: { ...head.offset, x } })} />
-      <NumberField label="Offset Y" value={head.offset.y} step={1} onChange={(y) => patch({ offset: { ...head.offset, y } })} />
+      <NumberField label="Head phase (turns)" hint={help['head.phase']} value={head.phaseOffset} step={0.01} onChange={(phaseOffset) => patch({ phaseOffset })} />
+      <NumberField label="Offset X" hint={help['head.offsetX']} value={head.offset.x} step={1} onChange={(x) => patch({ offset: { ...head.offset, x } })} />
+      <NumberField label="Offset Y" hint={help['head.offsetY']} value={head.offset.y} step={1} onChange={(y) => patch({ offset: { ...head.offset, y } })} />
       {head.attachment.kind === 'spirogram' && (
-        <NumberField label="Pen offset" value={head.attachment.penOffset} min={0} step={1} onChange={(penOffset) => patchAttachment({ penOffset })} />
+        <NumberField label="Pen offset" hint={help['head.penOffset']} value={head.attachment.penOffset} min={0} step={1} onChange={(penOffset) => patchAttachment({ penOffset })} />
       )}
       {head.attachment.kind === 'lissajous' && (
         <>
-          <NumberField label="Head scale X" value={head.attachment.scaleX} min={1} step={1} onChange={(scaleX) => patchAttachment({ scaleX })} />
-          <NumberField label="Head scale Y" value={head.attachment.scaleY} min={1} step={1} onChange={(scaleY) => patchAttachment({ scaleY })} />
+          <NumberField label="Head scale X" hint={help['head.scaleX']} value={head.attachment.scaleX} min={1} step={1} onChange={(scaleX) => patchAttachment({ scaleX })} />
+          <NumberField label="Head scale Y" hint={help['head.scaleY']} value={head.attachment.scaleY} min={1} step={1} onChange={(scaleY) => patchAttachment({ scaleY })} />
         </>
       )}
       {(head.attachment.kind === 'rose' || head.attachment.kind === 'superformula') && (
-        <NumberField label="Radius scale" value={head.attachment.radiusScale} min={1} step={1} onChange={(radiusScale) => patchAttachment({ radiusScale })} />
+        <NumberField label="Radius scale" hint={help['head.radiusScale']} value={head.attachment.radiusScale} min={1} step={1} onChange={(radiusScale) => patchAttachment({ radiusScale })} />
       )}
       {head.attachment.kind === 'harmonograph' && (
-        <NumberField label="Amplitude scale" value={head.attachment.amplitudeScale} min={0.01} step={0.05} onChange={(amplitudeScale) => patchAttachment({ amplitudeScale })} />
+        <NumberField label="Amplitude scale" hint={help['head.amplitudeScale']} value={head.attachment.amplitudeScale} min={0.01} step={0.05} onChange={(amplitudeScale) => patchAttachment({ amplitudeScale })} />
       )}
-      <label className="field">
+      <label className="field" title={help['head.traceColor']}>
         <span>Trace color</span>
         <input aria-label="Trace color" type="color" value={head.trace.color} onChange={(event) => patch({ trace: { ...head.trace, color: event.currentTarget.value } })} />
       </label>
-      <NumberField label="Trace width" value={head.trace.lineWidth} min={0.1} step={0.1} onChange={(lineWidth) => patch({ trace: { ...head.trace, lineWidth } })} />
-      <NumberField label="Trace history (seconds)" value={head.trace.historySeconds} min={0} step={0.25} onChange={(historySeconds) => patch({ trace: { ...head.trace, historySeconds } })} />
+      <NumberField label="Trace width" hint={help['head.traceWidth']} value={head.trace.lineWidth} min={0.1} step={0.1} onChange={(lineWidth) => patch({ trace: { ...head.trace, lineWidth } })} />
+      <NumberField label="Trace history (seconds)" hint={help['head.traceHistory']} value={head.trace.historySeconds} min={0} step={0.25} onChange={(historySeconds) => patch({ trace: { ...head.trace, historySeconds } })} />
 
-      <label className="field">
+      <label className="field" title={help['head.observe']}>
         <span>Observe Trace</span>
         <input
           type="checkbox"
@@ -99,7 +100,7 @@ export function HeadPanel({
 
       {observation.enabled && (
         <>
-          <label className="field">
+          <label className="field" title={help['head.retention']}>
             <span>Retention</span>
             <select
               aria-label={`Trace retention ${head.id}`}
@@ -119,6 +120,7 @@ export function HeadPanel({
           </label>
           <NumberField
             label="Observation rate (Hz)"
+            hint={help['head.observationRate']}
             value={observation.sampleRateHz}
             min={1}
             step={5}
@@ -133,6 +135,7 @@ export function HeadPanel({
           />
           <NumberField
             label="Max segments"
+            hint={help['head.maxSegments']}
             value={observation.maxSegments}
             min={1}
             step={100}
@@ -145,7 +148,7 @@ export function HeadPanel({
               })
             }
           />
-          <label className="field">
+          <label className="field" title={help['head.allowSelf']}>
             <span>Allow self-crossing</span>
             <input
               type="checkbox"
@@ -172,12 +175,14 @@ type NumberFieldProps = {
   value: number
   min?: number
   step: number
+  /** Hover help. See `./help`. */
+  hint?: string
   onChange: (value: number) => void
 }
 
-function NumberField({ label, value, min, step, onChange }: NumberFieldProps) {
+function NumberField({ label, value, min, step, hint, onChange }: NumberFieldProps) {
   return (
-    <label className="field">
+    <label className="field" title={hint}>
       <span>{label}</span>
       <input aria-label={label} type="number" value={value} min={min} step={step} onChange={(event) => onChange(Number(event.currentTarget.value))} />
     </label>

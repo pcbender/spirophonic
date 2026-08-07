@@ -1,6 +1,7 @@
 import type { Composition, VariationSpec } from '../core/composition'
 import { randomVersion } from '../core/random'
 import { variationBounds } from '../core/variation'
+import { help } from './help'
 import { RailPanel } from './RailPanel'
 
 export type VariationPanelProps = {
@@ -35,7 +36,7 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
         label="Variation"
         title="Variation"
         actions={
-          <button type="button" onClick={() => commit(defaultVariation())}>
+          <button type="button" title={help['variation.enable']} onClick={() => commit(defaultVariation())}>
             Enable variation
           </button>
         }
@@ -53,7 +54,7 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
       label="Variation"
       title="Variation"
       actions={
-        <button type="button" onClick={() => commit(undefined)}>
+        <button type="button" title={help['variation.remove']} onClick={() => commit(undefined)}>
           Remove
         </button>
       }
@@ -62,6 +63,7 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
         <span>Enabled</span>
         <input
           type="checkbox"
+          title={help['variation.enabled']}
           aria-label="Variation enabled"
           checked={variation.enabled}
           onChange={(event) => patch({ enabled: event.currentTarget.checked })}
@@ -71,6 +73,7 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
       <label className="field">
         <span>Seed</span>
         <input
+          title={help['variation.seed']}
           aria-label="Variation seed"
           value={variation.seed}
           onChange={(event) => patch({ seed: event.currentTarget.value })}
@@ -87,6 +90,7 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
               <span>On</span>
               <input
                 type="checkbox"
+                title={help['variation.layerEnabled']}
                 aria-label={`${label} enabled`}
                 checked={layer.enabled}
                 onChange={(event) =>
@@ -98,6 +102,7 @@ export function VariationPanel({ composition, onChange }: VariationPanelProps) {
               <span>Amount</span>
               <input
                 type="range"
+                title={help['variation.amount']}
                 aria-label={`${label} amount`}
                 min={0}
                 max={1}
