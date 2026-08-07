@@ -192,6 +192,6 @@ you what it rejected rather than partly applying it.
 - [`docs/SOUND-AND-MIDI-DESIGN.md`](SOUND-AND-MIDI-DESIGN.md) — how Parts,
   Instruments, and export agree with each other. This one is a contract.
 - [`docs/VISION.md`](VISION.md) — what the instrument is for.
-- [`docs/WHAT-IS-MISSING.md`](WHAT-IS-MISSING.md) — an open question about
-  ratio and pitch that the app does not yet answer. Explicitly unapproved
-  thinking, not a description of what exists.
+- [`docs/WHAT-IS-MISSING.md`](WHAT-IS-MISSING.md) — where the instrument is
+  going. The ratio-and-pitch question it opened is now answered in the app;
+  what remains is that nothing develops over time. Exploration, not a spec.
