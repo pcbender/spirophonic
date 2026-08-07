@@ -301,8 +301,8 @@ export const help = {
     'Copy the sound bank audio into the bundle so it opens on any machine. Much larger file. Without this, the bundle only references banks by digest.',
 
   // Sound banks
-  'settings.close':
-    'Close Settings and return to the workspace. Nothing here is applied on close — every change took effect when you made it.',
+  'dialog.close':
+    'Close this dialog and return to the workspace. Nothing is applied on close — every change took effect when you made it.',
   'settings.open':
     'Setup that is not part of the Composition: importing sound banks, recording their licences, relinking and removing them.',
   'bank.manage':

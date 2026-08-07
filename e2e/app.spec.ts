@@ -261,7 +261,58 @@ test('the offline render controls are reachable and report their result', async 
 
   // A manifest-only bundle export must say what it did without a vault entry.
   await io.getByRole('button', { name: 'Export bundle' }).click()
+  await confirmBundleExport(page)
   await expect(io.locator('output')).toContainText(/Bundled|manifest/)
+})
+
+/**
+ * The embed choice used to sit in the top bar, read on every glance for a
+ * decision made only at export. It now lives in the dialog Export bundle
+ * opens, so exporting is two steps and the confirm has to be scoped: the
+ * dialog's button carries the same name as the one that opened it.
+ */
+const bundleDialog = (page: Page) =>
+  page.getByRole('dialog', { name: 'Export bundle' })
+
+const confirmBundleExport = async (page: Page) => {
+  const dialog = bundleDialog(page)
+  await expect(dialog).toBeVisible()
+  // Exact: the Close button is labelled "Close export bundle", which a
+  // substring match on the dialog's own name also picks up.
+  await dialog
+    .getByRole('button', { name: 'Export bundle', exact: true })
+    .click()
+  await expect(dialog).toBeHidden()
+}
+
+test('the embed choice lives in the Export bundle dialog, not the top bar', async ({
+  page,
+}) => {
+  const embed = page.getByLabel('Embed sound banks in bundle')
+  const io = page.getByRole('region', { name: 'Import and export' })
+
+  // Not parked in the header where it was being read for no reason.
+  await expect(embed).toBeHidden()
+
+  await io.getByRole('button', { name: 'Export bundle' }).click()
+  const dialog = bundleDialog(page)
+  await expect(dialog).toBeVisible()
+  await expect(embed).toBeVisible()
+  await expect(embed).not.toBeChecked()
+
+  // The choice survives being made, and the dialog says what it means.
+  await embed.check()
+  await expect(dialog).toContainText('opens on any machine')
+
+  // Cancelling leaves the choice set but exports nothing.
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+  await io.getByRole('button', { name: 'Export bundle' }).click()
+  await expect(embed).toBeChecked()
+
+  const download = page.waitForEvent('download')
+  await confirmBundleExport(page)
+  expect((await download).suggestedFilename()).toMatch(/\.spirophonic$/)
 })
 
 /**
@@ -478,6 +529,7 @@ test('the showcase runs the full workflow without errors', async ({ page }) => {
 
   const bundle = page.waitForEvent('download')
   await io.getByRole('button', { name: 'Export bundle' }).click()
+  await confirmBundleExport(page)
   expect((await bundle).suggestedFilename()).toMatch(/\.spirophonic$/)
 
   await expect(diagnostics).not.toContainText('error')
@@ -547,7 +599,9 @@ test('Settings opens as a true modal and closes on Escape', async ({ page }) => 
   await expect(dialog).toHaveJSProperty('open', true)
   expect(
     await page.evaluate(() => {
-      const element = document.querySelector('dialog.settings-dialog')
+      // By label, not by class: there is more than one modal in the document
+      // now, and the first in source order is the Export bundle dialog.
+      const element = document.querySelector('dialog[aria-label="Settings"]')
       return element instanceof HTMLDialogElement && element.matches(':modal')
     }),
   ).toBe(true)

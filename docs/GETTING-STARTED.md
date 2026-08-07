@@ -167,9 +167,10 @@ rails remember what you folded.
 
 - **Export JSON** — the Composition itself. Small, readable, the thing to keep.
 - **Export bundle** — Composition plus its sound bank references, as one
-  `.spirophonic` file. Tick **Embed sound banks in bundle** to include the
-  audio data so it opens on a machine that has never seen those banks; leave it
-  off and the bundle stays small but expects them present.
+  `.spirophonic` file. It asks one question first: tick **Embed sound banks in
+  bundle** to include the audio data so it opens on a machine that has never
+  seen those banks; leave it off and the bundle stays small but expects them
+  present. The dialog tells you what embedding would add, in megabytes.
 - **Export MIDI** — the performed notes, for a DAW.
 - **Export WAV** — an offline render of what you hear.
 - **Export SVG** — the traces, as vector art.

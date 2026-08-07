@@ -37,7 +37,7 @@ import { ImportExportPanel } from './ui/ImportExportPanel'
 import { InstrumentPanel } from './ui/InstrumentPanel'
 import { PartPanel } from './ui/PartPanel'
 import { RailPanel } from './ui/RailPanel'
-import { SettingsDialog } from './ui/SettingsDialog'
+import { ModalDialog } from './ui/ModalDialog'
 import { SoundBankPanel } from './ui/SoundBankPanel'
 import { SoundBankSettings } from './ui/SoundBankSettings'
 import { useSoundBankViews } from './ui/useSoundBankViews'
@@ -536,7 +536,11 @@ function App() {
         </div>
       </header>
 
-      <SettingsDialog open={settingsOpen} onClose={() => setSettingsOpen(false)}>
+      <ModalDialog
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        title="Settings"
+      >
         <SoundBankSettings
           composition={composition}
           bundledBankState={bundledBankState}
@@ -545,7 +549,7 @@ function App() {
           banks={soundBankViews}
           invalidateBank={invalidateSoundBank}
         />
-      </SettingsDialog>
+      </ModalDialog>
 
       <section className="workspace">
         <div className="rail rail-shape">

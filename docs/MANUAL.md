@@ -392,7 +392,8 @@ without re-import.
 ## Settings
 
 Setup that is not part of the Composition. Opened from **Settings** in the top
-bar, closed with Escape, the **Close** button, or a click outside it. Nothing is
+bar, closed with Escape, the **Close** button, or a click outside it. Every
+dialog in the app behaves this way. Nothing is
 applied on close — every change takes effect when you make it.
 
 ### Sound banks
@@ -497,9 +498,19 @@ first.
 | **Export SVG** | The Traces, as vector art. |
 | **Copy Strudel** | The pattern as Strudel code, to the clipboard. |
 | **Export WAV** | An offline render, faster than real time, with a progress bar and a cancel. |
-| **Export bundle** | Composition plus sound bank references as one `.spirophonic` file. |
+| **Export bundle** | Composition plus sound bank references as one `.spirophonic` file. Opens a dialog holding the one choice it needs — see below. |
 | **Import bundle** | Opens one, reporting which banks resolved. |
-| **Embed sound banks in bundle** | Governs **Export bundle** only. On, the bundle carries the bank audio and opens anywhere, at tens of megabytes. Off, it references banks by digest and expects them present. |
+
+### The Export bundle dialog
+
+One decision, made where it applies rather than parked in the top bar.
+
+| Control | Notes |
+|---|---|
+| **Embed sound banks in bundle** | On, the bundle carries the bank audio and opens on any machine. Off, it names banks by digest and expects them already in the vault. |
+| Size line | What the choice actually costs, measured against the banks this Composition references and what is in this browser's vault. It also says when a referenced bank is not in the vault and so cannot be embedded whatever you tick. |
+| **Export bundle** | Writes the file and closes. |
+| **Close** | Closes without exporting. The tick is remembered for next time. |
 
 Your work is also saved to this browser automatically and restored on reload —
 the app says so when it restores. That is convenience, not backup. It lives in

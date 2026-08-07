@@ -269,7 +269,10 @@ h1 {
   min-width: 0;
 }
 
-.import-export input {
+/* The two hidden file inputs, which are driven by buttons. Scoped to direct
+   children: the Export bundle dialog is rendered inside this section, and an
+   unscoped rule hides the controls in it. */
+.import-export > input {
   display: none;
 }
 
@@ -973,7 +976,7 @@ h1 {
    removing its bytes are done once and then not again while composing, so they
    must not sit on top of the controls that browse and assign presets forever.
    A <dialog> in the top layer keeps the workspace exactly where it was. */
-.settings-dialog {
+.modal-dialog {
   width: min(680px, calc(100vw - 32px));
   max-height: min(84dvh, 900px);
   margin: auto;
@@ -985,18 +988,18 @@ h1 {
   overflow: hidden;
 }
 
-.settings-dialog::backdrop {
+.modal-dialog::backdrop {
   background: rgba(6, 6, 10, 0.66);
 }
 
-.settings-dialog-frame {
+.modal-dialog-frame {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
   max-height: inherit;
   min-height: 0;
 }
 
-.settings-dialog-head {
+.modal-dialog-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1005,12 +1008,12 @@ h1 {
   padding: 14px 18px;
 }
 
-.settings-dialog-head h2 {
+.modal-dialog-head h2 {
   margin: 0;
   font-size: 1.05rem;
 }
 
-.settings-dialog-head button,
+.modal-dialog-actions button,
 .settings-button {
   min-height: 32px;
   border: 1px solid rgba(246, 244, 239, 0.22);
@@ -1021,9 +1024,31 @@ h1 {
   cursor: pointer;
 }
 
+/* Confirming the action the dialog was opened for. It leads, so Close reads as
+   the way out rather than as the other half of a pair. */
+.modal-dialog-actions .primary {
+  border-color: rgba(66, 202, 253, 0.8);
+  background: #16323f;
+}
+
+.modal-dialog-actions button:hover {
+  border-color: rgba(66, 202, 253, 0.8);
+}
+
+/* Actions sit at the bottom, after what they act on, and stay put while the
+   body scrolls. */
+.modal-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid rgba(246, 244, 239, 0.12);
+  padding: 12px 18px;
+}
+
 /* The body scrolls, not the dialog: the header stays reachable however many
    banks are listed. */
-.settings-dialog-body {
+.modal-dialog-body {
   min-height: 0;
   padding: 16px 18px 18px;
   overflow-y: auto;
@@ -1059,4 +1084,27 @@ h1 {
   font: inherit;
   text-decoration: underline;
   cursor: pointer;
+}
+
+/* The one decision Export bundle asks for, shown where it is made. */
+.embed-banks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: #e9e2d6;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.embed-banks input {
+  accent-color: #42cafd;
+}
+
+.bundle-size {
+  margin: 0;
+  color: #d8d3ca;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
 }
