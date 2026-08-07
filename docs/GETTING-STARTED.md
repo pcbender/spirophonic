@@ -177,14 +177,13 @@ rails remember what you folded.
 
 ## What the interface does not reach
 
-The model is larger than the panels. Pitch mapping is the clearest case: the
-Composition format defines eight ways to choose a pitch — including spatial
-sampling, contour following, a stateful melodic line, and exact frequency
-ratios — and the dropdown offers two of them.
+The model is a little larger than the panels. A Part's velocity curve, its
+onset rule, and how hard quantization pulls are all configurable in the
+Composition format and are not offered as controls.
 
-The rest are reachable by exporting JSON, editing the `pitch` block by hand,
-and importing it back. Anything valid will load; the app validates on import
-and tells you what it rejected.
+They are reachable by exporting JSON, editing by hand, and importing it back.
+Anything valid will load; the app validates on import and tells you what it
+rejected. The [manual](MANUAL.md) lists everything in this category.
 
 ## Where to go next
 

@@ -172,7 +172,26 @@ export const help = {
     'Listen only to crossings going one way — inward, outward, or around — or to any of them.',
   'part.instrument': 'Which Instrument renders this Part’s notes.',
   'part.pitchMapping':
-    'How an Encounter chooses a pitch. Fixed MIDI repeats one note, giving you the rhythm alone; Boundary degree lets which Boundary was crossed pick the note.',
+    'How an Encounter chooses a pitch. Fixed MIDI repeats one note, giving the rhythm alone. Boundary degree lets which Boundary was crossed pick the note. Spatial and Contour read where the Encounter happened, Melodic line walks the scale instead of sampling it, and the ratio mappings turn a Wheel’s own relationship into an interval.',
+  'part.pitchSource':
+    'Which measurement of the Encounter drives pitch: its x, its y, its distance from centre, or its angle. Angle is the only one independent of Space scale.',
+  'part.octaves': 'How many octaves the degrees are spread across.',
+  'part.frequencyHz': 'The single frequency every Encounter plays, in hertz.',
+  'part.ratioRoot': 'Frequency the ratio is measured from. 261.63 Hz is middle C.',
+  'part.octaveFold':
+    'Fold every result back into one octave above the root, so high degrees stay in range instead of climbing away.',
+  'part.ratioSource':
+    'Take the ratio from two numbers you choose, or from a Wheel’s own motion — a 3:2 Lissajous is literally a perfect fifth.',
+  'part.ratioNumerator': 'Top of the frequency ratio. 3 over 2 is a perfect fifth.',
+  'part.ratioDenominator': 'Bottom of the frequency ratio.',
+  'part.ratioWheel':
+    'Which Wheel’s motion supplies the ratio. Lissajous and rose Wheels carry one; a spirogram’s radii describe rolling, not frequency.',
+  'part.maxStep': 'The largest jump the line may make, in scale steps.',
+  'part.directionBias':
+    'How strongly the source’s own direction steers the line. 0 wanders; 1 follows the geometry exactly.',
+  'part.lowDegree': 'Lowest scale degree the line may reach.',
+  'part.highDegree': 'Highest scale degree the line may reach.',
+  'part.startDegree': 'Scale degree the line begins on.',
   'part.midiNote': 'The single MIDI note every Encounter plays. 60 is middle C.',
   'part.root': 'Lowest MIDI note of the scale that Boundary degrees map onto.',
   'part.scale': 'Which scale the degrees land on. Pentatonic minor is the forgiving default.',

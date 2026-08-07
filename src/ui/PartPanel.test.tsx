@@ -214,3 +214,73 @@ describe('Part targeting', () => {
     expect(screen.queryByLabelText(`Wheel 1 Head 1 for ${partId}`)).toBeNull()
   })
 })
+
+describe('pitch mappings', () => {
+  const kinds = [
+    'fixed-midi',
+    'fixed-frequency',
+    'boundary-degree',
+    'spatial',
+    'contour',
+    'melodic-contour',
+    'ratio',
+    'tuned-ratio',
+  ] as const
+
+  it('offers every pitch mapping the format defines', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={base()} onChange={onChange} />)
+
+    const options = Array.from(
+      (screen.getByLabelText(/^Pitch mapping/) as HTMLSelectElement).options,
+    ).map((option) => option.value)
+    expect(new Set(options)).toEqual(new Set(kinds))
+  })
+
+  it.each(kinds)('switches to %s and stays valid', (kind) => {
+    const onChange = vi.fn()
+    const composition = base()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Pitch mapping/), {
+      target: { value: kind },
+    })
+
+    // Switching cannot carry parameters across, so each kind must arrive
+    // complete rather than half-filled and rejected on the next import.
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    const part = next.parts[0]
+    expect(part.kind === 'note' && part.pitch.kind).toBe(kind)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('edits the parameters belonging to the selected mapping', () => {
+    const onChange = vi.fn()
+    let composition = base()
+    const rerenderWith = (next: Composition) => {
+      composition = next
+      cleanup()
+      render(<PartPanel composition={composition} onChange={onChange} />)
+    }
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(/^Pitch mapping/), {
+      target: { value: 'melodic-contour' },
+    })
+    rerenderWith(onChange.mock.calls.at(-1)?.[0] as Composition)
+
+    // A melodic line is the deepest of the mappings: its own source, scale, and
+    // five contour bounds, none of which any other kind owns.
+    fireEvent.change(screen.getByLabelText(/^Max step/), {
+      target: { value: '5' },
+    })
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    const part = next.parts[0]
+    expect(
+      part.kind === 'note' &&
+        part.pitch.kind === 'melodic-contour' &&
+        part.pitch.contour.maxStep,
+    ).toBe(5)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+})

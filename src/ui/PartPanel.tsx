@@ -5,6 +5,7 @@ import type {
   EncounterQuery,
   NotePartSpec,
   PartSpec,
+  PitchMapping,
   RelationEventKind,
   RelationSpec,
   ScaleName,
@@ -723,31 +724,244 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
             </label>
             <label title={help['part.pitchMapping']}>
               <span>Pitch mapping</span>
-              <select aria-label={`Pitch mapping ${part.id}`} value={part.pitch.kind === 'boundary-degree' ? 'boundary-degree' : 'fixed-midi'} onChange={(event) => update(part.id, (current) => ({ ...current, pitch: event.currentTarget.value === 'boundary-degree' ? { kind: 'boundary-degree', root: 48, scale: 'pentatonic-minor', octaves: 3 } : { kind: 'fixed-midi', note: 60 } }))}>
-                <option value="boundary-degree">Boundary degree</option>
-                <option value="fixed-midi">Fixed MIDI</option>
+              <select aria-label={`Pitch mapping ${part.id}`} value={part.pitch.kind} onChange={(event) => update(part.id, (current) => ({ ...current, pitch: defaultPitchFor(event.currentTarget.value as PitchMapping['kind']) }))}>
+                {pitchKinds.map(([kind, label]) => <option key={kind} value={kind}>{label}</option>)}
               </select>
             </label>
-            {part.pitch.kind === 'fixed-midi' && (
-              <NumberField label={`MIDI note ${part.id}`} shortLabel="MIDI note" hint={help['part.midiNote']} value={part.pitch.note} min={0} max={127} step={1} onChange={(note) => update(part.id, (current) => ({ ...current, pitch: { kind: 'fixed-midi', note } }))} />
-            )}
-            {part.pitch.kind === 'boundary-degree' && (
-              <>
-                <NumberField label={`Root ${part.id}`} shortLabel="Root" hint={help['part.root']} value={part.pitch.root} min={0} max={127} step={1} onChange={(root) => update(part.id, (current) => current.pitch.kind === 'boundary-degree' ? { ...current, pitch: { ...current.pitch, root } } : current)} />
-                <label title={help['part.scale']}>
-                  <span>Scale</span>
-                  <select aria-label={`Scale ${part.id}`} value={part.pitch.scale} onChange={(event) => update(part.id, (current) => current.pitch.kind === 'boundary-degree' ? { ...current, pitch: { ...current.pitch, scale: event.currentTarget.value as ScaleName } } : current)}>
-                    {scaleNames.map((scale) => <option key={scale} value={scale}>{scale}</option>)}
-                  </select>
-                </label>
-              </>
-            )}
+            <PitchControls
+              part={part}
+              composition={composition}
+              onPitch={(pitch) => update(part.id, (current) => ({ ...current, pitch }))}
+            />
             <NumberField label={`Duration ${part.id}`} shortLabel="Duration (beats)" hint={help['part.duration']} value={part.duration.kind === 'fixed' ? part.duration.beats : 0.25} min={0.01} step={0.05} onChange={(beats) => update(part.id, (current) => ({ ...current, duration: { kind: 'fixed', beats } }))} />
             <NumberField label={`Grid ${part.id}`} shortLabel="Grid (beats)" hint={help['part.grid']} value={part.quantize?.gridBeats ?? 0.25} min={0.01} step={0.05} onChange={(gridBeats) => update(part.id, (current) => ({ ...current, quantize: { gridBeats, strength: current.quantize?.strength ?? 0.75 } }))} />
           </li>
         ))}
       </ol>
     </RailPanel>
+  )
+}
+
+/** Every pitch mapping the format defines, with a label for the dropdown. */
+const pitchKinds: ReadonlyArray<readonly [PitchMapping['kind'], string]> = [
+  ['fixed-midi', 'Fixed MIDI'],
+  ['fixed-frequency', 'Fixed frequency'],
+  ['boundary-degree', 'Boundary degree'],
+  ['spatial', 'Spatial'],
+  ['contour', 'Contour'],
+  ['melodic-contour', 'Melodic line'],
+  ['ratio', 'Ratio'],
+  ['tuned-ratio', 'Tuned ratio'],
+]
+
+const spatialSources: ReadonlyArray<'x' | 'y' | 'radius' | 'angle'> = [
+  'x',
+  'y',
+  'radius',
+  'angle',
+]
+
+/**
+ * A valid mapping of each kind, used when the dropdown switches.
+ *
+ * Switching kind cannot carry the old parameters across — the shapes barely
+ * overlap — so each arrives complete and playable rather than half-filled and
+ * rejected by validation.
+ */
+const defaultPitchFor = (kind: PitchMapping['kind']): PitchMapping => {
+  if (kind === 'fixed-frequency') return { kind, frequencyHz: 440 }
+  if (kind === 'boundary-degree') {
+    return { kind, root: 48, scale: 'pentatonic-minor', octaves: 3 }
+  }
+  if (kind === 'ratio') return { kind, rootFrequencyHz: 261.63, octaveFold: true }
+  if (kind === 'spatial' || kind === 'contour') {
+    return { kind, source: 'radius', root: 48, scale: 'pentatonic-minor', octaves: 3 }
+  }
+  if (kind === 'melodic-contour') {
+    return {
+      kind,
+      source: 'radius',
+      scale: 'pentatonic-minor',
+      contour: {
+        maxStep: 2,
+        directionBias: 0.7,
+        lowDegree: 0,
+        highDegree: 12,
+        startDegree: 4,
+      },
+    }
+  }
+  if (kind === 'tuned-ratio') {
+    return { kind, ratio: { kind: 'explicit', numerator: 3, denominator: 2 } }
+  }
+  return { kind: 'fixed-midi', note: 60 }
+}
+
+type PitchControlsProps = {
+  part: NotePartSpec
+  composition: Composition
+  onPitch: (pitch: PitchMapping) => void
+}
+
+/**
+ * The parameters belonging to whichever pitch mapping is selected.
+ *
+ * Split out because eight mappings inline would bury the rest of the Part row.
+ * Each branch edits its own shape and never reaches for fields another kind
+ * owns, which is what keeps a switch from producing an invalid Composition.
+ */
+function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
+  const pitch = part.pitch
+
+  const scaleSelect = (
+    value: ScaleName,
+    onScale: (scale: ScaleName) => void,
+  ) => (
+    <label title={help['part.scale']}>
+      <span>Scale</span>
+      <select
+        aria-label={`Scale ${part.id}`}
+        value={value}
+        onChange={(event) => onScale(event.currentTarget.value as ScaleName)}
+      >
+        {scaleNames.map((scale) => (
+          <option key={scale} value={scale}>{scale}</option>
+        ))}
+      </select>
+    </label>
+  )
+
+  const sourceSelect = (
+    value: 'x' | 'y' | 'radius' | 'angle',
+    onSource: (source: 'x' | 'y' | 'radius' | 'angle') => void,
+  ) => (
+    <label title={help['part.pitchSource']}>
+      <span>Source</span>
+      <select
+        aria-label={`Pitch source ${part.id}`}
+        value={value}
+        onChange={(event) =>
+          onSource(event.currentTarget.value as 'x' | 'y' | 'radius' | 'angle')
+        }
+      >
+        {spatialSources.map((source) => (
+          <option key={source} value={source}>{source}</option>
+        ))}
+      </select>
+    </label>
+  )
+
+  if (pitch.kind === 'fixed-midi') {
+    return (
+      <NumberField label={`MIDI note ${part.id}`} shortLabel="MIDI note" hint={help['part.midiNote']} value={pitch.note} min={0} max={127} step={1} onChange={(note) => onPitch({ kind: 'fixed-midi', note })} />
+    )
+  }
+
+  if (pitch.kind === 'fixed-frequency') {
+    return (
+      <NumberField label={`Frequency ${part.id}`} shortLabel="Frequency (Hz)" hint={help['part.frequencyHz']} value={pitch.frequencyHz} min={1} max={20_000} step={1} onChange={(frequencyHz) => onPitch({ kind: 'fixed-frequency', frequencyHz })} />
+    )
+  }
+
+  if (pitch.kind === 'boundary-degree') {
+    return (
+      <>
+        <NumberField label={`Root ${part.id}`} shortLabel="Root" hint={help['part.root']} value={pitch.root} min={0} max={127} step={1} onChange={(root) => onPitch({ ...pitch, root })} />
+        {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
+        <NumberField label={`Octaves ${part.id}`} shortLabel="Octaves" hint={help['part.octaves']} value={pitch.octaves} min={0} max={10} step={1} onChange={(octaves) => onPitch({ ...pitch, octaves })} />
+      </>
+    )
+  }
+
+  if (pitch.kind === 'spatial' || pitch.kind === 'contour') {
+    return (
+      <>
+        {sourceSelect(pitch.source, (source) => onPitch({ ...pitch, source }))}
+        <NumberField label={`Root ${part.id}`} shortLabel="Root" hint={help['part.root']} value={pitch.root} min={0} max={127} step={1} onChange={(root) => onPitch({ ...pitch, root })} />
+        {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
+        <NumberField label={`Octaves ${part.id}`} shortLabel="Octaves" hint={help['part.octaves']} value={pitch.octaves} min={0} max={10} step={1} onChange={(octaves) => onPitch({ ...pitch, octaves })} />
+      </>
+    )
+  }
+
+  if (pitch.kind === 'melodic-contour') {
+    const contour = pitch.contour
+    return (
+      <>
+        {sourceSelect(pitch.source, (source) => onPitch({ ...pitch, source }))}
+        {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
+        <NumberField label={`Max step ${part.id}`} shortLabel="Max step" hint={help['part.maxStep']} value={contour.maxStep} min={0} max={64} step={1} onChange={(maxStep) => onPitch({ ...pitch, contour: { ...contour, maxStep } })} />
+        <NumberField label={`Direction bias ${part.id}`} shortLabel="Direction bias" hint={help['part.directionBias']} value={contour.directionBias} min={0} max={1} step={0.05} onChange={(directionBias) => onPitch({ ...pitch, contour: { ...contour, directionBias } })} />
+        <NumberField label={`Low degree ${part.id}`} shortLabel="Low degree" hint={help['part.lowDegree']} value={contour.lowDegree} min={-128} max={128} step={1} onChange={(lowDegree) => onPitch({ ...pitch, contour: { ...contour, lowDegree } })} />
+        <NumberField label={`High degree ${part.id}`} shortLabel="High degree" hint={help['part.highDegree']} value={contour.highDegree} min={-128} max={128} step={1} onChange={(highDegree) => onPitch({ ...pitch, contour: { ...contour, highDegree } })} />
+        <NumberField label={`Start degree ${part.id}`} shortLabel="Start degree" hint={help['part.startDegree']} value={contour.startDegree} min={-128} max={128} step={1} onChange={(startDegree) => onPitch({ ...pitch, contour: { ...contour, startDegree } })} />
+      </>
+    )
+  }
+
+  if (pitch.kind === 'ratio') {
+    return (
+      <>
+        <NumberField label={`Ratio root ${part.id}`} shortLabel="Root (Hz)" hint={help['part.ratioRoot']} value={pitch.rootFrequencyHz} min={1} max={20_000} step={1} onChange={(rootFrequencyHz) => onPitch({ ...pitch, rootFrequencyHz })} />
+        <label title={help['part.octaveFold']}>
+          <span>Octave fold</span>
+          <input
+            type="checkbox"
+            aria-label={`Octave fold ${part.id}`}
+            checked={pitch.octaveFold}
+            onChange={(event) => onPitch({ ...pitch, octaveFold: event.currentTarget.checked })}
+          />
+        </label>
+      </>
+    )
+  }
+
+  // tuned-ratio
+  const ratio = pitch.ratio
+  return (
+    <>
+      <label title={help['part.ratioSource']}>
+        <span>Ratio from</span>
+        <select
+          aria-label={`Ratio source ${part.id}`}
+          value={ratio.kind}
+          onChange={(event) =>
+            onPitch({
+              ...pitch,
+              ratio:
+                event.currentTarget.value === 'wheel-motion'
+                  ? {
+                      kind: 'wheel-motion',
+                      wheelId: composition.wheels[0]?.id ?? '',
+                    }
+                  : { kind: 'explicit', numerator: 3, denominator: 2 },
+            })
+          }
+        >
+          <option value="explicit">Explicit ratio</option>
+          <option value="wheel-motion">Wheel motion</option>
+        </select>
+      </label>
+      {ratio.kind === 'explicit' ? (
+        <>
+          <NumberField label={`Numerator ${part.id}`} shortLabel="Numerator" hint={help['part.ratioNumerator']} value={ratio.numerator} min={1} max={10_000} step={1} onChange={(numerator) => onPitch({ ...pitch, ratio: { ...ratio, numerator } })} />
+          <NumberField label={`Denominator ${part.id}`} shortLabel="Denominator" hint={help['part.ratioDenominator']} value={ratio.denominator} min={1} max={10_000} step={1} onChange={(denominator) => onPitch({ ...pitch, ratio: { ...ratio, denominator } })} />
+        </>
+      ) : (
+        <label title={help['part.ratioWheel']}>
+          <span>Ratio Wheel</span>
+          <select
+            aria-label={`Ratio Wheel ${part.id}`}
+            value={ratio.wheelId}
+            onChange={(event) => onPitch({ ...pitch, ratio: { ...ratio, wheelId: event.currentTarget.value } })}
+          >
+            {composition.wheels.map((wheel) => (
+              <option key={wheel.id} value={wheel.id}>{wheel.name}</option>
+            ))}
+          </select>
+        </label>
+      )}
+    </>
   )
 }
 

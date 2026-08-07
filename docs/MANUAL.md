@@ -277,15 +277,40 @@ Turns Encounters into notes.
 | **Boundary** | `All boundaries`, or one specific Boundary. |
 | **Direction** | `Any direction`, or one of inward, outward, clockwise, counterclockwise, approaching, receding. |
 | **Instrument** | Which Instrument renders this Part's notes. |
-| **Pitch mapping** | `Fixed MIDI` or `Boundary degree`. |
-| **MIDI note** | Under Fixed MIDI: the single note used for every Encounter. |
-| **Root**, **Scale** | Under Boundary degree: the scale and its root. Scales are chromatic, major, minor, dorian, pentatonic-major, pentatonic-minor. |
+| **Pitch mapping** | How an Encounter chooses a pitch. All eight are listed below; the parameters beneath the dropdown change with the choice. |
 | **Duration (beats)** | Note length. |
 | **Grid (beats)** | Quantization grid. Onsets are pulled toward it. |
 
 A new Part starts at **Fixed MIDI note 60**, so your first sound is a rhythm on
 one repeated pitch. Switch to **Boundary degree** to let which Boundary was
 crossed choose the note.
+
+#### Pitch mappings
+
+| Mapping | Parameters | Chooses pitch from |
+|---|---|---|
+| **Fixed MIDI** | MIDI note | Nothing — one note, so you hear the rhythm alone. |
+| **Fixed frequency** | Frequency (Hz) | Nothing, but in hertz rather than MIDI. |
+| **Boundary degree** | Root, Scale, Octaves | Which Boundary was crossed. For a trace crossing or a Relation, which *other Head* was met. |
+| **Spatial** | Source, Root, Scale, Octaves | *Where* the Encounter happened — its x, y, distance from centre, or angle — mapped onto the scale. |
+| **Contour** | Source, Root, Scale, Octaves | The same measurement, but normalised across this Part's own Encounters, so the full range is always used. |
+| **Melodic line** | Source, Scale, Max step, Direction bias, Low/High/Start degree | A line that *walks* the scale. The source steers direction rather than picking notes outright, so the result moves stepwise instead of leaping. |
+| **Ratio** | Root (Hz), Octave fold | Which Boundary was crossed, as a whole-number frequency ratio above the root. |
+| **Tuned ratio** | Explicit numerator/denominator, or a Wheel's motion | An exact interval. Taking it from a Lissajous or rose Wheel makes a 3:2 figure sound an actual perfect fifth. |
+
+**Scales** are chromatic, major, minor, dorian, pentatonic-major, and
+pentatonic-minor.
+
+> **Spatial is calibrated by Space scale, which is also the view zoom.**
+> `space.scale` normalises positions for Spatial pitch *and* multiplies
+> `pixelsPerUnit` in the renderer. It is 1 in every Composition the app can
+> make, and at 1 a radius of 90 and a radius of 180 normalise to nearly the
+> same value and pick the same note — so Spatial with a `radius` or `x` source
+> is flatter than you would expect. `angle` is unaffected, being modular, and
+> **Contour** sidesteps the problem entirely by normalising against the
+> Encounters actually present. Raising `space.scale` by hand in JSON sharpens
+> Spatial pitch and zooms the canvas at the same time; the two cannot currently
+> be set independently.
 
 A new Part listens to **every** Wheel and Head. Narrow it with the *Listens to*
 checkboxes — several Wheels at once is normal, and is what the shipped example
@@ -469,11 +494,10 @@ The Composition format is larger than the panels. Everything below is valid,
 supported, and reachable only by **Export JSON**, editing, and **Import JSON**.
 Imports are validated, so a malformed edit is refused with reasons.
 
-**Pitch mapping.** The dropdown offers two of eight: `fixed-midi` and
-`boundary-degree`. Also available are `fixed-frequency`, `ratio`, `spatial`
-(sample x, y, radius, or angle), `contour`, `tuned-ratio`, and
-`melodic-contour` — a stateful line that walks the scale rather than sampling
-coordinates independently.
+**Space scale.** `space.scale` calibrates Spatial pitch and multiplies the
+renderer's `pixelsPerUnit`. One field, two unrelated jobs, so it is not offered
+as a control — raising it to sharpen Spatial pitch would zoom the canvas by the
+same factor. Editable in JSON, with that caveat.
 
 **Velocity, onset, and quantize strength.** Parts are created with velocity
 derived from Encounter strength (48–118), onset at encounter time, and
