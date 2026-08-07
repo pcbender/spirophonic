@@ -150,6 +150,10 @@ in `*.bench.test.ts`.
 
 ## Docs
 
+- [Getting started](docs/GETTING-STARTED.md) — blank screen to first sound, in
+  about ten minutes
+- [Manual](docs/MANUAL.md) — every control in the interface, and what the
+  interface does not reach
 - [Vision](docs/VISION.md) — concept, thesis, MVP definition, design principles
 - [Domain Model](docs/Spirophonic-Domain-Model.md) — the conceptual authority
 - [Music Generator Build Plan](docs/MUSIC-GENERATOR-BUILD-PLAN.md) — the active

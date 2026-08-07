@@ -188,6 +188,8 @@ and tells you what it rejected.
 
 ## Where to go next
 
+- [`docs/MANUAL.md`](MANUAL.md) — every control in every panel, and a list of
+  what the interface cannot reach.
 - [`docs/Spirophonic-Domain-Model.md`](Spirophonic-Domain-Model.md) — the
   precise definitions of every term used above.
 - [`docs/SOUND-AND-MIDI-DESIGN.md`](SOUND-AND-MIDI-DESIGN.md) — how Parts,
