@@ -114,6 +114,62 @@ describe('MG-16 tuning authoring', () => {
     })
     expect(validateComposition(composition).ok).toBe(true)
   })
+
+  /*
+   * Until this existed, Add Tuning built a context nothing could reach:
+   * `tuningContextId` was in the Composition format, the validator, and the
+   * compiler, and in no UI file at all. Every Part fell back to the default
+   * context silently, so adding a tuning had no audible effect whatsoever.
+   */
+  it('points a Part at a tuning context, and back to the default', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.tuningContexts = [
+      {
+        id: 'tuning-just',
+        name: 'Just',
+        rootFrequencyHz: 432,
+        system: { kind: 'rational', maxDenominator: 64 },
+        octaveFold: true,
+      },
+    ]
+    const part = composition.parts[0]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    // The control lives on the Tuned ratio branch, because that is the only
+    // mapping that reads a tuning context.
+    fireEvent.change(screen.getByLabelText(`Pitch mapping ${part.id}`), {
+      target: { value: 'tuned-ratio' },
+    })
+    let next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    cleanup()
+    render(<PartPanel composition={next} onChange={onChange} />)
+    fireEvent.change(screen.getByLabelText(`Tuning context ${part.id}`), {
+      target: { value: 'tuning-just' },
+    })
+    next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    expect(
+      next.parts.find((item) => item.id === part.id),
+    ).toMatchObject({ tuningContextId: 'tuning-just' })
+    expect(validateComposition(next).ok).toBe(true)
+
+    // Back to Default must clear the field rather than store an empty string,
+    // which would fail validation as an unknown id.
+    cleanup()
+    render(<PartPanel composition={next} onChange={onChange} />)
+    fireEvent.change(screen.getByLabelText(`Tuning context ${part.id}`), {
+      target: { value: '' },
+    })
+    const cleared = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    const clearedPart = cleared.parts.find((item) => item.id === part.id)!
+    expect(
+      (clearedPart as { tuningContextId?: string }).tuningContextId,
+    ).toBeUndefined()
+    expect(validateComposition(cleared).ok).toBe(true)
+  })
 })
 
 describe('Part targeting', () => {
@@ -235,6 +291,91 @@ describe('pitch mappings', () => {
       (screen.getByLabelText(/^Pitch mapping/) as HTMLSelectElement).options,
     ).map((option) => option.value)
     expect(new Set(options)).toEqual(new Set(kinds))
+  })
+
+  /*
+   * The root was reported as missing, and it was two different problems. On
+   * boundary-degree, spatial, and contour it existed but rendered as a bare
+   * MIDI number, so "48" never read as a root note. On melodic-contour it was
+   * genuinely absent: the compiler pinned degree 0 to middle C.
+   */
+  it('names the note a root number stands for', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    const part = composition.parts[0]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(`Pitch mapping ${part.id}`), {
+      target: { value: 'boundary-degree' },
+    })
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    cleanup()
+    render(<PartPanel composition={next} onChange={onChange} />)
+    const root = screen.getByLabelText(`Root ${part.id}`)
+    expect(root).toHaveValue(48)
+    // The label carries the name, and tracks the number.
+    expect(root.closest('label')).toHaveTextContent('Root (C3)')
+
+    fireEvent.change(root, { target: { value: '50' } })
+    const moved = onChange.mock.calls.at(-1)?.[0] as Composition
+    cleanup()
+    render(<PartPanel composition={moved} onChange={onChange} />)
+    expect(
+      screen.getByLabelText(`Root ${part.id}`).closest('label'),
+    ).toHaveTextContent('Root (D3)')
+  })
+
+  it('gives melodic-contour a root, defaulting to the middle C it was pinned to', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    const part = composition.parts[0]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(`Pitch mapping ${part.id}`), {
+      target: { value: 'melodic-contour' },
+    })
+    let next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    cleanup()
+    render(<PartPanel composition={next} onChange={onChange} />)
+    // Unset reads as middle C, which is what the compiler used to hard-code.
+    expect(
+      screen.getByLabelText(`Root ${part.id}`).closest('label'),
+    ).toHaveTextContent('Root (C4)')
+
+    fireEvent.change(screen.getByLabelText(`Root ${part.id}`), {
+      target: { value: '62' },
+    })
+    next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    const pitch = (next.parts[0] as { pitch: { root?: number } }).pitch
+    expect(pitch.root).toBe(62)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('keeps a melodic-contour Composition written before the root existed valid', () => {
+    const composition = base()
+    composition.parts[0] = {
+      ...composition.parts[0],
+      kind: 'note',
+      pitch: {
+        kind: 'melodic-contour',
+        source: 'radius',
+        scale: 'dorian',
+        contour: {
+          maxStep: 2,
+          directionBias: 0.6,
+          lowDegree: 0,
+          highDegree: 12,
+          startDegree: 4,
+        },
+      },
+    } as Composition['parts'][number]
+
+    // No `root` key at all: the field is optional precisely so this still
+    // validates and still sounds as it did.
+    expect(validateComposition(composition).ok).toBe(true)
   })
 
   it.each(kinds)('switches to %s and stays valid', (kind) => {

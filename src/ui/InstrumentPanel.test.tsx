@@ -1,8 +1,12 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
+import { useState } from 'react'
 
 import type { Composition, SoundFontInstrumentSpec } from '../core/composition'
-import { defaultComposition } from '../core/defaultComposition'
+import {
+  defaultComposition,
+  referenceComposition,
+} from '../core/defaultComposition'
 import { InstrumentPanel } from './InstrumentPanel'
 
 afterEach(cleanup)
@@ -71,5 +75,93 @@ describe('InstrumentPanel SoundFont controls', () => {
       kind: 'native-drum',
       voice: 'kick',
     })
+  })
+})
+
+describe('InstrumentPanel add and remove', () => {
+  const Harness = ({ initial }: { initial: Composition }) => {
+    const [composition, setComposition] = useState(initial)
+    return (
+      <>
+        <InstrumentPanel composition={composition} onChange={setComposition} />
+        <output aria-label="Instrument count">
+          {composition.instruments.length}
+        </output>
+      </>
+    )
+  }
+
+  it('adds an Instrument by copying the last, under a distinct name', () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    const before = composition.instruments.length
+    const last = composition.instruments[before - 1]
+    render(<Harness initial={composition} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Add Instrument' }))
+
+    expect(screen.getByLabelText('Instrument count')).toHaveTextContent(
+      String(before + 1),
+    )
+    // Copied, not invented: a soundfont template would otherwise produce an
+    // Instrument with no bank that validates and cannot play.
+    expect(screen.getByText(`${last.name} 2`, { selector: 'strong' })).toBeInTheDocument()
+  })
+
+  it('removes an Instrument no Part is using', () => {
+    // The reference Composition, because the default ships exactly one
+    // Instrument and the last-Instrument blocker would mask this case.
+    const composition = structuredClone(referenceComposition) as Composition
+    // Free the first Instrument by pointing every Part at the second.
+    const keep = composition.instruments[1].id
+    composition.parts = composition.parts.map((part) => ({
+      ...part,
+      instrumentId: keep,
+    }))
+    const doomed = composition.instruments[0]
+    render(<Harness initial={composition} />)
+
+    fireEvent.click(screen.getByRole('button', { name: `Remove ${doomed.name}` }))
+
+    expect(screen.getByLabelText('Instrument count')).toHaveTextContent(
+      String(composition.instruments.length - 1),
+    )
+    expect(
+      screen.queryByText(doomed.name, { selector: 'strong' }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('refuses to remove an Instrument a Part still plays through, and names the Parts', () => {
+    const composition = structuredClone(referenceComposition) as Composition
+    const used = composition.instruments.find((instrument) =>
+      composition.parts.some((part) => part.instrumentId === instrument.id),
+    )!
+    const user = composition.parts.find(
+      (part) => part.instrumentId === used.id,
+    )!
+    render(<Harness initial={composition} />)
+
+    fireEvent.click(screen.getByRole('button', { name: `Remove ${used.name}` }))
+
+    const alert = screen.getByRole('alertdialog', {
+      name: 'Cannot remove Instrument',
+    })
+    // Naming the Part is the difference between a refusal and a dead end.
+    expect(alert).toHaveTextContent(user.name)
+    expect(screen.getByLabelText('Instrument count')).toHaveTextContent(
+      String(composition.instruments.length),
+    )
+  })
+
+  it('refuses to remove the last Instrument', () => {
+    const composition = compositionWithSoundFont()
+    composition.parts = []
+    render(<Harness initial={composition} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Remove Grand Piano' }))
+
+    expect(
+      screen.getByRole('alertdialog', { name: 'Cannot remove Instrument' }),
+    ).toHaveTextContent('at least one Instrument')
+    expect(screen.getByLabelText('Instrument count')).toHaveTextContent('1')
   })
 })

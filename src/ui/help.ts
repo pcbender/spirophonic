@@ -198,7 +198,8 @@ export const help = {
   'part.highDegree': 'Highest scale degree the line may reach.',
   'part.startDegree': 'Scale degree the line begins on.',
   'part.midiNote': 'The single MIDI note every Encounter plays. 60 is middle C.',
-  'part.root': 'Lowest MIDI note of the scale that Boundary degrees map onto.',
+  'part.root':
+    'The root note the scale is built on, as a MIDI number — the note name beside the label tracks it. Degree 0 lands here.',
   'part.scale': 'Which scale the degrees land on. Pentatonic minor is the forgiving default.',
   'part.relations':
     'Which Relations this Part fires on. Check none and it hears every Relation of the kinds above.',
@@ -242,6 +243,8 @@ export const help = {
   'tuning.rootHz': 'Reference frequency the context is built on. 261.63 Hz is middle C.',
   'tuning.system':
     'Equal temperament quantizes to fixed divisions per octave. Rational keeps exact ratios, which is what makes a 3:2 an actual perfect fifth rather than an approximation of one.',
+  'part.tuningContext':
+    'Which tuning context this Part resolves its ratios against. Only Tuned ratio reads it. Default is C4 at 261.63 Hz in 12-tone equal temperament; add others with Add Tuning.',
   'tuning.name': 'Names this tuning context.',
   'control.name': 'Names this Control Part.',
   /*
@@ -260,6 +263,10 @@ export const help = {
   'tuning.remove': 'Remove this tuning context.',
 
   // Instruments
+  'instrument.add':
+    'Add an Instrument by copying the last one. It is silent until a Part is pointed at it.',
+  'instrument.remove':
+    'Remove this Instrument. Refused while any Part still plays through it, and a Composition must keep one.',
   'instrument.name': 'Names this Instrument in Part pickers.',
   'instrument.waveform': 'Oscillator shape. Sine is pure; sawtooth is brightest.',
   'instrument.voice': 'Which drum this Instrument plays.',

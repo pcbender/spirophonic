@@ -11,7 +11,8 @@ import type {
   ScaleName,
   WheelSpec,
 } from '../core/composition'
-import { scaleNames } from '../core/scales'
+import { DEFAULT_MELODY_ROOT } from '../core/parts'
+import { midiToName, scaleNames } from '../core/scales'
 import { help } from './help'
 import { RailPanel } from './RailPanel'
 
@@ -767,6 +768,9 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               part={part}
               composition={composition}
               onPitch={(pitch) => update(part.id, (current) => ({ ...current, pitch }))}
+              onTuningContext={(tuningContextId) =>
+                update(part.id, (current) => ({ ...current, tuningContextId }))
+              }
             />
 
             <label title={help['part.velocityKind']}>
@@ -877,6 +881,8 @@ type PitchControlsProps = {
   part: NotePartSpec
   composition: Composition
   onPitch: (pitch: PitchMapping) => void
+  /** Separate from onPitch: the context lives on the Part, not the mapping. */
+  onTuningContext: (tuningContextId: string | undefined) => void
 }
 
 /**
@@ -886,7 +892,12 @@ type PitchControlsProps = {
  * Each branch edits its own shape and never reaches for fields another kind
  * owns, which is what keeps a switch from producing an invalid Composition.
  */
-function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
+function PitchControls({
+  part,
+  composition,
+  onPitch,
+  onTuningContext,
+}: PitchControlsProps) {
   const pitch = part.pitch
 
   const scaleSelect = (
@@ -942,7 +953,7 @@ function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
   if (pitch.kind === 'boundary-degree') {
     return (
       <>
-        <NumberField label={`Root ${part.id}`} shortLabel="Root" hint={help['part.root']} value={pitch.root} min={0} max={127} step={1} onChange={(root) => onPitch({ ...pitch, root })} />
+        <RootField label={`Root ${part.id}`} value={pitch.root} onChange={(root) => onPitch({ ...pitch, root })} />
         {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
         <NumberField label={`Octaves ${part.id}`} shortLabel="Octaves" hint={help['part.octaves']} value={pitch.octaves} min={0} max={10} step={1} onChange={(octaves) => onPitch({ ...pitch, octaves })} />
       </>
@@ -953,7 +964,7 @@ function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
     return (
       <>
         {sourceSelect(pitch.source, (source) => onPitch({ ...pitch, source }))}
-        <NumberField label={`Root ${part.id}`} shortLabel="Root" hint={help['part.root']} value={pitch.root} min={0} max={127} step={1} onChange={(root) => onPitch({ ...pitch, root })} />
+        <RootField label={`Root ${part.id}`} value={pitch.root} onChange={(root) => onPitch({ ...pitch, root })} />
         {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
         <NumberField label={`Octaves ${part.id}`} shortLabel="Octaves" hint={help['part.octaves']} value={pitch.octaves} min={0} max={10} step={1} onChange={(octaves) => onPitch({ ...pitch, octaves })} />
       </>
@@ -966,6 +977,16 @@ function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
       <>
         {sourceSelect(pitch.source, (source) => onPitch({ ...pitch, source }))}
         {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
+        {/*
+          This mapping had a scale and no root: the compiler pinned degree 0 to
+          middle C. Choosing dorian without choosing what it was dorian *on*
+          was the one place the key really was unreachable.
+        */}
+        <RootField
+          label={`Root ${part.id}`}
+          value={pitch.root ?? DEFAULT_MELODY_ROOT}
+          onChange={(root) => onPitch({ ...pitch, root })}
+        />
         <NumberField label={`Max step ${part.id}`} shortLabel="Max step" hint={help['part.maxStep']} value={contour.maxStep} min={0} max={64} step={1} onChange={(maxStep) => onPitch({ ...pitch, contour: { ...contour, maxStep } })} />
         <NumberField label={`Direction bias ${part.id}`} shortLabel="Direction bias" hint={help['part.directionBias']} value={contour.directionBias} min={0} max={1} step={0.05} onChange={(directionBias) => onPitch({ ...pitch, contour: { ...contour, directionBias } })} />
         <NumberField label={`Low degree ${part.id}`} shortLabel="Low degree" hint={help['part.lowDegree']} value={contour.lowDegree} min={-128} max={128} step={1} onChange={(lowDegree) => onPitch({ ...pitch, contour: { ...contour, lowDegree } })} />
@@ -996,6 +1017,27 @@ function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
   const ratio = pitch.ratio
   return (
     <>
+      {/*
+        The one place a tuning context is consumed: `mapEncounterPitch` reads
+        it only on this branch. Rendering it here rather than beside the Part's
+        other fields keeps it from looking like it governs the other seven
+        mappings, which it does not.
+      */}
+      <label title={help['part.tuningContext']}>
+        <span>Tuning</span>
+        <select
+          aria-label={`Tuning context ${part.id}`}
+          value={part.tuningContextId ?? ''}
+          onChange={(event) =>
+            onTuningContext(event.currentTarget.value || undefined)
+          }
+        >
+          <option value="">Default — C4, 12-TET</option>
+          {(composition.tuningContexts ?? []).map((tuning) => (
+            <option key={tuning.id} value={tuning.id}>{tuning.name}</option>
+          ))}
+        </select>
+      </label>
       <label title={help['part.ratioSource']}>
         <span>Ratio from</span>
         <select
@@ -1058,6 +1100,39 @@ type NumberFieldProps = {
   /** Hover help. See `./help`. */
   hint?: string
   onChange: (value: number) => void
+}
+
+/**
+ * A root note, shown as a note name.
+ *
+ * The value stored is a MIDI number and stays one — it is what every scale
+ * helper takes. But "Root 48" is not a root note to a musician reading a
+ * panel, which is why this control was reported as missing when it had been
+ * there all along. The label carries the name and tracks the number.
+ */
+function RootField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string
+  value: number
+  onChange: (root: number) => void
+}) {
+  return (
+    <label title={help['part.root']}>
+      <span>Root ({midiToName(value)})</span>
+      <input
+        aria-label={label}
+        type="number"
+        value={value}
+        min={0}
+        max={127}
+        step={1}
+        onChange={(event) => onChange(Number(event.currentTarget.value))}
+      />
+    </label>
+  )
 }
 
 function NumberField({ label, shortLabel, value, min, max, step, hint, onChange }: NumberFieldProps) {

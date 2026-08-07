@@ -320,9 +320,20 @@ crossed choose the note.
 | **Boundary degree** | Root, Scale, Octaves | Which Boundary was crossed. For a trace crossing or a Relation, which *other Head* was met. |
 | **Spatial** | Source, Root, Scale, Octaves | *Where* the Encounter happened — its x, y, distance from centre, or angle — mapped onto the scale. |
 | **Contour** | Source, Root, Scale, Octaves | The same measurement, but normalised across this Part's own Encounters, so the full range is always used. |
-| **Melodic line** | Source, Scale, Max step, Direction bias, Low/High/Start degree | A line that *walks* the scale. The source steers direction rather than picking notes outright, so the result moves stepwise instead of leaping. |
+| **Melodic line** | Source, Scale, Root, Max step, Direction bias, Low/High/Start degree | A line that *walks* the scale. The source steers direction rather than picking notes outright, so the result moves stepwise instead of leaping. |
 | **Ratio** | Root (Hz), Octave fold | Which Boundary was crossed, as a whole-number frequency ratio above the root. |
-| **Tuned ratio** | Explicit numerator/denominator, or a Wheel's motion | An exact interval. Taking it from a Lissajous or rose Wheel makes a 3:2 figure sound an actual perfect fifth. |
+| **Tuned ratio** | Tuning, and either an explicit numerator/denominator or a Wheel's motion | An exact interval. Taking it from a Lissajous or rose Wheel makes a 3:2 figure sound an actual perfect fifth. |
+
+**Root** is a MIDI note, and the label names it: `Root (C3)` for 48. Degree 0 of
+the scale lands there, so it is the key the mapping is in. Every scale mapping
+has one, Melodic line included — before, that one was fixed at middle C.
+
+**Tuning** appears on **Tuned ratio** only, because that is the only mapping
+that resolves against a tuning context. Left at **Default** it uses C4 at
+261.63 Hz in 12-tone equal temperament; other entries are the contexts you add
+with **Add Tuning**, further up this panel. Choosing one is what makes a
+`rational` system or a different root frequency audible — a context that no
+Part points at changes nothing.
 
 **Scales** are chromatic, major, minor, dorian, pentatonic-major, and
 pentatonic-minor.
@@ -425,6 +436,15 @@ unavailable.
 ## Instruments
 
 Renders what Parts decide. Three kinds.
+
+**Add Instrument** copies the last one — copied rather than invented, because a
+`soundfont` Instrument carries a bank and a preset, and a synthesised default
+would validate and be unable to play. A new Instrument is silent until a Part
+is pointed at it.
+
+**Remove** is refused, with a reason, while any Part still plays through that
+Instrument, and a Composition must always keep one. Reassign the Parts first —
+the refusal names them.
 
 Common to all kinds: **Name**, **Gain**, **Pan**.
 

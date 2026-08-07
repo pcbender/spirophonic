@@ -427,6 +427,12 @@ export type PitchMapping =
       kind: 'melodic-contour'
       source: 'x' | 'y' | 'radius' | 'angle'
       scale: ScaleName
+      /**
+       * Where degree 0 sits, as a MIDI note. Optional so Compositions written
+       * before it existed stay valid; absent means middle C, which is the
+       * value that used to be hard-coded in the compiler.
+       */
+      root?: number
       contour: MelodyContourSpec
     }
 

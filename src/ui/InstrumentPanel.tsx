@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import type {
   Composition,
   InstrumentSpec,
@@ -5,6 +7,13 @@ import type {
   NativeSynthInstrumentSpec,
   SoundFontInstrumentSpec,
 } from '../core/composition'
+import {
+  addInstrument,
+  removalImpact,
+  removalIsBlocked,
+  removeInstrument,
+  type RemovalImpact,
+} from '../core/compositionEdits'
 import { help } from './help'
 import { RailPanel } from './RailPanel'
 
@@ -58,6 +67,10 @@ const nativeDrumFallback = (
 })
 
 export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps) {
+  // Both blockers on removing an Instrument are refusals, not warnings, so this
+  // holds an impact to explain rather than a removal to confirm.
+  const [blocked, setBlocked] = useState<RemovalImpact | null>(null)
+
   const update = (id: string, next: (instrument: InstrumentSpec) => InstrumentSpec) =>
     onChange({
       ...composition,
@@ -66,14 +79,49 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
       ),
     })
 
+  const remove = (id: string) => {
+    const impact = removalImpact(composition, 'instrument', id)
+    if (removalIsBlocked(impact)) {
+      setBlocked(impact)
+      return
+    }
+    setBlocked(null)
+    onChange(removeInstrument(composition, id))
+  }
+
   return (
-    <RailPanel label="Instruments" title="Instruments">
+    <RailPanel
+      label="Instruments"
+      title="Instruments"
+      actions={
+        <button
+          type="button"
+          title={help['instrument.add']}
+          onClick={() => {
+            const template =
+              composition.instruments[composition.instruments.length - 1]
+            if (!template) return
+            onChange(addInstrument(composition, template).composition)
+          }}
+        >
+          Add Instrument
+        </button>
+      }
+    >
       <ol className="voice-list">
         {composition.instruments.map((instrument) => (
           <li key={instrument.id} className="voice-row">
             <div className="voice-head">
               <strong>{instrument.name}</strong>
               <code>{instrument.kind}</code>
+              <button
+                type="button"
+                title={help['instrument.remove']}
+                aria-label={`Remove ${instrument.name}`}
+                onClick={() => remove(instrument.id)}
+              >
+                Remove
+              </button>
             </div>
             <label title={help['instrument.name']}>
               <span>Name</span>
@@ -171,6 +219,23 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
           </li>
         ))}
       </ol>
+      {blocked && (
+        <div
+          className="removal-impact"
+          role="alertdialog"
+          aria-label="Cannot remove Instrument"
+        >
+          <h3>Cannot remove {blocked.name}</h3>
+          <ul>
+            {blocked.blockers.map((blocker) => (
+              <li key={blocker}>{blocker}</li>
+            ))}
+          </ul>
+          <button type="button" onClick={() => setBlocked(null)}>
+            Close
+          </button>
+        </div>
+      )}
     </RailPanel>
   )
 }

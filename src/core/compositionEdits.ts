@@ -1,6 +1,7 @@
 import type {
   Composition,
   HeadSpec,
+  InstrumentSpec,
   PartSpec,
   WheelSpec,
 } from './composition'
@@ -635,5 +636,66 @@ export const removePart = (
   return {
     ...composition,
     parts: composition.parts.filter((part) => part.id !== partId),
+  }
+}
+
+/**
+ * Adds an Instrument by copying one that already sounds.
+ *
+ * Copying rather than synthesising a default keeps this honest about the
+ * union: a `soundfont` Instrument carries a bank reference and a preset, and
+ * inventing those would produce an Instrument that validates and cannot play.
+ * The template is whatever the caller was looking at, so the new voice starts
+ * where the old one did and is edited from there.
+ *
+ * Nothing else in the Composition points at it yet. A new Instrument is silent
+ * until a Part is aimed at it, which is the same order the rest of the chain
+ * is built in.
+ */
+export const addInstrument = (
+  composition: Composition,
+  template: InstrumentSpec,
+): { composition: Composition; instrumentId: string } => {
+  const instrumentId = nextCompositionId(composition, 'instrument')
+  const instrument: InstrumentSpec = {
+    ...structuredClone(template),
+    id: instrumentId,
+    name: uniqueName(
+      composition.instruments.map((item) => item.name),
+      template.name,
+    ),
+  }
+
+  return {
+    composition: {
+      ...composition,
+      instruments: [...composition.instruments, instrument],
+    },
+    instrumentId,
+  }
+}
+
+/**
+ * Removes an Instrument.
+ *
+ * Both blockers already existed in `instrumentRemovalImpact` and neither is
+ * overridable by cascade: a Composition must keep one Instrument, and a Part
+ * pointing at a removed Instrument would compile to nothing. Reassigning the
+ * Parts first is the only way through, and the impact names them.
+ */
+export const removeInstrument = (
+  composition: Composition,
+  instrumentId: string,
+): Composition => {
+  const impact = removalImpact(composition, 'instrument', instrumentId)
+  if (removalIsBlocked(impact)) {
+    throw new RangeError(impact.blockers.join(' '))
+  }
+
+  return {
+    ...composition,
+    instruments: composition.instruments.filter(
+      (instrument) => instrument.id !== instrumentId,
+    ),
   }
 }
