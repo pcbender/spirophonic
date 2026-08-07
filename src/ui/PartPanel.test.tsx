@@ -115,3 +115,102 @@ describe('MG-16 tuning authoring', () => {
     expect(validateComposition(composition).ok).toBe(true)
   })
 })
+
+describe('Part targeting', () => {
+  /** Two Wheels, two Heads each, so a filter has something to choose between. */
+  const twoWheels = (): Composition => {
+    const composition = base()
+    const second = structuredClone(composition.wheels[0])
+    second.id = 'wheel-2'
+    second.name = 'Wheel 2'
+    second.heads = second.heads.map((head, index) => ({
+      ...head,
+      id: `head-2-${index + 1}`,
+      name: `W2 Head ${index + 1}`,
+    }))
+    composition.wheels.push(second)
+    return composition
+  }
+
+  it('adds a Part that listens to every Wheel, not only the first', () => {
+    const onChange = vi.fn()
+    render(<PartPanel composition={twoWheels()} onChange={onChange} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Add Part' }))
+    const composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    const added = composition.parts.at(-1)
+
+    // Empty is the query language's "any", so a new Part hears the whole
+    // Composition rather than being silently pinned to Wheel 1.
+    expect(added?.encounterQuery.wheelIds).toEqual([])
+    expect(added?.encounterQuery.headIds).toEqual([])
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+
+  it('retargets an existing Part onto a chosen Wheel', () => {
+    const onChange = vi.fn()
+    const composition = twoWheels()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    const partId = composition.parts[0].id
+    fireEvent.click(screen.getByLabelText(`Wheel 2 for ${partId}`))
+
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    expect(next.parts[0].encounterQuery.wheelIds).toContain('wheel-2')
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('keeps a multi-Wheel filter intact when one more Wheel is added', () => {
+    const onChange = vi.fn()
+    const composition = twoWheels()
+    composition.parts[0].encounterQuery.wheelIds = ['wheel-1', 'wheel-2']
+    const { rerender } = render(
+      <PartPanel composition={composition} onChange={onChange} />,
+    )
+    const partId = composition.parts[0].id
+
+    // Both boxes read as checked, which a single-choice control could not show.
+    expect(
+      (screen.getByLabelText(`Wheel 1 for ${partId}`) as HTMLInputElement)
+        .checked,
+    ).toBe(true)
+    expect(
+      (screen.getByLabelText(`Wheel 2 for ${partId}`) as HTMLInputElement)
+        .checked,
+    ).toBe(true)
+
+    fireEvent.click(screen.getByLabelText(`Wheel 1 for ${partId}`))
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    expect(next.parts[0].encounterQuery.wheelIds).toEqual(['wheel-2'])
+    rerender(<PartPanel composition={next} onChange={onChange} />)
+  })
+
+  it('drops Head filters belonging to a Wheel it stops listening to', () => {
+    const onChange = vi.fn()
+    const composition = twoWheels()
+    const partId = composition.parts[0].id
+    composition.parts[0].encounterQuery.wheelIds = ['wheel-1', 'wheel-2']
+    composition.parts[0].encounterQuery.headIds = ['head-1', 'head-2-1']
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.click(screen.getByLabelText(`Wheel 2 for ${partId}`))
+
+    // head-2-1 lives on the Wheel just removed; keeping it would leave a
+    // filter that can never match.
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    expect(next.parts[0].encounterQuery.wheelIds).toEqual(['wheel-1'])
+    expect(next.parts[0].encounterQuery.headIds).toEqual(['head-1'])
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('offers only the Heads on the Wheels a Part listens to', () => {
+    const onChange = vi.fn()
+    const composition = twoWheels()
+    const partId = composition.parts[0].id
+    composition.parts[0].encounterQuery.wheelIds = ['wheel-2']
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    expect(screen.getByLabelText(`Wheel 2 W2 Head 1 for ${partId}`)).toBeTruthy()
+    expect(screen.queryByLabelText(`Wheel 1 Head 1 for ${partId}`)).toBeNull()
+  })
+})

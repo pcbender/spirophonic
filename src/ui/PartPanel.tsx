@@ -2,10 +2,12 @@ import type {
   Composition,
   ControlPartSpec,
   EncounterDirection,
+  EncounterQuery,
   NotePartSpec,
   PartSpec,
   RelationSpec,
   ScaleName,
+  WheelSpec,
 } from '../core/composition'
 import { scaleNames } from '../core/scales'
 import { RailPanel } from './RailPanel'
@@ -46,6 +48,44 @@ const directions: Array<Extract<
   EncounterDirection,
   'inward' | 'outward' | 'clockwise' | 'counterclockwise'
 >> = ['inward', 'outward', 'clockwise', 'counterclockwise']
+
+/**
+ * The Heads a Part could currently select, which is the Heads on the Wheels it
+ * listens to. A Head on an unlisted Wheel can never match — an Encounter has
+ * to satisfy both lists — so offering it would be offering a no-op.
+ */
+const headsInScope = (composition: Composition, query: EncounterQuery) =>
+  composition.wheels
+    .filter(
+      (wheel) =>
+        query.wheelIds.length === 0 || query.wheelIds.includes(wheel.id),
+    )
+    .flatMap((wheel) => wheel.heads.map((head) => ({ wheel, head })))
+
+const toggled = (list: ReadonlyArray<string>, id: string) =>
+  list.includes(id) ? list.filter((value) => value !== id) : [...list, id]
+
+/**
+ * Adds or removes a Wheel from a Part's filter.
+ *
+ * An empty list means *every* Wheel — that is the query language, not a null
+ * state — so unchecking the last Wheel widens the Part rather than silencing
+ * it. Head filters for a Wheel the Part no longer listens to are dropped with
+ * it: an Encounter must satisfy both lists, so such a Head could never match
+ * again and would only sit there as a dead reference.
+ */
+const withWheelToggled = (
+  query: EncounterQuery,
+  wheel: WheelSpec,
+): EncounterQuery => {
+  const wheelIds = toggled(query.wheelIds, wheel.id)
+  const headIds = wheelIds.includes(wheel.id)
+    ? query.headIds
+    : query.headIds.filter(
+        (id) => !wheel.heads.some((head) => head.id === id),
+      )
+  return { ...query, wheelIds, headIds }
+}
 
 export function PartPanel({ composition, onChange }: PartPanelProps) {
   const parts = composition.parts.filter(
@@ -176,8 +216,11 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
         kind: 'note',
         encounterQuery: {
           kinds: ['boundary-crossing'],
-          wheelIds: [composition.wheels[0].id],
-          headIds: [composition.wheels[0].heads[0].id],
+          // Every Wheel and every Head. Binding a new Part to the first of each
+          // made it deaf to the rest of a multi-Wheel Composition, which looked
+          // like a Part that produced no notes.
+          wheelIds: [],
+          headIds: [],
           fieldIds: [],
           boundaryIds: [],
           directions: [],
@@ -521,6 +564,54 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               <span>Name</span>
               <input aria-label={`Name ${part.id}`} value={part.name} onChange={(event) => update(part.id, (current) => ({ ...current, name: event.currentTarget.value }))} />
             </label>
+
+            {/*
+              Which Heads this Part hears. Checking nothing means every one —
+              stated in words under each row, because an empty set reading as
+              "all" is the opposite of what an empty set usually means.
+            */}
+            <fieldset className="query-scope">
+              <legend>Listens to</legend>
+
+              <div className="query-toggles" role="group" aria-label={`Wheels ${part.id}`}>
+                {composition.wheels.map((wheel) => (
+                  <label key={wheel.id} className="tree-toggle">
+                    <input
+                      type="checkbox"
+                      aria-label={`${wheel.name} for ${part.id}`}
+                      checked={part.encounterQuery.wheelIds.includes(wheel.id)}
+                      onChange={() => update(part.id, (current) => ({ ...current, encounterQuery: withWheelToggled(current.encounterQuery, wheel) }))}
+                    />
+                    <span>{wheel.name}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="panel-context">
+                {part.encounterQuery.wheelIds.length === 0
+                  ? `Every Wheel (${composition.wheels.length})`
+                  : `${part.encounterQuery.wheelIds.length} of ${composition.wheels.length} Wheels`}
+              </p>
+
+              <div className="query-toggles" role="group" aria-label={`Heads ${part.id}`}>
+                {headsInScope(composition, part.encounterQuery).map(({ wheel, head }) => (
+                  <label key={head.id} className="tree-toggle">
+                    <input
+                      type="checkbox"
+                      aria-label={`${wheel.name} ${head.name} for ${part.id}`}
+                      checked={part.encounterQuery.headIds.includes(head.id)}
+                      onChange={() => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, headIds: toggled(current.encounterQuery.headIds, head.id) } }))}
+                    />
+                    <span>{head.name}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="panel-context">
+                {part.encounterQuery.headIds.length === 0
+                  ? 'Every Head on those Wheels'
+                  : `${part.encounterQuery.headIds.length} Head(s)`}
+              </p>
+            </fieldset>
+
             <label>
               <span>Boundary</span>
               <select aria-label={`Boundary ${part.id}`} value={part.encounterQuery.boundaryIds[0] ?? ''} onChange={(event) => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, boundaryIds: event.currentTarget.value ? [event.currentTarget.value] : [] } }))}>

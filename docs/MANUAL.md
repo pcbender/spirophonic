@@ -264,6 +264,8 @@ Turns Encounters into notes.
 | Control | Notes |
 |---|---|
 | Enable checkbox, **Name**, **Remove** | |
+| **Listens to → Wheels** | Which Wheels this Part hears. Check none and it hears every Wheel — the caption under the row always says which. |
+| **Listens to → Heads** | Which Heads, among those on the Wheels above. Check none and it hears all of them. Only Heads on listened-to Wheels are offered, because a Head on any other Wheel could never match. |
 | **Boundary** | `All boundaries`, or one specific Boundary. |
 | **Direction** | `Any direction`, or one of inward, outward, clockwise, counterclockwise, approaching, receding. |
 | **Instrument** | Which Instrument renders this Part's notes. |
@@ -277,11 +279,10 @@ A new Part starts at **Fixed MIDI note 60**, so your first sound is a rhythm on
 one repeated pitch. Switch to **Boundary degree** to let which Boundary was
 crossed choose the note.
 
-> **Important limitation.** A Part created here is permanently bound to the
-> **first** Wheel and its **first** Head, and the panel offers no control to
-> change that. In a Composition with several Wheels, every Part you add through
-> the interface listens to Wheel 1 only. Retargeting requires a JSON edit. See
-> [below](#what-the-interface-does-not-reach).
+A new Part listens to **every** Wheel and Head. Narrow it with the *Listens to*
+checkboxes — several Wheels at once is normal, and is what the shipped example
+does. Unchecking every box does not silence a Part; it widens it back to all,
+which is why each row states in words what it currently means.
 
 ### Add Relation — a detector between Heads
 
@@ -458,13 +459,6 @@ These are structural and cannot be turned off.
 The Composition format is larger than the panels. Everything below is valid,
 supported, and reachable only by **Export JSON**, editing, and **Import JSON**.
 Imports are validated, so a malformed edit is refused with reasons.
-
-**Part targeting.** A Part created in the interface is bound to the first Wheel
-and its first Head, with no control to change it. The example Composition that
-ships with the app has Parts bound to `["wheel-2","wheel-4"]` and to all four
-Wheels at once — *the shipped example cannot be authored through the interface
-that ships with it.* In `encounterQuery`, `wheelIds` and `headIds` accept any
-set of ids; an empty array means "all".
 
 **Encounter kinds.** Parts made here listen for `boundary-crossing` only. The
 format supports `trace-crossing`, `conjunction`, `closest-approach`,

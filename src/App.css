@@ -391,6 +391,41 @@ h1 {
   min-width: 0;
 }
 
+/* A Part's Wheel and Head filters. Several short toggles rather than a select,
+   because the filter is a set: the shipped example listens to two named Wheels
+   at once, and a single-choice control could not express that without dropping
+   one of them. */
+.query-scope {
+  /* A Part row is an auto-fit grid of ~96px columns. Left in one of those
+     cells the toggles stack one per line and the hint text collides with the
+     next control, so the filter takes the whole row. */
+  grid-column: 1 / -1;
+  margin: 10px 0 0;
+  border: 1px solid rgba(246, 244, 239, 0.16);
+  border-radius: 8px;
+  padding: 8px 10px 4px;
+  min-width: 0;
+}
+
+.query-scope legend {
+  padding: 0 6px;
+  color: #a9a297;
+  font-size: 0.78rem;
+}
+
+.query-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  min-width: 0;
+}
+
+.query-scope .panel-context {
+  margin: 2px 0 8px;
+  color: #8f877c;
+  font-size: 0.74rem;
+}
+
 .panel-actions button[aria-pressed='true'] {
   border-color: #f2c14e;
   color: #101014;

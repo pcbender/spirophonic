@@ -53,7 +53,11 @@ const canvasInk = (page: Page) =>
 const loadReference = async (page: Page) => {
   await page.getByRole('button', { name: 'Load example' }).click()
   await page.getByRole('button', { name: 'Discard and load example' }).click()
-  await expect(page.getByText('Wheel 4')).toBeVisible()
+  // Scoped to the tree: a Wheel's name also labels its checkbox in every Part's
+  // filter, so an unscoped query matches once per Part as well.
+  await expect(
+    page.getByRole('region', { name: 'Composition tree' }).getByText('Wheel 4'),
+  ).toBeVisible()
 }
 
 test('renders the composition canvas with visible geometry', async ({ page }) => {
@@ -354,7 +358,9 @@ test('an edited Composition survives a reload', async ({ browser }) => {
   ).toBeVisible()
 
   await expect(fresh.getByLabel(/^Tempo/)).toHaveValue('96')
-  await expect(fresh.getByText('Wheel 4')).toBeVisible()
+  await expect(
+    fresh.getByRole('region', { name: 'Composition tree' }).getByText('Wheel 4'),
+  ).toBeVisible()
   expect(errors, `page errors: ${errors.join(' | ')}`).toEqual([])
 
   await context.close()
@@ -422,7 +428,9 @@ test('an audio device change does not lose the Composition', async ({ page }) =>
     navigator.mediaDevices?.dispatchEvent(new Event('devicechange'))
   })
 
-  await expect(page.getByText('Wheel 4')).toBeVisible()
+  await expect(
+    page.getByRole('region', { name: 'Composition tree' }).getByText('Wheel 4'),
+  ).toBeVisible()
   await expect(page.getByLabel(/^Tempo/)).toHaveValue('110')
   await page.getByRole('button', { name: 'Pause' }).click()
 })

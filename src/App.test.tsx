@@ -1,4 +1,11 @@
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { StrictMode } from 'react'
 
@@ -263,8 +270,11 @@ describe('MG-12 concurrent multi-Wheel authoring', () => {
     const nameField = screen.getByLabelText('Wheel name') as HTMLInputElement
     fireEvent.change(nameField, { target: { value: 'Second Wheel' } })
 
-    expect(screen.getByText('Second Wheel')).toBeInTheDocument()
-    expect(screen.getByText('Wheel 1')).toBeInTheDocument()
+    // Scoped to the tree: a Wheel's name also labels its checkbox in every
+    // Part's filter, so an unscoped query matches once per Part as well.
+    const tree = within(screen.getByLabelText('Composition tree'))
+    expect(tree.getByText('Second Wheel')).toBeInTheDocument()
+    expect(tree.getByText('Wheel 1')).toBeInTheDocument()
   })
 
   it('loads the reference Composition and plays it through four Instruments', () => {
@@ -275,9 +285,12 @@ describe('MG-12 concurrent multi-Wheel authoring', () => {
       screen.getByRole('button', { name: 'Discard and load example' }),
     )
 
-    // Four Wheels, three Heads each, are all present in the tree.
+    // Four Wheels, three Heads each, are all present in the tree. Scoped to
+    // the tree because a Wheel's name also labels its checkbox in every Part's
+    // filter, so an unscoped query matches once per Part as well.
+    const tree = within(screen.getByLabelText('Composition tree'))
     for (let wheelIndex = 1; wheelIndex <= 4; wheelIndex += 1) {
-      expect(screen.getByText(`Wheel ${wheelIndex}`)).toBeInTheDocument()
+      expect(tree.getByText(`Wheel ${wheelIndex}`)).toBeInTheDocument()
       for (let headIndex = 1; headIndex <= 3; headIndex += 1) {
         expect(
           screen.getByRole('button', {
