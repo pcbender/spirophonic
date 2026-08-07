@@ -231,25 +231,57 @@ const instrumentRemovalImpact = (
   if (!instrument) {
     throw new RangeError(`Unknown Instrument "${id}".`)
   }
-  const users = composition.parts.filter((part) => part.instrumentId === id)
+  /*
+   * Only note Parts block. Every Part carries an `instrumentId` because the
+   * field lives on PartBase, but a Control Part drives a lane and never emits
+   * a note — `compilePerformance` branches it away before pitch is mapped — so
+   * its reference is bookkeeping, not sound. Counting it here refused a
+   * removal on the grounds that a Part "plays through" an Instrument it does
+   * not play through.
+   *
+   * It cannot simply be ignored either: the validator requires every Part's
+   * instrumentId to name a real Instrument, so a Control Part left pointing at
+   * a removed one would produce an invalid Composition. It is repointed
+   * instead, and reported as a rewrite so the removal is confirmed rather than
+   * done behind the user's back.
+   */
+  const players = composition.parts.filter(
+    (part) => part.kind === 'note' && part.instrumentId === id,
+  )
+  const repointed = composition.parts.filter(
+    (part) => part.kind !== 'note' && part.instrumentId === id,
+  )
   const blockers: Array<string> = []
   if (composition.instruments.length <= 1) {
     blockers.push('A Composition must keep at least one Instrument.')
   }
-  if (users.length > 0) {
+  if (players.length > 0) {
     blockers.push(
-      `${users.length} Part${users.length === 1 ? '' : 's'} still play through "${instrument.name}": ${users
+      `${players.length} Part${players.length === 1 ? '' : 's'} still ${
+        players.length === 1 ? 'plays' : 'play'
+      } through "${instrument.name}": ${players
         .map((part) => `"${part.name}"`)
         .join(', ')}. Reassign them first.`,
     )
   }
 
+  const survivor = composition.instruments.find(
+    (candidate) => candidate.id !== id,
+  )
+
   return Object.freeze({
     kind: 'instrument' as const,
     id,
     name: instrument.name,
+    referenceRewrites: freeze(
+      repointed.map((part) => ({
+        path: `$.parts[${composition.parts.indexOf(part)}].instrumentId`,
+        description: `Control Part "${part.name}" would be repointed to "${
+          survivor?.name ?? 'another Instrument'
+        }". It drives a lane rather than notes, so this does not change what you hear.`,
+      })),
+    ),
     cascadeRemovals: freeze([]),
-    referenceRewrites: referencesToId(composition, id),
     blockers: freeze(blockers),
   })
 }
@@ -678,24 +710,45 @@ export const addInstrument = (
 /**
  * Removes an Instrument.
  *
- * Both blockers already existed in `instrumentRemovalImpact` and neither is
- * overridable by cascade: a Composition must keep one Instrument, and a Part
- * pointing at a removed Instrument would compile to nothing. Reassigning the
- * Parts first is the only way through, and the impact names them.
+ * Neither blocker is overridable: a Composition must keep one Instrument, and
+ * a note Part pointing at a removed Instrument would compile to nothing.
+ * Reassigning those Parts first is the only way through, and the impact names
+ * them.
+ *
+ * Control Parts are repointed rather than blocked. They carry an
+ * `instrumentId` only because the field lives on PartBase and the validator
+ * requires it to name a real Instrument — nothing reads it, because a Control
+ * Part never emits a note. Leaving one dangling would fail validation, so it
+ * is moved to a survivor, and `cascade` is required because a silent rewrite
+ * of the user's data is not something to do unannounced.
  */
 export const removeInstrument = (
   composition: Composition,
   instrumentId: string,
+  options: { cascade?: boolean } = {},
 ): Composition => {
   const impact = removalImpact(composition, 'instrument', instrumentId)
   if (removalIsBlocked(impact)) {
     throw new RangeError(impact.blockers.join(' '))
   }
+  if (removalNeedsConfirmation(impact) && !options.cascade) {
+    throw new RangeError(
+      `Removing Instrument "${impact.name}" repoints ${impact.referenceRewrites.length} Control Part(s). Pass cascade: true to accept the impact.`,
+    )
+  }
+
+  const instruments = composition.instruments.filter(
+    (instrument) => instrument.id !== instrumentId,
+  )
+  const survivorId = instruments[0].id
 
   return {
     ...composition,
-    instruments: composition.instruments.filter(
-      (instrument) => instrument.id !== instrumentId,
+    instruments,
+    parts: composition.parts.map((part) =>
+      part.instrumentId === instrumentId
+        ? ({ ...part, instrumentId: survivorId } as PartSpec)
+        : part,
     ),
   }
 }

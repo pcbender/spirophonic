@@ -442,9 +442,15 @@ Renders what Parts decide. Three kinds.
 would validate and be unable to play. A new Instrument is silent until a Part
 is pointed at it.
 
-**Remove** is refused, with a reason, while any Part still plays through that
-Instrument, and a Composition must always keep one. Reassign the Parts first —
-the refusal names them.
+**Remove** is refused, with a reason, while any *note* Part still plays through
+that Instrument, and a Composition must always keep one. Reassign those Parts
+first — the refusal names them.
+
+Control Parts are asked about rather than refused. Every Part carries an
+Instrument because the field is common to all Parts, but a Control Part drives
+a lane and never emits a note, so its Instrument is bookkeeping. Removing one
+it names repoints it to a surviving Instrument, which the confirmation says
+before it happens — and which changes nothing you hear.
 
 Common to all kinds: **Name**, **Gain**, **Pan**.
 

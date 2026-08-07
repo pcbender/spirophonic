@@ -11,6 +11,7 @@ import {
   addInstrument,
   removalImpact,
   removalIsBlocked,
+  removalNeedsConfirmation,
   removeInstrument,
   type RemovalImpact,
 } from '../core/compositionEdits'
@@ -67,9 +68,10 @@ const nativeDrumFallback = (
 })
 
 export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps) {
-  // Both blockers on removing an Instrument are refusals, not warnings, so this
-  // holds an impact to explain rather than a removal to confirm.
-  const [blocked, setBlocked] = useState<RemovalImpact | null>(null)
+  // An impact either refuses (a note Part still plays through it, or it is the
+  // last Instrument) or asks (Control Parts would be repointed). One piece of
+  // state, two endings.
+  const [pending, setPending] = useState<RemovalImpact | null>(null)
 
   const update = (id: string, next: (instrument: InstrumentSpec) => InstrumentSpec) =>
     onChange({
@@ -81,11 +83,11 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
 
   const remove = (id: string) => {
     const impact = removalImpact(composition, 'instrument', id)
-    if (removalIsBlocked(impact)) {
-      setBlocked(impact)
+    if (removalIsBlocked(impact) || removalNeedsConfirmation(impact)) {
+      setPending(impact)
       return
     }
-    setBlocked(null)
+    setPending(null)
     onChange(removeInstrument(composition, id))
   }
 
@@ -219,21 +221,48 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
           </li>
         ))}
       </ol>
-      {blocked && (
+      {pending && (
         <div
           className="removal-impact"
           role="alertdialog"
-          aria-label="Cannot remove Instrument"
+          aria-label="Confirm Instrument removal"
         >
-          <h3>Cannot remove {blocked.name}</h3>
-          <ul>
-            {blocked.blockers.map((blocker) => (
-              <li key={blocker}>{blocker}</li>
-            ))}
-          </ul>
-          <button type="button" onClick={() => setBlocked(null)}>
-            Close
-          </button>
+          {removalIsBlocked(pending) ? (
+            <>
+              <h3>Cannot remove {pending.name}</h3>
+              <ul>
+                {pending.blockers.map((blocker) => (
+                  <li key={blocker}>{blocker}</li>
+                ))}
+              </ul>
+              <button type="button" onClick={() => setPending(null)}>
+                Close
+              </button>
+            </>
+          ) : (
+            <>
+              <h3>Remove {pending.name}?</h3>
+              <ul>
+                {pending.referenceRewrites.map((rewrite) => (
+                  <li key={rewrite.path}>{rewrite.description}</li>
+                ))}
+              </ul>
+              <button
+                type="button"
+                onClick={() => {
+                  onChange(
+                    removeInstrument(composition, pending.id, { cascade: true }),
+                  )
+                  setPending(null)
+                }}
+              >
+                Remove anyway
+              </button>
+              <button type="button" onClick={() => setPending(null)}>
+                Cancel
+              </button>
+            </>
+          )}
         </div>
       )}
     </RailPanel>

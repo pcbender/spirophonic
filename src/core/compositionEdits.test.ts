@@ -152,9 +152,11 @@ describe('removal impact', () => {
     expect(
       removalImpact(composition, 'head', 'head-1').blockers[0],
     ).toContain('must keep at least one Head')
+    // "1 Part still plays", not "1 Part still play" — the plural was applied
+    // to the noun and not the verb, and this assertion had pinned it.
     expect(
       removalImpact(composition, 'instrument', 'instrument-1').blockers.join(' '),
-    ).toContain('still play through')
+    ).toContain('1 Part still plays through')
 
     expect(() => removeWheel(composition, 'wheel-1')).toThrow(
       /at least one Wheel/,
