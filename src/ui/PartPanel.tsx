@@ -5,6 +5,7 @@ import type {
   EncounterQuery,
   NotePartSpec,
   PartSpec,
+  RelationEventKind,
   RelationSpec,
   ScaleName,
   WheelSpec,
@@ -65,6 +66,66 @@ const headsInScope = (composition: Composition, query: EncounterQuery) =>
 
 const toggled = (list: ReadonlyArray<string>, id: string) =>
   list.includes(id) ? list.filter((value) => value !== id) : [...list, id]
+
+/** Every kind a note Part can accept, with a label that fits a narrow rail. */
+const encounterKinds: ReadonlyArray<readonly [RelationEventKind, string]> = [
+  ['boundary-crossing', 'boundary'],
+  ['trace-crossing', 'trace'],
+  ['conjunction', 'conjunction'],
+  ['closest-approach', 'closest approach'],
+  ['radial-alignment', 'radial align'],
+  ['angular-alignment', 'angular align'],
+  ['opposition', 'opposition'],
+  ['direction-match', 'direction match'],
+]
+
+/**
+ * What the current selection means, and when it cannot produce anything.
+ *
+ * Accepting a kind is not enough on its own: trace crossings need a Head that
+ * observes its Trace, and the six Relation kinds need a Relation to detect
+ * them. Both are configured in other panels, so a Part can be set up correctly
+ * and stay silent for a reason that is nowhere in view. This says so here.
+ */
+const kindCaption = (
+  composition: Composition,
+  kinds: ReadonlyArray<RelationEventKind>,
+) => {
+  const unmet: Array<string> = []
+  const observing = composition.wheels.flatMap((wheel) =>
+    wheel.heads.filter(
+      (head) => head.enabled && head.observation?.enabled === true,
+    ),
+  )
+  // A Trace crossing needs a probe and a path, and both come from the observing
+  // Heads. One observing Head can only cross its own Trace, and only if it is
+  // allowed to — so one is not enough unless self-crossing is on.
+  const canCrossTraces =
+    observing.length > 1 ||
+    observing.some((head) => head.observation?.allowSelf === true)
+  const hasRelation = (composition.relations ?? []).some(
+    (relation) => relation.enabled,
+  )
+
+  if (kinds.includes('trace-crossing') && !canCrossTraces) {
+    unmet.push(
+      observing.length === 0
+        ? 'no Head observes its Trace'
+        : 'only one Head observes its Trace, and it may not cross its own',
+    )
+  }
+  if (
+    kinds.some(
+      (kind) => kind !== 'boundary-crossing' && kind !== 'trace-crossing',
+    ) &&
+    !hasRelation
+  ) {
+    unmet.push('no Relation exists yet')
+  }
+
+  const summary = `${kinds.length} of ${encounterKinds.length} kinds`
+  return unmet.length > 0 ? `${summary} — silent: ${unmet.join('; ')}` : summary
+}
 
 /**
  * Adds or removes a Wheel from a Part's filter.
@@ -581,6 +642,25 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
             */}
             <fieldset className="query-scope">
               <legend title={help['part.wheels']}>Listens to</legend>
+
+              <div className="query-toggles" role="group" aria-label={`Kinds ${part.id}`} title={help['part.kinds']}>
+                {encounterKinds.map(([kind, label]) => (
+                  <label key={kind} className="tree-toggle">
+                    <input
+                      type="checkbox"
+                      aria-label={`${label} for ${part.id}`}
+                      checked={part.encounterQuery.kinds.includes(kind)}
+                      onChange={() => update(part.id, (current) => ({ ...current, encounterQuery: { ...current.encounterQuery, kinds: toggled(current.encounterQuery.kinds, kind) as Array<RelationEventKind> } }))}
+                    />
+                    <span>{label}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="panel-context">
+                {part.encounterQuery.kinds.length === 0
+                  ? 'Every kind of Encounter'
+                  : kindCaption(composition, part.encounterQuery.kinds)}
+              </p>
 
               <div className="query-toggles" role="group" aria-label={`Wheels ${part.id}`} title={help['part.wheels']}>
                 {composition.wheels.map((wheel) => (

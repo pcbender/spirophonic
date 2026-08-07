@@ -203,9 +203,11 @@ Head can encounter its own or another Head's earlier path, producing
 | **Max segments** | Hard cap on stored path segments. |
 | **Allow self-crossing** | Whether a Head may encounter its *own* trace, not just other Heads'. |
 
-Note that Parts created in the interface listen for `boundary-crossing` only,
-so trace-crossings need a JSON edit to become audible — see
-[what the interface does not reach](#what-the-interface-does-not-reach).
+Two things have to be true before a trace crossing makes a sound. **Two Heads
+must be observing** — probes and paths both come from the observing set, so a
+lone observer has only its own Trace to cross and may not, unless *Allow
+self-crossing* is on. And a Part must **accept the trace kind** under *Listens
+to*. The Part panel says which of these is missing.
 
 ## Fields
 
@@ -269,6 +271,7 @@ Turns Encounters into notes.
 | Control | Notes |
 |---|---|
 | Enable checkbox, **Name**, **Remove** | |
+| **Listens to → kinds** | Which kinds of Encounter this Part turns into notes: boundary, trace, and the six Relation kinds. Check none and it accepts every kind. The caption says how many are chosen, and names anything that cannot fire yet — a trace kind with fewer than two observing Heads, or a Relation kind with no Relation. |
 | **Listens to → Wheels** | Which Wheels this Part hears. Check none and it hears every Wheel — the caption under the row always says which. |
 | **Listens to → Heads** | Which Heads, among those on the Wheels above. Check none and it hears all of them. Only Heads on listened-to Wheels are offered, because a Head on any other Wheel could never match. |
 | **Boundary** | `All boundaries`, or one specific Boundary. |
@@ -300,8 +303,9 @@ Relations watch Heads against *each other* rather than against Boundaries.
 | **Hysteresis** | Dead band that stops a detector chattering when Heads hover at the threshold. |
 | **Min separation (s)** | Minimum time between two firings of the same detector. |
 
-In the interface, a Relation feeds a **Control Part**. Making a *note* Part
-fire on a Relation requires a JSON edit.
+A Relation feeds two things. A **Control Part** reads it as a continuous lane.
+A **note Part** fires on it directly — check that Relation's kind under
+*Listens to*, and every detection becomes a note.
 
 ### Add Control — a continuous lane
 
@@ -465,12 +469,6 @@ The Composition format is larger than the panels. Everything below is valid,
 supported, and reachable only by **Export JSON**, editing, and **Import JSON**.
 Imports are validated, so a malformed edit is refused with reasons.
 
-**Encounter kinds.** Parts made here listen for `boundary-crossing` only. The
-format supports `trace-crossing`, `conjunction`, `closest-approach`,
-`radial-alignment`, `angular-alignment`, `opposition`, and `direction-match`.
-Trace observation can be switched on in the Head panel, but nothing in the
-interface will listen to the result.
-
 **Pitch mapping.** The dropdown offers two of eight: `fixed-midi` and
 `boundary-degree`. Also available are `fixed-frequency`, `ratio`, `spatial`
 (sample x, y, radius, or angle), `contour`, `tuned-ratio`, and
@@ -481,8 +479,9 @@ coordinates independently.
 derived from Encounter strength (48–118), onset at encounter time, and
 quantize strength 0.75. The panel exposes none of these.
 
-**Relations feeding note Parts.** The interface wires a Relation to a Control
-Part. `encounterQuery.relationIds` lets a note Part fire on one directly.
+**Naming a specific Relation.** A note Part accepting a Relation kind fires on
+every Relation of that kind. `encounterQuery.relationIds` narrows it to named
+ones; the panel filters by kind, not by instance.
 
 **Minimum strength.** `encounterQuery.minStrength` filters weak Encounters. Not
 exposed.

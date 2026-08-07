@@ -100,7 +100,7 @@ export const help = {
   'head.traceHistory':
     'How many seconds of the past stay drawn behind the Head.',
   'head.observe':
-    'Let this Head’s own path be crossed, producing trace-crossing Encounters. Note that Parts made in this panel listen for boundary crossings only, so this needs a JSON edit to become audible.',
+    'Let this Head’s own path be crossed, producing trace-crossing Encounters. Two Heads must observe before either can cross the other, and a Part has to accept the trace kind before it is heard.',
   'head.retention':
     'Window follows the drawn trace history; Full remembers the whole loop window.',
   'head.observationRate':
@@ -160,6 +160,8 @@ export const help = {
   'part.enabled': 'Include this Part. A disabled Part is never heard and cannot solo.',
   'part.name': 'Names this Part in the tree.',
   'part.remove': 'Remove this Part.',
+  'part.kinds':
+    'Which kinds of Encounter this Part turns into notes. Boundary crossings are the default; trace crossings need Observe Trace on a Head, and the alignment kinds need a Relation. Check none and it accepts every kind.',
   'part.wheels':
     'Which Wheels this Part hears. Check none and it hears every Wheel — the line below always says which.',
   'part.heads':

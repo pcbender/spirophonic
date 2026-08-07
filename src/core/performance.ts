@@ -16,6 +16,7 @@ import {
   normalizeEncounterContour,
   selectPartEncounters,
   validatePartMusicalRange,
+  type InterpretableEncounter,
   type MappedPitch,
 } from './parts'
 import {
@@ -103,7 +104,7 @@ export type CanonicalPerformance = Readonly<{
 export type PerformanceCompileOptions = EncounterScanOptions
 
 type NoteCandidate = Readonly<{
-  encounter: BoundaryCrossingEncounter
+  encounter: InterpretableEncounter
   absoluteBeat: number
   pitch: MappedPitch
   velocity: number
@@ -183,9 +184,65 @@ const compareEvents = (left: NoteMusicalEvent, right: NoteMusicalEvent) =>
   compareText(left.sourceEncounterId, right.sourceEncounterId) ||
   compareText(left.id, right.id)
 
+/**
+ * Every Encounter a note Part may select, in one stream.
+ *
+ * Boundary crossings, trace crossings, and Relation events are scanned by three
+ * separate compilers and were previously kept apart: only the boundary stream
+ * reached interpretation, so a Part's `kinds` filter had nothing else to match
+ * and the other two were computed, exposed on the performance, and never heard.
+ *
+ * The two non-boundary kinds carry no Boundary, so they present empty
+ * `fieldId` and `boundaryId` — a Part filtering on a Field or Boundary
+ * correctly selects none of them. For `boundaryIndex`, which is what
+ * degree-based pitch reads, they use the index of the *other* Head. That keeps
+ * the rule parallel: the degree is which countable thing was met, whether that
+ * is the third ring or the third Head's Trace.
+ */
+const interpretableEncounters = (
+  composition: Composition,
+  boundary: ReadonlyArray<BoundaryCrossingEncounter>,
+  trace: ReadonlyArray<TraceCrossingEncounter>,
+  relations: ReadonlyArray<RelationEncounter>,
+): ReadonlyArray<InterpretableEncounter> => {
+  const headOrdinal = new Map<string, number>()
+  composition.wheels.forEach((wheel) =>
+    wheel.heads.forEach((head) => headOrdinal.set(head.id, headOrdinal.size)),
+  )
+  const ordinalOf = (headId: string) => headOrdinal.get(headId) ?? 0
+
+  return Object.freeze([
+    ...boundary,
+    ...trace.map(
+      (encounter): InterpretableEncounter =>
+        Object.freeze({
+          ...encounter,
+          fieldId: '',
+          boundaryId: '',
+          boundaryIndex: ordinalOf(encounter.targetHeadId),
+          boundaryKind: 'ring' as const,
+          partnerWheelId: encounter.targetWheelId,
+          partnerHeadId: encounter.targetHeadId,
+        }),
+    ),
+    ...relations.map(
+      (encounter): InterpretableEncounter =>
+        Object.freeze({
+          ...encounter,
+          fieldId: '',
+          boundaryId: '',
+          boundaryIndex: ordinalOf(encounter.partnerHeadId),
+          boundaryKind: 'ring' as const,
+          // A Relation reports no incidence angle; it is not a crossing.
+          incidenceAngle: 0,
+        }),
+    ),
+  ])
+}
+
 const quantizedCandidates = (
   part: NotePartSpec,
-  encounters: ReadonlyArray<BoundaryCrossingEncounter>,
+  encounters: ReadonlyArray<InterpretableEncounter>,
   composition: Composition,
   diagnostics: Array<PerformanceDiagnostic>,
 ): Array<NoteCandidate> => {
@@ -276,7 +333,7 @@ const durationForCandidate = (
   candidate: NoteCandidate,
   index: number,
   selected: ReadonlyArray<NoteCandidate>,
-  allEncounters: ReadonlyArray<BoundaryCrossingEncounter>,
+  allEncounters: ReadonlyArray<InterpretableEncounter>,
   request: PerformanceRequest,
   composition: Composition,
 ) => {
@@ -347,7 +404,7 @@ const interpretNotePart = (
   part: NotePartSpec,
   composition: Composition,
   request: PerformanceRequest,
-  allEncounters: ReadonlyArray<BoundaryCrossingEncounter>,
+  allEncounters: ReadonlyArray<InterpretableEncounter>,
   diagnostics: Array<PerformanceDiagnostic>,
   variationTrace: Array<VariationTraceEntry>,
 ) => {
@@ -461,7 +518,7 @@ export type InterpretationResult = Readonly<{
 export const interpretEncounters = (
   composition: Composition,
   request: PerformanceRequest,
-  encounters: ReadonlyArray<BoundaryCrossingEncounter>,
+  encounters: ReadonlyArray<InterpretableEncounter>,
 ): InterpretationResult => {
   const diagnostics: Array<PerformanceDiagnostic> = []
   const variationTrace: Array<VariationTraceEntry> = []
@@ -649,7 +706,12 @@ export const compilePerformance = (
   const interpretation = interpretEncounters(
     composition,
     request,
-    encounterResult.encounters,
+    interpretableEncounters(
+      composition,
+      encounterResult.encounters,
+      traceResult.encounters,
+      relationResult.encounters,
+    ),
   )
   diagnostics.push(...interpretation.diagnostics)
   variationTrace.push(...interpretation.variationTrace)
