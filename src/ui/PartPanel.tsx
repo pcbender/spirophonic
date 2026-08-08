@@ -376,6 +376,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   Remove
                 </button>
               </div>
+              <p className="panel-context">{tuningUsage(composition, tuning.id)}</p>
               <label title={help['tuning.name']}>
                 <span>Name</span>
                 <input
@@ -392,7 +393,6 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   }
                 />
               </label>
-              <p className="panel-context">{tuningUsage(composition, tuning.id)}</p>
               <label title={help['tuning.rootHz']}>
                 <span>Root (Hz)</span>
                 <input

@@ -600,6 +600,14 @@ h1 {
 }
 
 /* Name and count share one line above the controls. */
+/* A caption for the whole row, not one more field in it: without the span it
+   is auto-placed into a single 96px grid cell and reads as a wall of words
+   wedged between two controls. */
+.voice-row > .panel-context {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
 .voice-row .voice-head {
   display: flex;
   align-items: baseline;
@@ -968,6 +976,36 @@ h1 {
   margin: -0.3rem 0 0.4rem;
   font-size: 0.78rem;
   opacity: 0.65;
+}
+
+/* Compile diagnostics.
+
+   An error means no notes at all, so it may not read as one more line of grey
+   body text — the same red the sound-bank failures use, since both say the
+   same thing: this will not play. Warnings keep the ordinary weight. */
+.diagnostic-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+/* Specific enough to beat `.control-panel p, .control-panel li`, which every
+   RailPanel body inherits — a bare `.diagnostic-error` loses to it and the
+   errors render in ordinary body text. */
+.control-panel p.diagnostic-error,
+.control-panel li.diagnostic-error {
+  color: #ff7979;
+}
+
+.diagnostic-summary p {
+  margin: 0 0 0.5rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.diagnostic-where {
+  opacity: 0.8;
 }
 
 /* The Settings dialog.

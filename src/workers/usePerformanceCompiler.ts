@@ -39,10 +39,39 @@ export type CompilerState = Readonly<{
   pending: boolean
   /** True when compilation is running inline because no worker is available. */
   synchronous: boolean
+  /**
+   * Why the newest compile produced nothing at all, or '' when it produced
+   * something.
+   *
+   * A compile that *throws* has no diagnostics to report — it never returned a
+   * performance to carry them. Dropping the reply used to leave the last good
+   * performance on screen alongside a diagnostics panel claiming all was well,
+   * which is the one state where the app actively misinforms: `performance`
+   * below no longer describes the Composition being edited.
+   */
+  failure: string
 }>
 
 /** Whether this environment can run a module worker at all. */
 const workerSupported = () => typeof Worker !== 'undefined'
+
+/**
+ * Compiles inline without letting a throw reach the render.
+ *
+ * The worker path reports a failed compile as a message; this makes the
+ * fallback path report it identically, so what the panel shows does not depend
+ * on whether a Worker was available.
+ */
+const compileOrFail = (composition: Composition, request: PerformanceRequest) => {
+  try {
+    return { performance: compilePerformance(composition, request), failure: '' }
+  } catch (error) {
+    return {
+      performance: null,
+      failure: error instanceof Error ? error.message : String(error),
+    }
+  }
+}
 
 export const usePerformanceCompiler = (
   composition: Composition,
@@ -55,6 +84,7 @@ export const usePerformanceCompiler = (
     performance: compilePerformance(composition, request),
   }))
   const [pending, setPending] = useState(false)
+  const [failure, setFailure] = useState('')
   // Derived from a pure check at mount rather than reported from an effect.
   const [synchronous, setSynchronous] = useState(() => !workerSupported())
 
@@ -90,6 +120,9 @@ export const usePerformanceCompiler = (
           composition: inputRef.current.composition,
           performance: reply.performance,
         })
+        setFailure('')
+      } else {
+        setFailure(reply.message)
       }
       setPending(false)
     }
@@ -126,10 +159,16 @@ export const usePerformanceCompiler = (
 
     const worker = workerRef.current
     if (!worker) {
-      setCompiled({
-        composition,
-        performance: compilePerformance(composition, request),
-      })
+      // Inline, a throw would take the render down with it. Compiled before
+      // any state is touched, then reported the same way the worker reports
+      // one, so both paths fail identically.
+      const inline = compileOrFail(composition, request)
+      setCompiled((previous) =>
+        inline.performance
+          ? { composition, performance: inline.performance }
+          : previous,
+      )
+      setFailure(inline.failure)
       setPending(false)
       return
     }
@@ -149,5 +188,6 @@ export const usePerformanceCompiler = (
     composition: compiled.composition,
     pending,
     synchronous,
+    failure,
   }
 }

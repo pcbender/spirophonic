@@ -207,6 +207,53 @@ describe('with a worker', () => {
     expect(result.current.pending).toBe(false)
   })
 
+  /*
+   * A compile that throws returns no performance, so it carries no diagnostics
+   * either. This reply used to be dropped without a trace: the last good
+   * performance stayed on screen under a diagnostics panel reporting nothing
+   * wrong, which is the one state where the app actively misinforms.
+   */
+  it('reports a compile that failed instead of dropping the reply', async () => {
+    useStubWorker()
+    const first = ringAndSpokeComposition()
+    const second = concurrentWheelsComposition()
+    const { result, rerender } = renderHook(
+      ({ composition }: { composition: Composition }) =>
+        usePerformanceCompiler(composition, request),
+      { initialProps: { composition: first } },
+    )
+
+    const before = result.current.performance
+    rerender({ composition: second })
+    const worker = StubWorker.instances[0]
+    act(() =>
+      worker.reply({
+        sequence: worker.posted.at(-1)!.sequence,
+        ok: false,
+        message: 'Tuned ratio produced Infinity Hz.',
+      }),
+    )
+
+    await waitFor(() =>
+      expect(result.current.failure).toBe('Tuned ratio produced Infinity Hz.'),
+    )
+    // The last good performance is still what plays and draws — it is simply
+    // no longer claimed to be the Composition on screen.
+    expect(result.current.performance).toBe(before)
+    expect(result.current.pending).toBe(false)
+
+    // A later compile that succeeds clears it, rather than latching.
+    rerender({ composition: first })
+    act(() =>
+      worker.reply({
+        sequence: worker.posted.at(-1)!.sequence,
+        ok: true,
+        performance: compilePerformance(first, request),
+      }),
+    )
+    await waitFor(() => expect(result.current.failure).toBe(''))
+  })
+
   it('terminates its worker on unmount', () => {
     useStubWorker()
     const { unmount } = renderHook(() =>
