@@ -170,6 +170,108 @@ describe('MG-16 tuning authoring', () => {
     ).toBeUndefined()
     expect(validateComposition(cleared).ok).toBe(true)
   })
+
+  /*
+   * Every tuning after the first was minted as `tuning-1`: the panel's id
+   * allocator knew about Parts and Relations and not about tuning contexts.
+   * Duplicate ids fail validation, and an invalid Composition compiles to an
+   * empty performance — so a second Add Tuning silenced the whole piece.
+   */
+  it('gives every added tuning context its own id', () => {
+    const onChange = vi.fn()
+    let composition = base()
+
+    for (let count = 1; count <= 4; count += 1) {
+      cleanup()
+      render(<PartPanel composition={composition} onChange={onChange} />)
+      fireEvent.click(screen.getByRole('button', { name: 'Add Tuning' }))
+      composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+      const ids = composition.tuningContexts!.map((tuning) => tuning.id)
+      expect(new Set(ids).size).toBe(count)
+      expect(validateComposition(composition).ok).toBe(true)
+    }
+  })
+
+  it('renames a tuning context so several can be told apart', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.tuningContexts = [
+      {
+        id: 'tuning-1',
+        name: 'Tuning 1',
+        rootFrequencyHz: 432,
+        system: { kind: 'rational', maxDenominator: 64 },
+        octaveFold: true,
+      },
+    ]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText('Tuning name tuning-1'), {
+      target: { value: 'Just, 432' },
+    })
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    expect(next.tuningContexts![0].name).toBe('Just, 432')
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  /*
+   * Removing a tuning left `tuningContextId` pointing at nothing, which is a
+   * validation error, which is silence. Remove has to take the references with
+   * it, the way removing an Instrument does.
+   */
+  it('frees the Parts that used a tuning context when it is removed', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.tuningContexts = [
+      {
+        id: 'tuning-just',
+        name: 'Just',
+        rootFrequencyHz: 432,
+        system: { kind: 'rational', maxDenominator: 64 },
+        octaveFold: true,
+      },
+    ]
+    const part = composition.parts[0]
+    if (part.kind === 'note') {
+      part.pitch = { kind: 'tuned-ratio', ratio: { kind: 'explicit', numerator: 3, denominator: 2 } }
+      part.tuningContextId = 'tuning-just'
+    }
+    expect(validateComposition(composition).ok).toBe(true)
+
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Remove tuning-just' }))
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    expect(next.tuningContexts).toHaveLength(0)
+    expect(
+      (next.parts[0] as { tuningContextId?: string }).tuningContextId,
+    ).toBeUndefined()
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('says whether a tuning context is reaching any Part', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.tuningContexts = [
+      {
+        id: 'tuning-just',
+        name: 'Just',
+        rootFrequencyHz: 432,
+        system: { kind: 'rational', maxDenominator: 64 },
+        octaveFold: true,
+      },
+    ]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    expect(screen.getByText(/Used by no Part/)).toBeTruthy()
+
+    const part = composition.parts[0]
+    if (part.kind === 'note') part.tuningContextId = 'tuning-just'
+    cleanup()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    expect(screen.getByText(`Used by ${part.name}.`)).toBeTruthy()
+  })
 })
 
 describe('Part targeting', () => {

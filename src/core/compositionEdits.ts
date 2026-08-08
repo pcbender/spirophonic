@@ -41,6 +41,8 @@ export const allCompositionIds = (
   composition: Composition,
 ): ReadonlySet<string> => {
   const ids = new Set<string>()
+  // The Composition's own id shares the same namespace as everything in it.
+  ids.add(composition.id)
   for (const wheel of composition.wheels) {
     ids.add(wheel.id)
     for (const head of wheel.heads) ids.add(head.id)
@@ -49,6 +51,8 @@ export const allCompositionIds = (
     ids.add(field.id)
     for (const boundary of field.boundaries) ids.add(boundary.id)
   }
+  for (const relation of composition.relations ?? []) ids.add(relation.id)
+  for (const tuning of composition.tuningContexts ?? []) ids.add(tuning.id)
   for (const instrument of composition.instruments) ids.add(instrument.id)
   for (const part of composition.parts) ids.add(part.id)
   for (const bank of composition.soundBanks) ids.add(bank.id)

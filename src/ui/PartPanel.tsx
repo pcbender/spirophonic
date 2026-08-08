@@ -9,8 +9,10 @@ import type {
   RelationEventKind,
   RelationSpec,
   ScaleName,
+  TuningContextSpec,
   WheelSpec,
 } from '../core/composition'
+import { allCompositionIds, nextCompositionId } from '../core/compositionEdits'
 import { DEFAULT_MELODY_ROOT } from '../core/parts'
 import { midiToName, scaleNames } from '../core/scales'
 import { help } from './help'
@@ -37,16 +39,6 @@ const controlSources: Array<ControlPartSpec['control']['source']> = [
   'rotation-rate',
   'strength',
 ]
-
-const nextId = (composition: Composition, prefix: string) => {
-  const taken = new Set([
-    ...composition.parts.map((part) => part.id),
-    ...(composition.relations ?? []).map((relation) => relation.id),
-  ])
-  let index = 1
-  while (taken.has(`${prefix}-${index}`)) index += 1
-  return `${prefix}-${index}`
-}
 
 const directions: Array<Extract<
   EncounterDirection,
@@ -139,6 +131,24 @@ const kindCaption = (
 }
 
 /**
+ * Who is actually listening to this tuning context.
+ *
+ * A tuning context governs nothing by existing: exactly one pitch mapping,
+ * Tuned ratio, resolves its ratios against one, and it is chosen per Part.
+ * Added tunings therefore sat in this list doing nothing, with no way to tell
+ * from here that they were unused or how to use them. This says both.
+ */
+const tuningUsage = (composition: Composition, tuningId: string) => {
+  const users = composition.parts.filter(
+    (part) => part.kind === 'note' && part.tuningContextId === tuningId,
+  )
+  if (users.length === 0) {
+    return 'Used by no Part. A Part reads a tuning only when its Pitch is set to Tuned ratio; choose this one there.'
+  }
+  return `Used by ${users.map((part) => part.name).join(', ')}.`
+}
+
+/**
  * Adds or removes a Wheel from a Part's filter.
  *
  * An empty list means *every* Wheel — that is the query language, not a null
@@ -192,7 +202,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
     })
 
   const addRelation = () => {
-    const id = nextId(composition, 'relation')
+    const id = nextCompositionId(composition, 'relation')
     onChange({
       ...composition,
       relations: [
@@ -214,7 +224,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
   const tuningContexts = composition.tuningContexts ?? []
 
   const addTuningContext = () => {
-    const id = nextId(composition, 'tuning')
+    const id = nextCompositionId(composition, 'tuning')
     onChange({
       ...composition,
       tuningContexts: [
@@ -230,8 +240,36 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
     })
   }
 
+  const updateTuningContext = (
+    id: string,
+    next: (tuning: TuningContextSpec) => TuningContextSpec,
+  ) =>
+    onChange({
+      ...composition,
+      tuningContexts: tuningContexts.map((tuning) =>
+        tuning.id === id ? next(tuning) : tuning,
+      ),
+    })
+
+  /**
+   * Removing a tuning context also drops it from the Parts that named it.
+   * A `tuningContextId` pointing at nothing is a validation error, and an
+   * invalid Composition compiles to no events at all — the Remove button
+   * would have silenced the whole piece.
+   */
+  const removeTuningContext = (id: string) =>
+    onChange({
+      ...composition,
+      tuningContexts: tuningContexts.filter((tuning) => tuning.id !== id),
+      parts: composition.parts.map((part) =>
+        part.kind === 'note' && part.tuningContextId === id
+          ? { ...part, tuningContextId: undefined }
+          : part,
+      ),
+    })
+
   const addControlPart = () => {
-    const id = nextId(composition, 'control')
+    const id = nextCompositionId(composition, 'control')
     const part: PartSpec = {
       id,
       name: `Control ${controlParts.length + 1}`,
@@ -333,18 +371,28 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   type="button"
                   title={help['tuning.remove']}
                   aria-label={`Remove ${tuning.id}`}
-                  onClick={() =>
-                    onChange({
-                      ...composition,
-                      tuningContexts: tuningContexts.filter(
-                        (item) => item.id !== tuning.id,
-                      ),
-                    })
-                  }
+                  onClick={() => removeTuningContext(tuning.id)}
                 >
                   Remove
                 </button>
               </div>
+              <label title={help['tuning.name']}>
+                <span>Name</span>
+                <input
+                  aria-label={`Tuning name ${tuning.id}`}
+                  type="text"
+                  value={tuning.name}
+                  onChange={(event) =>
+                    updateTuningContext(tuning.id, (item) => ({
+                      ...item,
+                      // An empty name fails validation, which silences the whole
+                      // Composition; hold the old one until something is typed.
+                      name: event.currentTarget.value || item.name,
+                    }))
+                  }
+                />
+              </label>
+              <p className="panel-context">{tuningUsage(composition, tuning.id)}</p>
               <label title={help['tuning.rootHz']}>
                 <span>Root (Hz)</span>
                 <input
@@ -354,20 +402,13 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   min={0.01}
                   value={tuning.rootFrequencyHz}
                   onChange={(event) =>
-                    onChange({
-                      ...composition,
-                      tuningContexts: tuningContexts.map((item) =>
-                        item.id === tuning.id
-                          ? {
-                              ...item,
-                              rootFrequencyHz: Math.max(
-                                0.01,
-                                Number(event.currentTarget.value),
-                              ),
-                            }
-                          : item,
+                    updateTuningContext(tuning.id, (item) => ({
+                      ...item,
+                      rootFrequencyHz: Math.max(
+                        0.01,
+                        Number(event.currentTarget.value),
                       ),
-                    })
+                    }))
                   }
                 />
               </label>
@@ -377,20 +418,13 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   aria-label={`Tuning system ${tuning.id}`}
                   value={tuning.system.kind}
                   onChange={(event) =>
-                    onChange({
-                      ...composition,
-                      tuningContexts: tuningContexts.map((item) =>
-                        item.id === tuning.id
-                          ? {
-                              ...item,
-                              system:
-                                event.currentTarget.value === 'rational'
-                                  ? { kind: 'rational', maxDenominator: 64 }
-                                  : { kind: 'equal-temperament', divisions: 12 },
-                            }
-                          : item,
-                      ),
-                    })
+                    updateTuningContext(tuning.id, (item) => ({
+                      ...item,
+                      system:
+                        event.currentTarget.value === 'rational'
+                          ? { kind: 'rational', maxDenominator: 64 }
+                          : { kind: 'equal-temperament', divisions: 12 },
+                    }))
                   }
                 >
                   <option value="equal-temperament">equal-temperament</option>
@@ -1105,7 +1139,9 @@ function PitchControls({
 }
 
 const nextPartIndex = (composition: Composition) => {
-  const ids = new Set(composition.parts.map((part) => part.id))
+  // Every id, not just the other Parts': ids are unique across the whole
+  // Composition, so a `part-3` anywhere in it rules out `part-3` here.
+  const ids = allCompositionIds(composition)
   let index = composition.parts.length + 1
   while (ids.has(`part-${index}`)) index += 1
   return index
