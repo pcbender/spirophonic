@@ -113,7 +113,8 @@ export function CompositionTree({
               <button
                 type="button"
                 className="tree-label"
-                title={help['tree.selectWheel']}
+                // The name leads: it is what a narrow rail truncates.
+                title={`${wheel.name} — ${help['tree.selectWheel']}`}
                 aria-pressed={isSelected(selection, 'wheel', wheel.id)}
                 onClick={() => onSelect({ kind: 'wheel', id: wheel.id })}
               >
@@ -173,7 +174,7 @@ export function CompositionTree({
                     onChange(next)
                   }}
                 >
-                  Copy
+                  ⧉
                 </button>
                 <button
                   type="button"
@@ -188,7 +189,7 @@ export function CompositionTree({
                     onChange(next)
                   }}
                 >
-                  +Head
+                  +
                 </button>
                 <button
                   type="button"
@@ -196,7 +197,7 @@ export function CompositionTree({
                   aria-label={`Remove ${wheel.name}`}
                   onClick={() => requestRemoval('wheel', wheel.id)}
                 >
-                  Remove
+                  ✕
                 </button>
               </span>
             </div>
@@ -214,7 +215,7 @@ export function CompositionTree({
                     <button
                       type="button"
                       className="tree-label"
-                      title={help['tree.selectHead']}
+                      title={`${head.name} — ${help['tree.selectHead']}`}
                       aria-pressed={isSelected(selection, 'head', head.id)}
                       onClick={() => onSelect({ kind: 'head', id: head.id })}
                     >
@@ -292,7 +293,7 @@ export function CompositionTree({
                           onChange(next)
                         }}
                       >
-                        Copy
+                        ⧉
                       </button>
                       <button
                         type="button"
@@ -300,7 +301,7 @@ export function CompositionTree({
                   aria-label={`Remove ${wheel.name} ${head.name}`}
                         onClick={() => requestRemoval('head', head.id)}
                       >
-                        Remove
+                        ✕
                       </button>
                     </span>
                   </div>
@@ -330,7 +331,9 @@ export function CompositionTree({
                 <button
                   type="button"
                   className="tree-label"
-                  title={help['tree.selectPart']}
+                  title={`${part.name} → ${
+                    instrument?.name ?? 'missing Instrument'
+                  } — ${help['tree.selectPart']}`}
                   aria-pressed={isSelected(selection, 'part', part.id)}
                   onClick={() => onSelect({ kind: 'part', id: part.id })}
                 >
@@ -386,7 +389,7 @@ export function CompositionTree({
                   aria-label={`Remove ${part.name}`}
                     onClick={() => requestRemoval('part', part.id)}
                   >
-                    Remove
+                    ✕
                   </button>
                 </span>
               </div>

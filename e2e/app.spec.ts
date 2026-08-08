@@ -103,6 +103,55 @@ test('no panel overflows its rail horizontally', async ({ page }) => {
   expect(overflows).toEqual([])
 })
 
+/*
+ * A tree row puts the name on its own line and the actions under it.
+ *
+ * Six actions beside a name do not fit a 300px rail. Wrapping scattered them
+ * ragged and right-aligned across two and three lines; squeezing the name to
+ * make room truncated "Head 1" to "Hea…", which identifies nothing. The name
+ * is the part that cannot be abbreviated.
+ *
+ * Measured rather than eyeballed: this only happens at the real rail width
+ * with the real font, which is exactly what jsdom cannot see.
+ */
+test('a tree row gives the name its own line and keeps it whole', async ({
+  page,
+}) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Add Wheel' }).click()
+  await page.getByRole('button', { name: 'Add Head to Wheel 2' }).click()
+
+  const rows = await page
+    .getByLabel('Composition tree')
+    .locator('.tree-row')
+    .evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const label = node.querySelector('.tree-label') as HTMLElement
+        const actions = node.querySelector('.tree-actions') as HTMLElement
+        const labelBox = label.getBoundingClientRect()
+        const actionBox = actions.getBoundingClientRect()
+        return {
+          text: (label.textContent ?? '').trim(),
+          clipped:
+            label.scrollWidth - Math.ceil(label.clientWidth) > 1 ||
+            label.scrollHeight - Math.ceil(label.clientHeight) > 1,
+          actionsBelow: actionBox.top >= labelBox.bottom - 1,
+          // One line of actions: taller than a single button means a wrap.
+          actionsHeight: Math.round(actionBox.height),
+          actionsOverflow: actions.scrollWidth - actions.clientWidth,
+        }
+      }),
+    )
+
+  expect(rows.length).toBeGreaterThan(4)
+  for (const row of rows) {
+    expect(row.clipped, `name "${row.text}" was truncated`).toBe(false)
+    expect(row.actionsBelow, `actions beside "${row.text}"`).toBe(true)
+    expect(row.actionsHeight, `actions under "${row.text}" wrapped`).toBeLessThan(34)
+    expect(row.actionsOverflow, `actions under "${row.text}" overflow`).toBeLessThanOrEqual(1)
+  }
+})
+
 test('every Field kind draws an overlay on the canvas', async ({ page }) => {
   const fields = page.getByRole('region', { name: 'Fields' })
   const before = await canvasInk(page)
