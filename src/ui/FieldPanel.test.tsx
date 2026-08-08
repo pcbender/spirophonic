@@ -182,6 +182,75 @@ describe('MG-13 Field authoring', () => {
     }
   })
 
+  /*
+   * "Add grid" drew a single vertical stroke. Every other Field kind is a
+   * complete instance of itself at one Boundary — one ring is a ring — but one
+   * grid line is a line, and grid is the only kind whose name denotes a
+   * plurality. It now starts as an actual lattice.
+   */
+  it('creates a grid that reads as a grid, centred on the Field', () => {
+    const onChange = vi.fn()
+    render(<FieldPanel composition={withoutFields()} onChange={onChange} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Add grid' }))
+
+    const field = (onChange.mock.calls[0][0] as Composition).fields[0]
+    const lines = field.boundaries as Array<{
+      axis: 'x' | 'y'
+      offset: number
+      index: number
+    }>
+
+    expect(lines).toHaveLength(4)
+    // Both axes, so it is a lattice rather than a set of stripes.
+    expect(lines.filter((line) => line.axis === 'x')).toHaveLength(2)
+    expect(lines.filter((line) => line.axis === 'y')).toHaveLength(2)
+    // Centred on the Field: the old rule only ever produced offsets >= 0, so a
+    // grid grew into one quadrant and away from its own centre.
+    for (const axis of ['x', 'y'] as const) {
+      const offsets = lines
+        .filter((line) => line.axis === axis)
+        .map((line) => line.offset)
+        .sort((left, right) => left - right)
+      expect(offsets).toEqual([-40, 40])
+    }
+    // Distinct indices, which newBoundaryBase does not give and the validator
+    // requires.
+    expect(new Set(lines.map((line) => line.index)).size).toBe(4)
+  })
+
+  it('grows a grid squarely and symmetrically as Boundaries are added', () => {
+    let composition = withoutFields()
+    const onChange = vi.fn((next: Composition) => {
+      composition = next
+    })
+    render(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Add grid' }))
+
+    // Two more, one per axis, stepping outward rather than piling up.
+    for (let added = 0; added < 2; added += 1) {
+      cleanup()
+      render(<FieldPanel composition={composition} onChange={onChange} />)
+      fireEvent.click(
+        screen.getByRole('button', { name: /^Add boundary field-grid/ }),
+      )
+    }
+
+    const lines = composition.fields[0].boundaries as Array<{
+      axis: 'x' | 'y'
+      offset: number
+    }>
+    expect(lines).toHaveLength(6)
+    expect(validateComposition(composition).ok).toBe(true)
+    // Six lines, three per axis, and no two on an axis share an offset.
+    for (const axis of ['x', 'y'] as const) {
+      const offsets = lines
+        .filter((line) => line.axis === axis)
+        .map((line) => line.offset)
+      expect(offsets).toHaveLength(3)
+      expect(new Set(offsets).size).toBe(3)
+    }
+  })
+
   it('steps sibling Boundaries outward so a new one never lands on another', () => {
     const onChange = vi.fn()
     render(<FieldPanel composition={withoutFields()} onChange={onChange} />)

@@ -236,7 +236,10 @@ a rotation, and a motion.
 
 **Add rings**, **Add spokes**, **Add ellipses**, **Add bands**, **Add grid**,
 and **Add spiral** each create a Field of that kind, already carrying one
-Boundary.
+Boundary — except **Add grid**, which starts with four. One ring is a ring and
+one spiral is a spiral, but one grid line is a line: grid is the only kind
+whose name describes a plurality, so it starts as a lattice of two lines per
+axis, centred on the Field.
 
 ### Per Field
 
@@ -270,11 +273,17 @@ music. **rotating** drifts against the beat by design.
 | spokes | Spoke | Angle (rad) |
 | ellipses | Ellipse | Radius, Eccentricity |
 | bands | Band | Inner radius, Outer radius |
-| grid | Line | Axis (x / y), Offset |
+| grid | Line | Axis (x / y), Offset. `x` is the line where *x* equals the offset — a vertical one. |
 | spiral | Spiral | Start radius, Growth per turn, Turns |
 
 Each Boundary also has an enable checkbox, a **Name**, `↑` `↓` reorder buttons,
 and **Remove Boundary**.
+
+**Add Boundary** places the new one where it will not land on an existing one:
+rings, ellipses, and bands step outward from the widest sibling, spokes step an
+eighth-turn round, and a grid fills whichever axis has fewer lines, mirroring an
+unpaired line before reaching further out — so a grid stays square and centred
+however many you add.
 
 A Boundary outside a Head's reach is never crossed no matter how long the loop
 runs. A Head sweeps a fixed range of distances from the centre set by its
