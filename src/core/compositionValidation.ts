@@ -1558,7 +1558,15 @@ const validatePitch = (
       }
     }
   } else if (kind === 'melodic-contour') {
-    context.knownKeys(pitch, path, ['kind', 'source', 'scale', 'root', 'contour'])
+    context.knownKeys(pitch, path, [
+      'kind',
+      'source',
+      'scale',
+      'root',
+      'anchor',
+      'contour',
+    ])
+    context.literal(pitch, 'anchor', `${path}.anchor`, ['none', 'bar'])
     context.literal(pitch, 'source', `${path}.source`, ['x', 'y', 'radius', 'angle'])
     context.literal(pitch, 'scale', `${path}.scale`, scaleNames)
     // Optional: absent means middle C, so a Composition written before the

@@ -22,12 +22,21 @@ const clamp = (value: number, low: number, high: number) =>
  *
  * It stays deterministic: the same values and spec always produce the same
  * line, with no clock, randomness, or hidden accumulator beyond the degree.
+ *
+ * `segments` is what keeps that accumulator from running forever. The degree
+ * is a running sum, so periodic geometry produced a line that never repeated:
+ * the *steps* recurred every cycle, but the degree they were applied to had
+ * drifted, and only the reflecting bounds kept it in range at all. Passing a
+ * key per value restarts the walk at `startDegree` whenever the key changes,
+ * so a repeating input produces a repeating line. Omit it and the walk runs
+ * unbroken, which is what `anchor: 'none'` asks for.
  */
 export const buildMelodicContour = (
   values: ReadonlyArray<number>,
   spec: MelodyContourSpec,
   scale: ScaleName,
   rootMidiNote: number,
+  segments?: ReadonlyArray<number>,
 ): ReadonlyArray<ContourStep> => {
   if (spec.maxStep < 0) throw new RangeError('maxStep must be non-negative.')
   if (spec.lowDegree > spec.highDegree) {
@@ -48,14 +57,20 @@ export const buildMelodicContour = (
 
   for (let index = 0; index < values.length; index += 1) {
     let direction: -1 | 0 | 1 = 0
+    // A new segment starts the line over, so the first note of every bar is
+    // the same note and the phrase inside it is repeatable.
+    const restarts =
+      index === 0 ||
+      (segments !== undefined && segments[index] !== segments[index - 1])
 
-    if (index > 0) {
+    if (!restarts) {
       const delta = values[index] - values[index - 1]
       // The source's own movement decides which way the line goes.
       direction = delta > 0 ? 1 : delta < 0 ? -1 : 0
     }
 
-    if (index === 0) {
+    if (restarts) {
+      degree = clamp(spec.startDegree, spec.lowDegree, spec.highDegree)
       steps.push({
         index,
         degree,

@@ -329,13 +329,28 @@ crossed choose the note.
 | **Boundary degree** | Root, Scale, Octaves | Which Boundary was crossed. For a trace crossing or a Relation, which *other Head* was met. |
 | **Spatial** | Source, Root, Scale, Octaves | *Where* the Encounter happened — its x, y, distance from centre, or angle — mapped onto the scale. |
 | **Contour** | Source, Root, Scale, Octaves | The same measurement, but normalised across this Part's own Encounters, so the full range is always used. |
-| **Melodic line** | Source, Scale, Root, Max step, Direction bias, Low/High/Start degree | A line that *walks* the scale. The source steers direction rather than picking notes outright, so the result moves stepwise instead of leaping. |
+| **Melodic line** | Source, Scale, Root, Restart, Max step, Direction bias, Low/High/Start degree | A line that *walks* the scale. The source steers direction rather than picking notes outright, so the result moves stepwise instead of leaping. |
 | **Ratio** | Root (Hz), Octave fold | Which Boundary was crossed, as a whole-number frequency ratio above the root. |
 | **Tuned ratio** | Tuning, and either an explicit numerator/denominator or a Wheel's motion | An exact interval. Taking it from a Lissajous or rose Wheel makes a 3:2 figure sound an actual perfect fifth. |
 
 **Root** is a MIDI note, and the label names it: `Root (C3)` for 48. Degree 0 of
 the scale lands there, so it is the key the mapping is in. Every scale mapping
 has one, Melodic line included — before, that one was fixed at middle C.
+
+**Restart** decides where the walk begins again, and it matters more than it
+looks. The line's degree is a running sum, so left to drift it accumulates: the
+*steps* repeat every Wheel cycle, but the degree they are applied to has moved
+on, and a perfectly periodic Wheel produces a line that never repeats. **Each
+bar** — the default — restarts at the start degree every bar, so every bar
+opens on the same note and the phrase is repeatable. **Never** keeps the old
+drifting behaviour, which is worth having when you want a long line that never
+settles.
+
+Anchoring bounds the drift; it cannot invent repetition the geometry does not
+have. A Wheel cycle is not the same as the curve's period — the shipped
+spirogram is 180/65, which closes after thirteen cycles — so bars still differ
+from one another until the curve itself comes round. What changes is that each
+bar starts from the same place instead of from wherever the last one ended.
 
 **Tuning** appears on **Tuned ratio** only, because that is the only mapping
 that resolves against a tuning context. Left at **Default** it uses C4 at

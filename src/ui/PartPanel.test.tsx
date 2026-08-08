@@ -354,28 +354,34 @@ describe('pitch mappings', () => {
     expect(validateComposition(next).ok).toBe(true)
   })
 
-  it('keeps a melodic-contour Composition written before the root existed valid', () => {
-    const composition = base()
-    composition.parts[0] = {
-      ...composition.parts[0],
-      kind: 'note',
-      pitch: {
-        kind: 'melodic-contour',
-        source: 'radius',
-        scale: 'dorian',
-        contour: {
-          maxStep: 2,
-          directionBias: 0.6,
-          lowDegree: 0,
-          highDegree: 12,
-          startDegree: 4,
+  it('leaves root optional and requires an anchor', () => {
+    const melodic = (extra: Record<string, unknown>) => {
+      const composition = base()
+      composition.parts[0] = {
+        ...composition.parts[0],
+        kind: 'note',
+        pitch: {
+          kind: 'melodic-contour',
+          source: 'radius',
+          scale: 'dorian',
+          contour: {
+            maxStep: 2,
+            directionBias: 0.6,
+            lowDegree: 0,
+            highDegree: 12,
+            startDegree: 4,
+          },
+          ...extra,
         },
-      },
-    } as Composition['parts'][number]
+      } as Composition['parts'][number]
+      return composition
+    }
 
-    // No `root` key at all: the field is optional precisely so this still
-    // validates and still sounds as it did.
-    expect(validateComposition(composition).ok).toBe(true)
+    // `root` may be omitted; absent means middle C.
+    expect(validateComposition(melodic({ anchor: 'bar' })).ok).toBe(true)
+    // `anchor` may not. It decides whether a periodic Wheel produces a
+    // repeating line, and there is no default that is right for both answers.
+    expect(validateComposition(melodic({})).ok).toBe(false)
   })
 
   it.each(kinds)('switches to %s and stays valid', (kind) => {

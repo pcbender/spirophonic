@@ -191,6 +191,8 @@ export const help = {
   'part.ratioDenominator': 'Bottom of the frequency ratio.',
   'part.ratioWheel':
     'Which Wheel’s motion supplies the ratio. Lissajous and rose Wheels carry one; a spirogram’s radii describe rolling, not frequency.',
+  'part.melodyAnchor':
+    'Where the line restarts. The walk accumulates, so Never lets it drift and a repeating Wheel produces a line that never repeats. Each bar restarts it at the start degree, making the phrase repeatable.',
   'part.maxStep': 'The largest jump the line may make, in scale steps.',
   'part.directionBias':
     'How strongly the source’s own direction steers the line. 0 wanders; 1 follows the geometry exactly.',

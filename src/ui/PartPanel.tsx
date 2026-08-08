@@ -862,6 +862,11 @@ const defaultPitchFor = (kind: PitchMapping['kind']): PitchMapping => {
       kind,
       source: 'radius',
       scale: 'pentatonic-minor',
+      // New Parts anchor to the bar. Unanchored, the walk's running degree
+      // drifts across a periodic Wheel and the line never repeats, which is
+      // the opposite of what an instrument built on cyclic relationship
+      // should default to.
+      anchor: 'bar',
       contour: {
         maxStep: 2,
         directionBias: 0.7,
@@ -987,6 +992,22 @@ function PitchControls({
           value={pitch.root ?? DEFAULT_MELODY_ROOT}
           onChange={(root) => onPitch({ ...pitch, root })}
         />
+        <label title={help['part.melodyAnchor']}>
+          <span>Restart</span>
+          <select
+            aria-label={`Melody anchor ${part.id}`}
+            value={pitch.anchor}
+            onChange={(event) =>
+              onPitch({
+                ...pitch,
+                anchor: event.currentTarget.value as 'none' | 'bar',
+              })
+            }
+          >
+            <option value="bar">Each bar</option>
+            <option value="none">Never — let it drift</option>
+          </select>
+        </label>
         <NumberField label={`Max step ${part.id}`} shortLabel="Max step" hint={help['part.maxStep']} value={contour.maxStep} min={0} max={64} step={1} onChange={(maxStep) => onPitch({ ...pitch, contour: { ...contour, maxStep } })} />
         <NumberField label={`Direction bias ${part.id}`} shortLabel="Direction bias" hint={help['part.directionBias']} value={contour.directionBias} min={0} max={1} step={0.05} onChange={(directionBias) => onPitch({ ...pitch, contour: { ...contour, directionBias } })} />
         <NumberField label={`Low degree ${part.id}`} shortLabel="Low degree" hint={help['part.lowDegree']} value={contour.lowDegree} min={-128} max={128} step={1} onChange={(lowDegree) => onPitch({ ...pitch, contour: { ...contour, lowDegree } })} />

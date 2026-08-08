@@ -433,6 +433,14 @@ export type PitchMapping =
        * value that used to be hard-coded in the compiler.
        */
       root?: number
+      /**
+       * Where the walk restarts. The degree is a running sum, so `none` lets a
+       * periodic Wheel produce a line that never repeats; `bar` restarts at
+       * `startDegree` each bar, which makes the phrase repeatable and — at the
+       * usual rate of one Wheel cycle per bar — restores the geometry's own
+       * period.
+       */
+      anchor: 'none' | 'bar'
       contour: MelodyContourSpec
     }
 
