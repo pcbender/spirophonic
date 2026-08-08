@@ -193,6 +193,49 @@ describe('MG-16 tuning authoring', () => {
     }
   })
 
+  /*
+   * Names were minted by counting the list, so removing one and adding another
+   * reissued a name that was still in use. An id keeps the objects distinct,
+   * but the accessible names the UI builds are composed from names, so two
+   * rows reading "Tuning 2" are two controls nothing can tell apart.
+   */
+  it('does not reissue the name of a tuning that is still there', () => {
+    const onChange = vi.fn()
+    let composition = base()
+
+    for (let count = 0; count < 3; count += 1) {
+      cleanup()
+      render(<PartPanel composition={composition} onChange={onChange} />)
+      fireEvent.click(screen.getByRole('button', { name: 'Add Tuning' }))
+      composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    }
+    expect(composition.tuningContexts!.map((item) => item.name)).toEqual([
+      'Tuning 1',
+      'Tuning 2',
+      'Tuning 3',
+    ])
+
+    // Drop the middle one and add another: counting would call it "Tuning 3".
+    cleanup()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: `Remove ${composition.tuningContexts![1].id}`,
+      }),
+    )
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    cleanup()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Add Tuning' }))
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    const names = composition.tuningContexts!.map((item) => item.name)
+    expect(new Set(names).size).toBe(names.length)
+    expect(names).toEqual(['Tuning 1', 'Tuning 3', 'Tuning 2'])
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+
   it('renames a tuning context so several can be told apart', () => {
     const onChange = vi.fn()
     const composition = base()

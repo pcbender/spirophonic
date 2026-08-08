@@ -17,6 +17,7 @@ import {
   updateBoundary,
   updateField,
 } from '../core/fields'
+import { uniqueName } from '../core/compositionEdits'
 import { help } from './help'
 import { RailPanel } from './RailPanel'
 
@@ -190,7 +191,10 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
     const id = nextFieldId(composition.fields, kind)
     const base = {
       id,
-      name: fieldKindLabels[kind],
+      name: uniqueName(
+        composition.fields.map((field) => field.name),
+        fieldKindLabels[kind],
+      ),
       enabled: true,
       center: { x: 0, y: 0 },
     }
@@ -236,8 +240,19 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
       field.boundaries.length + 1,
       field.boundaries,
     )
+    // Counting the siblings names the third Boundary of a Field that has had
+    // one removed after the second: the Boundary picker in the Parts panel
+    // lists them as "Field / Boundary", and two rows reading the same thing
+    // pick the same one.
+    const named = {
+      ...boundary,
+      name: uniqueName(
+        field.boundaries.map((item) => item.name),
+        boundary.name,
+      ),
+    } as BoundarySpec
 
-    commitFields(addBoundary(composition.fields, field.id, boundary))
+    commitFields(addBoundary(composition.fields, field.id, named))
   }
 
   return (

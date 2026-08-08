@@ -88,8 +88,15 @@ export const nextCompositionId = (
  * A name that does not end in a number is not a series, so it keeps its whole
  * self and only gets a number when it collides: "Bass" then "Bass 2", and a
  * duplicate of "Wheel 1" is "Wheel 1 copy" then "Wheel 1 copy 2".
+ *
+ * Names are labels, not identity — an `id` is what every reference resolves
+ * against, and nothing forbids two objects sharing a name. But the accessible
+ * names the UI builds are composed from them ("Remove Grid Field", "Mute
+ * Boundary Melody"), so duplicates leave a screen reader, and anything driving
+ * the app through one, unable to tell two controls apart. Every path that
+ * mints a name goes through here for that reason.
  */
-const uniqueName = (existing: ReadonlyArray<string>, base: string) => {
+export const uniqueName = (existing: ReadonlyArray<string>, base: string) => {
   const taken = new Set(existing)
   const series = /^(.*?)(?:\s+\d+)+$/.exec(base)
   const stem = series ? series[1] : base

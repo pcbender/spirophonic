@@ -17,6 +17,7 @@ import {
   setHeadEnabled,
   setHeadTraceVisible,
   setWheelEnabled,
+  uniqueName,
 } from './compositionEdits'
 import { defaultComposition } from './defaultComposition'
 import { headStateAt } from './heads'
@@ -350,5 +351,37 @@ describe('names read as a series', () => {
     const copied = duplicateWheel(composition, 'wheel-1')
     expect(copied.composition.wheels[1].heads).toHaveLength(5)
     expect(validateComposition(copied.composition).ok).toBe(true)
+  })
+})
+
+describe('uniqueName', () => {
+  it('continues a numbered series from its stem', () => {
+    expect(uniqueName(['Wheel 1'], 'Wheel 1')).toBe('Wheel 2')
+    expect(uniqueName(['Wheel 1', 'Wheel 2'], 'Wheel 2')).toBe('Wheel 3')
+    // The stem is the name without *any* trailing numbers, so a document
+    // carrying the old compounding names recovers rather than extending them.
+    expect(uniqueName(['Head 1', 'Head 1 2', 'Head 1 2 2'], 'Head 1 2 2')).toBe(
+      'Head 2',
+    )
+  })
+
+  it('leaves an unnumbered name alone until something collides with it', () => {
+    expect(uniqueName([], 'Grid Field')).toBe('Grid Field')
+    expect(uniqueName(['Grid Field'], 'Grid Field')).toBe('Grid Field 2')
+    expect(uniqueName(['Grid Field', 'Grid Field 2'], 'Grid Field')).toBe(
+      'Grid Field 3',
+    )
+  })
+
+  it('never numbers behind a bare stem that already holds first place', () => {
+    // "Bass" is the first of its series, so the next is 2 and never "Bass 1".
+    expect(uniqueName(['Bass'], 'Bass')).toBe('Bass 2')
+    expect(uniqueName(['Bass', 'Bass 2'], 'Bass 2')).toBe('Bass 3')
+  })
+
+  it('fills a gap left by a removal rather than counting the survivors', () => {
+    // The bug this rule replaces: naming by list length reissues a name as
+    // soon as anything has been removed.
+    expect(uniqueName(['Tuning 1', 'Tuning 3'], 'Tuning 1')).toBe('Tuning 2')
   })
 })

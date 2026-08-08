@@ -12,7 +12,11 @@ import type {
   TuningContextSpec,
   WheelSpec,
 } from '../core/composition'
-import { allCompositionIds, nextCompositionId } from '../core/compositionEdits'
+import {
+  allCompositionIds,
+  nextCompositionId,
+  uniqueName,
+} from '../core/compositionEdits'
 import { DEFAULT_MELODY_ROOT } from '../core/parts'
 import { midiToName, scaleNames } from '../core/scales'
 import { help } from './help'
@@ -209,7 +213,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
         ...relations,
         {
           id,
-          name: `Relation ${relations.length + 1}`,
+          name: uniqueName(relations.map((item) => item.name), 'Relation 1'),
           enabled: true,
           kind: 'conjunction',
           headIds: [],
@@ -231,7 +235,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
         ...tuningContexts,
         {
           id,
-          name: `Tuning ${tuningContexts.length + 1}`,
+          name: uniqueName(tuningContexts.map((item) => item.name), 'Tuning 1'),
           rootFrequencyHz: 261.6255653005986,
           system: { kind: 'equal-temperament', divisions: 12 },
           octaveFold: true,
@@ -272,7 +276,9 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
     const id = nextCompositionId(composition, 'control')
     const part: PartSpec = {
       id,
-      name: `Control ${controlParts.length + 1}`,
+      // Across every Part, not just the Control ones: they share an array and
+      // the same aria-label shape in the tree.
+      name: uniqueName(composition.parts.map((item) => item.name), 'Control 1'),
       enabled: true,
       mute: false,
       solo: false,
@@ -320,7 +326,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
       ...composition.parts,
       {
         id: `part-${index}`,
-        name: `Part ${index}`,
+        name: uniqueName(composition.parts.map((item) => item.name), `Part ${index}`),
         enabled: true,
         mute: false,
         solo: false,

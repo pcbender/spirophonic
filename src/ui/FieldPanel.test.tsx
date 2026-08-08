@@ -301,3 +301,65 @@ describe('MG-13 Field authoring', () => {
     expect(validateComposition(composition).ok).toBe(true)
   })
 })
+
+describe('Field and Boundary names stay distinct', () => {
+  /*
+   * A Field was named for its kind alone, so every grid was "Grid Field". The
+   * ids differ and nothing breaks in the model, but the Boundary picker in the
+   * Parts panel lists a Boundary as "Field / Boundary" and the tree builds its
+   * accessible names the same way: two rows reading the same thing are two
+   * controls nothing can tell apart.
+   */
+  it('numbers a second Field of the same kind', () => {
+    const onChange = vi.fn()
+    let composition = withoutFields()
+
+    for (const expected of ['Grid Field', 'Grid Field 2', 'Grid Field 3']) {
+      cleanup()
+      render(<FieldPanel composition={composition} onChange={onChange} />)
+      fireEvent.click(screen.getByRole('button', { name: 'Add grid' }))
+      composition = onChange.mock.calls.at(-1)?.[0] as Composition
+      expect(composition.fields.at(-1)?.name).toBe(expected)
+    }
+
+    const names = composition.fields.map((field) => field.name)
+    expect(new Set(names).size).toBe(names.length)
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+
+  it('does not reissue the name of a Boundary that is still there', () => {
+    const onChange = vi.fn()
+    let composition = withoutFields()
+
+    render(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Add rings' }))
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    const field = composition.fields[0]
+
+    cleanup()
+    render(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByLabelText(`Add boundary ${field.id}`))
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    expect(composition.fields[0].boundaries.map((item) => item.name)).toEqual([
+      'Ring 1',
+      'Ring 2',
+    ])
+
+    // Remove the first, then add: counting the survivors would say "Ring 2".
+    cleanup()
+    render(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(
+      screen.getByLabelText(`Remove ${composition.fields[0].boundaries[0].id}`),
+    )
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    cleanup()
+    render(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByLabelText(`Add boundary ${field.id}`))
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    const names = composition.fields[0].boundaries.map((item) => item.name)
+    expect(new Set(names).size).toBe(names.length)
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+})
