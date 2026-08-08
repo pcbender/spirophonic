@@ -75,11 +75,33 @@ export const nextCompositionId = (
   }
 }
 
+/**
+ * The next name in a series, rather than a suffix on the name it came from.
+ *
+ * Adding copies the last object of its kind, so the new name was derived from
+ * an already-derived name: "Wheel 1" begat "Wheel 1 2", which begat
+ * "Wheel 1 2 2". Four Heads into a fourth Wheel the tree read
+ * "Head 1 2 2 2 2 2 2 2 2". Numbering the *stem* — the name with its trailing
+ * numbers removed — makes the series what a person would write by hand:
+ * Wheel 1, Wheel 2, Wheel 3.
+ *
+ * A name that does not end in a number is not a series, so it keeps its whole
+ * self and only gets a number when it collides: "Bass" then "Bass 2", and a
+ * duplicate of "Wheel 1" is "Wheel 1 copy" then "Wheel 1 copy 2".
+ */
 const uniqueName = (existing: ReadonlyArray<string>, base: string) => {
-  if (!existing.includes(base)) return base
-  for (let index = 2; ; index += 1) {
-    const candidate = `${base} ${index}`
-    if (!existing.includes(candidate)) return candidate
+  const taken = new Set(existing)
+  const series = /^(.*?)(?:\s+\d+)+$/.exec(base)
+  const stem = series ? series[1] : base
+
+  // An unnumbered name is only a series once something collides with it.
+  if (!series && !taken.has(stem)) return stem
+
+  // A bare stem already holds first place: "Bass" then "Bass 2", never a
+  // "Bass 1" that sorts behind the Wheel it was added after.
+  for (let index = taken.has(stem) ? 2 : 1; ; index += 1) {
+    const candidate = `${stem} ${index}`
+    if (!taken.has(candidate)) return candidate
   }
 }
 
@@ -351,13 +373,22 @@ const pruneReferences = (
 // Wheel operations
 // ---------------------------------------------------------------------------
 
+/**
+ * Adds a Wheel modelled on `template`, carrying one Head.
+ *
+ * The template says what kind of Wheel to make — its motion, its rate — not
+ * how much of it to bring along. Cloning every Head compounded: the tree adds
+ * from the last Wheel, so four Heads added to a Wheel meant the next Wheel
+ * arrived with five, then nine, then thirteen. `duplicateWheel` is the
+ * operation that means "all of it", and it is a separate button.
+ */
 export const addWheel = (
   composition: Composition,
   template: WheelSpec,
 ): { composition: Composition; wheelId: string } => {
   const wheelId = nextCompositionId(composition, 'wheel')
   const reserved = new Set([wheelId])
-  const heads = template.heads.map((head) => {
+  const heads = template.heads.slice(0, 1).map((head) => {
     const headId = nextCompositionId(composition, 'head', reserved)
     reserved.add(headId)
     return { ...structuredClone(head), id: headId }

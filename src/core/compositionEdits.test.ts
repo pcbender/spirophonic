@@ -268,3 +268,87 @@ describe('added objects keep the Composition valid', () => {
     expect(new Set(ids).size).toBe(ids.length)
   })
 })
+
+describe('names read as a series', () => {
+  /*
+   * Adding copies the last object of its kind, so each new name used to be
+   * derived from an already-derived one: Wheel 1 begat "Wheel 1 2" begat
+   * "Wheel 1 2 2". Four Heads into a fourth Wheel the tree read
+   * "Head 1 2 2 2 2 2 2 2 2".
+   */
+  it('numbers four rounds of Add Wheel and Add Head the way a person would', () => {
+    let composition = base()
+
+    for (let round = 0; round < 4; round += 1) {
+      const added = addWheel(
+        composition,
+        composition.wheels[composition.wheels.length - 1],
+      )
+      composition = added.composition
+      for (let head = 0; head < 4; head += 1) {
+        composition = addHead(composition, added.wheelId).composition
+      }
+    }
+
+    expect(composition.wheels.map((wheel) => wheel.name)).toEqual([
+      'Wheel 1',
+      'Wheel 2',
+      'Wheel 3',
+      'Wheel 4',
+      'Wheel 5',
+    ])
+    // Head names are unique per Wheel, so every Wheel counts from one.
+    for (const wheel of composition.wheels.slice(1)) {
+      expect(wheel.heads.map((head) => head.name)).toEqual([
+        'Head 1',
+        'Head 2',
+        'Head 3',
+        'Head 4',
+        'Head 5',
+      ])
+    }
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+
+  it('keeps a name that is not a series whole, and numbers it only on collision', () => {
+    let composition = base()
+    composition.wheels[0].name = 'Bass'
+
+    composition = addWheel(composition, composition.wheels[0]).composition
+    expect(composition.wheels[1].name).toBe('Bass 2')
+
+    composition = addWheel(composition, composition.wheels[1]).composition
+    expect(composition.wheels[2].name).toBe('Bass 3')
+  })
+
+  it('numbers a copy after the thing it copied, not inside its name', () => {
+    let composition = base()
+
+    composition = duplicateWheel(composition, 'wheel-1').composition
+    expect(composition.wheels[1].name).toBe('Wheel 1 copy')
+
+    composition = duplicateWheel(composition, 'wheel-1').composition
+    expect(composition.wheels[1].name).toBe('Wheel 1 copy 2')
+  })
+
+  /*
+   * The tree adds from the last Wheel, so cloning every Head compounded: four
+   * Heads added to a Wheel meant the next Wheel arrived carrying five, then
+   * nine, then thirteen. Copy is the button that means "all of it".
+   */
+  it('adds a Wheel carrying one Head however many the template has', () => {
+    let composition = base()
+    for (let head = 0; head < 4; head += 1) {
+      composition = addHead(composition, 'wheel-1').composition
+    }
+    expect(composition.wheels[0].heads).toHaveLength(5)
+
+    const added = addWheel(composition, composition.wheels[0])
+    expect(added.composition.wheels[1].heads).toHaveLength(1)
+
+    // Copy still brings the whole Wheel.
+    const copied = duplicateWheel(composition, 'wheel-1')
+    expect(copied.composition.wheels[1].heads).toHaveLength(5)
+    expect(validateComposition(copied.composition).ok).toBe(true)
+  })
+})
