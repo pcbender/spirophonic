@@ -9,9 +9,16 @@ import type {
   RelationEventKind,
   RelationSpec,
   ScaleName,
+  TuningContextSpec,
   WheelSpec,
 } from '../core/composition'
-import { scaleNames } from '../core/scales'
+import {
+  allCompositionIds,
+  nextCompositionId,
+  uniqueName,
+} from '../core/compositionEdits'
+import { DEFAULT_MELODY_ROOT } from '../core/parts'
+import { midiToName, scaleNames } from '../core/scales'
 import { help } from './help'
 import { RailPanel } from './RailPanel'
 
@@ -36,16 +43,6 @@ const controlSources: Array<ControlPartSpec['control']['source']> = [
   'rotation-rate',
   'strength',
 ]
-
-const nextId = (composition: Composition, prefix: string) => {
-  const taken = new Set([
-    ...composition.parts.map((part) => part.id),
-    ...(composition.relations ?? []).map((relation) => relation.id),
-  ])
-  let index = 1
-  while (taken.has(`${prefix}-${index}`)) index += 1
-  return `${prefix}-${index}`
-}
 
 const directions: Array<Extract<
   EncounterDirection,
@@ -138,6 +135,24 @@ const kindCaption = (
 }
 
 /**
+ * Who is actually listening to this tuning context.
+ *
+ * A tuning context governs nothing by existing: exactly one pitch mapping,
+ * Tuned ratio, resolves its ratios against one, and it is chosen per Part.
+ * Added tunings therefore sat in this list doing nothing, with no way to tell
+ * from here that they were unused or how to use them. This says both.
+ */
+const tuningUsage = (composition: Composition, tuningId: string) => {
+  const users = composition.parts.filter(
+    (part) => part.kind === 'note' && part.tuningContextId === tuningId,
+  )
+  if (users.length === 0) {
+    return 'Used by no Part. A Part reads a tuning only when its Pitch is set to Tuned ratio; choose this one there.'
+  }
+  return `Used by ${users.map((part) => part.name).join(', ')}.`
+}
+
+/**
  * Adds or removes a Wheel from a Part's filter.
  *
  * An empty list means *every* Wheel — that is the query language, not a null
@@ -191,14 +206,14 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
     })
 
   const addRelation = () => {
-    const id = nextId(composition, 'relation')
+    const id = nextCompositionId(composition, 'relation')
     onChange({
       ...composition,
       relations: [
         ...relations,
         {
           id,
-          name: `Relation ${relations.length + 1}`,
+          name: uniqueName(relations.map((item) => item.name), 'Relation 1'),
           enabled: true,
           kind: 'conjunction',
           headIds: [],
@@ -213,14 +228,14 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
   const tuningContexts = composition.tuningContexts ?? []
 
   const addTuningContext = () => {
-    const id = nextId(composition, 'tuning')
+    const id = nextCompositionId(composition, 'tuning')
     onChange({
       ...composition,
       tuningContexts: [
         ...tuningContexts,
         {
           id,
-          name: `Tuning ${tuningContexts.length + 1}`,
+          name: uniqueName(tuningContexts.map((item) => item.name), 'Tuning 1'),
           rootFrequencyHz: 261.6255653005986,
           system: { kind: 'equal-temperament', divisions: 12 },
           octaveFold: true,
@@ -229,11 +244,41 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
     })
   }
 
+  const updateTuningContext = (
+    id: string,
+    next: (tuning: TuningContextSpec) => TuningContextSpec,
+  ) =>
+    onChange({
+      ...composition,
+      tuningContexts: tuningContexts.map((tuning) =>
+        tuning.id === id ? next(tuning) : tuning,
+      ),
+    })
+
+  /**
+   * Removing a tuning context also drops it from the Parts that named it.
+   * A `tuningContextId` pointing at nothing is a validation error, and an
+   * invalid Composition compiles to no events at all — the Remove button
+   * would have silenced the whole piece.
+   */
+  const removeTuningContext = (id: string) =>
+    onChange({
+      ...composition,
+      tuningContexts: tuningContexts.filter((tuning) => tuning.id !== id),
+      parts: composition.parts.map((part) =>
+        part.kind === 'note' && part.tuningContextId === id
+          ? { ...part, tuningContextId: undefined }
+          : part,
+      ),
+    })
+
   const addControlPart = () => {
-    const id = nextId(composition, 'control')
+    const id = nextCompositionId(composition, 'control')
     const part: PartSpec = {
       id,
-      name: `Control ${controlParts.length + 1}`,
+      // Across every Part, not just the Control ones: they share an array and
+      // the same aria-label shape in the tree.
+      name: uniqueName(composition.parts.map((item) => item.name), 'Control 1'),
       enabled: true,
       mute: false,
       solo: false,
@@ -281,7 +326,7 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
       ...composition.parts,
       {
         id: `part-${index}`,
-        name: `Part ${index}`,
+        name: uniqueName(composition.parts.map((item) => item.name), `Part ${index}`),
         enabled: true,
         mute: false,
         solo: false,
@@ -332,18 +377,28 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   type="button"
                   title={help['tuning.remove']}
                   aria-label={`Remove ${tuning.id}`}
-                  onClick={() =>
-                    onChange({
-                      ...composition,
-                      tuningContexts: tuningContexts.filter(
-                        (item) => item.id !== tuning.id,
-                      ),
-                    })
-                  }
+                  onClick={() => removeTuningContext(tuning.id)}
                 >
                   Remove
                 </button>
               </div>
+              <p className="panel-context">{tuningUsage(composition, tuning.id)}</p>
+              <label title={help['tuning.name']}>
+                <span>Name</span>
+                <input
+                  aria-label={`Tuning name ${tuning.id}`}
+                  type="text"
+                  value={tuning.name}
+                  onChange={(event) =>
+                    updateTuningContext(tuning.id, (item) => ({
+                      ...item,
+                      // An empty name fails validation, which silences the whole
+                      // Composition; hold the old one until something is typed.
+                      name: event.currentTarget.value || item.name,
+                    }))
+                  }
+                />
+              </label>
               <label title={help['tuning.rootHz']}>
                 <span>Root (Hz)</span>
                 <input
@@ -353,20 +408,13 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   min={0.01}
                   value={tuning.rootFrequencyHz}
                   onChange={(event) =>
-                    onChange({
-                      ...composition,
-                      tuningContexts: tuningContexts.map((item) =>
-                        item.id === tuning.id
-                          ? {
-                              ...item,
-                              rootFrequencyHz: Math.max(
-                                0.01,
-                                Number(event.currentTarget.value),
-                              ),
-                            }
-                          : item,
+                    updateTuningContext(tuning.id, (item) => ({
+                      ...item,
+                      rootFrequencyHz: Math.max(
+                        0.01,
+                        Number(event.currentTarget.value),
                       ),
-                    })
+                    }))
                   }
                 />
               </label>
@@ -376,20 +424,13 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   aria-label={`Tuning system ${tuning.id}`}
                   value={tuning.system.kind}
                   onChange={(event) =>
-                    onChange({
-                      ...composition,
-                      tuningContexts: tuningContexts.map((item) =>
-                        item.id === tuning.id
-                          ? {
-                              ...item,
-                              system:
-                                event.currentTarget.value === 'rational'
-                                  ? { kind: 'rational', maxDenominator: 64 }
-                                  : { kind: 'equal-temperament', divisions: 12 },
-                            }
-                          : item,
-                      ),
-                    })
+                    updateTuningContext(tuning.id, (item) => ({
+                      ...item,
+                      system:
+                        event.currentTarget.value === 'rational'
+                          ? { kind: 'rational', maxDenominator: 64 }
+                          : { kind: 'equal-temperament', divisions: 12 },
+                    }))
                   }
                 >
                   <option value="equal-temperament">equal-temperament</option>
@@ -767,6 +808,9 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               part={part}
               composition={composition}
               onPitch={(pitch) => update(part.id, (current) => ({ ...current, pitch }))}
+              onTuningContext={(tuningContextId) =>
+                update(part.id, (current) => ({ ...current, tuningContextId }))
+              }
             />
 
             <label title={help['part.velocityKind']}>
@@ -858,6 +902,11 @@ const defaultPitchFor = (kind: PitchMapping['kind']): PitchMapping => {
       kind,
       source: 'radius',
       scale: 'pentatonic-minor',
+      // New Parts anchor to the bar. Unanchored, the walk's running degree
+      // drifts across a periodic Wheel and the line never repeats, which is
+      // the opposite of what an instrument built on cyclic relationship
+      // should default to.
+      anchor: 'bar',
       contour: {
         maxStep: 2,
         directionBias: 0.7,
@@ -877,6 +926,8 @@ type PitchControlsProps = {
   part: NotePartSpec
   composition: Composition
   onPitch: (pitch: PitchMapping) => void
+  /** Separate from onPitch: the context lives on the Part, not the mapping. */
+  onTuningContext: (tuningContextId: string | undefined) => void
 }
 
 /**
@@ -886,7 +937,12 @@ type PitchControlsProps = {
  * Each branch edits its own shape and never reaches for fields another kind
  * owns, which is what keeps a switch from producing an invalid Composition.
  */
-function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
+function PitchControls({
+  part,
+  composition,
+  onPitch,
+  onTuningContext,
+}: PitchControlsProps) {
   const pitch = part.pitch
 
   const scaleSelect = (
@@ -942,7 +998,7 @@ function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
   if (pitch.kind === 'boundary-degree') {
     return (
       <>
-        <NumberField label={`Root ${part.id}`} shortLabel="Root" hint={help['part.root']} value={pitch.root} min={0} max={127} step={1} onChange={(root) => onPitch({ ...pitch, root })} />
+        <RootField label={`Root ${part.id}`} value={pitch.root} onChange={(root) => onPitch({ ...pitch, root })} />
         {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
         <NumberField label={`Octaves ${part.id}`} shortLabel="Octaves" hint={help['part.octaves']} value={pitch.octaves} min={0} max={10} step={1} onChange={(octaves) => onPitch({ ...pitch, octaves })} />
       </>
@@ -953,7 +1009,7 @@ function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
     return (
       <>
         {sourceSelect(pitch.source, (source) => onPitch({ ...pitch, source }))}
-        <NumberField label={`Root ${part.id}`} shortLabel="Root" hint={help['part.root']} value={pitch.root} min={0} max={127} step={1} onChange={(root) => onPitch({ ...pitch, root })} />
+        <RootField label={`Root ${part.id}`} value={pitch.root} onChange={(root) => onPitch({ ...pitch, root })} />
         {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
         <NumberField label={`Octaves ${part.id}`} shortLabel="Octaves" hint={help['part.octaves']} value={pitch.octaves} min={0} max={10} step={1} onChange={(octaves) => onPitch({ ...pitch, octaves })} />
       </>
@@ -966,6 +1022,32 @@ function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
       <>
         {sourceSelect(pitch.source, (source) => onPitch({ ...pitch, source }))}
         {scaleSelect(pitch.scale, (scale) => onPitch({ ...pitch, scale }))}
+        {/*
+          This mapping had a scale and no root: the compiler pinned degree 0 to
+          middle C. Choosing dorian without choosing what it was dorian *on*
+          was the one place the key really was unreachable.
+        */}
+        <RootField
+          label={`Root ${part.id}`}
+          value={pitch.root ?? DEFAULT_MELODY_ROOT}
+          onChange={(root) => onPitch({ ...pitch, root })}
+        />
+        <label title={help['part.melodyAnchor']}>
+          <span>Restart</span>
+          <select
+            aria-label={`Melody anchor ${part.id}`}
+            value={pitch.anchor}
+            onChange={(event) =>
+              onPitch({
+                ...pitch,
+                anchor: event.currentTarget.value as 'none' | 'bar',
+              })
+            }
+          >
+            <option value="bar">Each bar</option>
+            <option value="none">Never — let it drift</option>
+          </select>
+        </label>
         <NumberField label={`Max step ${part.id}`} shortLabel="Max step" hint={help['part.maxStep']} value={contour.maxStep} min={0} max={64} step={1} onChange={(maxStep) => onPitch({ ...pitch, contour: { ...contour, maxStep } })} />
         <NumberField label={`Direction bias ${part.id}`} shortLabel="Direction bias" hint={help['part.directionBias']} value={contour.directionBias} min={0} max={1} step={0.05} onChange={(directionBias) => onPitch({ ...pitch, contour: { ...contour, directionBias } })} />
         <NumberField label={`Low degree ${part.id}`} shortLabel="Low degree" hint={help['part.lowDegree']} value={contour.lowDegree} min={-128} max={128} step={1} onChange={(lowDegree) => onPitch({ ...pitch, contour: { ...contour, lowDegree } })} />
@@ -996,6 +1078,27 @@ function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
   const ratio = pitch.ratio
   return (
     <>
+      {/*
+        The one place a tuning context is consumed: `mapEncounterPitch` reads
+        it only on this branch. Rendering it here rather than beside the Part's
+        other fields keeps it from looking like it governs the other seven
+        mappings, which it does not.
+      */}
+      <label title={help['part.tuningContext']}>
+        <span>Tuning</span>
+        <select
+          aria-label={`Tuning context ${part.id}`}
+          value={part.tuningContextId ?? ''}
+          onChange={(event) =>
+            onTuningContext(event.currentTarget.value || undefined)
+          }
+        >
+          <option value="">Default — C4, 12-TET</option>
+          {(composition.tuningContexts ?? []).map((tuning) => (
+            <option key={tuning.id} value={tuning.id}>{tuning.name}</option>
+          ))}
+        </select>
+      </label>
       <label title={help['part.ratioSource']}>
         <span>Ratio from</span>
         <select
@@ -1042,7 +1145,9 @@ function PitchControls({ part, composition, onPitch }: PitchControlsProps) {
 }
 
 const nextPartIndex = (composition: Composition) => {
-  const ids = new Set(composition.parts.map((part) => part.id))
+  // Every id, not just the other Parts': ids are unique across the whole
+  // Composition, so a `part-3` anywhere in it rules out `part-3` here.
+  const ids = allCompositionIds(composition)
   let index = composition.parts.length + 1
   while (ids.has(`part-${index}`)) index += 1
   return index
@@ -1058,6 +1163,39 @@ type NumberFieldProps = {
   /** Hover help. See `./help`. */
   hint?: string
   onChange: (value: number) => void
+}
+
+/**
+ * A root note, shown as a note name.
+ *
+ * The value stored is a MIDI number and stays one — it is what every scale
+ * helper takes. But "Root 48" is not a root note to a musician reading a
+ * panel, which is why this control was reported as missing when it had been
+ * there all along. The label carries the name and tracks the number.
+ */
+function RootField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string
+  value: number
+  onChange: (root: number) => void
+}) {
+  return (
+    <label title={help['part.root']}>
+      <span>Root ({midiToName(value)})</span>
+      <input
+        aria-label={label}
+        type="number"
+        value={value}
+        min={0}
+        max={127}
+        step={1}
+        onChange={(event) => onChange(Number(event.currentTarget.value))}
+      />
+    </label>
+  )
 }
 
 function NumberField({ label, shortLabel, value, min, max, step, hint, onChange }: NumberFieldProps) {

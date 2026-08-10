@@ -1558,9 +1558,26 @@ const validatePitch = (
       }
     }
   } else if (kind === 'melodic-contour') {
-    context.knownKeys(pitch, path, ['kind', 'source', 'scale', 'contour'])
+    context.knownKeys(pitch, path, [
+      'kind',
+      'source',
+      'scale',
+      'root',
+      'anchor',
+      'contour',
+    ])
+    context.literal(pitch, 'anchor', `${path}.anchor`, ['none', 'bar'])
     context.literal(pitch, 'source', `${path}.source`, ['x', 'y', 'radius', 'angle'])
     context.literal(pitch, 'scale', `${path}.scale`, scaleNames)
+    // Optional: absent means middle C, so a Composition written before the
+    // root was settable stays valid and sounds exactly as it did.
+    if (pitch.root !== undefined) {
+      context.number(pitch, 'root', `${path}.root`, {
+        min: 0,
+        max: 127,
+        integer: true,
+      })
+    }
     const contour = context.object(pitch.contour, `${path}.contour`)
     if (contour) {
       context.knownKeys(contour, `${path}.contour`, [

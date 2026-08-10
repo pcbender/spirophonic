@@ -191,6 +191,8 @@ export const help = {
   'part.ratioDenominator': 'Bottom of the frequency ratio.',
   'part.ratioWheel':
     'Which Wheel’s motion supplies the ratio. Lissajous and rose Wheels carry one; a spirogram’s radii describe rolling, not frequency.',
+  'part.melodyAnchor':
+    'Where the line restarts. The walk accumulates, so Never lets it drift and a repeating Wheel produces a line that never repeats. Each bar restarts it at the start degree, making the phrase repeatable.',
   'part.maxStep': 'The largest jump the line may make, in scale steps.',
   'part.directionBias':
     'How strongly the source’s own direction steers the line. 0 wanders; 1 follows the geometry exactly.',
@@ -198,7 +200,8 @@ export const help = {
   'part.highDegree': 'Highest scale degree the line may reach.',
   'part.startDegree': 'Scale degree the line begins on.',
   'part.midiNote': 'The single MIDI note every Encounter plays. 60 is middle C.',
-  'part.root': 'Lowest MIDI note of the scale that Boundary degrees map onto.',
+  'part.root':
+    'The root note the scale is built on, as a MIDI number — the note name beside the label tracks it. Degree 0 lands here.',
   'part.scale': 'Which scale the degrees land on. Pentatonic minor is the forgiving default.',
   'part.relations':
     'Which Relations this Part fires on. Check none and it hears every Relation of the kinds above.',
@@ -242,14 +245,30 @@ export const help = {
   'tuning.rootHz': 'Reference frequency the context is built on. 261.63 Hz is middle C.',
   'tuning.system':
     'Equal temperament quantizes to fixed divisions per octave. Rational keeps exact ratios, which is what makes a 3:2 an actual perfect fifth rather than an approximation of one.',
+  'part.tuningContext':
+    'Which tuning context this Part resolves its ratios against. Only Tuned ratio reads it. Default is C4 at 261.63 Hz in 12-tone equal temperament; add others with Add Tuning.',
   'tuning.name': 'Names this tuning context.',
   'control.name': 'Names this Control Part.',
-  'tree.select':
-    'Select this, to edit it in the panels on the left.',
-  'tree.selectPart': 'Select this Part.',
+  /*
+   * One string used to serve all three row kinds, and it named no panel and no
+   * rail: "the panels on the left" locates nothing when the tree you are
+   * reading it in is itself on the left. Each row now names the panel it drives
+   * and where that panel is. The Part row says what it does instead of
+   * promising an edit surface it does not have.
+   */
+  'tree.selectWheel':
+    'Show this Wheel in the Wheel panel, further down this rail, where its motion, rate, and phase are set.',
+  'tree.selectHead':
+    'Show this Head in the Head and Trace panel, further down this rail, where its attachment and Trace are set.',
+  'tree.selectPart':
+    'Highlight this Part. Unlike a Wheel or Head, a Part is not edited through this tree — every Part has its own row in the Parts panel, in the right rail.',
   'tuning.remove': 'Remove this tuning context.',
 
   // Instruments
+  'instrument.add':
+    'Add an Instrument by copying the last one. It is silent until a Part is pointed at it.',
+  'instrument.remove':
+    'Remove this Instrument. Refused while any Part still plays through it, and a Composition must keep one.',
   'instrument.name': 'Names this Instrument in Part pickers.',
   'instrument.waveform': 'Oscillator shape. Sine is pure; sawtooth is brightest.',
   'instrument.voice': 'Which drum this Instrument plays.',
@@ -301,6 +320,12 @@ export const help = {
     'Copy the sound bank audio into the bundle so it opens on any machine. Much larger file. Without this, the bundle only references banks by digest.',
 
   // Sound banks
+  'dialog.close':
+    'Close this dialog and return to the workspace. Nothing is applied on close — every change took effect when you made it.',
+  'settings.open':
+    'Setup that is not part of the Composition: importing sound banks, recording their licences, relinking and removing them.',
+  'bank.manage':
+    'Open Settings, where banks are imported, relinked, and removed. Nothing there changes the Composition’s sound on its own.',
   'bank.file': 'Choose an SF2 or SF3 SoundFont to import.',
   'bank.license':
     'Redistribution terms, recorded with the bank. These travel with the file when a bundle embeds it.',

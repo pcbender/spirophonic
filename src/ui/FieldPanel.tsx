@@ -17,6 +17,7 @@ import {
   updateBoundary,
   updateField,
 } from '../core/fields'
+import { uniqueName } from '../core/compositionEdits'
 import { help } from './help'
 import { RailPanel } from './RailPanel'
 
@@ -67,6 +68,60 @@ const defaultMotion = (
 }
 
 /** A new Boundary that does not collide with its siblings. */
+const GRID_STEP = 40
+
+/**
+ * The next line in a grid, placed so the grid stays square and centred.
+ *
+ * The old rule alternated axis and stepped `floor(count / 2) * 40`, which only
+ * ever produced non-negative offsets: a "grid" grew away from its own centre
+ * into one quadrant and never became symmetric without editing every offset by
+ * hand. This fills the axis that has fewer lines, and mirrors an unpaired line
+ * before stepping further out, so a grid built one boundary at a time is
+ * centred at every count.
+ *
+ * `axis: 'x'` is the locus `x === offset` — a vertical line. That is the
+ * convention `gridSignedDistance` uses, and it is why a one-line grid looked
+ * like a vertical stroke.
+ */
+const nextGridLine = (
+  siblings: ReadonlyArray<BoundarySpec>,
+): { kind: 'grid'; axis: 'x' | 'y'; offset: number } => {
+  const lines = siblings.filter(
+    (item): item is Extract<BoundarySpec, { kind: 'grid' }> =>
+      item.kind === 'grid',
+  )
+  const onAxis = (axis: 'x' | 'y') =>
+    lines.filter((line) => line.axis === axis)
+  // Fill the thinner axis, so a grid grows square rather than striped.
+  const axis: 'x' | 'y' =
+    onAxis('y').length < onAxis('x').length ? 'y' : 'x'
+  const existing = onAxis(axis)
+  const positives = existing.filter((line) => line.offset > 0).length
+  const negatives = existing.filter((line) => line.offset < 0).length
+  const widest = existing.reduce(
+    (value, line) => Math.max(value, Math.abs(line.offset)),
+    0,
+  )
+
+  return positives > negatives
+    ? // Mirror the unpaired line rather than reaching further out.
+      { kind: 'grid', axis, offset: -widest }
+    : { kind: 'grid', axis, offset: widest + GRID_STEP }
+}
+
+/**
+ * How many Boundaries a new Field of this kind starts with.
+ *
+ * One, except for a grid. Every other kind is a complete instance of itself at
+ * one Boundary — one ring is a ring, one spiral is a spiral — but one grid
+ * line is a line, and "Add grid" that drew a single stroke was reporting the
+ * data model accurately and the user's intent not at all. Four lines is the
+ * count the shipped Composition uses for rings and spokes.
+ */
+const startingBoundaryCount = (kind: FieldSpec['kind']) =>
+  kind === 'grid' ? 4 : 1
+
 const defaultBoundary = (
   kind: FieldSpec['kind'],
   id: string,
@@ -117,13 +172,7 @@ const defaultBoundary = (
     }
   }
   if (kind === 'grid') {
-    const lines = siblings.filter((item) => item.kind === 'grid')
-    return {
-      ...base,
-      kind: 'grid',
-      axis: lines.length % 2 === 0 ? 'x' : 'y',
-      offset: Math.floor(lines.length / 2) * 40,
-    }
+    return { ...base, ...nextGridLine(siblings) }
   }
   return {
     ...base,
@@ -140,19 +189,33 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
 
   const createField = (kind: FieldSpec['kind']) => {
     const id = nextFieldId(composition.fields, kind)
-    const boundaryId = nextBoundaryId(composition.fields, id)
     const base = {
       id,
-      name: fieldKindLabels[kind],
+      name: uniqueName(
+        composition.fields.map((field) => field.name),
+        fieldKindLabels[kind],
+      ),
       enabled: true,
       center: { x: 0, y: 0 },
+    }
+    // Seeded through the same rule that adds one later, so a grid built by
+    // pressing the button and a grid built one Boundary at a time agree.
+    const boundaries: Array<BoundarySpec> = []
+    for (let ordinal = 1; ordinal <= startingBoundaryCount(kind); ordinal += 1) {
+      boundaries.push({
+        ...defaultBoundary(kind, `${id}-boundary-${ordinal}`, ordinal, boundaries),
+        // newBoundaryBase hard-codes index 0, which was invisible while a Field
+        // could only start with one Boundary. Duplicate indices are a
+        // validation error, and addBoundary reindexes for the same reason.
+        index: ordinal - 1,
+      })
     }
     const field = {
       ...base,
       kind,
       // Rings and bands are rotationally symmetric, so they stay rotation-free.
       ...(kind === 'rings' || kind === 'bands' ? {} : { rotation: 0 }),
-      boundaries: [defaultBoundary(kind, boundaryId, 1, [])],
+      boundaries,
     } as FieldSpec
 
     commitFields(addField(composition.fields, field))
@@ -177,8 +240,19 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
       field.boundaries.length + 1,
       field.boundaries,
     )
+    // Counting the siblings names the third Boundary of a Field that has had
+    // one removed after the second: the Boundary picker in the Parts panel
+    // lists them as "Field / Boundary", and two rows reading the same thing
+    // pick the same one.
+    const named = {
+      ...boundary,
+      name: uniqueName(
+        field.boundaries.map((item) => item.name),
+        boundary.name,
+      ),
+    } as BoundarySpec
 
-    commitFields(addBoundary(composition.fields, field.id, boundary))
+    commitFields(addBoundary(composition.fields, field.id, named))
   }
 
   return (

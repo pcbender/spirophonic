@@ -330,6 +330,9 @@ export const mapEncounterPitch = (
 }
 
 /** The melodic line a Part's Encounters walk, or undefined if it has none. */
+/** Middle C. The root a melodic contour used before one could be chosen. */
+export const DEFAULT_MELODY_ROOT = 60
+
 export const buildPartMelody = (
   part: NotePartSpec,
   encounters: ReadonlyArray<InterpretableEncounter>,
@@ -346,8 +349,17 @@ export const buildPartMelody = (
     series,
     part.pitch.contour,
     part.pitch.scale,
-    // Degree 0 sits at the contour's low bound, expressed from middle C.
-    60,
+    // Degree 0 sits at the contour's low bound, expressed from the Part's
+    // root. Absent means middle C, which is what this was fixed at before the
+    // root was settable.
+    part.pitch.root ?? DEFAULT_MELODY_ROOT,
+    // The bar is the anchor rather than the Wheel cycle: every Encounter
+    // producer already carries `barIndex`, while a cycle index exists only for
+    // boundary crossings — a trace crossing and a Relation each involve two
+    // Heads on possibly two Wheels, and neither has one cycle to belong to.
+    part.pitch.anchor === 'bar'
+      ? encounters.map((encounter) => encounter.barIndex)
+      : undefined,
   ).map((step) => step.midiNote)
 }
 

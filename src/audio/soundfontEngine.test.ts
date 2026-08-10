@@ -85,6 +85,7 @@ class FakeContext {
   resumeCount = 0
   suspendCount = 0
   closeCount = 0
+  readonly destination = { id: 'destination' } as unknown as AudioNode
 
   async resume() {
     this.resumeCount += 1
@@ -123,6 +124,8 @@ class FakeSynth implements SoundFontSynthesizer {
   readonly programs: Array<RecordedCall> = []
   stopCount = 0
   destroyCount = 0
+  disconnectCount = 0
+  readonly connectedTo: Array<AudioNode> = []
   private readonly context: FakeContext
 
   constructor(context: FakeContext) {
@@ -163,6 +166,16 @@ class FakeSynth implements SoundFontSynthesizer {
 
   stopAll() {
     this.stopCount += 1
+  }
+
+  connect(destination: AudioNode) {
+    this.connectedTo.push(destination)
+    return destination
+  }
+
+  disconnect(destination?: AudioNode) {
+    this.disconnectCount += 1
+    return destination
   }
 
   destroy() {
@@ -206,6 +219,39 @@ const harness = (availableDigests: ReadonlySet<string>, maxVoices = 64) => {
 }
 
 describe('SoundFontEngine', () => {
+  it('connects each loaded bank to the context destination, and unwires it on invalidate', async () => {
+    const bank = reference('bank-one')
+    const { engine, context, synths } = harness(new Set([bank.digest]))
+
+    await engine.inspectBank(bank)
+
+    // Without this the worklet renders into nothing: every SoundFont route and
+    // every audition is silent, while all the note-on bookkeeping still looks
+    // correct to a stub.
+    expect(synths[0].connectedTo).toEqual([context.destination])
+
+    engine.invalidateBank(bank.id)
+    expect(synths[0].disconnectCount).toBe(1)
+    expect(synths[0].destroyCount).toBe(1)
+  })
+
+  it('auditions a preset on the reserved channel through a connected synthesizer', async () => {
+    const bank = reference('bank-one')
+    const { engine, context, synths } = harness(new Set([bank.digest]))
+
+    await engine.audition(bank, presets[0], 60)
+
+    const synth = synths[0]
+    expect(synth.connectedTo).toEqual([context.destination])
+    expect(context.resumeCount).toBeGreaterThan(0)
+    expect(synth.noteOns).toEqual([
+      { channel: 15, values: [60, 105], time: 10.05 },
+    ])
+    expect(synth.noteOffs).toEqual([
+      { channel: 15, values: [60], time: 10.65 },
+    ])
+  })
+
   it('preloads once and routes concurrent presets, drums, dynamics, and timing', async () => {
     const bank = reference('bank-one')
     const { engine, store, synths } = harness(new Set([bank.digest]))

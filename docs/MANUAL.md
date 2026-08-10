@@ -28,6 +28,7 @@ there too**; they are two lengths of the same sentence.
 - [Fields](#fields)
 - [Parts](#parts)
 - [Sound banks](#sound-banks)
+- [Settings](#settings)
 - [Instruments](#instruments)
 - [Variation](#variation)
 - [Recorder](#recorder)
@@ -59,7 +60,7 @@ Several Parts may read the same Encounter and disagree.
 
 | Region | Holds |
 |---|---|
-| Top bar | **New**, **Load example**, and the file actions |
+| Top bar | **New**, **Load example**, the file actions, and **Settings** |
 | Left rail | Composition, Composition tree, Wheel, Head and Trace |
 | Centre | The canvas, with the Transport beneath it |
 | Right rail | Performance, Fields, Parts, Sound banks, Instruments, Variation, Recorder |
@@ -116,8 +117,18 @@ appears to do nothing, lengthen the loop before changing anything else.
 ## Composition tree
 
 The structure of the piece, and the selector for the Wheel and Head panels.
-Click any name to select it. **Add Wheel** adds a Wheel, carrying one Head, and
-selects it.
+**Add Wheel** adds a Wheel, carrying one Head, and selects it.
+
+Clicking a name does different things depending on what you clicked:
+
+| Clicking | Does |
+|---|---|
+| A **Wheel** name | Shows it in the **Wheel** panel, further down the left rail. |
+| A **Head** name | Shows it in the **Head and Trace** panel, further down the left rail. |
+| A **Part** name | Highlights the row, and nothing else. Parts are not edited through the tree — the **Parts** panel in the right rail lists every Part, each with its own row. |
+
+The Wheel and Head panels are an inspector, not a list: they always show
+whatever the tree has selected.
 
 **Wheel rows** — `On` (include in the performance), `↑` `↓` (reorder), `Copy`
 (duplicate with its Heads), `+Head` (add a Head), `Remove`.
@@ -225,7 +236,10 @@ a rotation, and a motion.
 
 **Add rings**, **Add spokes**, **Add ellipses**, **Add bands**, **Add grid**,
 and **Add spiral** each create a Field of that kind, already carrying one
-Boundary.
+Boundary — except **Add grid**, which starts with four. One ring is a ring and
+one spiral is a spiral, but one grid line is a line: grid is the only kind
+whose name describes a plurality, so it starts as a lattice of two lines per
+axis, centred on the Field.
 
 ### Per Field
 
@@ -259,11 +273,17 @@ music. **rotating** drifts against the beat by design.
 | spokes | Spoke | Angle (rad) |
 | ellipses | Ellipse | Radius, Eccentricity |
 | bands | Band | Inner radius, Outer radius |
-| grid | Line | Axis (x / y), Offset |
+| grid | Line | Axis (x / y), Offset. `x` is the line where *x* equals the offset — a vertical one. |
 | spiral | Spiral | Start radius, Growth per turn, Turns |
 
 Each Boundary also has an enable checkbox, a **Name**, `↑` `↓` reorder buttons,
 and **Remove Boundary**.
+
+**Add Boundary** places the new one where it will not land on an existing one:
+rings, ellipses, and bands step outward from the widest sibling, spokes step an
+eighth-turn round, and a grid fills whichever axis has fewer lines, mirroring an
+unpaired line before reaching further out — so a grid stays square and centred
+however many you add.
 
 A Boundary outside a Head's reach is never crossed no matter how long the loop
 runs. A Head sweeps a fixed range of distances from the centre set by its
@@ -309,9 +329,35 @@ crossed choose the note.
 | **Boundary degree** | Root, Scale, Octaves | Which Boundary was crossed. For a trace crossing or a Relation, which *other Head* was met. |
 | **Spatial** | Source, Root, Scale, Octaves | *Where* the Encounter happened — its x, y, distance from centre, or angle — mapped onto the scale. |
 | **Contour** | Source, Root, Scale, Octaves | The same measurement, but normalised across this Part's own Encounters, so the full range is always used. |
-| **Melodic line** | Source, Scale, Max step, Direction bias, Low/High/Start degree | A line that *walks* the scale. The source steers direction rather than picking notes outright, so the result moves stepwise instead of leaping. |
+| **Melodic line** | Source, Scale, Root, Restart, Max step, Direction bias, Low/High/Start degree | A line that *walks* the scale. The source steers direction rather than picking notes outright, so the result moves stepwise instead of leaping. |
 | **Ratio** | Root (Hz), Octave fold | Which Boundary was crossed, as a whole-number frequency ratio above the root. |
-| **Tuned ratio** | Explicit numerator/denominator, or a Wheel's motion | An exact interval. Taking it from a Lissajous or rose Wheel makes a 3:2 figure sound an actual perfect fifth. |
+| **Tuned ratio** | Tuning, and either an explicit numerator/denominator or a Wheel's motion | An exact interval. Taking it from a Lissajous or rose Wheel makes a 3:2 figure sound an actual perfect fifth. |
+
+**Root** is a MIDI note, and the label names it: `Root (C3)` for 48. Degree 0 of
+the scale lands there, so it is the key the mapping is in. Every scale mapping
+has one, Melodic line included — before, that one was fixed at middle C.
+
+**Restart** decides where the walk begins again, and it matters more than it
+looks. The line's degree is a running sum, so left to drift it accumulates: the
+*steps* repeat every Wheel cycle, but the degree they are applied to has moved
+on, and a perfectly periodic Wheel produces a line that never repeats. **Each
+bar** — the default — restarts at the start degree every bar, so every bar
+opens on the same note and the phrase is repeatable. **Never** keeps the old
+drifting behaviour, which is worth having when you want a long line that never
+settles.
+
+Anchoring bounds the drift; it cannot invent repetition the geometry does not
+have. A Wheel cycle is not the same as the curve's period — the shipped
+spirogram is 180/65, which closes after thirteen cycles — so bars still differ
+from one another until the curve itself comes round. What changes is that each
+bar starts from the same place instead of from wherever the last one ended.
+
+**Tuning** appears on **Tuned ratio** only, because that is the only mapping
+that resolves against a tuning context. Left at **Default** it uses C4 at
+261.63 Hz in 12-tone equal temperament; other entries are the contexts you add
+with **Add Tuning**, further up this panel. Choosing one is what makes a
+`rational` system or a different root frequency audible — a context that no
+Part points at changes nothing.
 
 **Scales** are chromatic, major, minor, dorian, pentatonic-major, and
 pentatonic-minor.
@@ -366,34 +412,69 @@ same key rather than each carrying an unrelated root.
 
 ## Sound banks
 
-Manages SoundFont banks. Everything here is optional — every default Instrument
-is native and needs no bank.
+Uses SoundFont banks. Everything here is optional — every default Instrument is
+native and needs no bank.
 
-The bundled **MuseScore General** bank (38 MB, MIT licensed) is fetched in the
-background on first run and cached in the browser. Its status shows in this
-panel. If the download fails the app still works; the bank simply reports as
-unavailable.
+The work splits across two places. **This panel** is where you pick a sound:
+find a preset, hear it, give it to an Instrument. **Settings → Sound banks** is
+where banks themselves are managed — imported, relinked, removed. You set a bank
+up once; you assign presets constantly, so only the second lives in the rail.
 
 | Control | Notes |
 |---|---|
-| **SF2 or SF3 file** | Choose a bank to import. |
-| **License / usage terms**, **Provenance / attribution** | Recorded with the bank. Redistribution terms travel with the file, which matters when you export a bundle with banks embedded. |
-| **Import local bank** | Adds the chosen file to the browser's vault. |
+| Bank name and state | `ready`, `loading`, or a failure. A bank that cannot be reached says why and offers **Open Settings**, which is where the fix is. |
 | **Find preset** | Filters the preset list. |
 | **Preset (n)** | The bank's presets; `n` is how many match the current filter. |
 | Audition keyboard | A row of note buttons (C3 upward) that play the selected preset without assigning it, so you can hear a preset before committing to it. |
 | **Assign to Instrument** | Chooses which Instrument the preset is destined for. |
-| **Use preset** | Applies the selected preset to that Instrument, converting it to a `soundfont` Instrument. |
-| **Relink bank** | Reconnects a Composition's bank reference to a file you supply — for a bundle that arrived as a manifest without its audio. |
-| **Remove local bytes** | Evicts a bank's audio from the browser's vault, keeping the reference. The Composition still names the bank; it will not sound until relinked. |
+| **Use preset** | Applies the selected preset to that Instrument, converting it to a `soundfont` Instrument. It keeps the Instrument's id, gain, and pan — so every Part routed to it keeps playing — and replaces its name with the preset's. A native Instrument's waveform and envelope are discarded, because a preset carries its own. |
+| **Manage banks** | Opens Settings. |
 
 Banks are stored in IndexedDB and keyed by SHA-256 digest, so the same bank
 imported twice is stored once, and a Composition referencing a digest finds it
 without re-import.
 
+## Settings
+
+Setup that is not part of the Composition. Opened from **Settings** in the top
+bar, closed with Escape, the **Close** button, or a click outside it. Every
+dialog in the app behaves this way. Nothing is
+applied on close — every change takes effect when you make it.
+
+### Sound banks
+
+The bundled **MuseScore General** bank (38 MB, MIT licensed) is fetched in the
+background on first run and cached in the browser. Its download status shows
+here. If the download fails the app still works; the bank simply reports as
+unavailable.
+
+| Control | Notes |
+|---|---|
+| **SF2 or SF3 file** | Choose a bank to import. |
+| **License / usage terms**, **Provenance / attribution** | Recorded with the bank. Redistribution terms travel with the file, which matters when you export a bundle with banks embedded. A bank will not import without a licence recorded. |
+| **Import local bank** | Adds the chosen file to the browser's vault. |
+| Format, Digest, Source, License, Attribution | The reference as the Composition stores it. The Composition holds this and never the audio. |
+| **Relink bank** | Reconnects a Composition's bank reference to a file you supply — for a bundle that arrived as a manifest without its audio. The file must match the reference's format. |
+| **Remove local bytes** | Evicts a bank's audio from the browser's vault, keeping the reference. The Composition still names the bank; it will not sound until relinked. |
+
 ## Instruments
 
 Renders what Parts decide. Three kinds.
+
+**Add Instrument** copies the last one — copied rather than invented, because a
+`soundfont` Instrument carries a bank and a preset, and a synthesised default
+would validate and be unable to play. A new Instrument is silent until a Part
+is pointed at it.
+
+**Remove** is refused, with a reason, while any *note* Part still plays through
+that Instrument, and a Composition must always keep one. Reassign those Parts
+first — the refusal names them.
+
+Control Parts are asked about rather than refused. Every Part carries an
+Instrument because the field is common to all Parts, but a Control Part drives
+a lane and never emits a note, so its Instrument is bookkeeping. Removing one
+it names repoints it to a surviving Instrument, which the confirmation says
+before it happens — and which changes nothing you hear.
 
 Common to all kinds: **Name**, **Gain**, **Pan**.
 
@@ -477,9 +558,19 @@ first.
 | **Export SVG** | The Traces, as vector art. |
 | **Copy Strudel** | The pattern as Strudel code, to the clipboard. |
 | **Export WAV** | An offline render, faster than real time, with a progress bar and a cancel. |
-| **Export bundle** | Composition plus sound bank references as one `.spirophonic` file. |
+| **Export bundle** | Composition plus sound bank references as one `.spirophonic` file. Opens a dialog holding the one choice it needs — see below. |
 | **Import bundle** | Opens one, reporting which banks resolved. |
-| **Embed sound banks in bundle** | Governs **Export bundle** only. On, the bundle carries the bank audio and opens anywhere, at tens of megabytes. Off, it references banks by digest and expects them present. |
+
+### The Export bundle dialog
+
+One decision, made where it applies rather than parked in the top bar.
+
+| Control | Notes |
+|---|---|
+| **Embed sound banks in bundle** | On, the bundle carries the bank audio and opens on any machine. Off, it names banks by digest and expects them already in the vault. |
+| Size line | What the choice actually costs, measured against the banks this Composition references and what is in this browser's vault. It also says when a referenced bank is not in the vault and so cannot be embedded whatever you tick. |
+| **Export bundle** | Writes the file and closes. |
+| **Close** | Closes without exporting. The tick is remembered for next time. |
 
 Your work is also saved to this browser automatically and restored on reload —
 the app says so when it restores. That is convenience, not backup. It lives in

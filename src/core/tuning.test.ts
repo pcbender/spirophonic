@@ -178,6 +178,50 @@ describe('MG-16 acceptance', () => {
     expect(frequencyForRatio(otherRoot, ratio)).not.toBeCloseTo(330, 3)
   })
 
+  /*
+   * The degree is a running sum, so an unanchored walk turned a periodic Wheel
+   * into a line that never repeated: the steps recurred every cycle but the
+   * degree they were applied to had drifted. Segment keys restart it.
+   */
+  it('repeats a repeating source once the walk is anchored', () => {
+    const spec = {
+      maxStep: 2,
+      directionBias: 0.7,
+      lowDegree: 0,
+      highDegree: 12,
+      startDegree: 4,
+    }
+    // Three identical passes of one cycle, the shape a periodic Wheel gives.
+    const cycle = [0.2, 0.9, 0.5, 0.1, 0.7]
+    const values = [...cycle, ...cycle, ...cycle]
+    const bars = values.map((_unused, index) => Math.floor(index / cycle.length))
+
+    const drifting = buildMelodicContour(values, spec, 'pentatonic-minor', 60)
+    const anchored = buildMelodicContour(
+      values,
+      spec,
+      'pentatonic-minor',
+      60,
+      bars,
+    )
+
+    const notesIn = (line: ReadonlyArray<{ midiNote: number }>, pass: number) =>
+      line
+        .slice(pass * cycle.length, (pass + 1) * cycle.length)
+        .map((step) => step.midiNote)
+
+    // Anchored: every pass is the same phrase, and each begins on the start
+    // degree.
+    expect(notesIn(anchored, 1)).toEqual(notesIn(anchored, 0))
+    expect(notesIn(anchored, 2)).toEqual(notesIn(anchored, 0))
+    expect(anchored[0].midiNote).toBe(anchored[cycle.length].midiNote)
+
+    // Unanchored: the same input does not give the same phrase back. This is
+    // the behaviour, not a bug in the test — it is what `anchor: 'none'` asks
+    // for, and what made the mapping feel random.
+    expect(notesIn(drifting, 1)).not.toEqual(notesIn(drifting, 0))
+  })
+
   it('builds a stable rising line rather than independent samples', () => {
     const rising = normalizeSeries([0, 1, 2, 3, 4, 5, 6, 7])
     const line = buildMelodicContour(

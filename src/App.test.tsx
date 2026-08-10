@@ -198,7 +198,13 @@ describe('MG-09 playable Composition app', () => {
 
     expect(screen.getByText('Reloaded.sf2', { selector: 'strong' })).toBeInTheDocument()
     expect(screen.getByText('Grand Piano', { selector: 'strong' })).toBeInTheDocument()
+
+    // Provenance lives in Settings, beside the controls that act on it. The
+    // rail carries only what a bank is called and whether it can be reached.
+    expect(screen.queryByText('User supplied')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Settings' }))
     expect(screen.getByText('User supplied')).toBeInTheDocument()
+    expect(screen.getByText('Reload fixture')).toBeInTheDocument()
   })
 
   it('persists Composition edits locally without replacing explicit JSON export', async () => {
@@ -579,6 +585,91 @@ describe('starting over', () => {
     )
     expect(screen.queryByText(/Restored your last session/)).toBeNull()
   })
+})
+
+describe('why a Composition went silent', () => {
+  /*
+   * An invalid Composition compiles to an empty performance: not one broken
+   * Part, but every note in the piece gone at once. That reads as broken audio,
+   * and the panel used to report the fault in the same grey body text as
+   * everything else, with the consequence stated nowhere at all.
+   */
+  it('says that a validation error is what silenced the whole piece', async () => {
+    render(<App />)
+
+    // An empty name is a validation error, and one keystroke away.
+    fireEvent.change(screen.getByLabelText('Composition name'), {
+      target: { value: '' },
+    })
+
+    const panel = screen.getByLabelText('Compile diagnostics')
+    await waitFor(() =>
+      expect(panel).toHaveTextContent(
+        /1 error — this Composition compiles to no notes at all/,
+      ),
+    )
+    // The fault itself is still reported, not replaced by the summary.
+    expect(panel).toHaveTextContent(/error/)
+    expect(within(panel).getByRole('alert')).toBeInTheDocument()
+
+    // And it clears, rather than latching, once the Composition is valid again.
+    fireEvent.change(screen.getByLabelText('Composition name'), {
+      target: { value: 'Restored' },
+    })
+    await waitFor(() =>
+      expect(panel).toHaveTextContent('No compile diagnostics.'),
+    )
+  })
+
+  it('refuses to play a Composition that will not compile', async () => {
+    render(<App />)
+
+    fireEvent.change(screen.getByLabelText('Composition name'), {
+      target: { value: '' },
+    })
+    await waitFor(() =>
+      expect(screen.getByLabelText('Compile diagnostics')).toHaveTextContent(
+        /compiles to no notes/,
+      ),
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Play' }))
+    await waitFor(() =>
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'Resolve compile errors before playing.',
+      ),
+    )
+  })
+
+  /*
+   * Not every error costs the whole piece. A Part that cannot map its
+   * Encounters loses those notes and nothing else, so claiming total silence
+   * here would be false — and would train the reader to disbelieve the line
+   * that says it in the case where it is true.
+   *
+   * Asking a spirogram for a frequency ratio is the reachable way in: its radii
+   * are a rolling relationship, not an interval, and the Composition validates
+   * perfectly while asking for one.
+   */
+  it('distinguishes a Part that lost its notes from a piece that lost all of them', async () => {
+    render(<App />)
+    const part = cloneDefault().parts[0] as NotePartSpec
+
+    fireEvent.change(screen.getByLabelText(`Pitch mapping ${part.id}`), {
+      target: { value: 'tuned-ratio' },
+    })
+    fireEvent.change(screen.getByLabelText(`Ratio source ${part.id}`), {
+      target: { value: 'wheel-motion' },
+    })
+
+    const panel = screen.getByLabelText('Compile diagnostics')
+    await waitFor(() => expect(panel).toHaveTextContent(/Spirogram radii/))
+    expect(panel).toHaveTextContent(/the rest of the Composition still plays/)
+    expect(panel).not.toHaveTextContent(/no notes at all/)
+    // And it says which Part, by name, rather than by id or JSON path.
+    expect(panel).toHaveTextContent(`in ${part.name}`)
+  })
+
 })
 
 describe('hover help', () => {

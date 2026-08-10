@@ -114,6 +114,207 @@ describe('MG-16 tuning authoring', () => {
     })
     expect(validateComposition(composition).ok).toBe(true)
   })
+
+  /*
+   * Until this existed, Add Tuning built a context nothing could reach:
+   * `tuningContextId` was in the Composition format, the validator, and the
+   * compiler, and in no UI file at all. Every Part fell back to the default
+   * context silently, so adding a tuning had no audible effect whatsoever.
+   */
+  it('points a Part at a tuning context, and back to the default', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.tuningContexts = [
+      {
+        id: 'tuning-just',
+        name: 'Just',
+        rootFrequencyHz: 432,
+        system: { kind: 'rational', maxDenominator: 64 },
+        octaveFold: true,
+      },
+    ]
+    const part = composition.parts[0]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    // The control lives on the Tuned ratio branch, because that is the only
+    // mapping that reads a tuning context.
+    fireEvent.change(screen.getByLabelText(`Pitch mapping ${part.id}`), {
+      target: { value: 'tuned-ratio' },
+    })
+    let next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    cleanup()
+    render(<PartPanel composition={next} onChange={onChange} />)
+    fireEvent.change(screen.getByLabelText(`Tuning context ${part.id}`), {
+      target: { value: 'tuning-just' },
+    })
+    next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    expect(
+      next.parts.find((item) => item.id === part.id),
+    ).toMatchObject({ tuningContextId: 'tuning-just' })
+    expect(validateComposition(next).ok).toBe(true)
+
+    // Back to Default must clear the field rather than store an empty string,
+    // which would fail validation as an unknown id.
+    cleanup()
+    render(<PartPanel composition={next} onChange={onChange} />)
+    fireEvent.change(screen.getByLabelText(`Tuning context ${part.id}`), {
+      target: { value: '' },
+    })
+    const cleared = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    const clearedPart = cleared.parts.find((item) => item.id === part.id)!
+    expect(
+      (clearedPart as { tuningContextId?: string }).tuningContextId,
+    ).toBeUndefined()
+    expect(validateComposition(cleared).ok).toBe(true)
+  })
+
+  /*
+   * Every tuning after the first was minted as `tuning-1`: the panel's id
+   * allocator knew about Parts and Relations and not about tuning contexts.
+   * Duplicate ids fail validation, and an invalid Composition compiles to an
+   * empty performance — so a second Add Tuning silenced the whole piece.
+   */
+  it('gives every added tuning context its own id', () => {
+    const onChange = vi.fn()
+    let composition = base()
+
+    for (let count = 1; count <= 4; count += 1) {
+      cleanup()
+      render(<PartPanel composition={composition} onChange={onChange} />)
+      fireEvent.click(screen.getByRole('button', { name: 'Add Tuning' }))
+      composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+      const ids = composition.tuningContexts!.map((tuning) => tuning.id)
+      expect(new Set(ids).size).toBe(count)
+      expect(validateComposition(composition).ok).toBe(true)
+    }
+  })
+
+  /*
+   * Names were minted by counting the list, so removing one and adding another
+   * reissued a name that was still in use. An id keeps the objects distinct,
+   * but the accessible names the UI builds are composed from names, so two
+   * rows reading "Tuning 2" are two controls nothing can tell apart.
+   */
+  it('does not reissue the name of a tuning that is still there', () => {
+    const onChange = vi.fn()
+    let composition = base()
+
+    for (let count = 0; count < 3; count += 1) {
+      cleanup()
+      render(<PartPanel composition={composition} onChange={onChange} />)
+      fireEvent.click(screen.getByRole('button', { name: 'Add Tuning' }))
+      composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    }
+    expect(composition.tuningContexts!.map((item) => item.name)).toEqual([
+      'Tuning 1',
+      'Tuning 2',
+      'Tuning 3',
+    ])
+
+    // Drop the middle one and add another: counting would call it "Tuning 3".
+    cleanup()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: `Remove ${composition.tuningContexts![1].id}`,
+      }),
+    )
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    cleanup()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Add Tuning' }))
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    const names = composition.tuningContexts!.map((item) => item.name)
+    expect(new Set(names).size).toBe(names.length)
+    expect(names).toEqual(['Tuning 1', 'Tuning 3', 'Tuning 2'])
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+
+  it('renames a tuning context so several can be told apart', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.tuningContexts = [
+      {
+        id: 'tuning-1',
+        name: 'Tuning 1',
+        rootFrequencyHz: 432,
+        system: { kind: 'rational', maxDenominator: 64 },
+        octaveFold: true,
+      },
+    ]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText('Tuning name tuning-1'), {
+      target: { value: 'Just, 432' },
+    })
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    expect(next.tuningContexts![0].name).toBe('Just, 432')
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  /*
+   * Removing a tuning left `tuningContextId` pointing at nothing, which is a
+   * validation error, which is silence. Remove has to take the references with
+   * it, the way removing an Instrument does.
+   */
+  it('frees the Parts that used a tuning context when it is removed', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.tuningContexts = [
+      {
+        id: 'tuning-just',
+        name: 'Just',
+        rootFrequencyHz: 432,
+        system: { kind: 'rational', maxDenominator: 64 },
+        octaveFold: true,
+      },
+    ]
+    const part = composition.parts[0]
+    if (part.kind === 'note') {
+      part.pitch = { kind: 'tuned-ratio', ratio: { kind: 'explicit', numerator: 3, denominator: 2 } }
+      part.tuningContextId = 'tuning-just'
+    }
+    expect(validateComposition(composition).ok).toBe(true)
+
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Remove tuning-just' }))
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    expect(next.tuningContexts).toHaveLength(0)
+    expect(
+      (next.parts[0] as { tuningContextId?: string }).tuningContextId,
+    ).toBeUndefined()
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('says whether a tuning context is reaching any Part', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    composition.tuningContexts = [
+      {
+        id: 'tuning-just',
+        name: 'Just',
+        rootFrequencyHz: 432,
+        system: { kind: 'rational', maxDenominator: 64 },
+        octaveFold: true,
+      },
+    ]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    expect(screen.getByText(/Used by no Part/)).toBeTruthy()
+
+    const part = composition.parts[0]
+    if (part.kind === 'note') part.tuningContextId = 'tuning-just'
+    cleanup()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    expect(screen.getByText(`Used by ${part.name}.`)).toBeTruthy()
+  })
 })
 
 describe('Part targeting', () => {
@@ -235,6 +436,97 @@ describe('pitch mappings', () => {
       (screen.getByLabelText(/^Pitch mapping/) as HTMLSelectElement).options,
     ).map((option) => option.value)
     expect(new Set(options)).toEqual(new Set(kinds))
+  })
+
+  /*
+   * The root was reported as missing, and it was two different problems. On
+   * boundary-degree, spatial, and contour it existed but rendered as a bare
+   * MIDI number, so "48" never read as a root note. On melodic-contour it was
+   * genuinely absent: the compiler pinned degree 0 to middle C.
+   */
+  it('names the note a root number stands for', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    const part = composition.parts[0]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(`Pitch mapping ${part.id}`), {
+      target: { value: 'boundary-degree' },
+    })
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    cleanup()
+    render(<PartPanel composition={next} onChange={onChange} />)
+    const root = screen.getByLabelText(`Root ${part.id}`)
+    expect(root).toHaveValue(48)
+    // The label carries the name, and tracks the number.
+    expect(root.closest('label')).toHaveTextContent('Root (C3)')
+
+    fireEvent.change(root, { target: { value: '50' } })
+    const moved = onChange.mock.calls.at(-1)?.[0] as Composition
+    cleanup()
+    render(<PartPanel composition={moved} onChange={onChange} />)
+    expect(
+      screen.getByLabelText(`Root ${part.id}`).closest('label'),
+    ).toHaveTextContent('Root (D3)')
+  })
+
+  it('gives melodic-contour a root, defaulting to the middle C it was pinned to', () => {
+    const onChange = vi.fn()
+    const composition = base()
+    const part = composition.parts[0]
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(`Pitch mapping ${part.id}`), {
+      target: { value: 'melodic-contour' },
+    })
+    let next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    cleanup()
+    render(<PartPanel composition={next} onChange={onChange} />)
+    // Unset reads as middle C, which is what the compiler used to hard-code.
+    expect(
+      screen.getByLabelText(`Root ${part.id}`).closest('label'),
+    ).toHaveTextContent('Root (C4)')
+
+    fireEvent.change(screen.getByLabelText(`Root ${part.id}`), {
+      target: { value: '62' },
+    })
+    next = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    const pitch = (next.parts[0] as { pitch: { root?: number } }).pitch
+    expect(pitch.root).toBe(62)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('leaves root optional and requires an anchor', () => {
+    const melodic = (extra: Record<string, unknown>) => {
+      const composition = base()
+      composition.parts[0] = {
+        ...composition.parts[0],
+        kind: 'note',
+        pitch: {
+          kind: 'melodic-contour',
+          source: 'radius',
+          scale: 'dorian',
+          contour: {
+            maxStep: 2,
+            directionBias: 0.6,
+            lowDegree: 0,
+            highDegree: 12,
+            startDegree: 4,
+          },
+          ...extra,
+        },
+      } as Composition['parts'][number]
+      return composition
+    }
+
+    // `root` may be omitted; absent means middle C.
+    expect(validateComposition(melodic({ anchor: 'bar' })).ok).toBe(true)
+    // `anchor` may not. It decides whether a periodic Wheel produces a
+    // repeating line, and there is no default that is right for both answers.
+    expect(validateComposition(melodic({})).ok).toBe(false)
   })
 
   it.each(kinds)('switches to %s and stays valid', (kind) => {

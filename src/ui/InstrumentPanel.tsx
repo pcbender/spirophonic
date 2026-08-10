@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import type {
   Composition,
   InstrumentSpec,
@@ -5,6 +7,14 @@ import type {
   NativeSynthInstrumentSpec,
   SoundFontInstrumentSpec,
 } from '../core/composition'
+import {
+  addInstrument,
+  removalImpact,
+  removalIsBlocked,
+  removalNeedsConfirmation,
+  removeInstrument,
+  type RemovalImpact,
+} from '../core/compositionEdits'
 import { help } from './help'
 import { RailPanel } from './RailPanel'
 
@@ -58,6 +68,11 @@ const nativeDrumFallback = (
 })
 
 export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps) {
+  // An impact either refuses (a note Part still plays through it, or it is the
+  // last Instrument) or asks (Control Parts would be repointed). One piece of
+  // state, two endings.
+  const [pending, setPending] = useState<RemovalImpact | null>(null)
+
   const update = (id: string, next: (instrument: InstrumentSpec) => InstrumentSpec) =>
     onChange({
       ...composition,
@@ -66,14 +81,49 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
       ),
     })
 
+  const remove = (id: string) => {
+    const impact = removalImpact(composition, 'instrument', id)
+    if (removalIsBlocked(impact) || removalNeedsConfirmation(impact)) {
+      setPending(impact)
+      return
+    }
+    setPending(null)
+    onChange(removeInstrument(composition, id))
+  }
+
   return (
-    <RailPanel label="Instruments" title="Instruments">
+    <RailPanel
+      label="Instruments"
+      title="Instruments"
+      actions={
+        <button
+          type="button"
+          title={help['instrument.add']}
+          onClick={() => {
+            const template =
+              composition.instruments[composition.instruments.length - 1]
+            if (!template) return
+            onChange(addInstrument(composition, template).composition)
+          }}
+        >
+          Add Instrument
+        </button>
+      }
+    >
       <ol className="voice-list">
         {composition.instruments.map((instrument) => (
           <li key={instrument.id} className="voice-row">
             <div className="voice-head">
               <strong>{instrument.name}</strong>
               <code>{instrument.kind}</code>
+              <button
+                type="button"
+                title={help['instrument.remove']}
+                aria-label={`Remove ${instrument.name}`}
+                onClick={() => remove(instrument.id)}
+              >
+                Remove
+              </button>
             </div>
             <label title={help['instrument.name']}>
               <span>Name</span>
@@ -171,6 +221,50 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
           </li>
         ))}
       </ol>
+      {pending && (
+        <div
+          className="removal-impact"
+          role="alertdialog"
+          aria-label="Confirm Instrument removal"
+        >
+          {removalIsBlocked(pending) ? (
+            <>
+              <h3>Cannot remove {pending.name}</h3>
+              <ul>
+                {pending.blockers.map((blocker) => (
+                  <li key={blocker}>{blocker}</li>
+                ))}
+              </ul>
+              <button type="button" onClick={() => setPending(null)}>
+                Close
+              </button>
+            </>
+          ) : (
+            <>
+              <h3>Remove {pending.name}?</h3>
+              <ul>
+                {pending.referenceRewrites.map((rewrite) => (
+                  <li key={rewrite.path}>{rewrite.description}</li>
+                ))}
+              </ul>
+              <button
+                type="button"
+                onClick={() => {
+                  onChange(
+                    removeInstrument(composition, pending.id, { cascade: true }),
+                  )
+                  setPending(null)
+                }}
+              >
+                Remove anyway
+              </button>
+              <button type="button" onClick={() => setPending(null)}>
+                Cancel
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </RailPanel>
   )
 }

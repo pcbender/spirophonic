@@ -103,6 +103,55 @@ test('no panel overflows its rail horizontally', async ({ page }) => {
   expect(overflows).toEqual([])
 })
 
+/*
+ * A tree row puts the name on its own line and the actions under it.
+ *
+ * Six actions beside a name do not fit a 300px rail. Wrapping scattered them
+ * ragged and right-aligned across two and three lines; squeezing the name to
+ * make room truncated "Head 1" to "Hea…", which identifies nothing. The name
+ * is the part that cannot be abbreviated.
+ *
+ * Measured rather than eyeballed: this only happens at the real rail width
+ * with the real font, which is exactly what jsdom cannot see.
+ */
+test('a tree row gives the name its own line and keeps it whole', async ({
+  page,
+}) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Add Wheel' }).click()
+  await page.getByRole('button', { name: 'Add Head to Wheel 2' }).click()
+
+  const rows = await page
+    .getByLabel('Composition tree')
+    .locator('.tree-row')
+    .evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const label = node.querySelector('.tree-label') as HTMLElement
+        const actions = node.querySelector('.tree-actions') as HTMLElement
+        const labelBox = label.getBoundingClientRect()
+        const actionBox = actions.getBoundingClientRect()
+        return {
+          text: (label.textContent ?? '').trim(),
+          clipped:
+            label.scrollWidth - Math.ceil(label.clientWidth) > 1 ||
+            label.scrollHeight - Math.ceil(label.clientHeight) > 1,
+          actionsBelow: actionBox.top >= labelBox.bottom - 1,
+          // One line of actions: taller than a single button means a wrap.
+          actionsHeight: Math.round(actionBox.height),
+          actionsOverflow: actions.scrollWidth - actions.clientWidth,
+        }
+      }),
+    )
+
+  expect(rows.length).toBeGreaterThan(4)
+  for (const row of rows) {
+    expect(row.clipped, `name "${row.text}" was truncated`).toBe(false)
+    expect(row.actionsBelow, `actions beside "${row.text}"`).toBe(true)
+    expect(row.actionsHeight, `actions under "${row.text}" wrapped`).toBeLessThan(34)
+    expect(row.actionsOverflow, `actions under "${row.text}" overflow`).toBeLessThanOrEqual(1)
+  }
+})
+
 test('every Field kind draws an overlay on the canvas', async ({ page }) => {
   const fields = page.getByRole('region', { name: 'Fields' })
   const before = await canvasInk(page)
@@ -261,7 +310,58 @@ test('the offline render controls are reachable and report their result', async 
 
   // A manifest-only bundle export must say what it did without a vault entry.
   await io.getByRole('button', { name: 'Export bundle' }).click()
+  await confirmBundleExport(page)
   await expect(io.locator('output')).toContainText(/Bundled|manifest/)
+})
+
+/**
+ * The embed choice used to sit in the top bar, read on every glance for a
+ * decision made only at export. It now lives in the dialog Export bundle
+ * opens, so exporting is two steps and the confirm has to be scoped: the
+ * dialog's button carries the same name as the one that opened it.
+ */
+const bundleDialog = (page: Page) =>
+  page.getByRole('dialog', { name: 'Export bundle' })
+
+const confirmBundleExport = async (page: Page) => {
+  const dialog = bundleDialog(page)
+  await expect(dialog).toBeVisible()
+  // Exact: the Close button is labelled "Close export bundle", which a
+  // substring match on the dialog's own name also picks up.
+  await dialog
+    .getByRole('button', { name: 'Export bundle', exact: true })
+    .click()
+  await expect(dialog).toBeHidden()
+}
+
+test('the embed choice lives in the Export bundle dialog, not the top bar', async ({
+  page,
+}) => {
+  const embed = page.getByLabel('Embed sound banks in bundle')
+  const io = page.getByRole('region', { name: 'Import and export' })
+
+  // Not parked in the header where it was being read for no reason.
+  await expect(embed).toBeHidden()
+
+  await io.getByRole('button', { name: 'Export bundle' }).click()
+  const dialog = bundleDialog(page)
+  await expect(dialog).toBeVisible()
+  await expect(embed).toBeVisible()
+  await expect(embed).not.toBeChecked()
+
+  // The choice survives being made, and the dialog says what it means.
+  await embed.check()
+  await expect(dialog).toContainText('opens on any machine')
+
+  // Cancelling leaves the choice set but exports nothing.
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+  await io.getByRole('button', { name: 'Export bundle' }).click()
+  await expect(embed).toBeChecked()
+
+  const download = page.waitForEvent('download')
+  await confirmBundleExport(page)
+  expect((await download).suggestedFilename()).toMatch(/\.spirophonic$/)
 })
 
 /**
@@ -478,6 +578,7 @@ test('the showcase runs the full workflow without errors', async ({ page }) => {
 
   const bundle = page.waitForEvent('download')
   await io.getByRole('button', { name: 'Export bundle' }).click()
+  await confirmBundleExport(page)
   expect((await bundle).suggestedFilename()).toMatch(/\.spirophonic$/)
 
   await expect(diagnostics).not.toContainText('error')
@@ -503,21 +604,88 @@ const sampleBankFile = async () => {
   }
 }
 
+/**
+ * Imports the sample bank through the real Settings dialog.
+ *
+ * Bank setup lives behind the Settings door and preset assignment stays in the
+ * rail, so an import now crosses two surfaces sharing one inspection. Driving
+ * both here is the only place that seam is exercised in a real browser.
+ */
+const importSampleBank = async (
+  page: Page,
+  fields: { license: string; attribution?: string },
+) => {
+  await page.getByRole('button', { name: 'Settings', exact: true }).click()
+  const settings = page.getByRole('region', { name: 'Sound bank settings' })
+  await expect(settings).toBeVisible()
+
+  await settings.getByLabel('SoundFont license').fill(fields.license)
+  if (fields.attribution) {
+    await settings.getByLabel('SoundFont attribution').fill(fields.attribution)
+  }
+  await settings.getByLabel('SoundFont file').setInputFiles(await sampleBankFile())
+  await settings.getByRole('button', { name: 'Import local bank' }).click()
+  return settings
+}
+
+/**
+ * jsdom ships <dialog> without showModal even at v27, so the unit suite falls
+ * back to opening it non-modally and cannot see the focus trap, the inert
+ * background, or Escape. Those are the whole reason for using the element, so
+ * they are checked here, where the browser is real.
+ */
+test('Settings opens as a true modal and closes on Escape', async ({ page }) => {
+  const dialog = page.getByRole('dialog', { name: 'Settings' })
+  await expect(dialog).toBeHidden()
+
+  await page.getByRole('button', { name: 'Settings', exact: true }).click()
+  await expect(dialog).toBeVisible()
+
+  // Modal, not merely on top: the workspace behind it is inert, so a control
+  // in the rail cannot be reached while Settings is open.
+  const tempo = page.getByLabel('Tempo')
+  await expect(tempo).not.toBeFocused()
+  await expect(dialog).toHaveJSProperty('open', true)
+  expect(
+    await page.evaluate(() => {
+      // By label, not by class: there is more than one modal in the document
+      // now, and the first in source order is the Export bundle dialog.
+      const element = document.querySelector('dialog[aria-label="Settings"]')
+      return element instanceof HTMLDialogElement && element.matches(':modal')
+    }),
+  ).toBe(true)
+
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+
+  // React owns the open state: reopening has to work, which it does not if the
+  // element closed itself behind React's back on the first Escape.
+  await page.getByRole('button', { name: 'Settings', exact: true }).click()
+  await expect(dialog).toBeVisible()
+})
+
 test('a real SoundFont bank imports, exposes its preset, and assigns', async ({
   page,
 }) => {
-  const banks = page.getByRole('region', { name: 'Sound banks' })
   const file = await sampleBankFile()
   expect(file.buffer.byteLength).toBe(890)
 
-  await banks.getByLabel('SoundFont license').fill('Apache-2.0')
-  await banks.getByLabel('SoundFont attribution').fill('spessasynth_core')
-  await banks.getByLabel('SoundFont file').setInputFiles(file)
-  await banks.getByRole('button', { name: 'Import local bank' }).click()
+  const settings = await importSampleBank(page, {
+    license: 'Apache-2.0',
+    attribution: 'spessasynth_core',
+  })
+
+  // Provenance is reported where the controls that act on it live.
+  await expect(settings).toContainText('Apache-2.0', { timeout: 30_000 })
+  await expect(settings).toContainText('spessasynth_core')
+
+  await page.getByRole('button', { name: 'Close settings' }).click()
+  await expect(settings).toBeHidden()
 
   // The bank reaches the Composition and its presets are listed, which only
   // happens if the worklet registered and the bank actually parsed. Presets
   // live in a select, so the assertion reads its options rather than text.
+  const banks = page.getByRole('region', { name: 'Sound banks' })
   const presets = banks.getByLabel(/^Preset /)
   await expect(presets).toBeVisible({ timeout: 30_000 })
   await expect
@@ -544,10 +712,9 @@ test('an imported SoundFont bank survives a reload', async ({ browser }) => {
   fresh.on('pageerror', (error) => errors.push(error.message))
 
   await fresh.goto('/')
+  await importSampleBank(fresh, { license: 'Apache-2.0' })
+  await fresh.getByRole('button', { name: 'Close settings' }).click()
   const banks = fresh.getByRole('region', { name: 'Sound banks' })
-  await banks.getByLabel('SoundFont license').fill('Apache-2.0')
-  await banks.getByLabel('SoundFont file').setInputFiles(await sampleBankFile())
-  await banks.getByRole('button', { name: 'Import local bank' }).click()
   await expect(banks.getByLabel(/^Preset /)).toBeVisible({ timeout: 30_000 })
 
   await fresh.reload()

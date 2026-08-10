@@ -427,6 +427,20 @@ export type PitchMapping =
       kind: 'melodic-contour'
       source: 'x' | 'y' | 'radius' | 'angle'
       scale: ScaleName
+      /**
+       * Where degree 0 sits, as a MIDI note. Optional so Compositions written
+       * before it existed stay valid; absent means middle C, which is the
+       * value that used to be hard-coded in the compiler.
+       */
+      root?: number
+      /**
+       * Where the walk restarts. The degree is a running sum, so `none` lets a
+       * periodic Wheel produce a line that never repeats; `bar` restarts at
+       * `startDegree` each bar, which makes the phrase repeatable and — at the
+       * usual rate of one Wheel cycle per bar — restores the geometry's own
+       * period.
+       */
+      anchor: 'none' | 'bar'
       contour: MelodyContourSpec
     }
 

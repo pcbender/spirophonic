@@ -4,26 +4,13 @@ import { useState } from 'react'
 
 import type { Composition, SoundBankReference } from '../core/composition'
 import { defaultComposition } from '../core/defaultComposition'
-import type { StoredSoundBankMetadata } from '../audio/soundbankStore'
 import type { SoundFontPreset } from '../audio/soundfontEngine'
-import {
-  SoundBankPanel,
-  type SoundBankPanelProps,
-  type SoundBankVault,
-} from './SoundBankPanel'
+import { SoundBankPanel } from './SoundBankPanel'
+import { useSoundBankViews } from './useSoundBankViews'
 
 afterEach(cleanup)
 
 const digest = 'b'.repeat(64)
-const metadata: StoredSoundBankMetadata = {
-  digest,
-  name: 'Studio.sf2',
-  format: 'sf2',
-  byteLength: 12,
-  license: 'CC0 test bank',
-  attribution: 'Example author',
-  importedAt: '2026-08-05T00:00:00.000Z',
-}
 const presets: Array<SoundFontPreset> = [
   { name: 'Grand Piano', bankMSB: 0, bankLSB: 0, program: 0, isDrum: false },
   { name: 'Warm Strings', bankMSB: 0, bankLSB: 0, program: 48, isDrum: false },
@@ -32,43 +19,56 @@ const presets: Array<SoundFontPreset> = [
 
 const reference: SoundBankReference = {
   id: 'bank-studio',
-  name: metadata.name,
+  name: 'Studio.sf2',
   digest,
   format: 'sf2',
   source: 'local',
-  license: metadata.license,
-  attribution: metadata.attribution,
+  license: 'CC0 test bank',
+  attribution: 'Example author',
 }
 
-const vault = (): SoundBankVault => ({
-  importBank: vi.fn(async () => ({ metadata, created: true })),
-  relink: vi.fn(async () => metadata),
-  delete: vi.fn(async () => true),
-  toReference: vi.fn((id: string) => ({ ...reference, id })),
-})
-
-type HarnessProps = Omit<
-  SoundBankPanelProps,
-  'composition' | 'onChange'
-> & { initial?: Composition }
-
-const bankFreeDefault = () => {
+const withBank = () => {
   const composition = structuredClone(defaultComposition) as Composition
-  // These tests exercise importing a bank into a Composition that has none.
-  // The default now ships with the bundled bank referenced, so it is cleared
-  // rather than left to appear as a second bank card in every assertion.
-  composition.soundBanks = []
+  // Only this bank, so the bundled reference the default ships with does not
+  // appear as a second card in every assertion.
+  composition.soundBanks = [reference]
   return composition
 }
 
-function Harness({ initial, ...props }: HarnessProps) {
-  const [composition, setComposition] = useState(initial ?? bankFreeDefault)
+type HarnessProps = {
+  initial?: Composition
+  inspectBank: (
+    reference: SoundBankReference,
+  ) => Promise<ReadonlyArray<SoundFontPreset>>
+  audition?: (
+    reference: SoundBankReference,
+    preset: SoundFontPreset,
+    note: number,
+  ) => Promise<void>
+  onOpenSettings?: () => void
+}
+
+/**
+ * Mounts the panel against the real shared-views hook rather than a stubbed
+ * map, because the split moved that state out of the panel and a stub would
+ * stop testing the seam it now depends on.
+ */
+function Harness({
+  initial,
+  inspectBank,
+  audition = vi.fn(async () => undefined),
+  onOpenSettings = vi.fn(),
+}: HarnessProps) {
+  const [composition, setComposition] = useState(initial ?? withBank)
+  const banks = useSoundBankViews({ composition, inspectBank })
   return (
     <>
       <SoundBankPanel
-        {...props}
         composition={composition}
         onChange={setComposition}
+        banks={banks}
+        audition={audition}
+        onOpenSettings={onOpenSettings}
       />
       <output aria-label="Instrument kind">
         {composition.instruments[0]?.kind}
@@ -83,98 +83,86 @@ function Harness({ initial, ...props }: HarnessProps) {
 }
 
 describe('SoundBankPanel', () => {
-  it('imports, displays provenance, browses, auditions, and assigns a preset', async () => {
-    const bankVault = vault()
-    const inspectBank = vi.fn(async () => presets)
+  it('browses, auditions, and assigns a preset', async () => {
     const audition = vi.fn(async () => undefined)
-    render(
-      <Harness
-        vault={bankVault}
-        inspectBank={inspectBank}
-        audition={audition}
-        invalidateBank={vi.fn()}
-      />,
+    render(<Harness inspectBank={vi.fn(async () => presets)} audition={audition} />)
+
+    expect(await screen.findByText('ready')).toBeInTheDocument()
+    expect(screen.getByLabelText('Preset bank-studio')).toHaveValue('0')
+
+    fireEvent.change(screen.getByLabelText('Find preset bank-studio'), {
+      target: { value: 'strings' },
+    })
+    expect(screen.getByText('Preset (1)')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Audition C4 bank-studio' }))
+    await waitFor(() =>
+      expect(audition).toHaveBeenCalledWith(
+        expect.objectContaining({ digest }),
+        presets[1],
+        60,
+      ),
     )
 
-    const file = new File([new Uint8Array([1, 2, 3])], 'Studio.sf2')
-    fireEvent.change(screen.getByLabelText('SoundFont file'), {
-      target: { files: [file] },
-    })
-    fireEvent.change(screen.getByLabelText('SoundFont license'), {
-      target: { value: 'CC0 test bank' },
-    })
-    fireEvent.change(screen.getByLabelText('SoundFont attribution'), {
-      target: { value: 'Example author' },
-    })
-    fireEvent.click(screen.getByRole('button', { name: 'Import local bank' }))
-
-    expect(await screen.findByText(metadata.name, { selector: 'strong' })).toBeInTheDocument()
-    expect(screen.getByText(metadata.license)).toBeInTheDocument()
-    expect(screen.getByText(metadata.attribution)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Preset bank-/)).toHaveValue('0')
-
-    fireEvent.click(screen.getByRole('button', { name: /Audition C4 bank-/ }))
-    await waitFor(() => expect(audition).toHaveBeenCalledWith(
-      expect.objectContaining({ digest }),
-      presets[0],
-      60,
-    ))
     fireEvent.click(screen.getByRole('button', { name: 'Use preset' }))
     expect(screen.getByLabelText('Instrument kind')).toHaveTextContent('soundfont')
-    expect(screen.getByLabelText('Instrument preset')).toHaveTextContent('Grand Piano')
+    expect(screen.getByLabelText('Instrument preset')).toHaveTextContent(
+      'Warm Strings',
+    )
   })
 
-  it('keeps a missing reference visible and supports relink without hiding native Instruments', async () => {
-    const initial = structuredClone(defaultComposition) as Composition
-    initial.soundBanks = [reference]
-    let linked = false
-    const inspectBank = vi.fn(async () => {
-      if (!linked) throw new Error('Studio.sf2 is not in local storage. Relink it.')
-      return presets
-    })
-    const bankVault = vault()
-    bankVault.relink = vi.fn(async () => {
-      linked = true
-      return metadata
-    })
+  it('no longer carries the setup controls, which moved to Settings', async () => {
+    render(<Harness inspectBank={vi.fn(async () => presets)} />)
+
+    expect(await screen.findByText('ready')).toBeInTheDocument()
+    expect(screen.queryByLabelText('SoundFont file')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('SoundFont license')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('SoundFont attribution')).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Import local bank' }),
+    ).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('Relink bank-studio')).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Remove local bytes' }),
+    ).not.toBeInTheDocument()
+    // Provenance travels with the controls that act on it.
+    expect(screen.queryByText('CC0 test bank')).not.toBeInTheDocument()
+  })
+
+  it('reports an unreachable bank and offers the way to the fix', async () => {
+    const onOpenSettings = vi.fn()
     render(
       <Harness
-        initial={initial}
-        vault={bankVault}
-        inspectBank={inspectBank}
-        audition={vi.fn(async () => undefined)}
-        invalidateBank={vi.fn()}
+        inspectBank={vi.fn(async () => {
+          throw new Error('Studio.sf2 is not in local storage. Relink it.')
+        })}
+        onOpenSettings={onOpenSettings}
       />,
     )
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Relink')
-    expect(screen.getByLabelText('Instrument kind')).toHaveTextContent('native-synth')
-    const file = new File([new Uint8Array([1])], 'Studio.sf2')
-    fireEvent.change(screen.getByLabelText('Relink bank-studio'), {
-      target: { files: [file] },
-    })
-    await waitFor(() => expect(bankVault.relink).toHaveBeenCalled())
-    expect(await screen.findByText('ready')).toBeInTheDocument()
+    // A native Instrument is untouched by a bank that cannot be reached.
+    expect(screen.getByLabelText('Instrument kind')).toHaveTextContent(
+      'native-synth',
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Open Settings' }))
+    expect(onOpenSettings).toHaveBeenCalled()
   })
 
-  it('removes local bytes while preserving the Composition reference', async () => {
-    const initial = structuredClone(defaultComposition) as Composition
-    initial.soundBanks = [reference]
-    const bankVault = vault()
+  it('points at Settings when the Composition references no bank at all', () => {
+    const empty = structuredClone(defaultComposition) as Composition
+    empty.soundBanks = []
+    const onOpenSettings = vi.fn()
     render(
       <Harness
-        initial={initial}
-        vault={bankVault}
+        initial={empty}
         inspectBank={vi.fn(async () => presets)}
-        audition={vi.fn(async () => undefined)}
-        invalidateBank={vi.fn()}
+        onOpenSettings={onOpenSettings}
       />,
     )
 
-    expect(await screen.findByText('ready')).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Remove local bytes' }))
-    await waitFor(() => expect(bankVault.delete).toHaveBeenCalledWith(digest))
-    expect(screen.getByText(metadata.name, { selector: 'strong' })).toBeInTheDocument()
-    expect(await screen.findByRole('alert')).toHaveTextContent('Relink')
+    expect(screen.getByText(/Import one in Settings/)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Manage banks' }))
+    expect(onOpenSettings).toHaveBeenCalled()
   })
 })

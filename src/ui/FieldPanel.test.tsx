@@ -182,6 +182,75 @@ describe('MG-13 Field authoring', () => {
     }
   })
 
+  /*
+   * "Add grid" drew a single vertical stroke. Every other Field kind is a
+   * complete instance of itself at one Boundary — one ring is a ring — but one
+   * grid line is a line, and grid is the only kind whose name denotes a
+   * plurality. It now starts as an actual lattice.
+   */
+  it('creates a grid that reads as a grid, centred on the Field', () => {
+    const onChange = vi.fn()
+    render(<FieldPanel composition={withoutFields()} onChange={onChange} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Add grid' }))
+
+    const field = (onChange.mock.calls[0][0] as Composition).fields[0]
+    const lines = field.boundaries as Array<{
+      axis: 'x' | 'y'
+      offset: number
+      index: number
+    }>
+
+    expect(lines).toHaveLength(4)
+    // Both axes, so it is a lattice rather than a set of stripes.
+    expect(lines.filter((line) => line.axis === 'x')).toHaveLength(2)
+    expect(lines.filter((line) => line.axis === 'y')).toHaveLength(2)
+    // Centred on the Field: the old rule only ever produced offsets >= 0, so a
+    // grid grew into one quadrant and away from its own centre.
+    for (const axis of ['x', 'y'] as const) {
+      const offsets = lines
+        .filter((line) => line.axis === axis)
+        .map((line) => line.offset)
+        .sort((left, right) => left - right)
+      expect(offsets).toEqual([-40, 40])
+    }
+    // Distinct indices, which newBoundaryBase does not give and the validator
+    // requires.
+    expect(new Set(lines.map((line) => line.index)).size).toBe(4)
+  })
+
+  it('grows a grid squarely and symmetrically as Boundaries are added', () => {
+    let composition = withoutFields()
+    const onChange = vi.fn((next: Composition) => {
+      composition = next
+    })
+    render(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Add grid' }))
+
+    // Two more, one per axis, stepping outward rather than piling up.
+    for (let added = 0; added < 2; added += 1) {
+      cleanup()
+      render(<FieldPanel composition={composition} onChange={onChange} />)
+      fireEvent.click(
+        screen.getByRole('button', { name: /^Add boundary field-grid/ }),
+      )
+    }
+
+    const lines = composition.fields[0].boundaries as Array<{
+      axis: 'x' | 'y'
+      offset: number
+    }>
+    expect(lines).toHaveLength(6)
+    expect(validateComposition(composition).ok).toBe(true)
+    // Six lines, three per axis, and no two on an axis share an offset.
+    for (const axis of ['x', 'y'] as const) {
+      const offsets = lines
+        .filter((line) => line.axis === axis)
+        .map((line) => line.offset)
+      expect(offsets).toHaveLength(3)
+      expect(new Set(offsets).size).toBe(3)
+    }
+  })
+
   it('steps sibling Boundaries outward so a new one never lands on another', () => {
     const onChange = vi.fn()
     render(<FieldPanel composition={withoutFields()} onChange={onChange} />)
@@ -229,6 +298,68 @@ describe('MG-13 Field authoring', () => {
       followRotation: true,
     })
     // The default attachment names a Wheel that actually exists.
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+})
+
+describe('Field and Boundary names stay distinct', () => {
+  /*
+   * A Field was named for its kind alone, so every grid was "Grid Field". The
+   * ids differ and nothing breaks in the model, but the Boundary picker in the
+   * Parts panel lists a Boundary as "Field / Boundary" and the tree builds its
+   * accessible names the same way: two rows reading the same thing are two
+   * controls nothing can tell apart.
+   */
+  it('numbers a second Field of the same kind', () => {
+    const onChange = vi.fn()
+    let composition = withoutFields()
+
+    for (const expected of ['Grid Field', 'Grid Field 2', 'Grid Field 3']) {
+      cleanup()
+      render(<FieldPanel composition={composition} onChange={onChange} />)
+      fireEvent.click(screen.getByRole('button', { name: 'Add grid' }))
+      composition = onChange.mock.calls.at(-1)?.[0] as Composition
+      expect(composition.fields.at(-1)?.name).toBe(expected)
+    }
+
+    const names = composition.fields.map((field) => field.name)
+    expect(new Set(names).size).toBe(names.length)
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+
+  it('does not reissue the name of a Boundary that is still there', () => {
+    const onChange = vi.fn()
+    let composition = withoutFields()
+
+    render(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Add rings' }))
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    const field = composition.fields[0]
+
+    cleanup()
+    render(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByLabelText(`Add boundary ${field.id}`))
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    expect(composition.fields[0].boundaries.map((item) => item.name)).toEqual([
+      'Ring 1',
+      'Ring 2',
+    ])
+
+    // Remove the first, then add: counting the survivors would say "Ring 2".
+    cleanup()
+    render(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(
+      screen.getByLabelText(`Remove ${composition.fields[0].boundaries[0].id}`),
+    )
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    cleanup()
+    render(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByLabelText(`Add boundary ${field.id}`))
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+
+    const names = composition.fields[0].boundaries.map((item) => item.name)
+    expect(new Set(names).size).toBe(names.length)
     expect(validateComposition(composition).ok).toBe(true)
   })
 })

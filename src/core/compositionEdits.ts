@@ -1,6 +1,7 @@
 import type {
   Composition,
   HeadSpec,
+  InstrumentSpec,
   PartSpec,
   WheelSpec,
 } from './composition'
@@ -40,6 +41,8 @@ export const allCompositionIds = (
   composition: Composition,
 ): ReadonlySet<string> => {
   const ids = new Set<string>()
+  // The Composition's own id shares the same namespace as everything in it.
+  ids.add(composition.id)
   for (const wheel of composition.wheels) {
     ids.add(wheel.id)
     for (const head of wheel.heads) ids.add(head.id)
@@ -48,6 +51,8 @@ export const allCompositionIds = (
     ids.add(field.id)
     for (const boundary of field.boundaries) ids.add(boundary.id)
   }
+  for (const relation of composition.relations ?? []) ids.add(relation.id)
+  for (const tuning of composition.tuningContexts ?? []) ids.add(tuning.id)
   for (const instrument of composition.instruments) ids.add(instrument.id)
   for (const part of composition.parts) ids.add(part.id)
   for (const bank of composition.soundBanks) ids.add(bank.id)
@@ -70,11 +75,40 @@ export const nextCompositionId = (
   }
 }
 
-const uniqueName = (existing: ReadonlyArray<string>, base: string) => {
-  if (!existing.includes(base)) return base
-  for (let index = 2; ; index += 1) {
-    const candidate = `${base} ${index}`
-    if (!existing.includes(candidate)) return candidate
+/**
+ * The next name in a series, rather than a suffix on the name it came from.
+ *
+ * Adding copies the last object of its kind, so the new name was derived from
+ * an already-derived name: "Wheel 1" begat "Wheel 1 2", which begat
+ * "Wheel 1 2 2". Four Heads into a fourth Wheel the tree read
+ * "Head 1 2 2 2 2 2 2 2 2". Numbering the *stem* — the name with its trailing
+ * numbers removed — makes the series what a person would write by hand:
+ * Wheel 1, Wheel 2, Wheel 3.
+ *
+ * A name that does not end in a number is not a series, so it keeps its whole
+ * self and only gets a number when it collides: "Bass" then "Bass 2", and a
+ * duplicate of "Wheel 1" is "Wheel 1 copy" then "Wheel 1 copy 2".
+ *
+ * Names are labels, not identity — an `id` is what every reference resolves
+ * against, and nothing forbids two objects sharing a name. But the accessible
+ * names the UI builds are composed from them ("Remove Grid Field", "Mute
+ * Boundary Melody"), so duplicates leave a screen reader, and anything driving
+ * the app through one, unable to tell two controls apart. Every path that
+ * mints a name goes through here for that reason.
+ */
+export const uniqueName = (existing: ReadonlyArray<string>, base: string) => {
+  const taken = new Set(existing)
+  const series = /^(.*?)(?:\s+\d+)+$/.exec(base)
+  const stem = series ? series[1] : base
+
+  // An unnumbered name is only a series once something collides with it.
+  if (!series && !taken.has(stem)) return stem
+
+  // A bare stem already holds first place: "Bass" then "Bass 2", never a
+  // "Bass 1" that sorts behind the Wheel it was added after.
+  for (let index = taken.has(stem) ? 2 : 1; ; index += 1) {
+    const candidate = `${stem} ${index}`
+    if (!taken.has(candidate)) return candidate
   }
 }
 
@@ -230,25 +264,57 @@ const instrumentRemovalImpact = (
   if (!instrument) {
     throw new RangeError(`Unknown Instrument "${id}".`)
   }
-  const users = composition.parts.filter((part) => part.instrumentId === id)
+  /*
+   * Only note Parts block. Every Part carries an `instrumentId` because the
+   * field lives on PartBase, but a Control Part drives a lane and never emits
+   * a note — `compilePerformance` branches it away before pitch is mapped — so
+   * its reference is bookkeeping, not sound. Counting it here refused a
+   * removal on the grounds that a Part "plays through" an Instrument it does
+   * not play through.
+   *
+   * It cannot simply be ignored either: the validator requires every Part's
+   * instrumentId to name a real Instrument, so a Control Part left pointing at
+   * a removed one would produce an invalid Composition. It is repointed
+   * instead, and reported as a rewrite so the removal is confirmed rather than
+   * done behind the user's back.
+   */
+  const players = composition.parts.filter(
+    (part) => part.kind === 'note' && part.instrumentId === id,
+  )
+  const repointed = composition.parts.filter(
+    (part) => part.kind !== 'note' && part.instrumentId === id,
+  )
   const blockers: Array<string> = []
   if (composition.instruments.length <= 1) {
     blockers.push('A Composition must keep at least one Instrument.')
   }
-  if (users.length > 0) {
+  if (players.length > 0) {
     blockers.push(
-      `${users.length} Part${users.length === 1 ? '' : 's'} still play through "${instrument.name}": ${users
+      `${players.length} Part${players.length === 1 ? '' : 's'} still ${
+        players.length === 1 ? 'plays' : 'play'
+      } through "${instrument.name}": ${players
         .map((part) => `"${part.name}"`)
         .join(', ')}. Reassign them first.`,
     )
   }
 
+  const survivor = composition.instruments.find(
+    (candidate) => candidate.id !== id,
+  )
+
   return Object.freeze({
     kind: 'instrument' as const,
     id,
     name: instrument.name,
+    referenceRewrites: freeze(
+      repointed.map((part) => ({
+        path: `$.parts[${composition.parts.indexOf(part)}].instrumentId`,
+        description: `Control Part "${part.name}" would be repointed to "${
+          survivor?.name ?? 'another Instrument'
+        }". It drives a lane rather than notes, so this does not change what you hear.`,
+      })),
+    ),
     cascadeRemovals: freeze([]),
-    referenceRewrites: referencesToId(composition, id),
     blockers: freeze(blockers),
   })
 }
@@ -314,13 +380,22 @@ const pruneReferences = (
 // Wheel operations
 // ---------------------------------------------------------------------------
 
+/**
+ * Adds a Wheel modelled on `template`, carrying one Head.
+ *
+ * The template says what kind of Wheel to make — its motion, its rate — not
+ * how much of it to bring along. Cloning every Head compounded: the tree adds
+ * from the last Wheel, so four Heads added to a Wheel meant the next Wheel
+ * arrived with five, then nine, then thirteen. `duplicateWheel` is the
+ * operation that means "all of it", and it is a separate button.
+ */
 export const addWheel = (
   composition: Composition,
   template: WheelSpec,
 ): { composition: Composition; wheelId: string } => {
   const wheelId = nextCompositionId(composition, 'wheel')
   const reserved = new Set([wheelId])
-  const heads = template.heads.map((head) => {
+  const heads = template.heads.slice(0, 1).map((head) => {
     const headId = nextCompositionId(composition, 'head', reserved)
     reserved.add(headId)
     return { ...structuredClone(head), id: headId }
@@ -635,5 +710,87 @@ export const removePart = (
   return {
     ...composition,
     parts: composition.parts.filter((part) => part.id !== partId),
+  }
+}
+
+/**
+ * Adds an Instrument by copying one that already sounds.
+ *
+ * Copying rather than synthesising a default keeps this honest about the
+ * union: a `soundfont` Instrument carries a bank reference and a preset, and
+ * inventing those would produce an Instrument that validates and cannot play.
+ * The template is whatever the caller was looking at, so the new voice starts
+ * where the old one did and is edited from there.
+ *
+ * Nothing else in the Composition points at it yet. A new Instrument is silent
+ * until a Part is aimed at it, which is the same order the rest of the chain
+ * is built in.
+ */
+export const addInstrument = (
+  composition: Composition,
+  template: InstrumentSpec,
+): { composition: Composition; instrumentId: string } => {
+  const instrumentId = nextCompositionId(composition, 'instrument')
+  const instrument: InstrumentSpec = {
+    ...structuredClone(template),
+    id: instrumentId,
+    name: uniqueName(
+      composition.instruments.map((item) => item.name),
+      template.name,
+    ),
+  }
+
+  return {
+    composition: {
+      ...composition,
+      instruments: [...composition.instruments, instrument],
+    },
+    instrumentId,
+  }
+}
+
+/**
+ * Removes an Instrument.
+ *
+ * Neither blocker is overridable: a Composition must keep one Instrument, and
+ * a note Part pointing at a removed Instrument would compile to nothing.
+ * Reassigning those Parts first is the only way through, and the impact names
+ * them.
+ *
+ * Control Parts are repointed rather than blocked. They carry an
+ * `instrumentId` only because the field lives on PartBase and the validator
+ * requires it to name a real Instrument — nothing reads it, because a Control
+ * Part never emits a note. Leaving one dangling would fail validation, so it
+ * is moved to a survivor, and `cascade` is required because a silent rewrite
+ * of the user's data is not something to do unannounced.
+ */
+export const removeInstrument = (
+  composition: Composition,
+  instrumentId: string,
+  options: { cascade?: boolean } = {},
+): Composition => {
+  const impact = removalImpact(composition, 'instrument', instrumentId)
+  if (removalIsBlocked(impact)) {
+    throw new RangeError(impact.blockers.join(' '))
+  }
+  if (removalNeedsConfirmation(impact) && !options.cascade) {
+    throw new RangeError(
+      `Removing Instrument "${impact.name}" repoints ${impact.referenceRewrites.length} Control Part(s). Pass cascade: true to accept the impact.`,
+    )
+  }
+
+  const instruments = composition.instruments.filter(
+    (instrument) => instrument.id !== instrumentId,
+  )
+  const survivorId = instruments[0].id
+
+  return {
+    ...composition,
+    instruments,
+    parts: composition.parts.map((part) =>
+      part.instrumentId === instrumentId
+        ? ({ ...part, instrumentId: survivorId } as PartSpec)
+        : part,
+    ),
   }
 }

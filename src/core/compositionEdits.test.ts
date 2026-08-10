@@ -17,6 +17,7 @@ import {
   setHeadEnabled,
   setHeadTraceVisible,
   setWheelEnabled,
+  uniqueName,
 } from './compositionEdits'
 import { defaultComposition } from './defaultComposition'
 import { headStateAt } from './heads'
@@ -152,9 +153,11 @@ describe('removal impact', () => {
     expect(
       removalImpact(composition, 'head', 'head-1').blockers[0],
     ).toContain('must keep at least one Head')
+    // "1 Part still plays", not "1 Part still play" — the plural was applied
+    // to the noun and not the verb, and this assertion had pinned it.
     expect(
       removalImpact(composition, 'instrument', 'instrument-1').blockers.join(' '),
-    ).toContain('still play through')
+    ).toContain('1 Part still plays through')
 
     expect(() => removeWheel(composition, 'wheel-1')).toThrow(
       /at least one Wheel/,
@@ -264,5 +267,121 @@ describe('added objects keep the Composition valid', () => {
       ),
     ]
     expect(new Set(ids).size).toBe(ids.length)
+  })
+})
+
+describe('names read as a series', () => {
+  /*
+   * Adding copies the last object of its kind, so each new name used to be
+   * derived from an already-derived one: Wheel 1 begat "Wheel 1 2" begat
+   * "Wheel 1 2 2". Four Heads into a fourth Wheel the tree read
+   * "Head 1 2 2 2 2 2 2 2 2".
+   */
+  it('numbers four rounds of Add Wheel and Add Head the way a person would', () => {
+    let composition = base()
+
+    for (let round = 0; round < 4; round += 1) {
+      const added = addWheel(
+        composition,
+        composition.wheels[composition.wheels.length - 1],
+      )
+      composition = added.composition
+      for (let head = 0; head < 4; head += 1) {
+        composition = addHead(composition, added.wheelId).composition
+      }
+    }
+
+    expect(composition.wheels.map((wheel) => wheel.name)).toEqual([
+      'Wheel 1',
+      'Wheel 2',
+      'Wheel 3',
+      'Wheel 4',
+      'Wheel 5',
+    ])
+    // Head names are unique per Wheel, so every Wheel counts from one.
+    for (const wheel of composition.wheels.slice(1)) {
+      expect(wheel.heads.map((head) => head.name)).toEqual([
+        'Head 1',
+        'Head 2',
+        'Head 3',
+        'Head 4',
+        'Head 5',
+      ])
+    }
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+
+  it('keeps a name that is not a series whole, and numbers it only on collision', () => {
+    let composition = base()
+    composition.wheels[0].name = 'Bass'
+
+    composition = addWheel(composition, composition.wheels[0]).composition
+    expect(composition.wheels[1].name).toBe('Bass 2')
+
+    composition = addWheel(composition, composition.wheels[1]).composition
+    expect(composition.wheels[2].name).toBe('Bass 3')
+  })
+
+  it('numbers a copy after the thing it copied, not inside its name', () => {
+    let composition = base()
+
+    composition = duplicateWheel(composition, 'wheel-1').composition
+    expect(composition.wheels[1].name).toBe('Wheel 1 copy')
+
+    composition = duplicateWheel(composition, 'wheel-1').composition
+    expect(composition.wheels[1].name).toBe('Wheel 1 copy 2')
+  })
+
+  /*
+   * The tree adds from the last Wheel, so cloning every Head compounded: four
+   * Heads added to a Wheel meant the next Wheel arrived carrying five, then
+   * nine, then thirteen. Copy is the button that means "all of it".
+   */
+  it('adds a Wheel carrying one Head however many the template has', () => {
+    let composition = base()
+    for (let head = 0; head < 4; head += 1) {
+      composition = addHead(composition, 'wheel-1').composition
+    }
+    expect(composition.wheels[0].heads).toHaveLength(5)
+
+    const added = addWheel(composition, composition.wheels[0])
+    expect(added.composition.wheels[1].heads).toHaveLength(1)
+
+    // Copy still brings the whole Wheel.
+    const copied = duplicateWheel(composition, 'wheel-1')
+    expect(copied.composition.wheels[1].heads).toHaveLength(5)
+    expect(validateComposition(copied.composition).ok).toBe(true)
+  })
+})
+
+describe('uniqueName', () => {
+  it('continues a numbered series from its stem', () => {
+    expect(uniqueName(['Wheel 1'], 'Wheel 1')).toBe('Wheel 2')
+    expect(uniqueName(['Wheel 1', 'Wheel 2'], 'Wheel 2')).toBe('Wheel 3')
+    // The stem is the name without *any* trailing numbers, so a document
+    // carrying the old compounding names recovers rather than extending them.
+    expect(uniqueName(['Head 1', 'Head 1 2', 'Head 1 2 2'], 'Head 1 2 2')).toBe(
+      'Head 2',
+    )
+  })
+
+  it('leaves an unnumbered name alone until something collides with it', () => {
+    expect(uniqueName([], 'Grid Field')).toBe('Grid Field')
+    expect(uniqueName(['Grid Field'], 'Grid Field')).toBe('Grid Field 2')
+    expect(uniqueName(['Grid Field', 'Grid Field 2'], 'Grid Field')).toBe(
+      'Grid Field 3',
+    )
+  })
+
+  it('never numbers behind a bare stem that already holds first place', () => {
+    // "Bass" is the first of its series, so the next is 2 and never "Bass 1".
+    expect(uniqueName(['Bass'], 'Bass')).toBe('Bass 2')
+    expect(uniqueName(['Bass', 'Bass 2'], 'Bass 2')).toBe('Bass 3')
+  })
+
+  it('fills a gap left by a removal rather than counting the survivors', () => {
+    // The bug this rule replaces: naming by list length reissues a name as
+    // soon as anything has been removed.
+    expect(uniqueName(['Tuning 1', 'Tuning 3'], 'Tuning 1')).toBe('Tuning 2')
   })
 })

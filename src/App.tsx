@@ -26,6 +26,11 @@ import {
 import { usePerformanceCompiler } from './workers/usePerformanceCompiler'
 import { CompositionCanvas } from './ui/CompositionCanvas'
 import {
+  diagnosticLocation,
+  errorConsequence,
+  groupDiagnostics,
+} from './ui/diagnosticText'
+import {
   CompositionTree,
   type TreeSelection,
 } from './ui/CompositionTree'
@@ -37,7 +42,10 @@ import { ImportExportPanel } from './ui/ImportExportPanel'
 import { InstrumentPanel } from './ui/InstrumentPanel'
 import { PartPanel } from './ui/PartPanel'
 import { RailPanel } from './ui/RailPanel'
+import { ModalDialog } from './ui/ModalDialog'
 import { SoundBankPanel } from './ui/SoundBankPanel'
+import { SoundBankSettings } from './ui/SoundBankSettings'
+import { useSoundBankViews } from './ui/useSoundBankViews'
 import { RecorderPanel } from './ui/RecorderPanel'
 import { Transport } from './ui/Transport'
 import { VariationPanel } from './ui/VariationPanel'
@@ -103,6 +111,7 @@ function App() {
     'blank' | 'example' | null
   >(null)
   const [restoreNoticeSeen, setRestoreNoticeSeen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const [status, setStatus] = useState<PlaybackStatus>('stopped')
   const [looping, setLooping] = useState(true)
   const initialRequest = performanceRequestFor(composition)
@@ -154,6 +163,7 @@ function App() {
     // an in-flight compile can never pair new Instruments with old events.
     composition: compiledComposition,
     pending: compiling,
+    failure: compileFailure,
   } = usePerformanceCompiler(composition, request)
   /**
    * Selection is resolved against the live Composition every render, so an
@@ -246,6 +256,15 @@ function App() {
   const play = async () => {
     if (performance.diagnostics.some((item) => item.severity === 'error')) {
       reportRuntimeError('Resolve compile errors before playing.', composition)
+      return
+    }
+    // Without this, Play starts the last performance that compiled, which is
+    // not the Composition on screen.
+    if (compileFailure) {
+      reportRuntimeError(
+        'The current Composition could not be compiled, so there is nothing to play.',
+        composition,
+      )
       return
     }
 
@@ -347,6 +366,14 @@ function App() {
       audio.router.invalidateBank(soundBankId),
     [audio],
   )
+  // Lifted out of the panel: the rail browses these banks and Settings manages
+  // them, and they must be looking at the same inspection.
+  const soundBankViews = useSoundBankViews({
+    composition,
+    bundledBankState,
+    inspectBank: inspectSoundBank,
+  })
+  const openSettings = useCallback(() => setSettingsOpen(true), [])
 
   useEffect(() => {
     if (status !== 'playing') return
@@ -513,8 +540,31 @@ function App() {
             onImport={setComposition}
             vault={audio.store}
           />
+          <button
+            type="button"
+            className="settings-button"
+            title={help['settings.open']}
+            onClick={openSettings}
+          >
+            Settings
+          </button>
         </div>
       </header>
+
+      <ModalDialog
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        title="Settings"
+      >
+        <SoundBankSettings
+          composition={composition}
+          bundledBankState={bundledBankState}
+          onChange={setComposition}
+          vault={audio.store}
+          banks={soundBankViews}
+          invalidateBank={invalidateSoundBank}
+        />
+      </ModalDialog>
 
       <section className="workspace">
         <div className="rail rail-shape">
@@ -576,18 +626,17 @@ function App() {
           <Diagnostics
             diagnostics={performance.diagnostics}
             runtimeError={visibleRuntimeError}
+            compileFailure={compileFailure}
             composition={composition}
           />
           <FieldPanel composition={composition} onChange={setComposition} />
           <PartPanel composition={composition} onChange={setComposition} />
           <SoundBankPanel
             composition={composition}
-            bundledBankState={bundledBankState}
             onChange={setComposition}
-            vault={audio.store}
-            inspectBank={inspectSoundBank}
+            banks={soundBankViews}
             audition={auditionSoundBank}
-            invalidateBank={invalidateSoundBank}
+            onOpenSettings={openSettings}
           />
           <InstrumentPanel composition={composition} onChange={setComposition} />
           <VariationPanel composition={composition} onChange={setComposition} />
@@ -605,6 +654,7 @@ function App() {
 type DiagnosticsProps = {
   diagnostics: ReturnType<typeof compilePerformance>['diagnostics']
   runtimeError: string
+  compileFailure: string
   composition: Composition
 }
 
@@ -630,9 +680,22 @@ const silenceReason = (composition: Composition): string | null => {
 function Diagnostics({
   diagnostics,
   runtimeError,
+  compileFailure,
   composition,
 }: DiagnosticsProps) {
-  if (diagnostics.length === 0 && !runtimeError) {
+  const errors = diagnostics.filter((item) => item.severity === 'error')
+  const partName = (partId: string) =>
+    composition.parts.find((part) => part.id === partId)?.name ?? partId
+  const rows = groupDiagnostics(diagnostics, (diagnostic) =>
+    // A mapping error names the Part directly, which beats any path.
+    diagnostic.partId
+      ? partName(diagnostic.partId)
+      : diagnostic.path
+        ? diagnosticLocation(diagnostic.path)
+        : '',
+  )
+
+  if (diagnostics.length === 0 && !runtimeError && !compileFailure) {
     const silence = silenceReason(composition)
     return (
       <RailPanel label="Compile diagnostics" title="Performance">
@@ -643,11 +706,53 @@ function Diagnostics({
 
   return (
     <RailPanel label="Compile diagnostics" title="Performance diagnostics">
-      {runtimeError && <p role="alert">{runtimeError}</p>}
-      <ul>
-        {diagnostics.map((diagnostic, index) => (
-          <li key={`${diagnostic.code}-${diagnostic.path ?? ''}-${index}`}>
-            <strong>{diagnostic.severity}</strong>: {diagnostic.message}
+      {/*
+        One live region, not one per message: a screen reader should hear "this
+        is silent, and here is why" as a single announcement, and the three
+        reasons never contradict each other.
+
+        The error line states the consequence, not just the fault. An error here
+        means the compiler produced no events at all — every Part goes silent at
+        once, which reads as broken audio rather than as a Composition that will
+        not compile. It was possible to sit in this state wondering why the
+        sound had stopped.
+      */}
+      {(runtimeError || compileFailure || errors.length > 0) && (
+        <div role="alert" className="diagnostic-summary">
+          {runtimeError && <p>{runtimeError}</p>}
+          {compileFailure && (
+            <p className="diagnostic-error">
+              The Composition could not be compiled, so what you hear and see is
+              the last one that could: {compileFailure}
+            </p>
+          )}
+          {errors.length > 0 && (
+            <p className="diagnostic-error">
+              {errors.length === 1 ? '1 error' : `${errors.length} errors`} —{' '}
+              {errorConsequence(errors)}
+            </p>
+          )}
+        </div>
+      )}
+      <ul className="diagnostic-list">
+        {rows.map((row) => (
+          <li
+            key={row.key}
+            className={
+              row.severity === 'error' ? 'diagnostic-error' : undefined
+            }
+          >
+            <strong>{row.severity}</strong>
+            {row.where && (
+              <span className="diagnostic-where"> in {row.where}</span>
+            )}
+            {row.count > 1 && (
+              <span className="diagnostic-where">
+                {' '}
+                (×{row.count} Encounters)
+              </span>
+            )}
+            : {row.message}
           </li>
         ))}
       </ul>
