@@ -168,6 +168,8 @@ in `*.bench.test.ts`.
   about ten minutes
 - [Manual](docs/MANUAL.md) — every control in the interface, and what the
   interface does not reach
+- [Deployment](docs/DEPLOYMENT.md) — guarded staging and production rsync
+  deployment
 - [Vision](docs/VISION.md) — concept, thesis, MVP definition, design principles
 - [Domain Model](docs/Spirophonic-Domain-Model.md) — the conceptual authority
 - [Music Generator Build Plan](docs/MUSIC-GENERATOR-BUILD-PLAN.md) — the active
