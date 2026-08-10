@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Build Plan
 
-Status: **implementation contract; MG-24 is in review.**
+Status: **implementation contract; MG-01 through MG-24 and WIN-01 are complete.**
 
 This document turns [Spirophonic-Domain-Model.md](Spirophonic-Domain-Model.md)
 into a dependency-ordered build plan. It is the active contract for moving the
@@ -396,7 +396,7 @@ sweep, it does not license silent scope growth.
 | WIN-01 | Native Windows development portability | MG-21 | **done** |
 | MG-22 | Wedge-spoke regions and exact gate spans | MG-21 | **done** |
 | MG-23 | In-gate modulation lanes and Trace notation | MG-22 | **done** |
-| MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | **in review** |
+| MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | **done** |
 
 The first user-visible milestone is MG-09. MG-11 makes that slice sound like a
 composition tool. MG-12 proves concurrent Wheels and Heads before advanced
