@@ -86,6 +86,7 @@ const GRID_STEP = 40
  */
 const nextGridLine = (
   siblings: ReadonlyArray<BoundarySpec>,
+  step = GRID_STEP,
 ): { kind: 'grid'; axis: 'x' | 'y'; offset: number } => {
   const lines = siblings.filter(
     (item): item is Extract<BoundarySpec, { kind: 'grid' }> =>
@@ -107,7 +108,124 @@ const nextGridLine = (
   return positives > negatives
     ? // Mirror the unpaired line rather than reaching further out.
       { kind: 'grid', axis, offset: -widest }
-    : { kind: 'grid', axis, offset: widest + GRID_STEP }
+    : { kind: 'grid', axis, offset: widest + step }
+}
+
+const normalizeAngle = (angle: number) => ((angle % TAU) + TAU) % TAU
+
+/** Place a new Spoke halfway across the largest unoccupied angular gap. */
+const nextSpokeAngle = (angles: ReadonlyArray<number>) => {
+  const sorted = angles.map(normalizeAngle).sort((left, right) => left - right)
+  if (sorted.length === 0) return 0
+  if (sorted.length === 1) return normalizeAngle(sorted[0] + Math.PI)
+
+  let widestStart = sorted[0]
+  let widestGap = -1
+  for (let index = 0; index < sorted.length; index += 1) {
+    const start = sorted[index]
+    const end =
+      index === sorted.length - 1 ? sorted[0] + TAU : sorted[index + 1]
+    const gap = end - start
+    if (gap > widestGap) {
+      widestStart = start
+      widestGap = gap
+    }
+  }
+  return normalizeAngle(widestStart + widestGap / 2)
+}
+
+type InitialFieldGeometry = Readonly<{
+  radius?: number
+  bandInnerRadius?: number
+  gridStep?: number
+  spokeAngle?: number
+  spiralStartRadius?: number
+}>
+
+/**
+ * Distinguishes a new Field from existing Fields of the same family without
+ * moving anything the composer already authored.
+ */
+const initialFieldGeometry = (
+  fields: ReadonlyArray<FieldSpec>,
+  kind: FieldSpec['kind'],
+): InitialFieldGeometry => {
+  const matching = fields.filter((field) => field.kind === kind)
+
+  if (kind === 'rings') {
+    const widest = matching.reduce(
+      (radius, field) =>
+        Math.max(
+          radius,
+          ...field.boundaries.map((boundary) =>
+            boundary.kind === 'ring' ? boundary.radius : 0,
+          ),
+        ),
+      0,
+    )
+    return { radius: widest === 0 ? 50 : widest + 20 }
+  }
+  if (kind === 'ellipses') {
+    const widest = matching.reduce(
+      (radius, field) =>
+        Math.max(
+          radius,
+          ...field.boundaries.map((boundary) =>
+            boundary.kind === 'ellipse' ? boundary.radius : 0,
+          ),
+        ),
+      0,
+    )
+    return { radius: widest === 0 ? 80 : widest + 30 }
+  }
+  if (kind === 'bands') {
+    const widest = matching.reduce(
+      (radius, field) =>
+        Math.max(
+          radius,
+          ...field.boundaries.map((boundary) =>
+            boundary.kind === 'band' ? boundary.outerRadius : 0,
+          ),
+        ),
+      0,
+    )
+    return { bandInnerRadius: widest === 0 ? 40 : widest + 20 }
+  }
+  if (kind === 'grid') {
+    const widest = matching.reduce(
+      (offset, field) =>
+        Math.max(
+          offset,
+          ...field.boundaries.map((boundary) =>
+            boundary.kind === 'grid' ? Math.abs(boundary.offset) : 0,
+          ),
+        ),
+      0,
+    )
+    return { gridStep: widest + GRID_STEP }
+  }
+  if (kind === 'spiral') {
+    const widest = matching.reduce(
+      (radius, field) =>
+        Math.max(
+          radius,
+          ...field.boundaries.map((boundary) =>
+            boundary.kind === 'spiral' ? boundary.startRadius : 0,
+          ),
+        ),
+      0,
+    )
+    return { spiralStartRadius: widest === 0 ? 30 : widest + 20 }
+  }
+
+  const angles = matching.flatMap((field) =>
+    field.boundaries.flatMap((boundary) =>
+      boundary.kind === 'spoke'
+        ? [normalizeAngle((field.rotation ?? 0) + boundary.angle)]
+        : [],
+    ),
+  )
+  return { spokeAngle: nextSpokeAngle(angles) }
 }
 
 /**
@@ -127,6 +245,7 @@ const defaultBoundary = (
   id: string,
   ordinal: number,
   siblings: ReadonlyArray<BoundarySpec>,
+  initial: InitialFieldGeometry = {},
 ): BoundarySpec => {
   const base = { ...newBoundaryBase(id, `${boundaryLabels[kind]} ${ordinal}`) }
   const outermost = siblings.reduce((widest, item) => {
@@ -143,7 +262,7 @@ const defaultBoundary = (
     return {
       ...base,
       kind: 'ring',
-      radius: siblings.length === 0 ? 50 : outermost + 20,
+      radius: siblings.length === 0 ? (initial.radius ?? 50) : outermost + 20,
     }
   }
   if (kind === 'spokes') {
@@ -151,7 +270,9 @@ const defaultBoundary = (
     return {
       ...base,
       kind: 'spoke',
-      angle: last && last.kind === 'spoke' ? last.angle + TAU / 8 : 0,
+      angle:
+        initial.spokeAngle ??
+        (last && last.kind === 'spoke' ? last.angle + TAU / 8 : 0),
       angularWidth: TAU / 24,
     }
   }
@@ -159,12 +280,15 @@ const defaultBoundary = (
     return {
       ...base,
       kind: 'ellipse',
-      radius: siblings.length === 0 ? 80 : outermost + 30,
+      radius: siblings.length === 0 ? (initial.radius ?? 80) : outermost + 30,
       eccentricity: 0.6,
     }
   }
   if (kind === 'bands') {
-    const inner = siblings.length === 0 ? 40 : outermost + 20
+    const inner =
+      siblings.length === 0
+        ? (initial.bandInnerRadius ?? 40)
+        : outermost + 20
     return {
       ...base,
       kind: 'band',
@@ -173,12 +297,20 @@ const defaultBoundary = (
     }
   }
   if (kind === 'grid') {
-    return { ...base, ...nextGridLine(siblings) }
+    return { ...base, ...nextGridLine(siblings, initial.gridStep) }
   }
+  const spiralStart = siblings.reduce(
+    (radius, item) =>
+      item.kind === 'spiral' ? Math.max(radius, item.startRadius) : radius,
+    0,
+  )
   return {
     ...base,
     kind: 'spiral',
-    startRadius: 30,
+    startRadius:
+      siblings.length === 0
+        ? (initial.spiralStartRadius ?? 30)
+        : spiralStart + 20,
     growthPerTurn: 40,
     turns: 3,
   }
@@ -190,6 +322,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
 
   const createField = (kind: FieldSpec['kind']) => {
     const id = nextFieldId(composition.fields, kind)
+    const initial = initialFieldGeometry(composition.fields, kind)
     const base = {
       id,
       name: uniqueName(
@@ -204,7 +337,13 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
     const boundaries: Array<BoundarySpec> = []
     for (let ordinal = 1; ordinal <= startingBoundaryCount(kind); ordinal += 1) {
       boundaries.push({
-        ...defaultBoundary(kind, `${id}-boundary-${ordinal}`, ordinal, boundaries),
+        ...defaultBoundary(
+          kind,
+          `${id}-boundary-${ordinal}`,
+          ordinal,
+          boundaries,
+          initial,
+        ),
         // newBoundaryBase hard-codes index 0, which was invisible while a Field
         // could only start with one Boundary. Duplicate indices are a
         // validation error, and addBoundary reindexes for the same reason.
@@ -235,11 +374,22 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
 
   const createBoundary = (field: FieldSpec) => {
     const id = nextBoundaryId(composition.fields, field.id)
+    const initial =
+      field.kind === 'spokes'
+        ? initialFieldGeometry(composition.fields, field.kind)
+        : undefined
     const boundary = defaultBoundary(
       field.kind,
       id,
       field.boundaries.length + 1,
       field.boundaries,
+      initial && initial.spokeAngle !== undefined
+        ? {
+            spokeAngle: normalizeAngle(
+              initial.spokeAngle - (field.rotation ?? 0),
+            ),
+          }
+        : undefined,
     )
     // Counting the siblings names the third Boundary of a Field that has had
     // one removed after the second: the Boundary picker in the Parts panel

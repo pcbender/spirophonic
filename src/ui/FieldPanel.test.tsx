@@ -194,6 +194,115 @@ describe('MG-13 Field authoring', () => {
     }
   })
 
+  it('places repeated radial and grid Fields beyond their existing siblings', () => {
+    const cases = [
+      {
+        button: 'Add rings',
+        values: (composition: Composition) =>
+          composition.fields.map((field) => {
+            const boundary = field.boundaries[0]
+            return boundary.kind === 'ring' ? boundary.radius : NaN
+          }),
+        expected: [50, 70],
+      },
+      {
+        button: 'Add ellipses',
+        values: (composition: Composition) =>
+          composition.fields.map((field) => {
+            const boundary = field.boundaries[0]
+            return boundary.kind === 'ellipse' ? boundary.radius : NaN
+          }),
+        expected: [80, 110],
+      },
+      {
+        button: 'Add bands',
+        values: (composition: Composition) =>
+          composition.fields.flatMap((field) => {
+            const boundary = field.boundaries[0]
+            return boundary.kind === 'band'
+              ? [boundary.innerRadius, boundary.outerRadius]
+              : []
+          }),
+        expected: [40, 80, 100, 140],
+      },
+      {
+        button: 'Add grid',
+        values: (composition: Composition) =>
+          composition.fields.map((field) =>
+            Math.max(
+              ...field.boundaries.map((boundary) =>
+                boundary.kind === 'grid' ? Math.abs(boundary.offset) : 0,
+              ),
+            ),
+          ),
+        expected: [40, 80],
+      },
+      {
+        button: 'Add spiral',
+        values: (composition: Composition) =>
+          composition.fields.map((field) => {
+            const boundary = field.boundaries[0]
+            return boundary.kind === 'spiral' ? boundary.startRadius : NaN
+          }),
+        expected: [30, 50],
+      },
+    ]
+
+    for (const { button, values, expected } of cases) {
+      let composition = withoutFields()
+      const onChange = vi.fn((next: Composition) => {
+        composition = next
+      })
+      let firstField: Composition['fields'][number] | undefined
+
+      for (let added = 0; added < 2; added += 1) {
+        cleanup()
+        render(<FieldPanel composition={composition} onChange={onChange} />)
+        fireEvent.click(screen.getByRole('button', { name: button }))
+        if (added === 0) firstField = structuredClone(composition.fields[0])
+      }
+
+      expect(values(composition)).toEqual(expected)
+      expect(composition.fields[0]).toEqual(firstField)
+      expect(validateComposition(composition).ok).toBe(true)
+    }
+  })
+
+  it('places repeated Spoke Fields into the largest open angular gaps', () => {
+    let composition = withoutFields()
+    const onChange = vi.fn((next: Composition) => {
+      composition = next
+    })
+    let firstField: Composition['fields'][number] | undefined
+
+    for (let added = 0; added < 4; added += 1) {
+      cleanup()
+      render(<FieldPanel composition={composition} onChange={onChange} />)
+      fireEvent.click(screen.getByRole('button', { name: 'Add spokes' }))
+      if (added === 0) firstField = structuredClone(composition.fields[0])
+    }
+
+    const angles = composition.fields
+      .map((field) => {
+        const boundary = field.boundaries[0]
+        return boundary.kind === 'spoke'
+          ? ((boundary.angle + (field.rotation ?? 0)) % (Math.PI * 2) +
+              Math.PI * 2) %
+              (Math.PI * 2)
+          : NaN
+      })
+      .sort((left, right) => left - right)
+
+    expect(angles).toEqual([
+      0,
+      Math.PI / 2,
+      Math.PI,
+      (Math.PI * 3) / 2,
+    ])
+    expect(composition.fields[0]).toEqual(firstField)
+    expect(validateComposition(composition).ok).toBe(true)
+  })
+
   /*
    * "Add grid" drew a single vertical stroke. Every other Field kind is a
    * complete instance of itself at one Boundary — one ring is a ring — but one

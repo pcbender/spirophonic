@@ -205,6 +205,29 @@ test('a newly authored Spoke is a visible wedge gate', async ({ page }) => {
     .toBeGreaterThan(before)
 })
 
+test('repeated Field additions paint distinct geometry instead of stacking', async ({
+  page,
+}) => {
+  const fields = page.getByRole('region', { name: 'Fields' })
+
+  for (const name of [
+    'Add rings',
+    'Add spokes',
+    'Add ellipses',
+    'Add bands',
+    'Add grid',
+    'Add spiral',
+  ]) {
+    const before = await canvasSignature(page)
+    await fields.getByRole('button', { name }).click()
+    await expect.poll(() => canvasSignature(page)).not.toBe(before)
+
+    const once = await canvasSignature(page)
+    await fields.getByRole('button', { name }).click()
+    await expect.poll(() => canvasSignature(page)).not.toBe(once)
+  }
+})
+
 test('an authored gate mapping styles only its held Trace span and survives playback, resize, and reload', async ({ page }) => {
   const composition = gatedModulationComposition()
   const request = {
