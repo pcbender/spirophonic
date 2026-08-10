@@ -210,7 +210,7 @@ test('a newly authored Spoke is a visible wedge gate', async ({ page }) => {
   )
   for (const [index, angle] of angles.entries()) {
     expect(angle).toBeCloseTo((Math.PI * 2 * index) / 3, 12)
-    expect(widths[index]).toBeCloseTo((Math.PI * 2) / 24 / 3, 12)
+    expect(widths[index]).toBeCloseTo(((Math.PI * 2) / 24 / 3) * 1.5, 12)
   }
 
   const width = fields.getByLabel(
@@ -223,6 +223,12 @@ test('a newly authored Spoke is a visible wedge gate', async ({ page }) => {
   await expect
     .poll(async () => canvasInk(page), { timeout: 15_000 })
     .toBeGreaterThan(before)
+
+  const length = fields.getByLabel('Length field-spokes-1-boundary-1')
+  await expect(length).toHaveValue('200')
+  const beforeLength = await canvasSignature(page)
+  await length.fill('80')
+  await expect.poll(() => canvasSignature(page)).not.toBe(beforeLength)
 })
 
 test('repeated Field additions paint distinct geometry instead of stacking', async ({

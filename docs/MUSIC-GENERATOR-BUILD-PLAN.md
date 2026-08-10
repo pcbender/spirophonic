@@ -1360,7 +1360,7 @@ outer-gated note span.
 `src/audio/performanceScheduler.test.ts`, `src/export/midiExport.test.ts`,
 `src/export/strudelExport.test.ts`, `src/export/audioRender.test.ts`,
 `src/ui/FieldPanel.tsx`, `src/ui/FieldPanel.test.tsx`,
-`src/ui/PartPanel.tsx`, `src/ui/PartPanel.test.tsx`,
+`src/ui/help.ts`, `src/ui/PartPanel.tsx`, `src/ui/PartPanel.test.tsx`,
 `src/test/fixtures/`, `e2e/app.spec.ts`, and `docs/MANUAL.md`
 
 **Scope note (2026-08-10):** this packet deliberately repairs the existing
@@ -1373,9 +1373,9 @@ newly authored Spoke has a positive angular width and uses gate semantics.
 
 **Deliverables:**
 
-- A saved Spoke angular width whose two rays meet at the Field centre and
-  diverge with radius; Field rotation and motion move the whole wedge without
-  changing its width.
+- A saved Spoke angular width and finite length. Its two radial edges meet at
+  the Field centre, terminate at that length, and connect as a distal outer
+  edge; Field rotation and motion move the whole wedge without changing it.
 - A deterministic centre policy: angular membership is held through a small
   centre tolerance where angle is undefined, so passing through the origin
   cannot chatter across several wedge edges.
@@ -1396,6 +1396,8 @@ newly authored Spoke has a positive angular width and uses gate semantics.
 - A fixed-frequency sine path passing through one wedge produces exactly one
   note per complete visit, regardless of how many oscillations occur while the
   Head remains inside.
+- A sine path weaving across the distal outer edge emits the same alternating
+  `enter`/`exit` transitions as one crossing either radial edge.
 - With tempo, Head motion frequency, and transverse speed held fixed, moving the
   same sine path farther from the Field centre yields a longer gate span than
   the near path because the wedge is physically wider there; pitch and tempo do
@@ -1408,8 +1410,9 @@ newly authored Spoke has a positive angular width and uses gate semantics.
   without event bursts.
 - Scheduler, MIDI, Strudel, and offline-audio guards agree on the paired note's
   onset and duration, placing note-off at the exit timestamp.
-- The wedge can be authored, moved, rotated, saved, reloaded, drawn, and played
-  in Chromium and Firefox without changing legacy zero-width Spoke fixtures.
+- The wedge width and length can be authored, moved, rotated, saved, reloaded,
+  drawn, and played in Chromium and Firefox; zero-width Spokes use the same
+  finite length as a ray segment.
 
 ## MG-23 — In-gate modulation lanes and Trace notation
 

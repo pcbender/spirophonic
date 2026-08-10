@@ -28,6 +28,7 @@ export type SpokeBoundaryGeometry = Readonly<
     kind: 'spoke'
     angle: number
     angularWidth: number
+    length: number
     direction: Readonly<Point2>
   }
 >
@@ -232,6 +233,7 @@ export const boundaryGeometryAtPlacement = (
       kind: 'spoke',
       angle,
       angularWidth: boundary.angularWidth ?? 0,
+      length: boundary.length,
       direction: freezePoint({ x: Math.cos(angle), y: Math.sin(angle) }),
     })
   }
@@ -379,22 +381,17 @@ export const spokeRayCoordinate = (
   )
 }
 
-const signedAngleDifference = (from: number, to: number) => {
-  const raw = (to - from) % TAU
-  return raw > Math.PI ? raw - TAU : raw <= -Math.PI ? raw + TAU : raw
-}
-
 /**
- * Negative inside the angular wedge and positive outside. The angular gap is
- * scaled by radius so its magnitude remains a world-like spatial distance.
- * At the exact centre the value is zero because polar angle is undefined; the
- * crossing scanner treats a run on zero as overlap rather than inventing edge
- * transitions there.
+ * Negative inside the finite triangular wedge and positive outside. Each of
+ * the three normalized half-plane distances is in world units; their maximum
+ * is therefore zero on either radial edge or the distal edge. At the exact
+ * centre the value is zero, preserving the no-chatter centre policy.
  */
 export const wedgeSignedDistance = (
   center: Point2,
   angle: number,
   angularWidth: number,
+  length: number,
   value: Point2,
 ) => {
   assertFinitePoint(center, 'center')
@@ -409,13 +406,33 @@ export const wedgeSignedDistance = (
   ) {
     throw new RangeError('angularWidth must be finite, positive, and at most pi.')
   }
+  if (!Number.isFinite(length) || length <= 0) {
+    throw new RangeError('length must be finite and positive.')
+  }
 
-  const relative = { x: value.x - center.x, y: value.y - center.y }
-  const radius = Math.hypot(relative.x, relative.y)
-  if (radius <= epsilon) return 0
-  const pointAngle = Math.atan2(relative.y, relative.x)
-  const angularGap = Math.abs(signedAngleDifference(angle, pointAngle))
-  return radius * (angularGap - angularWidth / 2)
+  const halfWidth = angularWidth / 2
+  const right = {
+    x: center.x + Math.cos(angle - halfWidth) * length,
+    y: center.y + Math.sin(angle - halfWidth) * length,
+  }
+  const left = {
+    x: center.x + Math.cos(angle + halfWidth) * length,
+    y: center.y + Math.sin(angle + halfWidth) * length,
+  }
+  const vertices = [center, right, left]
+  let distance = Number.NEGATIVE_INFINITY
+
+  for (let index = 0; index < vertices.length; index += 1) {
+    const from = vertices[index]
+    const to = vertices[(index + 1) % vertices.length]
+    const dx = to.x - from.x
+    const dy = to.y - from.y
+    const edgeLength = Math.hypot(dx, dy)
+    const cross = dx * (value.y - from.y) - dy * (value.x - from.x)
+    distance = Math.max(distance, -cross / edgeLength)
+  }
+
+  return distance
 }
 
 /** Rotates a world point into the Field's own frame. */
@@ -550,6 +567,7 @@ export const boundarySignedDistance = (
           geometry.center,
           geometry.angle,
           geometry.angularWidth,
+          geometry.length,
           value,
         )
       : spokeSignedDistance(geometry.center, geometry.angle, value)
@@ -644,7 +662,9 @@ export const segmentBoundaryCrossing = (
   if (
     geometry.kind === 'spoke' &&
     geometry.angularWidth === 0 &&
-    spokeRayCoordinate(geometry.center, geometry.angle, position) < -epsilon
+    (spokeRayCoordinate(geometry.center, geometry.angle, position) < -epsilon ||
+      spokeRayCoordinate(geometry.center, geometry.angle, position) >
+        geometry.length + epsilon)
   ) {
     return null
   }

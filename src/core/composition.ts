@@ -202,6 +202,8 @@ export type RingBoundarySpec = BoundaryBase & {
 export type SpokeBoundarySpec = BoundaryBase & {
   kind: 'spoke'
   angle: number
+  /** Distance from the Field centre to each distal Spoke vertex. */
+  length: number
   /** Full angular width in radians. Absent or zero preserves legacy ray semantics. */
   angularWidth?: number
 }

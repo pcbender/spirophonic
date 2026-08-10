@@ -17,6 +17,7 @@ export const sineWedgeBoundary: BoundaryGeometry = Object.freeze({
   center: Object.freeze({ x: 0, y: 0 }),
   angle: 0,
   angularWidth: 0.4,
+  length: 250,
   direction: Object.freeze({ x: 1, y: 0 }),
 })
 
@@ -124,6 +125,7 @@ export const gatedModulationComposition = (): Composition => {
           index: 0,
           kind: 'spoke',
           angle: Math.PI,
+          length: 200,
           angularWidth: 0.6,
         },
       ],

@@ -88,6 +88,7 @@ const fields = (): [RingFieldSpec, SpokeFieldSpec] => [
         index: 0,
         kind: 'spoke',
         angle: Math.PI / 4,
+        length: 120,
       },
     ],
   },
@@ -400,6 +401,9 @@ describe('Space projection and draw commands', () => {
     if (spoke?.kind !== 'spoke-boundary') return
     expect(spoke.to.x).toBeCloseTo(spoke.from.x, 12)
     expect(spoke.to.y).toBeLessThan(spoke.from.y)
+    expect(
+      Math.hypot(spoke.to.x - spoke.from.x, spoke.to.y - spoke.from.y),
+    ).toBeCloseTo(120 * projection.pixelsPerUnit, 12)
   })
 
   it('renders a positive-width spoke as a filled wedge with two edges', () => {
@@ -422,6 +426,19 @@ describe('Space projection and draw commands', () => {
       boundaryId: 'spoke-1',
       fillOpacity: 0.22,
     })
+    if (wedge?.kind !== 'wedge-boundary') return
+    expect(
+      Math.hypot(
+        wedge.left.x - wedge.center.x,
+        wedge.left.y - wedge.center.y,
+      ),
+    ).toBeCloseTo(120 * projection.pixelsPerUnit, 12)
+    expect(
+      Math.hypot(
+        wedge.right.x - wedge.center.x,
+        wedge.right.y - wedge.center.y,
+      ),
+    ).toBeCloseTo(120 * projection.pixelsPerUnit, 12)
     expect(
       commands.some((command) => command.kind === 'spoke-boundary'),
     ).toBe(false)

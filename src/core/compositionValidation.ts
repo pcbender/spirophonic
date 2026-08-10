@@ -815,7 +815,16 @@ const boundaryKindForFieldKind: Record<string, string> = {
 
 const boundaryKeys: Record<string, Array<string>> = {
   ring: ['id', 'name', 'enabled', 'index', 'kind', 'radius'],
-  spoke: ['id', 'name', 'enabled', 'index', 'kind', 'angle', 'angularWidth'],
+  spoke: [
+    'id',
+    'name',
+    'enabled',
+    'index',
+    'kind',
+    'angle',
+    'length',
+    'angularWidth',
+  ],
   ellipse: ['id', 'name', 'enabled', 'index', 'kind', 'radius', 'eccentricity'],
   band: ['id', 'name', 'enabled', 'index', 'kind', 'innerRadius', 'outerRadius'],
   grid: ['id', 'name', 'enabled', 'index', 'kind', 'axis', 'offset'],
@@ -937,6 +946,10 @@ const validateBoundary = (
     })
   } else if (kind === 'spoke') {
     context.number(boundary, 'angle', `${path}.angle`)
+    context.number(boundary, 'length', `${path}.length`, {
+      greaterThan: 0,
+      max: 100_000,
+    })
     if (boundary.angularWidth !== undefined) {
       context.number(boundary, 'angularWidth', `${path}.angularWidth`, {
         min: 0,

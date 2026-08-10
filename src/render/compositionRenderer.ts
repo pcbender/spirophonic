@@ -354,6 +354,29 @@ export const sceneSpacePoints = (
         ]
       }
 
+      if (boundary.kind === 'spoke') {
+        const halfWidth = boundary.angularWidth / 2
+        return [
+          boundary.center,
+          {
+            x:
+              boundary.center.x +
+              Math.cos(boundary.angle + halfWidth) * boundary.length,
+            y:
+              boundary.center.y +
+              Math.sin(boundary.angle + halfWidth) * boundary.length,
+          },
+          {
+            x:
+              boundary.center.x +
+              Math.cos(boundary.angle - halfWidth) * boundary.length,
+            y:
+              boundary.center.y +
+              Math.sin(boundary.angle - halfWidth) * boundary.length,
+          },
+        ]
+      }
+
       return [boundary.center]
     }),
     ...scene.traces.flatMap((trace) => [
@@ -639,7 +662,7 @@ export const buildCompositionDrawCommands = (
           )
         }
       } else if (boundary.kind === 'spoke') {
-        const length = Math.hypot(projection.width, projection.height) * 2
+        const length = boundary.length * projection.pixelsPerUnit
         if (boundary.angularWidth > 0) {
           const halfWidth = boundary.angularWidth / 2
           commands.push(

@@ -36,12 +36,12 @@ gap as the Trace grows. Those hold on any machine.
 
 | Composition | Encounters | Events | Elapsed |
 | --- | --- | --- | --- |
-| ring and spoke | 55 | 50 | ~40 ms |
-| multi-Head Wheel | 133 | 118 | ~140 ms |
-| concurrent Wheels | 850 | 161 | ~500 ms |
-| showcase | 850 | 161 | ~500 ms |
-| seeded variation | 853 | 161 | ~500 ms |
-| relation harmony | 850 + 798 relation | 161 | ~740 ms |
+| ring and spoke | 53 | 48 | ~40 ms |
+| multi-Head Wheel | 128 | 110 | ~140 ms |
+| concurrent Wheels | 749 | 149 | ~500 ms |
+| showcase | 749 | 149 | ~500 ms |
+| seeded variation | 752 | 148 | ~500 ms |
+| relation harmony | 749 + 798 relation | 149 | ~740 ms |
 
 Encounter counts are invariant across 120, 240, and 480 Hz scan rates. Sample
 rate is a detection setting, not a musical one; if a rate change moves the
@@ -51,9 +51,9 @@ events, crossing refinement stopped converging.
 
 | Window | Encounters | Elapsed |
 | --- | --- | --- |
-| 4 s | 430 | ~230 ms |
-| 8 s | 850 | ~480 ms |
-| 16 s | 1719 | ~1030 ms |
+| 4 s | 377 | ~230 ms |
+| 8 s | 749 | ~480 ms |
+| 16 s | 1519 | ~1030 ms |
 
 Doubling the window roughly doubles the work. A quadratic regression would show
 as a ratio near four, and the benchmark asserts the ratio stays in [1.8, 2.2].

@@ -42,11 +42,11 @@ describe('Encounter detection budgets', () => {
   it('holds the checked-in Encounter count for each reference shape', () => {
     expect(
       compilePerformance(ringAndSpokeComposition(), window8s).encounters.length,
-    ).toBe(55)
+    ).toBe(53)
     expect(
       compilePerformance(concurrentWheelsComposition(), window8s).encounters
         .length,
-    ).toBe(850)
+    ).toBe(749)
   })
 
   it('grows about linearly in the number of Boundaries', () => {

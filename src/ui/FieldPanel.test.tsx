@@ -149,6 +149,11 @@ describe('FieldPanel', () => {
     )
     composition = onChange.mock.calls.at(-1)?.[0] as Composition
     rerender(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.change(screen.getByLabelText('Length field-spokes-1-boundary-1'), {
+      target: { value: '120' },
+    })
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    rerender(<FieldPanel composition={composition} onChange={onChange} />)
     fireEvent.change(screen.getByLabelText('Rotation field-spokes-1'), {
       target: { value: '1.57' },
     })
@@ -162,6 +167,7 @@ describe('FieldPanel', () => {
         {
           id: 'field-spokes-1-boundary-1',
           kind: 'spoke',
+          length: 120,
           angularWidth: 0.5,
         },
       ],
@@ -301,7 +307,10 @@ describe('MG-13 Field authoring', () => {
       expect(spokes).toHaveLength(count)
       for (const [index, spoke] of spokes.entries()) {
         expect(spoke.angle).toBeCloseTo((Math.PI * 2 * index) / count, 12)
-        expect(spoke.width).toBeCloseTo((Math.PI * 2) / 24 / count, 12)
+        expect(spoke.width).toBeCloseTo(
+          ((Math.PI * 2) / 24 / count) * (count === 1 ? 1 : 1.5),
+          12,
+        )
       }
       const firstWidth = spokes.at(0)?.width
       expect(firstWidth).toBeDefined()

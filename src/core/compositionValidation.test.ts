@@ -150,6 +150,7 @@ describe('Composition validation', () => {
           index: 0,
           kind: 'spoke',
           angle: 0,
+          length: 200,
           angularWidth: Math.PI / 8,
         },
       ],
@@ -383,6 +384,27 @@ describe('Composition validation', () => {
     expect(issueAt(composition, '$.legacyGeometry')?.message).toBe(
       'Unknown property.',
     )
+  })
+
+  it('requires every Spoke to have a positive finite length', () => {
+    const missing = structuredClone(defaultComposition) as Composition
+    const missingSpoke = missing.fields[1].boundaries[0] as unknown as Record<
+      string,
+      unknown
+    >
+    delete missingSpoke.length
+
+    expect(
+      issueAt(missing, '$.fields[1].boundaries[0].length')?.message,
+    ).toContain('finite number')
+
+    const zero = structuredClone(defaultComposition) as Composition
+    const zeroSpoke = zero.fields[1].boundaries[0]
+    if (zeroSpoke.kind !== 'spoke') throw new Error('Expected a Spoke.')
+    zeroSpoke.length = 0
+    expect(
+      issueAt(zero, '$.fields[1].boundaries[0].length')?.message,
+    ).toContain('greater than 0')
   })
 
   it('requires SoundFont Instruments to reference a declared bank', () => {

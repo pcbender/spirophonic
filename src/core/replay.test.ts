@@ -81,6 +81,7 @@ const gatedSource = (): Composition => {
           index: 0,
           kind: 'spoke',
           angle: Math.PI,
+          length: 200,
           angularWidth: 0.6,
         },
       ],

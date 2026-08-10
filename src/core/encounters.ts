@@ -239,6 +239,16 @@ const physicalRegionDirection = (
   if (geometry.kind === 'spoke' && geometry.angularWidth > 0) {
     const x = position.x - geometry.center.x
     const y = position.y - geometry.center.y
+    const outerCoordinate =
+      geometry.length * Math.cos(geometry.angularWidth / 2)
+    const spokeCoordinate =
+      x * Math.cos(geometry.angle) + y * Math.sin(geometry.angle)
+    if (Math.abs(spokeCoordinate - outerCoordinate) <= gradientStep * 10) {
+      const radialVelocity =
+        velocity.x * Math.cos(geometry.angle) +
+        velocity.y * Math.sin(geometry.angle)
+      return radialVelocity >= 0 ? 'outward' : 'inward'
+    }
     return x * velocity.y - y * velocity.x >= 0
       ? 'counterclockwise'
       : 'clockwise'

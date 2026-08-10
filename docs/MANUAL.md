@@ -270,7 +270,7 @@ music. **rotating** drifts against the beat by design.
 | Field kind | Boundary | Parameters |
 |---|---|---|
 | rings | Ring | Radius |
-| spokes | Spoke | Angle (rad), Width (rad) |
+| spokes | Spoke | Angle (rad), Width (rad), Length |
 | ellipses | Ellipse | Radius, Eccentricity |
 | bands | Band | Inner radius, Outer radius |
 | grid | Line | Axis (x / y), Offset. `x` is the line where *x* equals the offset — a vertical one. |
@@ -279,19 +279,24 @@ music. **rotating** drifts against the beat by design.
 Each Boundary also has an enable checkbox, a **Name**, `↑` `↓` reorder buttons,
 and **Remove Boundary**.
 
-A positive Spoke width makes an angular wedge. Its two radial edges are one
-outer gate: a Head entering the wedge starts one held note and the matching exit
-ends it. Motion that remains between those edges belongs to that held note; it
-does not create another onset. A zero-width Spoke preserves the legacy
-point-crossing ray for existing Compositions. Only visits whose entry and exit
-both occur in the compiled window become notes; a clipped or unmatched visit is
-skipped instead of being given a made-up duration or left hanging across a loop.
+A positive Spoke width makes a finite triangular wedge. **Length** is the
+distance from the Field centre to each distal vertex, and the edge connecting
+those vertices is part of the gate. A Head entering through either radial edge
+or that outer edge starts one held note; the matching exit through any edge ends
+it. Motion that remains inside belongs to that held note and does not create
+another onset. A zero-width Spoke is a finite point-crossing ray segment. Only
+visits whose entry and exit both occur in the compiled window become notes; a
+clipped or unmatched visit is skipped instead of being given a made-up duration
+or left hanging across a loop.
 
 **Add Boundary** places the new one where it will not land on an existing one:
-rings, ellipses, and bands step outward from the widest sibling, spokes step an
-eighth-turn round, and a grid fills whichever axis has fewer lines, mirroring an
-unpaired line before reaching further out — so a grid stays square and centred
-however many you add.
+rings, ellipses, and bands step outward from the widest sibling, while every
+Spoke addition redistributes the complete set at exactly `360° / count`. One
+Spoke starts 15° wide; a multi-Spoke wheel uses `22.5° / count`, so each wedge
+narrows as the wheel gains spokes while remaining 50% wider than the earlier
+rule. A grid fills whichever axis has fewer lines, mirroring an unpaired line
+before reaching further out, so it stays square and centred however many you
+add.
 
 A Boundary outside a Head's reach is never crossed no matter how long the loop
 runs. A Head sweeps a fixed range of distances from the centre set by its
@@ -334,7 +339,8 @@ crossed choose the note.
 one held note for that visit. The region is the outer gate: entry starts the
 note, exit ends it, and interior oscillations never retrigger it. A wider wedge
 at a greater radius therefore holds the same base pitch for longer and admits
-more cycles of an unchanged-frequency oscillation.
+more cycles of an unchanged-frequency oscillation, until the Trace crosses the
+finite outer edge.
 
 | Control | Notes |
 |---|---|

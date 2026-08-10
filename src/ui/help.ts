@@ -146,6 +146,8 @@ export const help = {
   'boundary.angle': 'Direction of the spoke from the Field centre, in radians.',
   'boundary.angularWidth':
     'Full angular width of the wedge. Zero preserves the legacy crossing ray; a positive width makes one outer gate.',
+  'boundary.length':
+    'Distance from the Field centre to the Spoke’s distal vertices. The connecting outer edge is part of a wedge gate.',
   'boundary.eccentricity': 'How far from circular the ellipse is. 0 is a circle.',
   'boundary.innerRadius': 'Inner edge of the band. Crossing either edge is an Encounter.',
   'boundary.outerRadius': 'Outer edge of the band.',

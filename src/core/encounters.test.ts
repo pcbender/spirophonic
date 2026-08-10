@@ -30,6 +30,7 @@ const spoke: BoundaryGeometry = Object.freeze({
   center: Object.freeze({ x: 0, y: 0 }),
   angle: 0,
   angularWidth: 0,
+  length: 10,
   direction: Object.freeze({ x: 1, y: 0 }),
 })
 
@@ -37,6 +38,7 @@ const wedge: BoundaryGeometry = Object.freeze({
   ...spoke,
   boundaryId: 'wedge-1',
   angularWidth: 0.4,
+  length: 20,
 })
 
 const linearState = (timeSeconds: number): EncounterPathState => ({
@@ -200,6 +202,44 @@ describe('Boundary Encounter fixtures', () => {
     ])
     expect(result.encounters[0].timeSeconds).toBeCloseTo(0.3, 6)
     expect(result.encounters[1].timeSeconds).toBeCloseTo(0.7, 6)
+  })
+
+  it('gates a sine path weaving across the finite Spoke outer edge', () => {
+    const outerEdge = wedge.length * Math.cos(wedge.angularWidth / 2)
+    const stateAt = (timeSeconds: number): EncounterPathState => ({
+      timeSeconds,
+      position: {
+        x: outerEdge + 2 * Math.cos(Math.PI * 2 * timeSeconds),
+        y: 0,
+      },
+      velocity: {
+        x: -Math.PI * 4 * Math.sin(Math.PI * 2 * timeSeconds),
+        y: 0,
+      },
+      wheelPhase: timeSeconds,
+    })
+    const result = boundaryEncountersForPath({
+      transport: structuredClone(defaultComposition.transport),
+      wheelId: 'wheel-a',
+      headId: 'head-a',
+      boundary: wedge,
+      sampleTimes: Array.from({ length: 121 }, (_, index) => index / 120),
+      stateAt,
+    })
+
+    expect(result.diagnostics).toEqual([])
+    expect(result.encounters.map((event) => event.transition)).toEqual([
+      'enter',
+      'exit',
+    ])
+    expect(result.encounters.map((event) => event.direction)).toEqual([
+      'inward',
+      'outward',
+    ])
+    expect(result.encounters[0].timeSeconds).toBeCloseTo(0.25, 6)
+    expect(result.encounters[1].timeSeconds).toBeCloseTo(0.75, 6)
+    expect(result.encounters[0].position.x).toBeCloseTo(outerEdge, 6)
+    expect(result.encounters[1].position.x).toBeCloseTo(outerEdge, 6)
   })
 
   it('sorts simultaneous crossings by subject and then Boundary ID', () => {

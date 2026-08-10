@@ -25,6 +25,7 @@ const spoke: BoundaryGeometry = Object.freeze({
   center: Object.freeze({ x: 0, y: 0 }),
   angle: 0,
   angularWidth: 0,
+  length: 10,
   direction: Object.freeze({ x: 1, y: 0 }),
 })
 
@@ -32,6 +33,7 @@ const wedge: BoundaryGeometry = Object.freeze({
   ...spoke,
   boundaryId: 'wedge-1',
   angularWidth: 0.4,
+  length: 20,
 })
 
 const point = (

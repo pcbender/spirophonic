@@ -28,6 +28,8 @@ export type FieldPanelProps = {
 
 const TAU = Math.PI * 2
 const DEFAULT_SPOKE_ANGULAR_WIDTH = TAU / 24
+const DEFAULT_SPOKE_LENGTH = 200
+const MULTI_SPOKE_WIDTH_SCALE = 1.5
 
 const fieldKindLabels: Record<FieldSpec['kind'], string> = {
   rings: 'Ring Field',
@@ -136,7 +138,10 @@ const redistributeSpokes = (
   const anchor = normalizeAngle(
     spokes[0].fieldRotation + spokes[0].boundary.angle,
   )
-  const angularWidth = DEFAULT_SPOKE_ANGULAR_WIDTH / spokes.length
+  const angularWidth =
+    (DEFAULT_SPOKE_ANGULAR_WIDTH *
+      (spokes.length === 1 ? 1 : MULTI_SPOKE_WIDTH_SCALE)) /
+    spokes.length
   let spokeIndex = 0
 
   return fields.map((field) =>
@@ -287,6 +292,7 @@ const defaultBoundary = (
       ...base,
       kind: 'spoke',
       angle: last && last.kind === 'spoke' ? last.angle + TAU / 8 : 0,
+      length: DEFAULT_SPOKE_LENGTH,
       angularWidth: DEFAULT_SPOKE_ANGULAR_WIDTH,
     }
   }
@@ -893,6 +899,17 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
           step={0.01}
           onChange={(angularWidth) =>
             onPatch({ angularWidth: Math.min(Math.PI, Math.max(0, angularWidth)) })
+          }
+        />
+        <NumberField
+          label="Length" hint={help['boundary.length']}
+          ariaLabel={`Length ${boundary.id}`}
+          value={boundary.length}
+          min={0.001}
+          max={100_000}
+          step={1}
+          onChange={(length) =>
+            onPatch({ length: Math.min(100_000, Math.max(0.001, length)) })
           }
         />
       </>
