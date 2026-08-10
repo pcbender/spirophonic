@@ -395,8 +395,8 @@ sweep, it does not license silent scope growth.
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | **done** |
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | **done** |
 | WIN-01 | Native Windows development portability | MG-21 | **done** |
-| MG-22 | Wedge-spoke regions and exact gate spans | MG-21 | **ready** |
-| MG-23 | In-gate modulation lanes and Trace notation | MG-22 | **waiting** |
+| MG-22 | Wedge-spoke regions and exact gate spans | MG-21 | **done** |
+| MG-23 | In-gate modulation lanes and Trace notation | MG-22 | **ready** |
 | MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | **waiting** |
 
 The first user-visible milestone is MG-09. MG-11 makes that slice sound like a
