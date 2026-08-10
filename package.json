@@ -9,6 +9,7 @@
     "dev": "vite --configLoader runner",
     "prebuild": "npm run sync:soundfont-worklet && npm run fetch:soundbank",
     "build": "tsc -b && vite build --configLoader runner",
+    "deploy": "node scripts/deploy.mjs",
     "lint": "eslint .",
     "test": "vitest run --configLoader runner",
     "test:watch": "vitest --configLoader runner",

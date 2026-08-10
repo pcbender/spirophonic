@@ -39,7 +39,6 @@
   "37": "Spirophonic Music Generator Build Plan",
   "38": "Spirophonic Domain Model",
   "39": "Spirophonic Music Generator Progress Tracker",
-  "40": "encounters.ts",
   "41": "nativeSynthEngine.ts",
   "42": "composition.ts",
   "43": "PartPanel.tsx",
@@ -83,7 +82,6 @@
   "81": "playwright.config.ts",
   "82": "RailPanel.tsx",
   "83": "NativeSynthEngine",
-  "84": "FakeProbeBackend",
   "85": "Getting started",
   "86": "soundbankStore.ts",
   "87": "Community 87",
@@ -101,9 +99,11 @@
   "99": "What is missing: ratio, tuning, and melodic line",
   "100": "dependencies",
   "101": "Community 101",
-  "102": "Community 102",
   "103": "Community 103",
   "104": "Community 104",
+  "105": "Community 105",
   "106": "MVP Scope",
-  "109": "Community 109"
+  "107": "Community 107",
+  "108": "Community 108",
+  "110": "Community 110"
 }
