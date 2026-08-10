@@ -3,7 +3,12 @@ import type {
   SoundFontInstrumentSpec,
 } from '../core/composition'
 import type { NoteMusicalEvent } from '../core/performance'
-import type { InstrumentEngine, RenderContext } from './instrumentEngine'
+import type {
+  InstrumentAutomationDiagnostic,
+  InstrumentEngine,
+  RenderContext,
+  ScheduledModulationLane,
+} from './instrumentEngine'
 import { type SoundBankStore } from './soundbankStore'
 import { soundBankContainerKind } from './soundfontProbe'
 import { registerSpessaSynthWorklet } from './spessasynthWorklet'
@@ -129,6 +134,9 @@ type TrackedVoice = {
   synthesizer: SoundFontSynthesizer
   channel: number
   note: number
+  instrument: SoundFontInstrumentSpec
+  detuneSemitones: number
+  automation: ReadonlyArray<ScheduledModulationLane>
   startsAtSeconds: number
   endsAtSeconds: number
 }
@@ -399,7 +407,8 @@ export class SoundFontEngine implements InstrumentEngine {
     event: NoteMusicalEvent,
     instrument: SoundFontInstrumentSpec,
     audioTimeSeconds: number,
-  ) {
+    lanes: ReadonlyArray<ScheduledModulationLane> = [],
+  ): ReadonlyArray<InstrumentAutomationDiagnostic> {
     this.assertUsable()
     if (event.instrumentId !== instrument.id) {
       throw new RangeError(
@@ -412,16 +421,47 @@ export class SoundFontEngine implements InstrumentEngine {
     }
 
     this.pruneVoices()
-    if (this.voices.length >= this.maxVoices) {
-      this.voices.sort(
+    const diagnostics: Array<InstrumentAutomationDiagnostic> = []
+    const overlapping = this.voices.some(
+      (voice) =>
+        voice.synthesizer === route.bank.synthesizer &&
+        voice.channel === route.channel &&
+        voice.startsAtSeconds < audioTimeSeconds + 1e-9 &&
+        voice.endsAtSeconds > audioTimeSeconds + 1e-9,
+    )
+    const activeLanes = overlapping
+      ? lanes.filter((lane) => lane.entryOnly)
+      : lanes
+    if (overlapping) {
+      for (const lane of lanes.filter((candidate) => !candidate.entryOnly)) {
+        diagnostics.push(
+          this.automationIssue(
+            'polyphony-limit',
+            lane,
+            `SoundFont channel ${route.channel + 1} already has a held voice; ${lane.target} modulation for note ${event.id} was omitted because it would also change that voice.`,
+          ),
+        )
+      }
+    }
+    const voicesAtStart = this.voices.filter(
+      (voice) =>
+        voice.startsAtSeconds <= audioTimeSeconds + 1e-9 &&
+        voice.endsAtSeconds > audioTimeSeconds + 1e-9,
+    )
+    if (voicesAtStart.length >= this.maxVoices) {
+      voicesAtStart.sort(
         (left, right) =>
           left.endsAtSeconds - right.endsAtSeconds ||
           left.startsAtSeconds - right.startsAtSeconds,
       )
-      const stolen = this.voices.shift()
-      stolen?.synthesizer.noteOff(stolen.channel, stolen.note, {
-        time: audioTimeSeconds,
-      })
+      const stolen = voicesAtStart[0]
+      if (stolen) {
+        this.voices.splice(this.voices.indexOf(stolen), 1)
+        this.cancelVoiceAutomationFrom(stolen, audioTimeSeconds)
+        stolen.synthesizer.noteOff(stolen.channel, stolen.note, {
+          time: audioTimeSeconds,
+        })
+      }
     }
 
     const synthesizer = route.bank.synthesizer
@@ -476,17 +516,122 @@ export class SoundFontEngine implements InstrumentEngine {
         options,
       )
     }
-    synthesizer.noteOn(channel, note, clamp(Math.round(event.velocity), 1, 127), options)
+    const initialVelocity = activeLanes.find(
+      (lane) => lane.target === 'initial-velocity',
+    )?.samples[0]?.value
+    synthesizer.noteOn(
+      channel,
+      note,
+      clamp(Math.round(initialVelocity ?? event.velocity), 1, 127),
+      options,
+    )
     synthesizer.noteOff(channel, note, {
       time: audioTimeSeconds + event.durationSeconds,
     })
-    this.voices.push({
+
+    for (const lane of activeLanes) {
+      if (lane.target === 'initial-velocity') continue
+      if (lane.target === 'attack') {
+        diagnostics.push(
+          this.automationIssue(
+            'unsupported-target',
+            lane,
+            `SoundFont playback cannot translate an attack measured in seconds for preset ${instrument.presetName}; note ${event.id} keeps the preset's attack.`,
+          ),
+        )
+        continue
+      }
+      if (lane.target === 'gain') {
+        if (lane.samples.some((sample) => sample.value > 1)) {
+          diagnostics.push(
+            this.automationIssue(
+              'range-limit',
+              lane,
+              `SoundFont gain controller 7 stops at 1.0; larger values in lane ${lane.id} are clipped.`,
+            ),
+          )
+        }
+        for (const sample of lane.samples) {
+          synthesizer.controllerChange(
+            channel,
+            7,
+            Math.round(clamp(sample.value, 0, 1) * 127),
+            { time: sample.audioTimeSeconds },
+          )
+        }
+      } else if (lane.target === 'pan') {
+        for (const sample of lane.samples) {
+          synthesizer.controllerChange(
+            channel,
+            10,
+            Math.round(((clamp(sample.value, -1, 1) + 1) / 2) * 127),
+            { time: sample.audioTimeSeconds },
+          )
+        }
+      } else if (lane.target === 'brightness') {
+        for (const sample of lane.samples) {
+          synthesizer.controllerChange(
+            channel,
+            74,
+            Math.round(clamp(sample.value, 0, 1) * 127),
+            { time: sample.audioTimeSeconds },
+          )
+        }
+      } else if (lane.target === 'pitch-offset') {
+        let outOfRange = false
+        for (const sample of lane.samples) {
+          const offset = detuneSemitones + sample.value
+          if (Math.abs(offset) > this.pitchBendRangeSemitones + 1e-9) {
+            outOfRange = true
+          }
+          const normalized = clamp(
+            offset / this.pitchBendRangeSemitones,
+            -1,
+            1,
+          )
+          synthesizer.pitchWheel?.(
+            channel,
+            clamp(Math.round(8192 + normalized * 8191), 0, 16_383),
+            { time: sample.audioTimeSeconds },
+          )
+        }
+        if (!synthesizer.pitchWheel) {
+          diagnostics.push(
+            this.automationIssue(
+              'unsupported-target',
+              lane,
+              `SoundFont playback backend has no pitch-wheel support; lane ${lane.id} was omitted.`,
+            ),
+          )
+        } else if (outOfRange) {
+          diagnostics.push(
+            this.automationIssue(
+              'range-limit',
+              lane,
+              `SoundFont pitch lane ${lane.id} exceeds the configured ±${this.pitchBendRangeSemitones}-semitone bend range and is clipped.`,
+            ),
+          )
+        }
+      }
+    }
+    const trackedVoice = {
       synthesizer,
       channel,
       note,
+      instrument,
+      detuneSemitones,
+      automation: activeLanes,
       startsAtSeconds: audioTimeSeconds,
       endsAtSeconds: audioTimeSeconds + event.durationSeconds,
-    })
+    }
+    this.voices.push(trackedVoice)
+    if (activeLanes.some((lane) => !lane.entryOnly)) {
+      // Controllers and pitch wheels are channel state, unlike the note
+      // itself. Restore the preset route at the physical gate exit so one
+      // lane cannot leak into the next voice on that channel.
+      this.cancelVoiceAutomationFrom(trackedVoice, trackedVoice.endsAtSeconds)
+    }
+    return Object.freeze(diagnostics)
   }
 
   /**
@@ -499,7 +644,10 @@ export class SoundFontEngine implements InstrumentEngine {
   cancelScheduledFrom(audioTimeSeconds: number) {
     for (let index = this.voices.length - 1; index >= 0; index -= 1) {
       const voice = this.voices[index]
-      if (voice.startsAtSeconds < audioTimeSeconds) continue
+      if (voice.startsAtSeconds < audioTimeSeconds) {
+        this.cancelVoiceAutomationFrom(voice, audioTimeSeconds)
+        continue
+      }
 
       voice.synthesizer.noteOff(voice.channel, voice.note, {
         time: Math.max(audioTimeSeconds, voice.startsAtSeconds),
@@ -508,7 +656,10 @@ export class SoundFontEngine implements InstrumentEngine {
     }
   }
 
-  panic() {
+  panic(audioTimeSeconds: number) {
+    for (const voice of this.voices) {
+      this.cancelVoiceAutomationFrom(voice, audioTimeSeconds)
+    }
     for (const bank of this.banks.values()) bank.synthesizer.stopAll(true)
     this.voices.length = 0
   }
@@ -543,6 +694,70 @@ export class SoundFontEngine implements InstrumentEngine {
       soundBankId: instrument.soundBankId,
       message,
     })
+  }
+
+  private automationIssue(
+    code: InstrumentAutomationDiagnostic['code'],
+    lane: ScheduledModulationLane,
+    message: string,
+  ): InstrumentAutomationDiagnostic {
+    return Object.freeze({
+      code,
+      consumer: 'soundfont' as const,
+      target: lane.target,
+      laneId: lane.id,
+      noteEventId: lane.noteEventId,
+      partId: lane.partId,
+      instrumentId: lane.instrumentId,
+      message,
+    })
+  }
+
+  private cancelVoiceAutomationFrom(
+    voice: TrackedVoice,
+    audioTimeSeconds: number,
+  ) {
+    const resetTimes = new Set<number>([audioTimeSeconds])
+    for (const lane of voice.automation) {
+      for (const sample of lane.samples) {
+        if (sample.audioTimeSeconds >= audioTimeSeconds - 1e-9) {
+          resetTimes.add(sample.audioTimeSeconds)
+        }
+      }
+    }
+    for (const time of [...resetTimes].sort((left, right) => left - right)) {
+      const options = { time }
+      voice.synthesizer.controllerChange(
+        voice.channel,
+        7,
+        Math.round(clamp(voice.instrument.gain, 0, 1) * 127),
+        options,
+      )
+      voice.synthesizer.controllerChange(
+        voice.channel,
+        10,
+        Math.round(((clamp(voice.instrument.pan, -1, 1) + 1) / 2) * 127),
+        options,
+      )
+      voice.synthesizer.controllerChange(
+        voice.channel,
+        74,
+        127,
+        options,
+      )
+      if (voice.synthesizer.pitchWheel) {
+        const normalized = clamp(
+          voice.detuneSemitones / this.pitchBendRangeSemitones,
+          -1,
+          1,
+        )
+        voice.synthesizer.pitchWheel(
+          voice.channel,
+          clamp(Math.round(8192 + normalized * 8191), 0, 16_383),
+          options,
+        )
+      }
+    }
   }
 
   private ensureContext() {

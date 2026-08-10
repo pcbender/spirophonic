@@ -105,7 +105,7 @@ describe('reference Composition', () => {
       }
     })
 
-    expect(counts[0]).toEqual({ encounters: 850, events: 161 })
+    expect(counts[0]).toEqual({ encounters: 749, events: 149 })
     expect(counts[1]).toEqual(counts[0])
     expect(counts[2]).toEqual(counts[0])
   })

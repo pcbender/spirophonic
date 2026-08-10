@@ -21,6 +21,7 @@ import {
   segmentBoundaryCrossing,
   spokeRayCoordinate,
   spokeSignedDistance,
+  wedgeSignedDistance,
   updateBoundary,
   updateField,
 } from './fields'
@@ -55,6 +56,7 @@ const spokes = (): SpokeFieldSpec => ({
     index,
     kind: 'spoke' as const,
     angle: (index * Math.PI) / 2,
+    length: 100,
   })),
 })
 
@@ -90,7 +92,39 @@ describe('Field geometry', () => {
     expect(boundarySignedDistance(geometry, { x: -2, y: 3 })).toBeCloseTo(2, 12)
   })
 
-  it('distinguishes crossing an oriented ray from its infinite line behind', () => {
+  it('treats a positive-width spoke as an angular region', () => {
+    expect(
+      wedgeSignedDistance(
+        { x: 0, y: 0 },
+        0,
+        Math.PI / 3,
+        20,
+        { x: 10, y: 0 },
+      ),
+    ).toBeLessThan(0)
+    expect(
+      wedgeSignedDistance(
+        { x: 0, y: 0 },
+        0,
+        Math.PI / 3,
+        20,
+        { x: 0, y: 10 },
+      ),
+    ).toBeGreaterThan(0)
+
+    const field = spokes()
+    field.boundaries[0].angularWidth = Math.PI / 3
+    const geometry = boundaryGeometry(field, field.boundaries[0])
+    expect(geometry).toMatchObject({
+      kind: 'spoke',
+      angularWidth: Math.PI / 3,
+      length: 100,
+    })
+    expect(boundarySignedDistance(geometry, { x: 10, y: 0 })).toBeLessThan(0)
+    expect(boundarySignedDistance(geometry, { x: 90, y: 0 })).toBeGreaterThan(0)
+  })
+
+  it('limits an oriented ray to the segment ahead of its Field centre', () => {
     const field = spokes()
     const boundary = field.boundaries[0]
     const ahead = segmentBoundaryCrossing(
@@ -105,6 +139,12 @@ describe('Field geometry', () => {
       { x: -2, y: -1 },
       { x: -2, y: 1 },
     )
+    const beyond = segmentBoundaryCrossing(
+      field,
+      boundary,
+      { x: 101, y: -1 },
+      { x: 101, y: 1 },
+    )
 
     expect(ahead).toMatchObject({
       fieldId: 'field-spokes-1',
@@ -114,6 +154,7 @@ describe('Field geometry', () => {
       position: { x: 2, y: 0 },
     })
     expect(behind).toBeNull()
+    expect(beyond).toBeNull()
     expect(spokeRayCoordinate(field.center, 0, { x: -2, y: 0 })).toBe(-2)
   })
 

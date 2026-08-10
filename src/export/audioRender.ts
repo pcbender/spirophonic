@@ -1,6 +1,9 @@
 import type { Composition, InstrumentSpec } from '../core/composition'
 import { eventSounds } from '../core/performance'
-import type { RenderContext } from '../audio/instrumentEngine'
+import {
+  scheduledModulationForOccurrence,
+  type RenderContext,
+} from '../audio/instrumentEngine'
 import { InstrumentRouter } from '../audio/instrumentRouter'
 import { NativeSynthEngine } from '../audio/nativeSynthEngine'
 import { SoundFontEngine } from '../audio/soundfontEngine'
@@ -270,7 +273,26 @@ export const renderPerformanceToWav = async (
 
       // Offline time starts at zero; events are placed relative to the
       // window rather than to a running clock.
-      engine.schedule(event, instrument, event.timeSeconds - windowStart)
+      const audioTimeSeconds = event.timeSeconds - windowStart
+      const automation = scheduledModulationForOccurrence(
+        performance.modulationLanes,
+        event.id,
+        audioTimeSeconds,
+        event.timeSeconds,
+      )
+      const automationIssues = engine.schedule(
+        event,
+        instrument,
+        audioTimeSeconds,
+        automation,
+      )
+      if (Array.isArray(automationIssues)) {
+        for (const issue of automationIssues as ReadonlyArray<{
+          message: string
+        }>) {
+          if (!issues.includes(issue.message)) issues.push(issue.message)
+        }
+      }
       renderedEventCount += 1
 
       if (index % 256 === 255) {

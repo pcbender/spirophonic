@@ -7,6 +7,7 @@ import {
   concurrentWheelsComposition,
   ringAndSpokeComposition,
 } from '../test/fixtures/compositions'
+import { gatedModulationComposition } from '../test/fixtures/gateModulation'
 import { usePerformanceCompiler } from './usePerformanceCompiler'
 import type { CompileReplyMessage, CompileRequestMessage } from './performanceWorker'
 
@@ -132,6 +133,39 @@ describe('with a worker', () => {
 
     await waitFor(() => expect(result.current.pending).toBe(false))
     expect(result.current.performance).toBe(compiled)
+  })
+
+  it('preserves deterministic modulation lanes through a worker clone', async () => {
+    useStubWorker()
+    const first = ringAndSpokeComposition()
+    const gated = gatedModulationComposition()
+    const { result, rerender } = renderHook(
+      ({ composition }: { composition: Composition }) =>
+        usePerformanceCompiler(composition, request),
+      { initialProps: { composition: first } },
+    )
+
+    rerender({ composition: gated })
+    await waitFor(() => expect(result.current.pending).toBe(true))
+    const worker = StubWorker.instances[0]
+    const compiled = compilePerformance(gated, request)
+    expect(compiled.modulationLanes.length).toBeGreaterThan(0)
+    const cloned = structuredClone(compiled)
+    act(() => {
+      worker.reply({
+        sequence: worker.posted[0].sequence,
+        ok: true,
+        performance: cloned,
+      })
+    })
+
+    await waitFor(() => expect(result.current.pending).toBe(false))
+    expect(result.current.performance.modulationLanes).toEqual(
+      compiled.modulationLanes,
+    )
+    expect(result.current.performance.modulationLanes).not.toBe(
+      compiled.modulationLanes,
+    )
   })
 
   it('ignores a stale reply that lands after a newer one', async () => {

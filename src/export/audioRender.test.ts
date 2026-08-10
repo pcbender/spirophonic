@@ -6,6 +6,7 @@ import wavSource from './wav.ts?raw'
 import type { Composition } from '../core/composition'
 import { defaultComposition } from '../core/defaultComposition'
 import { compilePerformance } from '../core/performance'
+import { gatedModulationComposition } from '../test/fixtures/gateModulation'
 import {
   comparePcm,
   estimateRenderBytes,
@@ -44,7 +45,9 @@ const fakeContext = (
     setValueAtTime: (value: number, at: number) => {
       trace.push(`${name}=${value}@${at.toFixed(6)}`)
     },
-    linearRampToValueAtTime: () => undefined,
+    linearRampToValueAtTime: (value: number, at: number) => {
+      trace.push(`${name}~${value}@${at.toFixed(6)}`)
+    },
     exponentialRampToValueAtTime: () => undefined,
     cancelScheduledValues: () => undefined,
   })
@@ -270,6 +273,38 @@ describe('MG-20 offline render', () => {
 
     expect(first.determinism).toBe('deterministic')
     expect(Array.from(second.wav.bytes)).toEqual(Array.from(first.wav.bytes))
+  })
+
+  it('renders one held native voice with its full canonical brightness lane', async () => {
+    const composition = gatedModulationComposition()
+    const performance = compilePerformance(composition, request)
+    const trace: Trace = []
+
+    const result = await renderPerformanceToWav({
+      composition,
+      performance,
+      sampleRateHz: 8000,
+      tailSeconds: 0,
+      contextFactory: factoryWith(trace),
+    })
+
+    expect(result.renderedEventCount).toBe(performance.performedEvents.length)
+    expect(trace.filter((entry) => entry.startsWith('oscillator.start@'))).toHaveLength(
+      performance.performedEvents.length,
+    )
+    expect(
+      trace.filter(
+        (entry) =>
+          entry.startsWith('filter.frequency=') ||
+          entry.startsWith('filter.frequency~'),
+      ).length,
+    ).toBeGreaterThan(
+      performance.modulationLanes.reduce(
+        (count, lane) => count + lane.samples.length,
+        0,
+      ),
+    )
+    expect(result.issues).toEqual([])
   })
 
   it('reports progress through every phase, ending at one', async () => {

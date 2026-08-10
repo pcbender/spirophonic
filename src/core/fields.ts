@@ -27,6 +27,8 @@ export type SpokeBoundaryGeometry = Readonly<
   GeometryBase & {
     kind: 'spoke'
     angle: number
+    angularWidth: number
+    length: number
     direction: Readonly<Point2>
   }
 >
@@ -230,6 +232,8 @@ export const boundaryGeometryAtPlacement = (
       ...base,
       kind: 'spoke',
       angle,
+      angularWidth: boundary.angularWidth ?? 0,
+      length: boundary.length,
       direction: freezePoint({ x: Math.cos(angle), y: Math.sin(angle) }),
     })
   }
@@ -377,6 +381,60 @@ export const spokeRayCoordinate = (
   )
 }
 
+/**
+ * Negative inside the finite triangular wedge and positive outside. Each of
+ * the three normalized half-plane distances is in world units; their maximum
+ * is therefore zero on either radial edge or the distal edge. At the exact
+ * centre the value is zero, preserving the no-chatter centre policy.
+ */
+export const wedgeSignedDistance = (
+  center: Point2,
+  angle: number,
+  angularWidth: number,
+  length: number,
+  value: Point2,
+) => {
+  assertFinitePoint(center, 'center')
+  assertFinitePoint(value, 'value')
+  if (!Number.isFinite(angle)) {
+    throw new RangeError('angle must be finite.')
+  }
+  if (
+    !Number.isFinite(angularWidth) ||
+    angularWidth <= 0 ||
+    angularWidth > Math.PI
+  ) {
+    throw new RangeError('angularWidth must be finite, positive, and at most pi.')
+  }
+  if (!Number.isFinite(length) || length <= 0) {
+    throw new RangeError('length must be finite and positive.')
+  }
+
+  const halfWidth = angularWidth / 2
+  const right = {
+    x: center.x + Math.cos(angle - halfWidth) * length,
+    y: center.y + Math.sin(angle - halfWidth) * length,
+  }
+  const left = {
+    x: center.x + Math.cos(angle + halfWidth) * length,
+    y: center.y + Math.sin(angle + halfWidth) * length,
+  }
+  const vertices = [center, right, left]
+  let distance = Number.NEGATIVE_INFINITY
+
+  for (let index = 0; index < vertices.length; index += 1) {
+    const from = vertices[index]
+    const to = vertices[(index + 1) % vertices.length]
+    const dx = to.x - from.x
+    const dy = to.y - from.y
+    const edgeLength = Math.hypot(dx, dy)
+    const cross = dx * (value.y - from.y) - dy * (value.x - from.x)
+    distance = Math.max(distance, -cross / edgeLength)
+  }
+
+  return distance
+}
+
 /** Rotates a world point into the Field's own frame. */
 const toLocal = (
   center: Point2,
@@ -504,7 +562,15 @@ export const boundarySignedDistance = (
     return ringSignedDistance(geometry.center, geometry.radius, value)
   }
   if (geometry.kind === 'spoke') {
-    return spokeSignedDistance(geometry.center, geometry.angle, value)
+    return geometry.angularWidth > 0
+      ? wedgeSignedDistance(
+          geometry.center,
+          geometry.angle,
+          geometry.angularWidth,
+          geometry.length,
+          value,
+        )
+      : spokeSignedDistance(geometry.center, geometry.angle, value)
   }
   if (geometry.kind === 'ellipse') {
     return ellipseSignedDistance(
@@ -595,7 +661,10 @@ export const segmentBoundaryCrossing = (
 
   if (
     geometry.kind === 'spoke' &&
-    spokeRayCoordinate(geometry.center, geometry.angle, position) < -epsilon
+    geometry.angularWidth === 0 &&
+    (spokeRayCoordinate(geometry.center, geometry.angle, position) < -epsilon ||
+      spokeRayCoordinate(geometry.center, geometry.angle, position) >
+        geometry.length + epsilon)
   ) {
     return null
   }

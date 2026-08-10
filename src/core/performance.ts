@@ -6,6 +6,10 @@ import type {
 import { midiToFrequency, scaleIntervals } from './scales'
 import { validateComposition } from './compositionValidation'
 import {
+  compileGateModulationLanes,
+  type GateModulationLane,
+} from './gateModulation'
+import {
   compileBoundaryEncounters,
   type BoundaryCrossingEncounter,
   type EncounterScanOptions,
@@ -43,7 +47,6 @@ import {
 } from './variation'
 import {
   beatsToSeconds,
-  secondsToBeats,
   transportAddressAtSeconds,
   validatePerformanceRequest,
   type PerformanceRequest,
@@ -81,6 +84,7 @@ export type PerformanceDiagnostic = Readonly<{
     | 'encounter-scan'
     | 'relation-scan'
     | 'trace-scan'
+    | 'gate-modulation'
   message: string
   path?: string
   partId?: string
@@ -94,6 +98,7 @@ export type CanonicalPerformance = Readonly<{
   relationEncounters: ReadonlyArray<RelationEncounter>
   traceEncounters: ReadonlyArray<TraceCrossingEncounter>
   controlLanes: ReadonlyArray<ControlLane>
+  modulationLanes: ReadonlyArray<GateModulationLane>
   interpretedEvents: ReadonlyArray<NoteMusicalEvent>
   performedEvents: ReadonlyArray<NoteMusicalEvent>
   /** Which variation rule changed which output value, and by how much. */
@@ -171,6 +176,7 @@ const emptyPerformance = (
     relationEncounters: Object.freeze([]) as ReadonlyArray<RelationEncounter>,
     traceEncounters: Object.freeze([]) as ReadonlyArray<TraceCrossingEncounter>,
     controlLanes: Object.freeze([]) as ReadonlyArray<ControlLane>,
+    modulationLanes: Object.freeze([]) as ReadonlyArray<GateModulationLane>,
     interpretedEvents: emptyEvents,
     performedEvents: emptyEvents,
     variationTrace: Object.freeze([]) as ReadonlyArray<VariationTraceEntry>,
@@ -334,9 +340,7 @@ const durationForCandidate = (
   index: number,
   selected: ReadonlyArray<NoteCandidate>,
   allEncounters: ReadonlyArray<InterpretableEncounter>,
-  request: PerformanceRequest,
-  composition: Composition,
-) => {
+): number | undefined => {
   if (part.duration.kind === 'fixed') return part.duration.beats
 
   if (part.duration.kind === 'until-next') {
@@ -357,16 +361,16 @@ const durationForCandidate = (
       encounter.timeSeconds > candidate.encounter.timeSeconds &&
       encounter.wheelId === candidate.encounter.wheelId &&
       encounter.headId === candidate.encounter.headId &&
-      encounter.fieldId === candidate.encounter.fieldId,
+      encounter.fieldId === candidate.encounter.fieldId &&
+      encounter.boundaryId === candidate.encounter.boundaryId &&
+      encounter.transition === 'exit',
   )
-  const endBeat = nextPhysical
-    ? nextPhysical.absoluteBeat
-    : secondsToBeats(
-        request.startSeconds + request.durationSeconds,
-        composition.transport.tempoBpm,
-      )
+  if (!nextPhysical) return undefined
+  const endBeat = nextPhysical.absoluteBeat
 
-  return Math.max(1e-9, endBeat - candidate.absoluteBeat)
+  return endBeat > candidate.absoluteBeat + 1e-9
+    ? endBeat - candidate.absoluteBeat
+    : undefined
 }
 
 /** Moves a MIDI note by scale degrees, or by semitones when there is no scale. */
@@ -403,14 +407,25 @@ const shiftMidiByScaleDegrees = (
 const interpretNotePart = (
   part: NotePartSpec,
   composition: Composition,
-  request: PerformanceRequest,
   allEncounters: ReadonlyArray<InterpretableEncounter>,
   diagnostics: Array<PerformanceDiagnostic>,
   variationTrace: Array<VariationTraceEntry>,
 ) => {
-  const selectedEncounters = selectPartEncounters(part, allEncounters)
+  const selectedByQuery = selectPartEncounters(part, allEncounters)
+  const usesRegionGate =
+    part.duration.kind === 'inside-band' ||
+    part.duration.kind === 'inside-region'
+  const selectedEncounters = usesRegionGate
+    ? selectedByQuery.filter((encounter) => encounter.transition === 'enter')
+    : selectedByQuery
+  // A region entry is the gate's note-on. Quantizing it would detach the note
+  // and its modulation lane from the physical opening edge.
+  const candidatePart =
+    usesRegionGate && part.quantize
+      ? Object.freeze({ ...part, quantize: undefined })
+      : part
   const candidates = quantizedCandidates(
-    part,
+    candidatePart,
     selectedEncounters,
     composition,
     diagnostics,
@@ -429,16 +444,26 @@ const interpretNotePart = (
         ? part.pitch.scale
         : undefined
 
-  return candidates.map((candidate, index): NoteMusicalEvent => {
+  return candidates.flatMap((candidate, index): Array<NoteMusicalEvent> => {
     const durationBeats = durationForCandidate(
       part,
       candidate,
       index,
       candidates,
       allEncounters,
-      request,
-      composition,
     )
+    if (durationBeats === undefined) {
+      diagnostics.push(
+        Object.freeze({
+          severity: 'warning' as const,
+          code: 'mapping-error' as const,
+          message: `Region entry "${candidate.encounter.id}" has no later matching exit after quantization; no note was emitted.`,
+          partId: part.id,
+          encounterId: candidate.encounter.id,
+        }),
+      )
+      return []
+    }
     const timeSeconds = beatsToSeconds(
       candidate.absoluteBeat,
       composition.transport.tempoBpm,
@@ -473,7 +498,7 @@ const interpretNotePart = (
             frequencyHz: midiToFrequency(shiftedMidi),
           }
 
-    return Object.freeze({
+    return [Object.freeze({
       id: eventId(part.id, candidate.encounter.id),
       sourceEncounterId: candidate.encounter.id,
       partId: part.id,
@@ -496,13 +521,14 @@ const interpretNotePart = (
       ),
       rest: !interpretation.sounds,
       probability: interpretation.sounds ? 1 : 0,
-    })
+    })]
   })
 }
 
 export type InterpretationResult = Readonly<{
   events: ReadonlyArray<NoteMusicalEvent>
   controlLanes: ReadonlyArray<ControlLane>
+  modulationLanes: ReadonlyArray<GateModulationLane>
   diagnostics: ReadonlyArray<PerformanceDiagnostic>
   variationTrace: ReadonlyArray<VariationTraceEntry>
 }>
@@ -602,7 +628,6 @@ export const interpretEncounters = (
       ...interpretNotePart(
         part,
         composition,
-        request,
         encounters,
         diagnostics,
         variationTrace,
@@ -611,9 +636,31 @@ export const interpretEncounters = (
   }
 
 
+  const sortedEvents = Object.freeze([...events].sort(compareEvents))
+  const boundaryEncounters = encounters.filter(
+    (encounter): encounter is BoundaryCrossingEncounter =>
+      encounter.kind === 'boundary-crossing',
+  )
+  const modulation = compileGateModulationLanes(
+    composition,
+    sortedEvents,
+    boundaryEncounters,
+  )
+  diagnostics.push(
+    ...modulation.diagnostics.map((diagnostic) =>
+      Object.freeze({
+        severity: 'warning' as const,
+        code: 'gate-modulation' as const,
+        message: diagnostic.message,
+        partId: diagnostic.partId,
+      }),
+    ),
+  )
+
   return Object.freeze({
-    events: Object.freeze([...events].sort(compareEvents)),
+    events: sortedEvents,
     controlLanes,
+    modulationLanes: modulation.lanes,
     diagnostics: Object.freeze(diagnostics),
     variationTrace: Object.freeze(variationTrace),
   })
@@ -704,10 +751,10 @@ export const compilePerformance = (
   )
 
   const interpretation = interpretEncounters(
-    composition,
-    request,
+    varied,
+    requestValidation.request,
     interpretableEncounters(
-      composition,
+      varied,
       encounterResult.encounters,
       traceResult.encounters,
       relationResult.encounters,
@@ -780,6 +827,7 @@ export const compilePerformance = (
     relationEncounters: relationResult.encounters,
     traceEncounters: traceResult.encounters,
     controlLanes: Object.freeze(controlLanes),
+    modulationLanes: interpretation.modulationLanes,
     interpretedEvents,
     performedEvents,
     variationTrace: Object.freeze(variationTrace),

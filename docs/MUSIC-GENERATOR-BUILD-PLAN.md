@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Build Plan
 
-Status: **implementation contract; all packets are done.**
+Status: **implementation contract; MG-01 through MG-24 and WIN-01 are complete.**
 
 This document turns [Spirophonic-Domain-Model.md](Spirophonic-Domain-Model.md)
 into a dependency-ordered build plan. It is the active contract for moving the
@@ -33,6 +33,10 @@ maintained in [MUSIC-GENERATOR-PROGRESS.md](MUSIC-GENERATOR-PROGRESS.md).
   dependency-light fallback.
 - The engine and editor must support several concurrent Wheels, with several
   Heads per Wheel.
+- A wedge-shaped Spoke is an angular region, not merely a thick visual stroke.
+  Its two radial edges form one outer gate: entering begins one held note,
+  leaving ends it, and oscillations that remain inside modulate that note rather
+  than retriggering it.
 
 ## Meaning of Wheel, Head, shape, and Trace
 
@@ -390,6 +394,9 @@ sweep, it does not license silent scope growth.
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | **done** |
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | **done** |
 | WIN-01 | Native Windows development portability | MG-21 | **done** |
+| MG-22 | Wedge-spoke regions and exact gate spans | MG-21 | **done** |
+| MG-23 | In-gate modulation lanes and Trace notation | MG-22 | **done** |
+| MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | **done** |
 
 The first user-visible milestone is MG-09. MG-11 makes that slice sound like a
 composition tool. MG-12 proves concurrent Wheels and Heads before advanced
@@ -1331,6 +1338,202 @@ packet's scope and neither is a correctness problem:
 - The production chunk is ~606 kB minified, over Vite's 500 kB advisory.
 
 Both are in the progress tracker's risk register with owners.
+
+## MG-22 — Wedge-spoke regions and exact gate spans
+
+**Goal:** Turn a width-bearing Spoke into an angular region with the same
+inside/outside discipline as a radial band, and compile each visit as one exact
+outer-gated note span.
+
+**Files:** `src/core/composition.ts`, `src/core/composition.test.ts`,
+`src/core/compositionValidation.ts`,
+`src/core/compositionValidation.test.ts`,
+`src/core/defaultComposition.ts`, `src/core/defaultComposition.test.ts`,
+`src/core/fields.ts`, `src/core/fields.test.ts`,
+`src/core/mg13Fields.test.ts`, `src/core/crossings.ts`,
+`src/core/crossings.test.ts`, `src/core/encounters.ts`,
+`src/core/encounters.test.ts`, `src/core/parts.ts`,
+`src/core/parts.test.ts`, `src/core/performance.ts`,
+`src/core/performance.test.ts`, `src/render/compositionRenderer.ts`,
+`src/render/compositionRenderer.test.ts`, `src/export/svgExport.ts`,
+`src/export/svgExport.test.ts`, `src/export/agreement.test.ts`,
+`src/audio/performanceScheduler.test.ts`, `src/export/midiExport.test.ts`,
+`src/export/strudelExport.test.ts`, `src/export/audioRender.test.ts`,
+`src/ui/FieldPanel.tsx`, `src/ui/FieldPanel.test.tsx`,
+`src/ui/help.ts`, `src/ui/PartPanel.tsx`, `src/ui/PartPanel.test.tsx`,
+`src/test/fixtures/`, `e2e/app.spec.ts`, and `docs/MANUAL.md`
+
+**Scope note (2026-08-10):** this packet deliberately repairs the existing
+`inside-band` shortcut while adding wedges. That shortcut gives every selected
+crossing a note and finds the next crossing of the same Field; it does not
+require the same Boundary or distinguish entry from exit. Wedges and bands now
+share explicit region transitions and exact pairing by Head, Field, and
+Boundary. A legacy zero-width Spoke may keep point-crossing behaviour, but every
+newly authored Spoke has a positive angular width and uses gate semantics.
+
+**Deliverables:**
+
+- A saved Spoke angular width and finite length. Its two radial edges meet at
+  the Field centre, terminate at that length, and connect as a distal outer
+  edge; Field rotation and motion move the whole wedge without changing it.
+- A deterministic centre policy: angular membership is held through a small
+  centre tolerance where angle is undefined, so passing through the origin
+  cannot chatter across several wedge edges.
+- Explicit `enter` and `exit` region transitions, with physical motion direction
+  (`inward`/`outward` or `clockwise`/`counterclockwise`) retained as a separate
+  measurement rather than overloaded to mean entry or exit.
+- Exact region spans paired by Head, Field, and Boundary. A gate-enabled Part
+  starts one note at entry and derives its duration from the matching exit;
+  the exit does not create a second note.
+- Window, loop-seam, tangency, overlap, moving-Field, quantization, and unmatched
+  entry/exit policies that never invent a silent fallback duration or leave a
+  hanging note.
+- Wedge authoring controls and Canvas/SVG overlays that show the occupied angular
+  area and its two gate edges, not a single thick centreline.
+
+**Acceptance criteria:**
+
+- A fixed-frequency sine path passing through one wedge produces exactly one
+  note per complete visit, regardless of how many oscillations occur while the
+  Head remains inside.
+- A sine path weaving across the distal outer edge emits the same alternating
+  `enter`/`exit` transitions as one crossing either radial edge.
+- With tempo, Head motion frequency, and transverse speed held fixed, moving the
+  same sine path farther from the Field centre yields a longer gate span than
+  the near path because the wedge is physically wider there; pitch and tempo do
+  not change unless a Part maps another measurement to them.
+- A band and wedge fixture both emit alternating `enter`/`exit` transitions and
+  pair only against the same Boundary; a sibling region cannot terminate the
+  note.
+- Tangency emits no visit, sampling an edge emits one transition rather than
+  duplicates, and a centre crossing follows the declared tolerance policy
+  without event bursts.
+- Scheduler, MIDI, Strudel, and offline-audio guards agree on the paired note's
+  onset and duration, placing note-off at the exit timestamp.
+- The wedge width and length can be authored, moved, rotated, saved, reloaded,
+  drawn, and played in Chromium and Firefox; zero-width Spokes use the same
+  finite length as a ray segment.
+
+## MG-23 — In-gate modulation lanes and Trace notation
+
+**Goal:** Convert motion inside a paired gate span into deterministic,
+note-scoped modulation while drawing the same modulation on the portion of the
+Trace inside the region.
+
+**Files:** `src/core/composition.ts`, `src/core/compositionValidation.ts`,
+`src/core/compositionValidation.test.ts`, `src/core/gateModulation.ts`,
+`src/core/gateModulation.test.ts`, `src/core/performance.ts`,
+`src/core/performance.test.ts`, `src/core/recording.ts`,
+`src/core/recording.test.ts`, `src/core/replay.ts`,
+`src/core/replay.test.ts`, `src/export/recordingJson.ts`,
+`src/export/recordingJson.test.ts`, `src/render/compositionRenderer.ts`,
+`src/render/compositionRenderer.test.ts`, `src/ui/CompositionCanvas.tsx`,
+`src/ui/CompositionCanvas.test.tsx`, `src/ui/PartPanel.tsx`,
+`src/ui/PartPanel.test.tsx`, `src/ui/help.ts`, `src/App.tsx`,
+`src/App.test.tsx`, `src/App.css`, `src/workers/performanceWorker.ts`,
+`src/workers/usePerformanceCompiler.test.ts`, `src/test/fixtures/`,
+`e2e/app.spec.ts`, and `docs/MANUAL.md`
+
+**Scope amendment (2026-08-10):** `src/audio/performanceScheduler.test.ts` and
+`src/export/agreement.test.ts` may add the empty `modulationLanes` collection to
+their hand-built `CanonicalPerformance` fixtures. This is compile maintenance
+for the new canonical data member only; applying lanes to either consumer
+remains exclusively MG-24.
+
+**Deliverables:**
+
+- A saved gate-modulation mapping on a note Part with an explicit sample rate,
+  source, range, curve, and target. Initial continuous sources are normalized
+  cross-wedge position, radius, speed, and curvature; the initial targets are
+  gain, pan, pitch offset, and brightness.
+- A canonical modulation lane tied to one source region span and one note event,
+  bounded by that note's entry and exit. Interior samples and zero crossings
+  never become Encounter or Musical Event onsets.
+- Entry-only mappings for attack and initial velocity. Attack is sampled when
+  the gate opens; it is never recomputed retrospectively from motion that occurs
+  after note-on.
+- Deterministic sampling, smoothing, clipping, stable identity, diagnostics, and
+  size limits. The same Composition, request, and sample rate reproduce the
+  same lane independently of display frame rate.
+- Recording, replay, and JSON preservation of modulation lanes so exact replay
+  does not reevaluate the source Trace.
+- Trace draw commands split at gate edges and styled from the canonical lane:
+  hue/texture may represent timbre or brightness, width/opacity may represent
+  gain, and the underlying geometric path is never deformed to fake sound.
+
+**Acceptance criteria:**
+
+- Near and far versions of the fixed-frequency sine fixture each compile one
+  note; the farther visit has a longer lane and contains more modulation cycles,
+  but no additional note event.
+- Enabling or disabling a modulation mapping changes lane values only; Encounter
+  IDs, note IDs, note count, onset, pitch base, and gate duration stay unchanged.
+- Lane samples begin at entry, end at exit exactly once, remain finite and
+  bounded, and are deep-equal on repeated compilation and worker round-trip.
+- A Recording replays the captured lane after the source Wheel and Field have
+  been removed, while reinterpretation may create a new lane without changing
+  recorded Encounter identity.
+- Canvas styling changes only on the Trace segment inside the gate and agrees
+  with the compiled lane after seek, resize, playback, and reload in Chromium
+  and Firefox.
+- Breaking the no-retrigger rule makes the sine fixture fail by increasing its
+  note count; breaking lane-to-style agreement makes the renderer/browser guard
+  fail.
+
+## MG-24 — Modulated playback and export agreement
+
+**Goal:** Make every performance consumer apply the canonical in-gate lane to
+one held voice without retriggering that voice.
+
+**Files:** `src/audio/instrumentEngine.ts`,
+`src/audio/nativeSynthEngine.ts`, `src/audio/nativeSynthEngine.test.ts`,
+`src/audio/toneSynth.ts`, `src/audio/performanceScheduler.ts`,
+`src/audio/performanceScheduler.test.ts`, `src/audio/soundfontEngine.ts`,
+`src/audio/soundfontEngine.test.ts`, `src/audio/instrumentRouter.ts`,
+`src/audio/instrumentRouter.test.ts`, `src/export/audioRender.ts`,
+`src/export/audioRender.test.ts`, `src/export/midiExport.ts`,
+`src/export/midiExport.test.ts`, `src/export/midi/smf.ts`,
+`src/export/midi/smf.test.ts`, `src/export/strudelExport.ts`,
+`src/export/strudelExport.test.ts`, `src/export/exportPolicy.test.ts`,
+`src/export/agreement.test.ts`, `src/ui/diagnosticText.ts`,
+`src/ui/diagnosticText.test.ts`, `src/ui/ImportExportPanel.tsx`,
+`src/ui/ImportExportPanel.test.tsx`, `src/App.tsx`, `src/App.test.tsx`,
+`e2e/app.spec.ts`, and `docs/MANUAL.md`
+
+**Deliverables:**
+
+- An InstrumentEngine automation boundary that schedules and cancels a
+  note-scoped modulation lane against absolute audio time while preserving one
+  voice from gate entry through exit.
+- Native-synth gain, pan, pitch, brightness, and entry-attack application;
+  SoundFont mappings use supported pitch bend and controllers with explicit
+  diagnostics for preset/backend capabilities that cannot represent a target.
+- Edit, pause, seek, loop, stop, panic, and voice-stealing semantics that cancel
+  future automation and cannot leave a held or modulated voice hanging.
+- Offline-audio rendering of the same lane, timed MIDI CC/pitch-bend export with
+  the existing channel-capacity policy, and Strudel control patterns. Lossy or
+  unsupported mappings are reported rather than silently flattened.
+- Cross-consumer agreement fixtures and real-browser audio evidence for one
+  near and one far sine-through-wedge performance.
+
+**Acceptance criteria:**
+
+- Live native playback and offline rendering produce one attack, continuous
+  modulation across the gate, one note-off at exit, and no oscillator or
+  SoundFont voice retrigger for interior oscillations.
+- The far sine fixture sounds longer and carries more cycles of the same
+  modulation frequency than the near fixture while tempo and base pitch remain
+  unchanged.
+- Supported SoundFont, MIDI, and Strudel outputs preserve note count, onset,
+  duration, modulation order, and bounded values within their declared timing
+  tolerances; unsupported targets emit a specific diagnostic.
+- Seeking into a gate, editing at a safe boundary, looping across a held gate,
+  and stopping mid-gate neither double-attack nor leave a voice or automation
+  lane active.
+- Disabling modulation yields the exact unmodulated performed note and existing
+  consumer output; it does not take a parallel playback path.
+- Guards are verified by intentionally restoring per-cycle retriggering and
+  confirming live, offline, and export agreement tests fail.
 
 ## Packet rules
 

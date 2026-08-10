@@ -6,6 +6,7 @@ import type {
 } from '../core/composition'
 import type { NoteMusicalEvent } from '../core/performance'
 import type { SoundBankStore } from './soundbankStore'
+import type { ScheduledModulationLane } from './instrumentEngine'
 import {
   SoundFontEngine,
   soundFontBankNumber,
@@ -219,6 +220,142 @@ const harness = (availableDigests: ReadonlySet<string>, maxVoices = 64) => {
 }
 
 describe('SoundFontEngine', () => {
+  it('uses one voice while applying supported controllers and reporting attack capability', async () => {
+    const bank = reference('bank-one')
+    const { engine, synths } = harness(new Set([bank.digest]))
+    const piano = instrument('piano', bank.id, presets[0])
+    await engine.prepare([bank], [piano])
+    const note = event('one', piano.id, 60)
+    const lane = (
+      id: string,
+      target: ScheduledModulationLane['target'],
+      values: Array<number>,
+      entryOnly = false,
+    ): ScheduledModulationLane => ({
+      id,
+      mappingId: `mapping-${id}`,
+      noteEventId: note.id,
+      partId: note.partId,
+      instrumentId: note.instrumentId,
+      target,
+      minimum: Math.min(...values),
+      maximum: Math.max(...values),
+      entryOnly,
+      samples: values.map((value, index) => ({
+        audioTimeSeconds: 10.2 + index * 0.1,
+        value,
+      })),
+    })
+    const lanes = [
+      lane('velocity', 'initial-velocity', [84], true),
+      lane('attack', 'attack', [0.25], true),
+      lane('gain', 'gain', [0.2, 0.8]),
+      lane('pan', 'pan', [-1, 1]),
+      lane('brightness', 'brightness', [0.1, 0.9]),
+      lane('pitch', 'pitch-offset', [-0.5, 0.5]),
+    ]
+
+    const diagnostics = engine.schedule(note, piano, 10.2, lanes)
+    const synth = synths[0]
+
+    expect(synth.noteOns).toEqual([
+      { channel: 0, values: [60, 84], time: 10.2 },
+    ])
+    expect(synth.noteOffs).toHaveLength(1)
+    expect(synth.controllers).toContainEqual({
+      channel: 0,
+      values: [7, 25],
+      time: 10.2,
+    })
+    expect(
+      synth.controllers.some(
+        (call) =>
+          call.channel === 0 &&
+          call.values[0] === 10 &&
+          call.values[1] === 127 &&
+          Math.abs((call.time ?? 0) - 10.3) < 1e-9,
+      ),
+    ).toBe(true)
+    expect(
+      synth.controllers.some(
+        (call) =>
+          call.channel === 0 &&
+          call.values[0] === 74 &&
+          call.values[1] === 114 &&
+          Math.abs((call.time ?? 0) - 10.3) < 1e-9,
+      ),
+    ).toBe(true)
+    expect(
+      synth.pitchWheels.find(
+        (call) => Math.abs((call.time ?? 0) - 10.3) < 1e-9,
+      )?.values,
+    ).toEqual([8192 + Math.round(0.25 * 8191)])
+    expect(synth.pitchWheels.at(-1)).toEqual({
+      channel: 0,
+      values: [8192],
+      time: 10.6,
+    })
+    expect(diagnostics).toEqual([
+      expect.objectContaining({
+        code: 'unsupported-target',
+        target: 'attack',
+      }),
+    ])
+
+    const controlsBeforeCancel = synth.controllers.length
+    engine.cancelScheduledFrom(10.25)
+    expect(synth.controllers.length).toBeGreaterThan(controlsBeforeCancel)
+    expect(synth.controllers).toContainEqual({
+      channel: 0,
+      values: [7, Math.round(piano.gain * 127)],
+      time: 10.25,
+    })
+  })
+
+  it('keeps automation independent on equal channel numbers in separate banks', async () => {
+    const firstBank = reference('bank-one')
+    const secondBank = reference('bank-two')
+    const { engine, synths } = harness(
+      new Set([firstBank.digest, secondBank.digest]),
+    )
+    const first = instrument('alpha', firstBank.id, presets[0])
+    const second = instrument('beta', secondBank.id, presets[0])
+    await engine.prepare([firstBank, secondBank], [first, second])
+    const firstNote = event('first', first.id, 60)
+    const secondNote = event('second', second.id, 64)
+    const gainLane = (
+      note: NoteMusicalEvent,
+      value: number,
+    ): ScheduledModulationLane => ({
+      id: `gain-${note.id}`,
+      mappingId: `mapping-${note.id}`,
+      noteEventId: note.id,
+      partId: note.partId,
+      instrumentId: note.instrumentId,
+      target: 'gain',
+      minimum: value,
+      maximum: value,
+      entryOnly: false,
+      samples: [{ audioTimeSeconds: 10.2, value }],
+    })
+
+    expect(engine.schedule(firstNote, first, 10.2, [gainLane(firstNote, 0.2)]))
+      .toEqual([])
+    expect(engine.schedule(secondNote, second, 10.2, [gainLane(secondNote, 0.8)]))
+      .toEqual([])
+    expect(synths).toHaveLength(2)
+    expect(synths[0].controllers).toContainEqual({
+      channel: 0,
+      values: [7, 25],
+      time: 10.2,
+    })
+    expect(synths[1].controllers).toContainEqual({
+      channel: 0,
+      values: [7, 102],
+      time: 10.2,
+    })
+  })
+
   it('connects each loaded bank to the context destination, and unwires it on invalidate', async () => {
     const bank = reference('bank-one')
     const { engine, context, synths } = harness(new Set([bank.digest]))
@@ -355,6 +492,22 @@ describe('SoundFontEngine', () => {
     expect(synths[0].stopCount).toBeGreaterThan(0)
     expect(synths[0].destroyCount).toBe(1)
     expect(context.closeCount).toBe(1)
+  })
+
+  it('counts only simultaneous scheduled voices against the voice limit', async () => {
+    const bank = reference('bank-one')
+    const { engine, synths } = harness(new Set([bank.digest]), 1)
+    const piano = instrument('piano', bank.id, presets[0])
+    await engine.prepare([bank], [piano])
+
+    engine.schedule(event('one', piano.id, 60), piano, 10.2)
+    engine.schedule(event('two', piano.id, 64), piano, 10.7)
+
+    expect(
+      synths[0].noteOffs.filter(
+        (call) => call.values[0] === 60 && call.time === 10.7,
+      ),
+    ).toEqual([])
   })
 
   it('cancels only the voices that begin at or after the cut', async () => {

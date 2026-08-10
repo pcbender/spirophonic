@@ -1,5 +1,9 @@
 import { expect, test, type Page } from '@playwright/test'
 
+import { compilePerformance } from '../src/core/performance'
+import { beatsToSeconds } from '../src/core/transport'
+import { gatedModulationComposition } from '../src/test/fixtures/gateModulation'
+
 /**
  * These checks cover the acceptance criteria that jsdom cannot reach: real
  * layout, real Canvas painting, and a real Web Audio clock. Deterministic core
@@ -46,6 +50,24 @@ const canvasInk = (page: Page) =>
       }
     }
     return lit
+  })
+
+/** Pixel-sensitive checksum: unlike ink count, this sees Trace hue changes. */
+const canvasSignature = (page: Page) =>
+  page.evaluate(() => {
+    const canvas = document.querySelector('canvas')
+    const context = canvas?.getContext('2d')
+    if (!canvas || !context || canvas.width <= 300 || canvas.height <= 150) {
+      return -1
+    }
+    const data = context.getImageData(0, 0, canvas.width, canvas.height).data
+    let hash = 2_166_136_261
+    for (let index = 0; index < data.length; index += 4) {
+      hash = Math.imul(hash ^ data[index], 16_777_619)
+      hash = Math.imul(hash ^ data[index + 1], 16_777_619)
+      hash = Math.imul(hash ^ data[index + 2], 16_777_619)
+    }
+    return hash >>> 0
   })
 
 // Loading the example replaces the workspace, so it is confirmed rather than
@@ -164,6 +186,300 @@ test('every Field kind draws an overlay on the canvas', async ({ page }) => {
   await expect
     .poll(async () => canvasInk(page), { timeout: 15_000 })
     .toBeGreaterThan(before)
+})
+
+test('a newly authored Spoke is a visible wedge gate', async ({ page }) => {
+  const fields = page.getByRole('region', { name: 'Fields' })
+  const before = await canvasInk(page)
+
+  await fields.getByRole('button', { name: 'Add spokes' }).click()
+  const spokeIds = [
+    'spoke-east',
+    'spoke-north',
+    'field-spokes-1-boundary-1',
+  ]
+  const angles = await Promise.all(
+    spokeIds.map(async (id) =>
+      Number(await fields.getByLabel(`Angle ${id}`).inputValue()),
+    ),
+  )
+  const widths = await Promise.all(
+    spokeIds.map(async (id) =>
+      Number(await fields.getByLabel(`Angular width ${id}`).inputValue()),
+    ),
+  )
+  for (const [index, angle] of angles.entries()) {
+    expect(angle).toBeCloseTo((Math.PI * 2 * index) / 3, 12)
+    expect(widths[index]).toBeCloseTo(((Math.PI * 2) / 24 / 3) * 1.5, 12)
+  }
+
+  const width = fields.getByLabel(
+    'Angular width field-spokes-1-boundary-1',
+  )
+  await expect(width).toBeVisible()
+  await expect(width).not.toHaveValue('0')
+  await width.fill('0.8')
+
+  await expect
+    .poll(async () => canvasInk(page), { timeout: 15_000 })
+    .toBeGreaterThan(before)
+
+  const length = fields.getByLabel('Length field-spokes-1-boundary-1')
+  await expect(length).toHaveValue('200')
+  const beforeLength = await canvasSignature(page)
+  await length.fill('80')
+  await expect.poll(() => canvasSignature(page)).not.toBe(beforeLength)
+})
+
+test('repeated Field additions paint distinct geometry instead of stacking', async ({
+  page,
+}) => {
+  const fields = page.getByRole('region', { name: 'Fields' })
+
+  for (const name of [
+    'Add rings',
+    'Add spokes',
+    'Add ellipses',
+    'Add bands',
+    'Add grid',
+    'Add spiral',
+  ]) {
+    const before = await canvasSignature(page)
+    await fields.getByRole('button', { name }).click()
+    await expect.poll(() => canvasSignature(page)).not.toBe(before)
+
+    const once = await canvasSignature(page)
+    await fields.getByRole('button', { name }).click()
+    await expect.poll(() => canvasSignature(page)).not.toBe(once)
+  }
+})
+
+test('an authored gate mapping styles only its held Trace span and survives playback, resize, and reload', async ({ page }) => {
+  const composition = gatedModulationComposition()
+  const request = {
+    startSeconds: beatsToSeconds(
+      composition.transport.loop.startBeat,
+      composition.transport.tempoBpm,
+    ),
+    durationSeconds: beatsToSeconds(
+      composition.transport.loop.lengthBeats,
+      composition.transport.tempoBpm,
+    ),
+    sampleRateHz: 120,
+  }
+  const expectedLane = compilePerformance(composition, request).modulationLanes[0]
+  expect(expectedLane).toBeDefined()
+
+  // Import the geometric gate without its mapping, then author the mapping in
+  // the real UI. The default authored mapping is speed -> brightness.
+  composition.parts[0].gateModulations = []
+  await page.getByLabel('Import Composition JSON').setInputFiles({
+    name: 'wedge-gate.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(composition)),
+  })
+  await expect(page.getByText(`Imported ${composition.name}.`)).toBeVisible()
+  await page.getByLabel('Add gate modulation part-gate').click()
+
+  const canvasShell = page.locator('.composition-canvas-shell')
+  await expect(canvasShell).toHaveAttribute('data-modulation-lanes', '1')
+  const midpoint = (expectedLane.startSeconds + expectedLane.endSeconds) / 2
+  await page
+    .getByRole('slider', { name: 'Transport position' })
+    .fill(String(Number(midpoint.toFixed(3))))
+  const styled = await canvasSignature(page)
+  expect(styled).not.toBe(-1)
+
+  // Removing only the canonical lane must repaint the same geometry without
+  // its in-gate brightness. Re-enabling must reproduce the exact pixels.
+  const enabled = page.getByLabel('Enable gate-modulation-1')
+  await enabled.uncheck()
+  await expect(canvasShell).toHaveAttribute('data-modulation-lanes', '0')
+  await expect.poll(() => canvasSignature(page)).not.toBe(styled)
+  await enabled.check()
+  await expect(canvasShell).toHaveAttribute('data-modulation-lanes', '1')
+  await expect.poll(() => canvasSignature(page)).toBe(styled)
+
+  await page.setViewportSize({ width: 1400, height: 900 })
+  await expect(canvasShell).toHaveAttribute('data-modulation-lanes', '1')
+  await expect.poll(() => canvasInk(page)).toBeGreaterThan(500)
+
+  await page.getByRole('button', { name: 'Play' }).click()
+  await expect
+    .poll(
+      async () =>
+        Number(await page.getByRole('slider', { name: 'Transport position' }).inputValue()),
+      { timeout: 10_000 },
+    )
+    .toBeGreaterThan(midpoint + 0.1)
+  await page.getByRole('button', { name: 'Pause' }).click()
+
+  // A second page has no beforeEach init script, so this is a true persisted
+  // workspace reload in the same browser storage partition.
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem('spirophonic.composition.v1')))
+    .not.toBeNull()
+  const fresh = await page.context().newPage()
+  const freshErrors: Array<string> = []
+  fresh.on('pageerror', (error) => freshErrors.push(error.message))
+  await fresh.goto('/')
+  await expect(
+    fresh.getByRole('heading', { level: 1, name: 'Spirophonic' }),
+  ).toBeVisible()
+  await expect(fresh.locator('.composition-canvas-shell')).toHaveAttribute(
+    'data-modulation-lanes',
+    '1',
+  )
+  expect(freshErrors).toEqual([])
+  await fresh.close()
+})
+
+test('near and far sine gates keep their attack count while the far native voice and lane last longer', async ({ page }) => {
+  await page.evaluate(() => {
+    const scope = window as unknown as {
+      __gateAudio: {
+        starts: Array<number>
+        stops: Array<number>
+        frequencyChanges: Array<number>
+      }
+    }
+    scope.__gateAudio = { starts: [], stops: [], frequencyChanges: [] }
+    const prototype = AudioContext.prototype
+    const createOscillator = prototype.createOscillator
+    prototype.createOscillator = function () {
+      const oscillator = createOscillator.call(this)
+      const start = oscillator.start.bind(oscillator)
+      const stop = oscillator.stop.bind(oscillator)
+      oscillator.start = (when = 0) => {
+        scope.__gateAudio.starts.push(when)
+        start(when)
+      }
+      oscillator.stop = (when = 0) => {
+        scope.__gateAudio.stops.push(when)
+        stop(when)
+      }
+      const set = oscillator.frequency.setValueAtTime.bind(oscillator.frequency)
+      const ramp = oscillator.frequency.linearRampToValueAtTime.bind(
+        oscillator.frequency,
+      )
+      oscillator.frequency.setValueAtTime = (value, when) => {
+        scope.__gateAudio.frequencyChanges.push(when)
+        return set(value, when)
+      }
+      oscillator.frequency.linearRampToValueAtTime = (value, when) => {
+        scope.__gateAudio.frequencyChanges.push(when)
+        return ramp(value, when)
+      }
+      return oscillator
+    }
+  })
+
+  const compositionAt = (radius: number) => {
+    const composition = gatedModulationComposition()
+    composition.name = `Sine gate ${radius}`
+    const head = composition.wheels[0].heads[0]
+    head.attachment = {
+      kind: 'lissajous',
+      // Composition validation requires a positive scale. Keep this axis
+      // effectively fixed so only the unchanged 2 Hz transverse sine moves
+      // through the wedge while `offset.x` selects the radius.
+      scaleX: 0.001,
+      scaleY: 50,
+      phaseX: 0,
+      phaseY: -Math.PI / 2,
+    }
+    head.offset = { x: radius, y: 0 }
+    const boundary = composition.fields[0].boundaries[0]
+    if (boundary.kind !== 'spoke') throw new Error('Expected the wedge fixture.')
+    boundary.angle = 0
+    const part = composition.parts[0]
+    if (part.kind !== 'note') throw new Error('Expected a note Part.')
+    part.gateModulations = [
+      {
+        ...part.gateModulations![0],
+        target: 'pitch-offset',
+        minimum: -0.25,
+        maximum: 0.25,
+      },
+    ]
+    return composition
+  }
+  const nearComposition = compositionAt(30)
+  const farComposition = compositionAt(100)
+  const performanceFor = (composition: ReturnType<typeof compositionAt>) =>
+    compilePerformance(composition, {
+      startSeconds: 0,
+      durationSeconds: beatsToSeconds(
+        composition.transport.loop.lengthBeats,
+        composition.transport.tempoBpm,
+      ),
+      sampleRateHz: 120,
+    })
+  const nearPerformance = performanceFor(nearComposition)
+  const farPerformance = performanceFor(farComposition)
+  expect(nearPerformance.performedEvents.length).toBeGreaterThan(0)
+  expect(farPerformance.performedEvents).toHaveLength(
+    nearPerformance.performedEvents.length,
+  )
+  expect(farPerformance.modulationLanes[0].endSeconds - farPerformance.modulationLanes[0].startSeconds).toBeGreaterThan(
+    nearPerformance.modulationLanes[0].endSeconds - nearPerformance.modulationLanes[0].startSeconds,
+  )
+
+  const play = async (composition: ReturnType<typeof compositionAt>) => {
+    await page.getByLabel('Import Composition JSON').setInputFiles({
+      name: `${composition.name}.json`,
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(composition)),
+    })
+    await expect(page.getByText(`Imported ${composition.name}.`)).toBeVisible()
+    await page.getByRole('checkbox', { name: 'Loop', exact: true }).uncheck()
+    await page.evaluate(() => {
+      const audio = (window as unknown as { __gateAudio: object }).__gateAudio as {
+        starts: Array<number>
+        stops: Array<number>
+        frequencyChanges: Array<number>
+      }
+      audio.starts = []
+      audio.stops = []
+      audio.frequencyChanges = []
+    })
+    await page.getByRole('button', { name: 'Play' }).click()
+    await expect
+      .poll(
+        async () =>
+          Number(await page.getByRole('slider', { name: 'Transport position' }).inputValue()),
+        { timeout: 10_000 },
+      )
+      .toBeGreaterThan(1.8)
+    const evidence = await page.evaluate(
+      () =>
+        (window as unknown as {
+          __gateAudio: {
+            starts: Array<number>
+            stops: Array<number>
+            frequencyChanges: Array<number>
+          }
+        }).__gateAudio,
+    )
+    await page.locator('.transport').getByRole('button', { name: 'Stop' }).click()
+    return evidence
+  }
+
+  const near = await play(nearComposition)
+  const far = await play(farComposition)
+  expect(near.starts).toHaveLength(nearPerformance.performedEvents.length)
+  expect(far.starts).toHaveLength(farPerformance.performedEvents.length)
+  expect(near.frequencyChanges.length).toBeGreaterThan(near.starts.length)
+  expect(far.frequencyChanges.length).toBeGreaterThan(
+    near.frequencyChanges.length,
+  )
+  const longest = (evidence: typeof near) =>
+    Math.max(
+      ...evidence.starts.map(
+        (start, index) => (evidence.stops[index] ?? start) - start,
+      ),
+    )
+  expect(longest(far)).toBeGreaterThan(longest(near))
 })
 
 test('a rotating Field animates while the Head path is unchanged', async ({

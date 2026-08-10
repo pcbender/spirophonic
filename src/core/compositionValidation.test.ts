@@ -150,6 +150,8 @@ describe('Composition validation', () => {
           index: 0,
           kind: 'spoke',
           angle: 0,
+          length: 200,
+          angularWidth: Math.PI / 8,
         },
       ],
     })
@@ -329,6 +331,46 @@ describe('Composition validation', () => {
     expect(validateComposition(allSet).ok).toBe(true)
   })
 
+  it('validates saved gate-modulation mappings and target ranges', () => {
+    const composition = cloneDefault()
+    composition.fields.push(ringField)
+    composition.parts.push({
+      ...notePart,
+      mute: false,
+      gateModulations: [
+        {
+          id: 'mod-speed-gain',
+          name: 'Speed gain',
+          enabled: true,
+          source: 'speed',
+          target: 'gain',
+          sampleRateHz: 120,
+          minimum: 0.25,
+          maximum: 1.5,
+          curve: 1,
+          smoothingSeconds: 0.02,
+        },
+      ],
+    })
+
+    expect(validateComposition(composition)).toEqual({
+      ok: true,
+      composition,
+    })
+
+    const mapping = composition.parts[0]
+    if (mapping.kind !== 'note' || !mapping.gateModulations) return
+    mapping.gateModulations[0].maximum = 3
+    expect(
+      issueAt(composition, '$.parts[0].gateModulations[0].maximum')?.message,
+    ).toContain('less than or equal to 2')
+
+    mapping.gateModulations[0].maximum = 0.1
+    expect(
+      issueAt(composition, '$.parts[0].gateModulations[0].maximum')?.message,
+    ).toContain('greater than or equal')
+  })
+
   it('rejects non-finite numbers and unknown root properties', () => {
     const composition = cloneDefault()
     const value = composition as unknown as Record<string, unknown>
@@ -342,6 +384,27 @@ describe('Composition validation', () => {
     expect(issueAt(composition, '$.legacyGeometry')?.message).toBe(
       'Unknown property.',
     )
+  })
+
+  it('requires every Spoke to have a positive finite length', () => {
+    const missing = structuredClone(defaultComposition) as Composition
+    const missingSpoke = missing.fields[1].boundaries[0] as unknown as Record<
+      string,
+      unknown
+    >
+    delete missingSpoke.length
+
+    expect(
+      issueAt(missing, '$.fields[1].boundaries[0].length')?.message,
+    ).toContain('finite number')
+
+    const zero = structuredClone(defaultComposition) as Composition
+    const zeroSpoke = zero.fields[1].boundaries[0]
+    if (zeroSpoke.kind !== 'spoke') throw new Error('Expected a Spoke.')
+    zeroSpoke.length = 0
+    expect(
+      issueAt(zero, '$.fields[1].boundaries[0].length')?.message,
+    ).toContain('greater than 0')
   })
 
   it('requires SoundFont Instruments to reference a declared bank', () => {

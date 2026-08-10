@@ -202,6 +202,10 @@ export type RingBoundarySpec = BoundaryBase & {
 export type SpokeBoundarySpec = BoundaryBase & {
   kind: 'spoke'
   angle: number
+  /** Distance from the Field centre to each distal Spoke vertex. */
+  length: number
+  /** Full angular width in radians. Absent or zero preserves legacy ray semantics. */
+  angularWidth?: number
 }
 
 /** Concentric ellipse. `radius` is the semi-major axis. */
@@ -492,11 +496,45 @@ export type VelocityMapping =
 export type DurationMapping =
   | { kind: 'fixed'; beats: number }
   | { kind: 'inside-band' }
+  | { kind: 'inside-region' }
   | { kind: 'until-next'; maxBeats: number }
 
 export type QuantizeSpec = {
   gridBeats: number
   strength: number
+}
+
+export type GateModulationSource =
+  | 'cross-wedge-position'
+  | 'radius'
+  | 'speed'
+  | 'curvature'
+
+export type GateModulationTarget =
+  | 'gain'
+  | 'pan'
+  | 'pitch-offset'
+  | 'brightness'
+  | 'attack'
+  | 'initial-velocity'
+
+/**
+ * A deterministic reading of the Head while one region gate is open.
+ *
+ * `minimum` and `maximum` are target values. The normalized source is curved,
+ * smoothed, and clipped before it is mapped into that authored range.
+ */
+export type GateModulationMapping = {
+  id: string
+  name: string
+  enabled: boolean
+  source: GateModulationSource
+  target: GateModulationTarget
+  sampleRateHz: number
+  minimum: number
+  maximum: number
+  curve: number
+  smoothingSeconds: number
 }
 
 /**
@@ -524,6 +562,7 @@ export type NotePartSpec = PartBase & {
   velocity: VelocityMapping
   duration: DurationMapping
   quantize?: QuantizeSpec
+  gateModulations?: Array<GateModulationMapping>
 }
 
 export type ControlPartSpec = PartBase & {

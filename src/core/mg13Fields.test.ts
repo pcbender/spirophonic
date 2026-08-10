@@ -214,13 +214,15 @@ describe('MG-13 acceptance', () => {
     composition.fields = [{ ...bandField(), center: { x: 90, y: 0 } }]
 
     const result = compileBoundaryEncounters(composition, request)
-    const directions = result.encounters.map((encounter) => encounter.direction)
+    const transitions = result.encounters.map(
+      (encounter) => encounter.transition,
+    )
 
     expect(result.encounters.length).toBeGreaterThanOrEqual(2)
     // Entries and exits alternate, so every entry has a matching exit.
-    expect(new Set(directions)).toEqual(new Set(['inward', 'outward']))
-    for (let index = 1; index < directions.length; index += 1) {
-      expect(directions[index]).not.toBe(directions[index - 1])
+    expect(new Set(transitions)).toEqual(new Set(['enter', 'exit']))
+    for (let index = 1; index < transitions.length; index += 1) {
+      expect(transitions[index]).not.toBe(transitions[index - 1])
     }
 
     // inside-band duration resolves against the next crossing of the same Field.
@@ -238,7 +240,7 @@ describe('MG-13 acceptance', () => {
           headIds: [],
           fieldIds: ['field-band'],
           boundaryIds: [],
-          directions: ['inward'],
+          directions: [],
           minStrength: 0,
         },
         instrumentId: composition.instruments[0].id,
@@ -255,6 +257,10 @@ describe('MG-13 acceptance', () => {
     ).toEqual([])
     expect(performance.performedEvents.length).toBeGreaterThan(0)
     for (const event of performance.performedEvents) {
+      const source = performance.encounters.find(
+        (encounter) => encounter.id === event.sourceEncounterId,
+      )
+      expect(source?.transition).toBe('enter')
       // Duration came from real time inside the band, not a fixed fallback.
       expect(event.durationBeats).toBeGreaterThan(0)
       expect(event.durationBeats).toBeLessThan(

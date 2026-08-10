@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { Composition } from '../core/composition'
 import { defaultComposition } from '../core/defaultComposition'
 import { compilePerformance } from '../core/performance'
+import { gatedModulationComposition } from '../test/fixtures/gateModulation'
 import type {
   SoundBankStore,
   StoredSoundBankMetadata,
@@ -65,6 +66,16 @@ const openBundleDialog = () =>
   fireEvent.click(screen.getByRole('button', { name: 'Export bundle' }))
 
 describe('ImportExportPanel bundle dialog', () => {
+  it('reports a lossy Strudel modulation grid instead of flattening silently', async () => {
+    renderPanel(gatedModulationComposition())
+
+    fireEvent.click(screen.getByRole('button', { name: 'Copy Strudel' }))
+
+    expect(
+      await screen.findByText(/Strudel reduced lane .* pattern grid/),
+    ).toBeInTheDocument()
+  })
+
   it('keeps the embed choice out of the bar until Export bundle is pressed', () => {
     renderPanel(compositionWithBanks(1), vaultHolding([]))
 

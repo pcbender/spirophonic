@@ -4,9 +4,16 @@ import {
   type CanonicalPerformance,
   type NoteMusicalEvent,
 } from '../core/performance'
+import type { GateModulationLane } from '../core/gateModulation'
 import { frequencyToMidi } from '../core/scales'
 import { secondsToBeats } from '../core/transport'
-import { buildMidiFile, type MidiNote, type MidiTrack } from './midi/smf'
+import {
+  buildMidiFile,
+  type MidiController,
+  type MidiNote,
+  type MidiPitchBend,
+  type MidiTrack,
+} from './midi/smf'
 
 /** General MIDI percussion is channel 10, represented as zero-based index 9. */
 export const percussionChannel = 9
@@ -31,7 +38,11 @@ export type PerformanceMidiOptions = Readonly<{
 }>
 
 export type MidiExportDiagnostic = Readonly<{
-  code: 'bend-capacity' | 'channel-capacity'
+  code:
+    | 'bend-capacity'
+    | 'channel-capacity'
+    | 'modulation-range'
+    | 'unsupported-modulation'
   eventId?: string
   partId?: string
   message: string
@@ -89,17 +100,62 @@ const trackForPart = (
   ticksPerQuarter: number,
   partIndex: number,
   pitchBendRangeSemitones: number,
+  tempoBpm: number,
+  modulationLanes: ReadonlyArray<GateModulationLane>,
   diagnostics: Array<MidiExportDiagnostic>,
 ): MidiTrack => {
   const isPercussion =
     instrument.kind === 'native-drum' ||
     (instrument.kind === 'soundfont' && instrument.percussion)
   const channel = isPercussion ? percussionChannel : melodicChannel(partIndex)
-  const notes: Array<MidiNote> = events
+  const partEvents = events
     // A silenced event is a rest. MIDI has no rest to write, so it is simply
     // absent from the track rather than emitted as an audible note.
     .filter((event) => event.partId === partId && eventSounds(event))
-    .map((event) => {
+  const lanesByEvent = new Map<string, ReadonlyArray<GateModulationLane>>()
+  let modulatedUntil = Number.NEGATIVE_INFINITY
+  for (const event of [...partEvents].sort(
+    (left, right) => left.timeSeconds - right.timeSeconds,
+  )) {
+    const lanes = modulationLanes.filter(
+      (lane) => lane.noteEventId === event.id,
+    )
+    if (lanes.length === 0) continue
+    if (event.timeSeconds < modulatedUntil - 1e-9 || partIndex >= 15) {
+      diagnostics.push(
+        Object.freeze({
+          code: 'channel-capacity' as const,
+          eventId: event.id,
+          partId,
+          message:
+            partIndex >= 15
+              ? `Part ${partId} has no dedicated melodic MIDI channel for note-scoped modulation; its lane is omitted.`
+              : `Event ${event.id} overlaps another modulated note on the same MIDI channel; its note is preserved but its lane is omitted.`,
+        }),
+      )
+      continue
+    }
+    lanesByEvent.set(event.id, lanes)
+    modulatedUntil = event.timeSeconds + event.durationSeconds
+  }
+
+  const controllers: Array<MidiController> = [
+    {
+      channel,
+      controller: 10,
+      value: Math.round(((instrument.pan + 1) / 2) * 127),
+    },
+  ]
+  const pitchBends: Array<MidiPitchBend> = []
+  const tickAt = (timeSeconds: number) =>
+    Math.max(
+      0,
+      Math.round(
+        (secondsToBeats(timeSeconds, tempoBpm) - startBeat) * ticksPerQuarter,
+      ),
+    )
+
+  const notes: Array<MidiNote> = partEvents.map((event) => {
       const exact = exactMidiFor(event, instrument)
       const nearest = Math.min(127, Math.max(0, Math.round(exact)))
       const offset = exact - nearest
@@ -121,6 +177,146 @@ const trackForPart = (
         )
       }
 
+      const lanes = lanesByEvent.get(event.id) ?? []
+      const initialVelocity = lanes.find(
+        (lane) => lane.target === 'initial-velocity',
+      )?.samples[0]?.value
+      const eventEndTick = tickAt(
+        event.timeSeconds + event.durationSeconds,
+      )
+      const hasPitchLane = lanes.some(
+        (lane) => lane.target === 'pitch-offset',
+      )
+
+      for (const lane of lanes) {
+        if (lane.target === 'initial-velocity') continue
+        if (lane.target === 'gain') {
+          if (lane.samples.some((sample) => sample.value > 1)) {
+            diagnostics.push(
+              Object.freeze({
+                code: 'modulation-range' as const,
+                eventId: event.id,
+                partId,
+                message: `MIDI controller 7 stops at gain 1.0; larger values in lane ${lane.id} are clipped.`,
+              }),
+            )
+          }
+          controllers.push(
+            ...lane.samples.map((sample) => ({
+              tick: tickAt(sample.timeSeconds),
+              channel,
+              controller: 7,
+              value: Math.round(Math.min(1, Math.max(0, sample.value)) * 127),
+            })),
+            {
+              tick: eventEndTick,
+              channel,
+              controller: 7,
+              value: Math.round(Math.min(1, Math.max(0, instrument.gain)) * 127),
+            },
+          )
+        } else if (lane.target === 'pan') {
+          controllers.push(
+            ...lane.samples.map((sample) => ({
+              tick: tickAt(sample.timeSeconds),
+              channel,
+              controller: 10,
+              value: Math.round(
+                ((Math.min(1, Math.max(-1, sample.value)) + 1) / 2) * 127,
+              ),
+            })),
+            {
+              tick: eventEndTick,
+              channel,
+              controller: 10,
+              value: Math.round(
+                ((Math.min(1, Math.max(-1, instrument.pan)) + 1) / 2) * 127,
+              ),
+            },
+          )
+        } else if (lane.target === 'brightness') {
+          controllers.push(
+            ...lane.samples.map((sample) => ({
+              tick: tickAt(sample.timeSeconds),
+              channel,
+              controller: 74,
+              value: Math.round(Math.min(1, Math.max(0, sample.value)) * 127),
+            })),
+            {
+              tick: eventEndTick,
+              channel,
+              controller: 74,
+              value: 127,
+            },
+          )
+        } else if (lane.target === 'attack') {
+          const sample = lane.samples[0]
+          if (sample) {
+            controllers.push({
+              tick: tickAt(event.timeSeconds),
+              channel,
+              controller: 73,
+              value: Math.round(
+                (Math.min(10, Math.max(0, sample.value)) / 10) * 127,
+              ),
+            })
+            controllers.push({
+              tick: eventEndTick,
+              channel,
+              controller: 73,
+              value: 64,
+            })
+          }
+        } else if (lane.target === 'pitch-offset') {
+          if (isPercussion) {
+            diagnostics.push(
+              Object.freeze({
+                code: 'unsupported-modulation' as const,
+                eventId: event.id,
+                partId,
+                message: `MIDI percussion cannot apply pitch lane ${lane.id} without selecting different drums; the lane is omitted.`,
+              }),
+            )
+            continue
+          }
+          let outOfRange = false
+          for (const sample of lane.samples) {
+            const scheduledBend = bendForSemitoneOffset(
+              offset + sample.value,
+              pitchBendRangeSemitones,
+            )
+            if (!scheduledBend.representable) outOfRange = true
+            pitchBends.push({
+              tick: tickAt(sample.timeSeconds),
+              channel,
+              value: scheduledBend.value,
+            })
+          }
+          pitchBends.push({ tick: eventEndTick, channel, value: 8192 })
+          if (outOfRange) {
+            diagnostics.push(
+              Object.freeze({
+                code: 'modulation-range' as const,
+                eventId: event.id,
+                partId,
+                message: `Pitch lane ${lane.id} exceeds the declared ±${pitchBendRangeSemitones}-semitone MIDI range and is clipped.`,
+              }),
+            )
+          }
+        }
+      }
+
+      if (bend && !hasPitchLane) {
+        pitchBends.push(
+          {
+            tick: tickAt(event.timeSeconds),
+            channel,
+            value: bend.value,
+          },
+          { tick: eventEndTick, channel, value: 8192 },
+        )
+      }
+
       return {
         tick: Math.max(
           0,
@@ -128,20 +324,10 @@ const trackForPart = (
         ),
         channel,
         note: nearest,
-        velocity: event.velocity,
+        velocity: initialVelocity ?? event.velocity,
         duration: Math.max(1, Math.round(event.durationBeats * ticksPerQuarter)),
-        ...(bend ? { pitchBend: bend.value } : {}),
       }
     })
-
-  // Pan is a per-channel control, written once at the top of the track.
-  const controllers = [
-    {
-      channel,
-      controller: 10,
-      value: Math.round(((instrument.pan + 1) / 2) * 127),
-    },
-  ]
   const bank =
     instrument.kind === 'soundfont' && !instrument.percussion
       ? {
@@ -155,6 +341,7 @@ const trackForPart = (
     name: partName,
     channel,
     controllers,
+    pitchBends,
     ...bank,
     notes,
   }
@@ -208,6 +395,7 @@ export const buildPerformanceMidiWithDiagnostics = (
 export type ExportablePerformance = Readonly<{
   request: CanonicalPerformance['request']
   performedEvents: CanonicalPerformance['performedEvents']
+  modulationLanes: CanonicalPerformance['modulationLanes']
 }>
 
 export const buildPerformanceMidiTracks = (
@@ -244,6 +432,8 @@ export const buildPerformanceMidiTracks = (
       ticksPerQuarter,
       partIndex,
       pitchBendRangeSemitones,
+      composition.transport.tempoBpm,
+      performance.modulationLanes,
       diagnostics,
     )
   })
@@ -253,7 +443,8 @@ export const downloadPerformanceMidi = (
   performance: ExportablePerformance,
   composition: Composition,
 ) => {
-  const blob = new Blob([buildPerformanceMidi(performance, composition) as BlobPart], {
+  const result = buildPerformanceMidiWithDiagnostics(performance, composition)
+  const blob = new Blob([result.bytes as BlobPart], {
     type: 'audio/midi',
   })
   const url = URL.createObjectURL(blob)
@@ -262,6 +453,7 @@ export const downloadPerformanceMidi = (
   anchor.download = `${fileStem(composition.name)}.mid`
   anchor.click()
   URL.revokeObjectURL(url)
+  return result
 }
 
 const fileStem = (value: string) =>

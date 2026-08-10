@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Composition } from '../core/composition'
 import type { BoundaryCrossingEncounter } from '../core/encounters'
 import { defaultComposition } from '../core/defaultComposition'
+import type { GateModulationLane } from '../core/gateModulation'
 import { CompositionCanvas } from './CompositionCanvas'
 
 const observation = {
@@ -135,5 +136,30 @@ describe('CompositionCanvas', () => {
       '1',
     )
     expect(context.fillStyle).toBe('#f2c14e')
+  })
+
+  it('accepts canonical modulation lanes as renderer input', () => {
+    const lane = {
+      id: 'lane-1',
+      noteEventId: 'note-1',
+      headId: 'head-1',
+      entryOnly: true,
+      startSeconds: 1,
+      endSeconds: 1,
+      samples: [],
+    } as unknown as GateModulationLane
+    const { container } = render(
+      <CompositionCanvas
+        composition={structuredClone(defaultComposition) as Composition}
+        timeSeconds={1}
+        observation={observation}
+        modulationLanes={[lane]}
+      />,
+    )
+
+    expect(container.querySelector('figure')).toHaveAttribute(
+      'data-modulation-lanes',
+      '1',
+    )
   })
 })

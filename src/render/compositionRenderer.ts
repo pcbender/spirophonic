@@ -4,6 +4,7 @@ import type {
   SpaceSpec,
   TracePresentationSpec,
 } from '../core/composition'
+import type { GateModulationLane } from '../core/gateModulation'
 import {
   activeBoundaryGeometries,
   type BoundaryGeometry,
@@ -21,6 +22,7 @@ export type TraceMode = 'configured' | TracePresentationSpec['mode']
 
 export type CompositionSceneOptions = {
   traceMode?: TraceMode
+  modulationLanes?: ReadonlyArray<GateModulationLane>
 }
 
 export type TracePointSnapshot = {
@@ -58,6 +60,7 @@ export type CompositionScene = Readonly<{
   observation: Readonly<ObservationInterval>
   boundaries: ReadonlyArray<BoundaryGeometry>
   traces: ReadonlyArray<HeadTraceSnapshot>
+  modulationLanes: ReadonlyArray<GateModulationLane>
 }>
 
 export type CanvasViewport = {
@@ -102,6 +105,8 @@ export type TraceDrawCommand = Readonly<{
   color: string
   lineWidth: number
   opacity: number
+  modulationLaneIds?: ReadonlyArray<string>
+  modulationTargets?: ReadonlyArray<GateModulationLane['target']>
 }>
 
 export type RingBoundaryDrawCommand = Readonly<{
@@ -122,6 +127,18 @@ export type SpokeBoundaryDrawCommand = Readonly<{
   to: Readonly<Point2>
   color: string
   lineWidth: number
+}>
+
+export type WedgeBoundaryDrawCommand = Readonly<{
+  kind: 'wedge-boundary'
+  fieldId: string
+  boundaryId: string
+  center: Readonly<Point2>
+  left: Readonly<Point2>
+  right: Readonly<Point2>
+  color: string
+  lineWidth: number
+  fillOpacity: number
 }>
 
 export type EllipseBoundaryDrawCommand = Readonly<{
@@ -178,6 +195,7 @@ export type CompositionDrawCommand =
   | ClearDrawCommand
   | RingBoundaryDrawCommand
   | SpokeBoundaryDrawCommand
+  | WedgeBoundaryDrawCommand
   | EllipseBoundaryDrawCommand
   | PolylineBoundaryDrawCommand
   | BoundaryLabelDrawCommand
@@ -318,6 +336,7 @@ export const buildCompositionScene = (
     observation: Object.freeze({ ...observation }),
     boundaries: activeBoundaryGeometries(composition),
     traces: Object.freeze(traces),
+    modulationLanes: Object.freeze([...(options.modulationLanes ?? [])]),
   })
 }
 
@@ -332,6 +351,29 @@ export const sceneSpacePoints = (
           { x: boundary.center.x + boundary.radius, y: boundary.center.y },
           { x: boundary.center.x, y: boundary.center.y - boundary.radius },
           { x: boundary.center.x, y: boundary.center.y + boundary.radius },
+        ]
+      }
+
+      if (boundary.kind === 'spoke') {
+        const halfWidth = boundary.angularWidth / 2
+        return [
+          boundary.center,
+          {
+            x:
+              boundary.center.x +
+              Math.cos(boundary.angle + halfWidth) * boundary.length,
+            y:
+              boundary.center.y +
+              Math.sin(boundary.angle + halfWidth) * boundary.length,
+          },
+          {
+            x:
+              boundary.center.x +
+              Math.cos(boundary.angle - halfWidth) * boundary.length,
+            y:
+              boundary.center.y +
+              Math.sin(boundary.angle - halfWidth) * boundary.length,
+          },
         ]
       }
 
@@ -406,6 +448,147 @@ export const projectSpacePoint = (
       projection.canvasCenter.y,
   })
 
+const meanLaneValue = (
+  lane: GateModulationLane,
+  startSeconds: number,
+  endSeconds: number,
+) => {
+  const samples = lane.samples.filter(
+    (sample) =>
+      sample.timeSeconds >= startSeconds - 1e-12 &&
+      sample.timeSeconds <= endSeconds + 1e-12,
+  )
+  if (samples.length === 0) return 0.5
+  return (
+    samples.reduce((sum, sample) => sum + sample.normalizedValue, 0) /
+    samples.length
+  )
+}
+
+const mixHex = (from: string, to: string, amount: number) => {
+  const parse = (value: string) => {
+    const match = /^#([0-9a-f]{6})$/i.exec(value)
+    if (!match) return null
+    const packed = Number.parseInt(match[1], 16)
+    return [(packed >> 16) & 255, (packed >> 8) & 255, packed & 255]
+  }
+  const left = parse(from)
+  const right = parse(to)
+  if (!left || !right) return from
+  const ratio = Math.min(1, Math.max(0, amount))
+  const channels = left.map((value, index) =>
+    Math.round(value + (right[index] - value) * ratio),
+  )
+  return `#${channels
+    .map((value) => value.toString(16).padStart(2, '0'))
+    .join('')}`
+}
+
+const modulatedTraceStyle = (
+  style: Readonly<TracePresentationSpec>,
+  lanes: ReadonlyArray<GateModulationLane>,
+  startSeconds: number,
+  endSeconds: number,
+) => {
+  let color = style.color
+  let lineWidth = style.lineWidth
+  let opacity = style.opacity
+
+  for (const lane of [...lanes].sort((left, right) =>
+    left.target.localeCompare(right.target),
+  )) {
+    const value = meanLaneValue(lane, startSeconds, endSeconds)
+    if (lane.target === 'gain') {
+      lineWidth *= 0.5 + value * 1.5
+      opacity *= 0.4 + value * 0.6
+    } else if (lane.target === 'brightness') {
+      color = mixHex(color, '#ffffff', value * 0.7)
+    } else if (lane.target === 'pan') {
+      color = mixHex(color, '#b388ff', Math.abs(value - 0.5) * 1.2)
+    } else if (lane.target === 'pitch-offset') {
+      color = mixHex(color, '#f2c14e', value * 0.65)
+    }
+  }
+
+  return {
+    color,
+    lineWidth: Math.max(0.5, lineWidth),
+    opacity: Math.min(1, Math.max(0, opacity)),
+  }
+}
+
+type ModulatedTraceInterval = Readonly<{
+  startSeconds: number
+  endSeconds: number
+  lanes: ReadonlyArray<GateModulationLane>
+  points: ReadonlyArray<Readonly<Point2>>
+  sampleTimes: ReadonlyArray<number>
+}>
+
+const modulatedIntervalsFor = (
+  scene: CompositionScene,
+  trace: HeadTraceSnapshot,
+  projection: SpaceProjection,
+): ReadonlyArray<ModulatedTraceInterval> => {
+  const firstTraceTime = trace.points[0]?.timeSeconds ?? scene.timeSeconds
+  const lastTraceTime = trace.points.at(-1)?.timeSeconds ?? scene.timeSeconds
+  const byNote = new Map<string, Array<GateModulationLane>>()
+  for (const lane of scene.modulationLanes) {
+    if (
+      lane.headId !== trace.headId ||
+      lane.entryOnly ||
+      lane.endSeconds < firstTraceTime ||
+      lane.startSeconds > lastTraceTime ||
+      lane.startSeconds > scene.timeSeconds
+    ) {
+      continue
+    }
+    const group = byNote.get(lane.noteEventId) ?? []
+    group.push(lane)
+    byNote.set(lane.noteEventId, group)
+  }
+
+  return Object.freeze(
+    [...byNote.values()]
+      .map((lanes): ModulatedTraceInterval | null => {
+        const anchor = [...lanes].sort(
+          (left, right) =>
+            right.samples.length - left.samples.length ||
+            left.id.localeCompare(right.id),
+        )[0]
+        const startSeconds = Math.max(firstTraceTime, anchor.startSeconds)
+        const endSeconds = Math.min(
+          lastTraceTime,
+          scene.timeSeconds,
+          anchor.endSeconds,
+        )
+        const samples = anchor.samples.filter(
+          (sample) =>
+            sample.timeSeconds >= startSeconds - 1e-12 &&
+            sample.timeSeconds <= endSeconds + 1e-12,
+        )
+        if (samples.length < 2) return null
+        return Object.freeze({
+          startSeconds,
+          endSeconds,
+          lanes: Object.freeze([...lanes].sort((left, right) =>
+            left.id.localeCompare(right.id),
+          )),
+          points: Object.freeze(
+            samples.map((sample) =>
+              projectSpacePoint(sample.position, projection),
+            ),
+          ),
+          sampleTimes: Object.freeze(
+            samples.map((sample) => sample.timeSeconds),
+          ),
+        })
+      })
+      .filter((interval): interval is ModulatedTraceInterval => interval !== null)
+      .sort((left, right) => left.startSeconds - right.startSeconds),
+  )
+}
+
 export const buildCompositionDrawCommands = (
   scene: CompositionScene,
   projection: SpaceProjection,
@@ -479,22 +662,45 @@ export const buildCompositionDrawCommands = (
           )
         }
       } else if (boundary.kind === 'spoke') {
-        const length = Math.hypot(projection.width, projection.height) * 2
-        const end = freezePoint({
-          x: center.x + Math.cos(boundary.angle) * length,
-          y: center.y - Math.sin(boundary.angle) * length,
-        })
-        commands.push(
-          Object.freeze({
-            kind: 'spoke-boundary',
-            fieldId: boundary.fieldId,
-            boundaryId: boundary.boundaryId,
-            from: center,
-            to: end,
-            color: fieldColor,
-            lineWidth: fieldLineWidth,
-          }),
-        )
+        const length = boundary.length * projection.pixelsPerUnit
+        if (boundary.angularWidth > 0) {
+          const halfWidth = boundary.angularWidth / 2
+          commands.push(
+            Object.freeze({
+              kind: 'wedge-boundary',
+              fieldId: boundary.fieldId,
+              boundaryId: boundary.boundaryId,
+              center,
+              left: freezePoint({
+                x: center.x + Math.cos(boundary.angle + halfWidth) * length,
+                y: center.y - Math.sin(boundary.angle + halfWidth) * length,
+              }),
+              right: freezePoint({
+                x: center.x + Math.cos(boundary.angle - halfWidth) * length,
+                y: center.y - Math.sin(boundary.angle - halfWidth) * length,
+              }),
+              color: fieldColor,
+              lineWidth: fieldLineWidth,
+              fillOpacity: 0.22,
+            }),
+          )
+        } else {
+          const end = freezePoint({
+            x: center.x + Math.cos(boundary.angle) * length,
+            y: center.y - Math.sin(boundary.angle) * length,
+          })
+          commands.push(
+            Object.freeze({
+              kind: 'spoke-boundary',
+              fieldId: boundary.fieldId,
+              boundaryId: boundary.boundaryId,
+              from: center,
+              to: end,
+              color: fieldColor,
+              lineWidth: fieldLineWidth,
+            }),
+          )
+        }
 
         if (showBoundaryLabels) {
           commands.push(
@@ -622,21 +828,85 @@ export const buildCompositionDrawCommands = (
 
   for (const trace of scene.traces) {
     if (showTraces && trace.style.visible && trace.points.length > 1) {
-      commands.push(
-        Object.freeze({
-          kind: 'trace',
-          wheelId: trace.wheelId,
-          headId: trace.headId,
-          points: Object.freeze(
-            trace.points.map((item) =>
-              projectSpacePoint(item.position, projection),
-            ),
+      const pushTrace = (
+        points: ReadonlyArray<Readonly<Point2>>,
+        style: Readonly<{
+          color: string
+          lineWidth: number
+          opacity: number
+        }>,
+        lanes: ReadonlyArray<GateModulationLane> = [],
+      ) => {
+        if (points.length < 2) return
+        commands.push(
+          Object.freeze({
+            kind: 'trace' as const,
+            wheelId: trace.wheelId,
+            headId: trace.headId,
+            points: Object.freeze([...points]),
+            color: style.color,
+            lineWidth: style.lineWidth,
+            opacity: style.opacity,
+            ...(lanes.length === 0
+              ? {}
+              : {
+                  modulationLaneIds: Object.freeze(
+                    lanes.map((lane) => lane.id),
+                  ),
+                  modulationTargets: Object.freeze(
+                    lanes.map((lane) => lane.target),
+                  ),
+                }),
+          }),
+        )
+      }
+      const intervals = modulatedIntervalsFor(scene, trace, projection)
+      if (intervals.length === 0) {
+        pushTrace(
+          trace.points.map((item) =>
+            projectSpacePoint(item.position, projection),
           ),
-          color: trace.style.color,
-          lineWidth: trace.style.lineWidth,
-          opacity: trace.style.opacity,
-        }),
-      )
+          trace.style,
+        )
+      } else {
+        let cursorSeconds = trace.points[0].timeSeconds
+        let previousBoundary: Readonly<Point2> | undefined
+        for (const interval of intervals) {
+          const before = trace.points
+            .filter(
+              (point) =>
+                point.timeSeconds >= cursorSeconds - 1e-12 &&
+                point.timeSeconds < interval.startSeconds - 1e-12,
+            )
+            .map((point) => projectSpacePoint(point.position, projection))
+          if (previousBoundary) before.unshift(previousBoundary)
+          before.push(interval.points[0])
+          pushTrace(before, trace.style)
+
+          // One draw segment per canonical sample interval lets the authored
+          // modulation contour remain visible instead of flattening a whole
+          // gate visit to one average color or width.
+          for (let index = 1; index < interval.points.length; index += 1) {
+            pushTrace(
+              [interval.points[index - 1], interval.points[index]],
+              modulatedTraceStyle(
+                trace.style,
+                interval.lanes,
+                interval.sampleTimes[index - 1],
+                interval.sampleTimes[index],
+              ),
+              interval.lanes,
+            )
+          }
+          previousBoundary = interval.points.at(-1)
+          cursorSeconds = interval.endSeconds
+        }
+        const after = trace.points
+          .filter((point) => point.timeSeconds > cursorSeconds + 1e-12)
+          .map((point) => projectSpacePoint(point.position, projection))
+        if (previousBoundary) after.unshift(previousBoundary)
+        pushTrace(after, trace.style)
+      }
     }
 
     const headPosition = projectSpacePoint(trace.head.position, projection)
@@ -705,6 +975,21 @@ export const drawCompositionCommands = (
       context.beginPath()
       context.moveTo(command.from.x, command.from.y)
       context.lineTo(command.to.x, command.to.y)
+      context.stroke()
+      context.restore()
+    } else if (command.kind === 'wedge-boundary') {
+      context.save()
+      context.strokeStyle = command.color
+      context.fillStyle = command.color
+      context.lineWidth = command.lineWidth
+      context.beginPath()
+      context.moveTo(command.center.x, command.center.y)
+      context.lineTo(command.left.x, command.left.y)
+      context.lineTo(command.right.x, command.right.y)
+      context.closePath()
+      context.globalAlpha = command.fillOpacity
+      context.fill()
+      context.globalAlpha = 1
       context.stroke()
       context.restore()
     } else if (command.kind === 'ellipse-boundary') {

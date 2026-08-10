@@ -6,7 +6,10 @@ import type {
   SoundFontInstrumentSpec,
 } from '../core/composition'
 import type { NoteMusicalEvent } from '../core/performance'
-import type { InstrumentEngine } from './instrumentEngine'
+import type {
+  InstrumentEngine,
+  ScheduledModulationLane,
+} from './instrumentEngine'
 import {
   InstrumentRouter,
   type SoundFontRouteEngine,
@@ -65,7 +68,11 @@ const soundfont = (id: string): SoundFontInstrumentSpec => ({
 
 class FakeEngine implements InstrumentEngine {
   currentTimeSeconds: number
-  readonly scheduled: Array<{ id: string; at: number }> = []
+  readonly scheduled: Array<{
+    id: string
+    at: number
+    laneTimes?: ReadonlyArray<number>
+  }> = []
   cancelAt: Array<number> = []
   panicAt: Array<number> = []
   resumeCount = 0
@@ -84,8 +91,19 @@ class FakeEngine implements InstrumentEngine {
     this.suspendCount += 1
   }
 
-  schedule(event: NoteMusicalEvent, _instrument: InstrumentSpec, at: number) {
-    this.scheduled.push({ id: event.instrumentId, at })
+  schedule(
+    event: NoteMusicalEvent,
+    _instrument: InstrumentSpec,
+    at: number,
+    lanes: ReadonlyArray<ScheduledModulationLane> = [],
+  ) {
+    this.scheduled.push({
+      id: event.instrumentId,
+      at,
+      ...(lanes.length > 0
+        ? { laneTimes: lanes[0].samples.map((sample) => sample.audioTimeSeconds) }
+        : {}),
+    })
   }
 
   cancelScheduledFrom(at: number) {
@@ -166,6 +184,35 @@ describe('InstrumentRouter', () => {
     ])
     expect(nativeEngine.resumeCount).toBe(1)
     expect(soundFontEngine.resumeCount).toBe(1)
+  })
+
+  it('translates note and modulation clocks together for the selected backend', async () => {
+    const nativeEngine = new FakeEngine(3)
+    const soundFontEngine = new FakeSoundFontEngine(10)
+    const router = new InstrumentRouter({ nativeEngine, soundFontEngine })
+    const note = event(native.id)
+    const lane: ScheduledModulationLane = {
+      id: 'lane-gain',
+      mappingId: 'mapping-gain',
+      noteEventId: note.id,
+      partId: note.partId,
+      instrumentId: note.instrumentId,
+      target: 'gain',
+      minimum: 0,
+      maximum: 1,
+      entryOnly: false,
+      samples: [
+        { audioTimeSeconds: 10.5, value: 0.2 },
+        { audioTimeSeconds: 10.7, value: 0.8 },
+      ],
+    }
+
+    router.schedule(note, native, 10.5, [lane])
+
+    expect(nativeEngine.scheduled).toHaveLength(1)
+    expect(nativeEngine.scheduled[0]).toMatchObject({ id: 'native', at: 3.5 })
+    expect(nativeEngine.scheduled[0].laneTimes?.[0]).toBeCloseTo(3.5)
+    expect(nativeEngine.scheduled[0].laneTimes?.[1]).toBeCloseTo(3.7)
   })
 
   it('drops only a visibly failed SoundFont route and keeps native playback', async () => {

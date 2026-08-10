@@ -27,6 +27,9 @@ export type FieldPanelProps = {
 }
 
 const TAU = Math.PI * 2
+const DEFAULT_SPOKE_ANGULAR_WIDTH = TAU / 24
+const DEFAULT_SPOKE_LENGTH = 200
+const MULTI_SPOKE_WIDTH_SCALE = 1.5
 
 const fieldKindLabels: Record<FieldSpec['kind'], string> = {
   rings: 'Ring Field',
@@ -86,6 +89,7 @@ const GRID_STEP = 40
  */
 const nextGridLine = (
   siblings: ReadonlyArray<BoundarySpec>,
+  step = GRID_STEP,
 ): { kind: 'grid'; axis: 'x' | 'y'; offset: number } => {
   const lines = siblings.filter(
     (item): item is Extract<BoundarySpec, { kind: 'grid' }> =>
@@ -107,7 +111,142 @@ const nextGridLine = (
   return positives > negatives
     ? // Mirror the unpaired line rather than reaching further out.
       { kind: 'grid', axis, offset: -widest }
-    : { kind: 'grid', axis, offset: widest + GRID_STEP }
+    : { kind: 'grid', axis, offset: widest + step }
+}
+
+const normalizeAngle = (angle: number) => ((angle % TAU) + TAU) % TAU
+
+/**
+ * Treat every Spoke Boundary as one wheel assembly. The first Spoke anchors
+ * the assembly's orientation; every addition or removal spaces the complete
+ * set evenly and gives every wedge the same progressively narrower width.
+ */
+const redistributeSpokes = (
+  fields: ReadonlyArray<FieldSpec>,
+): Array<FieldSpec> => {
+  const spokes = fields.flatMap((field) =>
+    field.kind === 'spokes'
+      ? field.boundaries.flatMap((boundary) =>
+          boundary.kind === 'spoke'
+            ? [{ fieldRotation: field.rotation ?? 0, boundary }]
+            : [],
+        )
+      : [],
+  )
+  if (spokes.length === 0) return [...fields]
+
+  const anchor = normalizeAngle(
+    spokes[0].fieldRotation + spokes[0].boundary.angle,
+  )
+  const angularWidth =
+    (DEFAULT_SPOKE_ANGULAR_WIDTH *
+      (spokes.length === 1 ? 1 : MULTI_SPOKE_WIDTH_SCALE)) /
+    spokes.length
+  let spokeIndex = 0
+
+  return fields.map((field) =>
+    field.kind === 'spokes'
+      ? {
+          ...field,
+          boundaries: field.boundaries.map((boundary) => {
+            if (boundary.kind !== 'spoke') return boundary
+            const absoluteAngle = anchor + (TAU * spokeIndex) / spokes.length
+            spokeIndex += 1
+            return {
+              ...boundary,
+              angle: normalizeAngle(absoluteAngle - (field.rotation ?? 0)),
+              angularWidth,
+            }
+          }),
+        }
+      : field,
+  )
+}
+
+type InitialFieldGeometry = Readonly<{
+  radius?: number
+  bandInnerRadius?: number
+  gridStep?: number
+  spiralStartRadius?: number
+}>
+
+/**
+ * Distinguishes a new Field from existing Fields of the same family without
+ * moving anything the composer already authored.
+ */
+const initialFieldGeometry = (
+  fields: ReadonlyArray<FieldSpec>,
+  kind: FieldSpec['kind'],
+): InitialFieldGeometry => {
+  const matching = fields.filter((field) => field.kind === kind)
+
+  if (kind === 'rings') {
+    const widest = matching.reduce(
+      (radius, field) =>
+        Math.max(
+          radius,
+          ...field.boundaries.map((boundary) =>
+            boundary.kind === 'ring' ? boundary.radius : 0,
+          ),
+        ),
+      0,
+    )
+    return { radius: widest === 0 ? 50 : widest + 20 }
+  }
+  if (kind === 'ellipses') {
+    const widest = matching.reduce(
+      (radius, field) =>
+        Math.max(
+          radius,
+          ...field.boundaries.map((boundary) =>
+            boundary.kind === 'ellipse' ? boundary.radius : 0,
+          ),
+        ),
+      0,
+    )
+    return { radius: widest === 0 ? 80 : widest + 30 }
+  }
+  if (kind === 'bands') {
+    const widest = matching.reduce(
+      (radius, field) =>
+        Math.max(
+          radius,
+          ...field.boundaries.map((boundary) =>
+            boundary.kind === 'band' ? boundary.outerRadius : 0,
+          ),
+        ),
+      0,
+    )
+    return { bandInnerRadius: widest === 0 ? 40 : widest + 20 }
+  }
+  if (kind === 'grid') {
+    const widest = matching.reduce(
+      (offset, field) =>
+        Math.max(
+          offset,
+          ...field.boundaries.map((boundary) =>
+            boundary.kind === 'grid' ? Math.abs(boundary.offset) : 0,
+          ),
+        ),
+      0,
+    )
+    return { gridStep: widest + GRID_STEP }
+  }
+  if (kind === 'spiral') {
+    const widest = matching.reduce(
+      (radius, field) =>
+        Math.max(
+          radius,
+          ...field.boundaries.map((boundary) =>
+            boundary.kind === 'spiral' ? boundary.startRadius : 0,
+          ),
+        ),
+      0,
+    )
+    return { spiralStartRadius: widest === 0 ? 30 : widest + 20 }
+  }
+
+  return {}
 }
 
 /**
@@ -127,6 +266,7 @@ const defaultBoundary = (
   id: string,
   ordinal: number,
   siblings: ReadonlyArray<BoundarySpec>,
+  initial: InitialFieldGeometry = {},
 ): BoundarySpec => {
   const base = { ...newBoundaryBase(id, `${boundaryLabels[kind]} ${ordinal}`) }
   const outermost = siblings.reduce((widest, item) => {
@@ -143,7 +283,7 @@ const defaultBoundary = (
     return {
       ...base,
       kind: 'ring',
-      radius: siblings.length === 0 ? 50 : outermost + 20,
+      radius: siblings.length === 0 ? (initial.radius ?? 50) : outermost + 20,
     }
   }
   if (kind === 'spokes') {
@@ -152,18 +292,23 @@ const defaultBoundary = (
       ...base,
       kind: 'spoke',
       angle: last && last.kind === 'spoke' ? last.angle + TAU / 8 : 0,
+      length: DEFAULT_SPOKE_LENGTH,
+      angularWidth: DEFAULT_SPOKE_ANGULAR_WIDTH,
     }
   }
   if (kind === 'ellipses') {
     return {
       ...base,
       kind: 'ellipse',
-      radius: siblings.length === 0 ? 80 : outermost + 30,
+      radius: siblings.length === 0 ? (initial.radius ?? 80) : outermost + 30,
       eccentricity: 0.6,
     }
   }
   if (kind === 'bands') {
-    const inner = siblings.length === 0 ? 40 : outermost + 20
+    const inner =
+      siblings.length === 0
+        ? (initial.bandInnerRadius ?? 40)
+        : outermost + 20
     return {
       ...base,
       kind: 'band',
@@ -172,12 +317,20 @@ const defaultBoundary = (
     }
   }
   if (kind === 'grid') {
-    return { ...base, ...nextGridLine(siblings) }
+    return { ...base, ...nextGridLine(siblings, initial.gridStep) }
   }
+  const spiralStart = siblings.reduce(
+    (radius, item) =>
+      item.kind === 'spiral' ? Math.max(radius, item.startRadius) : radius,
+    0,
+  )
   return {
     ...base,
     kind: 'spiral',
-    startRadius: 30,
+    startRadius:
+      siblings.length === 0
+        ? (initial.spiralStartRadius ?? 30)
+        : spiralStart + 20,
     growthPerTurn: 40,
     turns: 3,
   }
@@ -189,6 +342,7 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
 
   const createField = (kind: FieldSpec['kind']) => {
     const id = nextFieldId(composition.fields, kind)
+    const initial = initialFieldGeometry(composition.fields, kind)
     const base = {
       id,
       name: uniqueName(
@@ -203,7 +357,13 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
     const boundaries: Array<BoundarySpec> = []
     for (let ordinal = 1; ordinal <= startingBoundaryCount(kind); ordinal += 1) {
       boundaries.push({
-        ...defaultBoundary(kind, `${id}-boundary-${ordinal}`, ordinal, boundaries),
+        ...defaultBoundary(
+          kind,
+          `${id}-boundary-${ordinal}`,
+          ordinal,
+          boundaries,
+          initial,
+        ),
         // newBoundaryBase hard-codes index 0, which was invisible while a Field
         // could only start with one Boundary. Duplicate indices are a
         // validation error, and addBoundary reindexes for the same reason.
@@ -218,7 +378,8 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
       boundaries,
     } as FieldSpec
 
-    commitFields(addField(composition.fields, field))
+    const fields = addField(composition.fields, field)
+    commitFields(kind === 'spokes' ? redistributeSpokes(fields) : fields)
   }
 
   const patchField = (
@@ -252,7 +413,8 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
       ),
     } as BoundarySpec
 
-    commitFields(addBoundary(composition.fields, field.id, named))
+    const fields = addBoundary(composition.fields, field.id, named)
+    commitFields(field.kind === 'spokes' ? redistributeSpokes(fields) : fields)
   }
 
   return (
@@ -521,9 +683,14 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                   type="button"
                   title={help['field.removeField']}
                   aria-label={`Remove ${field.id}`}
-                  onClick={() =>
-                    commitFields(removeField(composition.fields, field.id))
-                  }
+                  onClick={() => {
+                    const fields = removeField(composition.fields, field.id)
+                    commitFields(
+                      field.kind === 'spokes'
+                        ? redistributeSpokes(fields)
+                        : fields,
+                    )
+                  }}
                 >
                   Remove Field
                 </button>
@@ -644,15 +811,18 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                         type="button"
                         aria-label={`Remove ${boundary.id}`}
                         disabled={field.boundaries.length === 1}
-                        onClick={() =>
-                          commitFields(
-                            removeBoundary(
-                              composition.fields,
-                              field.id,
-                              boundary.id,
-                            ),
+                        onClick={() => {
+                          const fields = removeBoundary(
+                            composition.fields,
+                            field.id,
+                            boundary.id,
                           )
-                        }
+                          commitFields(
+                            field.kind === 'spokes'
+                              ? redistributeSpokes(fields)
+                              : fields,
+                          )
+                        }}
                        title={help['boundary.remove']}>
                         Remove Boundary
                       </button>
@@ -712,13 +882,37 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
 
   if (boundary.kind === 'spoke') {
     return (
-      <NumberField
-        label="Angle (rad)" hint={help['boundary.angle']}
-        ariaLabel={`Angle ${boundary.id}`}
-        value={boundary.angle}
-        step={0.01}
-        onChange={(value) => onPatch({ angle: value })}
-      />
+      <>
+        <NumberField
+          label="Angle (rad)" hint={help['boundary.angle']}
+          ariaLabel={`Angle ${boundary.id}`}
+          value={boundary.angle}
+          step={0.01}
+          onChange={(value) => onPatch({ angle: value })}
+        />
+        <NumberField
+          label="Width (rad)" hint={help['boundary.angularWidth']}
+          ariaLabel={`Angular width ${boundary.id}`}
+          value={boundary.angularWidth ?? 0}
+          min={0}
+          max={Math.PI}
+          step={0.01}
+          onChange={(angularWidth) =>
+            onPatch({ angularWidth: Math.min(Math.PI, Math.max(0, angularWidth)) })
+          }
+        />
+        <NumberField
+          label="Length" hint={help['boundary.length']}
+          ariaLabel={`Length ${boundary.id}`}
+          value={boundary.length}
+          min={0.001}
+          max={100_000}
+          step={1}
+          onChange={(length) =>
+            onPatch({ length: Math.min(100_000, Math.max(0.001, length)) })
+          }
+        />
+      </>
     )
   }
 
@@ -815,6 +1009,7 @@ type NumberFieldProps = {
   ariaLabel: string
   value: number
   min?: number
+  max?: number
   step?: number
   /** Hover help. See `./help`. */
   hint?: string
@@ -826,6 +1021,7 @@ function NumberField({
   ariaLabel,
   value,
   min,
+  max,
   step = 1,
   hint,
   onChange,
@@ -837,6 +1033,7 @@ function NumberField({
         aria-label={ariaLabel}
         type="number"
         min={min}
+        max={max}
         step={step}
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}

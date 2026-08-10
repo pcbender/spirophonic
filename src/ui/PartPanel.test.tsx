@@ -610,7 +610,7 @@ describe('note shaping', () => {
     expect(validateComposition(next).ok).toBe(true)
   })
 
-  it.each(['fixed', 'until-next', 'inside-band'] as const)(
+  it.each(['fixed', 'until-next', 'inside-band', 'inside-region'] as const)(
     'switches duration to %s and stays valid',
     (kind) => {
       const onChange = vi.fn()
@@ -636,6 +636,49 @@ describe('note shaping', () => {
     expect(part?.quantize?.strength).toBe(0)
     // Grid spacing must survive an edit to the pull, and vice versa.
     expect(part?.quantize?.gridBeats).toBe(0.25)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('authors a complete gate-modulation mapping and entry-only target', () => {
+    const onChange = vi.fn()
+    const start = base()
+    const partId = start.parts[0].id
+    const { rerender } = render(
+      <PartPanel composition={start} onChange={onChange} />,
+    )
+
+    fireEvent.click(screen.getByLabelText(`Add gate modulation ${partId}`))
+    let next = onChange.mock.calls.at(-1)?.[0] as Composition
+    let part = next.parts[0]
+    expect(part.kind === 'note' && part.gateModulations).toMatchObject([
+      {
+        source: 'speed',
+        target: 'brightness',
+        sampleRateHz: 60,
+        minimum: 0,
+        maximum: 1,
+        curve: 1,
+        smoothingSeconds: 0.02,
+      },
+    ])
+    expect(validateComposition(next).ok).toBe(true)
+
+    rerender(<PartPanel composition={next} onChange={onChange} />)
+    part = next.parts[0]
+    if (part.kind !== 'note' || !part.gateModulations) return
+    const mappingId = part.gateModulations[0].id
+    fireEvent.change(
+      screen.getByLabelText(`Gate modulation target ${mappingId}`),
+      { target: { value: 'attack' } },
+    )
+    next = onChange.mock.calls.at(-1)?.[0] as Composition
+    part = next.parts[0]
+
+    expect(part.kind === 'note' && part.gateModulations?.[0]).toMatchObject({
+      target: 'attack',
+      minimum: 0.005,
+      maximum: 1,
+    })
     expect(validateComposition(next).ok).toBe(true)
   })
 

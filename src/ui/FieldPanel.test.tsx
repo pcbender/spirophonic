@@ -143,6 +143,17 @@ describe('FieldPanel', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Add spokes' }))
     composition = onChange.mock.calls.at(-1)?.[0] as Composition
     rerender(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.change(
+      screen.getByLabelText('Angular width field-spokes-1-boundary-1'),
+      { target: { value: '0.5' } },
+    )
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    rerender(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.change(screen.getByLabelText('Length field-spokes-1-boundary-1'), {
+      target: { value: '120' },
+    })
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    rerender(<FieldPanel composition={composition} onChange={onChange} />)
     fireEvent.change(screen.getByLabelText('Rotation field-spokes-1'), {
       target: { value: '1.57' },
     })
@@ -152,7 +163,14 @@ describe('FieldPanel', () => {
       id: 'field-spokes-1',
       kind: 'spokes',
       rotation: 1.57,
-      boundaries: [{ id: 'field-spokes-1-boundary-1', kind: 'spoke' }],
+      boundaries: [
+        {
+          id: 'field-spokes-1-boundary-1',
+          kind: 'spoke',
+          length: 120,
+          angularWidth: 0.5,
+        },
+      ],
     })
   })
 })
@@ -179,6 +197,127 @@ describe('MG-13 Field authoring', () => {
       expect(next.fields[0].kind).toBe(fieldKind)
       expect(next.fields[0].boundaries[0].kind).toBe(boundaryKind)
       expect(validateComposition(next).ok).toBe(true)
+    }
+  })
+
+  it('places repeated radial and grid Fields beyond their existing siblings', () => {
+    const cases = [
+      {
+        button: 'Add rings',
+        values: (composition: Composition) =>
+          composition.fields.map((field) => {
+            const boundary = field.boundaries[0]
+            return boundary.kind === 'ring' ? boundary.radius : NaN
+          }),
+        expected: [50, 70],
+      },
+      {
+        button: 'Add ellipses',
+        values: (composition: Composition) =>
+          composition.fields.map((field) => {
+            const boundary = field.boundaries[0]
+            return boundary.kind === 'ellipse' ? boundary.radius : NaN
+          }),
+        expected: [80, 110],
+      },
+      {
+        button: 'Add bands',
+        values: (composition: Composition) =>
+          composition.fields.flatMap((field) => {
+            const boundary = field.boundaries[0]
+            return boundary.kind === 'band'
+              ? [boundary.innerRadius, boundary.outerRadius]
+              : []
+          }),
+        expected: [40, 80, 100, 140],
+      },
+      {
+        button: 'Add grid',
+        values: (composition: Composition) =>
+          composition.fields.map((field) =>
+            Math.max(
+              ...field.boundaries.map((boundary) =>
+                boundary.kind === 'grid' ? Math.abs(boundary.offset) : 0,
+              ),
+            ),
+          ),
+        expected: [40, 80],
+      },
+      {
+        button: 'Add spiral',
+        values: (composition: Composition) =>
+          composition.fields.map((field) => {
+            const boundary = field.boundaries[0]
+            return boundary.kind === 'spiral' ? boundary.startRadius : NaN
+          }),
+        expected: [30, 50],
+      },
+    ]
+
+    for (const { button, values, expected } of cases) {
+      let composition = withoutFields()
+      const onChange = vi.fn((next: Composition) => {
+        composition = next
+      })
+      let firstField: Composition['fields'][number] | undefined
+
+      for (let added = 0; added < 2; added += 1) {
+        cleanup()
+        render(<FieldPanel composition={composition} onChange={onChange} />)
+        fireEvent.click(screen.getByRole('button', { name: button }))
+        if (added === 0) firstField = structuredClone(composition.fields[0])
+      }
+
+      expect(values(composition)).toEqual(expected)
+      expect(composition.fields[0]).toEqual(firstField)
+      expect(validateComposition(composition).ok).toBe(true)
+    }
+  })
+
+  it('redistributes repeated Spoke Fields evenly and narrows every wedge', () => {
+    let composition = withoutFields()
+    const onChange = vi.fn((next: Composition) => {
+      composition = next
+    })
+    let previousWidth = Infinity
+
+    for (let added = 0; added < 4; added += 1) {
+      cleanup()
+      render(<FieldPanel composition={composition} onChange={onChange} />)
+      fireEvent.click(screen.getByRole('button', { name: 'Add spokes' }))
+
+      const count = added + 1
+      const spokes = composition.fields.flatMap((field) =>
+        field.boundaries.flatMap((boundary) =>
+          boundary.kind === 'spoke'
+            ? [
+                {
+                  angle:
+                    ((boundary.angle + (field.rotation ?? 0)) %
+                      (Math.PI * 2) +
+                      Math.PI * 2) %
+                    (Math.PI * 2),
+                  width: boundary.angularWidth,
+                },
+              ]
+            : [],
+        ),
+      )
+
+      expect(spokes).toHaveLength(count)
+      for (const [index, spoke] of spokes.entries()) {
+        expect(spoke.angle).toBeCloseTo((Math.PI * 2 * index) / count, 12)
+        expect(spoke.width).toBeCloseTo(
+          ((Math.PI * 2) / 24 / count) * (count === 1 ? 1 : 1.5),
+          12,
+        )
+      }
+      const firstWidth = spokes.at(0)?.width
+      expect(firstWidth).toBeDefined()
+      if (firstWidth === undefined) throw new Error('Expected a Spoke width.')
+      expect(firstWidth).toBeLessThan(previousWidth)
+      previousWidth = firstWidth
+      expect(validateComposition(composition).ok).toBe(true)
     }
   })
 

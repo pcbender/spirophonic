@@ -6,7 +6,8 @@ import type {
   TraceObservationSpec,
 } from './composition'
 import { defaultComposition } from './defaultComposition'
-import { compilePerformance } from './performance'
+import { compilePerformance, interpretEncounters } from './performance'
+import { fixedFrequencySineGateFixture } from '../test/fixtures/gateModulation'
 
 const request = {
   startSeconds: 0,
@@ -219,19 +220,190 @@ describe('canonical performance compilation', () => {
 
   it('maps inside-band duration to the next physical Field crossing', () => {
     const composition = ellipseComposition()
+    composition.fields = [
+      {
+        id: 'field-band',
+        name: 'Band',
+        enabled: true,
+        kind: 'bands',
+        center: { x: 0, y: 0 },
+        boundaries: [
+          {
+            id: 'band-60-80',
+            name: 'Band 60 to 80',
+            enabled: true,
+            index: 0,
+            kind: 'band',
+            innerRadius: 60,
+            outerRadius: 80,
+          },
+          {
+            id: 'band-65-75',
+            name: 'Sibling band 65 to 75',
+            enabled: true,
+            index: 1,
+            kind: 'band',
+            innerRadius: 65,
+            outerRadius: 75,
+          },
+        ],
+      },
+    ]
     const part = notePart('part-band', 'instrument-1', 60)
     part.duration = { kind: 'inside-band' }
+    part.encounterQuery.boundaryIds = ['band-60-80']
     composition.parts = [part]
     const performance = compilePerformance(composition, request)
-    const [first, second] = performance.interpretedEvents
-
-    expect(first.durationBeats).toBeCloseTo(
-      second.absoluteBeat - first.absoluteBeat,
-      7,
+    expect(performance.interpretedEvents.length).toBeGreaterThan(0)
+    expect(performance.interpretedEvents.length).toBe(
+      performance.encounters.filter(
+        (event) =>
+          event.boundaryId === 'band-60-80' && event.transition === 'enter',
+      ).length,
     )
+    for (const event of performance.interpretedEvents) {
+      const entry = performance.encounters.find(
+        (encounter) => encounter.id === event.sourceEncounterId,
+      )
+      expect(entry?.transition).toBe('enter')
+      const exit = performance.encounters.find(
+        (encounter) =>
+          encounter.timeSeconds > (entry?.timeSeconds ?? Number.POSITIVE_INFINITY) &&
+          encounter.wheelId === entry?.wheelId &&
+          encounter.headId === entry?.headId &&
+          encounter.fieldId === entry?.fieldId &&
+          encounter.boundaryId === entry?.boundaryId &&
+          encounter.transition === 'exit',
+      )
+      expect(exit).toBeDefined()
+      expect(event.durationBeats).toBeCloseTo(
+        (exit?.absoluteBeat ?? 0) - event.absoluteBeat,
+        7,
+      )
+    }
     expect(performance.interpretedEvents.every((event) => event.durationBeats > 0)).toBe(
       true,
     )
+  })
+
+  it('holds one note longer when the same sine path crosses a farther wedge', () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    composition.fields = [
+      {
+        id: 'field-wedge',
+        name: 'Wedge',
+        enabled: true,
+        kind: 'spokes',
+        center: { x: 0, y: 0 },
+        rotation: 0,
+        boundaries: [
+          {
+            id: 'wedge-1',
+            name: 'Wedge 1',
+            enabled: true,
+            index: 0,
+            kind: 'spoke',
+            angle: 0,
+            length: 200,
+            angularWidth: 0.4,
+          },
+        ],
+      },
+    ]
+    const part = notePart('part-wedge', 'instrument-1', 60)
+    part.duration = { kind: 'inside-region' }
+    part.encounterQuery.fieldIds = ['field-wedge']
+    composition.parts = [part]
+    const wedgeRequest = {
+      startSeconds: 0,
+      durationSeconds: 4,
+      sampleRateHz: 120,
+    }
+
+    const performanceAtRadius = (radius: number) => {
+      const fixture = fixedFrequencySineGateFixture(radius)
+      return interpretEncounters(composition, wedgeRequest, fixture.encounters)
+    }
+
+    const near = performanceAtRadius(50)
+    const far = performanceAtRadius(100)
+
+    expect(near.events).toHaveLength(1)
+    expect(far.events).toHaveLength(1)
+    expect(far.events[0].durationSeconds).toBeGreaterThan(
+      near.events[0].durationSeconds,
+    )
+    expect(far.events[0].midiNote).toBe(near.events[0].midiNote)
+  })
+
+  it('adds modulation lanes without changing gate notes or Encounter identity', () => {
+    const base = ellipseComposition()
+    base.fields = [
+      {
+        id: 'field-wedge',
+        name: 'Wedge',
+        enabled: true,
+        kind: 'spokes',
+        center: { x: 0, y: 0 },
+        rotation: 0,
+        boundaries: [
+          {
+            id: 'wedge-east',
+            name: 'East wedge',
+            enabled: true,
+            index: 0,
+            kind: 'spoke',
+            angle: Math.PI,
+            length: 200,
+            angularWidth: 0.6,
+          },
+        ],
+      },
+    ]
+    const part = notePart('part-wedge', 'instrument-1', 60)
+    part.duration = { kind: 'inside-region' }
+    // A gate note stays on the physical entry even if a generic note grid is saved.
+    part.quantize = { gridBeats: 4, strength: 1 }
+    part.encounterQuery.fieldIds = ['field-wedge']
+    part.encounterQuery.boundaryIds = ['wedge-east']
+    base.parts = [part]
+
+    const unmodulated = compilePerformance(base, request)
+    const mapped = structuredClone(base)
+    const mappedPart = mapped.parts[0]
+    if (mappedPart.kind !== 'note') throw new Error('Expected a note Part.')
+    mappedPart.gateModulations = [
+      {
+        id: 'mod-speed-gain',
+        name: 'Speed gain',
+        enabled: true,
+        source: 'speed',
+        target: 'gain',
+        sampleRateHz: 60,
+        minimum: 0.2,
+        maximum: 1,
+        curve: 1,
+        smoothingSeconds: 0.02,
+      },
+    ]
+    const modulated = compilePerformance(mapped, request)
+
+    expect(unmodulated.diagnostics).toEqual([])
+    expect(unmodulated.encounters.length).toBeGreaterThan(0)
+    expect(unmodulated.performedEvents.length).toBeGreaterThan(0)
+    expect(unmodulated.modulationLanes).toEqual([])
+    expect(modulated.modulationLanes).toHaveLength(
+      modulated.performedEvents.length,
+    )
+    expect(modulated.encounters).toEqual(unmodulated.encounters)
+    expect(modulated.performedEvents).toEqual(unmodulated.performedEvents)
+    for (const event of modulated.performedEvents) {
+      const entry = modulated.encounters.find(
+        (encounter) => encounter.id === event.sourceEncounterId,
+      )
+      expect(entry?.transition).toBe('enter')
+      expect(event.timeSeconds).toBe(entry?.timeSeconds)
+    }
   })
 
   it('returns deep-equal layers for the same Composition and request', () => {

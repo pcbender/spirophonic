@@ -2,10 +2,33 @@ import { describe, expect, it } from 'vitest'
 
 import type { PerformanceDiagnostic } from '../core/performance'
 import {
+  automationPerformanceDiagnostic,
   diagnosticLocation,
   errorConsequence,
   groupDiagnostics,
 } from './diagnosticText'
+
+describe('automation diagnostics', () => {
+  it('keeps a backend limitation as a Part-scoped warning', () => {
+    expect(
+      automationPerformanceDiagnostic({
+        code: 'unsupported-target',
+        consumer: 'soundfont',
+        target: 'attack',
+        laneId: 'lane-1',
+        noteEventId: 'note-1',
+        partId: 'part-1',
+        instrumentId: 'instrument-1',
+        message: 'Preset attack is unavailable.',
+      }),
+    ).toEqual({
+      severity: 'warning',
+      code: 'gate-modulation',
+      partId: 'part-1',
+      message: 'Preset attack is unavailable.',
+    })
+  })
+})
 
 const error = (
   code: PerformanceDiagnostic['code'],

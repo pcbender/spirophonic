@@ -4,7 +4,7 @@ import type {
   SoundFontInstrumentSpec,
 } from '../core/composition'
 import type { NoteMusicalEvent } from '../core/performance'
-import type { InstrumentEngine } from './instrumentEngine'
+import type { InstrumentEngine, ScheduledModulationLane } from './instrumentEngine'
 import { NativeSynthEngine } from './nativeSynthEngine'
 import type { SoundBankStore } from './soundbankStore'
 import {
@@ -126,7 +126,8 @@ export class InstrumentRouter implements InstrumentEngine {
     event: NoteMusicalEvent,
     instrument: InstrumentSpec,
     audioTimeSeconds: number,
-  ) {
+    lanes: ReadonlyArray<ScheduledModulationLane> = [],
+  ): unknown {
     this.assertUsable()
     const engine =
       instrument.kind === 'soundfont'
@@ -137,12 +138,29 @@ export class InstrumentRouter implements InstrumentEngine {
       !this.soundFontEngine.isInstrumentReady(instrument.id)
     ) {
       // prepare() has already returned a user-visible issue for this route.
-      return
+      return Object.freeze([])
     }
-    engine.schedule(
+    const translatedTime = this.translateTime(engine, audioTimeSeconds)
+    return engine.schedule(
       event,
       instrument,
-      this.translateTime(engine, audioTimeSeconds),
+      translatedTime,
+      lanes.map((lane) =>
+        Object.freeze({
+          ...lane,
+          samples: Object.freeze(
+            lane.samples.map((sample) =>
+              Object.freeze({
+                ...sample,
+                audioTimeSeconds: this.translateTime(
+                  engine,
+                  sample.audioTimeSeconds,
+                ),
+              }),
+            ),
+          ),
+        }),
+      ),
     )
   }
 

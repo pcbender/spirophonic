@@ -26,6 +26,7 @@ import {
 import { usePerformanceCompiler } from './workers/usePerformanceCompiler'
 import { CompositionCanvas } from './ui/CompositionCanvas'
 import {
+  automationPerformanceDiagnostic,
   diagnosticLocation,
   errorConsequence,
   groupDiagnostics,
@@ -603,6 +604,11 @@ function App() {
                 sampleRateHz: request.sampleRateHz,
               }}
               recentEncounters={recentEncounters}
+              modulationLanes={
+                compiledComposition === composition
+                  ? performance.modulationLanes
+                  : []
+              }
             />
           </div>
           <Transport
@@ -624,7 +630,12 @@ function App() {
 
         <div className="rail rail-voices">
           <Diagnostics
-            diagnostics={performance.diagnostics}
+            diagnostics={[
+              ...performance.diagnostics,
+              ...audio.scheduler.automationDiagnostics.map(
+                automationPerformanceDiagnostic,
+              ),
+            ]}
             runtimeError={visibleRuntimeError}
             compileFailure={compileFailure}
             composition={composition}

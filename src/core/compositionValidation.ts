@@ -815,7 +815,16 @@ const boundaryKindForFieldKind: Record<string, string> = {
 
 const boundaryKeys: Record<string, Array<string>> = {
   ring: ['id', 'name', 'enabled', 'index', 'kind', 'radius'],
-  spoke: ['id', 'name', 'enabled', 'index', 'kind', 'angle'],
+  spoke: [
+    'id',
+    'name',
+    'enabled',
+    'index',
+    'kind',
+    'angle',
+    'length',
+    'angularWidth',
+  ],
   ellipse: ['id', 'name', 'enabled', 'index', 'kind', 'radius', 'eccentricity'],
   band: ['id', 'name', 'enabled', 'index', 'kind', 'innerRadius', 'outerRadius'],
   grid: ['id', 'name', 'enabled', 'index', 'kind', 'axis', 'offset'],
@@ -937,6 +946,16 @@ const validateBoundary = (
     })
   } else if (kind === 'spoke') {
     context.number(boundary, 'angle', `${path}.angle`)
+    context.number(boundary, 'length', `${path}.length`, {
+      greaterThan: 0,
+      max: 100_000,
+    })
+    if (boundary.angularWidth !== undefined) {
+      context.number(boundary, 'angularWidth', `${path}.angularWidth`, {
+        min: 0,
+        max: Math.PI,
+      })
+    }
   } else if (kind === 'ellipse') {
     context.number(boundary, 'radius', `${path}.radius`, {
       greaterThan: 0,
@@ -1174,7 +1193,14 @@ const validatePart = (
   const kind = context.literal(part, 'kind', `${path}.kind`, ['note', 'control'])
   const specificKeys =
     kind === 'note'
-      ? ['onset', 'pitch', 'velocity', 'duration', 'quantize']
+      ? [
+          'onset',
+          'pitch',
+          'velocity',
+          'duration',
+          'quantize',
+          'gateModulations',
+        ]
       : kind === 'control'
         ? ['control']
         : []
@@ -1229,6 +1255,21 @@ const validatePart = (
     validateDuration(context, part.duration, `${path}.duration`)
     if (part.quantize !== undefined) {
       validateQuantize(context, part.quantize, `${path}.quantize`)
+    }
+    if (part.gateModulations !== undefined) {
+      const mappings = context.array(
+        part,
+        'gateModulations',
+        `${path}.gateModulations`,
+        { max: 32 },
+      )
+      mappings?.forEach((mapping, index) =>
+        validateGateModulation(
+          context,
+          mapping,
+          `${path}.gateModulations[${index}]`,
+        ),
+      )
     }
   } else if (kind === 'control') {
     validateControl(context, part.control, `${path}.control`)
@@ -1695,6 +1736,7 @@ const validateDuration = (
   const kind = context.literal(duration, 'kind', `${path}.kind`, [
     'fixed',
     'inside-band',
+    'inside-region',
     'until-next',
   ])
 
@@ -1704,7 +1746,7 @@ const validateDuration = (
       greaterThan: 0,
       max: 10_000,
     })
-  } else if (kind === 'inside-band') {
+  } else if (kind === 'inside-band' || kind === 'inside-region') {
     context.knownKeys(duration, path, ['kind'])
   } else if (kind === 'until-next') {
     context.knownKeys(duration, path, ['kind', 'maxBeats'])
@@ -1730,6 +1772,77 @@ const validateQuantize = (
     max: 10_000,
   })
   context.number(quantize, 'strength', `${path}.strength`, { min: 0, max: 1 })
+}
+
+const gateTargetBounds = {
+  gain: { min: 0, max: 2 },
+  pan: { min: -1, max: 1 },
+  'pitch-offset': { min: -48, max: 48 },
+  brightness: { min: 0, max: 1 },
+  attack: { min: 0, max: 10 },
+  'initial-velocity': { min: 1, max: 127 },
+} as const
+
+const validateGateModulation = (
+  context: ValidationContext,
+  value: unknown,
+  path: string,
+) => {
+  const mapping = context.object(value, path)
+  if (!mapping) return
+  context.knownKeys(mapping, path, [
+    'id',
+    'name',
+    'enabled',
+    'source',
+    'target',
+    'sampleRateHz',
+    'minimum',
+    'maximum',
+    'curve',
+    'smoothingSeconds',
+  ])
+  context.id(mapping, 'id', `${path}.id`)
+  context.string(mapping, 'name', `${path}.name`, {
+    nonEmpty: true,
+    maxLength: 128,
+  })
+  context.boolean(mapping, 'enabled', `${path}.enabled`)
+  context.literal(mapping, 'source', `${path}.source`, [
+    'cross-wedge-position',
+    'radius',
+    'speed',
+    'curvature',
+  ])
+  const target = context.literal(mapping, 'target', `${path}.target`, [
+    'gain',
+    'pan',
+    'pitch-offset',
+    'brightness',
+    'attack',
+    'initial-velocity',
+  ])
+  const bounds = target ? gateTargetBounds[target] : undefined
+  const minimum = context.number(mapping, 'minimum', `${path}.minimum`, bounds)
+  const maximum = context.number(mapping, 'maximum', `${path}.maximum`, bounds)
+  if (minimum !== null && maximum !== null && minimum > maximum) {
+    context.issue(
+      `${path}.maximum`,
+      'Expected maximum to be greater than or equal to minimum.',
+    )
+  }
+  context.number(mapping, 'sampleRateHz', `${path}.sampleRateHz`, {
+    min: 1,
+    max: 1_000,
+  })
+  context.number(mapping, 'curve', `${path}.curve`, {
+    greaterThan: 0,
+    max: 10,
+  })
+  context.number(mapping, 'smoothingSeconds', `${path}.smoothingSeconds`, {
+    min: 0,
+    max: 60,
+  })
 }
 
 const validateControl = (

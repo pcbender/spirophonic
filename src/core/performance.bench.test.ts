@@ -43,11 +43,11 @@ const measure = <T>(run: () => T) => {
 describe('compilation work budgets', () => {
   it('compiles each reference Composition to its checked-in event count', () => {
     const budgets = [
-      { label: 'ring and spoke', build: ringAndSpokeComposition, encounters: 55, events: 50 },
-      { label: 'multi-Head Wheel', build: multiHeadWheelComposition, encounters: 133, events: 118 },
-      { label: 'concurrent Wheels', build: concurrentWheelsComposition, encounters: 850, events: 161 },
-      { label: 'showcase', build: showcaseComposition, encounters: 850, events: 161 },
-      { label: 'seeded variation', build: seededVariationComposition, encounters: 853, events: 161 },
+      { label: 'ring and spoke', build: ringAndSpokeComposition, encounters: 53, events: 48 },
+      { label: 'multi-Head Wheel', build: multiHeadWheelComposition, encounters: 128, events: 110 },
+      { label: 'concurrent Wheels', build: concurrentWheelsComposition, encounters: 749, events: 149 },
+      { label: 'showcase', build: showcaseComposition, encounters: 749, events: 149 },
+      { label: 'seeded variation', build: seededVariationComposition, encounters: 752, events: 148 },
     ] as const
 
     for (const budget of budgets) {
@@ -76,7 +76,7 @@ describe('compilation work budgets', () => {
         }).encounters.length,
     )
 
-    expect(counts).toEqual([430, 850, 1719])
+    expect(counts).toEqual([377, 749, 1519])
     // Doubling the window roughly doubles the work. A quadratic regression
     // would show up here as a ratio near four.
     const firstRatio = counts[1] / counts[0]

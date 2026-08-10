@@ -6,7 +6,10 @@ import type {
   NativeSynthInstrumentSpec,
 } from '../core/composition'
 import type { NoteMusicalEvent } from '../core/performance'
-import type { ScheduledAudioVoice } from './instrumentEngine'
+import type {
+  ScheduledAudioVoice,
+  ScheduledModulationLane,
+} from './instrumentEngine'
 import {
   NativeSynthEngine,
   type NativeDrumPlayer,
@@ -145,6 +148,89 @@ const voice = (startsAtSeconds: number, endsAtSeconds: number): VoiceRecord => {
 }
 
 describe('NativeSynthEngine', () => {
+  it('applies entry values once and sends continuous lanes to one synth voice', async () => {
+    const context = new FakeAudioContext()
+    const scheduled: Array<ReadonlyArray<ScheduledModulationLane>> = []
+    const cancelled: Array<number> = []
+    let level = 0
+    let attack = 0
+    const tonePlayer: NativeTonePlayer = (
+      _context,
+      _destination,
+      _frequency,
+      atSeconds,
+      durationSeconds,
+      nextLevel,
+      _waveform,
+      envelope,
+    ) => {
+      level = nextLevel
+      attack = envelope.attackSeconds
+      return {
+        ...voice(atSeconds, atSeconds + durationSeconds),
+        scheduleModulation: (lanes) => {
+          scheduled.push(lanes)
+          return []
+        },
+        cancelModulationFrom: (at) => cancelled.push(at),
+      }
+    }
+    const engine = new NativeSynthEngine({
+      contextFactory: () => context as unknown as AudioContext,
+      tonePlayer,
+    })
+    const event = note('modulated', 'synth-a')
+    const lanes: ReadonlyArray<ScheduledModulationLane> = [
+      {
+        id: 'lane-velocity',
+        mappingId: 'mapping-velocity',
+        noteEventId: event.id,
+        partId: event.partId,
+        instrumentId: event.instrumentId,
+        target: 'initial-velocity',
+        minimum: 1,
+        maximum: 127,
+        entryOnly: true,
+        samples: [{ audioTimeSeconds: 0.5, value: 88 }],
+      },
+      {
+        id: 'lane-attack',
+        mappingId: 'mapping-attack',
+        noteEventId: event.id,
+        partId: event.partId,
+        instrumentId: event.instrumentId,
+        target: 'attack',
+        minimum: 0,
+        maximum: 1,
+        entryOnly: true,
+        samples: [{ audioTimeSeconds: 0.5, value: 0.4 }],
+      },
+      {
+        id: 'lane-gain',
+        mappingId: 'mapping-gain',
+        noteEventId: event.id,
+        partId: event.partId,
+        instrumentId: event.instrumentId,
+        target: 'gain',
+        minimum: 0,
+        maximum: 1,
+        entryOnly: false,
+        samples: [
+          { audioTimeSeconds: 0.5, value: 0.2 },
+          { audioTimeSeconds: 0.7, value: 0.8 },
+        ],
+      },
+    ]
+
+    expect(engine.schedule(event, synth('synth-a', 'sine'), 0.5, lanes)).toEqual([])
+    expect(level).toBeCloseTo(88 / 127)
+    expect(attack).toBe(0.4)
+    expect(scheduled).toEqual([lanes])
+
+    engine.cancelScheduledFrom(0.6)
+    expect(cancelled).toEqual([0.6])
+  })
+
   it('routes simultaneous Parts through their selected Instrument definitions', async () => {
     const context = new FakeAudioContext()
     const toneCalls: Array<{

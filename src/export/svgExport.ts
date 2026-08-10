@@ -64,6 +64,8 @@ const svgForCommand = (command: CompositionDrawCommand): string => {
       return `  <circle data-boundary-id="${escapeXml(command.boundaryId)}" cx="${round(command.center.x)}" cy="${round(command.center.y)}" r="${round(command.radius)}" fill="none" stroke="${escapeXml(command.color)}" stroke-width="${round(command.lineWidth)}"/>`
     case 'spoke-boundary':
       return `  <line data-boundary-id="${escapeXml(command.boundaryId)}" x1="${round(command.from.x)}" y1="${round(command.from.y)}" x2="${round(command.to.x)}" y2="${round(command.to.y)}" stroke="${escapeXml(command.color)}" stroke-width="${round(command.lineWidth)}"/>`
+    case 'wedge-boundary':
+      return `  <polygon data-boundary-id="${escapeXml(command.boundaryId)}" points="${round(command.center.x)},${round(command.center.y)} ${round(command.left.x)},${round(command.left.y)} ${round(command.right.x)},${round(command.right.y)}" fill="${escapeXml(command.color)}" fill-opacity="${round(command.fillOpacity)}" stroke="${escapeXml(command.color)}" stroke-width="${round(command.lineWidth)}"/>`
     case 'trace':
       return `  <polyline data-head-id="${escapeXml(command.headId)}" points="${command.points.map((point) => `${round(point.x)},${round(point.y)}`).join(' ')}" fill="none" stroke="${escapeXml(command.color)}" stroke-width="${round(command.lineWidth)}" opacity="${round(command.opacity)}" stroke-linecap="round" stroke-linejoin="round"/>`
     case 'head':
