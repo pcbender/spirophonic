@@ -352,6 +352,27 @@ The geometric line itself is unchanged. A mapping needs **Time inside a
 region** and a complete entry/exit pair; an incomplete visit is diagnosed and
 does not leave a lane or held note hanging.
 
+The native synth applies all six targets to one voice: attack and initial
+velocity at note-on, then gain, pan, pitch offset, and low-pass brightness at
+the saved lane times. Seeking into an already-open gate recreates one clipped
+voice with the original entry values and only the remaining continuous lane;
+pause, stop, panic, looping, voice stealing, and safe-boundary edits cancel
+future automation with the voice.
+
+SoundFont playback uses velocity, pitch wheel, and MIDI controllers 7 (gain),
+10 (pan), and 74 (brightness). A preset's attack cannot be expressed reliably
+in seconds, and overlapping independently modulated notes cannot share one
+SoundFont channel; both cases are named in Performance diagnostics instead of
+being flattened silently. Values beyond a backend's range are clipped with a
+named warning.
+
+MIDI export writes the same timed controllers, controller 73 for attack, and
+pitch bends without adding note-ons. A channel collision or bend-range loss is
+reported. Strudel emits sampled `gain`, `pan`, `transpose`, `lpf`, and `attack`
+control patterns; when its 256-step ceiling reduces a denser lane, the export
+message says which lane was reduced. WAV rendering uses the same native and
+SoundFont engine path as live playback.
+
 #### Pitch mappings
 
 | Mapping | Parameters | Chooses pitch from |

@@ -23,7 +23,7 @@ import {
   parseProjectBundle,
   type BundleAssetOutcome,
 } from '../export/projectBundle'
-import { exportPerformanceStrudel } from '../export/strudelExport'
+import { exportPerformanceStrudelWithDiagnostics } from '../export/strudelExport'
 import { downloadCompositionSvg } from '../export/svgExport'
 
 export type ImportExportPanelProps = {
@@ -111,7 +111,7 @@ export function ImportExportPanel({
   }> | null>(null)
 
   const strudel = useMemo(
-    () => exportPerformanceStrudel(performance, composition),
+    () => exportPerformanceStrudelWithDiagnostics(performance, composition),
     [composition, performance],
   )
   const observation = {
@@ -138,8 +138,19 @@ export function ImportExportPanel({
   }
 
   const copyStrudel = async () => {
-    await navigator.clipboard?.writeText(strudel)
-    setMessage('Copied Strudel snippet.')
+    await navigator.clipboard?.writeText(strudel.code)
+    setMessage(
+      ['Copied Strudel snippet.', ...strudel.diagnostics.map((item) => item.message)].join(' '),
+    )
+  }
+
+  const exportMidi = () => {
+    const result = downloadPerformanceMidi(performance, composition)
+    setMessage(
+      result.diagnostics.length === 0
+        ? 'Exported MIDI with exact supported modulation.'
+        : result.diagnostics.map((item) => item.message).join(' '),
+    )
   }
 
   const exportWav = async () => {
@@ -277,7 +288,7 @@ export function ImportExportPanel({
       <button type="button" title={help['files.importJson']} onClick={() => inputRef.current?.click()}>
         Import JSON
       </button>
-      <button type="button" title={help['files.exportMidi']} onClick={() => downloadPerformanceMidi(performance, composition)}>
+      <button type="button" title={help['files.exportMidi']} onClick={exportMidi}>
         Export MIDI
       </button>
       <button type="button" title={help['files.exportSvg']} onClick={() => downloadCompositionSvg(composition, observation)}>

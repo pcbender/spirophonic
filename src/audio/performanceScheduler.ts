@@ -6,6 +6,10 @@ import {
 } from '../core/performance'
 import { beatsToSeconds, secondsToBeats } from '../core/transport'
 import type { InstrumentEngine } from './instrumentEngine'
+import {
+  scheduledModulationForOccurrence,
+  type InstrumentAutomationDiagnostic,
+} from './instrumentEngine'
 
 export type PlaybackStatus = 'stopped' | 'playing' | 'paused' | 'disposed'
 
@@ -34,6 +38,8 @@ export type PerformanceSchedulerOptions = Readonly<{
 type EventOccurrence = {
   event: NoteMusicalEvent
   nextTimelineSeconds: number
+  /** Present only for the one clipped voice recreated by a mid-note seek. */
+  resumeTimelineSeconds?: number
 }
 
 type PendingPerformance = Readonly<{
@@ -117,6 +123,7 @@ export class PerformanceScheduler {
   private timer: unknown = null
   private occurrences: Array<EventOccurrence> = []
   private pending: PendingPerformance | null = null
+  private automationDiagnosticsValue: Array<InstrumentAutomationDiagnostic> = []
 
   constructor(
     engine: InstrumentEngine,
@@ -159,6 +166,10 @@ export class PerformanceScheduler {
     return this.pending?.boundaryTimelineSeconds ?? null
   }
 
+  get automationDiagnostics() {
+    return Object.freeze([...this.automationDiagnosticsValue])
+  }
+
   async start(
     performance: CanonicalPerformance,
     instruments: ReadonlyArray<InstrumentSpec>,
@@ -176,6 +187,7 @@ export class PerformanceScheduler {
     this.tempoBpm = options.tempoBpm
     this.looping = options.loop ?? false
     this.pending = null
+    this.automationDiagnosticsValue = []
     this.heldTimelineSeconds = this.normalizePosition(
       options.positionSeconds ?? performance.request.startSeconds,
     )
@@ -389,11 +401,53 @@ export class PerformanceScheduler {
           `Scheduled event ${occurrence.event.id} lost instrument ${occurrence.event.instrumentId}.`,
         )
       }
-      this.engine.schedule(occurrence.event, instrument, audioTime)
-      occurrence.nextTimelineSeconds = this.looping
-        ? occurrence.nextTimelineSeconds +
-          this.performance.request.durationSeconds
-        : Number.POSITIVE_INFINITY
+      const resumeTimelineSeconds =
+        occurrence.resumeTimelineSeconds ?? occurrence.event.timeSeconds
+      const scheduledEvent = occurrence.resumeTimelineSeconds === undefined
+        ? occurrence.event
+        : Object.freeze({
+            ...occurrence.event,
+            durationSeconds: Math.max(
+              0,
+              occurrence.event.timeSeconds +
+                occurrence.event.durationSeconds -
+                resumeTimelineSeconds,
+            ),
+            durationBeats: secondsToBeats(
+              Math.max(
+                0,
+                occurrence.event.timeSeconds +
+                  occurrence.event.durationSeconds -
+                  resumeTimelineSeconds,
+              ),
+              this.tempoBpm,
+            ),
+          })
+      const lanes = scheduledModulationForOccurrence(
+        this.performance.modulationLanes,
+        occurrence.event.id,
+        audioTime,
+        resumeTimelineSeconds,
+      )
+      const issues = this.engine.schedule(
+        scheduledEvent,
+        instrument,
+        audioTime,
+        lanes,
+      )
+      if (Array.isArray(issues)) {
+        this.addAutomationDiagnostics(
+          issues as ReadonlyArray<InstrumentAutomationDiagnostic>,
+        )
+      }
+      if (occurrence.resumeTimelineSeconds !== undefined) {
+        occurrence.nextTimelineSeconds = Number.POSITIVE_INFINITY
+      } else {
+        occurrence.nextTimelineSeconds = this.looping
+          ? occurrence.nextTimelineSeconds +
+            this.performance.request.durationSeconds
+          : Number.POSITIVE_INFINITY
+      }
     }
   }
 
@@ -413,7 +467,8 @@ export class PerformanceScheduler {
     this.anchorAudioSeconds = boundaryAudioSeconds
     this.anchorTimelineSeconds = pending.boundaryTimelineSeconds
     this.pending = null
-    this.resetOccurrences(this.anchorTimelineSeconds)
+    this.automationDiagnosticsValue = []
+    this.resetOccurrences(this.anchorTimelineSeconds, false)
   }
 
   private nextOccurrence() {
@@ -430,7 +485,7 @@ export class PerformanceScheduler {
     return next
   }
 
-  private resetOccurrences(positionSeconds: number) {
+  private resetOccurrences(positionSeconds: number, resumeActive = true) {
     const performance = this.performance
     if (!performance) {
       this.occurrences = []
@@ -442,8 +497,21 @@ export class PerformanceScheduler {
     // be scheduled; they are rests, not notes.
     this.occurrences = [...soundingEvents(performance.performedEvents)]
       .sort(compareEvents)
-      .map((event) => {
+      .flatMap((event) => {
         let nextTimelineSeconds = event.timeSeconds
+        const occurrences: Array<EventOccurrence> = []
+        const eventEnd = event.timeSeconds + event.durationSeconds
+        if (
+          resumeActive &&
+          positionSeconds > event.timeSeconds + epsilon &&
+          positionSeconds < eventEnd - epsilon
+        ) {
+          occurrences.push({
+            event,
+            nextTimelineSeconds: positionSeconds,
+            resumeTimelineSeconds: positionSeconds,
+          })
+        }
         if (this.looping && nextTimelineSeconds < positionSeconds - epsilon) {
           nextTimelineSeconds +=
             Math.ceil((positionSeconds - nextTimelineSeconds) / duration) *
@@ -451,8 +519,26 @@ export class PerformanceScheduler {
         } else if (!this.looping && nextTimelineSeconds < positionSeconds - epsilon) {
           nextTimelineSeconds = Number.POSITIVE_INFINITY
         }
-        return { event, nextTimelineSeconds }
+        occurrences.push({ event, nextTimelineSeconds })
+        return occurrences
       })
+  }
+
+  private addAutomationDiagnostics(
+    diagnostics: ReadonlyArray<InstrumentAutomationDiagnostic>,
+  ) {
+    const held = new Set(
+      this.automationDiagnosticsValue.map(
+        (diagnostic) =>
+          `${diagnostic.code}|${diagnostic.consumer}|${diagnostic.laneId}`,
+      ),
+    )
+    for (const diagnostic of diagnostics) {
+      const key = `${diagnostic.code}|${diagnostic.consumer}|${diagnostic.laneId}`
+      if (held.has(key)) continue
+      held.add(key)
+      this.automationDiagnosticsValue.push(diagnostic)
+    }
   }
 
   private timelineAt(audioTimeSeconds: number) {

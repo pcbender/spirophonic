@@ -7,8 +7,10 @@ import type { NoteMusicalEvent } from '../core/performance'
 import { playNativeDrum } from './drumSynth'
 import type {
   InstrumentEngine,
+  InstrumentAutomationDiagnostic,
   RenderContext,
   ScheduledAudioVoice,
+  ScheduledModulationLane,
 } from './instrumentEngine'
 import { playSynthTone } from './toneSynth'
 
@@ -86,7 +88,8 @@ export class NativeSynthEngine implements InstrumentEngine {
     event: NoteMusicalEvent,
     instrument: InstrumentSpec,
     audioTimeSeconds: number,
-  ) {
+    lanes: ReadonlyArray<ScheduledModulationLane> = [],
+  ): ReadonlyArray<InstrumentAutomationDiagnostic> {
     this.assertUsable()
     if (event.instrumentId !== instrument.id) {
       throw new RangeError(
@@ -101,7 +104,18 @@ export class NativeSynthEngine implements InstrumentEngine {
 
     const context = this.ensureContext()
     const destination = this.busFor(instrument, audioTimeSeconds).gain
-    const level = event.velocity / 127
+    const entryValue = (target: ScheduledModulationLane['target']) =>
+      lanes.find((lane) => lane.target === target && lane.entryOnly)?.samples[0]
+        ?.value
+    const level = (entryValue('initial-velocity') ?? event.velocity) / 127
+    const envelope =
+      instrument.kind === 'native-synth'
+        ? {
+            ...instrument.envelope,
+            attackSeconds:
+              entryValue('attack') ?? instrument.envelope.attackSeconds,
+          }
+        : undefined
     const voice =
       instrument.kind === 'native-synth'
         ? this.tonePlayer(
@@ -112,7 +126,7 @@ export class NativeSynthEngine implements InstrumentEngine {
             event.durationSeconds,
             level,
             instrument.waveform,
-            instrument.envelope,
+            envelope!,
           )
         : this.drumPlayer(
             context,
@@ -124,6 +138,19 @@ export class NativeSynthEngine implements InstrumentEngine {
 
     this.pruneVoices()
     this.voices.push(Object.freeze({ eventId: event.id, voice }))
+    if (instrument.kind === 'native-synth') {
+      if (voice.scheduleModulation) return voice.scheduleModulation(lanes)
+      return Object.freeze(
+        lanes
+          .filter((lane) => !lane.entryOnly)
+          .map((lane) => this.unsupported(lane, instrument.kind)),
+      )
+    }
+    return Object.freeze(
+      lanes
+        .filter((lane) => lane.target !== 'initial-velocity')
+        .map((lane) => this.unsupported(lane, instrument.kind)),
+    )
   }
 
   cancelScheduledFrom(audioTimeSeconds: number) {
@@ -134,6 +161,8 @@ export class NativeSynthEngine implements InstrumentEngine {
       if (tracked.voice.startsAtSeconds >= audioTimeSeconds) {
         tracked.voice.cancel(cancelAt)
         this.voices.splice(index, 1)
+      } else {
+        tracked.voice.cancelModulationFrom?.(audioTimeSeconds)
       }
     }
   }
@@ -213,6 +242,22 @@ export class NativeSynthEngine implements InstrumentEngine {
         this.voices.splice(index, 1)
       }
     }
+  }
+
+  private unsupported(
+    lane: ScheduledModulationLane,
+    instrumentKind: InstrumentSpec['kind'],
+  ): InstrumentAutomationDiagnostic {
+    return Object.freeze({
+      code: 'unsupported-target' as const,
+      consumer: 'native' as const,
+      target: lane.target,
+      laneId: lane.id,
+      noteEventId: lane.noteEventId,
+      partId: lane.partId,
+      instrumentId: lane.instrumentId,
+      message: `${instrumentKind === 'native-drum' ? 'Native drum' : 'Native synth'} playback cannot apply ${lane.target} modulation for note ${lane.noteEventId}.`,
+    })
   }
 
   private assertUsable() {

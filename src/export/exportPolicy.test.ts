@@ -227,8 +227,16 @@ describe('MG-19 acceptance', () => {
 
     const tracks = buildPerformanceMidiTracks(performance, composition)
     for (const note of tracks[0].notes) {
-      expect(note.pitchBend).toBeDefined()
-      expect(note.pitchBend).not.toBe(8192)
+      expect(
+        tracks[0].pitchBends?.some(
+          (bend) => bend.tick === note.tick && bend.value !== 8192,
+        ),
+      ).toBe(true)
+      expect(tracks[0].pitchBends).toContainEqual({
+        tick: note.tick + note.duration,
+        channel: note.channel,
+        value: 8192,
+      })
     }
   })
 

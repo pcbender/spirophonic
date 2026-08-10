@@ -36,6 +36,19 @@ export type PerformancePatternPart = Readonly<{
   percussion: boolean
   /** True when any event needed a frequency token to keep its tuning. */
   usesFrequency: boolean
+  controls: ReadonlyArray<Readonly<{ method: string; values: ReadonlyArray<string> }>>
+}>
+
+export type StrudelExportDiagnostic = Readonly<{
+  code: 'modulation-resolution'
+  partId: string
+  laneId: string
+  message: string
+}>
+
+export type StrudelExportResult = Readonly<{
+  code: string
+  diagnostics: ReadonlyArray<StrudelExportDiagnostic>
 }>
 
 /** Within this many cents of a semitone, a note name is an exact description. */
@@ -72,6 +85,7 @@ const patternForPart = (
   events: ReadonlyArray<NoteMusicalEvent>,
   performance: ExportablePerformance,
   composition: Composition,
+  diagnostics: Array<StrudelExportDiagnostic>,
 ): PerformancePatternPart => {
   const startBeat = secondsToBeats(
     performance.request.startSeconds,
@@ -107,6 +121,68 @@ const patternForPart = (
     instrument.kind !== 'native-drum' &&
     slots.some((event) => event !== null && !isEqualTempered(event))
 
+  const lanes = performance.modulationLanes.filter(
+    (lane) => lane.partId === part.id,
+  )
+  const entryVelocity = new Map(
+    lanes
+      .filter((lane) => lane.target === 'initial-velocity')
+      .map((lane) => [lane.noteEventId, lane.samples[0]?.value]),
+  )
+  const methods = {
+    gain: { method: 'gain', neutral: 1, map: (value: number) => value },
+    pan: { method: 'pan', neutral: 0, map: (value: number) => value },
+    'pitch-offset': {
+      method: 'transpose',
+      neutral: 0,
+      map: (value: number) => value,
+    },
+    brightness: {
+      method: 'lpf',
+      neutral: 20_000,
+      map: (value: number) => 80 * (20_000 / 80) ** value,
+    },
+    attack: { method: 'attack', neutral: 0, map: (value: number) => value },
+  } as const
+  const controls = new Map<string, Array<string>>()
+  const occupied = new Map<string, Set<number>>()
+  for (const lane of lanes) {
+    if (lane.target === 'initial-velocity') continue
+    const spec = methods[lane.target]
+    const values = controls.get(spec.method) ??
+      Array.from({ length: steps }, () => String(spec.neutral))
+    const used = occupied.get(spec.method) ?? new Set<number>()
+    let collapsed = false
+    for (const sample of lane.samples) {
+      const slot = Math.min(
+        steps - 1,
+        Math.max(
+          0,
+          Math.round(
+            ((sample.timeSeconds - performance.request.startSeconds) /
+              performance.request.durationSeconds) *
+              steps,
+          ),
+        ),
+      )
+      if (used.has(slot)) collapsed = true
+      used.add(slot)
+      values[slot] = String(Number(spec.map(sample.value).toFixed(4)))
+    }
+    controls.set(spec.method, values)
+    occupied.set(spec.method, used)
+    if (collapsed || lane.samples.length > steps) {
+      diagnostics.push(
+        Object.freeze({
+          code: 'modulation-resolution' as const,
+          partId: part.id,
+          laneId: lane.id,
+          message: `Strudel reduced lane ${lane.id} from ${lane.samples.length} samples to the ${steps}-step pattern grid; note timing is unchanged.`,
+        }),
+      )
+    }
+  }
+
   return Object.freeze({
     partId: part.id,
     label: part.name,
@@ -120,7 +196,14 @@ const patternForPart = (
     ),
     gains: Object.freeze(
       slots.map((event) =>
-        event ? String(Number((event.velocity / 127).toFixed(2))) : REST,
+        event
+          ? String(
+              Number(
+                (((entryVelocity.get(event.id) ?? event.velocity) as number) /
+                  127).toFixed(2),
+              ),
+            )
+          : REST,
       ),
     ),
     clip: Number(
@@ -128,12 +211,18 @@ const patternForPart = (
     ),
     sound: soundFor(instrument),
     percussion: instrument.kind === 'native-drum',
+    controls: Object.freeze(
+      [...controls].map(([method, values]) =>
+        Object.freeze({ method, values: Object.freeze(values) }),
+      ),
+    ),
   })
 }
 
 export const buildPerformancePatternParts = (
   performance: ExportablePerformance,
   composition: Composition,
+  diagnostics: Array<StrudelExportDiagnostic> = [],
 ): ReadonlyArray<PerformancePatternPart> => {
   const instruments = new Map(
     composition.instruments.map((instrument) => [instrument.id, instrument]),
@@ -155,6 +244,7 @@ export const buildPerformancePatternParts = (
           performance.performedEvents,
           performance,
           composition,
+          diagnostics,
         )
       }),
   )
@@ -163,10 +253,25 @@ export const buildPerformancePatternParts = (
 export const exportPerformanceStrudel = (
   performance: ExportablePerformance,
   composition: Composition,
-) => {
+) => exportPerformanceStrudelWithDiagnostics(performance, composition).code
+
+export const exportPerformanceStrudelWithDiagnostics = (
+  performance: ExportablePerformance,
+  composition: Composition,
+): StrudelExportResult => {
   const cps = Number((1 / performance.request.durationSeconds).toFixed(6))
-  const parts = buildPerformancePatternParts(performance, composition)
-  if (parts.length === 0) return `setcps(${cps})\n\nsilence`
+  const diagnostics: Array<StrudelExportDiagnostic> = []
+  const parts = buildPerformancePatternParts(
+    performance,
+    composition,
+    diagnostics,
+  )
+  if (parts.length === 0) {
+    return Object.freeze({
+      code: `setcps(${cps})\n\nsilence`,
+      diagnostics: Object.freeze(diagnostics),
+    })
+  }
 
   const code = parts.map((part) => {
     const tokens = part.tokens.join(' ')
@@ -178,12 +283,18 @@ export const exportPerformanceStrudel = (
           `freq("${tokens}").s("${part.sound}")`
         : `note("${tokens}").s("${part.sound}")`
     const clip = part.clip === 1 ? '' : `.clip(${part.clip})`
-    return `  // ${part.label}\n  ${head}.gain("${gains}")${clip}`
+    const controls = part.controls
+      .map((control) => `.${control.method}("${control.values.join(' ')}")`)
+      .join('')
+    return `  // ${part.label}\n  ${head}.gain("${gains}")${controls}${clip}`
   })
 
-  return [
-    `setcps(${cps})`,
-    '',
-    parts.length === 1 ? code[0].trimStart() : `stack(\n${code.join(',\n')}\n)`,
-  ].join('\n')
+  return Object.freeze({
+    code: [
+      `setcps(${cps})`,
+      '',
+      parts.length === 1 ? code[0].trimStart() : `stack(\n${code.join(',\n')}\n)`,
+    ].join('\n'),
+    diagnostics: Object.freeze(diagnostics),
+  })
 }

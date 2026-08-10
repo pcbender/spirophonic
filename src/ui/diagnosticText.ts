@@ -1,4 +1,5 @@
 import type { PerformanceDiagnostic } from '../core/performance'
+import type { InstrumentAutomationDiagnostic } from '../audio/instrumentEngine'
 
 /**
  * Turns a compiler diagnostic into something a composer can act on.
@@ -88,6 +89,17 @@ export const groupDiagnostics = (
 
   return [...rows.values()]
 }
+
+/** Makes a backend capability limit readable in the existing diagnostics rail. */
+export const automationPerformanceDiagnostic = (
+  diagnostic: InstrumentAutomationDiagnostic,
+): PerformanceDiagnostic =>
+  Object.freeze({
+    severity: 'warning' as const,
+    code: 'gate-modulation' as const,
+    partId: diagnostic.partId,
+    message: diagnostic.message,
+  })
 
 /**
  * What these errors cost, which is not the same thing for all of them.

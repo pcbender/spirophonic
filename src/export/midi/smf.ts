@@ -17,10 +17,17 @@ export type MidiNote = {
   pitchBend?: number
 }
 
-/** A control change written once at the top of the track. */
+/** A timed control change; omitted tick means the top of the track. */
 export type MidiController = {
+  tick?: number
   channel: number
   controller: number
+  value: number
+}
+
+export type MidiPitchBend = {
+  tick: number
+  channel: number
   value: number
 }
 
@@ -34,6 +41,7 @@ export type MidiTrack = {
   bankMSB?: number
   bankLSB?: number
   controllers?: Array<MidiController>
+  pitchBends?: Array<MidiPitchBend>
 }
 
 export type TimeSignature = {
@@ -133,7 +141,7 @@ const buildTempoTrack = (options: MidiFileOptions) => {
 }
 
 const buildNoteTrack = (track: MidiTrack) => {
-  const messages = track.notes.flatMap((note) => {
+  const noteMessages = track.notes.flatMap((note) => {
     const channel = clampChannel(note.channel)
     const pitch = clampByte(note.note)
     const start = Math.max(0, Math.round(note.tick))
@@ -159,6 +167,27 @@ const buildNoteTrack = (track: MidiTrack) => {
       { tick: end, order: 0, bytes: [NOTE_OFF | channel, pitch, 0x40] },
     ]
   })
+  const messages = [
+    ...noteMessages,
+    ...(track.controllers ?? []).map((controller) => ({
+      tick: Math.max(0, Math.round(controller.tick ?? 0)),
+      order: -2,
+      bytes: [
+        CONTROL_CHANGE | clampChannel(controller.channel),
+        clampByte(controller.controller),
+        clampByte(controller.value),
+      ],
+    })),
+    ...(track.pitchBends ?? []).map((bend) => ({
+      tick: Math.max(0, Math.round(bend.tick)),
+      order: -1,
+      bytes: [
+        PITCH_BEND | clampChannel(bend.channel),
+        bend.value & 0x7f,
+        (bend.value >> 7) & 0x7f,
+      ],
+    })),
+  ]
 
   // A note-off at the same tick as a note-on is written first, so retriggering
   // one drum does not cut the hit that just started.
@@ -171,15 +200,6 @@ const buildNoteTrack = (track: MidiTrack) => {
 
   const trackChannel = clampChannel(track.channel ?? 0)
 
-  for (const controller of track.controllers ?? []) {
-    payload.push(
-      ...event(0, [
-        CONTROL_CHANGE | clampChannel(controller.channel),
-        clampByte(controller.controller),
-        clampByte(controller.value),
-      ]),
-    )
-  }
   // Bank select must precede the program change to select the right bank.
   if (track.bankMSB !== undefined) {
     payload.push(

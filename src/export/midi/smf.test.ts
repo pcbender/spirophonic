@@ -121,6 +121,33 @@ describe('buildMidiFile', () => {
     expect(text.indexOf('89 2a')).toBeLessThan(text.lastIndexOf('99 2a'))
   })
 
+  it('writes timed controllers and pitch bends without adding note onsets', () => {
+    const bytes = buildMidiFile({
+      ticksPerQuarter: 480,
+      microsecondsPerBeat: 500_000,
+      timeSignature: { numerator: 4, denominator: 4 },
+      tracks: [
+        {
+          name: 'Modulated',
+          notes: [{ tick: 0, channel: 0, note: 60, velocity: 90, duration: 480 }],
+          controllers: [
+            { tick: 120, channel: 0, controller: 74, value: 32 },
+            { tick: 240, channel: 0, controller: 74, value: 96 },
+          ],
+          pitchBends: [
+            { tick: 120, channel: 0, value: 4096 },
+            { tick: 240, channel: 0, value: 12_288 },
+          ],
+        },
+      ],
+    })
+    const text = hex(bytes)
+
+    expect(text.match(/90 3c/g)).toHaveLength(1)
+    expect(text.match(/b0 4a/g)).toHaveLength(2)
+    expect(text.match(/e0 00 20|e0 00 60/g)).toHaveLength(2)
+  })
+
   it('clamps values that would corrupt the stream', () => {
     const bytes = buildMidiFile({
       ticksPerQuarter: 480,

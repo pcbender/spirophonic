@@ -285,6 +285,154 @@ test('an authored gate mapping styles only its held Trace span and survives play
   await fresh.close()
 })
 
+test('near and far sine gates keep their attack count while the far native voice and lane last longer', async ({ page }) => {
+  await page.evaluate(() => {
+    const scope = window as unknown as {
+      __gateAudio: {
+        starts: Array<number>
+        stops: Array<number>
+        frequencyChanges: Array<number>
+      }
+    }
+    scope.__gateAudio = { starts: [], stops: [], frequencyChanges: [] }
+    const prototype = AudioContext.prototype
+    const createOscillator = prototype.createOscillator
+    prototype.createOscillator = function () {
+      const oscillator = createOscillator.call(this)
+      const start = oscillator.start.bind(oscillator)
+      const stop = oscillator.stop.bind(oscillator)
+      oscillator.start = (when = 0) => {
+        scope.__gateAudio.starts.push(when)
+        start(when)
+      }
+      oscillator.stop = (when = 0) => {
+        scope.__gateAudio.stops.push(when)
+        stop(when)
+      }
+      const set = oscillator.frequency.setValueAtTime.bind(oscillator.frequency)
+      const ramp = oscillator.frequency.linearRampToValueAtTime.bind(
+        oscillator.frequency,
+      )
+      oscillator.frequency.setValueAtTime = (value, when) => {
+        scope.__gateAudio.frequencyChanges.push(when)
+        return set(value, when)
+      }
+      oscillator.frequency.linearRampToValueAtTime = (value, when) => {
+        scope.__gateAudio.frequencyChanges.push(when)
+        return ramp(value, when)
+      }
+      return oscillator
+    }
+  })
+
+  const compositionAt = (radius: number) => {
+    const composition = gatedModulationComposition()
+    composition.name = `Sine gate ${radius}`
+    const head = composition.wheels[0].heads[0]
+    head.attachment = {
+      kind: 'lissajous',
+      // Composition validation requires a positive scale. Keep this axis
+      // effectively fixed so only the unchanged 2 Hz transverse sine moves
+      // through the wedge while `offset.x` selects the radius.
+      scaleX: 0.001,
+      scaleY: 50,
+      phaseX: 0,
+      phaseY: -Math.PI / 2,
+    }
+    head.offset = { x: radius, y: 0 }
+    const boundary = composition.fields[0].boundaries[0]
+    if (boundary.kind !== 'spoke') throw new Error('Expected the wedge fixture.')
+    boundary.angle = 0
+    const part = composition.parts[0]
+    if (part.kind !== 'note') throw new Error('Expected a note Part.')
+    part.gateModulations = [
+      {
+        ...part.gateModulations![0],
+        target: 'pitch-offset',
+        minimum: -0.25,
+        maximum: 0.25,
+      },
+    ]
+    return composition
+  }
+  const nearComposition = compositionAt(30)
+  const farComposition = compositionAt(100)
+  const performanceFor = (composition: ReturnType<typeof compositionAt>) =>
+    compilePerformance(composition, {
+      startSeconds: 0,
+      durationSeconds: beatsToSeconds(
+        composition.transport.loop.lengthBeats,
+        composition.transport.tempoBpm,
+      ),
+      sampleRateHz: 120,
+    })
+  const nearPerformance = performanceFor(nearComposition)
+  const farPerformance = performanceFor(farComposition)
+  expect(nearPerformance.performedEvents.length).toBeGreaterThan(0)
+  expect(farPerformance.performedEvents).toHaveLength(
+    nearPerformance.performedEvents.length,
+  )
+  expect(farPerformance.modulationLanes[0].endSeconds - farPerformance.modulationLanes[0].startSeconds).toBeGreaterThan(
+    nearPerformance.modulationLanes[0].endSeconds - nearPerformance.modulationLanes[0].startSeconds,
+  )
+
+  const play = async (composition: ReturnType<typeof compositionAt>) => {
+    await page.getByLabel('Import Composition JSON').setInputFiles({
+      name: `${composition.name}.json`,
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(composition)),
+    })
+    await expect(page.getByText(`Imported ${composition.name}.`)).toBeVisible()
+    await page.getByRole('checkbox', { name: 'Loop', exact: true }).uncheck()
+    await page.evaluate(() => {
+      const audio = (window as unknown as { __gateAudio: object }).__gateAudio as {
+        starts: Array<number>
+        stops: Array<number>
+        frequencyChanges: Array<number>
+      }
+      audio.starts = []
+      audio.stops = []
+      audio.frequencyChanges = []
+    })
+    await page.getByRole('button', { name: 'Play' }).click()
+    await expect
+      .poll(
+        async () =>
+          Number(await page.getByRole('slider', { name: 'Transport position' }).inputValue()),
+        { timeout: 10_000 },
+      )
+      .toBeGreaterThan(1.8)
+    const evidence = await page.evaluate(
+      () =>
+        (window as unknown as {
+          __gateAudio: {
+            starts: Array<number>
+            stops: Array<number>
+            frequencyChanges: Array<number>
+          }
+        }).__gateAudio,
+    )
+    await page.locator('.transport').getByRole('button', { name: 'Stop' }).click()
+    return evidence
+  }
+
+  const near = await play(nearComposition)
+  const far = await play(farComposition)
+  expect(near.starts).toHaveLength(nearPerformance.performedEvents.length)
+  expect(far.starts).toHaveLength(farPerformance.performedEvents.length)
+  expect(near.frequencyChanges.length).toBeGreaterThan(near.starts.length)
+  expect(far.frequencyChanges.length).toBeGreaterThan(
+    near.frequencyChanges.length,
+  )
+  const longest = (evidence: typeof near) =>
+    Math.max(
+      ...evidence.starts.map(
+        (start, index) => (evidence.stops[index] ?? start) - start,
+      ),
+    )
+  expect(longest(far)).toBeGreaterThan(longest(near))
+})
+
 test('a rotating Field animates while the Head path is unchanged', async ({
   page,
 }) => {

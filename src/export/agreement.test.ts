@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest'
 
-import type { InstrumentEngine } from '../audio/instrumentEngine'
+import type {
+  InstrumentEngine,
+  ScheduledModulationLane,
+} from '../audio/instrumentEngine'
 import { PerformanceScheduler } from '../audio/performanceScheduler'
 import type { Composition } from '../core/composition'
 import { defaultComposition } from '../core/defaultComposition'
@@ -12,6 +15,12 @@ import {
   type NoteMusicalEvent,
 } from '../core/performance'
 import { beatsToSeconds } from '../core/transport'
+import { compileGateModulationLane } from '../core/gateModulation'
+import {
+  fixedFrequencySineGateFixture,
+  gatedModulationComposition,
+  speedMapping,
+} from '../test/fixtures/gateModulation'
 import {
   renderPerformanceToWav,
   type OfflineContextFactory,
@@ -76,6 +85,176 @@ const silentOfflineContext: OfflineContextFactory = (
 }
 
 describe('canonical export agreement', () => {
+  it('uses the exact unmodulated note and consumer path when a mapping is disabled', async () => {
+    const disabled = gatedModulationComposition()
+    const part = disabled.parts[0]
+    if (part.kind !== 'note') throw new Error('Expected a note Part.')
+    part.gateModulations = part.gateModulations?.map((mapping) => ({
+      ...mapping,
+      enabled: false,
+    }))
+    const absent = structuredClone(disabled) as Composition
+    const absentPart = absent.parts[0]
+    if (absentPart.kind !== 'note') throw new Error('Expected a note Part.')
+    absentPart.gateModulations = []
+    const request = {
+      startSeconds: 0,
+      durationSeconds: beatsToSeconds(
+        disabled.transport.loop.lengthBeats,
+        disabled.transport.tempoBpm,
+      ),
+      sampleRateHz: 120,
+    }
+    const disabledPerformance = compilePerformance(disabled, request)
+    const absentPerformance = compilePerformance(absent, request)
+
+    expect(disabledPerformance.modulationLanes).toEqual([])
+    expect(disabledPerformance.performedEvents).toEqual(
+      absentPerformance.performedEvents,
+    )
+    const liveLanes: Array<ReadonlyArray<ScheduledModulationLane>> = []
+    const engine: InstrumentEngine = {
+      currentTimeSeconds: 0,
+      resume: async () => undefined,
+      suspend: async () => undefined,
+      schedule: (_event, _instrument, _at, lanes = []) => {
+        liveLanes.push(lanes)
+      },
+      cancelScheduledFrom: () => undefined,
+      panic: () => undefined,
+      dispose: async () => undefined,
+    }
+    const scheduler = new PerformanceScheduler(engine, {
+      clock: { setInterval: () => 1, clearInterval: () => undefined },
+      lookaheadSeconds: 10,
+      tickMilliseconds: 25,
+      startDelaySeconds: 0,
+    })
+    await scheduler.start(disabledPerformance, disabled.instruments, {
+      tempoBpm: disabled.transport.tempoBpm,
+    })
+    expect(liveLanes).toHaveLength(disabledPerformance.performedEvents.length)
+    expect(liveLanes.every((lanes) => lanes.length === 0)).toBe(true)
+    await scheduler.dispose()
+
+    expect(buildPerformanceMidiTracks(disabledPerformance, disabled)).toEqual(
+      buildPerformanceMidiTracks(absentPerformance, absent),
+    )
+    expect(
+      buildPerformancePatternParts(disabledPerformance, disabled),
+    ).toEqual(buildPerformancePatternParts(absentPerformance, absent))
+    const disabledAudio = await renderPerformanceToWav({
+      composition: disabled,
+      performance: disabledPerformance,
+      sampleRateHz: 8_000,
+      tailSeconds: 0,
+      contextFactory: silentOfflineContext,
+    })
+    const absentAudio = await renderPerformanceToWav({
+      composition: absent,
+      performance: absentPerformance,
+      sampleRateHz: 8_000,
+      tailSeconds: 0,
+      contextFactory: silentOfflineContext,
+    })
+    expect(disabledAudio.renderedEventCount).toBe(
+      absentAudio.renderedEventCount,
+    )
+    expect(disabledAudio.wav.bytes).toEqual(absentAudio.wav.bytes)
+  })
+
+  it('keeps one attack and one note-off near and far while preserving every modulation sample', async () => {
+    const consume = async (radius: number) => {
+      const fixture = fixedFrequencySineGateFixture(radius)
+      const lane = compileGateModulationLane({
+        mapping: speedMapping,
+        note: fixture.note,
+        entry: fixture.entry,
+        exit: fixture.exit,
+        boundaryAt: () => fixture.boundary,
+        stateAt: fixture.stateAt,
+        referenceDistance: 180,
+      })!
+      const composition = structuredClone(defaultComposition) as Composition
+      const part = composition.parts[0]
+      part.id = fixture.note.partId
+      const performance: CanonicalPerformance = Object.freeze({
+        compositionId: composition.id,
+        request: Object.freeze({
+          startSeconds: 0,
+          durationSeconds: 4,
+          sampleRateHz: 120,
+        }),
+        encounters: Object.freeze(fixture.encounters),
+        relationEncounters: Object.freeze([]),
+        traceEncounters: Object.freeze([]),
+        controlLanes: Object.freeze([]),
+        modulationLanes: Object.freeze([lane]),
+        interpretedEvents: Object.freeze([fixture.note]),
+        performedEvents: Object.freeze([fixture.note]),
+        variationTrace: Object.freeze([]),
+        diagnostics: Object.freeze([]),
+      })
+      const scheduled: Array<{
+        event: NoteMusicalEvent
+        lanes: ReadonlyArray<ScheduledModulationLane>
+      }> = []
+      const engine: InstrumentEngine = {
+        currentTimeSeconds: 0,
+        resume: async () => undefined,
+        suspend: async () => undefined,
+        schedule: (event, _instrument, _at, lanes = []) => {
+          scheduled.push({ event, lanes })
+        },
+        cancelScheduledFrom: () => undefined,
+        panic: () => undefined,
+        dispose: async () => undefined,
+      }
+      const scheduler = new PerformanceScheduler(engine, {
+        clock: { setInterval: () => 1, clearInterval: () => undefined },
+        lookaheadSeconds: 10,
+        tickMilliseconds: 25,
+        startDelaySeconds: 0,
+      })
+      await scheduler.start(performance, composition.instruments, {
+        tempoBpm: composition.transport.tempoBpm,
+      })
+      const midi = buildPerformanceMidiTracks(performance, composition)[0]
+      const strudel = buildPerformancePatternParts(performance, composition)[0]
+      const offline = await renderPerformanceToWav({
+        composition,
+        performance,
+        sampleRateHz: 8_000,
+        tailSeconds: 0,
+        contextFactory: silentOfflineContext,
+      })
+      await scheduler.dispose()
+      return { fixture, lane, scheduled, midi, strudel, offline }
+    }
+
+    const near = await consume(50)
+    const far = await consume(100)
+    for (const result of [near, far]) {
+      expect(result.scheduled).toHaveLength(1)
+      expect(result.scheduled[0].lanes[0].samples).toHaveLength(
+        result.lane.samples.length,
+      )
+      expect(result.midi.notes).toHaveLength(1)
+      expect(
+        result.midi.controllers?.filter(
+          (controller) => controller.controller === 74,
+        ),
+      ).toHaveLength(result.lane.samples.length + 1)
+      expect(result.strudel.tokens.filter((token) => token !== '~')).toHaveLength(1)
+      expect(result.offline.renderedEventCount).toBe(1)
+    }
+    expect(far.fixture.note.frequencyHz).toBe(near.fixture.note.frequencyHz)
+    expect(far.fixture.note.durationSeconds).toBeGreaterThan(
+      near.fixture.note.durationSeconds,
+    )
+    expect(far.lane.samples.length).toBeGreaterThan(near.lane.samples.length)
+  })
+
   it('MIDI and Strudel adapt every performed event exactly once', () => {
     const composition = structuredClone(defaultComposition) as Composition
     const performance = compilePerformance(composition, {
