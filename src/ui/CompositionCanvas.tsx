@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import type { Composition } from '../core/composition'
 import type { BoundaryCrossingEncounter } from '../core/encounters'
+import type { GateModulationLane } from '../core/gateModulation'
 import {
   buildCompositionDrawCommands,
   buildCompositionScene,
@@ -23,6 +24,7 @@ export type CompositionCanvasProps = {
   showDebugIds?: boolean
   ariaLabel?: string
   recentEncounters?: ReadonlyArray<BoundaryCrossingEncounter>
+  modulationLanes?: ReadonlyArray<GateModulationLane>
 }
 
 type CanvasSize = {
@@ -40,6 +42,7 @@ export function CompositionCanvas({
   showDebugIds = false,
   ariaLabel = 'Spirophonic composition preview',
   recentEncounters = [],
+  modulationLanes = [],
 }: CompositionCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [canvasSize, setCanvasSize] = useState<CanvasSize>({
@@ -50,8 +53,9 @@ export function CompositionCanvas({
     () =>
       buildCompositionScene(composition, timeSeconds, observation, {
         traceMode,
+        modulationLanes,
       }),
-    [composition, observation, timeSeconds, traceMode],
+    [composition, modulationLanes, observation, timeSeconds, traceMode],
   )
 
   useEffect(() => {
@@ -136,6 +140,7 @@ export function CompositionCanvas({
       data-render-time={timeSeconds}
       data-trace-mode={traceMode}
       data-recent-encounters={recentEncounters.length}
+      data-modulation-lanes={modulationLanes.length}
     >
       <canvas ref={canvasRef} aria-label={ariaLabel} />
     </figure>

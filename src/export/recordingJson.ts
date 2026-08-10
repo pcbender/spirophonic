@@ -60,6 +60,7 @@ export const parseRecordingJson = (text: string): RecordingParseResult => {
     'encounters',
     'interpretedEvents',
     'performedEvents',
+    'modulationLanes',
   ]) {
     if (record[key] === undefined) issues.push(`Missing "${key}".`)
   }

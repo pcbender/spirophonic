@@ -4,12 +4,13 @@ import type {
   CanonicalPerformance,
   NoteMusicalEvent,
 } from './performance'
+import type { GateModulationLane } from './gateModulation'
 import { randomVersion } from './random'
 import type { PerformanceRequest } from './transport'
 import type { VariationTraceEntry } from './variation'
 
 /** Bump when the Recording shape changes in a way older readers cannot handle. */
-export const recordingVersion = 1
+export const recordingVersion = 2
 
 /**
  * The compiler's own version. A Recording carries it so a later engine can say
@@ -27,15 +28,24 @@ export type RecordingProvenance = Readonly<{
 export type RecordingLimits = Readonly<{
   maxEncounters: number
   maxEvents: number
+  maxModulationLanes?: number
+  maxModulationSamples?: number
 }>
 
 export const recordingLimits: RecordingLimits = Object.freeze({
   maxEncounters: 50_000,
   maxEvents: 50_000,
+  maxModulationLanes: 10_000,
+  maxModulationSamples: 100_000,
 })
 
 export type RecordingTruncation = Readonly<{
-  layer: 'encounters' | 'interpretedEvents' | 'performedEvents'
+  layer:
+    | 'encounters'
+    | 'interpretedEvents'
+    | 'performedEvents'
+    | 'modulationLanes'
+    | 'modulationSamples'
   kept: number
   dropped: number
   message: string
@@ -58,6 +68,7 @@ export type Recording = Readonly<{
   encounters: ReadonlyArray<BoundaryCrossingEncounter>
   interpretedEvents: ReadonlyArray<NoteMusicalEvent>
   performedEvents: ReadonlyArray<NoteMusicalEvent>
+  modulationLanes: ReadonlyArray<GateModulationLane>
   variationTrace: ReadonlyArray<VariationTraceEntry>
   truncations: ReadonlyArray<RecordingTruncation>
 }>
@@ -90,6 +101,77 @@ const truncate = <T>(
 const withinWindow = (timeSeconds: number, window: RecordingWindow) =>
   timeSeconds >= window.startSeconds - 1e-12 &&
   timeSeconds <= window.endSeconds + 1e-12
+
+const captureModulationLanes = (
+  lanes: ReadonlyArray<GateModulationLane>,
+  eventIds: ReadonlySet<string>,
+  limits: RecordingLimits,
+  truncations: Array<RecordingTruncation>,
+): ReadonlyArray<GateModulationLane> => {
+  const eligible = lanes.filter((lane) => eventIds.has(lane.noteEventId))
+  const laneLimit =
+    limits.maxModulationLanes ?? recordingLimits.maxModulationLanes ?? 10_000
+  const sampleLimit =
+    limits.maxModulationSamples ??
+    recordingLimits.maxModulationSamples ??
+    100_000
+  const selected = eligible.slice(0, laneLimit)
+  if (selected.length < eligible.length) {
+    const dropped = eligible.length - selected.length
+    truncations.push(
+      Object.freeze({
+        layer: 'modulationLanes' as const,
+        kept: selected.length,
+        dropped,
+        message: `Recording kept ${selected.length} modulationLanes and dropped ${dropped}. Shorten the window or raise the limit; the Recording is incomplete.`,
+      }),
+    )
+  }
+
+  const captured: Array<GateModulationLane> = []
+  let remaining = sampleLimit
+  let droppedSamples = 0
+  for (const lane of selected) {
+    if (remaining <= 0) {
+      droppedSamples += lane.samples.length
+      continue
+    }
+    if (lane.samples.length <= remaining) {
+      captured.push(lane)
+      remaining -= lane.samples.length
+      continue
+    }
+
+    const keep = remaining
+    const samples =
+      keep === 1
+        ? [lane.samples[0]]
+        : [
+            ...lane.samples.slice(0, keep - 1),
+            lane.samples[lane.samples.length - 1],
+          ]
+    droppedSamples += lane.samples.length - samples.length
+    captured.push(
+      Object.freeze({
+        ...lane,
+        truncated: true,
+        samples: Object.freeze(samples),
+      }),
+    )
+    remaining = 0
+  }
+  if (droppedSamples > 0) {
+    truncations.push(
+      Object.freeze({
+        layer: 'modulationSamples' as const,
+        kept: sampleLimit,
+        dropped: droppedSamples,
+        message: `Recording kept ${sampleLimit} modulationSamples and dropped ${droppedSamples}. Shorten the window or raise the limit; the Recording is incomplete.`,
+      }),
+    )
+  }
+  return Object.freeze(captured)
+}
 
 /**
  * Captures a performance over an explicit Transport window.
@@ -144,6 +226,12 @@ export const createRecording = (
     'performedEvents',
     truncations,
   )
+  const modulationLanes = captureModulationLanes(
+    input.performance.modulationLanes,
+    new Set(performedEvents.map((event) => event.id)),
+    limits,
+    truncations,
+  )
 
   return Object.freeze({
     id: input.id,
@@ -159,6 +247,7 @@ export const createRecording = (
     encounters,
     interpretedEvents,
     performedEvents,
+    modulationLanes,
     variationTrace: Object.freeze([...input.performance.variationTrace]),
     truncations: Object.freeze(truncations),
   })

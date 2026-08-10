@@ -1,5 +1,6 @@
 import type { PartSpec } from './composition'
 import type { NoteMusicalEvent, PerformanceDiagnostic } from './performance'
+import type { GateModulationLane } from './gateModulation'
 import { interpretEncounters } from './performance'
 import type { Recording } from './recording'
 import { provenanceWarnings } from './recording'
@@ -15,6 +16,7 @@ import { provenanceWarnings } from './recording'
 
 export type ReplayResult = Readonly<{
   events: ReadonlyArray<NoteMusicalEvent>
+  modulationLanes: ReadonlyArray<GateModulationLane>
   warnings: ReadonlyArray<string>
 }>
 
@@ -30,12 +32,14 @@ export const replayRecording = (recording: Recording): ReplayResult => {
 
   return Object.freeze({
     events: recording.performedEvents,
+    modulationLanes: recording.modulationLanes,
     warnings: Object.freeze([...warnings, ...truncations]),
   })
 }
 
 export type ReinterpretationResult = Readonly<{
   events: ReadonlyArray<NoteMusicalEvent>
+  modulationLanes: ReadonlyArray<GateModulationLane>
   diagnostics: ReadonlyArray<PerformanceDiagnostic>
   warnings: ReadonlyArray<string>
 }>
@@ -61,6 +65,7 @@ export const reinterpretRecording = (
 
   return Object.freeze({
     events: interpretation.events,
+    modulationLanes: interpretation.modulationLanes,
     diagnostics: interpretation.diagnostics,
     warnings: Object.freeze([
       ...warnings,

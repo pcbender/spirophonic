@@ -1,5 +1,9 @@
 import { expect, test, type Page } from '@playwright/test'
 
+import { compilePerformance } from '../src/core/performance'
+import { beatsToSeconds } from '../src/core/transport'
+import { gatedModulationComposition } from '../src/test/fixtures/gateModulation'
+
 /**
  * These checks cover the acceptance criteria that jsdom cannot reach: real
  * layout, real Canvas painting, and a real Web Audio clock. Deterministic core
@@ -46,6 +50,24 @@ const canvasInk = (page: Page) =>
       }
     }
     return lit
+  })
+
+/** Pixel-sensitive checksum: unlike ink count, this sees Trace hue changes. */
+const canvasSignature = (page: Page) =>
+  page.evaluate(() => {
+    const canvas = document.querySelector('canvas')
+    const context = canvas?.getContext('2d')
+    if (!canvas || !context || canvas.width <= 300 || canvas.height <= 150) {
+      return -1
+    }
+    const data = context.getImageData(0, 0, canvas.width, canvas.height).data
+    let hash = 2_166_136_261
+    for (let index = 0; index < data.length; index += 4) {
+      hash = Math.imul(hash ^ data[index], 16_777_619)
+      hash = Math.imul(hash ^ data[index + 1], 16_777_619)
+      hash = Math.imul(hash ^ data[index + 2], 16_777_619)
+    }
+    return hash >>> 0
   })
 
 // Loading the example replaces the workspace, so it is confirmed rather than
@@ -181,6 +203,86 @@ test('a newly authored Spoke is a visible wedge gate', async ({ page }) => {
   await expect
     .poll(async () => canvasInk(page), { timeout: 15_000 })
     .toBeGreaterThan(before)
+})
+
+test('an authored gate mapping styles only its held Trace span and survives playback, resize, and reload', async ({ page }) => {
+  const composition = gatedModulationComposition()
+  const request = {
+    startSeconds: beatsToSeconds(
+      composition.transport.loop.startBeat,
+      composition.transport.tempoBpm,
+    ),
+    durationSeconds: beatsToSeconds(
+      composition.transport.loop.lengthBeats,
+      composition.transport.tempoBpm,
+    ),
+    sampleRateHz: 120,
+  }
+  const expectedLane = compilePerformance(composition, request).modulationLanes[0]
+  expect(expectedLane).toBeDefined()
+
+  // Import the geometric gate without its mapping, then author the mapping in
+  // the real UI. The default authored mapping is speed -> brightness.
+  composition.parts[0].gateModulations = []
+  await page.getByLabel('Import Composition JSON').setInputFiles({
+    name: 'wedge-gate.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(composition)),
+  })
+  await expect(page.getByText(`Imported ${composition.name}.`)).toBeVisible()
+  await page.getByLabel('Add gate modulation part-gate').click()
+
+  const canvasShell = page.locator('.composition-canvas-shell')
+  await expect(canvasShell).toHaveAttribute('data-modulation-lanes', '1')
+  const midpoint = (expectedLane.startSeconds + expectedLane.endSeconds) / 2
+  await page
+    .getByRole('slider', { name: 'Transport position' })
+    .fill(String(Number(midpoint.toFixed(3))))
+  const styled = await canvasSignature(page)
+  expect(styled).not.toBe(-1)
+
+  // Removing only the canonical lane must repaint the same geometry without
+  // its in-gate brightness. Re-enabling must reproduce the exact pixels.
+  const enabled = page.getByLabel('Enable gate-modulation-1')
+  await enabled.uncheck()
+  await expect(canvasShell).toHaveAttribute('data-modulation-lanes', '0')
+  await expect.poll(() => canvasSignature(page)).not.toBe(styled)
+  await enabled.check()
+  await expect(canvasShell).toHaveAttribute('data-modulation-lanes', '1')
+  await expect.poll(() => canvasSignature(page)).toBe(styled)
+
+  await page.setViewportSize({ width: 1400, height: 900 })
+  await expect(canvasShell).toHaveAttribute('data-modulation-lanes', '1')
+  await expect.poll(() => canvasInk(page)).toBeGreaterThan(500)
+
+  await page.getByRole('button', { name: 'Play' }).click()
+  await expect
+    .poll(
+      async () =>
+        Number(await page.getByRole('slider', { name: 'Transport position' }).inputValue()),
+      { timeout: 10_000 },
+    )
+    .toBeGreaterThan(midpoint + 0.1)
+  await page.getByRole('button', { name: 'Pause' }).click()
+
+  // A second page has no beforeEach init script, so this is a true persisted
+  // workspace reload in the same browser storage partition.
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem('spirophonic.composition.v1')))
+    .not.toBeNull()
+  const fresh = await page.context().newPage()
+  const freshErrors: Array<string> = []
+  fresh.on('pageerror', (error) => freshErrors.push(error.message))
+  await fresh.goto('/')
+  await expect(
+    fresh.getByRole('heading', { level: 1, name: 'Spirophonic' }),
+  ).toBeVisible()
+  await expect(fresh.locator('.composition-canvas-shell')).toHaveAttribute(
+    'data-modulation-lanes',
+    '1',
+  )
+  expect(freshErrors).toEqual([])
+  await fresh.close()
 })
 
 test('a rotating Field animates while the Head path is unchanged', async ({

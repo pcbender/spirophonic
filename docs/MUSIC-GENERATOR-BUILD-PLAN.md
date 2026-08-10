@@ -1432,6 +1432,12 @@ Trace inside the region.
 `src/workers/usePerformanceCompiler.test.ts`, `src/test/fixtures/`,
 `e2e/app.spec.ts`, and `docs/MANUAL.md`
 
+**Scope amendment (2026-08-10):** `src/audio/performanceScheduler.test.ts` and
+`src/export/agreement.test.ts` may add the empty `modulationLanes` collection to
+their hand-built `CanonicalPerformance` fixtures. This is compile maintenance
+for the new canonical data member only; applying lanes to either consumer
+remains exclusively MG-24.
+
 **Deliverables:**
 
 - A saved gate-modulation mapping on a note Part with an explicit sample rate,

@@ -603,6 +603,11 @@ function App() {
                 sampleRateHz: request.sampleRateHz,
               }}
               recentEncounters={recentEncounters}
+              modulationLanes={
+                compiledComposition === composition
+                  ? performance.modulationLanes
+                  : []
+              }
             />
           </div>
           <Transport

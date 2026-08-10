@@ -502,6 +502,39 @@ export type QuantizeSpec = {
   strength: number
 }
 
+export type GateModulationSource =
+  | 'cross-wedge-position'
+  | 'radius'
+  | 'speed'
+  | 'curvature'
+
+export type GateModulationTarget =
+  | 'gain'
+  | 'pan'
+  | 'pitch-offset'
+  | 'brightness'
+  | 'attack'
+  | 'initial-velocity'
+
+/**
+ * A deterministic reading of the Head while one region gate is open.
+ *
+ * `minimum` and `maximum` are target values. The normalized source is curved,
+ * smoothed, and clipped before it is mapped into that authored range.
+ */
+export type GateModulationMapping = {
+  id: string
+  name: string
+  enabled: boolean
+  source: GateModulationSource
+  target: GateModulationTarget
+  sampleRateHz: number
+  minimum: number
+  maximum: number
+  curve: number
+  smoothingSeconds: number
+}
+
 /**
  * `enabled` is authoring intent: a disabled Part is inert and its events are
  * never compiled. `mute` and `solo` are performance intent layered on top, so
@@ -527,6 +560,7 @@ export type NotePartSpec = PartBase & {
   velocity: VelocityMapping
   duration: DurationMapping
   quantize?: QuantizeSpec
+  gateModulations?: Array<GateModulationMapping>
 }
 
 export type ControlPartSpec = PartBase & {

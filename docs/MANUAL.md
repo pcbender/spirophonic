@@ -328,6 +328,30 @@ A new Part starts at **Fixed MIDI note 60**, so your first sound is a rhythm on
 one repeated pitch. Switch to **Boundary degree** to let which Boundary was
 crossed choose the note.
 
+#### Gate modulation
+
+**Add mapping** makes motion inside a completed band or wedge visit shape the
+one held note for that visit. The region is the outer gate: entry starts the
+note, exit ends it, and interior oscillations never retrigger it. A wider wedge
+at a greater radius therefore holds the same base pitch for longer and admits
+more cycles of an unchanged-frequency oscillation.
+
+| Control | Notes |
+|---|---|
+| **Enabled**, **Name**, **Remove** | Disable a mapping without changing the Encounters, note, pitch, or gate duration. |
+| **Source** | Position across the wedge, radius, speed, or curvature. |
+| **Target** | Gain, pan, pitch offset, brightness, attack, or initial velocity. Attack and initial velocity are sampled only when the gate opens. |
+| **Minimum**, **Maximum** | The bounded target range. |
+| **Sample rate (Hz)** | How often motion is measured. This is saved and independent of canvas frame rate. |
+| **Curve** | Bends the normalized source before it reaches the target. |
+| **Smoothing (s)** | Dampens rapid changes without moving the exact gate edges. |
+
+Continuous mappings also style only the corresponding portion of the drawn
+Trace. Width and opacity show gain; hue shows brightness, pan, or pitch offset.
+The geometric line itself is unchanged. A mapping needs **Time inside a
+region** and a complete entry/exit pair; an incomplete visit is diagnosed and
+does not leave a lane or held note hanging.
+
 #### Pitch mappings
 
 | Mapping | Parameters | Chooses pitch from |

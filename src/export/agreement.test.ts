@@ -150,6 +150,7 @@ describe('canonical export agreement', () => {
       relationEncounters: Object.freeze([]),
       traceEncounters: Object.freeze([]),
       controlLanes: Object.freeze([]),
+      modulationLanes: interpretation.modulationLanes,
       interpretedEvents: interpretation.events,
       performedEvents: interpretation.events,
       variationTrace: interpretation.variationTrace,

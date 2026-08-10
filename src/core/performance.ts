@@ -6,6 +6,10 @@ import type {
 import { midiToFrequency, scaleIntervals } from './scales'
 import { validateComposition } from './compositionValidation'
 import {
+  compileGateModulationLanes,
+  type GateModulationLane,
+} from './gateModulation'
+import {
   compileBoundaryEncounters,
   type BoundaryCrossingEncounter,
   type EncounterScanOptions,
@@ -80,6 +84,7 @@ export type PerformanceDiagnostic = Readonly<{
     | 'encounter-scan'
     | 'relation-scan'
     | 'trace-scan'
+    | 'gate-modulation'
   message: string
   path?: string
   partId?: string
@@ -93,6 +98,7 @@ export type CanonicalPerformance = Readonly<{
   relationEncounters: ReadonlyArray<RelationEncounter>
   traceEncounters: ReadonlyArray<TraceCrossingEncounter>
   controlLanes: ReadonlyArray<ControlLane>
+  modulationLanes: ReadonlyArray<GateModulationLane>
   interpretedEvents: ReadonlyArray<NoteMusicalEvent>
   performedEvents: ReadonlyArray<NoteMusicalEvent>
   /** Which variation rule changed which output value, and by how much. */
@@ -170,6 +176,7 @@ const emptyPerformance = (
     relationEncounters: Object.freeze([]) as ReadonlyArray<RelationEncounter>,
     traceEncounters: Object.freeze([]) as ReadonlyArray<TraceCrossingEncounter>,
     controlLanes: Object.freeze([]) as ReadonlyArray<ControlLane>,
+    modulationLanes: Object.freeze([]) as ReadonlyArray<GateModulationLane>,
     interpretedEvents: emptyEvents,
     performedEvents: emptyEvents,
     variationTrace: Object.freeze([]) as ReadonlyArray<VariationTraceEntry>,
@@ -411,8 +418,14 @@ const interpretNotePart = (
   const selectedEncounters = usesRegionGate
     ? selectedByQuery.filter((encounter) => encounter.transition === 'enter')
     : selectedByQuery
+  // A region entry is the gate's note-on. Quantizing it would detach the note
+  // and its modulation lane from the physical opening edge.
+  const candidatePart =
+    usesRegionGate && part.quantize
+      ? Object.freeze({ ...part, quantize: undefined })
+      : part
   const candidates = quantizedCandidates(
-    part,
+    candidatePart,
     selectedEncounters,
     composition,
     diagnostics,
@@ -515,6 +528,7 @@ const interpretNotePart = (
 export type InterpretationResult = Readonly<{
   events: ReadonlyArray<NoteMusicalEvent>
   controlLanes: ReadonlyArray<ControlLane>
+  modulationLanes: ReadonlyArray<GateModulationLane>
   diagnostics: ReadonlyArray<PerformanceDiagnostic>
   variationTrace: ReadonlyArray<VariationTraceEntry>
 }>
@@ -622,9 +636,31 @@ export const interpretEncounters = (
   }
 
 
+  const sortedEvents = Object.freeze([...events].sort(compareEvents))
+  const boundaryEncounters = encounters.filter(
+    (encounter): encounter is BoundaryCrossingEncounter =>
+      encounter.kind === 'boundary-crossing',
+  )
+  const modulation = compileGateModulationLanes(
+    composition,
+    sortedEvents,
+    boundaryEncounters,
+  )
+  diagnostics.push(
+    ...modulation.diagnostics.map((diagnostic) =>
+      Object.freeze({
+        severity: 'warning' as const,
+        code: 'gate-modulation' as const,
+        message: diagnostic.message,
+        partId: diagnostic.partId,
+      }),
+    ),
+  )
+
   return Object.freeze({
-    events: Object.freeze([...events].sort(compareEvents)),
+    events: sortedEvents,
     controlLanes,
+    modulationLanes: modulation.lanes,
     diagnostics: Object.freeze(diagnostics),
     variationTrace: Object.freeze(variationTrace),
   })
@@ -715,10 +751,10 @@ export const compilePerformance = (
   )
 
   const interpretation = interpretEncounters(
-    composition,
-    request,
+    varied,
+    requestValidation.request,
     interpretableEncounters(
-      composition,
+      varied,
       encounterResult.encounters,
       traceResult.encounters,
       relationResult.encounters,
@@ -791,6 +827,7 @@ export const compilePerformance = (
     relationEncounters: relationResult.encounters,
     traceEncounters: traceResult.encounters,
     controlLanes: Object.freeze(controlLanes),
+    modulationLanes: interpretation.modulationLanes,
     interpretedEvents,
     performedEvents,
     variationTrace: Object.freeze(variationTrace),

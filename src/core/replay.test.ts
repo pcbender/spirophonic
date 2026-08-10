@@ -50,6 +50,64 @@ const source = (): Composition => {
   return composition
 }
 
+const gatedSource = (): Composition => {
+  const composition = source()
+  composition.wheels[0].motion = {
+    kind: 'lissajous',
+    frequencyX: 1,
+    frequencyY: 1,
+    delta: Math.PI / 2,
+  }
+  composition.wheels[0].heads[0].attachment = {
+    kind: 'lissajous',
+    scaleX: 100,
+    scaleY: 50,
+    phaseX: 0,
+    phaseY: 0,
+  }
+  composition.fields = [
+    {
+      id: 'field-wedge',
+      name: 'Wedge',
+      enabled: true,
+      kind: 'spokes',
+      center: { x: 0, y: 0 },
+      rotation: 0,
+      boundaries: [
+        {
+          id: 'wedge-west',
+          name: 'West wedge',
+          enabled: true,
+          index: 0,
+          kind: 'spoke',
+          angle: Math.PI,
+          angularWidth: 0.6,
+        },
+      ],
+    },
+  ]
+  const part = notePart('part-gate', 48)
+  part.duration = { kind: 'inside-region' }
+  part.encounterQuery.fieldIds = ['field-wedge']
+  part.encounterQuery.boundaryIds = ['wedge-west']
+  part.gateModulations = [
+    {
+      id: 'mod-speed-brightness',
+      name: 'Speed brightness',
+      enabled: true,
+      source: 'speed',
+      target: 'brightness',
+      sampleRateHz: 60,
+      minimum: 0,
+      maximum: 1,
+      curve: 1,
+      smoothingSeconds: 0.02,
+    },
+  ]
+  composition.parts = [part]
+  return composition
+}
+
 const record = (composition: Composition) => {
   const performance = compilePerformance(composition, request)
   return createRecording({
@@ -77,6 +135,23 @@ describe('MG-18 acceptance', () => {
     expect(replayed.warnings).toEqual([])
   })
 
+  it('replays captured gate lanes without reevaluating removed geometry', () => {
+    const composition = gatedSource()
+    const recording = record(composition)
+    expect(recording.modulationLanes.length).toBeGreaterThan(0)
+    const rescored = reinterpretRecording(recording, composition.parts)
+    expect(rescored.modulationLanes).toEqual(recording.modulationLanes)
+
+    const stripped = {
+      ...recording,
+      composition: { ...recording.composition, wheels: [], fields: [] },
+    }
+    const replayed = replayRecording(stripped)
+
+    expect(replayed.events).toEqual(recording.performedEvents)
+    expect(replayed.modulationLanes).toEqual(recording.modulationLanes)
+  })
+
   it('reinterprets without disturbing Encounter identity or measurements', () => {
     const recording = record(source())
     const original = reinterpretRecording(recording, [notePart('part-a', 48)])
@@ -101,7 +176,7 @@ describe('MG-18 acceptance', () => {
   })
 
   it('round-trips deterministically through JSON', () => {
-    const recording = record(source())
+    const recording = record(gatedSource())
     const json = exportRecordingToJson(recording)
     const parsed = parseRecordingJson(json)
 
@@ -110,10 +185,14 @@ describe('MG-18 acceptance', () => {
     expect(exportRecordingToJson(parsed.recording)).toBe(json)
     expect(parsed.recording.performedEvents).toEqual(recording.performedEvents)
     expect(parsed.recording.encounters).toEqual(recording.encounters)
+    expect(parsed.recording.modulationLanes).toEqual(recording.modulationLanes)
 
     // Replay from the parsed copy matches replay from the original.
     expect(replayRecording(parsed.recording).events).toEqual(
       replayRecording(recording).events,
+    )
+    expect(replayRecording(parsed.recording).modulationLanes).toEqual(
+      replayRecording(recording).modulationLanes,
     )
   })
 

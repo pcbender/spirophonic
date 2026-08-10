@@ -217,7 +217,7 @@ export const help = {
   'part.velocityGamma':
     'Bends the curve between the two. 1 is straight; below 1 favours louder, above 1 favours quieter.',
   'part.durationKind':
-    'What decides note length: a fixed value, the gap until this Part’s next note, or the time the Head spent inside a band.',
+    'What decides note length: a fixed value, the gap until this Part’s next note, or one exact visit inside a band or wedge.',
   'part.maxBeats':
     'Longest a note may run when its length comes from the gap to the next one — it also ends the final note of the loop.',
   'part.quantizeStrength':
@@ -225,6 +225,23 @@ export const help = {
   'part.duration': 'How long each note lasts, in beats.',
   'part.grid':
     'Quantization grid in beats. Onsets are pulled toward it, so crossings land musically.',
+  'part.gateModulation':
+    'Samples motion between one matched region entry and exit. Samples shape the held note and never create another onset.',
+  'part.addGateModulation':
+    'Add a saved source-to-target mapping for each complete region-gated note.',
+  'part.gateModulationName': 'Names this mapping and its canonical lane.',
+  'part.gateModulationSource':
+    'Continuous physical measurement sampled while the gate is open. Across wedge runs from one edge to the other.',
+  'part.gateModulationTarget':
+    'The voice parameter the lane will control. Attack and initial velocity are sampled only at entry.',
+  'part.gateModulationRange':
+    'Target values produced at normalized source values 0 and 1.',
+  'part.gateModulationRate':
+    'Deterministic samples per second, independent of display frame rate.',
+  'part.gateModulationCurve':
+    'Bends the normalized source before mapping it into the target range.',
+  'part.gateModulationSmoothing':
+    'One-pole smoothing time. Zero follows every saved sample directly.',
 
   // Relations
   'relation.enabled': 'Include this Relation.',

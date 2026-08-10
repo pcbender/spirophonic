@@ -72,6 +72,7 @@ const performance = (
     traceEncounters: Object.freeze([]),
     variationTrace: Object.freeze([]),
     controlLanes: Object.freeze([]),
+    modulationLanes: Object.freeze([]),
     interpretedEvents: events,
     performedEvents: events,
     diagnostics: Object.freeze([]),

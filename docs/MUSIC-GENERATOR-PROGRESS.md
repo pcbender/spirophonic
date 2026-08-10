@@ -18,7 +18,7 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Maintenance packets complete | 1 / 1 |
 | Packets active | 1 |
 | Packets blocked | 0 |
-| Next ready packet | None — MG-23 is claimed |
+| Next ready packet | None — MG-23 is in review |
 | Active agents | Codex/root |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-10 |
@@ -94,7 +94,7 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Codex/root | MG-23 | `claimed` | `agent/wedge-gate-modulation` | `/home/mrose/spirophonic` | 2026-08-10T16:54:20Z | 2026-08-10T16:54:20Z | MG-22 is done at `653aee1`; implement canonical in-gate lanes and Trace notation inside the declared packet files. |
+| Codex/root | MG-23 | `in_review` | `agent/wedge-gate-modulation` | `/home/mrose/spirophonic` | 2026-08-10T16:54:20Z | 2026-08-10T17:26:13Z | Implementation and all packet gates pass; commit the review candidate and validate its exact tree. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -126,7 +126,7 @@ their history.
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | `done` | — | 2026-08-06 | Integrated at `44ea458`; unit and two-engine browser gates pass, exit code verified. |
 | WIN-01 | Native Windows development portability | MG-21 | `done` | — | 2026-08-09 | Integrated by PR 8 at `01ae008`; native Windows and isolated WSL2 gates pass. |
 | MG-22 | Wedge-spoke regions and exact gate spans | MG-21 | `done` | — | 2026-08-10 | Integrated at `653aee1`; exact-commit unit, lint, build, two-engine browser, mutation, and Graphify gates pass. |
-| MG-23 | In-gate modulation lanes and Trace notation | MG-22 | `claimed` | Codex/root | 2026-08-10 | Claimed after MG-22 closure; implement the canonical note-scoped lane and matching Trace styling. |
+| MG-23 | In-gate modulation lanes and Trace notation | MG-22 | `in_review` | Codex/root | 2026-08-10 | 576 tests, lint, build, 52 Chromium/Firefox checks, renderer mutation, and Graphify refresh pass; commit and validate the exact review tree. |
 | MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | `waiting` | — | 2026-08-10 | Waiting for MG-23's canonical note-scoped modulation lane. |
 
 When a packet becomes `done`, evaluate every direct dependent immediately and
@@ -144,7 +144,7 @@ promote it from `waiting` to `ready` if all dependencies are complete.
 | Portable outputs | MG-19–MG-20 | MIDI, Strudel, audio render, and bundles consume canonical events/Recordings. | 2 / 2 — complete |
 | Release | MG-21 | Reference works, performance budgets, browser checks, and full workflow pass. | 1 / 1 — complete |
 | Native Windows portability | WIN-01 | Native Windows development works without changing the WSL2 workflow. | 1 / 1 — complete |
-| Region-gated expression | MG-22–MG-24 | Wedges create one held note per visit; interior motion modulates that voice consistently in notation, playback, Recording, and export. | 1 / 3 — MG-23 claimed |
+| Region-gated expression | MG-22–MG-24 | Wedges create one held note per visit; interior motion modulates that voice consistently in notation, playback, Recording, and export. | 1 / 3 — MG-23 in review |
 
 ## Validation ledger
 
@@ -197,24 +197,25 @@ Validation rules:
 ## Active packet records
 
 MG-01 through MG-22 and WIN-01 are `done`; their records live in the Validation
-ledger, Activity log, and Handoff records below. MG-23 is `claimed`; MG-24 is
+ledger, Activity log, and Handoff records below. MG-23 is `in_review`; MG-24 is
 `waiting` on its declared dependency.
 
 ### MG-23 active claim
 
 - Packet: MG-23 — In-gate modulation lanes and Trace notation
-- State: `claimed`
+- State: `in_review`
 - Agent: Codex/root
 - Branch: `agent/wedge-gate-modulation`
 - Cwd/worktree: `/home/mrose/spirophonic`
 - Started: 2026-08-10T16:54:20Z
-- Heartbeat: 2026-08-10T16:54:20Z
+- Heartbeat: 2026-08-10T17:26:13Z
 - Dependencies: MG-22 is `done` at `653aee1`; no overlapping claim exists.
-- Evidence: The canonical entry/exit spans, note identity, and exact gate
-  duration required as inputs are validated on the dependency commit.
-- Next exact action: define the saved mapping contract and deterministic lane
-  compiler in `src/core/gateModulation.ts`, then thread it through performance,
-  Recording/replay, Trace drawing, and authoring.
+- Evidence: 576 Vitest checks, lint, production build, 52 Chromium/Firefox
+  Playwright checks, `git diff --check`, and Graphify at 1,859 nodes / 4,072
+  edges pass. Temporarily bypassing the canonical lane style made the renderer
+  guard fail on the modulation-contour agreement assertion.
+- Next exact action: commit the MG-23 review candidate, then rerun the required
+  gates on that exact commit before closing the packet and claiming MG-24.
 
 Keep one subsection here for every `claimed`, `in_progress`, `blocked`, or
 `in_review` packet, then move each finished record into the Activity log,
@@ -280,6 +281,8 @@ and releases. Do not log every edit.
 
 | UTC time | Agent | Packet | Event | Branch/commit | Summary and next step |
 | --- | --- | --- | --- | --- | --- |
+| 2026-08-10T17:26:13Z | Codex/root | MG-23 | Author handoff | `agent/wedge-gate-modulation` / uncommitted | Deterministic note-scoped lanes, Recording/replay, Trace styling, authoring, and two-engine reload/playback evidence pass with 576 tests. The renderer mutation fails as intended; commit and validate the exact review tree. |
+| 2026-08-10T16:57:43Z | Codex/root | MG-23 | Implementation started | `agent/wedge-gate-modulation` / `bb93964` | Mapping and lane contract fixed: bounded source sampling, entry-only targets, stable note/lane identity, saved Recording data, and lane-driven Trace segments. Implement the core compiler first. |
 | 2026-08-10T16:54:20Z | Codex/root | MG-23 | Packet claimed | `agent/wedge-gate-modulation` / `653aee1` | MG-22 is done and no overlapping claim exists. Implement canonical in-gate modulation lanes and Trace notation inside the declared contract. |
 | 2026-08-10T16:54:20Z | Codex/root | MG-22 | Integrated and closed | `653aee1` | Exact commit passes 564 tests, lint, build, 50 Chromium/Firefox checks, mutation guard, `git diff --check`, and Graphify refresh. MG-23 promoted and claimed. |
 | 2026-08-10T16:48:34Z | Codex/root | MG-22 | Author handoff | `agent/wedge-gate-modulation` / uncommitted | All deliverables and acceptance guards pass: 564 unit checks, lint, build, 50 two-engine browser checks, mutation guard, and Graphify refresh. Commit and validate the exact review tree. |

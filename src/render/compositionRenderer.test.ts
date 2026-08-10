@@ -7,6 +7,7 @@ import type {
   SpokeFieldSpec,
 } from '../core/composition'
 import { defaultComposition } from '../core/defaultComposition'
+import type { GateModulationLane } from '../core/gateModulation'
 import {
   buildCompositionDrawCommands,
   buildCompositionScene,
@@ -245,6 +246,102 @@ describe('Space projection and draw commands', () => {
       { wheelId: 'wheel-1', headId: 'head-1', color: '#42cafd' },
       { wheelId: 'wheel-1', headId: 'head-2', color: '#f2c14e' },
     ])
+  })
+
+  it('splits only the inside-gate Trace segment and styles it from the lane', () => {
+    const composition = compositionWithTwoHeads()
+    composition.wheels[0].heads[0].trace.mode = 'full'
+    const unmodulated = buildCompositionScene(composition, 2, observation)
+    const sourcePoints = unmodulated.traces[0].points.slice(2, 7)
+    const lane = (
+      id: string,
+      target: GateModulationLane['target'],
+    ): GateModulationLane =>
+      Object.freeze({
+        id,
+        mappingId: `mapping-${target}`,
+        noteEventId: 'note-gate',
+        sourceEncounterId: 'entry-gate',
+        exitEncounterId: 'exit-gate',
+        partId: 'part-gate',
+        instrumentId: 'instrument-1',
+        wheelId: 'wheel-1',
+        headId: 'head-1',
+        fieldId: 'field-wedge',
+        boundaryId: 'wedge-1',
+        source: 'speed',
+        target,
+        sampleRateHz: 4,
+        minimum: 0,
+        maximum: 1,
+        curve: 1,
+        smoothingSeconds: 0,
+        entryOnly: false,
+        startSeconds: sourcePoints[0].timeSeconds,
+        endSeconds: sourcePoints.at(-1)?.timeSeconds ?? 0,
+        truncated: false,
+        samples: Object.freeze(
+          sourcePoints.map((point, index) =>
+            Object.freeze({
+              timeSeconds: point.timeSeconds,
+              position: point.position,
+              sourceValue: index / (sourcePoints.length - 1),
+              normalizedValue: index / (sourcePoints.length - 1),
+              value: index / (sourcePoints.length - 1),
+            }),
+          ),
+        ),
+      })
+    const lanes = [lane('lane-brightness', 'brightness'), lane('lane-gain', 'gain')]
+    const scene = buildCompositionScene(composition, 2, observation, {
+      modulationLanes: lanes,
+    })
+    const projection = fitSpaceProjection(
+      composition.space,
+      sceneSpacePoints(scene),
+      { width: 320, height: 320, padding: 24 },
+    )
+    const commands = buildCompositionDrawCommands(scene, projection)
+    const traces = commands.filter((command) => command.kind === 'trace')
+    const modulated = traces.filter(
+      (command) => command.modulationLaneIds !== undefined,
+    )
+
+    expect(traces).toHaveLength(sourcePoints.length + 2)
+    expect(modulated).toHaveLength(sourcePoints.length - 1)
+    expect(modulated[0]).toMatchObject({
+      headId: 'head-1',
+      modulationLaneIds: ['lane-brightness', 'lane-gain'],
+      modulationTargets: ['brightness', 'gain'],
+    })
+    if (modulated.some((command) => command.kind !== 'trace')) return
+    expect(new Set(modulated.map((command) => command.color)).size).toBeGreaterThan(1)
+    expect(modulated.at(-1)?.lineWidth ?? 0).toBeGreaterThan(
+      modulated[0].lineWidth,
+    )
+    expect(modulated[0].color).not.toBe(
+      composition.wheels[0].heads[0].trace.color,
+    )
+    expect(modulated[0].lineWidth).not.toBe(
+      composition.wheels[0].heads[0].trace.lineWidth,
+    )
+    expect(modulated.at(-1)?.lineWidth ?? 0).toBeGreaterThan(
+      composition.wheels[0].heads[0].trace.lineWidth,
+    )
+    expect(modulated[0].points[0]).toEqual(
+      projectSpacePoint(sourcePoints[0].position, projection),
+    )
+    expect(modulated.at(-1)?.points.at(-1)).toEqual(
+      projectSpacePoint(sourcePoints.at(-1)?.position ?? { x: 0, y: 0 }, projection),
+    )
+    expect(
+      traces
+        .filter((command) => command.modulationLaneIds === undefined)
+        .every(
+          (command) =>
+            !modulated.some((segment) => command.color === segment.color),
+        ),
+    ).toBe(true)
   })
 
   it('switches Traces, Head markers, and debug IDs independently', () => {

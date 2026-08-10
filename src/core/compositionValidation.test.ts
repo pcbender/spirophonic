@@ -330,6 +330,46 @@ describe('Composition validation', () => {
     expect(validateComposition(allSet).ok).toBe(true)
   })
 
+  it('validates saved gate-modulation mappings and target ranges', () => {
+    const composition = cloneDefault()
+    composition.fields.push(ringField)
+    composition.parts.push({
+      ...notePart,
+      mute: false,
+      gateModulations: [
+        {
+          id: 'mod-speed-gain',
+          name: 'Speed gain',
+          enabled: true,
+          source: 'speed',
+          target: 'gain',
+          sampleRateHz: 120,
+          minimum: 0.25,
+          maximum: 1.5,
+          curve: 1,
+          smoothingSeconds: 0.02,
+        },
+      ],
+    })
+
+    expect(validateComposition(composition)).toEqual({
+      ok: true,
+      composition,
+    })
+
+    const mapping = composition.parts[0]
+    if (mapping.kind !== 'note' || !mapping.gateModulations) return
+    mapping.gateModulations[0].maximum = 3
+    expect(
+      issueAt(composition, '$.parts[0].gateModulations[0].maximum')?.message,
+    ).toContain('less than or equal to 2')
+
+    mapping.gateModulations[0].maximum = 0.1
+    expect(
+      issueAt(composition, '$.parts[0].gateModulations[0].maximum')?.message,
+    ).toContain('greater than or equal')
+  })
+
   it('rejects non-finite numbers and unknown root properties', () => {
     const composition = cloneDefault()
     const value = composition as unknown as Record<string, unknown>

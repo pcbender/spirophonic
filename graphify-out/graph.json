@@ -17,7 +17,7 @@
       "label": "pageErrors",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L9",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "e2e_app_spec_pageerrors",
       "community": 80,
@@ -27,17 +27,27 @@
       "label": "canvasInk()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "e2e_app_spec_canvasink",
       "community": 80,
       "norm_label": "canvasink()"
     },
     {
+      "label": "canvasSignature()",
+      "file_type": "code",
+      "source_file": "e2e/app.spec.ts",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "e2e_app_spec_canvassignature",
+      "community": 80,
+      "norm_label": "canvassignature()"
+    },
+    {
       "label": "loadReference()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L53",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "e2e_app_spec_loadreference",
       "community": 80,
@@ -47,7 +57,7 @@
       "label": "bundleDialog()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L340",
+      "source_location": "L442",
       "_origin": "ast",
       "id": "e2e_app_spec_bundledialog",
       "community": 80,
@@ -57,7 +67,7 @@
       "label": "confirmBundleExport()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L343",
+      "source_location": "L445",
       "_origin": "ast",
       "id": "e2e_app_spec_confirmbundleexport",
       "community": 80,
@@ -67,7 +77,7 @@
       "label": "sampleBankFile()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L615",
+      "source_location": "L717",
       "_origin": "ast",
       "id": "e2e_app_spec_samplebankfile",
       "community": 80,
@@ -77,7 +87,7 @@
       "label": "importSampleBank()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L631",
+      "source_location": "L733",
       "_origin": "ast",
       "id": "e2e_app_spec_importsamplebank",
       "community": 80,
@@ -750,27 +760,27 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app_test",
-      "community": 65,
+      "community": 77,
       "norm_label": "app.test.tsx"
     },
     {
       "label": "cloneDefault()",
       "file_type": "code",
       "source_file": "src/App.test.tsx",
-      "source_location": "L23",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "src_app_test_clonedefault",
-      "community": 65,
+      "community": 77,
       "norm_label": "clonedefault()"
     },
     {
       "label": "performanceRequestFor()",
       "file_type": "code",
       "source_file": "src/App.test.tsx",
-      "source_location": "L25",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "src_app_test_performancerequestfor",
-      "community": 65,
+      "community": 77,
       "norm_label": "performancerequestfor()"
     },
     {
@@ -837,7 +847,7 @@
       "label": "DiagnosticsProps",
       "file_type": "code",
       "source_file": "src/App.tsx",
-      "source_location": "L654",
+      "source_location": "L659",
       "_origin": "ast",
       "id": "src_app_diagnosticsprops",
       "community": 44,
@@ -847,7 +857,7 @@
       "label": "silenceReason()",
       "file_type": "code",
       "source_file": "src/App.tsx",
-      "source_location": "L670",
+      "source_location": "L675",
       "_origin": "ast",
       "id": "src_app_silencereason",
       "community": 44,
@@ -857,7 +867,7 @@
       "label": "Diagnostics()",
       "file_type": "code",
       "source_file": "src/App.tsx",
-      "source_location": "L680",
+      "source_location": "L685",
       "_origin": "ast",
       "id": "src_app_diagnostics",
       "community": 44,
@@ -1020,7 +1030,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_bundledsoundbank",
-      "community": 107,
+      "community": 79,
       "norm_label": "bundledsoundbank.ts"
     },
     {
@@ -1030,7 +1040,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_bundledbankstate",
-      "community": 107,
+      "community": 79,
       "norm_label": "bundledbankstate"
     },
     {
@@ -1040,7 +1050,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_ensurebundledbankoptions",
-      "community": 107,
+      "community": 79,
       "norm_label": "ensurebundledbankoptions"
     },
     {
@@ -1060,7 +1070,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_drumsynth_test",
-      "community": 73,
+      "community": 54,
       "norm_label": "drumsynth.test.ts"
     },
     {
@@ -1070,7 +1080,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "audio_drumsynth_test_capturingcontext",
-      "community": 73,
+      "community": 54,
       "norm_label": "capturingcontext()"
     },
     {
@@ -1080,7 +1090,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "audio_drumsynth_test_noisefor",
-      "community": 73,
+      "community": 54,
       "norm_label": "noisefor()"
     },
     {
@@ -1090,7 +1100,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_drumsynth",
-      "community": 73,
+      "community": 54,
       "norm_label": "drumsynth.ts"
     },
     {
@@ -1100,7 +1110,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "audio_drumsynth_drumshape",
-      "community": 73,
+      "community": 54,
       "norm_label": "drumshape"
     },
     {
@@ -1110,7 +1120,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "audio_drumsynth_shapes",
-      "community": 73,
+      "community": 54,
       "norm_label": "shapes"
     },
     {
@@ -1120,7 +1130,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "audio_drumsynth_fallback",
-      "community": 73,
+      "community": 54,
       "norm_label": "fallback"
     },
     {
@@ -1130,7 +1140,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "audio_drumsynth_nativevoicenotes",
-      "community": 73,
+      "community": 54,
       "norm_label": "nativevoicenotes"
     },
     {
@@ -1140,7 +1150,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "audio_drumsynth_noisebuffer",
-      "community": 73,
+      "community": 54,
       "norm_label": "noisebuffer()"
     },
     {
@@ -1150,7 +1160,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "audio_drumsynth_playdrum",
-      "community": 73,
+      "community": 54,
       "norm_label": "playdrum()"
     },
     {
@@ -1160,7 +1170,7 @@
       "source_location": "L155",
       "_origin": "ast",
       "id": "audio_drumsynth_playnativedrum",
-      "community": 73,
+      "community": 54,
       "norm_label": "playnativedrum()"
     },
     {
@@ -1170,7 +1180,7 @@
       "source_location": "L163",
       "_origin": "ast",
       "id": "audio_drumsynth_tone",
-      "community": 73,
+      "community": 54,
       "norm_label": "tone()"
     },
     {
@@ -1180,7 +1190,7 @@
       "source_location": "L195",
       "_origin": "ast",
       "id": "audio_drumsynth_envelope",
-      "community": 73,
+      "community": 54,
       "norm_label": "envelope()"
     },
     {
@@ -1190,7 +1200,7 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "audio_drumsynth_scheduledvoice",
-      "community": 73,
+      "community": 54,
       "norm_label": "scheduledvoice()"
     },
     {
@@ -1200,7 +1210,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_instrumentengine",
-      "community": 73,
+      "community": 54,
       "norm_label": "instrumentengine.ts"
     },
     {
@@ -1210,7 +1220,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "audio_instrumentengine_rendercontext",
-      "community": 73,
+      "community": 54,
       "norm_label": "rendercontext"
     },
     {
@@ -1280,7 +1290,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "audio_instrumentrouter_test_fakeengine",
-      "community": 62,
+      "community": 63,
       "norm_label": "fakeengine"
     },
     {
@@ -1290,7 +1300,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "audio_instrumentrouter_test_fakeengine_constructor",
-      "community": 62,
+      "community": 63,
       "norm_label": ".constructor()"
     },
     {
@@ -1300,7 +1310,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "audio_instrumentrouter_test_fakeengine_resume",
-      "community": 62,
+      "community": 63,
       "norm_label": ".resume()"
     },
     {
@@ -1310,7 +1320,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "audio_instrumentrouter_test_fakeengine_suspend",
-      "community": 62,
+      "community": 63,
       "norm_label": ".suspend()"
     },
     {
@@ -1330,7 +1340,7 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "audio_instrumentrouter_test_fakeengine_cancelscheduledfrom",
-      "community": 62,
+      "community": 63,
       "norm_label": ".cancelscheduledfrom()"
     },
     {
@@ -1340,7 +1350,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "audio_instrumentrouter_test_fakeengine_panic",
-      "community": 62,
+      "community": 63,
       "norm_label": ".panic()"
     },
     {
@@ -1350,7 +1360,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "audio_instrumentrouter_test_fakeengine_dispose",
-      "community": 62,
+      "community": 63,
       "norm_label": ".dispose()"
     },
     {
@@ -1700,7 +1710,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "audio_nativesynthengine_test_fakeaudiocontext",
-      "community": 93,
+      "community": 54,
       "norm_label": "fakeaudiocontext"
     },
     {
@@ -1710,7 +1720,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "audio_nativesynthengine_test_fakeaudiocontext_creategain",
-      "community": 93,
+      "community": 54,
       "norm_label": ".creategain()"
     },
     {
@@ -1720,7 +1730,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "audio_nativesynthengine_test_fakeaudiocontext_createstereopanner",
-      "community": 93,
+      "community": 54,
       "norm_label": ".createstereopanner()"
     },
     {
@@ -1730,7 +1740,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "audio_nativesynthengine_test_fakeaudiocontext_resume",
-      "community": 93,
+      "community": 54,
       "norm_label": ".resume()"
     },
     {
@@ -1740,7 +1750,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "audio_nativesynthengine_test_fakeaudiocontext_suspend",
-      "community": 93,
+      "community": 54,
       "norm_label": ".suspend()"
     },
     {
@@ -1750,7 +1760,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "audio_nativesynthengine_test_fakeaudiocontext_close",
-      "community": 93,
+      "community": 54,
       "norm_label": ".close()"
     },
     {
@@ -1870,7 +1880,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine",
-      "community": 78,
+      "community": 54,
       "norm_label": "nativesynthengine"
     },
     {
@@ -1880,7 +1890,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_constructor",
-      "community": 78,
+      "community": 54,
       "norm_label": ".constructor()"
     },
     {
@@ -1890,7 +1900,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_currenttimeseconds",
-      "community": 78,
+      "community": 54,
       "norm_label": ".currenttimeseconds()"
     },
     {
@@ -1900,7 +1910,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_resume",
-      "community": 78,
+      "community": 54,
       "norm_label": ".resume()"
     },
     {
@@ -1910,7 +1920,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_suspend",
-      "community": 78,
+      "community": 54,
       "norm_label": ".suspend()"
     },
     {
@@ -1920,7 +1930,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_schedule",
-      "community": 78,
+      "community": 54,
       "norm_label": ".schedule()"
     },
     {
@@ -1930,7 +1940,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_cancelscheduledfrom",
-      "community": 78,
+      "community": 54,
       "norm_label": ".cancelscheduledfrom()"
     },
     {
@@ -1940,7 +1950,7 @@
       "source_location": "L141",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_panic",
-      "community": 78,
+      "community": 54,
       "norm_label": ".panic()"
     },
     {
@@ -1950,7 +1960,7 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_dispose",
-      "community": 78,
+      "community": 54,
       "norm_label": ".dispose()"
     },
     {
@@ -1960,7 +1970,7 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_ensurecontext",
-      "community": 78,
+      "community": 54,
       "norm_label": ".ensurecontext()"
     },
     {
@@ -1970,7 +1980,7 @@
       "source_location": "L185",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_busfor",
-      "community": 78,
+      "community": 54,
       "norm_label": ".busfor()"
     },
     {
@@ -1980,7 +1990,7 @@
       "source_location": "L209",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_prunevoices",
-      "community": 78,
+      "community": 54,
       "norm_label": ".prunevoices()"
     },
     {
@@ -1990,7 +2000,7 @@
       "source_location": "L218",
       "_origin": "ast",
       "id": "audio_nativesynthengine_nativesynthengine_assertusable",
-      "community": 78,
+      "community": 54,
       "norm_label": ".assertusable()"
     },
     {
@@ -2000,7 +2010,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_performancescheduler_test",
-      "community": 63,
+      "community": 56,
       "norm_label": "performancescheduler.test.ts"
     },
     {
@@ -2010,7 +2020,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_synth",
-      "community": 63,
+      "community": 56,
       "norm_label": "synth()"
     },
     {
@@ -2020,7 +2030,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_note",
-      "community": 63,
+      "community": 56,
       "norm_label": "note()"
     },
     {
@@ -2030,54 +2040,54 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_performance",
-      "community": 63,
+      "community": 56,
       "norm_label": "performance()"
     },
     {
       "label": "FakeClock",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L80",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_fakeclock",
-      "community": 63,
+      "community": 56,
       "norm_label": "fakeclock"
     },
     {
       "label": ".setInterval()",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L84",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_fakeclock_setinterval",
-      "community": 63,
+      "community": 56,
       "norm_label": ".setinterval()"
     },
     {
       "label": ".clearInterval()",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L91",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_fakeclock_clearinterval",
-      "community": 63,
+      "community": 56,
       "norm_label": ".clearinterval()"
     },
     {
       "label": ".tick()",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L95",
+      "source_location": "L96",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_fakeclock_tick",
-      "community": 63,
+      "community": 56,
       "norm_label": ".tick()"
     },
     {
       "label": "FakeEngine",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L100",
+      "source_location": "L101",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_fakeengine",
       "community": 63,
@@ -2087,7 +2097,7 @@
       "label": ".resume()",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L114",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_fakeengine_resume",
       "community": 63,
@@ -2097,7 +2107,7 @@
       "label": ".suspend()",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L118",
+      "source_location": "L119",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_fakeengine_suspend",
       "community": 63,
@@ -2107,7 +2117,7 @@
       "label": ".schedule()",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L122",
+      "source_location": "L123",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_fakeengine_schedule",
       "community": 63,
@@ -2117,7 +2127,7 @@
       "label": ".cancelScheduledFrom()",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L135",
+      "source_location": "L136",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_fakeengine_cancelscheduledfrom",
       "community": 63,
@@ -2127,7 +2137,7 @@
       "label": ".panic()",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L139",
+      "source_location": "L140",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_fakeengine_panic",
       "community": 63,
@@ -2137,7 +2147,7 @@
       "label": ".dispose()",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L143",
+      "source_location": "L144",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_fakeengine_dispose",
       "community": 63,
@@ -2147,10 +2157,10 @@
       "label": "schedulerFor()",
       "file_type": "code",
       "source_file": "src/audio/performanceScheduler.test.ts",
-      "source_location": "L148",
+      "source_location": "L149",
       "_origin": "ast",
       "id": "audio_performancescheduler_test_schedulerfor",
-      "community": 63,
+      "community": 56,
       "norm_label": "schedulerfor()"
     },
     {
@@ -2160,7 +2170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_performancescheduler",
-      "community": 76,
+      "community": 56,
       "norm_label": "performancescheduler.ts"
     },
     {
@@ -2170,7 +2180,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "audio_performancescheduler_playbackstatus",
-      "community": 76,
+      "community": 56,
       "norm_label": "playbackstatus"
     },
     {
@@ -2180,7 +2190,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "audio_performancescheduler_schedulerclock",
-      "community": 63,
+      "community": 56,
       "norm_label": "schedulerclock"
     },
     {
@@ -2190,7 +2200,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "audio_performancescheduler_performancestartoptions",
-      "community": 76,
+      "community": 56,
       "norm_label": "performancestartoptions"
     },
     {
@@ -2200,7 +2210,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "audio_performancescheduler_performanceeditboundary",
-      "community": 76,
+      "community": 56,
       "norm_label": "performanceeditboundary"
     },
     {
@@ -2210,7 +2220,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "audio_performancescheduler_performancescheduleroptions",
-      "community": 76,
+      "community": 56,
       "norm_label": "performancescheduleroptions"
     },
     {
@@ -2220,7 +2230,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "audio_performancescheduler_eventoccurrence",
-      "community": 76,
+      "community": 56,
       "norm_label": "eventoccurrence"
     },
     {
@@ -2230,7 +2240,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "audio_performancescheduler_pendingperformance",
-      "community": 76,
+      "community": 56,
       "norm_label": "pendingperformance"
     },
     {
@@ -2240,7 +2250,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "audio_performancescheduler_systemclock",
-      "community": 76,
+      "community": 56,
       "norm_label": "systemclock"
     },
     {
@@ -2250,7 +2260,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "audio_performancescheduler_comparetext",
-      "community": 76,
+      "community": 56,
       "norm_label": "comparetext()"
     },
     {
@@ -2260,7 +2270,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "audio_performancescheduler_compareevents",
-      "community": 76,
+      "community": 56,
       "norm_label": "compareevents()"
     },
     {
@@ -2270,7 +2280,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "audio_performancescheduler_requirepositive",
-      "community": 76,
+      "community": 56,
       "norm_label": "requirepositive()"
     },
     {
@@ -2280,7 +2290,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "audio_performancescheduler_requirenonnegative",
-      "community": 76,
+      "community": 56,
       "norm_label": "requirenonnegative()"
     },
     {
@@ -2310,7 +2320,7 @@
       "source_location": "L121",
       "_origin": "ast",
       "id": "audio_performancescheduler_performancescheduler_constructor",
-      "community": 76,
+      "community": 56,
       "norm_label": ".constructor()"
     },
     {
@@ -2670,7 +2680,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "audio_soundbankstore_soundbankimport",
-      "community": 72,
+      "community": 79,
       "norm_label": "soundbankimport"
     },
     {
@@ -3390,7 +3400,7 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "audio_soundfontengine_withtimeout",
-      "community": 45,
+      "community": 82,
       "norm_label": "withtimeout()"
     },
     {
@@ -3550,7 +3560,7 @@
       "source_location": "L535",
       "_origin": "ast",
       "id": "audio_soundfontengine_soundfontengine_issue",
-      "community": 45,
+      "community": 62,
       "norm_label": ".issue()"
     },
     {
@@ -4030,7 +4040,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_composition_test",
-      "community": 65,
+      "community": 77,
       "norm_label": "composition.test.ts"
     },
     {
@@ -4050,7 +4060,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "core_composition_compositionversion",
-      "community": 65,
+      "community": 77,
       "norm_label": "compositionversion"
     },
     {
@@ -4250,7 +4260,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "core_composition_traceobservationspec",
-      "community": 65,
+      "community": 103,
       "norm_label": "traceobservationspec"
     },
     {
@@ -4380,7 +4390,7 @@
       "source_location": "L279",
       "_origin": "ast",
       "id": "core_composition_ringfieldspec",
-      "community": 42,
+      "community": 65,
       "norm_label": "ringfieldspec"
     },
     {
@@ -4520,7 +4530,7 @@
       "source_location": "L398",
       "_origin": "ast",
       "id": "core_composition_pitchmapping",
-      "community": 61,
+      "community": 57,
       "norm_label": "pitchmapping"
     },
     {
@@ -4550,7 +4560,7 @@
       "source_location": "L475",
       "_origin": "ast",
       "id": "core_composition_ratiosourcespec",
-      "community": 46,
+      "community": 67,
       "norm_label": "ratiosourcespec"
     },
     {
@@ -4594,10 +4604,40 @@
       "norm_label": "quantizespec"
     },
     {
-      "label": "PartBase",
+      "label": "GateModulationSource",
+      "file_type": "code",
+      "source_file": "src/core/composition.ts",
+      "source_location": "L505",
+      "_origin": "ast",
+      "id": "core_composition_gatemodulationsource",
+      "community": 61,
+      "norm_label": "gatemodulationsource"
+    },
+    {
+      "label": "GateModulationTarget",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
       "source_location": "L511",
+      "_origin": "ast",
+      "id": "core_composition_gatemodulationtarget",
+      "community": 46,
+      "norm_label": "gatemodulationtarget"
+    },
+    {
+      "label": "GateModulationMapping",
+      "file_type": "code",
+      "source_file": "src/core/composition.ts",
+      "source_location": "L525",
+      "_origin": "ast",
+      "id": "core_composition_gatemodulationmapping",
+      "community": 80,
+      "norm_label": "gatemodulationmapping"
+    },
+    {
+      "label": "PartBase",
+      "file_type": "code",
+      "source_file": "src/core/composition.ts",
+      "source_location": "L544",
       "_origin": "ast",
       "id": "core_composition_partbase",
       "community": 46,
@@ -4607,17 +4647,17 @@
       "label": "NotePartSpec",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L521",
+      "source_location": "L554",
       "_origin": "ast",
       "id": "core_composition_notepartspec",
-      "community": 65,
+      "community": 80,
       "norm_label": "notepartspec"
     },
     {
       "label": "ControlPartSpec",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L532",
+      "source_location": "L566",
       "_origin": "ast",
       "id": "core_composition_controlpartspec",
       "community": 61,
@@ -4627,7 +4667,7 @@
       "label": "PartSpec",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L544",
+      "source_location": "L578",
       "_origin": "ast",
       "id": "core_composition_partspec",
       "community": 7,
@@ -4637,7 +4677,7 @@
       "label": "EnvelopeSpec",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L546",
+      "source_location": "L580",
       "_origin": "ast",
       "id": "core_composition_envelopespec",
       "community": 54,
@@ -4647,7 +4687,7 @@
       "label": "InstrumentBase",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L553",
+      "source_location": "L587",
       "_origin": "ast",
       "id": "core_composition_instrumentbase",
       "community": 46,
@@ -4657,7 +4697,7 @@
       "label": "NativeSynthInstrumentSpec",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L560",
+      "source_location": "L594",
       "_origin": "ast",
       "id": "core_composition_nativesynthinstrumentspec",
       "community": 54,
@@ -4667,7 +4707,7 @@
       "label": "NativeDrumInstrumentSpec",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L566",
+      "source_location": "L600",
       "_origin": "ast",
       "id": "core_composition_nativedruminstrumentspec",
       "community": 54,
@@ -4677,37 +4717,37 @@
       "label": "SoundFontInstrumentSpec",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L571",
+      "source_location": "L605",
       "_origin": "ast",
       "id": "core_composition_soundfontinstrumentspec",
-      "community": 45,
+      "community": 62,
       "norm_label": "soundfontinstrumentspec"
     },
     {
       "label": "InstrumentSpec",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L582",
+      "source_location": "L616",
       "_origin": "ast",
       "id": "core_composition_instrumentspec",
-      "community": 63,
+      "community": 56,
       "norm_label": "instrumentspec"
     },
     {
       "label": "SoundBankFormat",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L587",
+      "source_location": "L621",
       "_origin": "ast",
       "id": "core_composition_soundbankformat",
-      "community": 72,
+      "community": 35,
       "norm_label": "soundbankformat"
     },
     {
       "label": "SoundBankSource",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L589",
+      "source_location": "L623",
       "_origin": "ast",
       "id": "core_composition_soundbanksource",
       "community": 46,
@@ -4717,7 +4757,7 @@
       "label": "SoundBankReference",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L591",
+      "source_location": "L625",
       "_origin": "ast",
       "id": "core_composition_soundbankreference",
       "community": 45,
@@ -4727,7 +4767,7 @@
       "label": "VariationLayerSpec",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L606",
+      "source_location": "L640",
       "_origin": "ast",
       "id": "core_composition_variationlayerspec",
       "community": 34,
@@ -4737,7 +4777,7 @@
       "label": "VariationSpec",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L619",
+      "source_location": "L653",
       "_origin": "ast",
       "id": "core_composition_variationspec",
       "community": 34,
@@ -4747,7 +4787,7 @@
       "label": "Composition",
       "file_type": "code",
       "source_file": "src/core/composition.ts",
-      "source_location": "L631",
+      "source_location": "L665",
       "_origin": "ast",
       "id": "core_composition_composition",
       "community": 77,
@@ -5170,7 +5210,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_compositionvalidation_test",
-      "community": 65,
+      "community": 30,
       "norm_label": "compositionvalidation.test.ts"
     },
     {
@@ -5180,7 +5220,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "core_compositionvalidation_test_clonedefault",
-      "community": 65,
+      "community": 30,
       "norm_label": "clonedefault()"
     },
     {
@@ -5190,7 +5230,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "core_compositionvalidation_test_ringfield",
-      "community": 65,
+      "community": 30,
       "norm_label": "ringfield"
     },
     {
@@ -5200,7 +5240,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "core_compositionvalidation_test_notepart",
-      "community": 65,
+      "community": 30,
       "norm_label": "notepart"
     },
     {
@@ -5210,7 +5250,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "core_compositionvalidation_test_motioncases",
-      "community": 65,
+      "community": 30,
       "norm_label": "motioncases"
     },
     {
@@ -5220,7 +5260,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "core_compositionvalidation_test_issueat",
-      "community": 65,
+      "community": 30,
       "norm_label": "issueat()"
     },
     {
@@ -5627,7 +5667,7 @@
       "label": "relationKinds",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1244",
+      "source_location": "L1266",
       "_origin": "ast",
       "id": "core_compositionvalidation_relationkinds",
       "community": 30,
@@ -5637,7 +5677,7 @@
       "label": "validateRelation()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1253",
+      "source_location": "L1275",
       "_origin": "ast",
       "id": "core_compositionvalidation_validaterelation",
       "community": 30,
@@ -5647,7 +5687,7 @@
       "label": "validateTuningContext()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1302",
+      "source_location": "L1324",
       "_origin": "ast",
       "id": "core_compositionvalidation_validatetuningcontext",
       "community": 30,
@@ -5657,7 +5697,7 @@
       "label": "validateEncounterQuery()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1351",
+      "source_location": "L1373",
       "_origin": "ast",
       "id": "core_compositionvalidation_validateencounterquery",
       "community": 30,
@@ -5667,7 +5707,7 @@
       "label": "validateReferenceArray()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1430",
+      "source_location": "L1452",
       "_origin": "ast",
       "id": "core_compositionvalidation_validatereferencearray",
       "community": 30,
@@ -5677,7 +5717,7 @@
       "label": "validateLiteralArray()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1457",
+      "source_location": "L1479",
       "_origin": "ast",
       "id": "core_compositionvalidation_validateliteralarray",
       "community": 30,
@@ -5687,7 +5727,7 @@
       "label": "validateOnset()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1481",
+      "source_location": "L1503",
       "_origin": "ast",
       "id": "core_compositionvalidation_validateonset",
       "community": 30,
@@ -5697,7 +5737,7 @@
       "label": "validatePitch()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1492",
+      "source_location": "L1514",
       "_origin": "ast",
       "id": "core_compositionvalidation_validatepitch",
       "community": 30,
@@ -5707,7 +5747,7 @@
       "label": "validateScalePitch()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1637",
+      "source_location": "L1659",
       "_origin": "ast",
       "id": "core_compositionvalidation_validatescalepitch",
       "community": 30,
@@ -5717,7 +5757,7 @@
       "label": "validateVelocity()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1651",
+      "source_location": "L1673",
       "_origin": "ast",
       "id": "core_compositionvalidation_validatevelocity",
       "community": 30,
@@ -5727,7 +5767,7 @@
       "label": "validateDuration()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1694",
+      "source_location": "L1716",
       "_origin": "ast",
       "id": "core_compositionvalidation_validateduration",
       "community": 30,
@@ -5737,17 +5777,37 @@
       "label": "validateQuantize()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1727",
+      "source_location": "L1749",
       "_origin": "ast",
       "id": "core_compositionvalidation_validatequantize",
       "community": 30,
       "norm_label": "validatequantize()"
     },
     {
+      "label": "gateTargetBounds",
+      "file_type": "code",
+      "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1764",
+      "_origin": "ast",
+      "id": "core_compositionvalidation_gatetargetbounds",
+      "community": 30,
+      "norm_label": "gatetargetbounds"
+    },
+    {
+      "label": "validateGateModulation()",
+      "file_type": "code",
+      "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1773",
+      "_origin": "ast",
+      "id": "core_compositionvalidation_validategatemodulation",
+      "community": 30,
+      "norm_label": "validategatemodulation()"
+    },
+    {
       "label": "validateControl()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1742",
+      "source_location": "L1835",
       "_origin": "ast",
       "id": "core_compositionvalidation_validatecontrol",
       "community": 30,
@@ -5757,7 +5817,7 @@
       "label": "validateVariation()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1783",
+      "source_location": "L1876",
       "_origin": "ast",
       "id": "core_compositionvalidation_validatevariation",
       "community": 30,
@@ -5767,7 +5827,7 @@
       "label": "validatePoint()",
       "file_type": "code",
       "source_file": "src/core/compositionValidation.ts",
-      "source_location": "L1823",
+      "source_location": "L1916",
       "_origin": "ast",
       "id": "core_compositionvalidation_validatepoint",
       "community": 30,
@@ -6120,7 +6180,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_defaultcomposition",
-      "community": 65,
+      "community": 77,
       "norm_label": "defaultcomposition.ts"
     },
     {
@@ -6130,7 +6190,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "core_defaultcomposition_bundledsoundbank",
-      "community": 107,
+      "community": 79,
       "norm_label": "bundledsoundbank"
     },
     {
@@ -6140,7 +6200,7 @@
       "source_location": "L280",
       "_origin": "ast",
       "id": "core_defaultcomposition_tracecolors",
-      "community": 65,
+      "community": 77,
       "norm_label": "tracecolors"
     },
     {
@@ -6150,7 +6210,7 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "core_defaultcomposition_referencehead",
-      "community": 65,
+      "community": 77,
       "norm_label": "referencehead()"
     },
     {
@@ -6160,7 +6220,7 @@
       "source_location": "L311",
       "_origin": "ast",
       "id": "core_defaultcomposition_referencewheel",
-      "community": 65,
+      "community": 77,
       "norm_label": "referencewheel()"
     },
     {
@@ -7064,6 +7124,236 @@
       "norm_label": "nextstableid()"
     },
     {
+      "label": "gateModulation.test.ts",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_gatemodulation_test",
+      "community": 80,
+      "norm_label": "gatemodulation.test.ts"
+    },
+    {
+      "label": "compileFixture()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "core_gatemodulation_test_compilefixture",
+      "community": 80,
+      "norm_label": "compilefixture()"
+    },
+    {
+      "label": "turningPoints()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "core_gatemodulation_test_turningpoints",
+      "community": 80,
+      "norm_label": "turningpoints()"
+    },
+    {
+      "label": "gateModulation.ts",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "core_gatemodulation",
+      "community": 80,
+      "norm_label": "gatemodulation.ts"
+    },
+    {
+      "label": "gateModulationLimits",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "core_gatemodulation_gatemodulationlimits",
+      "community": 80,
+      "norm_label": "gatemodulationlimits"
+    },
+    {
+      "label": "GateModulationSample",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "core_gatemodulation_gatemodulationsample",
+      "community": 80,
+      "norm_label": "gatemodulationsample"
+    },
+    {
+      "label": "GateModulationLane",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "core_gatemodulation_gatemodulationlane",
+      "community": 8,
+      "norm_label": "gatemodulationlane"
+    },
+    {
+      "label": "GateModulationDiagnostic",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "core_gatemodulation_gatemodulationdiagnostic",
+      "community": 80,
+      "norm_label": "gatemodulationdiagnostic"
+    },
+    {
+      "label": "GateModulationCompileResult",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "core_gatemodulation_gatemodulationcompileresult",
+      "community": 80,
+      "norm_label": "gatemodulationcompileresult"
+    },
+    {
+      "label": "GateModulationPathState",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "core_gatemodulation_gatemodulationpathstate",
+      "community": 80,
+      "norm_label": "gatemodulationpathstate"
+    },
+    {
+      "label": "GateModulationLaneInput",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L83",
+      "_origin": "ast",
+      "id": "core_gatemodulation_gatemodulationlaneinput",
+      "community": 80,
+      "norm_label": "gatemodulationlaneinput"
+    },
+    {
+      "label": "freezePoint()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L94",
+      "_origin": "ast",
+      "id": "core_gatemodulation_freezepoint",
+      "community": 80,
+      "norm_label": "freezepoint()"
+    },
+    {
+      "label": "clamp01()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L97",
+      "_origin": "ast",
+      "id": "core_gatemodulation_clamp01",
+      "community": 80,
+      "norm_label": "clamp01()"
+    },
+    {
+      "label": "signedAngleDifference()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L99",
+      "_origin": "ast",
+      "id": "core_gatemodulation_signedangledifference",
+      "community": 80,
+      "norm_label": "signedangledifference()"
+    },
+    {
+      "label": "laneId()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L104",
+      "_origin": "ast",
+      "id": "core_gatemodulation_laneid",
+      "community": 80,
+      "norm_label": "laneid()"
+    },
+    {
+      "label": "sampleTimes()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L109",
+      "_origin": "ast",
+      "id": "core_gatemodulation_sampletimes",
+      "community": 80,
+      "norm_label": "sampletimes()"
+    },
+    {
+      "label": "assertState()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L141",
+      "_origin": "ast",
+      "id": "core_gatemodulation_assertstate",
+      "community": 80,
+      "norm_label": "assertstate()"
+    },
+    {
+      "label": "sourceAt()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L155",
+      "_origin": "ast",
+      "id": "core_gatemodulation_sourceat",
+      "community": 80,
+      "norm_label": "sourceat()"
+    },
+    {
+      "label": "isEntryOnly()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L208",
+      "_origin": "ast",
+      "id": "core_gatemodulation_isentryonly",
+      "community": 80,
+      "norm_label": "isentryonly()"
+    },
+    {
+      "label": "compileGateModulationLane()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L212",
+      "_origin": "ast",
+      "id": "core_gatemodulation_compilegatemodulationlane",
+      "community": 80,
+      "norm_label": "compilegatemodulationlane()"
+    },
+    {
+      "label": "matchingExit()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L300",
+      "_origin": "ast",
+      "id": "core_gatemodulation_matchingexit",
+      "community": 80,
+      "norm_label": "matchingexit()"
+    },
+    {
+      "label": "noteParts()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L314",
+      "_origin": "ast",
+      "id": "core_gatemodulation_noteparts",
+      "community": 80,
+      "norm_label": "noteparts()"
+    },
+    {
+      "label": "compileGateModulationLanes()",
+      "file_type": "code",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L322",
+      "_origin": "ast",
+      "id": "core_gatemodulation_compilegatemodulationlanes",
+      "community": 80,
+      "norm_label": "compilegatemodulationlanes()"
+    },
+    {
       "label": "heads.test.ts",
       "file_type": "code",
       "source_file": "src/core/heads.test.ts",
@@ -7600,37 +7890,37 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_performance_test",
-      "community": 65,
+      "community": 80,
       "norm_label": "performance.test.ts"
     },
     {
       "label": "request",
       "file_type": "code",
       "source_file": "src/core/performance.test.ts",
-      "source_location": "L13",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "core_performance_test_request",
-      "community": 65,
+      "community": 80,
       "norm_label": "request"
     },
     {
       "label": "notePart()",
       "file_type": "code",
       "source_file": "src/core/performance.test.ts",
-      "source_location": "L19",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "core_performance_test_notepart",
-      "community": 65,
+      "community": 80,
       "norm_label": "notepart()"
     },
     {
       "label": "ellipseComposition()",
       "file_type": "code",
       "source_file": "src/core/performance.test.ts",
-      "source_location": "L46",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "core_performance_test_ellipsecomposition",
-      "community": 65,
+      "community": 80,
       "norm_label": "ellipsecomposition()"
     },
     {
@@ -7640,14 +7930,14 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_performance",
-      "community": 75,
+      "community": 89,
       "norm_label": "performance.ts"
     },
     {
       "label": "NoteMusicalEvent",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L51",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "core_performance_notemusicalevent",
       "community": 63,
@@ -7657,7 +7947,7 @@
       "label": "PerformanceDiagnostic",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L72",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "core_performance_performancediagnostic",
       "community": 44,
@@ -7667,7 +7957,7 @@
       "label": "CanonicalPerformance",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L89",
+      "source_location": "L94",
       "_origin": "ast",
       "id": "core_performance_canonicalperformance",
       "community": 56,
@@ -7677,37 +7967,37 @@
       "label": "PerformanceCompileOptions",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L103",
+      "source_location": "L109",
       "_origin": "ast",
       "id": "core_performance_performancecompileoptions",
-      "community": 75,
+      "community": 89,
       "norm_label": "performancecompileoptions"
     },
     {
       "label": "NoteCandidate",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L105",
+      "source_location": "L111",
       "_origin": "ast",
       "id": "core_performance_notecandidate",
-      "community": 75,
+      "community": 89,
       "norm_label": "notecandidate"
     },
     {
       "label": "compareText()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L112",
+      "source_location": "L118",
       "_origin": "ast",
       "id": "core_performance_comparetext",
-      "community": 75,
+      "community": 89,
       "norm_label": "comparetext()"
     },
     {
       "label": "audiblePartIds()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L121",
+      "source_location": "L127",
       "_origin": "ast",
       "id": "core_performance_audiblepartids",
       "community": 7,
@@ -7717,37 +8007,37 @@
       "label": "eventSounds()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L144",
+      "source_location": "L150",
       "_origin": "ast",
       "id": "core_performance_eventsounds",
-      "community": 104,
+      "community": 60,
       "norm_label": "eventsounds()"
     },
     {
       "label": "soundingEvents()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L146",
+      "source_location": "L152",
       "_origin": "ast",
       "id": "core_performance_soundingevents",
-      "community": 76,
+      "community": 56,
       "norm_label": "soundingevents()"
     },
     {
       "label": "eventId()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L150",
+      "source_location": "L156",
       "_origin": "ast",
       "id": "core_performance_eventid",
-      "community": 75,
+      "community": 89,
       "norm_label": "eventid()"
     },
     {
       "label": "freezeRequest()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L153",
+      "source_location": "L159",
       "_origin": "ast",
       "id": "core_performance_freezerequest",
       "community": 75,
@@ -7757,7 +8047,7 @@
       "label": "emptyPerformance()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L158",
+      "source_location": "L164",
       "_origin": "ast",
       "id": "core_performance_emptyperformance",
       "community": 75,
@@ -7767,17 +8057,17 @@
       "label": "compareEvents()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L180",
+      "source_location": "L187",
       "_origin": "ast",
       "id": "core_performance_compareevents",
-      "community": 75,
+      "community": 89,
       "norm_label": "compareevents()"
     },
     {
       "label": "interpretableEncounters()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L201",
+      "source_location": "L208",
       "_origin": "ast",
       "id": "core_performance_interpretableencounters",
       "community": 75,
@@ -7787,7 +8077,7 @@
       "label": "quantizedCandidates()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L242",
+      "source_location": "L249",
       "_origin": "ast",
       "id": "core_performance_quantizedcandidates",
       "community": 89,
@@ -7797,27 +8087,27 @@
       "label": "durationForCandidate()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L330",
+      "source_location": "L337",
       "_origin": "ast",
       "id": "core_performance_durationforcandidate",
-      "community": 75,
+      "community": 89,
       "norm_label": "durationforcandidate()"
     },
     {
       "label": "shiftMidiByScaleDegrees()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L370",
+      "source_location": "L377",
       "_origin": "ast",
       "id": "core_performance_shiftmidibyscaledegrees",
-      "community": 75,
+      "community": 89,
       "norm_label": "shiftmidibyscaledegrees()"
     },
     {
       "label": "interpretNotePart()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L400",
+      "source_location": "L407",
       "_origin": "ast",
       "id": "core_performance_interpretnotepart",
       "community": 41,
@@ -7827,17 +8117,17 @@
       "label": "InterpretationResult",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L515",
+      "source_location": "L528",
       "_origin": "ast",
       "id": "core_performance_interpretationresult",
-      "community": 75,
+      "community": 89,
       "norm_label": "interpretationresult"
     },
     {
       "label": "interpretEncounters()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L530",
+      "source_location": "L544",
       "_origin": "ast",
       "id": "core_performance_interpretencounters",
       "community": 7,
@@ -7847,7 +8137,7 @@
       "label": "compilePerformance()",
       "file_type": "code",
       "source_file": "src/core/performance.ts",
-      "source_location": "L633",
+      "source_location": "L669",
       "_origin": "ast",
       "id": "core_performance_compileperformance",
       "community": 75,
@@ -7947,7 +8237,7 @@
       "label": "RecordingProvenance",
       "file_type": "code",
       "source_file": "src/core/recording.ts",
-      "source_location": "L20",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "core_recording_recordingprovenance",
       "community": 7,
@@ -7957,7 +8247,7 @@
       "label": "RecordingLimits",
       "file_type": "code",
       "source_file": "src/core/recording.ts",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "core_recording_recordinglimits",
       "community": 7,
@@ -7967,7 +8257,7 @@
       "label": "RecordingTruncation",
       "file_type": "code",
       "source_file": "src/core/recording.ts",
-      "source_location": "L37",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "core_recording_recordingtruncation",
       "community": 7,
@@ -7977,7 +8267,7 @@
       "label": "Recording",
       "file_type": "code",
       "source_file": "src/core/recording.ts",
-      "source_location": "L52",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "core_recording_recording",
       "community": 7,
@@ -7987,7 +8277,7 @@
       "label": "RecordingWindow",
       "file_type": "code",
       "source_file": "src/core/recording.ts",
-      "source_location": "L65",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "core_recording_recordingwindow",
       "community": 7,
@@ -7997,7 +8287,7 @@
       "label": "truncate()",
       "file_type": "code",
       "source_file": "src/core/recording.ts",
-      "source_location": "L70",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "core_recording_truncate",
       "community": 7,
@@ -8007,17 +8297,27 @@
       "label": "withinWindow()",
       "file_type": "code",
       "source_file": "src/core/recording.ts",
-      "source_location": "L90",
+      "source_location": "L101",
       "_origin": "ast",
       "id": "core_recording_withinwindow",
       "community": 7,
       "norm_label": "withinwindow()"
     },
     {
+      "label": "captureModulationLanes()",
+      "file_type": "code",
+      "source_file": "src/core/recording.ts",
+      "source_location": "L105",
+      "_origin": "ast",
+      "id": "core_recording_capturemodulationlanes",
+      "community": 7,
+      "norm_label": "capturemodulationlanes()"
+    },
+    {
       "label": "createRecording()",
       "file_type": "code",
       "source_file": "src/core/recording.ts",
-      "source_location": "L100",
+      "source_location": "L182",
       "_origin": "ast",
       "id": "core_recording_createrecording",
       "community": 7,
@@ -8027,7 +8327,7 @@
       "label": "ProvenanceWarning",
       "file_type": "code",
       "source_file": "src/core/recording.ts",
-      "source_location": "L167",
+      "source_location": "L256",
       "_origin": "ast",
       "id": "core_recording_provenancewarning",
       "community": 7,
@@ -8037,7 +8337,7 @@
       "label": "provenanceWarnings()",
       "file_type": "code",
       "source_file": "src/core/recording.ts",
-      "source_location": "L173",
+      "source_location": "L262",
       "_origin": "ast",
       "id": "core_recording_provenancewarnings",
       "community": 7,
@@ -8130,7 +8430,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "core_relations_relationencounter",
-      "community": 32,
+      "community": 57,
       "norm_label": "relationencounter"
     },
     {
@@ -8374,10 +8674,20 @@
       "norm_label": "source()"
     },
     {
-      "label": "record()",
+      "label": "gatedSource()",
       "file_type": "code",
       "source_file": "src/core/replay.test.ts",
       "source_location": "L53",
+      "_origin": "ast",
+      "id": "core_replay_test_gatedsource",
+      "community": 7,
+      "norm_label": "gatedsource()"
+    },
+    {
+      "label": "record()",
+      "file_type": "code",
+      "source_file": "src/core/replay.test.ts",
+      "source_location": "L111",
       "_origin": "ast",
       "id": "core_replay_test_record",
       "community": 7,
@@ -8397,7 +8707,7 @@
       "label": "ReplayResult",
       "file_type": "code",
       "source_file": "src/core/replay.ts",
-      "source_location": "L16",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "core_replay_replayresult",
       "community": 7,
@@ -8407,7 +8717,7 @@
       "label": "replayRecording()",
       "file_type": "code",
       "source_file": "src/core/replay.ts",
-      "source_location": "L27",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "core_replay_replayrecording",
       "community": 7,
@@ -8417,7 +8727,7 @@
       "label": "ReinterpretationResult",
       "file_type": "code",
       "source_file": "src/core/replay.ts",
-      "source_location": "L37",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "core_replay_reinterpretationresult",
       "community": 7,
@@ -8427,7 +8737,7 @@
       "label": "reinterpretRecording()",
       "file_type": "code",
       "source_file": "src/core/replay.ts",
-      "source_location": "L50",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "core_replay_reinterpretrecording",
       "community": 7,
@@ -8570,7 +8880,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "core_scales_miditoname",
-      "community": 104,
+      "community": 59,
       "norm_label": "miditoname()"
     },
     {
@@ -8640,7 +8950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_traceencounters_bench_test",
-      "community": 40,
+      "community": 103,
       "norm_label": "traceencounters.bench.test.ts"
     },
     {
@@ -8650,7 +8960,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "core_traceencounters_bench_test_window4s",
-      "community": 40,
+      "community": 103,
       "norm_label": "window4s"
     },
     {
@@ -8660,7 +8970,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "core_traceencounters_bench_test_firstobservedhead",
-      "community": 40,
+      "community": 103,
       "norm_label": "firstobservedhead()"
     },
     {
@@ -8840,7 +9150,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_traces",
-      "community": 40,
+      "community": 103,
       "norm_label": "traces.ts"
     },
     {
@@ -8850,7 +9160,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_traces_traceobservationdefaults",
-      "community": 40,
+      "community": 103,
       "norm_label": "traceobservationdefaults"
     },
     {
@@ -8860,7 +9170,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "core_traces_traceobservationof",
-      "community": 40,
+      "community": 103,
       "norm_label": "traceobservationof()"
     },
     {
@@ -8870,7 +9180,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "core_traces_tracesegment",
-      "community": 40,
+      "community": 103,
       "norm_label": "tracesegment"
     },
     {
@@ -8880,7 +9190,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "core_traces_retainedtrace",
-      "community": 40,
+      "community": 103,
       "norm_label": "retainedtrace"
     },
     {
@@ -8890,7 +9200,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "core_traces_tracediagnostic",
-      "community": 40,
+      "community": 103,
       "norm_label": "tracediagnostic"
     },
     {
@@ -8900,7 +9210,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "core_traces_freezepoint",
-      "community": 40,
+      "community": 103,
       "norm_label": "freezepoint()"
     },
     {
@@ -8910,7 +9220,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "core_traces_buildretainedtrace",
-      "community": 40,
+      "community": 103,
       "norm_label": "buildretainedtrace()"
     },
     {
@@ -9140,7 +9450,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "core_transport_withoutnegativezero",
-      "community": 41,
+      "community": 69,
       "norm_label": "withoutnegativezero()"
     },
     {
@@ -9170,7 +9480,7 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "core_transport_normalizecyclerate",
-      "community": 69,
+      "community": 41,
       "norm_label": "normalizecyclerate()"
     },
     {
@@ -9510,7 +9820,7 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "core_tuning_findtuningcontext",
-      "community": 57,
+      "community": 67,
       "norm_label": "findtuningcontext()"
     },
     {
@@ -9620,7 +9930,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "core_variation_variationtraceentry",
-      "community": 34,
+      "community": 7,
       "norm_label": "variationtraceentry"
     },
     {
@@ -9830,7 +10140,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_agreement_test",
-      "community": 36,
+      "community": 56,
       "norm_label": "agreement.test.ts"
     },
     {
@@ -9840,7 +10150,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "export_agreement_test_silentofflinecontext",
-      "community": 36,
+      "community": 56,
       "norm_label": "silentofflinecontext()"
     },
     {
@@ -10030,7 +10340,7 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "export_audiorender_estimaterenderbytes",
-      "community": 74,
+      "community": 107,
       "norm_label": "estimaterenderbytes()"
     },
     {
@@ -10170,7 +10480,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_exportpolicy_test",
-      "community": 68,
+      "community": 60,
       "norm_label": "exportpolicy.test.ts"
     },
     {
@@ -10180,7 +10490,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "export_exportpolicy_test_request",
-      "community": 68,
+      "community": 60,
       "norm_label": "request"
     },
     {
@@ -10190,7 +10500,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "export_exportpolicy_test_notepart",
-      "community": 68,
+      "community": 60,
       "norm_label": "notepart()"
     },
     {
@@ -10200,7 +10510,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "export_exportpolicy_test_tempered",
-      "community": 68,
+      "community": 60,
       "norm_label": "tempered()"
     },
     {
@@ -10210,7 +10520,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "export_exportpolicy_test_ratiotuned",
-      "community": 68,
+      "community": 60,
       "norm_label": "ratiotuned()"
     },
     {
@@ -10500,7 +10810,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_midiexport",
-      "community": 68,
+      "community": 60,
       "norm_label": "midiexport.ts"
     },
     {
@@ -10510,7 +10820,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "export_midiexport_nativedrummidinotes",
-      "community": 68,
+      "community": 60,
       "norm_label": "nativedrummidinotes"
     },
     {
@@ -10520,7 +10830,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "export_midiexport_performancemidioptions",
-      "community": 68,
+      "community": 60,
       "norm_label": "performancemidioptions"
     },
     {
@@ -10530,7 +10840,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "export_midiexport_midiexportdiagnostic",
-      "community": 68,
+      "community": 60,
       "norm_label": "midiexportdiagnostic"
     },
     {
@@ -10540,7 +10850,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "export_midiexport_midiexportresult",
-      "community": 68,
+      "community": 60,
       "norm_label": "midiexportresult"
     },
     {
@@ -10550,7 +10860,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "export_midiexport_bendforsemitoneoffset",
-      "community": 68,
+      "community": 60,
       "norm_label": "bendforsemitoneoffset()"
     },
     {
@@ -10560,7 +10870,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "export_midiexport_melodicchannel",
-      "community": 68,
+      "community": 60,
       "norm_label": "melodicchannel()"
     },
     {
@@ -10570,7 +10880,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "export_midiexport_exactmidifor",
-      "community": 68,
+      "community": 60,
       "norm_label": "exactmidifor()"
     },
     {
@@ -10580,7 +10890,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "export_midiexport_trackforpart",
-      "community": 68,
+      "community": 60,
       "norm_label": "trackforpart()"
     },
     {
@@ -10590,7 +10900,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "export_midiexport_buildperformancemidi",
-      "community": 68,
+      "community": 60,
       "norm_label": "buildperformancemidi()"
     },
     {
@@ -10600,7 +10910,7 @@
       "source_location": "L171",
       "_origin": "ast",
       "id": "export_midiexport_buildperformancemidiwithdiagnostics",
-      "community": 68,
+      "community": 60,
       "norm_label": "buildperformancemidiwithdiagnostics()"
     },
     {
@@ -10610,7 +10920,7 @@
       "source_location": "L208",
       "_origin": "ast",
       "id": "export_midiexport_exportableperformance",
-      "community": 36,
+      "community": 60,
       "norm_label": "exportableperformance"
     },
     {
@@ -10620,7 +10930,7 @@
       "source_location": "L213",
       "_origin": "ast",
       "id": "export_midiexport_buildperformancemiditracks",
-      "community": 68,
+      "community": 60,
       "norm_label": "buildperformancemiditracks()"
     },
     {
@@ -10630,7 +10940,7 @@
       "source_location": "L252",
       "_origin": "ast",
       "id": "export_midiexport_downloadperformancemidi",
-      "community": 68,
+      "community": 60,
       "norm_label": "downloadperformancemidi()"
     },
     {
@@ -10640,7 +10950,7 @@
       "source_location": "L267",
       "_origin": "ast",
       "id": "export_midiexport_filestem",
-      "community": 68,
+      "community": 60,
       "norm_label": "filestem()"
     },
     {
@@ -10650,7 +10960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_projectbundle_test",
-      "community": 7,
+      "community": 40,
       "norm_label": "projectbundle.test.ts"
     },
     {
@@ -10660,7 +10970,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "export_projectbundle_test_abcbytes",
-      "community": 7,
+      "community": 40,
       "norm_label": "abcbytes()"
     },
     {
@@ -10670,7 +10980,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "export_projectbundle_test_freshstore",
-      "community": 7,
+      "community": 40,
       "norm_label": "freshstore()"
     },
     {
@@ -10680,7 +10990,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "export_projectbundle_test_bankedcomposition",
-      "community": 7,
+      "community": 40,
       "norm_label": "bankedcomposition()"
     },
     {
@@ -10690,7 +11000,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "export_projectbundle_test_stockedstore",
-      "community": 7,
+      "community": 40,
       "norm_label": "stockedstore()"
     },
     {
@@ -10700,7 +11010,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_projectbundle",
-      "community": 7,
+      "community": 40,
       "norm_label": "projectbundle.ts"
     },
     {
@@ -10710,7 +11020,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "export_projectbundle_bundleasset",
-      "community": 7,
+      "community": 40,
       "norm_label": "bundleasset"
     },
     {
@@ -10720,7 +11030,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "export_projectbundle_projectbundle",
-      "community": 7,
+      "community": 40,
       "norm_label": "projectbundle"
     },
     {
@@ -10730,7 +11040,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "export_projectbundle_embeddecision",
-      "community": 7,
+      "community": 40,
       "norm_label": "embeddecision"
     },
     {
@@ -10740,7 +11050,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "export_projectbundle_createbundleoptions",
-      "community": 7,
+      "community": 40,
       "norm_label": "createbundleoptions"
     },
     {
@@ -10750,7 +11060,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "export_projectbundle_createbundleresult",
-      "community": 7,
+      "community": 40,
       "norm_label": "createbundleresult"
     },
     {
@@ -10760,7 +11070,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "export_projectbundle_bundleassetstatus",
-      "community": 7,
+      "community": 40,
       "norm_label": "bundleassetstatus"
     },
     {
@@ -10770,7 +11080,7 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "export_projectbundle_bundleassetoutcome",
-      "community": 7,
+      "community": 74,
       "norm_label": "bundleassetoutcome"
     },
     {
@@ -10780,7 +11090,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "export_projectbundle_importbundleresult",
-      "community": 7,
+      "community": 40,
       "norm_label": "importbundleresult"
     },
     {
@@ -10790,7 +11100,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "export_projectbundle_bundleparseresult",
-      "community": 7,
+      "community": 40,
       "norm_label": "bundleparseresult"
     },
     {
@@ -10800,7 +11110,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "export_projectbundle_sortkeysdeep",
-      "community": 7,
+      "community": 40,
       "norm_label": "sortkeysdeep()"
     },
     {
@@ -10810,7 +11120,7 @@
       "source_location": "L125",
       "_origin": "ast",
       "id": "export_projectbundle_encodebase64",
-      "community": 7,
+      "community": 40,
       "norm_label": "encodebase64()"
     },
     {
@@ -10820,7 +11130,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "export_projectbundle_decodebase64",
-      "community": 7,
+      "community": 40,
       "norm_label": "decodebase64()"
     },
     {
@@ -10830,7 +11140,7 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "export_projectbundle_bundlefilename",
-      "community": 7,
+      "community": 40,
       "norm_label": "bundlefilename()"
     },
     {
@@ -10840,7 +11150,7 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "export_projectbundle_createprojectbundle",
-      "community": 7,
+      "community": 40,
       "norm_label": "createprojectbundle()"
     },
     {
@@ -10850,7 +11160,7 @@
       "source_location": "L242",
       "_origin": "ast",
       "id": "export_projectbundle_parseprojectbundle",
-      "community": 7,
+      "community": 40,
       "norm_label": "parseprojectbundle()"
     },
     {
@@ -10860,7 +11170,7 @@
       "source_location": "L303",
       "_origin": "ast",
       "id": "export_projectbundle_importprojectbundle",
-      "community": 7,
+      "community": 40,
       "norm_label": "importprojectbundle()"
     },
     {
@@ -10870,7 +11180,7 @@
       "source_location": "L432",
       "_origin": "ast",
       "id": "export_projectbundle_safeget",
-      "community": 7,
+      "community": 40,
       "norm_label": "safeget()"
     },
     {
@@ -10880,7 +11190,7 @@
       "source_location": "L442",
       "_origin": "ast",
       "id": "export_projectbundle_downloadprojectbundle",
-      "community": 7,
+      "community": 40,
       "norm_label": "downloadprojectbundle()"
     },
     {
@@ -10940,7 +11250,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_strudelexport_test",
-      "community": 104,
+      "community": 60,
       "norm_label": "strudelexport.test.ts"
     },
     {
@@ -10950,7 +11260,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "export_strudelexport_test_fixture",
-      "community": 104,
+      "community": 60,
       "norm_label": "fixture()"
     },
     {
@@ -10960,7 +11270,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "export_strudelexport",
-      "community": 104,
+      "community": 60,
       "norm_label": "strudelexport.ts"
     },
     {
@@ -10970,7 +11280,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "export_strudelexport_drumsounds",
-      "community": 104,
+      "community": 60,
       "norm_label": "drumsounds"
     },
     {
@@ -10980,7 +11290,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "export_strudelexport_soundfontnames",
-      "community": 104,
+      "community": 60,
       "norm_label": "soundfontnames"
     },
     {
@@ -10990,7 +11300,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "export_strudelexport_performancepatternpart",
-      "community": 104,
+      "community": 60,
       "norm_label": "performancepatternpart"
     },
     {
@@ -11000,7 +11310,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "export_strudelexport_isequaltempered",
-      "community": 104,
+      "community": 60,
       "norm_label": "isequaltempered()"
     },
     {
@@ -11010,7 +11320,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "export_strudelexport_notename",
-      "community": 104,
+      "community": 59,
       "norm_label": "notename()"
     },
     {
@@ -11020,7 +11330,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "export_strudelexport_pitchtoken",
-      "community": 104,
+      "community": 60,
       "norm_label": "pitchtoken()"
     },
     {
@@ -11030,7 +11340,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "export_strudelexport_soundfor",
-      "community": 104,
+      "community": 60,
       "norm_label": "soundfor()"
     },
     {
@@ -11040,7 +11350,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "export_strudelexport_patternforpart",
-      "community": 104,
+      "community": 60,
       "norm_label": "patternforpart()"
     },
     {
@@ -11050,7 +11360,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "export_strudelexport_buildperformancepatternparts",
-      "community": 104,
+      "community": 60,
       "norm_label": "buildperformancepatternparts()"
     },
     {
@@ -11060,7 +11370,7 @@
       "source_location": "L163",
       "_origin": "ast",
       "id": "export_strudelexport_exportperformancestrudel",
-      "community": 104,
+      "community": 60,
       "norm_label": "exportperformancestrudel()"
     },
     {
@@ -11287,7 +11597,7 @@
       "label": "observation",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.test.ts",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "render_compositionrenderer_test_observation",
       "community": 8,
@@ -11297,7 +11607,7 @@
       "label": "compositionWithTwoHeads()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.test.ts",
-      "source_location": "L25",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "render_compositionrenderer_test_compositionwithtwoheads",
       "community": 8,
@@ -11307,7 +11617,7 @@
       "label": "fields()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.test.ts",
-      "source_location": "L57",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "render_compositionrenderer_test_fields",
       "community": 8,
@@ -11327,7 +11637,7 @@
       "label": "ObservationInterval",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L14",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "render_compositionrenderer_observationinterval",
       "community": 8,
@@ -11337,7 +11647,7 @@
       "label": "TraceMode",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L20",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "render_compositionrenderer_tracemode",
       "community": 8,
@@ -11347,7 +11657,7 @@
       "label": "CompositionSceneOptions",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L22",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "render_compositionrenderer_compositionsceneoptions",
       "community": 8,
@@ -11357,7 +11667,7 @@
       "label": "TracePointSnapshot",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L26",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "render_compositionrenderer_tracepointsnapshot",
       "community": 8,
@@ -11367,7 +11677,7 @@
       "label": "HeadSnapshot",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L33",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "render_compositionrenderer_headsnapshot",
       "community": 8,
@@ -11377,7 +11687,7 @@
       "label": "HeadTraceSnapshot",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L47",
+      "source_location": "L49",
       "_origin": "ast",
       "id": "render_compositionrenderer_headtracesnapshot",
       "community": 8,
@@ -11387,7 +11697,7 @@
       "label": "CompositionScene",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L55",
+      "source_location": "L57",
       "_origin": "ast",
       "id": "render_compositionrenderer_compositionscene",
       "community": 8,
@@ -11397,7 +11707,7 @@
       "label": "CanvasViewport",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L63",
+      "source_location": "L66",
       "_origin": "ast",
       "id": "render_compositionrenderer_canvasviewport",
       "community": 8,
@@ -11407,7 +11717,7 @@
       "label": "SpaceProjection",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L69",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "render_compositionrenderer_spaceprojection",
       "community": 8,
@@ -11417,7 +11727,7 @@
       "label": "CompositionDrawOptions",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L78",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "render_compositionrenderer_compositiondrawoptions",
       "community": 8,
@@ -11427,7 +11737,7 @@
       "label": "ClearDrawCommand",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L90",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "render_compositionrenderer_cleardrawcommand",
       "community": 8,
@@ -11437,7 +11747,7 @@
       "label": "TraceDrawCommand",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L97",
+      "source_location": "L100",
       "_origin": "ast",
       "id": "render_compositionrenderer_tracedrawcommand",
       "community": 8,
@@ -11447,7 +11757,7 @@
       "label": "RingBoundaryDrawCommand",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L107",
+      "source_location": "L112",
       "_origin": "ast",
       "id": "render_compositionrenderer_ringboundarydrawcommand",
       "community": 8,
@@ -11457,7 +11767,7 @@
       "label": "SpokeBoundaryDrawCommand",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L117",
+      "source_location": "L122",
       "_origin": "ast",
       "id": "render_compositionrenderer_spokeboundarydrawcommand",
       "community": 8,
@@ -11467,7 +11777,7 @@
       "label": "WedgeBoundaryDrawCommand",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L127",
+      "source_location": "L132",
       "_origin": "ast",
       "id": "render_compositionrenderer_wedgeboundarydrawcommand",
       "community": 8,
@@ -11477,7 +11787,7 @@
       "label": "EllipseBoundaryDrawCommand",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L139",
+      "source_location": "L144",
       "_origin": "ast",
       "id": "render_compositionrenderer_ellipseboundarydrawcommand",
       "community": 8,
@@ -11487,7 +11797,7 @@
       "label": "PolylineBoundaryDrawCommand",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L152",
+      "source_location": "L157",
       "_origin": "ast",
       "id": "render_compositionrenderer_polylineboundarydrawcommand",
       "community": 8,
@@ -11497,7 +11807,7 @@
       "label": "BoundaryLabelDrawCommand",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L161",
+      "source_location": "L166",
       "_origin": "ast",
       "id": "render_compositionrenderer_boundarylabeldrawcommand",
       "community": 8,
@@ -11507,7 +11817,7 @@
       "label": "HeadDrawCommand",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L170",
+      "source_location": "L175",
       "_origin": "ast",
       "id": "render_compositionrenderer_headdrawcommand",
       "community": 8,
@@ -11517,7 +11827,7 @@
       "label": "LabelDrawCommand",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L180",
+      "source_location": "L185",
       "_origin": "ast",
       "id": "render_compositionrenderer_labeldrawcommand",
       "community": 8,
@@ -11527,7 +11837,7 @@
       "label": "CompositionDrawCommand",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L189",
+      "source_location": "L194",
       "_origin": "ast",
       "id": "render_compositionrenderer_compositiondrawcommand",
       "community": 8,
@@ -11537,7 +11847,7 @@
       "label": "freezePoint()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L201",
+      "source_location": "L206",
       "_origin": "ast",
       "id": "render_compositionrenderer_freezepoint",
       "community": 8,
@@ -11547,7 +11857,7 @@
       "label": "freezeHeadState()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L204",
+      "source_location": "L209",
       "_origin": "ast",
       "id": "render_compositionrenderer_freezeheadstate",
       "community": 8,
@@ -11557,7 +11867,7 @@
       "label": "validateObservation()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L212",
+      "source_location": "L217",
       "_origin": "ast",
       "id": "render_compositionrenderer_validateobservation",
       "community": 8,
@@ -11567,7 +11877,7 @@
       "label": "intervalTimes()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L243",
+      "source_location": "L248",
       "_origin": "ast",
       "id": "render_compositionrenderer_intervaltimes",
       "community": 8,
@@ -11577,7 +11887,7 @@
       "label": "snapshotTracePoint()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L263",
+      "source_location": "L268",
       "_origin": "ast",
       "id": "render_compositionrenderer_snapshottracepoint",
       "community": 8,
@@ -11587,7 +11897,7 @@
       "label": "buildCompositionScene()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L282",
+      "source_location": "L287",
       "_origin": "ast",
       "id": "render_compositionrenderer_buildcompositionscene",
       "community": 8,
@@ -11597,7 +11907,7 @@
       "label": "sceneSpacePoints()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L337",
+      "source_location": "L343",
       "_origin": "ast",
       "id": "render_compositionrenderer_scenespacepoints",
       "community": 8,
@@ -11607,7 +11917,7 @@
       "label": "fitSpaceProjection()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L360",
+      "source_location": "L366",
       "_origin": "ast",
       "id": "render_compositionrenderer_fitspaceprojection",
       "community": 8,
@@ -11617,17 +11927,67 @@
       "label": "projectSpacePoint()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L409",
+      "source_location": "L415",
       "_origin": "ast",
       "id": "render_compositionrenderer_projectspacepoint",
       "community": 8,
       "norm_label": "projectspacepoint()"
     },
     {
+      "label": "meanLaneValue()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L428",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_meanlanevalue",
+      "community": 8,
+      "norm_label": "meanlanevalue()"
+    },
+    {
+      "label": "mixHex()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L445",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_mixhex",
+      "community": 8,
+      "norm_label": "mixhex()"
+    },
+    {
+      "label": "modulatedTraceStyle()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L464",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_modulatedtracestyle",
+      "community": 8,
+      "norm_label": "modulatedtracestyle()"
+    },
+    {
+      "label": "ModulatedTraceInterval",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L497",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_modulatedtraceinterval",
+      "community": 8,
+      "norm_label": "modulatedtraceinterval"
+    },
+    {
+      "label": "modulatedIntervalsFor()",
+      "file_type": "code",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L505",
+      "_origin": "ast",
+      "id": "render_compositionrenderer_modulatedintervalsfor",
+      "community": 8,
+      "norm_label": "modulatedintervalsfor()"
+    },
+    {
       "label": "buildCompositionDrawCommands()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L422",
+      "source_location": "L569",
       "_origin": "ast",
       "id": "render_compositionrenderer_buildcompositiondrawcommands",
       "community": 8,
@@ -11637,7 +11997,7 @@
       "label": "drawCompositionCommands()",
       "file_type": "code",
       "source_file": "src/render/compositionRenderer.ts",
-      "source_location": "L714",
+      "source_location": "L925",
       "_origin": "ast",
       "id": "render_compositionrenderer_drawcompositioncommands",
       "community": 8,
@@ -11814,6 +12174,56 @@
       "norm_label": "showcasewithsamplebank()"
     },
     {
+      "label": "gateModulation.ts",
+      "file_type": "code",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "fixtures_gatemodulation",
+      "community": 80,
+      "norm_label": "gatemodulation.ts"
+    },
+    {
+      "label": "sineWedgeBoundary",
+      "file_type": "code",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "fixtures_gatemodulation_sinewedgeboundary",
+      "community": 80,
+      "norm_label": "sinewedgeboundary"
+    },
+    {
+      "label": "speedMapping",
+      "file_type": "code",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "fixtures_gatemodulation_speedmapping",
+      "community": 80,
+      "norm_label": "speedmapping"
+    },
+    {
+      "label": "fixedFrequencySineGateFixture()",
+      "file_type": "code",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "fixtures_gatemodulation_fixedfrequencysinegatefixture",
+      "community": 80,
+      "norm_label": "fixedfrequencysinegatefixture()"
+    },
+    {
+      "label": "gatedModulationComposition()",
+      "file_type": "code",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L96",
+      "_origin": "ast",
+      "id": "fixtures_gatemodulation_gatedmodulationcomposition",
+      "community": 80,
+      "norm_label": "gatedmodulationcomposition()"
+    },
+    {
       "label": "setup.ts",
       "file_type": "code",
       "source_file": "src/test/setup.ts",
@@ -11897,7 +12307,7 @@
       "label": "observation",
       "file_type": "code",
       "source_file": "src/ui/CompositionCanvas.test.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "_origin": "ast",
       "id": "ui_compositioncanvas_test_observation",
       "community": 8,
@@ -11907,7 +12317,7 @@
       "label": "context",
       "file_type": "code",
       "source_file": "src/ui/CompositionCanvas.test.tsx",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "ui_compositioncanvas_test_context",
       "community": 8,
@@ -11927,7 +12337,7 @@
       "label": "CompositionCanvasProps",
       "file_type": "code",
       "source_file": "src/ui/CompositionCanvas.tsx",
-      "source_location": "L16",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "ui_compositioncanvas_compositioncanvasprops",
       "community": 8,
@@ -11937,7 +12347,7 @@
       "label": "CanvasSize",
       "file_type": "code",
       "source_file": "src/ui/CompositionCanvas.tsx",
-      "source_location": "L28",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "ui_compositioncanvas_canvassize",
       "community": 8,
@@ -11947,7 +12357,7 @@
       "label": "CompositionCanvas()",
       "file_type": "code",
       "source_file": "src/ui/CompositionCanvas.tsx",
-      "source_location": "L33",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "ui_compositioncanvas_compositioncanvas",
       "community": 8,
@@ -12110,7 +12520,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_fieldpanel_test",
-      "community": 42,
+      "community": 65,
       "norm_label": "fieldpanel.test.tsx"
     },
     {
@@ -12120,7 +12530,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "ui_fieldpanel_test_withoutfields",
-      "community": 42,
+      "community": 65,
       "norm_label": "withoutfields()"
     },
     {
@@ -12130,7 +12540,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "ui_fieldpanel_test_withrings",
-      "community": 42,
+      "community": 65,
       "norm_label": "withrings()"
     },
     {
@@ -12230,7 +12640,7 @@
       "source_location": "L187",
       "_origin": "ast",
       "id": "ui_fieldpanel_fieldpanel",
-      "community": 42,
+      "community": 65,
       "norm_label": "fieldpanel()"
     },
     {
@@ -12290,7 +12700,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_headpanel_test",
-      "community": 40,
+      "community": 103,
       "norm_label": "headpanel.test.tsx"
     },
     {
@@ -12300,7 +12710,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "ui_headpanel_test_base",
-      "community": 40,
+      "community": 103,
       "norm_label": "base()"
     },
     {
@@ -12310,7 +12720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_headpanel",
-      "community": 40,
+      "community": 70,
       "norm_label": "headpanel.tsx"
     },
     {
@@ -12320,7 +12730,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "ui_headpanel_headpanelprops",
-      "community": 40,
+      "community": 70,
       "norm_label": "headpanelprops"
     },
     {
@@ -12330,7 +12740,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "ui_headpanel_headpanel",
-      "community": 40,
+      "community": 103,
       "norm_label": "headpanel()"
     },
     {
@@ -12340,7 +12750,7 @@
       "source_location": "L173",
       "_origin": "ast",
       "id": "ui_headpanel_numberfieldprops",
-      "community": 40,
+      "community": 70,
       "norm_label": "numberfieldprops"
     },
     {
@@ -12350,7 +12760,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "ui_headpanel_numberfield",
-      "community": 40,
+      "community": 70,
       "norm_label": "numberfield()"
     },
     {
@@ -12687,7 +13097,7 @@
       "label": "PartPanelProps",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L25",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "ui_partpanel_partpanelprops",
       "community": 61,
@@ -12697,7 +13107,7 @@
       "label": "relationKinds",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L30",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "ui_partpanel_relationkinds",
       "community": 61,
@@ -12707,17 +13117,57 @@
       "label": "controlSources",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L39",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "ui_partpanel_controlsources",
       "community": 61,
       "norm_label": "controlsources"
     },
     {
+      "label": "gateSources",
+      "file_type": "code",
+      "source_file": "src/ui/PartPanel.tsx",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "ui_partpanel_gatesources",
+      "community": 61,
+      "norm_label": "gatesources"
+    },
+    {
+      "label": "gateTargets",
+      "file_type": "code",
+      "source_file": "src/ui/PartPanel.tsx",
+      "source_location": "L57",
+      "_origin": "ast",
+      "id": "ui_partpanel_gatetargets",
+      "community": 61,
+      "norm_label": "gatetargets"
+    },
+    {
+      "label": "gateTargetRange()",
+      "file_type": "code",
+      "source_file": "src/ui/PartPanel.tsx",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "ui_partpanel_gatetargetrange",
+      "community": 61,
+      "norm_label": "gatetargetrange()"
+    },
+    {
+      "label": "gateTargetBounds()",
+      "file_type": "code",
+      "source_file": "src/ui/PartPanel.tsx",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "ui_partpanel_gatetargetbounds",
+      "community": 61,
+      "norm_label": "gatetargetbounds()"
+    },
+    {
       "label": "directions",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L47",
+      "source_location": "L88",
       "_origin": "ast",
       "id": "ui_partpanel_directions",
       "community": 61,
@@ -12727,7 +13177,7 @@
       "label": "headsInScope()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L57",
+      "source_location": "L98",
       "_origin": "ast",
       "id": "ui_partpanel_headsinscope",
       "community": 61,
@@ -12737,7 +13187,7 @@
       "label": "PartDurationKind",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L65",
+      "source_location": "L106",
       "_origin": "ast",
       "id": "ui_partpanel_partdurationkind",
       "community": 61,
@@ -12747,7 +13197,7 @@
       "label": "durationFor()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L68",
+      "source_location": "L109",
       "_origin": "ast",
       "id": "ui_partpanel_durationfor",
       "community": 61,
@@ -12757,7 +13207,7 @@
       "label": "toggled()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L74",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "ui_partpanel_toggled",
       "community": 61,
@@ -12767,7 +13217,7 @@
       "label": "encounterKinds",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L78",
+      "source_location": "L119",
       "_origin": "ast",
       "id": "ui_partpanel_encounterkinds",
       "community": 61,
@@ -12777,7 +13227,7 @@
       "label": "kindCaption()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L97",
+      "source_location": "L138",
       "_origin": "ast",
       "id": "ui_partpanel_kindcaption",
       "community": 61,
@@ -12787,7 +13237,7 @@
       "label": "tuningUsage()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L145",
+      "source_location": "L186",
       "_origin": "ast",
       "id": "ui_partpanel_tuningusage",
       "community": 61,
@@ -12797,7 +13247,7 @@
       "label": "withWheelToggled()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L164",
+      "source_location": "L205",
       "_origin": "ast",
       "id": "ui_partpanel_withwheeltoggled",
       "community": 61,
@@ -12807,7 +13257,7 @@
       "label": "PartPanel()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L177",
+      "source_location": "L218",
       "_origin": "ast",
       "id": "ui_partpanel_partpanel",
       "community": 61,
@@ -12817,7 +13267,7 @@
       "label": "pitchKinds",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L867",
+      "source_location": "L1069",
       "_origin": "ast",
       "id": "ui_partpanel_pitchkinds",
       "community": 61,
@@ -12827,7 +13277,7 @@
       "label": "spatialSources",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L878",
+      "source_location": "L1080",
       "_origin": "ast",
       "id": "ui_partpanel_spatialsources",
       "community": 61,
@@ -12837,7 +13287,7 @@
       "label": "defaultPitchFor()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L892",
+      "source_location": "L1094",
       "_origin": "ast",
       "id": "ui_partpanel_defaultpitchfor",
       "community": 61,
@@ -12847,7 +13297,7 @@
       "label": "PitchControlsProps",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L926",
+      "source_location": "L1128",
       "_origin": "ast",
       "id": "ui_partpanel_pitchcontrolsprops",
       "community": 61,
@@ -12857,7 +13307,7 @@
       "label": "PitchControls()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L941",
+      "source_location": "L1143",
       "_origin": "ast",
       "id": "ui_partpanel_pitchcontrols",
       "community": 61,
@@ -12867,7 +13317,7 @@
       "label": "nextPartIndex()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L1148",
+      "source_location": "L1350",
       "_origin": "ast",
       "id": "ui_partpanel_nextpartindex",
       "community": 61,
@@ -12877,7 +13327,7 @@
       "label": "NumberFieldProps",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L1157",
+      "source_location": "L1359",
       "_origin": "ast",
       "id": "ui_partpanel_numberfieldprops",
       "community": 61,
@@ -12887,17 +13337,17 @@
       "label": "RootField()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L1177",
+      "source_location": "L1379",
       "_origin": "ast",
       "id": "ui_partpanel_rootfield",
-      "community": 104,
+      "community": 61,
       "norm_label": "rootfield()"
     },
     {
       "label": "NumberField()",
       "file_type": "code",
       "source_file": "src/ui/PartPanel.tsx",
-      "source_location": "L1202",
+      "source_location": "L1404",
       "_origin": "ast",
       "id": "ui_partpanel_numberfield",
       "community": 61,
@@ -13200,7 +13650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_soundbanksettings_test",
-      "community": 72,
+      "community": 87,
       "norm_label": "soundbanksettings.test.tsx"
     },
     {
@@ -13210,7 +13660,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "ui_soundbanksettings_test_digest",
-      "community": 72,
+      "community": 87,
       "norm_label": "digest"
     },
     {
@@ -13220,7 +13670,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "ui_soundbanksettings_test_metadata",
-      "community": 72,
+      "community": 87,
       "norm_label": "metadata"
     },
     {
@@ -13230,7 +13680,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "ui_soundbanksettings_test_presets",
-      "community": 72,
+      "community": 87,
       "norm_label": "presets"
     },
     {
@@ -13240,7 +13690,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "ui_soundbanksettings_test_reference",
-      "community": 72,
+      "community": 87,
       "norm_label": "reference"
     },
     {
@@ -13250,7 +13700,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "ui_soundbanksettings_test_vault",
-      "community": 72,
+      "community": 87,
       "norm_label": "vault()"
     },
     {
@@ -13260,7 +13710,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "ui_soundbanksettings_test_bankfreedefault",
-      "community": 72,
+      "community": 87,
       "norm_label": "bankfreedefault()"
     },
     {
@@ -13270,7 +13720,7 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "ui_soundbanksettings_test_harnessprops",
-      "community": 72,
+      "community": 87,
       "norm_label": "harnessprops"
     },
     {
@@ -13290,7 +13740,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_soundbanksettings",
-      "community": 72,
+      "community": 79,
       "norm_label": "soundbanksettings.tsx"
     },
     {
@@ -13300,7 +13750,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "ui_soundbanksettings_soundbankvault",
-      "community": 72,
+      "community": 87,
       "norm_label": "soundbankvault"
     },
     {
@@ -13310,7 +13760,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "ui_soundbanksettings_soundbanksettingsprops",
-      "community": 72,
+      "community": 79,
       "norm_label": "soundbanksettingsprops"
     },
     {
@@ -13320,7 +13770,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "ui_soundbanksettings_formatfor",
-      "community": 72,
+      "community": 79,
       "norm_label": "formatfor()"
     },
     {
@@ -13330,7 +13780,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "ui_soundbanksettings_bankidfor",
-      "community": 72,
+      "community": 79,
       "norm_label": "bankidfor()"
     },
     {
@@ -13340,7 +13790,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "ui_soundbanksettings_soundbanksettings",
-      "community": 72,
+      "community": 79,
       "norm_label": "soundbanksettings()"
     },
     {
@@ -13350,7 +13800,7 @@
       "source_location": "L230",
       "_origin": "ast",
       "id": "ui_soundbanksettings_bankcardprops",
-      "community": 72,
+      "community": 79,
       "norm_label": "bankcardprops"
     },
     {
@@ -13360,7 +13810,7 @@
       "source_location": "L237",
       "_origin": "ast",
       "id": "ui_soundbanksettings_bankcard",
-      "community": 72,
+      "community": 79,
       "norm_label": "bankcard()"
     },
     {
@@ -13480,7 +13930,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_wheelpanel",
-      "community": 70,
+      "community": 84,
       "norm_label": "wheelpanel.tsx"
     },
     {
@@ -13490,7 +13940,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "ui_wheelpanel_wheelpanelprops",
-      "community": 70,
+      "community": 84,
       "norm_label": "wheelpanelprops"
     },
     {
@@ -13500,7 +13950,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "ui_wheelpanel_motionkinds",
-      "community": 70,
+      "community": 84,
       "norm_label": "motionkinds"
     },
     {
@@ -13510,7 +13960,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "ui_wheelpanel_wheelpanel",
-      "community": 70,
+      "community": 84,
       "norm_label": "wheelpanel()"
     },
     {
@@ -13520,7 +13970,7 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "ui_wheelpanel_motiondefaults",
-      "community": 70,
+      "community": 84,
       "norm_label": "motiondefaults()"
     },
     {
@@ -13530,7 +13980,7 @@
       "source_location": "L200",
       "_origin": "ast",
       "id": "ui_wheelpanel_numberfieldprops",
-      "community": 70,
+      "community": 84,
       "norm_label": "numberfieldprops"
     },
     {
@@ -13540,7 +13990,7 @@
       "source_location": "L210",
       "_origin": "ast",
       "id": "ui_wheelpanel_numberfield",
-      "community": 70,
+      "community": 84,
       "norm_label": "numberfield()"
     },
     {
@@ -13647,7 +14097,7 @@
       "label": "HelpKey",
       "file_type": "code",
       "source_file": "src/ui/help.ts",
-      "source_location": "L348",
+      "source_location": "L365",
       "_origin": "ast",
       "id": "ui_help_helpkey",
       "community": 84,
@@ -13777,7 +14227,7 @@
       "label": "request",
       "file_type": "code",
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "workers_useperformancecompiler_test_request",
       "community": 105,
@@ -13787,7 +14237,7 @@
       "label": "StubWorker",
       "file_type": "code",
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
-      "source_location": "L21",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "workers_useperformancecompiler_test_stubworker",
       "community": 105,
@@ -13797,7 +14247,7 @@
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "workers_useperformancecompiler_test_stubworker_constructor",
       "community": 105,
@@ -13807,7 +14257,7 @@
       "label": ".postMessage()",
       "file_type": "code",
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "workers_useperformancecompiler_test_stubworker_postmessage",
       "community": 105,
@@ -13817,7 +14267,7 @@
       "label": ".terminate()",
       "file_type": "code",
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "workers_useperformancecompiler_test_stubworker_terminate",
       "community": 105,
@@ -13827,7 +14277,7 @@
       "label": ".reply()",
       "file_type": "code",
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "workers_useperformancecompiler_test_stubworker_reply",
       "community": 105,
@@ -13837,7 +14287,7 @@
       "label": "useStubWorker()",
       "file_type": "code",
       "source_file": "src/workers/usePerformanceCompiler.test.ts",
-      "source_location": "L45",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "workers_useperformancecompiler_test_usestubworker",
       "community": 105,
@@ -15634,10 +16084,20 @@
       "norm_label": "add part \u2014 a note part"
     },
     {
-      "label": "Pitch mappings",
+      "label": "Gate modulation",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
       "source_location": "L331",
+      "_origin": "ast",
+      "id": "docs_manual_gate_modulation",
+      "community": 16,
+      "norm_label": "gate modulation"
+    },
+    {
+      "label": "Pitch mappings",
+      "file_type": "document",
+      "source_file": "docs/MANUAL.md",
+      "source_location": "L355",
       "_origin": "ast",
       "id": "docs_manual_pitch_mappings",
       "community": 16,
@@ -15647,7 +16107,7 @@
       "label": "Add Relation \u2014 a detector between Heads",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L385",
+      "source_location": "L409",
       "_origin": "ast",
       "id": "docs_manual_add_relation_a_detector_between_heads",
       "community": 16,
@@ -15657,7 +16117,7 @@
       "label": "Add Control \u2014 a continuous lane",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L400",
+      "source_location": "L424",
       "_origin": "ast",
       "id": "docs_manual_add_control_a_continuous_lane",
       "community": 16,
@@ -15667,7 +16127,7 @@
       "label": "Add Tuning \u2014 a shared pitch reference",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L411",
+      "source_location": "L435",
       "_origin": "ast",
       "id": "docs_manual_add_tuning_a_shared_pitch_reference",
       "community": 16,
@@ -15677,7 +16137,7 @@
       "label": "Sound banks",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L421",
+      "source_location": "L445",
       "_origin": "ast",
       "id": "docs_manual_sound_banks",
       "community": 16,
@@ -15687,7 +16147,7 @@
       "label": "Settings",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L445",
+      "source_location": "L469",
       "_origin": "ast",
       "id": "docs_manual_settings",
       "community": 16,
@@ -15697,9 +16157,9 @@
       "label": "Sound banks",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L452",
+      "source_location": "L476",
       "_origin": "ast",
-      "id": "docs_manual_sound_banks_452",
+      "id": "docs_manual_sound_banks_476",
       "community": 16,
       "norm_label": "sound banks"
     },
@@ -15707,7 +16167,7 @@
       "label": "Instruments",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L468",
+      "source_location": "L492",
       "_origin": "ast",
       "id": "docs_manual_instruments",
       "community": 16,
@@ -15717,7 +16177,7 @@
       "label": "Variation",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L498",
+      "source_location": "L522",
       "_origin": "ast",
       "id": "docs_manual_variation",
       "community": 16,
@@ -15727,7 +16187,7 @@
       "label": "Recorder",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L524",
+      "source_location": "L548",
       "_origin": "ast",
       "id": "docs_manual_recorder",
       "community": 16,
@@ -15737,7 +16197,7 @@
       "label": "Performance",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L542",
+      "source_location": "L566",
       "_origin": "ast",
       "id": "docs_manual_performance",
       "community": 16,
@@ -15747,7 +16207,7 @@
       "label": "Files",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L556",
+      "source_location": "L580",
       "_origin": "ast",
       "id": "docs_manual_files",
       "community": 16,
@@ -15757,7 +16217,7 @@
       "label": "The Export bundle dialog",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L572",
+      "source_location": "L596",
       "_origin": "ast",
       "id": "docs_manual_the_export_bundle_dialog",
       "community": 16,
@@ -15767,7 +16227,7 @@
       "label": "Rules the app enforces",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L587",
+      "source_location": "L611",
       "_origin": "ast",
       "id": "docs_manual_rules_the_app_enforces",
       "community": 16,
@@ -15777,7 +16237,7 @@
       "label": "What the interface does not reach",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L601",
+      "source_location": "L625",
       "_origin": "ast",
       "id": "docs_manual_what_the_interface_does_not_reach",
       "community": 16,
@@ -16177,7 +16637,7 @@
       "label": "MG-24 \u2014 Modulated playback and export agreement",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1475",
+      "source_location": "L1481",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_24_modulated_playback_and_export_agreement",
       "community": 37,
@@ -16187,7 +16647,7 @@
       "label": "Packet rules",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1530",
+      "source_location": "L1536",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_packet_rules",
       "community": 37,
@@ -16197,7 +16657,7 @@
       "label": "Definition of the first meaningful generator",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1555",
+      "source_location": "L1561",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_definition_of_the_first_meaningful_generator",
       "community": 37,
@@ -16307,27 +16767,27 @@
       "label": "Active packet records",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L196",
+      "source_location": "L197",
       "_origin": "ast",
       "id": "docs_music_generator_progress_active_packet_records",
       "community": 39,
       "norm_label": "active packet records"
     },
     {
-      "label": "MG-22 active claim",
+      "label": "MG-23 active claim",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L202",
+      "source_location": "L203",
       "_origin": "ast",
-      "id": "docs_music_generator_progress_mg_22_active_claim",
+      "id": "docs_music_generator_progress_mg_23_active_claim",
       "community": 39,
-      "norm_label": "mg-22 active claim"
+      "norm_label": "mg-23 active claim"
     },
     {
       "label": "Blockers",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L223",
+      "source_location": "L224",
       "_origin": "ast",
       "id": "docs_music_generator_progress_blockers",
       "community": 39,
@@ -16337,7 +16797,7 @@
       "label": "Risk register",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L237",
+      "source_location": "L238",
       "_origin": "ast",
       "id": "docs_music_generator_progress_risk_register",
       "community": 39,
@@ -16347,7 +16807,7 @@
       "label": "Decision log",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L258",
+      "source_location": "L259",
       "_origin": "ast",
       "id": "docs_music_generator_progress_decision_log",
       "community": 39,
@@ -16357,7 +16817,7 @@
       "label": "Activity log",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L276",
+      "source_location": "L277",
       "_origin": "ast",
       "id": "docs_music_generator_progress_activity_log",
       "community": 39,
@@ -16367,17 +16827,27 @@
       "label": "Handoff records",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L350",
+      "source_location": "L355",
       "_origin": "ast",
       "id": "docs_music_generator_progress_handoff_records",
       "community": 39,
       "norm_label": "handoff records"
     },
     {
+      "label": "2026-08-10 MG-22 completed handoff",
+      "file_type": "document",
+      "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
+      "source_location": "L357",
+      "_origin": "ast",
+      "id": "docs_music_generator_progress_2026_08_10_mg_22_completed_handoff",
+      "community": 39,
+      "norm_label": "2026-08-10 mg-22 completed handoff"
+    },
+    {
       "label": "2026-08-09 WIN-01 completed handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L352",
+      "source_location": "L376",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_09_win_01_completed_handoff",
       "community": 39,
@@ -16387,7 +16857,7 @@
       "label": "2026-08-05 MG-01 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L371",
+      "source_location": "L395",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_01_author_handoff",
       "community": 39,
@@ -16397,7 +16867,7 @@
       "label": "2026-08-05 MG-02 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L406",
+      "source_location": "L430",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_02_author_handoff",
       "community": 39,
@@ -16407,7 +16877,7 @@
       "label": "2026-08-05 MG-03 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L439",
+      "source_location": "L463",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_03_author_handoff",
       "community": 39,
@@ -16417,7 +16887,7 @@
       "label": "2026-08-05 MG-04 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L473",
+      "source_location": "L497",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_04_author_handoff",
       "community": 39,
@@ -16427,7 +16897,7 @@
       "label": "2026-08-05 MG-05 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L510",
+      "source_location": "L534",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_05_author_handoff",
       "community": 39,
@@ -16437,7 +16907,7 @@
       "label": "2026-08-05 MG-06 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L550",
+      "source_location": "L574",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_06_author_handoff",
       "community": 39,
@@ -16447,7 +16917,7 @@
       "label": "2026-08-05 MG-07 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L588",
+      "source_location": "L612",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_07_author_handoff",
       "community": 39,
@@ -16457,7 +16927,7 @@
       "label": "2026-08-05 MG-08 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L626",
+      "source_location": "L650",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_08_author_handoff",
       "community": 39,
@@ -16467,7 +16937,7 @@
       "label": "2026-08-05 MG-09 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L667",
+      "source_location": "L691",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_09_author_handoff",
       "community": 39,
@@ -16477,7 +16947,7 @@
       "label": "2026-08-05 MG-10 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L711",
+      "source_location": "L735",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_10_author_handoff",
       "community": 39,
@@ -16487,7 +16957,7 @@
       "label": "2026-08-05 MG-11 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L760",
+      "source_location": "L784",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_11_author_handoff",
       "community": 39,
@@ -16497,7 +16967,7 @@
       "label": "2026-08-05 MG-01\u2013MG-11 cumulative review",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L814",
+      "source_location": "L838",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_01_mg_11_cumulative_review",
       "community": 39,
@@ -16507,7 +16977,7 @@
       "label": "2026-08-05 MG-12 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L877",
+      "source_location": "L901",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_12_author_handoff",
       "community": 39,
@@ -16517,7 +16987,7 @@
       "label": "Handoff template",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L948",
+      "source_location": "L972",
       "_origin": "ast",
       "id": "docs_music_generator_progress_handoff_template",
       "community": 39,
@@ -16527,7 +16997,7 @@
       "label": "Packet completion checklist",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L974",
+      "source_location": "L998",
       "_origin": "ast",
       "id": "docs_music_generator_progress_packet_completion_checklist",
       "community": 39,
@@ -18126,6 +18596,50 @@
   ],
   "links": [
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/app.spec.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "e2e_app_spec",
+      "target": "core_performance"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/app.spec.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "e2e_app_spec",
+      "target": "core_performance_compileperformance"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/app.spec.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "e2e_app_spec",
+      "target": "core_transport"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/app.spec.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "e2e_app_spec",
+      "target": "core_transport_beatstoseconds"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "e2e/app.spec.ts",
@@ -18146,6 +18660,16 @@
       "confidence_score": 1.0,
       "source": "e2e_app_spec",
       "target": "e2e_app_spec_canvasink"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/app.spec.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "e2e_app_spec",
+      "target": "e2e_app_spec_canvassignature"
     },
     {
       "relation": "contains",
@@ -18201,6 +18725,28 @@
       "confidence_score": 1.0,
       "source": "e2e_app_spec",
       "target": "e2e_app_spec_samplebankfile"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/app.spec.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "e2e_app_spec",
+      "target": "fixtures_gatemodulation"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/app.spec.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "e2e_app_spec",
+      "target": "fixtures_gatemodulation_gatedmodulationcomposition"
     },
     {
       "relation": "calls",
@@ -19030,6 +19576,28 @@
       "confidence_score": 1.0,
       "source": "src_app_test",
       "target": "export_compositionjson_parsecompositionjson"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.test.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_test",
+      "target": "fixtures_gatemodulation"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.test.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_test",
+      "target": "fixtures_gatemodulation_gatedmodulationcomposition"
     },
     {
       "relation": "imports_from",
@@ -28356,6 +28924,36 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/core/composition.ts",
+      "source_location": "L525",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_composition",
+      "target": "core_composition_gatemodulationmapping"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/composition.ts",
+      "source_location": "L505",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_composition",
+      "target": "core_composition_gatemodulationsource"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/composition.ts",
+      "source_location": "L511",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_composition",
+      "target": "core_composition_gatemodulationtarget"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/composition.ts",
       "source_location": "L227",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -29028,6 +29626,28 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_composition"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test",
+      "target": "core_composition"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/heads.ts",
       "source_location": "L1",
       "weight": 1.0,
@@ -29501,6 +30121,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
+      "target": "core_composition"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/render/compositionRenderer.ts",
       "source_location": "L1",
       "weight": 1.0,
@@ -29891,6 +30522,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "core_fields",
+      "target": "core_composition_point2"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
       "target": "core_composition_point2"
     },
     {
@@ -30931,11 +31573,110 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_composition_gatemodulationsource"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/PartPanel.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_partpanel",
+      "target": "core_composition_gatemodulationsource"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_composition_gatemodulationtarget"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/PartPanel.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_partpanel",
+      "target": "core_composition_gatemodulationtarget"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_composition_gatemodulationmapping"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test",
+      "target": "core_composition_gatemodulationmapping"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
+      "target": "core_composition_gatemodulationmapping"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/PartPanel.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_partpanel",
+      "target": "core_composition_gatemodulationmapping"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/compositionValidation.test.ts",
       "source_location": "L3",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "core_compositionvalidation_test",
+      "target": "core_composition_notepartspec"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
       "target": "core_composition_notepartspec"
     },
     {
@@ -31035,6 +31776,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "fixtures_compositions",
+      "target": "core_composition_notepartspec"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
       "target": "core_composition_notepartspec"
     },
     {
@@ -31481,6 +32233,17 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_composition_composition"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/heads.ts",
       "source_location": "L1",
       "weight": 1.0,
@@ -31849,6 +32612,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "fixtures_compositions",
+      "target": "core_composition_composition"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
       "target": "core_composition_composition"
     },
     {
@@ -33884,6 +34658,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1764",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_compositionvalidation",
+      "target": "core_compositionvalidation_gatetargetbounds"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/compositionValidation.ts",
       "source_location": "L345",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -34039,6 +34823,16 @@
       "confidence_score": 1.0,
       "source": "core_compositionvalidation",
       "target": "core_compositionvalidation_validatefrequencies"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1773",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_compositionvalidation",
+      "target": "core_compositionvalidation_validategatemodulation"
     },
     {
       "relation": "contains",
@@ -34563,6 +35357,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1816",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_compositionvalidation_validategatemodulation",
+      "target": "core_compositionvalidation_validationcontext_issue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/compositionValidation.ts",
       "source_location": "L631",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -34809,6 +35614,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "core_compositionvalidation_validatefieldmotion",
+      "target": "core_compositionvalidation_validationcontext_object"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1778",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_compositionvalidation_validategatemodulation",
       "target": "core_compositionvalidation_validationcontext_object"
     },
     {
@@ -35124,6 +35940,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1780",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_compositionvalidation_validategatemodulation",
+      "target": "core_compositionvalidation_validationcontext_knownkeys"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/compositionValidation.ts",
       "source_location": "L606",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -35366,6 +36193,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1247",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_compositionvalidation_validatepart",
+      "target": "core_compositionvalidation_validationcontext_array"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/compositionValidation.ts",
       "source_location": "L1438",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -35436,6 +36274,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "core_compositionvalidation_validatefieldmotion",
+      "target": "core_compositionvalidation_validationcontext_string"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1793",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_compositionvalidation_validategatemodulation",
       "target": "core_compositionvalidation_validationcontext_string"
     },
     {
@@ -35663,6 +36512,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1813",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_compositionvalidation_validategatemodulation",
+      "target": "core_compositionvalidation_validationcontext_number"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/compositionValidation.ts",
       "source_location": "L622",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -35883,6 +36743,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1797",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_compositionvalidation_validategatemodulation",
+      "target": "core_compositionvalidation_validationcontext_boolean"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/compositionValidation.ts",
       "source_location": "L618",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -36063,6 +36934,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "core_compositionvalidation_validatefieldmotion",
+      "target": "core_compositionvalidation_validationcontext_literal"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/compositionValidation.ts",
+      "source_location": "L1798",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_compositionvalidation_validategatemodulation",
       "target": "core_compositionvalidation_validationcontext_literal"
     },
     {
@@ -37795,6 +38677,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
+      "target": "core_defaultcomposition"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/render/compositionRenderer.test.ts",
       "source_location": "L9",
       "weight": 1.0,
@@ -38588,6 +39481,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_encounters"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/mg13Fields.test.ts",
       "source_location": "L12",
       "weight": 1.0,
@@ -38657,9 +39561,20 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "core_encounters",
-      "confidence_score": 1.0
+      "target": "core_encounters"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
+      "target": "core_encounters"
     },
     {
       "relation": "imports_from",
@@ -38682,6 +39597,17 @@
       "confidence_score": 1.0,
       "source": "ui_compositioncanvas_test",
       "target": "core_encounters"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_encounters_boundarycrossingencounter"
     },
     {
       "relation": "imports",
@@ -38734,9 +39660,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "core_encounters_boundarycrossingencounter",
-      "confidence_score": 1.0
+      "target": "core_encounters_boundarycrossingencounter"
     },
     {
       "relation": "imports",
@@ -38846,6 +39772,28 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "core_performance_test",
+      "target": "core_encounters_boundaryencountersforpath"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
+      "target": "core_encounters_boundaryencountersforpath"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "fixtures_gatemodulation_fixedfrequencysinegatefixture",
       "target": "core_encounters_boundaryencountersforpath"
     },
     {
@@ -39690,6 +40638,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_fields"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/mg13Fields.test.ts",
       "source_location": "L13",
       "weight": 1.0,
@@ -39706,6 +40665,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "core_performance_test",
+      "target": "core_fields"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
       "target": "core_fields"
     },
     {
@@ -39778,11 +40748,33 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_fields_boundarygeometry"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/performance.test.ts",
       "source_location": "L10",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "core_performance_test",
+      "target": "core_fields_boundarygeometry"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
       "target": "core_fields_boundarygeometry"
     },
     {
@@ -39839,6 +40831,17 @@
       "weight": 1.0,
       "source": "core_fields_fieldplacementat",
       "target": "core_transport_transportaddressatseconds"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_fields_fieldplacementat"
     },
     {
       "relation": "imports",
@@ -39982,6 +40985,17 @@
       "confidence_score": 1.0,
       "source": "core_fields_boundarygeometryatplacement",
       "target": "core_fields_assertmatchingboundary"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_fields_boundarygeometryatplacement"
     },
     {
       "relation": "imports",
@@ -40477,6 +41491,667 @@
       "confidence_score": 1.0,
       "source": "ui_fieldpanel",
       "target": "core_fields_nextboundaryid"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test",
+      "target": "core_gatemodulation"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test",
+      "target": "core_gatemodulation_compilegatemodulationlane"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test",
+      "target": "core_gatemodulation_gatemodulationlimits"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test",
+      "target": "core_gatemodulation_test_compilefixture"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test",
+      "target": "core_gatemodulation_test_turningpoints"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test",
+      "target": "fixtures_gatemodulation"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test",
+      "target": "fixtures_gatemodulation_fixedfrequencysinegatefixture"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test",
+      "target": "fixtures_gatemodulation_speedmapping"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test_compilefixture",
+      "target": "core_gatemodulation_compilegatemodulationlane"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.test.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_test_compilefixture",
+      "target": "fixtures_gatemodulation_fixedfrequencysinegatefixture"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L141",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_assertstate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L97",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_clamp01"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L212",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_compilegatemodulationlane"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L322",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_compilegatemodulationlanes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L94",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_freezepoint"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L72",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_gatemodulationcompileresult"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_gatemodulationdiagnostic"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_gatemodulationlane"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L83",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_gatemodulationlaneinput"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_gatemodulationlimits"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L77",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_gatemodulationpathstate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_gatemodulationsample"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L208",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_isentryonly"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L104",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_laneid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L300",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_matchingexit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L314",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_noteparts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L109",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_sampletimes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L99",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_signedangledifference"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L155",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_gatemodulation_sourceat"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_heads"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_heads_headstateat"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_performance"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation",
+      "target": "core_performance_notemusicalevent"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/recording.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_recording",
+      "target": "core_gatemodulation"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/replay.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_replay",
+      "target": "core_gatemodulation"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "core_gatemodulation"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "core_gatemodulation"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "core_gatemodulation"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_compositioncanvas_test",
+      "target": "core_gatemodulation"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/performance.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_performance",
+      "target": "core_gatemodulation_gatemodulationlane"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/recording.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_recording",
+      "target": "core_gatemodulation_gatemodulationlane"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/replay.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_replay",
+      "target": "core_gatemodulation_gatemodulationlane"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "core_gatemodulation_gatemodulationlane"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.test.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer_test",
+      "target": "core_gatemodulation_gatemodulationlane"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_compositioncanvas",
+      "target": "core_gatemodulation_gatemodulationlane"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/CompositionCanvas.test.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_compositioncanvas_test",
+      "target": "core_gatemodulation_gatemodulationlane"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L265",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_compilegatemodulationlane",
+      "target": "core_gatemodulation_freezepoint"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L245",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_compilegatemodulationlane",
+      "target": "core_gatemodulation_clamp01"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L173",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_sourceat",
+      "target": "core_gatemodulation_clamp01"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L172",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_sourceat",
+      "target": "core_gatemodulation_signedangledifference"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L274",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_compilegatemodulationlane",
+      "target": "core_gatemodulation_laneid"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L218",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_compilegatemodulationlane",
+      "target": "core_gatemodulation_sampletimes"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L233",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_compilegatemodulationlane",
+      "target": "core_gatemodulation_assertstate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L165",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_sourceat",
+      "target": "core_gatemodulation_assertstate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L234",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_compilegatemodulationlane",
+      "target": "core_gatemodulation_sourceat"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L217",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_compilegatemodulationlane",
+      "target": "core_gatemodulation_isentryonly"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L376",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_compilegatemodulationlanes",
+      "target": "core_gatemodulation_isentryonly"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L395",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_compilegatemodulationlanes",
+      "target": "core_gatemodulation_compilegatemodulationlane"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L338",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_compilegatemodulationlanes",
+      "target": "core_gatemodulation_matchingexit"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/gateModulation.ts",
+      "source_location": "L327",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_gatemodulation_compilegatemodulationlanes",
+      "target": "core_gatemodulation_noteparts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/performance.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_performance",
+      "target": "core_gatemodulation_compilegatemodulationlanes"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/core/performance.ts",
+      "source_location": "L644",
+      "weight": 1.0,
+      "source": "core_performance_interpretencounters",
+      "target": "core_gatemodulation_compilegatemodulationlanes"
     },
     {
       "relation": "imports_from",
@@ -42214,6 +43889,28 @@
       "target": "core_performance_test_request"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/performance.test.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_performance_test",
+      "target": "fixtures_gatemodulation"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/performance.test.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_performance_test",
+      "target": "fixtures_gatemodulation_fixedfrequencysinegatefixture"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/core/performance.ts",
@@ -42889,6 +44586,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
+      "target": "core_performance"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/ui/diagnosticText.ts",
       "source_location": "L1",
       "weight": 1.0,
@@ -43054,6 +44762,17 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
+      "target": "core_performance_notemusicalevent"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/core/replay.ts",
       "source_location": "L2",
       "weight": 1.0,
@@ -43101,9 +44820,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "core_performance_canonicalperformance",
-      "confidence_score": 1.0
+      "target": "core_performance_canonicalperformance"
     },
     {
       "relation": "imports",
@@ -43453,9 +45172,9 @@
       "source_file": "src/export/agreement.test.ts",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "export_agreement_test",
-      "target": "core_performance_interpretencounters",
-      "confidence_score": 1.0
+      "target": "core_performance_interpretencounters"
     },
     {
       "relation": "calls",
@@ -44070,6 +45789,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/core/recording.ts",
+      "source_location": "L105",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_recording",
+      "target": "core_recording_capturemodulationlanes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/recording.ts",
       "source_location": "L100",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -44352,6 +46081,17 @@
       "confidence_score": 1.0,
       "source": "core_recording_createrecording",
       "target": "core_recording_truncate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/recording.ts",
+      "source_location": "L229",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_recording_createrecording",
+      "target": "core_recording_capturemodulationlanes"
     },
     {
       "relation": "imports",
@@ -44979,6 +46719,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/core/replay.test.ts",
+      "source_location": "L53",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_replay_test",
+      "target": "core_replay_test_gatedsource"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/replay.test.ts",
       "source_location": "L24",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -45053,11 +46803,33 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/core/replay.test.ts",
+      "source_location": "L89",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_replay_test_gatedsource",
+      "target": "core_replay_test_notepart"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/replay.test.ts",
       "source_location": "L49",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "core_replay_test_source",
       "target": "core_replay_test_notepart"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/replay.test.ts",
+      "source_location": "L54",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "core_replay_test_gatedsource",
+      "target": "core_replay_test_source"
     },
     {
       "relation": "calls",
@@ -51709,6 +53481,56 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L428",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_meanlanevalue"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L445",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_mixhex"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L504",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_modulatedintervalsfor"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L497",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_modulatedtraceinterval"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L464",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer",
+      "target": "render_compositionrenderer_modulatedtracestyle"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
       "source_location": "L14",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -52010,6 +53832,50 @@
       "confidence_score": 1.0,
       "source": "ui_compositioncanvas",
       "target": "render_compositionrenderer_projectspacepoint"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L477",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer_modulatedtracestyle",
+      "target": "render_compositionrenderer_meanlanevalue"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L482",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer_modulatedtracestyle",
+      "target": "render_compositionrenderer_mixhex"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L861",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer_buildcompositiondrawcommands",
+      "target": "render_compositionrenderer_modulatedtracestyle"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/render/compositionRenderer.ts",
+      "source_location": "L836",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "render_compositionrenderer_buildcompositiondrawcommands",
+      "target": "render_compositionrenderer_modulatedintervalsfor"
     },
     {
       "relation": "imports",
@@ -52534,6 +54400,68 @@
       "confidence_score": 1.0,
       "source": "fixtures_compositions_showcasewithsamplebank",
       "target": "fixtures_compositions_samplesoundbankdigest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
+      "target": "fixtures_gatemodulation_fixedfrequencysinegatefixture"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L96",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
+      "target": "fixtures_gatemodulation_gatedmodulationcomposition"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
+      "target": "fixtures_gatemodulation_sinewedgeboundary"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/fixtures/gateModulation.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "fixtures_gatemodulation",
+      "target": "fixtures_gatemodulation_speedmapping"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/workers/usePerformanceCompiler.test.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "workers_useperformancecompiler_test",
+      "target": "fixtures_gatemodulation"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/workers/usePerformanceCompiler.test.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "workers_useperformancecompiler_test",
+      "target": "fixtures_gatemodulation_gatedmodulationcomposition"
     },
     {
       "relation": "contains",
@@ -53825,6 +55753,46 @@
       "confidence_score": 1.0,
       "source": "ui_partpanel",
       "target": "ui_partpanel_encounterkinds"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/PartPanel.tsx",
+      "source_location": "L50",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_partpanel",
+      "target": "ui_partpanel_gatesources"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/PartPanel.tsx",
+      "source_location": "L77",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_partpanel",
+      "target": "ui_partpanel_gatetargetbounds"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/PartPanel.tsx",
+      "source_location": "L66",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_partpanel",
+      "target": "ui_partpanel_gatetargetrange"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/PartPanel.tsx",
+      "source_location": "L57",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "ui_partpanel",
+      "target": "ui_partpanel_gatetargets"
     },
     {
       "relation": "contains",
@@ -57649,6 +59617,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MANUAL.md",
+      "source_location": "L331",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_manual_add_part_a_note_part",
+      "target": "docs_manual_gate_modulation"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/MANUAL.md",
       "source_location": "L323",
       "weight": 1.0,
       "_origin": "ast",
@@ -57660,11 +59638,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L452",
+      "source_location": "L476",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_manual_settings",
-      "target": "docs_manual_sound_banks_452",
-      "confidence_score": 1.0
+      "target": "docs_manual_sound_banks_476"
     },
     {
       "relation": "contains",
@@ -58349,11 +60327,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L202",
+      "source_location": "L203",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "docs_music_generator_progress_active_packet_records",
-      "target": "docs_music_generator_progress_mg_22_active_claim"
+      "target": "docs_music_generator_progress_mg_23_active_claim"
     },
     {
       "relation": "contains",
@@ -58507,6 +60485,16 @@
       "confidence_score": 1.0,
       "source": "docs_music_generator_progress_handoff_records",
       "target": "docs_music_generator_progress_2026_08_09_win_01_completed_handoff"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
+      "source_location": "L355",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_music_generator_progress_handoff_records",
+      "target": "docs_music_generator_progress_2026_08_10_mg_22_completed_handoff"
     },
     {
       "relation": "contains",
@@ -60168,5 +62156,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b92badff05604f3a0a360c75feb7d1e718d44d42"
+  "built_at_commit": "bb939644072163c2a4c1ca6cd98eee635eb93007"
 }

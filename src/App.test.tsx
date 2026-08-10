@@ -15,6 +15,7 @@ import { defaultComposition } from './core/defaultComposition'
 import { compilePerformance } from './core/performance'
 import { beatsToSeconds } from './core/transport'
 import { buildCompositionScene } from './render/compositionRenderer'
+import { gatedModulationComposition } from './test/fixtures/gateModulation'
 import {
   exportCompositionToJson,
   parseCompositionJson,
@@ -53,6 +54,23 @@ describe('MG-09 playable Composition app', () => {
     expect(screen.getByLabelText('Parts')).toBeInTheDocument()
     expect(screen.getByLabelText('Instruments')).toBeInTheDocument()
     expect(screen.getByLabelText('Transport status')).toHaveTextContent('events')
+  })
+
+  it('passes compiled gate-modulation lanes to the canvas', async () => {
+    const composition = gatedModulationComposition()
+    localStorage.setItem(
+      'spirophonic.composition.v1',
+      exportCompositionToJson(composition),
+    )
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.querySelector('.composition-canvas-shell')).toHaveAttribute(
+        'data-modulation-lanes',
+        '1',
+      ),
+    )
   })
 
   it('edits Wheel rate on the running v1 Composition state', () => {

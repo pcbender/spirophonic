@@ -3,6 +3,9 @@ import type {
   ControlPartSpec,
   EncounterDirection,
   EncounterQuery,
+  GateModulationMapping,
+  GateModulationSource,
+  GateModulationTarget,
   NotePartSpec,
   PartSpec,
   PitchMapping,
@@ -43,6 +46,44 @@ const controlSources: Array<ControlPartSpec['control']['source']> = [
   'rotation-rate',
   'strength',
 ]
+
+const gateSources: ReadonlyArray<readonly [GateModulationSource, string]> = [
+  ['cross-wedge-position', 'Across wedge'],
+  ['radius', 'Radius'],
+  ['speed', 'Speed'],
+  ['curvature', 'Curvature'],
+]
+
+const gateTargets: ReadonlyArray<readonly [GateModulationTarget, string]> = [
+  ['gain', 'Gain'],
+  ['pan', 'Pan'],
+  ['pitch-offset', 'Pitch offset'],
+  ['brightness', 'Brightness'],
+  ['attack', 'Attack at entry'],
+  ['initial-velocity', 'Velocity at entry'],
+]
+
+const gateTargetRange = (
+  target: GateModulationTarget,
+): Readonly<{ minimum: number; maximum: number }> => {
+  if (target === 'gain') return { minimum: 0.25, maximum: 1 }
+  if (target === 'pan') return { minimum: -1, maximum: 1 }
+  if (target === 'pitch-offset') return { minimum: -12, maximum: 12 }
+  if (target === 'brightness') return { minimum: 0, maximum: 1 }
+  if (target === 'attack') return { minimum: 0.005, maximum: 1 }
+  return { minimum: 40, maximum: 120 }
+}
+
+const gateTargetBounds = (
+  target: GateModulationTarget,
+): Readonly<{ minimum: number; maximum: number }> => {
+  if (target === 'gain') return { minimum: 0, maximum: 2 }
+  if (target === 'pan') return { minimum: -1, maximum: 1 }
+  if (target === 'pitch-offset') return { minimum: -48, maximum: 48 }
+  if (target === 'brightness') return { minimum: 0, maximum: 1 }
+  if (target === 'attack') return { minimum: 0, maximum: 10 }
+  return { minimum: 1, maximum: 127 }
+}
 
 const directions: Array<Extract<
   EncounterDirection,
@@ -319,6 +360,60 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
         part.id === id && part.kind === 'note' ? next(part) : part,
       ),
     )
+  const nextGateMappingId = () => {
+    const taken = new Set([
+      ...allCompositionIds(composition),
+      ...parts.flatMap((part) =>
+        (part.gateModulations ?? []).map((mapping) => mapping.id),
+      ),
+    ])
+    for (let index = 1; ; index += 1) {
+      const candidate = `gate-modulation-${index}`
+      if (!taken.has(candidate)) return candidate
+    }
+  }
+  const addGateMapping = (partId: string) => {
+    const id = nextGateMappingId()
+    const range = gateTargetRange('brightness')
+    update(partId, (part) => ({
+      ...part,
+      gateModulations: [
+        ...(part.gateModulations ?? []),
+        {
+          id,
+          name: uniqueName(
+            (part.gateModulations ?? []).map((mapping) => mapping.name),
+            'Gate modulation 1',
+          ),
+          enabled: true,
+          source: 'speed',
+          target: 'brightness',
+          sampleRateHz: 60,
+          ...range,
+          curve: 1,
+          smoothingSeconds: 0.02,
+        },
+      ],
+    }))
+  }
+  const updateGateMapping = (
+    partId: string,
+    mappingId: string,
+    next: (mapping: GateModulationMapping) => GateModulationMapping,
+  ) =>
+    update(partId, (part) => ({
+      ...part,
+      gateModulations: (part.gateModulations ?? []).map((mapping) =>
+        mapping.id === mappingId ? next(mapping) : mapping,
+      ),
+    }))
+  const removeGateMapping = (partId: string, mappingId: string) =>
+    update(partId, (part) => ({
+      ...part,
+      gateModulations: (part.gateModulations ?? []).filter(
+        (mapping) => mapping.id !== mappingId,
+      ),
+    }))
   const addPart = () => {
     const index = nextPartIndex(composition)
     const instrumentId = composition.instruments[0]?.id ?? ''
@@ -853,6 +948,113 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
             {part.duration.kind === 'until-next' && (
               <NumberField label={`Max duration ${part.id}`} shortLabel="Max (beats)" hint={help['part.maxBeats']} value={part.duration.maxBeats} min={0.01} max={10_000} step={0.25} onChange={(maxBeats) => update(part.id, (current) => ({ ...current, duration: { kind: 'until-next', maxBeats } }))} />
             )}
+
+            <div className="gate-modulation-panel">
+              <div className="voice-head">
+                <span title={help['part.gateModulation']}>Gate modulation</span>
+                <button
+                  type="button"
+                  aria-label={`Add gate modulation ${part.id}`}
+                  title={help['part.addGateModulation']}
+                  onClick={() => addGateMapping(part.id)}
+                >
+                  Add mapping
+                </button>
+              </div>
+              {(part.gateModulations ?? []).length === 0 ? (
+                <p className="panel-context">
+                  Motion inside a region can shape one held note without adding
+                  onsets.
+                </p>
+              ) : (
+                (part.gateModulations ?? []).map((mapping) => (
+                  <fieldset key={mapping.id} className="query-scope gate-modulation-row">
+                    <legend>{mapping.name}</legend>
+                    <div className="voice-head">
+                      <label
+                        className="voice-enable"
+                        title={help['part.gateModulation']}
+                      >
+                        <input
+                          type="checkbox"
+                          aria-label={`Enable ${mapping.id}`}
+                          checked={mapping.enabled}
+                          onChange={(event) =>
+                            updateGateMapping(part.id, mapping.id, (current) => ({
+                              ...current,
+                              enabled: event.currentTarget.checked,
+                            }))
+                          }
+                        />
+                        <span>Enabled</span>
+                      </label>
+                      <button
+                        type="button"
+                        aria-label={`Remove ${mapping.id}`}
+                        title={help['part.gateModulation']}
+                        onClick={() => removeGateMapping(part.id, mapping.id)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <label title={help['part.gateModulationName']}>
+                      <span>Name</span>
+                      <input
+                        aria-label={`Gate modulation name ${mapping.id}`}
+                        value={mapping.name}
+                        onChange={(event) =>
+                          updateGateMapping(part.id, mapping.id, (current) => ({
+                            ...current,
+                            name: event.currentTarget.value || current.name,
+                          }))
+                        }
+                      />
+                    </label>
+                    <label title={help['part.gateModulationSource']}>
+                      <span>Source</span>
+                      <select
+                        aria-label={`Gate modulation source ${mapping.id}`}
+                        value={mapping.source}
+                        onChange={(event) =>
+                          updateGateMapping(part.id, mapping.id, (current) => ({
+                            ...current,
+                            source: event.currentTarget.value as GateModulationSource,
+                          }))
+                        }
+                      >
+                        {gateSources.map(([source, label]) => (
+                          <option key={source} value={source}>{label}</option>
+                        ))}
+                      </select>
+                    </label>
+                    <label title={help['part.gateModulationTarget']}>
+                      <span>Target</span>
+                      <select
+                        aria-label={`Gate modulation target ${mapping.id}`}
+                        value={mapping.target}
+                        onChange={(event) => {
+                          const target = event.currentTarget.value as GateModulationTarget
+                          updateGateMapping(part.id, mapping.id, (current) => ({
+                            ...current,
+                            target,
+                            ...gateTargetRange(target),
+                          }))
+                        }}
+                      >
+                        {gateTargets.map(([target, label]) => (
+                          <option key={target} value={target}>{label}</option>
+                        ))}
+                      </select>
+                    </label>
+                    <NumberField label={`Gate minimum ${mapping.id}`} shortLabel="Minimum" hint={help['part.gateModulationRange']} value={mapping.minimum} min={gateTargetBounds(mapping.target).minimum} max={gateTargetBounds(mapping.target).maximum} step={0.01} onChange={(minimum) => updateGateMapping(part.id, mapping.id, (current) => ({ ...current, minimum: Math.min(minimum, current.maximum) }))} />
+                    <NumberField label={`Gate maximum ${mapping.id}`} shortLabel="Maximum" hint={help['part.gateModulationRange']} value={mapping.maximum} min={gateTargetBounds(mapping.target).minimum} max={gateTargetBounds(mapping.target).maximum} step={0.01} onChange={(maximum) => updateGateMapping(part.id, mapping.id, (current) => ({ ...current, maximum: Math.max(maximum, current.minimum) }))} />
+                    <NumberField label={`Gate sample rate ${mapping.id}`} shortLabel="Sample rate (Hz)" hint={help['part.gateModulationRate']} value={mapping.sampleRateHz} min={1} max={1_000} step={1} onChange={(sampleRateHz) => updateGateMapping(part.id, mapping.id, (current) => ({ ...current, sampleRateHz }))} />
+                    <NumberField label={`Gate curve ${mapping.id}`} shortLabel="Curve" hint={help['part.gateModulationCurve']} value={mapping.curve} min={0.05} max={10} step={0.05} onChange={(curve) => updateGateMapping(part.id, mapping.id, (current) => ({ ...current, curve }))} />
+                    <NumberField label={`Gate smoothing ${mapping.id}`} shortLabel="Smoothing (s)" hint={help['part.gateModulationSmoothing']} value={mapping.smoothingSeconds} min={0} max={60} step={0.01} onChange={(smoothingSeconds) => updateGateMapping(part.id, mapping.id, (current) => ({ ...current, smoothingSeconds }))} />
+                  </fieldset>
+                ))
+              )}
+            </div>
 
             <NumberField label={`Grid ${part.id}`} shortLabel="Grid (beats)" hint={help['part.grid']} value={part.quantize?.gridBeats ?? 0.25} min={0.01} max={10_000} step={0.05} onChange={(gridBeats) => update(part.id, (current) => ({ ...current, quantize: { gridBeats, strength: current.quantize?.strength ?? 0.75 } }))} />
             <NumberField label={`Grid strength ${part.id}`} shortLabel="Grid pull" hint={help['part.quantizeStrength']} value={part.quantize?.strength ?? 0.75} min={0} max={1} step={0.05} onChange={(strength) => update(part.id, (current) => ({ ...current, quantize: { gridBeats: current.quantize?.gridBeats ?? 0.25, strength } }))} />
