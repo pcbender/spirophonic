@@ -150,6 +150,7 @@ describe('Composition validation', () => {
           index: 0,
           kind: 'spoke',
           angle: 0,
+          angularWidth: Math.PI / 8,
         },
       ],
     })

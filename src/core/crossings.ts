@@ -132,6 +132,7 @@ const crossingLiesOnBoundary = (
   spatialTolerance: number,
 ) =>
   boundary.kind !== 'spoke' ||
+  boundary.angularWidth > 0 ||
   spokeRayCoordinate(boundary.center, boundary.angle, position) >=
     -spatialTolerance
 

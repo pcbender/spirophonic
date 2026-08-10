@@ -43,7 +43,6 @@ import {
 } from './variation'
 import {
   beatsToSeconds,
-  secondsToBeats,
   transportAddressAtSeconds,
   validatePerformanceRequest,
   type PerformanceRequest,
@@ -334,9 +333,7 @@ const durationForCandidate = (
   index: number,
   selected: ReadonlyArray<NoteCandidate>,
   allEncounters: ReadonlyArray<InterpretableEncounter>,
-  request: PerformanceRequest,
-  composition: Composition,
-) => {
+): number | undefined => {
   if (part.duration.kind === 'fixed') return part.duration.beats
 
   if (part.duration.kind === 'until-next') {
@@ -357,16 +354,16 @@ const durationForCandidate = (
       encounter.timeSeconds > candidate.encounter.timeSeconds &&
       encounter.wheelId === candidate.encounter.wheelId &&
       encounter.headId === candidate.encounter.headId &&
-      encounter.fieldId === candidate.encounter.fieldId,
+      encounter.fieldId === candidate.encounter.fieldId &&
+      encounter.boundaryId === candidate.encounter.boundaryId &&
+      encounter.transition === 'exit',
   )
-  const endBeat = nextPhysical
-    ? nextPhysical.absoluteBeat
-    : secondsToBeats(
-        request.startSeconds + request.durationSeconds,
-        composition.transport.tempoBpm,
-      )
+  if (!nextPhysical) return undefined
+  const endBeat = nextPhysical.absoluteBeat
 
-  return Math.max(1e-9, endBeat - candidate.absoluteBeat)
+  return endBeat > candidate.absoluteBeat + 1e-9
+    ? endBeat - candidate.absoluteBeat
+    : undefined
 }
 
 /** Moves a MIDI note by scale degrees, or by semitones when there is no scale. */
@@ -403,12 +400,17 @@ const shiftMidiByScaleDegrees = (
 const interpretNotePart = (
   part: NotePartSpec,
   composition: Composition,
-  request: PerformanceRequest,
   allEncounters: ReadonlyArray<InterpretableEncounter>,
   diagnostics: Array<PerformanceDiagnostic>,
   variationTrace: Array<VariationTraceEntry>,
 ) => {
-  const selectedEncounters = selectPartEncounters(part, allEncounters)
+  const selectedByQuery = selectPartEncounters(part, allEncounters)
+  const usesRegionGate =
+    part.duration.kind === 'inside-band' ||
+    part.duration.kind === 'inside-region'
+  const selectedEncounters = usesRegionGate
+    ? selectedByQuery.filter((encounter) => encounter.transition === 'enter')
+    : selectedByQuery
   const candidates = quantizedCandidates(
     part,
     selectedEncounters,
@@ -429,16 +431,26 @@ const interpretNotePart = (
         ? part.pitch.scale
         : undefined
 
-  return candidates.map((candidate, index): NoteMusicalEvent => {
+  return candidates.flatMap((candidate, index): Array<NoteMusicalEvent> => {
     const durationBeats = durationForCandidate(
       part,
       candidate,
       index,
       candidates,
       allEncounters,
-      request,
-      composition,
     )
+    if (durationBeats === undefined) {
+      diagnostics.push(
+        Object.freeze({
+          severity: 'warning' as const,
+          code: 'mapping-error' as const,
+          message: `Region entry "${candidate.encounter.id}" has no later matching exit after quantization; no note was emitted.`,
+          partId: part.id,
+          encounterId: candidate.encounter.id,
+        }),
+      )
+      return []
+    }
     const timeSeconds = beatsToSeconds(
       candidate.absoluteBeat,
       composition.transport.tempoBpm,
@@ -473,7 +485,7 @@ const interpretNotePart = (
             frequencyHz: midiToFrequency(shiftedMidi),
           }
 
-    return Object.freeze({
+    return [Object.freeze({
       id: eventId(part.id, candidate.encounter.id),
       sourceEncounterId: candidate.encounter.id,
       partId: part.id,
@@ -496,7 +508,7 @@ const interpretNotePart = (
       ),
       rest: !interpretation.sounds,
       probability: interpretation.sounds ? 1 : 0,
-    })
+    })]
   })
 }
 
@@ -602,7 +614,6 @@ export const interpretEncounters = (
       ...interpretNotePart(
         part,
         composition,
-        request,
         encounters,
         diagnostics,
         variationTrace,

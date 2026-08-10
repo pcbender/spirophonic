@@ -270,7 +270,7 @@ music. **rotating** drifts against the beat by design.
 | Field kind | Boundary | Parameters |
 |---|---|---|
 | rings | Ring | Radius |
-| spokes | Spoke | Angle (rad) |
+| spokes | Spoke | Angle (rad), Width (rad) |
 | ellipses | Ellipse | Radius, Eccentricity |
 | bands | Band | Inner radius, Outer radius |
 | grid | Line | Axis (x / y), Offset. `x` is the line where *x* equals the offset — a vertical one. |
@@ -278,6 +278,14 @@ music. **rotating** drifts against the beat by design.
 
 Each Boundary also has an enable checkbox, a **Name**, `↑` `↓` reorder buttons,
 and **Remove Boundary**.
+
+A positive Spoke width makes an angular wedge. Its two radial edges are one
+outer gate: a Head entering the wedge starts one held note and the matching exit
+ends it. Motion that remains between those edges belongs to that held note; it
+does not create another onset. A zero-width Spoke preserves the legacy
+point-crossing ray for existing Compositions. Only visits whose entry and exit
+both occur in the compiled window become notes; a clipped or unmatched visit is
+skipped instead of being given a made-up duration or left hanging across a loop.
 
 **Add Boundary** places the new one where it will not land on an existing one:
 rings, ellipses, and bands step outward from the widest sibling, spokes step an
@@ -311,7 +319,7 @@ Turns Encounters into notes.
 | **Pitch mapping** | How an Encounter chooses a pitch. All eight are listed below; the parameters beneath the dropdown change with the choice. |
 | **Velocity** | Loudness from each Encounter's strength, or one constant value. |
 | **Vel min**, **Vel max**, **Vel curve** | Under Encounter strength: the velocity range, and the gamma bending the curve between them. 1 is straight, below 1 favours louder, above 1 quieter. |
-| **Duration** | `Fixed` a set length, `Until next note` the gap to this Part's next note, or `Time inside a band` — a Head entering a band starts the note and leaving it ends the note, so length comes from the geometry. |
+| **Duration** | `Fixed` a set length, `Until next note` the gap to this Part's next note, or `Time inside a region` — a Head entering a band or wedge starts one note and the exactly matched exit ends it. `Time inside a band` remains as the legacy saved spelling. |
 | **Duration (beats)** / **Max (beats)** | The length, or the cap on one derived from the gap. |
 | **Grid (beats)** | Quantization grid. |
 | **Grid pull** | How hard onsets are pulled to it. 0 keeps the geometry's own timing; 1 snaps exactly. |

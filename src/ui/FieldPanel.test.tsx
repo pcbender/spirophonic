@@ -143,6 +143,12 @@ describe('FieldPanel', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Add spokes' }))
     composition = onChange.mock.calls.at(-1)?.[0] as Composition
     rerender(<FieldPanel composition={composition} onChange={onChange} />)
+    fireEvent.change(
+      screen.getByLabelText('Angular width field-spokes-1-boundary-1'),
+      { target: { value: '0.5' } },
+    )
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    rerender(<FieldPanel composition={composition} onChange={onChange} />)
     fireEvent.change(screen.getByLabelText('Rotation field-spokes-1'), {
       target: { value: '1.57' },
     })
@@ -152,7 +158,13 @@ describe('FieldPanel', () => {
       id: 'field-spokes-1',
       kind: 'spokes',
       rotation: 1.57,
-      boundaries: [{ id: 'field-spokes-1-boundary-1', kind: 'spoke' }],
+      boundaries: [
+        {
+          id: 'field-spokes-1-boundary-1',
+          kind: 'spoke',
+          angularWidth: 0.5,
+        },
+      ],
     })
   })
 })

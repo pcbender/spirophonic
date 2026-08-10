@@ -305,6 +305,31 @@ describe('Space projection and draw commands', () => {
     expect(spoke.to.y).toBeLessThan(spoke.from.y)
   })
 
+  it('renders a positive-width spoke as a filled wedge with two edges', () => {
+    const composition = compositionWithTwoHeads()
+    const [, spokeField] = fields()
+    spokeField.boundaries[0].angularWidth = Math.PI / 6
+    composition.fields = [spokeField]
+    const scene = buildCompositionScene(composition, 1, observation)
+    const projection = fitSpaceProjection(
+      composition.space,
+      sceneSpacePoints(scene),
+      { width: 320, height: 320, padding: 24 },
+    )
+    const commands = buildCompositionDrawCommands(scene, projection)
+    const wedge = commands.find((command) => command.kind === 'wedge-boundary')
+
+    expect(wedge).toMatchObject({
+      kind: 'wedge-boundary',
+      fieldId: 'spokes-1',
+      boundaryId: 'spoke-1',
+      fillOpacity: 0.22,
+    })
+    expect(
+      commands.some((command) => command.kind === 'spoke-boundary'),
+    ).toBe(false)
+  })
+
   it('emits no commands for disabled Fields or Boundaries', () => {
     const composition = compositionWithTwoHeads()
     const [rings, spokes] = fields()

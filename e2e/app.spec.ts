@@ -166,6 +166,23 @@ test('every Field kind draws an overlay on the canvas', async ({ page }) => {
     .toBeGreaterThan(before)
 })
 
+test('a newly authored Spoke is a visible wedge gate', async ({ page }) => {
+  const fields = page.getByRole('region', { name: 'Fields' })
+  const before = await canvasInk(page)
+
+  await fields.getByRole('button', { name: 'Add spokes' }).click()
+  const width = fields.getByLabel(
+    'Angular width field-spokes-1-boundary-1',
+  )
+  await expect(width).toBeVisible()
+  await expect(width).not.toHaveValue('0')
+  await width.fill('0.8')
+
+  await expect
+    .poll(async () => canvasInk(page), { timeout: 15_000 })
+    .toBeGreaterThan(before)
+})
+
 test('a rotating Field animates while the Head path is unchanged', async ({
   page,
 }) => {

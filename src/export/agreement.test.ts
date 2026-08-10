@@ -4,8 +4,11 @@ import type { InstrumentEngine } from '../audio/instrumentEngine'
 import { PerformanceScheduler } from '../audio/performanceScheduler'
 import type { Composition } from '../core/composition'
 import { defaultComposition } from '../core/defaultComposition'
+import type { BoundaryCrossingEncounter } from '../core/encounters'
 import {
   compilePerformance,
+  interpretEncounters,
+  type CanonicalPerformance,
   type NoteMusicalEvent,
 } from '../core/performance'
 import { beatsToSeconds } from '../core/transport'
@@ -91,6 +94,106 @@ describe('canonical export agreement', () => {
 
     expect(midiCount).toBe(performance.performedEvents.length)
     expect(strudelCount).toBe(performance.performedEvents.length)
+  })
+
+  it('keeps a paired region exit as the note-off in every consumer', async () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    const part = composition.parts[0]
+    if (part.kind !== 'note') throw new Error('Expected the default note Part.')
+    part.duration = { kind: 'inside-region' }
+    part.quantize = undefined
+    part.encounterQuery.fieldIds = ['field-wedge']
+    part.encounterQuery.boundaryIds = ['wedge-1']
+    const request = { startSeconds: 0, durationSeconds: 2, sampleRateHz: 120 }
+    const encounter = (
+      transition: 'enter' | 'exit',
+      timeSeconds: number,
+      absoluteBeat: number,
+    ): BoundaryCrossingEncounter =>
+      Object.freeze({
+        id: `gate-${transition}`,
+        kind: 'boundary-crossing',
+        timeSeconds,
+        subjectIds: Object.freeze(['wheel-1', 'head-1'] as const),
+        wheelId: 'wheel-1',
+        headId: 'head-1',
+        fieldId: 'field-wedge',
+        boundaryId: 'wedge-1',
+        boundaryIndex: 0,
+        boundaryKind: 'spoke',
+        transition,
+        position: Object.freeze({ x: 100, y: transition === 'enter' ? -20 : 20 }),
+        direction: 'counterclockwise',
+        strength: 1,
+        speed: 20,
+        incidenceAngle: 0,
+        wheelPhase: timeSeconds,
+        absoluteBeat,
+        barIndex: 0,
+        beatInBar: absoluteBeat,
+        barPhase: absoluteBeat / 4,
+      })
+    const encounters = Object.freeze([
+      encounter('enter', 0.5, 1),
+      encounter('exit', 1.5, 3),
+    ])
+    const interpretation = interpretEncounters(composition, request, encounters)
+    expect(interpretation.diagnostics).toEqual([])
+    expect(interpretation.events).toHaveLength(1)
+    const event = interpretation.events[0]
+    expect(event.timeSeconds + event.durationSeconds).toBe(1.5)
+
+    const performance: CanonicalPerformance = Object.freeze({
+      compositionId: composition.id,
+      request: Object.freeze(request),
+      encounters,
+      relationEncounters: Object.freeze([]),
+      traceEncounters: Object.freeze([]),
+      controlLanes: Object.freeze([]),
+      interpretedEvents: interpretation.events,
+      performedEvents: interpretation.events,
+      variationTrace: interpretation.variationTrace,
+      diagnostics: interpretation.diagnostics,
+    })
+
+    const midiNote = buildPerformanceMidiTracks(performance, composition)[0].notes[0]
+    expect(midiNote.tick + midiNote.duration).toBe(3 * 480)
+    expect(buildPerformancePatternParts(performance, composition)[0].clip).toBe(8)
+
+    const scheduled: Array<{ event: NoteMusicalEvent; at: number }> = []
+    const engine: InstrumentEngine = {
+      currentTimeSeconds: 0,
+      resume: async () => undefined,
+      suspend: async () => undefined,
+      schedule: (scheduledEvent, _instrument, at) => {
+        scheduled.push({ event: scheduledEvent, at })
+      },
+      cancelScheduledFrom: () => undefined,
+      panic: () => undefined,
+      dispose: async () => undefined,
+    }
+    const scheduler = new PerformanceScheduler(engine, {
+      clock: { setInterval: () => 1, clearInterval: () => undefined },
+      lookaheadSeconds: 10,
+      tickMilliseconds: 25,
+      startDelaySeconds: 0,
+    })
+    await scheduler.start(performance, composition.instruments, {
+      tempoBpm: composition.transport.tempoBpm,
+    })
+    expect(scheduled).toMatchObject([
+      { event: { durationSeconds: 1 }, at: 0.5 },
+    ])
+    await scheduler.dispose()
+
+    const offline = await renderPerformanceToWav({
+      composition,
+      performance,
+      sampleRateHz: 8_000,
+      tailSeconds: 0,
+      contextFactory: silentOfflineContext,
+    })
+    expect(offline.renderedEventCount).toBe(1)
   })
 })
 

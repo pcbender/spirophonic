@@ -124,6 +124,18 @@ export type SpokeBoundaryDrawCommand = Readonly<{
   lineWidth: number
 }>
 
+export type WedgeBoundaryDrawCommand = Readonly<{
+  kind: 'wedge-boundary'
+  fieldId: string
+  boundaryId: string
+  center: Readonly<Point2>
+  left: Readonly<Point2>
+  right: Readonly<Point2>
+  color: string
+  lineWidth: number
+  fillOpacity: number
+}>
+
 export type EllipseBoundaryDrawCommand = Readonly<{
   kind: 'ellipse-boundary'
   fieldId: string
@@ -178,6 +190,7 @@ export type CompositionDrawCommand =
   | ClearDrawCommand
   | RingBoundaryDrawCommand
   | SpokeBoundaryDrawCommand
+  | WedgeBoundaryDrawCommand
   | EllipseBoundaryDrawCommand
   | PolylineBoundaryDrawCommand
   | BoundaryLabelDrawCommand
@@ -480,21 +493,44 @@ export const buildCompositionDrawCommands = (
         }
       } else if (boundary.kind === 'spoke') {
         const length = Math.hypot(projection.width, projection.height) * 2
-        const end = freezePoint({
-          x: center.x + Math.cos(boundary.angle) * length,
-          y: center.y - Math.sin(boundary.angle) * length,
-        })
-        commands.push(
-          Object.freeze({
-            kind: 'spoke-boundary',
-            fieldId: boundary.fieldId,
-            boundaryId: boundary.boundaryId,
-            from: center,
-            to: end,
-            color: fieldColor,
-            lineWidth: fieldLineWidth,
-          }),
-        )
+        if (boundary.angularWidth > 0) {
+          const halfWidth = boundary.angularWidth / 2
+          commands.push(
+            Object.freeze({
+              kind: 'wedge-boundary',
+              fieldId: boundary.fieldId,
+              boundaryId: boundary.boundaryId,
+              center,
+              left: freezePoint({
+                x: center.x + Math.cos(boundary.angle + halfWidth) * length,
+                y: center.y - Math.sin(boundary.angle + halfWidth) * length,
+              }),
+              right: freezePoint({
+                x: center.x + Math.cos(boundary.angle - halfWidth) * length,
+                y: center.y - Math.sin(boundary.angle - halfWidth) * length,
+              }),
+              color: fieldColor,
+              lineWidth: fieldLineWidth,
+              fillOpacity: 0.22,
+            }),
+          )
+        } else {
+          const end = freezePoint({
+            x: center.x + Math.cos(boundary.angle) * length,
+            y: center.y - Math.sin(boundary.angle) * length,
+          })
+          commands.push(
+            Object.freeze({
+              kind: 'spoke-boundary',
+              fieldId: boundary.fieldId,
+              boundaryId: boundary.boundaryId,
+              from: center,
+              to: end,
+              color: fieldColor,
+              lineWidth: fieldLineWidth,
+            }),
+          )
+        }
 
         if (showBoundaryLabels) {
           commands.push(
@@ -705,6 +741,21 @@ export const drawCompositionCommands = (
       context.beginPath()
       context.moveTo(command.from.x, command.from.y)
       context.lineTo(command.to.x, command.to.y)
+      context.stroke()
+      context.restore()
+    } else if (command.kind === 'wedge-boundary') {
+      context.save()
+      context.strokeStyle = command.color
+      context.fillStyle = command.color
+      context.lineWidth = command.lineWidth
+      context.beginPath()
+      context.moveTo(command.center.x, command.center.y)
+      context.lineTo(command.left.x, command.left.y)
+      context.lineTo(command.right.x, command.right.y)
+      context.closePath()
+      context.globalAlpha = command.fillOpacity
+      context.fill()
+      context.globalAlpha = 1
       context.stroke()
       context.restore()
     } else if (command.kind === 'ellipse-boundary') {

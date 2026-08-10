@@ -67,7 +67,7 @@ type PartDurationKind = NotePartSpec['duration']['kind']
 /** A complete duration of each kind, for when the dropdown switches. */
 const durationFor = (kind: PartDurationKind): NotePartSpec['duration'] => {
   if (kind === 'until-next') return { kind, maxBeats: 4 }
-  if (kind === 'inside-band') return { kind }
+  if (kind === 'inside-band' || kind === 'inside-region') return { kind }
   return { kind: 'fixed', beats: 0.25 }
 }
 
@@ -843,7 +843,8 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
               >
                 <option value="fixed">Fixed</option>
                 <option value="until-next">Until next note</option>
-                <option value="inside-band">Time inside a band</option>
+                <option value="inside-region">Time inside a region</option>
+                <option value="inside-band">Time inside a band (legacy)</option>
               </select>
             </label>
             {part.duration.kind === 'fixed' && (

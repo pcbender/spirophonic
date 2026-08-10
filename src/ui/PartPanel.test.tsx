@@ -610,7 +610,7 @@ describe('note shaping', () => {
     expect(validateComposition(next).ok).toBe(true)
   })
 
-  it.each(['fixed', 'until-next', 'inside-band'] as const)(
+  it.each(['fixed', 'until-next', 'inside-band', 'inside-region'] as const)(
     'switches duration to %s and stays valid',
     (kind) => {
       const onChange = vi.fn()

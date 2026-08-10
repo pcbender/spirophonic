@@ -21,6 +21,7 @@ import {
   segmentBoundaryCrossing,
   spokeRayCoordinate,
   spokeSignedDistance,
+  wedgeSignedDistance,
   updateBoundary,
   updateField,
 } from './fields'
@@ -88,6 +89,34 @@ describe('Field geometry', () => {
     expect(geometry.direction.x).toBeCloseTo(0, 12)
     expect(geometry.direction.y).toBeCloseTo(1, 12)
     expect(boundarySignedDistance(geometry, { x: -2, y: 3 })).toBeCloseTo(2, 12)
+  })
+
+  it('treats a positive-width spoke as an angular region', () => {
+    expect(
+      wedgeSignedDistance(
+        { x: 0, y: 0 },
+        0,
+        Math.PI / 3,
+        { x: 10, y: 0 },
+      ),
+    ).toBeLessThan(0)
+    expect(
+      wedgeSignedDistance(
+        { x: 0, y: 0 },
+        0,
+        Math.PI / 3,
+        { x: 0, y: 10 },
+      ),
+    ).toBeGreaterThan(0)
+
+    const field = spokes()
+    field.boundaries[0].angularWidth = Math.PI / 3
+    const geometry = boundaryGeometry(field, field.boundaries[0])
+    expect(geometry).toMatchObject({
+      kind: 'spoke',
+      angularWidth: Math.PI / 3,
+    })
+    expect(boundarySignedDistance(geometry, { x: 10, y: 0 })).toBeLessThan(0)
   })
 
   it('distinguishes crossing an oriented ray from its infinite line behind', () => {

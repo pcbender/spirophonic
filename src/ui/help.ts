@@ -144,6 +144,8 @@ export const help = {
   'boundary.remove': 'Remove this Boundary.',
   'boundary.radius': 'Distance from the Field centre. A Boundary outside a Head’s reach is never crossed.',
   'boundary.angle': 'Direction of the spoke from the Field centre, in radians.',
+  'boundary.angularWidth':
+    'Full angular width of the wedge. Zero preserves the legacy crossing ray; a positive width makes one outer gate.',
   'boundary.eccentricity': 'How far from circular the ellipse is. 0 is a circle.',
   'boundary.innerRadius': 'Inner edge of the band. Crossing either edge is an Encounter.',
   'boundary.outerRadius': 'Outer edge of the band.',

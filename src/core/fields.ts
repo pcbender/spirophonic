@@ -27,6 +27,7 @@ export type SpokeBoundaryGeometry = Readonly<
   GeometryBase & {
     kind: 'spoke'
     angle: number
+    angularWidth: number
     direction: Readonly<Point2>
   }
 >
@@ -230,6 +231,7 @@ export const boundaryGeometryAtPlacement = (
       ...base,
       kind: 'spoke',
       angle,
+      angularWidth: boundary.angularWidth ?? 0,
       direction: freezePoint({ x: Math.cos(angle), y: Math.sin(angle) }),
     })
   }
@@ -377,6 +379,45 @@ export const spokeRayCoordinate = (
   )
 }
 
+const signedAngleDifference = (from: number, to: number) => {
+  const raw = (to - from) % TAU
+  return raw > Math.PI ? raw - TAU : raw <= -Math.PI ? raw + TAU : raw
+}
+
+/**
+ * Negative inside the angular wedge and positive outside. The angular gap is
+ * scaled by radius so its magnitude remains a world-like spatial distance.
+ * At the exact centre the value is zero because polar angle is undefined; the
+ * crossing scanner treats a run on zero as overlap rather than inventing edge
+ * transitions there.
+ */
+export const wedgeSignedDistance = (
+  center: Point2,
+  angle: number,
+  angularWidth: number,
+  value: Point2,
+) => {
+  assertFinitePoint(center, 'center')
+  assertFinitePoint(value, 'value')
+  if (!Number.isFinite(angle)) {
+    throw new RangeError('angle must be finite.')
+  }
+  if (
+    !Number.isFinite(angularWidth) ||
+    angularWidth <= 0 ||
+    angularWidth > Math.PI
+  ) {
+    throw new RangeError('angularWidth must be finite, positive, and at most pi.')
+  }
+
+  const relative = { x: value.x - center.x, y: value.y - center.y }
+  const radius = Math.hypot(relative.x, relative.y)
+  if (radius <= epsilon) return 0
+  const pointAngle = Math.atan2(relative.y, relative.x)
+  const angularGap = Math.abs(signedAngleDifference(angle, pointAngle))
+  return radius * (angularGap - angularWidth / 2)
+}
+
 /** Rotates a world point into the Field's own frame. */
 const toLocal = (
   center: Point2,
@@ -504,7 +545,14 @@ export const boundarySignedDistance = (
     return ringSignedDistance(geometry.center, geometry.radius, value)
   }
   if (geometry.kind === 'spoke') {
-    return spokeSignedDistance(geometry.center, geometry.angle, value)
+    return geometry.angularWidth > 0
+      ? wedgeSignedDistance(
+          geometry.center,
+          geometry.angle,
+          geometry.angularWidth,
+          value,
+        )
+      : spokeSignedDistance(geometry.center, geometry.angle, value)
   }
   if (geometry.kind === 'ellipse') {
     return ellipseSignedDistance(
@@ -595,6 +643,7 @@ export const segmentBoundaryCrossing = (
 
   if (
     geometry.kind === 'spoke' &&
+    geometry.angularWidth === 0 &&
     spokeRayCoordinate(geometry.center, geometry.angle, position) < -epsilon
   ) {
     return null

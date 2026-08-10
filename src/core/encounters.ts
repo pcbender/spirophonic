@@ -32,6 +32,8 @@ export type BoundaryEncounterDirection = Extract<
   'inward' | 'outward' | 'clockwise' | 'counterclockwise'
 >
 
+export type BoundaryRegionTransition = 'enter' | 'exit'
+
 export type BoundaryCrossingEncounter = Readonly<{
   id: string
   kind: 'boundary-crossing'
@@ -43,6 +45,8 @@ export type BoundaryCrossingEncounter = Readonly<{
   boundaryId: string
   boundaryIndex: number
   boundaryKind: BoundaryGeometry['kind']
+  /** Present only for area Boundaries: bands and positive-width Spokes. */
+  transition?: BoundaryRegionTransition
   position: Readonly<Point2>
   direction: BoundaryEncounterDirection
   strength: number
@@ -154,7 +158,7 @@ const boundaryNormal = (
   boundary: BoundaryGeometry,
   position: Readonly<Point2>,
 ): Readonly<Point2> => {
-  if (boundary.kind === 'spoke') {
+  if (boundary.kind === 'spoke' && boundary.angularWidth === 0) {
     return freezePoint({
       x: -Math.sin(boundary.angle),
       y: Math.cos(boundary.angle),
@@ -209,6 +213,38 @@ const radialFamilies: ReadonlySet<BoundaryGeometry['kind']> = new Set([
   'band',
   'spiral',
 ])
+
+const regionTransition = (
+  geometry: BoundaryGeometry,
+  fromDistance: number,
+  toDistance: number,
+): BoundaryRegionTransition | undefined =>
+  geometry.kind === 'band' ||
+  (geometry.kind === 'spoke' && geometry.angularWidth > 0)
+    ? toDistance < fromDistance
+      ? 'enter'
+      : 'exit'
+    : undefined
+
+const physicalRegionDirection = (
+  geometry: BoundaryGeometry,
+  position: Readonly<Point2>,
+  velocity: Readonly<Point2>,
+): BoundaryEncounterDirection | undefined => {
+  if (geometry.kind === 'band') {
+    const x = position.x - geometry.center.x
+    const y = position.y - geometry.center.y
+    return x * velocity.x + y * velocity.y >= 0 ? 'outward' : 'inward'
+  }
+  if (geometry.kind === 'spoke' && geometry.angularWidth > 0) {
+    const x = position.x - geometry.center.x
+    const y = position.y - geometry.center.y
+    return x * velocity.y - y * velocity.x >= 0
+      ? 'counterclockwise'
+      : 'clockwise'
+  }
+  return undefined
+}
 
 const encounterId = (
   wheelId: string,
@@ -277,15 +313,20 @@ export const boundaryEncountersForPath = (
       speed <= epsilon
         ? 0
         : Math.min(1, Math.max(0, Math.abs(normalSpeed) / speed))
-    const direction: BoundaryEncounterDirection = radialFamilies.has(
-      geometry.kind,
+    const direction: BoundaryEncounterDirection =
+      physicalRegionDirection(geometry, crossing.position, state.velocity) ??
+      (radialFamilies.has(geometry.kind)
+        ? crossing.toDistance > crossing.fromDistance
+          ? 'outward'
+          : 'inward'
+        : crossing.toDistance > crossing.fromDistance
+          ? 'counterclockwise'
+          : 'clockwise')
+    const transition = regionTransition(
+      geometry,
+      crossing.fromDistance,
+      crossing.toDistance,
     )
-      ? crossing.toDistance > crossing.fromDistance
-        ? 'outward'
-        : 'inward'
-      : crossing.toDistance > crossing.fromDistance
-        ? 'counterclockwise'
-        : 'clockwise'
     const address = transportAddressAtSeconds(
       input.transport,
       crossing.timeSeconds,
@@ -308,6 +349,7 @@ export const boundaryEncountersForPath = (
       boundaryId: crossing.boundaryId,
       boundaryIndex: geometry.index,
       boundaryKind: geometry.kind,
+      ...(transition === undefined ? {} : { transition }),
       position: freezePoint(crossing.position),
       direction,
       strength: incidenceRatio,

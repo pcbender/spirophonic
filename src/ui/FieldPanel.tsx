@@ -152,6 +152,7 @@ const defaultBoundary = (
       ...base,
       kind: 'spoke',
       angle: last && last.kind === 'spoke' ? last.angle + TAU / 8 : 0,
+      angularWidth: TAU / 24,
     }
   }
   if (kind === 'ellipses') {
@@ -712,13 +713,26 @@ function BoundaryFields({ boundary, onPatch }: BoundaryFieldsProps) {
 
   if (boundary.kind === 'spoke') {
     return (
-      <NumberField
-        label="Angle (rad)" hint={help['boundary.angle']}
-        ariaLabel={`Angle ${boundary.id}`}
-        value={boundary.angle}
-        step={0.01}
-        onChange={(value) => onPatch({ angle: value })}
-      />
+      <>
+        <NumberField
+          label="Angle (rad)" hint={help['boundary.angle']}
+          ariaLabel={`Angle ${boundary.id}`}
+          value={boundary.angle}
+          step={0.01}
+          onChange={(value) => onPatch({ angle: value })}
+        />
+        <NumberField
+          label="Width (rad)" hint={help['boundary.angularWidth']}
+          ariaLabel={`Angular width ${boundary.id}`}
+          value={boundary.angularWidth ?? 0}
+          min={0}
+          max={Math.PI}
+          step={0.01}
+          onChange={(angularWidth) =>
+            onPatch({ angularWidth: Math.min(Math.PI, Math.max(0, angularWidth)) })
+          }
+        />
+      </>
     )
   }
 
@@ -815,6 +829,7 @@ type NumberFieldProps = {
   ariaLabel: string
   value: number
   min?: number
+  max?: number
   step?: number
   /** Hover help. See `./help`. */
   hint?: string
@@ -826,6 +841,7 @@ function NumberField({
   ariaLabel,
   value,
   min,
+  max,
   step = 1,
   hint,
   onChange,
@@ -837,6 +853,7 @@ function NumberField({
         aria-label={ariaLabel}
         type="number"
         min={min}
+        max={max}
         step={step}
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}

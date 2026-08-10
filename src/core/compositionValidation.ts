@@ -815,7 +815,7 @@ const boundaryKindForFieldKind: Record<string, string> = {
 
 const boundaryKeys: Record<string, Array<string>> = {
   ring: ['id', 'name', 'enabled', 'index', 'kind', 'radius'],
-  spoke: ['id', 'name', 'enabled', 'index', 'kind', 'angle'],
+  spoke: ['id', 'name', 'enabled', 'index', 'kind', 'angle', 'angularWidth'],
   ellipse: ['id', 'name', 'enabled', 'index', 'kind', 'radius', 'eccentricity'],
   band: ['id', 'name', 'enabled', 'index', 'kind', 'innerRadius', 'outerRadius'],
   grid: ['id', 'name', 'enabled', 'index', 'kind', 'axis', 'offset'],
@@ -937,6 +937,12 @@ const validateBoundary = (
     })
   } else if (kind === 'spoke') {
     context.number(boundary, 'angle', `${path}.angle`)
+    if (boundary.angularWidth !== undefined) {
+      context.number(boundary, 'angularWidth', `${path}.angularWidth`, {
+        min: 0,
+        max: Math.PI,
+      })
+    }
   } else if (kind === 'ellipse') {
     context.number(boundary, 'radius', `${path}.radius`, {
       greaterThan: 0,
@@ -1695,6 +1701,7 @@ const validateDuration = (
   const kind = context.literal(duration, 'kind', `${path}.kind`, [
     'fixed',
     'inside-band',
+    'inside-region',
     'until-next',
   ])
 
@@ -1704,7 +1711,7 @@ const validateDuration = (
       greaterThan: 0,
       max: 10_000,
     })
-  } else if (kind === 'inside-band') {
+  } else if (kind === 'inside-band' || kind === 'inside-region') {
     context.knownKeys(duration, path, ['kind'])
   } else if (kind === 'until-next') {
     context.knownKeys(duration, path, ['kind', 'maxBeats'])

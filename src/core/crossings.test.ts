@@ -24,7 +24,14 @@ const spoke: BoundaryGeometry = Object.freeze({
   index: 0,
   center: Object.freeze({ x: 0, y: 0 }),
   angle: 0,
+  angularWidth: 0,
   direction: Object.freeze({ x: 1, y: 0 }),
+})
+
+const wedge: BoundaryGeometry = Object.freeze({
+  ...spoke,
+  boundaryId: 'wedge-1',
+  angularWidth: 0.4,
 })
 
 const point = (
@@ -90,6 +97,38 @@ describe('Boundary crossing scan', () => {
     )
 
     expect(result.crossings).toEqual([])
+  })
+
+  it('does not turn a tangent touch on a wedge edge into a visit', () => {
+    const result = scanBoundaryCrossings(
+      wedge,
+      [0, 0.5, 1],
+      (timeSeconds) => {
+        const angle = 0.2 + (timeSeconds - 0.5) ** 2
+        return point(
+          timeSeconds,
+          10 * Math.cos(angle),
+          10 * Math.sin(angle),
+        )
+      },
+    )
+
+    expect(result.crossings).toEqual([])
+  })
+
+  it('collapses a centre passage to one wedge transition', () => {
+    const result = scanBoundaryCrossings(
+      wedge,
+      [0, 0.5, 1],
+      (timeSeconds) => point(timeSeconds, -1 + timeSeconds * 2, 0),
+    )
+
+    expect(result.diagnostics).toEqual([])
+    expect(result.crossings).toHaveLength(1)
+    expect(result.crossings[0]).toMatchObject({
+      timeSeconds: 0.5,
+      position: { x: 0, y: 0 },
+    })
   })
 
   it('accepts a spoke crossing ahead of its origin and rejects the line behind', () => {
