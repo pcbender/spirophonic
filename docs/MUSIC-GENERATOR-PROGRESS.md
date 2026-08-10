@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Progress Tracker
 
-Status: **complete**
+Status: **generator complete; Windows portability maintenance in review**
 
 Initialized: **2026-08-05**
 
@@ -15,12 +15,13 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Measure | Current value |
 | --- | --- |
 | Packets complete | 21 / 21 |
-| Packets active | 0 |
+| Maintenance packets complete | 0 / 1 |
+| Packets active | 1 |
 | Packets blocked | 0 |
-| Next ready packet | none — every packet is `done` |
-| Active agents | none |
+| Next ready packet | none — WIN-01 is in review |
+| Active agents | Codex/root on WIN-01 |
 | Integration branch | `agent/music-generator-planning` |
-| Last tracker update | 2026-08-06 |
+| Last tracker update | 2026-08-09 |
 
 ## Status rules
 
@@ -93,7 +94,7 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| — | — | — | — | — | — | — | No packet is claimed. Every packet is `done`. |
+| Codex/root | WIN-01 | `in_review` | `agent/windows-portability` | `C:\Dev\spirophonic` | 2026-08-10T01:31:19Z | 2026-08-10T02:02:45Z | Implementation committed at `24f1271`; integration review remains. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -123,6 +124,7 @@ their history.
 | MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | `done` | — | 2026-08-06 | Integrated at `c2b00e0`; unit and browser gates pass, exit code verified. |
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | `done` | — | 2026-08-06 | Integrated at `90c809d`; unit and browser gates pass, exit code verified. |
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | `done` | — | 2026-08-06 | Integrated at `44ea458`; unit and two-engine browser gates pass, exit code verified. |
+| WIN-01 | Native Windows development portability | MG-21 | `in_review` | Codex/root | 2026-08-09 | Committed at `24f1271`; native Windows and isolated WSL2 gates pass; integration review remains. |
 
 When a packet becomes `done`, evaluate every direct dependent immediately and
 promote it from `waiting` to `ready` if all dependencies are complete.
@@ -146,6 +148,7 @@ the final column rather than relying on a statement that it was checked.
 
 | Packet | Commit | `npm test` | `npm run lint` | `npm run build` | Graphify | Manual/browser evidence | Reviewer |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| WIN-01 | `24f1271` | 62 files, 555 tests pass (exit 0 verified) on Windows and WSL2 | pass on Windows and WSL2 | pass on Windows and WSL2 | 1,861 nodes / 4,264 edges | Native Windows clean install resolved both pinned bindings; `npm run dev` served HTTP 200; Chromium 151 canvas and platform-API smokes pass. Firefox 153 hung in the restricted Windows runner and is not claimed. | Codex/root |
 | MG-01 | `1aaaa07` | 20 files, 194 tests pass | pass | pass | refreshed after code | Not required for schema packet | Claude Opus 5 |
 | MG-02 | `0afa4e3` | 21 files, 217 tests pass | pass | pass | refreshed after code | Not required for pure time-core packet | Claude Opus 5 |
 | MG-03 | `a454b7c` | 24 files, 237 tests pass | pass | pass | refreshed after code | Not required for pure state-core packet | Claude Opus 5 |
@@ -190,7 +193,28 @@ Validation rules:
 MG-01 through MG-12 are `done`; their records live in the Validation ledger,
 Activity log, and Handoff records below.
 
-No packet is claimed. Every packet is `done`; see the packet-close audit in the build plan.
+### WIN-01 — Native Windows development portability
+
+- State: `in_review`; owner: Codex/root; branch: `main`; working tree based on
+  `9f49816`.
+- Native Windows clean install: an isolated `npm ci --ignore-scripts` installed
+  both pinned Win32 x64 native bindings. An in-place `npm ci` correctly failed
+  while two older Vite servers held Rolldown's DLL open; `README.md` now names
+  that Windows rule and `npm install` restored the local dependency tree.
+- Native Windows validation: 62 files and 555 tests pass, lint passes, build
+  passes, and every command exits 0. `npm run dev` serves HTTP 200 through its
+  complete predev lifecycle. Chromium 151 passes the real-canvas and required-
+  platform-API production-preview smoke checks. Firefox 153 installed but hung
+  before its first test in the restricted Windows runner, so it is not claimed
+  as green.
+- WSL2 validation: the exact packet overlay in a guarded temporary clone passes
+  clean `npm ci`, 62 files and 555 tests, lint, and production build, all exit
+  0. The user's existing `/home/mrose/spirophonic` checkout was read only.
+- Guard evidence: invoking Vitest without the runner loader reproduces the
+  native Windows `EPERM` at `node_modules/.vite-temp`; the new regression test
+  rejects that loader default, build metadata below `node_modules`, and missing
+  native-binding declarations. Graphify refreshed to 1,861 nodes and 4,264
+  edges after code changes.
 
 Keep one subsection here for every `claimed`, `in_progress`, `blocked`, or
 `in_review` packet, then move each finished record into the Activity log,
@@ -227,6 +251,7 @@ decisions, or explicit limits before completion.
 | Production chunk exceeds the bundle advisory | none — post-release | Fixed in `d315929`. SpessaSynth was 207 kB of the 606 kB chunk and is now behind a dynamic import, loaded only when a Composition uses a SoundFont Instrument. Main chunk 401 kB, under the advisory; the warning no longer fires. | Mitigated |
 | The `rest` flag on a performed event is written but never read | — | Found during MG-20 and fixed in `11fd8c2`. `core/performance.ts` now exports `eventSounds`/`soundingEvents` as the single definition of what is audible, and the live scheduler, offline renderer, MIDI exporter, and Strudel exporter all consult it. Guarded by a cross-consumer suite in `src/export/agreement.test.ts` that fails on all four when the fix is reverted. | Mitigated |
 | Multi-agent edits to shared files or tracker rows | All | Single packet owner, overlap check, frequent heartbeat, and explicit handoff. No conflict occurred across 21 packets. | Mitigated |
+| Windows locks loaded native bindings during dependency replacement | WIN-01 | Stop Vite/Vitest before `npm ci` or dependency upgrades. A fresh isolated Windows install succeeds and installs both required bindings; the setup rule is documented in `README.md`. | Mitigated |
 
 ## Decision log
 
@@ -252,6 +277,8 @@ and releases. Do not log every edit.
 
 | UTC time | Agent | Packet | Event | Branch/commit | Summary and next step |
 | --- | --- | --- | --- | --- | --- |
+| 2026-08-10T01:52:49Z | Codex/root | WIN-01 | Author handoff | `agent/windows-portability` / uncommitted | Native Windows and isolated WSL2 clean installs and full gates pass with 555 tests. Windows Chromium production-preview smoke passes; Firefox hangs in the restricted runner and is not claimed. Graphify refreshed; commit/integration review remains. |
+| 2026-08-10T02:02:45Z | Codex/root | WIN-01 | Implementation committed | `24f1271` | Windows portability implementation and generated Graphify refresh committed on `agent/windows-portability`; push and integration review remain. |
 | 2026-08-05 | Codex | Roadmap | Tracker initialized | `main` / uncommitted | MG-01 is ready; no packet is claimed. Baseline: 170 tests, lint, and build pass. |
 | 2026-08-05T16:52:55Z | Codex/root | MG-01 | Packet claimed | `agent/music-generator-planning` / uncommitted | Implement the v1 Composition, validation, and JSON boundary beside the current app. |
 | 2026-08-05T17:06:38Z | Codex/root | MG-01 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-01 acceptance criteria and working-tree gates pass; review and commit are next. |

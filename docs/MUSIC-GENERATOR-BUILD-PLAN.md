@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Build Plan
 
-Status: **implementation contract; all packets are done.**
+Status: **implementation contract; MG-01 through MG-21 are done; WIN-01 is in review.**
 
 This document turns [Spirophonic-Domain-Model.md](Spirophonic-Domain-Model.md)
 into a dependency-ordered build plan. It is the active contract for moving the
@@ -389,10 +389,37 @@ sweep, it does not license silent scope growth.
 | MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | **done** |
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | **done** |
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | **done** |
+| WIN-01 | Native Windows development portability | MG-21 | **in review** |
 
 The first user-visible milestone is MG-09. MG-11 makes that slice sound like a
 composition tool. MG-12 proves concurrent Wheels and Heads before advanced
 relations make the engine more expensive.
+
+## WIN-01 — Native Windows development portability
+
+**Goal:** Make the existing Node/Vite development workflow run from native
+Windows while retaining the same commands and behavior under WSL2.
+
+**Files:** `.gitignore`, `package.json`, `tsconfig.app.json`,
+`tsconfig.node.json`, `scripts/windows-portability.test.mjs`, `README.md`,
+`docs/MUSIC-GENERATOR-BUILD-PLAN.md`, `docs/MUSIC-GENERATOR-PROGRESS.md`
+
+**Scope amendment (2026-08-09):** this is post-release tooling maintenance,
+not a change to the music-generator architecture. It owns only build-tool cache
+locations, Vite configuration loading, a repository-level regression guard,
+and contributor setup documentation. No application, core, audio, or export
+source file is in scope.
+
+**Acceptance criteria:**
+
+- `npm run dev`, `npm test`, `npm run build`, and `npm run preview` do not need
+  Vite to create a temporary bundled config below `node_modules/`.
+- TypeScript incremental metadata is written to an ignored repository cache,
+  not below `node_modules/`.
+- A clean native Windows install resolves the pinned Windows native bindings,
+  and the full repository gates exit 0 on native Windows.
+- The commands and paths remain platform-neutral so the existing WSL2 workflow
+  continues unchanged.
 
 ## MG-01 — Composition schema and validation
 
