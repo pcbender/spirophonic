@@ -396,8 +396,8 @@ sweep, it does not license silent scope growth.
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | **done** |
 | WIN-01 | Native Windows development portability | MG-21 | **done** |
 | MG-22 | Wedge-spoke regions and exact gate spans | MG-21 | **done** |
-| MG-23 | In-gate modulation lanes and Trace notation | MG-22 | **ready** |
-| MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | **waiting** |
+| MG-23 | In-gate modulation lanes and Trace notation | MG-22 | **done** |
+| MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | **ready** |
 
 The first user-visible milestone is MG-09. MG-11 makes that slice sound like a
 composition tool. MG-12 proves concurrent Wheels and Heads before advanced
