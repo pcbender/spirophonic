@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Build Plan
 
-Status: **implementation contract; MG-01 through MG-21 are done; WIN-01 is in review.**
+Status: **implementation contract; all packets are done.**
 
 This document turns [Spirophonic-Domain-Model.md](Spirophonic-Domain-Model.md)
 into a dependency-ordered build plan. It is the active contract for moving the
@@ -389,7 +389,7 @@ sweep, it does not license silent scope growth.
 | MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | **done** |
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | **done** |
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | **done** |
-| WIN-01 | Native Windows development portability | MG-21 | **in review** |
+| WIN-01 | Native Windows development portability | MG-21 | **done** |
 
 The first user-visible milestone is MG-09. MG-11 makes that slice sound like a
 composition tool. MG-12 proves concurrent Wheels and Heads before advanced
