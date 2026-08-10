@@ -94,7 +94,7 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Codex/root | WIN-01 | `in_review` | `agent/windows-portability` | `C:\Dev\spirophonic` | 2026-08-10T01:31:19Z | 2026-08-10T01:52:49Z | Implementation and cross-platform author validation are complete; commit/integration review remains. |
+| Codex/root | WIN-01 | `in_review` | `agent/windows-portability` | `C:\Dev\spirophonic` | 2026-08-10T01:31:19Z | 2026-08-10T02:02:45Z | Implementation committed at `24f1271`; integration review remains. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -124,7 +124,7 @@ their history.
 | MG-19 | MIDI and Strudel exporter rebuild | MG-16, MG-18 | `done` | — | 2026-08-06 | Integrated at `c2b00e0`; unit and browser gates pass, exit code verified. |
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | `done` | — | 2026-08-06 | Integrated at `90c809d`; unit and browser gates pass, exit code verified. |
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | `done` | — | 2026-08-06 | Integrated at `44ea458`; unit and two-engine browser gates pass, exit code verified. |
-| WIN-01 | Native Windows development portability | MG-21 | `in_review` | Codex/root | 2026-08-09 | Native Windows and isolated WSL2 clean installs and full gates pass; Chromium production-preview smoke passes; Graphify refreshed. Commit/integration review remains. |
+| WIN-01 | Native Windows development portability | MG-21 | `in_review` | Codex/root | 2026-08-09 | Committed at `24f1271`; native Windows and isolated WSL2 gates pass; integration review remains. |
 
 When a packet becomes `done`, evaluate every direct dependent immediately and
 promote it from `waiting` to `ready` if all dependencies are complete.
@@ -148,6 +148,7 @@ the final column rather than relying on a statement that it was checked.
 
 | Packet | Commit | `npm test` | `npm run lint` | `npm run build` | Graphify | Manual/browser evidence | Reviewer |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| WIN-01 | `24f1271` | 62 files, 555 tests pass (exit 0 verified) on Windows and WSL2 | pass on Windows and WSL2 | pass on Windows and WSL2 | 1,861 nodes / 4,264 edges | Native Windows clean install resolved both pinned bindings; `npm run dev` served HTTP 200; Chromium 151 canvas and platform-API smokes pass. Firefox 153 hung in the restricted Windows runner and is not claimed. | Codex/root |
 | MG-01 | `1aaaa07` | 20 files, 194 tests pass | pass | pass | refreshed after code | Not required for schema packet | Claude Opus 5 |
 | MG-02 | `0afa4e3` | 21 files, 217 tests pass | pass | pass | refreshed after code | Not required for pure time-core packet | Claude Opus 5 |
 | MG-03 | `a454b7c` | 24 files, 237 tests pass | pass | pass | refreshed after code | Not required for pure state-core packet | Claude Opus 5 |
@@ -277,6 +278,7 @@ and releases. Do not log every edit.
 | UTC time | Agent | Packet | Event | Branch/commit | Summary and next step |
 | --- | --- | --- | --- | --- | --- |
 | 2026-08-10T01:52:49Z | Codex/root | WIN-01 | Author handoff | `agent/windows-portability` / uncommitted | Native Windows and isolated WSL2 clean installs and full gates pass with 555 tests. Windows Chromium production-preview smoke passes; Firefox hangs in the restricted runner and is not claimed. Graphify refreshed; commit/integration review remains. |
+| 2026-08-10T02:02:45Z | Codex/root | WIN-01 | Implementation committed | `24f1271` | Windows portability implementation and generated Graphify refresh committed on `agent/windows-portability`; push and integration review remain. |
 | 2026-08-05 | Codex | Roadmap | Tracker initialized | `main` / uncommitted | MG-01 is ready; no packet is claimed. Baseline: 170 tests, lint, and build pass. |
 | 2026-08-05T16:52:55Z | Codex/root | MG-01 | Packet claimed | `agent/music-generator-planning` / uncommitted | Implement the v1 Composition, validation, and JSON boundary beside the current app. |
 | 2026-08-05T17:06:38Z | Codex/root | MG-01 | Author handoff | `agent/music-generator-planning` / uncommitted | All MG-01 acceptance criteria and working-tree gates pass; review and commit are next. |
