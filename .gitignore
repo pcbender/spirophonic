@@ -10,6 +10,7 @@ public/vendor/spessasynth_processor.min.js
 # Vite / test caches
 .vite/
 .vitest/
+.tsbuildinfo/
 
 # Environment files
 .env

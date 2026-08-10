@@ -15,12 +15,26 @@ a blank screen to a sound you made on purpose, in about ten minutes.
 
 ## Run the app
 
+Use a Node.js version supported by Vite 8 (`^20.19.0 || >=22.12.0`; a current
+LTS release is recommended) and the npm version that ships with it. The same
+commands work in PowerShell, Command Prompt, and WSL2:
+
 ```bash
 npm install
 npm run dev
 ```
 
 Vite prints a local URL, normally <http://localhost:5173/>.
+
+On Windows, stop running Vite/Vitest processes before `npm ci` or changing
+dependency versions. Windows cannot replace a native `.node` binding while a
+Node process has it loaded. A normal first-time `npm install` is unaffected.
+
+Do not share one `node_modules/` directory between native Windows and WSL2;
+Rolldown and Lightning CSS install platform-specific native bindings. Use a
+separate checkout for simultaneous Windows and WSL2 development, or remove and
+reinstall `node_modules/` when switching environments. Source files and npm
+commands remain identical in both environments.
 
 The first `npm run dev` or `npm run build` downloads the bundled General MIDI
 sound bank (38 MB) into `public/soundbanks/` and verifies its SHA-256. It is
