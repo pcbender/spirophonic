@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Progress Tracker
 
-Status: **complete**
+Status: **active roadmap**
 
 Initialized: **2026-08-05**
 
@@ -14,14 +14,14 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 
 | Measure | Current value |
 | --- | --- |
-| Packets complete | 21 / 21 |
+| Packets complete | 21 / 24 |
 | Maintenance packets complete | 1 / 1 |
-| Packets active | 0 |
+| Packets active | 1 |
 | Packets blocked | 0 |
-| Next ready packet | none — every packet is `done` |
-| Active agents | none |
+| Next ready packet | MG-22 — Wedge-spoke regions and exact gate spans |
+| Active agents | Codex/root |
 | Integration branch | `main` |
-| Last tracker update | 2026-08-09 |
+| Last tracker update | 2026-08-10 |
 
 ## Status rules
 
@@ -94,7 +94,7 @@ While working:
 
 | Agent | Packet | State | Branch | Cwd/worktree | Started UTC | Heartbeat UTC | Overlap or coordination note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| — | — | — | — | — | — | — | No packet is claimed. Every packet is `done`. |
+| Codex/root | MG-22 | `claimed` | `agent/wedge-gate-modulation` | `/home/mrose/spirophonic` | 2026-08-10T16:33:53Z | 2026-08-10T16:33:53Z | MG-23 and MG-24 wait on this packet; no overlapping claim exists. |
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -125,6 +125,9 @@ their history.
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | `done` | — | 2026-08-06 | Integrated at `90c809d`; unit and browser gates pass, exit code verified. |
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | `done` | — | 2026-08-06 | Integrated at `44ea458`; unit and two-engine browser gates pass, exit code verified. |
 | WIN-01 | Native Windows development portability | MG-21 | `done` | — | 2026-08-09 | Integrated by PR 8 at `01ae008`; native Windows and isolated WSL2 gates pass. |
+| MG-22 | Wedge-spoke regions and exact gate spans | MG-21 | `claimed` | Codex/root | 2026-08-10 | Branch `agent/wedge-gate-modulation`; implement exact entry/exit pairing without interior retriggers. |
+| MG-23 | In-gate modulation lanes and Trace notation | MG-22 | `waiting` | — | 2026-08-10 | Waiting for MG-22's canonical region spans. |
+| MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | `waiting` | — | 2026-08-10 | Waiting for MG-23's canonical note-scoped modulation lane. |
 
 When a packet becomes `done`, evaluate every direct dependent immediately and
 promote it from `waiting` to `ready` if all dependencies are complete.
@@ -141,6 +144,7 @@ promote it from `waiting` to `ready` if all dependencies are complete.
 | Portable outputs | MG-19–MG-20 | MIDI, Strudel, audio render, and bundles consume canonical events/Recordings. | 2 / 2 — complete |
 | Release | MG-21 | Reference works, performance budgets, browser checks, and full workflow pass. | 1 / 1 — complete |
 | Native Windows portability | WIN-01 | Native Windows development works without changing the WSL2 workflow. | 1 / 1 — complete |
+| Region-gated expression | MG-22–MG-24 | Wedges create one held note per visit; interior motion modulates that voice consistently in notation, playback, Recording, and export. | 0 / 3 — MG-22 ready |
 
 ## Validation ledger
 
@@ -192,10 +196,21 @@ Validation rules:
 ## Active packet records
 
 MG-01 through MG-21 and WIN-01 are `done`; their records live in the Validation
-ledger, Activity log, and Handoff records below.
+ledger, Activity log, and Handoff records below. MG-22 is `claimed`; MG-23 and
+MG-24 are `waiting` on their declared dependencies.
 
-No packet is claimed. Every packet is `done`; see the Progress table in the
-build plan.
+### MG-22 active claim
+
+- Packet: MG-22 — Wedge-spoke regions and exact gate spans
+- State: `claimed`
+- Agent: Codex/root
+- Branch: `agent/wedge-gate-modulation`
+- Cwd/worktree: `/home/mrose/spirophonic`
+- Started/heartbeat: 2026-08-10T16:33:53Z
+- Dependencies: MG-21 is `done`; no overlapping claim exists.
+- Next exact action: inspect the contracted schema, geometry, Encounter,
+  performance, renderer, and authoring seams, then implement the smallest
+  deterministic wedge/gate slice.
 
 Keep one subsection here for every `claimed`, `in_progress`, `blocked`, or
 `in_review` packet, then move each finished record into the Activity log,
@@ -233,6 +248,8 @@ decisions, or explicit limits before completion.
 | The `rest` flag on a performed event is written but never read | — | Found during MG-20 and fixed in `11fd8c2`. `core/performance.ts` now exports `eventSounds`/`soundingEvents` as the single definition of what is audible, and the live scheduler, offline renderer, MIDI exporter, and Strudel exporter all consult it. Guarded by a cross-consumer suite in `src/export/agreement.test.ts` that fails on all four when the fix is reverted. | Mitigated |
 | Multi-agent edits to shared files or tracker rows | All | Single packet owner, overlap check, frequent heartbeat, and explicit handoff. No conflict occurred across 21 packets. | Mitigated |
 | Windows locks loaded native bindings during dependency replacement | WIN-01 | Stop Vite/Vitest before `npm ci` or dependency upgrades. A fresh isolated Windows install succeeds and installs both required bindings; the setup rule is documented in `README.md`. | Mitigated |
+| Wedge centre singularity or edge sampling chatters into duplicate gate transitions | MG-22 | The packet owns an explicit centre tolerance, exact entry/exit identity, tangency and loop-seam fixtures, and guards that fail if one visit produces more than one note. | Open |
+| Dense in-gate automation grows artifacts or diverges across audio/export backends | MG-23, MG-24 | Lanes have saved sample rates, bounds and size limits; every consumer must pass the same near/far fixture or emit an explicit capability diagnostic. | Open |
 
 ## Decision log
 
@@ -247,6 +264,7 @@ sessions from reopening settled foundations accidentally.
 | D-004 | 2026-08-05 | SoundFont support is required, with native synthesis as fallback. | Locked | [SoundFont strategy](MUSIC-GENERATOR-BUILD-PLAN.md#soundfont-strategy) |
 | D-005 | 2026-08-05 | One Wheel may carry several Heads/Traces; distinct motion families are distinct Wheels. | Locked | [Meaning of Wheel, Head, shape, and Trace](MUSIC-GENERATOR-BUILD-PLAN.md#meaning-of-wheel-head-shape-and-trace) |
 | D-006 | 2026-08-05 | MRP supplies algorithms and patterns only; it is not a runtime dependency. | Locked | [MRP reuse map](MUSIC-GENERATOR-BUILD-PLAN.md#mrp-reuse-map) |
+| D-007 | 2026-08-10 | A wedge-shaped Spoke is one outer gate: entry starts a held note, exit ends it, and interior oscillations modulate without retriggering. Decided by Michael Rose. | Locked | [MG-22](MUSIC-GENERATOR-BUILD-PLAN.md#mg-22--wedge-spoke-regions-and-exact-gate-spans) |
 
 New decisions receive the next ID, name the deciding user/reviewer, and link the
 build-plan change or decision record that made them authoritative.
@@ -258,6 +276,8 @@ and releases. Do not log every edit.
 
 | UTC time | Agent | Packet | Event | Branch/commit | Summary and next step |
 | --- | --- | --- | --- | --- | --- |
+| 2026-08-10T16:33:53Z | Codex/root | MG-22 | Packet claimed | `agent/wedge-gate-modulation` / uncommitted | Dependencies are done and no overlapping claim exists. Implement wedge geometry and exact gate spans inside the amended contract. |
+| 2026-08-10T16:28:19Z | Codex/root | MG-22–MG-24 | Roadmap extended | `main` / uncommitted | User locked wedge Spokes as angular outer gates whose interior oscillations modulate one held note. MG-22 is ready; MG-23 and MG-24 wait on its canonical spans and modulation lanes. |
 | 2026-08-10T01:52:49Z | Codex/root | WIN-01 | Author handoff | `agent/windows-portability` / uncommitted | Native Windows and isolated WSL2 clean installs and full gates pass with 555 tests. Windows Chromium production-preview smoke passes; Firefox hangs in the restricted runner and is not claimed. Graphify refreshed; commit/integration review remains. |
 | 2026-08-10T02:02:45Z | Codex/root | WIN-01 | Implementation committed | `24f1271` | Windows portability implementation and generated Graphify refresh committed on `agent/windows-portability`; push and integration review remain. |
 | 2026-08-10T02:09:14Z | Codex/root | WIN-01 | Integrated and closed | PR 8 / `01ae008` | Merge tree matches the reviewed branch HEAD. WIN-01 is `done`, its owner is cleared, and every planned and maintenance packet is complete. |
