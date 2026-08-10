@@ -193,6 +193,26 @@ test('a newly authored Spoke is a visible wedge gate', async ({ page }) => {
   const before = await canvasInk(page)
 
   await fields.getByRole('button', { name: 'Add spokes' }).click()
+  const spokeIds = [
+    'spoke-east',
+    'spoke-north',
+    'field-spokes-1-boundary-1',
+  ]
+  const angles = await Promise.all(
+    spokeIds.map(async (id) =>
+      Number(await fields.getByLabel(`Angle ${id}`).inputValue()),
+    ),
+  )
+  const widths = await Promise.all(
+    spokeIds.map(async (id) =>
+      Number(await fields.getByLabel(`Angular width ${id}`).inputValue()),
+    ),
+  )
+  for (const [index, angle] of angles.entries()) {
+    expect(angle).toBeCloseTo((Math.PI * 2 * index) / 3, 12)
+    expect(widths[index]).toBeCloseTo((Math.PI * 2) / 24 / 3, 12)
+  }
+
   const width = fields.getByLabel(
     'Angular width field-spokes-1-boundary-1',
   )

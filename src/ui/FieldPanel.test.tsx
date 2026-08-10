@@ -268,39 +268,48 @@ describe('MG-13 Field authoring', () => {
     }
   })
 
-  it('places repeated Spoke Fields into the largest open angular gaps', () => {
+  it('redistributes repeated Spoke Fields evenly and narrows every wedge', () => {
     let composition = withoutFields()
     const onChange = vi.fn((next: Composition) => {
       composition = next
     })
-    let firstField: Composition['fields'][number] | undefined
+    let previousWidth = Infinity
 
     for (let added = 0; added < 4; added += 1) {
       cleanup()
       render(<FieldPanel composition={composition} onChange={onChange} />)
       fireEvent.click(screen.getByRole('button', { name: 'Add spokes' }))
-      if (added === 0) firstField = structuredClone(composition.fields[0])
+
+      const count = added + 1
+      const spokes = composition.fields.flatMap((field) =>
+        field.boundaries.flatMap((boundary) =>
+          boundary.kind === 'spoke'
+            ? [
+                {
+                  angle:
+                    ((boundary.angle + (field.rotation ?? 0)) %
+                      (Math.PI * 2) +
+                      Math.PI * 2) %
+                    (Math.PI * 2),
+                  width: boundary.angularWidth,
+                },
+              ]
+            : [],
+        ),
+      )
+
+      expect(spokes).toHaveLength(count)
+      for (const [index, spoke] of spokes.entries()) {
+        expect(spoke.angle).toBeCloseTo((Math.PI * 2 * index) / count, 12)
+        expect(spoke.width).toBeCloseTo((Math.PI * 2) / 24 / count, 12)
+      }
+      const firstWidth = spokes.at(0)?.width
+      expect(firstWidth).toBeDefined()
+      if (firstWidth === undefined) throw new Error('Expected a Spoke width.')
+      expect(firstWidth).toBeLessThan(previousWidth)
+      previousWidth = firstWidth
+      expect(validateComposition(composition).ok).toBe(true)
     }
-
-    const angles = composition.fields
-      .map((field) => {
-        const boundary = field.boundaries[0]
-        return boundary.kind === 'spoke'
-          ? ((boundary.angle + (field.rotation ?? 0)) % (Math.PI * 2) +
-              Math.PI * 2) %
-              (Math.PI * 2)
-          : NaN
-      })
-      .sort((left, right) => left - right)
-
-    expect(angles).toEqual([
-      0,
-      Math.PI / 2,
-      Math.PI,
-      (Math.PI * 3) / 2,
-    ])
-    expect(composition.fields[0]).toEqual(firstField)
-    expect(validateComposition(composition).ok).toBe(true)
   })
 
   /*

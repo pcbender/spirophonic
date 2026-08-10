@@ -57,7 +57,7 @@
       "label": "bundleDialog()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L613",
+      "source_location": "L633",
       "_origin": "ast",
       "id": "e2e_app_spec_bundledialog",
       "community": 74,
@@ -67,7 +67,7 @@
       "label": "confirmBundleExport()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L616",
+      "source_location": "L636",
       "_origin": "ast",
       "id": "e2e_app_spec_confirmbundleexport",
       "community": 74,
@@ -77,7 +77,7 @@
       "label": "sampleBankFile()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L888",
+      "source_location": "L908",
       "_origin": "ast",
       "id": "e2e_app_spec_samplebankfile",
       "community": 74,
@@ -87,7 +87,7 @@
       "label": "importSampleBank()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L904",
+      "source_location": "L924",
       "_origin": "ast",
       "id": "e2e_app_spec_importsamplebank",
       "community": 74,
@@ -990,7 +990,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_test",
-      "community": 2,
+      "community": 70,
       "norm_label": "bundledsoundbank.test.ts"
     },
     {
@@ -1000,7 +1000,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_test_freshvault",
-      "community": 2,
+      "community": 70,
       "norm_label": "freshvault()"
     },
     {
@@ -1010,7 +1010,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_test_stubbankbytes",
-      "community": 2,
+      "community": 70,
       "norm_label": "stubbankbytes()"
     },
     {
@@ -1020,7 +1020,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_test_respondwith",
-      "community": 2,
+      "community": 70,
       "norm_label": "respondwith()"
     },
     {
@@ -1060,7 +1060,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "audio_bundledsoundbank_ensurebundledsoundbank",
-      "community": 2,
+      "community": 70,
       "norm_label": "ensurebundledsoundbank()"
     },
     {
@@ -2630,7 +2630,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "audio_soundbank_bench_test",
-      "community": 2,
+      "community": 70,
       "norm_label": "soundbank.bench.test.ts"
     },
     {
@@ -2640,7 +2640,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "audio_soundbank_bench_test_freshvault",
-      "community": 2,
+      "community": 70,
       "norm_label": "freshvault()"
     },
     {
@@ -2740,7 +2740,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "audio_soundbankstore_storedsoundbankmetadata",
-      "community": 109,
+      "community": 104,
       "norm_label": "storedsoundbankmetadata"
     },
     {
@@ -2850,7 +2850,7 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "audio_soundbankstore_sha256hex",
-      "community": 2,
+      "community": 70,
       "norm_label": "sha256hex()"
     },
     {
@@ -2980,7 +2980,7 @@
       "source_location": "L332",
       "_origin": "ast",
       "id": "audio_soundbankstore_soundbankstore_toreference",
-      "community": 45,
+      "community": 102,
       "norm_label": ".toreference()"
     },
     {
@@ -3010,7 +3010,7 @@
       "source_location": "L405",
       "_origin": "ast",
       "id": "audio_soundbankstore_soundbankstore_requirecapacity",
-      "community": 102,
+      "community": 109,
       "norm_label": ".requirecapacity()"
     },
     {
@@ -3160,7 +3160,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth",
-      "community": 55,
+      "community": 62,
       "norm_label": "fakesynth"
     },
     {
@@ -3170,7 +3170,7 @@
       "source_location": "L132",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth_constructor",
-      "community": 55,
+      "community": 62,
       "norm_label": ".constructor()"
     },
     {
@@ -3180,7 +3180,7 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth_currenttime",
-      "community": 55,
+      "community": 62,
       "norm_label": ".currenttime()"
     },
     {
@@ -3190,7 +3190,7 @@
       "source_location": "L146",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth_noteon",
-      "community": 55,
+      "community": 62,
       "norm_label": ".noteon()"
     },
     {
@@ -3200,7 +3200,7 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth_noteoff",
-      "community": 55,
+      "community": 62,
       "norm_label": ".noteoff()"
     },
     {
@@ -3210,7 +3210,7 @@
       "source_location": "L154",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth_controllerchange",
-      "community": 55,
+      "community": 62,
       "norm_label": ".controllerchange()"
     },
     {
@@ -3220,7 +3220,7 @@
       "source_location": "L158",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth_programchange",
-      "community": 55,
+      "community": 62,
       "norm_label": ".programchange()"
     },
     {
@@ -3230,7 +3230,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth_pitchwheel",
-      "community": 55,
+      "community": 62,
       "norm_label": ".pitchwheel()"
     },
     {
@@ -3240,7 +3240,7 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth_stopall",
-      "community": 55,
+      "community": 62,
       "norm_label": ".stopall()"
     },
     {
@@ -3250,7 +3250,7 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth_connect",
-      "community": 55,
+      "community": 62,
       "norm_label": ".connect()"
     },
     {
@@ -3260,7 +3260,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth_disconnect",
-      "community": 55,
+      "community": 62,
       "norm_label": ".disconnect()"
     },
     {
@@ -3270,7 +3270,7 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "audio_soundfontengine_test_fakesynth_destroy",
-      "community": 55,
+      "community": 62,
       "norm_label": ".destroy()"
     },
     {
@@ -3430,7 +3430,7 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "audio_soundfontengine_splitsoundfontbanknumber",
-      "community": 45,
+      "community": 75,
       "norm_label": "splitsoundfontbanknumber()"
     },
     {
@@ -3440,7 +3440,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "audio_soundfontengine_retiresynthesizer",
-      "community": 45,
+      "community": 88,
       "norm_label": "retiresynthesizer()"
     },
     {
@@ -3480,7 +3480,7 @@
       "source_location": "L186",
       "_origin": "ast",
       "id": "audio_soundfontengine_withtimeout",
-      "community": 45,
+      "community": 75,
       "norm_label": "withtimeout()"
     },
     {
@@ -3540,7 +3540,7 @@
       "source_location": "L256",
       "_origin": "ast",
       "id": "audio_soundfontengine_soundfontengine_inspectbank",
-      "community": 45,
+      "community": 75,
       "norm_label": ".inspectbank()"
     },
     {
@@ -3560,7 +3560,7 @@
       "source_location": "L356",
       "_origin": "ast",
       "id": "audio_soundfontengine_soundfontengine_audition",
-      "community": 45,
+      "community": 75,
       "norm_label": ".audition()"
     },
     {
@@ -3570,7 +3570,7 @@
       "source_location": "L383",
       "_origin": "ast",
       "id": "audio_soundfontengine_soundfontengine_invalidatebank",
-      "community": 45,
+      "community": 88,
       "norm_label": ".invalidatebank()"
     },
     {
@@ -3580,7 +3580,7 @@
       "source_location": "L397",
       "_origin": "ast",
       "id": "audio_soundfontengine_soundfontengine_resume",
-      "community": 45,
+      "community": 75,
       "norm_label": ".resume()"
     },
     {
@@ -3630,7 +3630,7 @@
       "source_location": "L667",
       "_origin": "ast",
       "id": "audio_soundfontengine_soundfontengine_dispose",
-      "community": 45,
+      "community": 88,
       "norm_label": ".dispose()"
     },
     {
@@ -3670,7 +3670,7 @@
       "source_location": "L763",
       "_origin": "ast",
       "id": "audio_soundfontengine_soundfontengine_ensurecontext",
-      "community": 45,
+      "community": 75,
       "norm_label": ".ensurecontext()"
     },
     {
@@ -3680,7 +3680,7 @@
       "source_location": "L769",
       "_origin": "ast",
       "id": "audio_soundfontengine_soundfontengine_ensureworklet",
-      "community": 45,
+      "community": 75,
       "norm_label": ".ensureworklet()"
     },
     {
@@ -3690,7 +3690,7 @@
       "source_location": "L781",
       "_origin": "ast",
       "id": "audio_soundfontengine_soundfontengine_ensurebank",
-      "community": 45,
+      "community": 75,
       "norm_label": ".ensurebank()"
     },
     {
@@ -3700,7 +3700,7 @@
       "source_location": "L820",
       "_origin": "ast",
       "id": "audio_soundfontengine_soundfontengine_loadbank",
-      "community": 45,
+      "community": 75,
       "norm_label": ".loadbank()"
     },
     {
@@ -3710,7 +3710,7 @@
       "source_location": "L887",
       "_origin": "ast",
       "id": "audio_soundfontengine_soundfontengine_selectpreset",
-      "community": 45,
+      "community": 75,
       "norm_label": ".selectpreset()"
     },
     {
@@ -4140,7 +4140,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_composition_test",
-      "community": 46,
+      "community": 77,
       "norm_label": "composition.test.ts"
     },
     {
@@ -4160,7 +4160,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "core_composition_compositionversion",
-      "community": 46,
+      "community": 77,
       "norm_label": "compositionversion"
     },
     {
@@ -4170,7 +4170,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "core_composition_point2",
-      "community": 62,
+      "community": 41,
       "norm_label": "point2"
     },
     {
@@ -4370,7 +4370,7 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "core_composition_headspec",
-      "community": 108,
+      "community": 41,
       "norm_label": "headspec"
     },
     {
@@ -4380,7 +4380,7 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "core_composition_wheelspec",
-      "community": 108,
+      "community": 41,
       "norm_label": "wheelspec"
     },
     {
@@ -4560,7 +4560,7 @@
       "source_location": "L321",
       "_origin": "ast",
       "id": "core_composition_relationeventkind",
-      "community": 46,
+      "community": 57,
       "norm_label": "relationeventkind"
     },
     {
@@ -4630,7 +4630,7 @@
       "source_location": "L398",
       "_origin": "ast",
       "id": "core_composition_pitchmapping",
-      "community": 61,
+      "community": 57,
       "norm_label": "pitchmapping"
     },
     {
@@ -4680,7 +4680,7 @@
       "source_location": "L490",
       "_origin": "ast",
       "id": "core_composition_velocitymapping",
-      "community": 89,
+      "community": 87,
       "norm_label": "velocitymapping"
     },
     {
@@ -4700,7 +4700,7 @@
       "source_location": "L500",
       "_origin": "ast",
       "id": "core_composition_quantizespec",
-      "community": 89,
+      "community": 87,
       "norm_label": "quantizespec"
     },
     {
@@ -4860,7 +4860,7 @@
       "source_location": "L625",
       "_origin": "ast",
       "id": "core_composition_soundbankreference",
-      "community": 45,
+      "community": 75,
       "norm_label": "soundbankreference"
     },
     {
@@ -6280,7 +6280,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_defaultcomposition",
-      "community": 109,
+      "community": 77,
       "norm_label": "defaultcomposition.ts"
     },
     {
@@ -6300,7 +6300,7 @@
       "source_location": "L280",
       "_origin": "ast",
       "id": "core_defaultcomposition_tracecolors",
-      "community": 109,
+      "community": 77,
       "norm_label": "tracecolors"
     },
     {
@@ -6310,7 +6310,7 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "core_defaultcomposition_referencehead",
-      "community": 109,
+      "community": 77,
       "norm_label": "referencehead()"
     },
     {
@@ -6320,7 +6320,7 @@
       "source_location": "L311",
       "_origin": "ast",
       "id": "core_defaultcomposition_referencewheel",
-      "community": 109,
+      "community": 77,
       "norm_label": "referencewheel()"
     },
     {
@@ -7270,7 +7270,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "core_gatemodulation_gatemodulationlimits",
-      "community": 72,
+      "community": 80,
       "norm_label": "gatemodulationlimits"
     },
     {
@@ -7460,7 +7460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_heads_test",
-      "community": 108,
+      "community": 41,
       "norm_label": "heads.test.ts"
     },
     {
@@ -7470,7 +7470,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "core_heads_test_clonedefault",
-      "community": 108,
+      "community": 41,
       "norm_label": "clonedefault()"
     },
     {
@@ -7480,7 +7480,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_heads_test_secondhead",
-      "community": 108,
+      "community": 41,
       "norm_label": "secondhead()"
     },
     {
@@ -7490,7 +7490,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_heads",
-      "community": 108,
+      "community": 41,
       "norm_label": "heads.ts"
     },
     {
@@ -7500,7 +7500,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "core_heads_headstate",
-      "community": 108,
+      "community": 32,
       "norm_label": "headstate"
     },
     {
@@ -7510,7 +7510,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "core_heads_locatedhead",
-      "community": 108,
+      "community": 41,
       "norm_label": "locatedhead"
     },
     {
@@ -7520,7 +7520,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "core_heads_findhead",
-      "community": 108,
+      "community": 41,
       "norm_label": "findhead()"
     },
     {
@@ -7530,7 +7530,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "core_heads_positionat",
-      "community": 108,
+      "community": 41,
       "norm_label": "positionat()"
     },
     {
@@ -7540,7 +7540,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "core_heads_headstateat",
-      "community": 108,
+      "community": 41,
       "norm_label": "headstateat()"
     },
     {
@@ -7550,7 +7550,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "core_heads_headstatesat",
-      "community": 108,
+      "community": 41,
       "norm_label": "headstatesat()"
     },
     {
@@ -7950,7 +7950,7 @@
       "source_location": "L366",
       "_origin": "ast",
       "id": "core_parts_validatepartmusicalrange",
-      "community": 89,
+      "community": 7,
       "norm_label": "validatepartmusicalrange()"
     },
     {
@@ -8100,7 +8100,7 @@
       "source_location": "L127",
       "_origin": "ast",
       "id": "core_performance_audiblepartids",
-      "community": 89,
+      "community": 7,
       "norm_label": "audiblepartids()"
     },
     {
@@ -8140,7 +8140,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "core_performance_freezerequest",
-      "community": 75,
+      "community": 89,
       "norm_label": "freezerequest()"
     },
     {
@@ -8150,7 +8150,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "core_performance_emptyperformance",
-      "community": 75,
+      "community": 89,
       "norm_label": "emptyperformance()"
     },
     {
@@ -8170,7 +8170,7 @@
       "source_location": "L208",
       "_origin": "ast",
       "id": "core_performance_interpretableencounters",
-      "community": 75,
+      "community": 89,
       "norm_label": "interpretableencounters()"
     },
     {
@@ -8180,7 +8180,7 @@
       "source_location": "L249",
       "_origin": "ast",
       "id": "core_performance_quantizedcandidates",
-      "community": 89,
+      "community": 87,
       "norm_label": "quantizedcandidates()"
     },
     {
@@ -8230,7 +8230,7 @@
       "source_location": "L544",
       "_origin": "ast",
       "id": "core_performance_interpretencounters",
-      "community": 89,
+      "community": 7,
       "norm_label": "interpretencounters()"
     },
     {
@@ -8240,7 +8240,7 @@
       "source_location": "L669",
       "_origin": "ast",
       "id": "core_performance_compileperformance",
-      "community": 75,
+      "community": 89,
       "norm_label": "compileperformance()"
     },
     {
@@ -8790,7 +8790,7 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "core_replay_test_record",
-      "community": 7,
+      "community": 40,
       "norm_label": "record()"
     },
     {
@@ -8850,7 +8850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_rhythm_test",
-      "community": 89,
+      "community": 87,
       "norm_label": "rhythm.test.ts"
     },
     {
@@ -8860,7 +8860,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_rhythm",
-      "community": 89,
+      "community": 87,
       "norm_label": "rhythm.ts"
     },
     {
@@ -8870,7 +8870,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "core_rhythm_clampunit",
-      "community": 89,
+      "community": 87,
       "norm_label": "clampunit()"
     },
     {
@@ -8880,7 +8880,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "core_rhythm_clampvelocity",
-      "community": 89,
+      "community": 87,
       "norm_label": "clampvelocity()"
     },
     {
@@ -8890,7 +8890,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_rhythm_quantizeabsolutebeat",
-      "community": 89,
+      "community": 87,
       "norm_label": "quantizeabsolutebeat()"
     },
     {
@@ -8900,7 +8900,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "core_rhythm_mapstrengthtovelocity",
-      "community": 89,
+      "community": 87,
       "norm_label": "mapstrengthtovelocity()"
     },
     {
@@ -9050,7 +9050,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_traceencounters_bench_test",
-      "community": 103,
+      "community": 41,
       "norm_label": "traceencounters.bench.test.ts"
     },
     {
@@ -9060,7 +9060,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "core_traceencounters_bench_test_window4s",
-      "community": 103,
+      "community": 41,
       "norm_label": "window4s"
     },
     {
@@ -9070,7 +9070,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "core_traceencounters_bench_test_firstobservedhead",
-      "community": 103,
+      "community": 41,
       "norm_label": "firstobservedhead()"
     },
     {
@@ -9080,7 +9080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_traceencounters_test",
-      "community": 103,
+      "community": 41,
       "norm_label": "traceencounters.test.ts"
     },
     {
@@ -9090,7 +9090,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "core_traceencounters_test_request",
-      "community": 103,
+      "community": 41,
       "norm_label": "request"
     },
     {
@@ -9100,7 +9100,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "core_traceencounters_test_observation",
-      "community": 103,
+      "community": 41,
       "norm_label": "observation()"
     },
     {
@@ -9110,7 +9110,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "core_traceencounters_test_crossingcomposition",
-      "community": 103,
+      "community": 41,
       "norm_label": "crossingcomposition()"
     },
     {
@@ -9120,7 +9120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_traceencounters",
-      "community": 103,
+      "community": 41,
       "norm_label": "traceencounters.ts"
     },
     {
@@ -9130,7 +9130,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "core_traceencounters_tracecrossingdirection",
-      "community": 103,
+      "community": 41,
       "norm_label": "tracecrossingdirection"
     },
     {
@@ -9140,7 +9140,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "core_traceencounters_tracecrossingencounter",
-      "community": 103,
+      "community": 41,
       "norm_label": "tracecrossingencounter"
     },
     {
@@ -9150,7 +9150,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "core_traceencounters_traceencounterdiagnostic",
-      "community": 103,
+      "community": 41,
       "norm_label": "traceencounterdiagnostic"
     },
     {
@@ -9160,7 +9160,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "core_traceencounters_traceencounterresult",
-      "community": 103,
+      "community": 41,
       "norm_label": "traceencounterresult"
     },
     {
@@ -9170,7 +9170,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "core_traceencounters_traceencounteroptions",
-      "community": 103,
+      "community": 41,
       "norm_label": "traceencounteroptions"
     },
     {
@@ -9180,7 +9180,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "core_traceencounters_traceencounterdefaults",
-      "community": 103,
+      "community": 41,
       "norm_label": "traceencounterdefaults"
     },
     {
@@ -9190,7 +9190,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "core_traceencounters_comparetext",
-      "community": 103,
+      "community": 41,
       "norm_label": "comparetext()"
     },
     {
@@ -9200,7 +9200,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "core_traceencounters_freezepoint",
-      "community": 103,
+      "community": 41,
       "norm_label": "freezepoint()"
     },
     {
@@ -9210,7 +9210,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "core_traceencounters_segmentintersection",
-      "community": 103,
+      "community": 41,
       "norm_label": "segmentintersection"
     },
     {
@@ -9220,7 +9220,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "core_traceencounters_encounterid",
-      "community": 103,
+      "community": 41,
       "norm_label": "encounterid()"
     },
     {
@@ -9230,7 +9230,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "core_traceencounters_comparetraceencounters",
-      "community": 103,
+      "community": 41,
       "norm_label": "comparetraceencounters()"
     },
     {
@@ -9240,7 +9240,7 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "core_traceencounters_compiletraceencounters",
-      "community": 103,
+      "community": 41,
       "norm_label": "compiletraceencounters()"
     },
     {
@@ -9250,7 +9250,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "core_traces",
-      "community": 103,
+      "community": 41,
       "norm_label": "traces.ts"
     },
     {
@@ -9260,7 +9260,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "core_traces_traceobservationdefaults",
-      "community": 103,
+      "community": 41,
       "norm_label": "traceobservationdefaults"
     },
     {
@@ -9280,7 +9280,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "core_traces_tracesegment",
-      "community": 103,
+      "community": 41,
       "norm_label": "tracesegment"
     },
     {
@@ -9290,7 +9290,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "core_traces_retainedtrace",
-      "community": 103,
+      "community": 41,
       "norm_label": "retainedtrace"
     },
     {
@@ -9300,7 +9300,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "core_traces_tracediagnostic",
-      "community": 103,
+      "community": 41,
       "norm_label": "tracediagnostic"
     },
     {
@@ -9310,7 +9310,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "core_traces_freezepoint",
-      "community": 103,
+      "community": 41,
       "norm_label": "freezepoint()"
     },
     {
@@ -9320,7 +9320,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "core_traces_buildretainedtrace",
-      "community": 103,
+      "community": 41,
       "norm_label": "buildretainedtrace()"
     },
     {
@@ -9330,7 +9330,7 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex",
-      "community": 62,
+      "community": 41,
       "norm_label": "tracesegmentindex"
     },
     {
@@ -9340,7 +9340,7 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_constructor",
-      "community": 62,
+      "community": 41,
       "norm_label": ".constructor()"
     },
     {
@@ -9350,7 +9350,7 @@
       "source_location": "L151",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_size",
-      "community": 62,
+      "community": 41,
       "norm_label": ".size()"
     },
     {
@@ -9360,7 +9360,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_suggestcellsize",
-      "community": 62,
+      "community": 41,
       "norm_label": ".suggestcellsize()"
     },
     {
@@ -9370,7 +9370,7 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_key",
-      "community": 62,
+      "community": 41,
       "norm_label": ".key()"
     },
     {
@@ -9380,7 +9380,7 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_cellsfor",
-      "community": 62,
+      "community": 41,
       "norm_label": ".cellsfor()"
     },
     {
@@ -9390,7 +9390,7 @@
       "source_location": "L185",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_insert",
-      "community": 62,
+      "community": 41,
       "norm_label": ".insert()"
     },
     {
@@ -9400,7 +9400,7 @@
       "source_location": "L195",
       "_origin": "ast",
       "id": "core_traces_tracesegmentindex_query",
-      "community": 62,
+      "community": 41,
       "norm_label": ".query()"
     },
     {
@@ -12030,7 +12030,7 @@
       "source_location": "L268",
       "_origin": "ast",
       "id": "render_compositionrenderer_snapshottracepoint",
-      "community": 108,
+      "community": 41,
       "norm_label": "snapshottracepoint()"
     },
     {
@@ -12280,7 +12280,7 @@
       "source_location": "L303",
       "_origin": "ast",
       "id": "fixtures_compositions_samplesoundbankbytes",
-      "community": 2,
+      "community": 70,
       "norm_label": "samplesoundbankbytes()"
     },
     {
@@ -12290,7 +12290,7 @@
       "source_location": "L307",
       "_origin": "ast",
       "id": "fixtures_compositions_samplesoundbankdigest",
-      "community": 2,
+      "community": 70,
       "norm_label": "samplesoundbankdigest()"
     },
     {
@@ -12300,7 +12300,7 @@
       "source_location": "L311",
       "_origin": "ast",
       "id": "fixtures_compositions_samplesoundbankpreset",
-      "community": 2,
+      "community": 70,
       "norm_label": "samplesoundbankpreset"
     },
     {
@@ -12360,7 +12360,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "fixtures_gatemodulation_gatedmodulationcomposition",
-      "community": 72,
+      "community": 74,
       "norm_label": "gatedmodulationcomposition()"
     },
     {
@@ -12610,7 +12610,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_controlpanel",
-      "community": 70,
+      "community": 76,
       "norm_label": "controlpanel.tsx"
     },
     {
@@ -12620,7 +12620,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "ui_controlpanel_controlpanelprops",
-      "community": 70,
+      "community": 76,
       "norm_label": "controlpanelprops"
     },
     {
@@ -12630,7 +12630,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "ui_controlpanel_controlpanel",
-      "community": 70,
+      "community": 76,
       "norm_label": "controlpanel()"
     },
     {
@@ -12640,7 +12640,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "ui_controlpanel_numberfieldprops",
-      "community": 70,
+      "community": 76,
       "norm_label": "numberfieldprops"
     },
     {
@@ -12650,7 +12650,7 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "ui_controlpanel_numberfield",
-      "community": 70,
+      "community": 76,
       "norm_label": "numberfield()"
     },
     {
@@ -12707,7 +12707,7 @@
       "label": "fieldKindLabels",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "ui_fieldpanel_fieldkindlabels",
       "community": 42,
@@ -12717,7 +12717,7 @@
       "label": "boundaryLabels",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "ui_fieldpanel_boundarylabels",
       "community": 42,
@@ -12727,7 +12727,7 @@
       "label": "motionKinds",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L49",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "ui_fieldpanel_motionkinds",
       "community": 42,
@@ -12737,7 +12737,7 @@
       "label": "defaultMotion()",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L56",
+      "source_location": "L57",
       "_origin": "ast",
       "id": "ui_fieldpanel_defaultmotion",
       "community": 42,
@@ -12747,7 +12747,7 @@
       "label": "nextGridLine()",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L87",
+      "source_location": "L88",
       "_origin": "ast",
       "id": "ui_fieldpanel_nextgridline",
       "community": 42,
@@ -12757,27 +12757,27 @@
       "label": "normalizeAngle()",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L114",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "ui_fieldpanel_normalizeangle",
       "community": 42,
       "norm_label": "normalizeangle()"
     },
     {
-      "label": "nextSpokeAngle()",
+      "label": "redistributeSpokes()",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L117",
+      "source_location": "L122",
       "_origin": "ast",
-      "id": "ui_fieldpanel_nextspokeangle",
+      "id": "ui_fieldpanel_redistributespokes",
       "community": 42,
-      "norm_label": "nextspokeangle()"
+      "norm_label": "redistributespokes()"
     },
     {
       "label": "InitialFieldGeometry",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L137",
+      "source_location": "L161",
       "_origin": "ast",
       "id": "ui_fieldpanel_initialfieldgeometry",
       "community": 42,
@@ -12787,7 +12787,7 @@
       "label": "startingBoundaryCount()",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L240",
+      "source_location": "L256",
       "_origin": "ast",
       "id": "ui_fieldpanel_startingboundarycount",
       "community": 42,
@@ -12797,7 +12797,7 @@
       "label": "defaultBoundary()",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L243",
+      "source_location": "L259",
       "_origin": "ast",
       "id": "ui_fieldpanel_defaultboundary",
       "community": 42,
@@ -12807,7 +12807,7 @@
       "label": "FieldPanel()",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L319",
+      "source_location": "L333",
       "_origin": "ast",
       "id": "ui_fieldpanel_fieldpanel",
       "community": 42,
@@ -12817,7 +12817,7 @@
       "label": "newBoundaryBase()",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L822",
+      "source_location": "L835",
       "_origin": "ast",
       "id": "ui_fieldpanel_newboundarybase",
       "community": 42,
@@ -12827,7 +12827,7 @@
       "label": "BoundaryFieldsProps",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L829",
+      "source_location": "L842",
       "_origin": "ast",
       "id": "ui_fieldpanel_boundaryfieldsprops",
       "community": 42,
@@ -12837,7 +12837,7 @@
       "label": "BoundaryFields()",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L835",
+      "source_location": "L848",
       "_origin": "ast",
       "id": "ui_fieldpanel_boundaryfields",
       "community": 42,
@@ -12847,7 +12847,7 @@
       "label": "NumberFieldProps",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L977",
+      "source_location": "L990",
       "_origin": "ast",
       "id": "ui_fieldpanel_numberfieldprops",
       "community": 42,
@@ -12857,7 +12857,7 @@
       "label": "NumberField()",
       "file_type": "code",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L989",
+      "source_location": "L1002",
       "_origin": "ast",
       "id": "ui_fieldpanel_numberfield",
       "community": 42,
@@ -12940,7 +12940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_importexportpanel_test",
-      "community": 109,
+      "community": 104,
       "norm_label": "importexportpanel.test.tsx"
     },
     {
@@ -12950,7 +12950,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "ui_importexportpanel_test_metadata",
-      "community": 109,
+      "community": 104,
       "norm_label": "metadata()"
     },
     {
@@ -12960,7 +12960,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "ui_importexportpanel_test_compositionwithbanks",
-      "community": 109,
+      "community": 104,
       "norm_label": "compositionwithbanks()"
     },
     {
@@ -12970,7 +12970,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "ui_importexportpanel_test_vaultholding",
-      "community": 109,
+      "community": 104,
       "norm_label": "vaultholding()"
     },
     {
@@ -12980,7 +12980,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "ui_importexportpanel_test_renderpanel",
-      "community": 109,
+      "community": 104,
       "norm_label": "renderpanel()"
     },
     {
@@ -12990,7 +12990,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "ui_importexportpanel_test_openbundledialog",
-      "community": 109,
+      "community": 104,
       "norm_label": "openbundledialog()"
     },
     {
@@ -13530,7 +13530,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_railpanel",
-      "community": 70,
+      "community": 76,
       "norm_label": "railpanel.tsx"
     },
     {
@@ -13540,7 +13540,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "ui_railpanel_openmap",
-      "community": 70,
+      "community": 76,
       "norm_label": "openmap"
     },
     {
@@ -13550,7 +13550,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "ui_railpanel_readopenmap",
-      "community": 70,
+      "community": 76,
       "norm_label": "readopenmap()"
     },
     {
@@ -13560,7 +13560,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "ui_railpanel_writeopen",
-      "community": 70,
+      "community": 76,
       "norm_label": "writeopen()"
     },
     {
@@ -13570,7 +13570,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "ui_railpanel_railpanelprops",
-      "community": 70,
+      "community": 76,
       "norm_label": "railpanelprops"
     },
     {
@@ -13580,7 +13580,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "ui_railpanel_railpanel",
-      "community": 70,
+      "community": 76,
       "norm_label": "railpanel()"
     },
     {
@@ -13590,7 +13590,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_recorderpanel_test",
-      "community": 75,
+      "community": 89,
       "norm_label": "recorderpanel.test.tsx"
     },
     {
@@ -13600,7 +13600,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "ui_recorderpanel_test_request",
-      "community": 75,
+      "community": 89,
       "norm_label": "request"
     },
     {
@@ -13610,7 +13610,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "ui_recorderpanel_test_base",
-      "community": 75,
+      "community": 89,
       "norm_label": "base()"
     },
     {
@@ -13620,7 +13620,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "ui_recorderpanel_test_setup",
-      "community": 75,
+      "community": 89,
       "norm_label": "setup()"
     },
     {
@@ -13630,7 +13630,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_recorderpanel",
-      "community": 70,
+      "community": 76,
       "norm_label": "recorderpanel.tsx"
     },
     {
@@ -13640,7 +13640,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "ui_recorderpanel_recorderpanelprops",
-      "community": 70,
+      "community": 76,
       "norm_label": "recorderpanelprops"
     },
     {
@@ -14510,7 +14510,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "workers_useperformancecompiler_compileorfail",
-      "community": 75,
+      "community": 101,
       "norm_label": "compileorfail()"
     },
     {
@@ -56130,9 +56130,9 @@
       "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L149",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "ui_fieldpanel_initialfieldgeometry",
-      "confidence_score": 1.0
+      "target": "ui_fieldpanel_initialfieldgeometry"
     },
     {
       "relation": "contains",
@@ -56168,21 +56168,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L117",
-      "weight": 1.0,
-      "source": "ui_fieldpanel",
-      "target": "ui_fieldpanel_nextspokeangle",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/ui/FieldPanel.tsx",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_fieldpanel",
-      "target": "ui_fieldpanel_normalizeangle",
-      "confidence_score": 1.0
+      "target": "ui_fieldpanel_normalizeangle"
     },
     {
       "relation": "contains",
@@ -56203,6 +56193,16 @@
       "confidence_score": 1.0,
       "source": "ui_fieldpanel",
       "target": "ui_fieldpanel_numberfieldprops"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/FieldPanel.tsx",
+      "source_location": "L122",
+      "weight": 1.0,
+      "source": "ui_fieldpanel",
+      "target": "ui_fieldpanel_redistributespokes",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -56274,21 +56274,10 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L120",
+      "source_location": "L136",
       "weight": 1.0,
-      "source": "ui_fieldpanel_nextspokeangle",
+      "source": "ui_fieldpanel_redistributespokes",
       "target": "ui_fieldpanel_normalizeangle",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/ui/FieldPanel.tsx",
-      "source_location": "L228",
-      "weight": 1.0,
-      "source": "ui_fieldpanel_initialfieldgeometry",
-      "target": "ui_fieldpanel_nextspokeangle",
       "confidence_score": 1.0
     },
     {
@@ -61729,9 +61718,9 @@
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
       "source_location": "L344",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_music_generator_progress_handoff_records",
-      "target": "docs_music_generator_progress_2026_08_10_mg_24_completed_handoff",
-      "confidence_score": 1.0
+      "target": "docs_music_generator_progress_2026_08_10_mg_24_completed_handoff"
     },
     {
       "relation": "contains",
@@ -61739,9 +61728,9 @@
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
       "source_location": "L369",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_music_generator_progress_handoff_records",
-      "target": "docs_music_generator_progress_2026_08_10_mg_24_review_candidate_handoff",
-      "confidence_score": 1.0
+      "target": "docs_music_generator_progress_2026_08_10_mg_24_review_candidate_handoff"
     },
     {
       "relation": "contains",
@@ -63403,5 +63392,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ca55d0f2e049b46a4e382c30065dc40868aa1fa0"
+  "built_at_commit": "08f5a0f97b999c11f81fabac2130824756654420"
 }

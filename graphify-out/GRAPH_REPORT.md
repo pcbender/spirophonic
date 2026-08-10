@@ -1,16 +1,16 @@
 # Graph Report - spirophonic  (2026-08-10)
 
 ## Corpus Check
-- 164 files · ~185,143 words
+- 164 files · ~185,259 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1879 nodes · 4169 edges · 106 communities (100 shown, 6 thin omitted)
+- 1879 nodes · 4168 edges · 106 communities (99 shown, 7 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.76)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ca55d0f2`
+- Built from commit: `08f5a0f9`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -97,6 +97,8 @@
 - [[_COMMUNITY_FakeProbeBackend|FakeProbeBackend]]
 - [[_COMMUNITY_Getting started|Getting started]]
 - [[_COMMUNITY_soundbankStore.ts|soundbankStore.ts]]
+- [[_COMMUNITY_Community 87|Community 87]]
+- [[_COMMUNITY_Community 88|Community 88]]
 - [[_COMMUNITY_soundfontEngine.ts|soundfontEngine.ts]]
 - [[_COMMUNITY_package.json|package.json]]
 - [[_COMMUNITY_traceEncounters.test.ts|traceEncounters.test.ts]]
@@ -110,10 +112,8 @@
 - [[_COMMUNITY_What is missing ratio, tuning, and melodic line|What is missing: ratio, tuning, and melodic line]]
 - [[_COMMUNITY_Community 101|Community 101]]
 - [[_COMMUNITY_Community 102|Community 102]]
-- [[_COMMUNITY_Community 103|Community 103]]
 - [[_COMMUNITY_Community 104|Community 104]]
 - [[_COMMUNITY_MVP Scope|MVP Scope]]
-- [[_COMMUNITY_Community 108|Community 108]]
 - [[_COMMUNITY_Community 109|Community 109]]
 
 ## God Nodes (most connected - your core abstractions)
@@ -137,21 +137,21 @@
   src/core/compositionValidation.test.ts → src/core/compositionValidation.ts
 - `renderPanel()` --calls--> `compilePerformance()`  [EXTRACTED]
   src/ui/ImportExportPanel.test.tsx → src/core/performance.ts
-- `importProjectBundle()` --calls--> `record()`  [INFERRED]
-  src/export/projectBundle.ts → src/core/replay.test.ts
+- `compileOrFail()` --calls--> `compilePerformance()`  [EXTRACTED]
+  src/workers/usePerformanceCompiler.ts → src/core/performance.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (106 total, 6 thin omitted)
+## Communities (106 total, 7 thin omitted)
 
 ### Community 1 - "Spirophonic Vision"
 Cohesion: 0.12
 Nodes (17): Conceptual Model, Core Thesis, Direction A: Spirophonic -> Strudel/Tidal, Direction B: Strudel/Tidal -> Spirophonic, First Platform Decision, Future Directions, Long-term Dream, MVP Definition (+9 more)
 
 ### Community 2 - "fields.ts"
-Cohesion: 0.15
-Nodes (22): ensureBundledSoundBank(), stubBankBytes(), sha256Hex(), RingBoundarySpec, window8s, withRingCount(), window8s, allReferenceCompositions() (+14 more)
+Cohesion: 0.24
+Nodes (16): RingBoundarySpec, window8s, withRingCount(), window8s, allReferenceCompositions(), clone(), concurrentWheelsComposition(), multiHeadWheelComposition() (+8 more)
 
 ### Community 3 - "compilerOptions"
 Cohesion: 0.11
@@ -171,7 +171,7 @@ Nodes (43): dependencies, react, react-dom, spessasynth_lib, devDependencies, es
 
 ### Community 7 - "compositionRenderer.ts"
 Cohesion: 0.10
-Nodes (27): PartSpec, captureModulationLanes(), createRecording(), ProvenanceWarning, provenanceWarnings(), Recording, RecordingLimits, RecordingProvenance (+19 more)
+Nodes (29): PartSpec, validatePartMusicalRange(), audiblePartIds(), interpretEncounters(), captureModulationLanes(), createRecording(), ProvenanceWarning, provenanceWarnings() (+21 more)
 
 ### Community 8 - "compositionValidation.ts"
 Cohesion: 0.06
@@ -259,7 +259,7 @@ Nodes (46): attachmentKinds, boundaryKeys, boundaryKindForFieldKind, Composition
 
 ### Community 32 - "recording.ts"
 Cohesion: 0.09
-Nodes (26): EncounterDirection, RelationKind, RelationSpec, compareRelationEncounters(), compareText(), compileControlLane(), compileRelationEncounters(), ControlLane (+18 more)
+Nodes (27): EncounterDirection, RelationKind, RelationSpec, HeadState, compareRelationEncounters(), compareText(), compileControlLane(), compileRelationEncounters() (+19 more)
 
 ### Community 33 - "Sound, Rhythm, and MIDI Design"
 Cohesion: 0.05
@@ -291,11 +291,11 @@ Nodes (35): 2026-08-05 MG-01 author handoff, 2026-08-05 MG-01–MG-11 cumulative
 
 ### Community 40 - "encounters.ts"
 Cohesion: 0.13
-Nodes (21): BundleAsset, BundleAssetOutcome, BundleAssetStatus, bundleFileName(), BundleParseResult, CreateBundleOptions, CreateBundleResult, createProjectBundle() (+13 more)
+Nodes (22): record(), BundleAsset, BundleAssetOutcome, BundleAssetStatus, bundleFileName(), BundleParseResult, CreateBundleOptions, CreateBundleResult (+14 more)
 
 ### Community 41 - "nativeSynthEngine.ts"
-Cohesion: 0.13
-Nodes (35): CycleRate, TransportSpec, interpretNotePart(), barPhaseAtBeat(), barsToBeats(), beatsToBars(), beatsToSeconds(), beatUnits (+27 more)
+Cohesion: 0.05
+Nodes (68): CycleRate, HeadSpec, Point2, TransportSpec, WheelSpec, findHead(), headStateAt(), headStatesAt() (+60 more)
 
 ### Community 42 - "composition.ts"
 Cohesion: 0.08
@@ -306,12 +306,12 @@ Cohesion: 0.18
 Nodes (15): PerformanceDiagnostic, App(), AudioRuntime, Diagnostics(), DiagnosticsProps, freshDefaultComposition(), openingComposition(), performanceRequestFor() (+7 more)
 
 ### Community 45 - "SoundFontEngine"
-Cohesion: 0.12
-Nodes (7): clamp(), retireSynthesizer(), SoundFontEngine, splitSoundFontBankNumber(), withTimeout(), SoundBankReference, SoundFontInstrumentSpec
+Cohesion: 0.18
+Nodes (3): clamp(), SoundFontEngine, SoundFontInstrumentSpec
 
 ### Community 46 - "soundfontProbe.ts"
 Cohesion: 0.07
-Nodes (28): BandBoundarySpec, CompositionVersion, DurationMapping, EllipseBoundarySpec, EnvelopeSpec, FieldBase, GridBoundarySpec, HarmonographHeadAttachment (+20 more)
+Nodes (26): BandBoundarySpec, DurationMapping, EllipseBoundarySpec, EnvelopeSpec, FieldBase, GridBoundarySpec, HarmonographHeadAttachment, HarmonographMotionSpec (+18 more)
 
 ### Community 47 - "Important Distinctions"
 Cohesion: 0.22
@@ -342,16 +342,16 @@ Cohesion: 0.10
 Nodes (9): NativeDrumPlayer, NativeTonePlayer, drum, FakeAudioContext, FakeAudioParam, FakeGain, FakeNode, FakePanner (+1 more)
 
 ### Community 55 - "SoundBankPanel.tsx"
-Cohesion: 0.08
-Nodes (7): soundFontBankNumber(), SoundFontSynthesizer, FakeContext, FakeSynth, instrument(), presets, RecordedCall
+Cohesion: 0.15
+Nodes (6): soundFontBankNumber(), SoundFontSynthesizer, FakeContext, instrument(), presets, RecordedCall
 
 ### Community 56 - "InstrumentEngine"
 Cohesion: 0.21
 Nodes (3): indexInstruments(), PerformanceScheduler, CanonicalPerformance
 
 ### Community 57 - "Composition"
-Cohesion: 0.16
-Nodes (17): EncounterQuery, SpaceSpec, encounterMatchesQuery(), encounterSpatialSource(), encounterSpatialUnit(), includesOrAny(), normalizeEncounterContour(), PartMappingIssue (+9 more)
+Cohesion: 0.14
+Nodes (19): EncounterQuery, PitchMapping, RelationEventKind, SpaceSpec, encounterMatchesQuery(), encounterSpatialSource(), encounterSpatialUnit(), includesOrAny() (+11 more)
 
 ### Community 58 - "sync-spessasynth-worklet.mjs"
 Cohesion: 0.33
@@ -366,8 +366,8 @@ Cohesion: 0.06
 Nodes (55): eventSounds(), notePart(), ratioTuned(), request, tempered(), bendForSemitoneOffset(), buildPerformanceMidi(), buildPerformanceMidiTracks() (+47 more)
 
 ### Community 61 - "tuning.ts"
-Cohesion: 0.06
-Nodes (21): ControlPartSpec, GateModulationSource, GateModulationTarget, PitchMapping, controlSources, directions, encounterKinds, gateSources (+13 more)
+Cohesion: 0.07
+Nodes (20): ControlPartSpec, GateModulationSource, GateModulationTarget, controlSources, directions, encounterKinds, gateSources, gateTargets (+12 more)
 
 ### Community 63 - "heads.ts"
 Cohesion: 0.13
@@ -398,32 +398,32 @@ Cohesion: 0.13
 Nodes (7): ScheduledModulationLane, emptyPreparation, InstrumentRouterOptions, NativeSynthEngine, FakeEngine, InstrumentSpec, NoteMusicalEvent
 
 ### Community 70 - "soundfontEngine.test.ts"
-Cohesion: 0.19
-Nodes (9): ControlPanel(), ControlPanelProps, NumberFieldProps, OpenMap, RailPanel(), RailPanelProps, readOpenMap(), writeOpen() (+1 more)
+Cohesion: 0.25
+Nodes (6): ensureBundledSoundBank(), stubBankBytes(), sha256Hex(), sampleSoundBankBytes(), sampleSoundBankDigest(), sampleSoundBankPreset
 
 ### Community 72 - "Community 72"
-Cohesion: 0.17
-Nodes (10): GateModulationMapping, NotePartSpec, TraceObservationSpec, gateModulationLimits, compileFixture(), request, fixedFrequencySineGateFixture(), gatedModulationComposition() (+2 more)
+Cohesion: 0.21
+Nodes (8): GateModulationMapping, NotePartSpec, TraceObservationSpec, compileFixture(), request, fixedFrequencySineGateFixture(), sineWedgeBoundary, speedMapping
 
 ### Community 73 - "Community 73"
 Cohesion: 0.33
 Nodes (4): issueAt(), motionCases, notePart, ringField
 
 ### Community 74 - "transport.ts"
-Cohesion: 0.28
-Nodes (5): bundleDialog(), confirmBundleExport(), importSampleBank(), pageErrors, sampleBankFile()
+Cohesion: 0.24
+Nodes (6): bundleDialog(), confirmBundleExport(), importSampleBank(), pageErrors, sampleBankFile(), gatedModulationComposition()
 
 ### Community 75 - "drumSynth.ts"
-Cohesion: 0.31
-Nodes (8): compilePerformance(), emptyPerformance(), freezeRequest(), interpretableEncounters(), base(), request, setup(), compileOrFail()
+Cohesion: 0.27
+Nodes (3): splitSoundFontBankNumber(), withTimeout(), SoundBankReference
 
 ### Community 76 - "Community 76"
-Cohesion: 0.16
-Nodes (9): PlaybackStatus, help, HelpKey, Transport(), TransportProps, motionKinds, NumberFieldProps, WheelPanel() (+1 more)
+Cohesion: 0.10
+Nodes (18): PlaybackStatus, ControlPanel(), ControlPanelProps, NumberFieldProps, help, HelpKey, OpenMap, RailPanel() (+10 more)
 
 ### Community 77 - "audio.integration.test.ts"
-Cohesion: 0.21
-Nodes (10): Composition, CompositionValidationIssue, CompositionJsonErrorCode, CompositionJsonImportResult, downloadCompositionJson(), exportCompositionToJson(), fileStem(), isObject() (+2 more)
+Cohesion: 0.16
+Nodes (14): Composition, CompositionVersion, CompositionValidationIssue, referenceHead(), referenceWheel(), traceColors, CompositionJsonErrorCode, CompositionJsonImportResult (+6 more)
 
 ### Community 78 - "Community 78"
 Cohesion: 0.09
@@ -434,8 +434,8 @@ Cohesion: 0.07
 Nodes (30): BundledBankState, EnsureBundledBankOptions, SoundBankImport, SoundFontPreset, bundledSoundBank, auditionNotes, BankCardProps, noteNames (+22 more)
 
 ### Community 80 - "app.spec.ts"
-Cohesion: 0.20
-Nodes (17): assertState(), clamp01(), compileGateModulationLane(), compileGateModulationLanes(), freezePoint(), GateModulationCompileResult, GateModulationDiagnostic, GateModulationLaneInput (+9 more)
+Cohesion: 0.19
+Nodes (18): assertState(), clamp01(), compileGateModulationLane(), compileGateModulationLanes(), freezePoint(), GateModulationCompileResult, GateModulationDiagnostic, GateModulationLaneInput (+10 more)
 
 ### Community 82 - "RailPanel.tsx"
 Cohesion: 0.17
@@ -457,9 +457,13 @@ Nodes (12): Getting started, "I changed something and nothing happened", Making 
 Cohesion: 0.33
 Nodes (3): bank, destination, repositoryRoot
 
+### Community 87 - "Community 87"
+Cohesion: 0.39
+Nodes (7): QuantizeSpec, VelocityMapping, quantizedCandidates(), clampUnit(), clampVelocity(), mapStrengthToVelocity(), quantizeAbsoluteBeat()
+
 ### Community 89 - "soundfontEngine.ts"
-Cohesion: 0.14
-Nodes (17): QuantizeSpec, VelocityMapping, InterpretableEncounter, MappedPitch, validatePartMusicalRange(), audiblePartIds(), compareEvents(), compareText() (+9 more)
+Cohesion: 0.15
+Nodes (14): InterpretableEncounter, MappedPitch, compareEvents(), compareText(), compilePerformance(), emptyPerformance(), freezeRequest(), interpretableEncounters() (+6 more)
 
 ### Community 90 - "package.json"
 Cohesion: 0.22
@@ -494,51 +498,43 @@ Cohesion: 0.29
 Nodes (7): Open threads, revisited, Still missing, Suggested next experiment, The experiment, and its result, What got built, What is missing: ratio, tuning, and melodic line, Where things stand
 
 ### Community 101 - "Community 101"
-Cohesion: 0.22
-Nodes (7): PerformanceRequest, CompileReplyMessage, CompileRequestMessage, CompilerState, request, StubWorker, usePerformanceCompiler()
+Cohesion: 0.20
+Nodes (8): PerformanceRequest, CompileReplyMessage, CompileRequestMessage, compileOrFail(), CompilerState, request, StubWorker, usePerformanceCompiler()
 
 ### Community 102 - "Community 102"
-Cohesion: 0.26
+Cohesion: 0.25
 Nodes (6): cloneBytes(), readBytes(), requestResult(), SoundBankStore, transactionComplete(), validMetadata()
 
-### Community 103 - "Community 103"
-Cohesion: 0.11
-Nodes (23): firstObservedHead(), window4s, compareText(), compareTraceEncounters(), compileTraceEncounters(), encounterId(), freezePoint(), SegmentIntersection (+15 more)
-
 ### Community 104 - "Community 104"
-Cohesion: 0.21
-Nodes (8): approximateSize(), BundleSize(), BundleSizeProps, ImportExportPanel(), ImportExportPanelProps, plural(), ModalDialog(), ModalDialogProps
+Cohesion: 0.13
+Nodes (10): StoredSoundBankMetadata, approximateSize(), BundleSize(), BundleSizeProps, ImportExportPanel(), ImportExportPanelProps, plural(), renderPanel() (+2 more)
 
 ### Community 106 - "MVP Scope"
 Cohesion: 0.40
 Nodes (5): Must Have, MVP Scope, Never, Post-v0.1, Stretch for v0.1
 
-### Community 108 - "Community 108"
-Cohesion: 0.22
-Nodes (9): HeadSpec, WheelSpec, findHead(), HeadState, headStateAt(), headStatesAt(), LocatedHead, positionAt() (+1 more)
-
 ### Community 109 - "Community 109"
-Cohesion: 0.09
-Nodes (16): asError(), isArrayBufferValue(), SoundBankImportResult, SoundBankStoreError, SoundBankStoreErrorCode, soundBankStoreErrorFor(), SoundBankStoreOptions, StoredSoundBank (+8 more)
+Cohesion: 0.14
+Nodes (11): asError(), isArrayBufferValue(), SoundBankImportResult, SoundBankStoreError, SoundBankStoreErrorCode, soundBankStoreErrorFor(), SoundBankStoreOptions, StoredSoundBank (+3 more)
 
 ## Knowledge Gaps
-- **703 isolated node(s):** `pageErrors`, `name`, `private`, `version`, `type` (+698 more)
+- **704 isolated node(s):** `pageErrors`, `name`, `private`, `version`, `type` (+699 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Composition` connect `audio.integration.test.ts` to `fields.ts`, `compositionEdits.ts`, `compositionRenderer.ts`, `compositionValidation.ts`, `compositions.ts`, `recording.ts`, `relations.ts`, `PerformanceScheduler`, `encounters.ts`, `nativeSynthEngine.ts`, `composition.ts`, `App.tsx`, `soundfontProbe.ts`, `parts.ts`, `Composition`, `InstrumentSpec`, `tuning.ts`, `variation.test.ts`, `devDependencies`, `performance.ts`, `Community 68`, `soundfontEngine.test.ts`, `Community 72`, `Community 73`, `drumSynth.ts`, `Community 76`, `Community 78`, `performanceScheduler.ts`, `app.spec.ts`, `soundfontEngine.ts`, `compositionValidation.test.ts`, `Community 101`, `Community 103`, `Community 104`, `Community 108`, `Community 109`?**
+- **Why does `Composition` connect `audio.integration.test.ts` to `fields.ts`, `compositionEdits.ts`, `compositionRenderer.ts`, `compositionValidation.ts`, `compositions.ts`, `recording.ts`, `relations.ts`, `PerformanceScheduler`, `encounters.ts`, `nativeSynthEngine.ts`, `composition.ts`, `App.tsx`, `soundfontProbe.ts`, `parts.ts`, `Composition`, `InstrumentSpec`, `tuning.ts`, `variation.test.ts`, `devDependencies`, `performance.ts`, `Community 68`, `Community 72`, `Community 73`, `Community 76`, `Community 78`, `performanceScheduler.ts`, `app.spec.ts`, `soundfontEngine.ts`, `compositionValidation.test.ts`, `Community 101`, `Community 104`, `Community 109`?**
   _High betweenness centrality (0.062) - this node is a cross-community bridge._
+- **Why does `FakeSynth` connect `motion.ts` to `SoundBankPanel.tsx`?**
+  _High betweenness centrality (0.019) - this node is a cross-community bridge._
 - **Why does `InstrumentRouter` connect `help.ts` to `PerformanceScheduler`, `SoundBankSettings.tsx`, `App.tsx`, `performanceScheduler.ts`, `compositionValidation.test.ts`, `heads.ts`?**
   _High betweenness centrality (0.019) - this node is a cross-community bridge._
 - **What connects `pageErrors`, `name`, `private` to the rest of the system?**
-  _703 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _704 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Spirophonic Vision` be split into smaller, more focused modules?**
   _Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected._
-- **Should `fields.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.14583333333333334 - nodes in this community are weakly interconnected._
 - **Should `compilerOptions` be split into smaller, more focused modules?**
   _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
 - **Should `compositionEdits.ts` be split into smaller, more focused modules?**

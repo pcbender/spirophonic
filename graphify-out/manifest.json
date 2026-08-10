@@ -320,13 +320,13 @@
     "semantic_hash": ""
   },
   "src/ui/FieldPanel.test.tsx": {
-    "mtime": 1786386570.027392,
-    "ast_hash": "4eddb8689f8d463a12feb1de37ba4d36",
+    "mtime": 1786387661.0244606,
+    "ast_hash": "ff754b60536a92d1fcce26633c4f91b5",
     "semantic_hash": ""
   },
   "src/ui/FieldPanel.tsx": {
-    "mtime": 1786386679.233125,
-    "ast_hash": "117aedb196d73e03b958cb9cdd2865bd",
+    "mtime": 1786387717.9896114,
+    "ast_hash": "a5b3569de3a1adbbba8d5cbe2a698201",
     "semantic_hash": ""
   },
   "src/core/crossings.test.ts": {
@@ -530,8 +530,8 @@
     "semantic_hash": ""
   },
   "e2e/app.spec.ts": {
-    "mtime": 1786386589.5504284,
-    "ast_hash": "fcef3322f2b8b93fdb8a93fe38bd5d0e",
+    "mtime": 1786387620.2546773,
+    "ast_hash": "4da2b75e446ef605560131241291a93c",
     "semantic_hash": ""
   },
   "playwright.config.ts": {

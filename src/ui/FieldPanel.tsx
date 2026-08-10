@@ -27,6 +27,7 @@ export type FieldPanelProps = {
 }
 
 const TAU = Math.PI * 2
+const DEFAULT_SPOKE_ANGULAR_WIDTH = TAU / 24
 
 const fieldKindLabels: Record<FieldSpec['kind'], string> = {
   rings: 'Ring Field',
@@ -113,32 +114,54 @@ const nextGridLine = (
 
 const normalizeAngle = (angle: number) => ((angle % TAU) + TAU) % TAU
 
-/** Place a new Spoke halfway across the largest unoccupied angular gap. */
-const nextSpokeAngle = (angles: ReadonlyArray<number>) => {
-  const sorted = angles.map(normalizeAngle).sort((left, right) => left - right)
-  if (sorted.length === 0) return 0
-  if (sorted.length === 1) return normalizeAngle(sorted[0] + Math.PI)
+/**
+ * Treat every Spoke Boundary as one wheel assembly. The first Spoke anchors
+ * the assembly's orientation; every addition or removal spaces the complete
+ * set evenly and gives every wedge the same progressively narrower width.
+ */
+const redistributeSpokes = (
+  fields: ReadonlyArray<FieldSpec>,
+): Array<FieldSpec> => {
+  const spokes = fields.flatMap((field) =>
+    field.kind === 'spokes'
+      ? field.boundaries.flatMap((boundary) =>
+          boundary.kind === 'spoke'
+            ? [{ fieldRotation: field.rotation ?? 0, boundary }]
+            : [],
+        )
+      : [],
+  )
+  if (spokes.length === 0) return [...fields]
 
-  let widestStart = sorted[0]
-  let widestGap = -1
-  for (let index = 0; index < sorted.length; index += 1) {
-    const start = sorted[index]
-    const end =
-      index === sorted.length - 1 ? sorted[0] + TAU : sorted[index + 1]
-    const gap = end - start
-    if (gap > widestGap) {
-      widestStart = start
-      widestGap = gap
-    }
-  }
-  return normalizeAngle(widestStart + widestGap / 2)
+  const anchor = normalizeAngle(
+    spokes[0].fieldRotation + spokes[0].boundary.angle,
+  )
+  const angularWidth = DEFAULT_SPOKE_ANGULAR_WIDTH / spokes.length
+  let spokeIndex = 0
+
+  return fields.map((field) =>
+    field.kind === 'spokes'
+      ? {
+          ...field,
+          boundaries: field.boundaries.map((boundary) => {
+            if (boundary.kind !== 'spoke') return boundary
+            const absoluteAngle = anchor + (TAU * spokeIndex) / spokes.length
+            spokeIndex += 1
+            return {
+              ...boundary,
+              angle: normalizeAngle(absoluteAngle - (field.rotation ?? 0)),
+              angularWidth,
+            }
+          }),
+        }
+      : field,
+  )
 }
 
 type InitialFieldGeometry = Readonly<{
   radius?: number
   bandInnerRadius?: number
   gridStep?: number
-  spokeAngle?: number
   spiralStartRadius?: number
 }>
 
@@ -218,14 +241,7 @@ const initialFieldGeometry = (
     return { spiralStartRadius: widest === 0 ? 30 : widest + 20 }
   }
 
-  const angles = matching.flatMap((field) =>
-    field.boundaries.flatMap((boundary) =>
-      boundary.kind === 'spoke'
-        ? [normalizeAngle((field.rotation ?? 0) + boundary.angle)]
-        : [],
-    ),
-  )
-  return { spokeAngle: nextSpokeAngle(angles) }
+  return {}
 }
 
 /**
@@ -270,10 +286,8 @@ const defaultBoundary = (
     return {
       ...base,
       kind: 'spoke',
-      angle:
-        initial.spokeAngle ??
-        (last && last.kind === 'spoke' ? last.angle + TAU / 8 : 0),
-      angularWidth: TAU / 24,
+      angle: last && last.kind === 'spoke' ? last.angle + TAU / 8 : 0,
+      angularWidth: DEFAULT_SPOKE_ANGULAR_WIDTH,
     }
   }
   if (kind === 'ellipses') {
@@ -358,7 +372,8 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
       boundaries,
     } as FieldSpec
 
-    commitFields(addField(composition.fields, field))
+    const fields = addField(composition.fields, field)
+    commitFields(kind === 'spokes' ? redistributeSpokes(fields) : fields)
   }
 
   const patchField = (
@@ -374,22 +389,11 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
 
   const createBoundary = (field: FieldSpec) => {
     const id = nextBoundaryId(composition.fields, field.id)
-    const initial =
-      field.kind === 'spokes'
-        ? initialFieldGeometry(composition.fields, field.kind)
-        : undefined
     const boundary = defaultBoundary(
       field.kind,
       id,
       field.boundaries.length + 1,
       field.boundaries,
-      initial && initial.spokeAngle !== undefined
-        ? {
-            spokeAngle: normalizeAngle(
-              initial.spokeAngle - (field.rotation ?? 0),
-            ),
-          }
-        : undefined,
     )
     // Counting the siblings names the third Boundary of a Field that has had
     // one removed after the second: the Boundary picker in the Parts panel
@@ -403,7 +407,8 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
       ),
     } as BoundarySpec
 
-    commitFields(addBoundary(composition.fields, field.id, named))
+    const fields = addBoundary(composition.fields, field.id, named)
+    commitFields(field.kind === 'spokes' ? redistributeSpokes(fields) : fields)
   }
 
   return (
@@ -672,9 +677,14 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                   type="button"
                   title={help['field.removeField']}
                   aria-label={`Remove ${field.id}`}
-                  onClick={() =>
-                    commitFields(removeField(composition.fields, field.id))
-                  }
+                  onClick={() => {
+                    const fields = removeField(composition.fields, field.id)
+                    commitFields(
+                      field.kind === 'spokes'
+                        ? redistributeSpokes(fields)
+                        : fields,
+                    )
+                  }}
                 >
                   Remove Field
                 </button>
@@ -795,15 +805,18 @@ export function FieldPanel({ composition, onChange }: FieldPanelProps) {
                         type="button"
                         aria-label={`Remove ${boundary.id}`}
                         disabled={field.boundaries.length === 1}
-                        onClick={() =>
-                          commitFields(
-                            removeBoundary(
-                              composition.fields,
-                              field.id,
-                              boundary.id,
-                            ),
+                        onClick={() => {
+                          const fields = removeBoundary(
+                            composition.fields,
+                            field.id,
+                            boundary.id,
                           )
-                        }
+                          commitFields(
+                            field.kind === 'spokes'
+                              ? redistributeSpokes(fields)
+                              : fields,
+                          )
+                        }}
                        title={help['boundary.remove']}>
                         Remove Boundary
                       </button>
