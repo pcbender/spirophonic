@@ -17,7 +17,12 @@ import {
   defaultComposition,
   referenceComposition,
 } from './core/defaultComposition'
-import { compilePerformance } from './core/performance'
+import type { BoundaryCrossingEncounter } from './core/encounters'
+import { encounterMatchesQuery } from './core/parts'
+import {
+  audiblePartIds,
+  compilePerformance,
+} from './core/performance'
 import { beatsToSeconds, type PerformanceRequest } from './core/transport'
 import {
   exportCompositionToJson,
@@ -70,6 +75,28 @@ const WORKSPACE_STORAGE_KEY = 'spirophonic.composition.v1'
 
 const freshDefaultComposition = () =>
   structuredClone(defaultComposition) as Composition
+
+/**
+ * Encounters remain complete geometry facts in the canonical performance, but
+ * the yellow canvas marker means "this crossing is musically observed." A
+ * Head crossing an unrelated Boundary must therefore stay available to Parts
+ * without looking like it triggered the current mix.
+ */
+const listenedBoundaryEncounters = (
+  composition: Composition,
+  encounters: ReadonlyArray<BoundaryCrossingEncounter>,
+): ReadonlyArray<BoundaryCrossingEncounter> => {
+  const audible = audiblePartIds(composition)
+  const listeners = composition.parts.filter(
+    (part) => part.kind === 'note' && audible.has(part.id),
+  )
+
+  return encounters.filter((encounter) =>
+    listeners.some((part) =>
+      encounterMatchesQuery(encounter, part.encounterQuery),
+    ),
+  )
+}
 
 /**
  * What the app opens with, and whether that was the user's own work.
@@ -200,7 +227,15 @@ function App() {
     requestEnd,
     Math.max(request.startSeconds, positionSeconds),
   )
-  const recentEncounters = performance.encounters.filter(
+  const listenedEncounters = useMemo(
+    () =>
+      listenedBoundaryEncounters(
+        compiledComposition,
+        performance.encounters,
+      ),
+    [compiledComposition, performance.encounters],
+  )
+  const recentEncounters = listenedEncounters.filter(
     (encounter) =>
       encounter.timeSeconds <= renderTime &&
       renderTime - encounter.timeSeconds <= 0.35,

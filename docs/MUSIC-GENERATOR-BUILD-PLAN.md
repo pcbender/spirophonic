@@ -380,7 +380,7 @@ sweep, it does not license silent scope growth.
 | MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | **done** |
 | MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | **done** |
 | MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | **done** |
-| MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | **done** |
+| MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | **done** — listened-trigger correction validated 2026-08-12 |
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | **done** |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | **done** — native discovery correction validated 2026-08-11 |
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | **done** |
@@ -685,6 +685,16 @@ is the explicit transitive cutover surface: shared v1 code currently imports
 legacy model/event types from those files, so they must be narrowed rather
 than leaving a hidden retired dependency in production.
 
+**Post-completion behavior correction (2026-08-12):**
+`e2e/app.spec.ts` joins the visual acceptance surface. The yellow canvas marker
+is performance feedback, not a geometry debugger: it shows a Boundary crossing
+only when at least one audible note Part selects that exact Encounter through
+its Wheel, Head, Field, Boundary, direction, kind, and strength query. Muted,
+disabled, non-soloed-while-another-Part-is-soloed, and unrelated Parts do not
+light the marker. The canonical Encounter stream remains complete so those
+physical crossings are still available to later Part edits, compilation,
+Recording, and export.
+
 **Deliverables:**
 
 - An editor for one Wheel, one Head, ring/spoke Fields, one or more Parts, one
@@ -707,6 +717,9 @@ than leaving a hidden retired dependency in production.
   encounter order.
 - Ring and spoke edits alter Parts that observe them and leave unrelated Parts
   unchanged.
+- A Head crossing a Boundary that no audible note Part selects creates no
+  yellow trigger marker, while the same crossing remains in canonical
+  Encounter output.
 - Refreshing from exported v1.0 JSON recreates the same drawing and performance.
 - No production path imports the retired Voice/CurveEvent architecture.
 

@@ -128,6 +128,110 @@ describe('MG-09 playable Composition app', () => {
     )
   })
 
+  it('shows trigger markers only for the Head and Boundary pairs heard by Parts', () => {
+    const composition = cloneDefault()
+    const wheel = composition.wheels[0]
+    const secondHead = structuredClone(wheel.heads[0])
+    secondHead.id = 'head-2'
+    secondHead.name = 'Head 2'
+    secondHead.phaseOffset = 0.25
+    wheel.heads.push(secondHead)
+
+    const rings = composition.fields.find((field) => field.kind === 'rings')
+    if (!rings) throw new Error('Expected the default Ring Field.')
+    rings.boundaries = [
+      {
+        id: 'ring-head-1',
+        name: 'Head 1 Ring',
+        enabled: true,
+        index: 0,
+        kind: 'ring',
+        radius: 24,
+      },
+      {
+        id: 'ring-head-2',
+        name: 'Head 2 Ring',
+        enabled: true,
+        index: 1,
+        kind: 'ring',
+        radius: 32.001,
+      },
+    ]
+    composition.fields = [rings]
+
+    const firstPart = composition.parts[0] as NotePartSpec
+    firstPart.encounterQuery.headIds = ['head-1']
+    firstPart.encounterQuery.boundaryIds = ['ring-head-1']
+    const secondPart = structuredClone(firstPart)
+    secondPart.id = 'part-2'
+    secondPart.name = 'Head 2 Part'
+    secondPart.encounterQuery.headIds = ['head-2']
+    secondPart.encounterQuery.boundaryIds = ['ring-head-2']
+    composition.parts = [firstPart, secondPart]
+
+    const performance = compilePerformance(
+      composition,
+      performanceRequestFor(composition),
+    )
+    const pair = (encounter: (typeof performance.encounters)[number]) =>
+      `${encounter.headId}/${encounter.boundaryId}`
+    const detectedPairs = new Set(performance.encounters.map(pair))
+
+    // Geometry still reports every physical crossing for future routing.
+    expect(detectedPairs).toEqual(new Set([
+      'head-1/ring-head-1',
+      'head-1/ring-head-2',
+      'head-2/ring-head-1',
+      'head-2/ring-head-2',
+    ]))
+
+    const listenedPairs = new Set([
+      'head-1/ring-head-1',
+      'head-2/ring-head-2',
+    ])
+    const listened = performance.encounters.filter((encounter) =>
+      listenedPairs.has(pair(encounter)),
+    )
+    const countsAt = (timeSeconds: number) => ({
+      detected: performance.encounters.filter(
+        (encounter) =>
+          encounter.timeSeconds <= timeSeconds &&
+          timeSeconds - encounter.timeSeconds <= 0.35,
+      ).length,
+      listened: listened.filter(
+        (encounter) =>
+          encounter.timeSeconds <= timeSeconds &&
+          timeSeconds - encounter.timeSeconds <= 0.35,
+      ).length,
+    })
+    const renderTime = performance.encounters
+      .map((encounter) => Number(encounter.timeSeconds.toFixed(3)))
+      .find((timeSeconds) => {
+        const counts = countsAt(timeSeconds)
+        return counts.listened > 0 && counts.detected > counts.listened
+      })
+    if (renderTime === undefined) {
+      throw new Error('Expected overlapping listened and unlistened crossings.')
+    }
+    const expected = countsAt(renderTime)
+
+    localStorage.setItem(
+      'spirophonic.composition.v1',
+      exportCompositionToJson(composition),
+    )
+    const { container } = render(<App />)
+    fireEvent.change(
+      screen.getByRole('slider', { name: 'Transport position' }),
+      { target: { value: String(renderTime) } },
+    )
+
+    expect(expected.detected).toBeGreaterThan(expected.listened)
+    expect(container.querySelector('.composition-canvas-shell')).toHaveAttribute(
+      'data-recent-encounters',
+      String(expected.listened),
+    )
+  })
+
   it('a Ring edit changes its observing Part but leaves a Spoke Part unchanged', () => {
     const before = cloneDefault()
     const basePart = before.parts[0] as NotePartSpec

@@ -21,7 +21,7 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 | Next ready packet | None — all planned packets are complete |
 | Active agents | None |
 | Integration branch | `main` |
-| Last tracker update | 2026-08-11 |
+| Last tracker update | 2026-08-12 |
 
 ## Status rules
 
@@ -109,7 +109,7 @@ their history.
 | MG-06 | Boundary-crossing Encounter engine | MG-02, MG-03, MG-05 | `done` | — | 2026-08-05 | Integrated at `7baa1a7`; sample-rate invariance and window-seam probes pass. |
 | MG-07 | Parts and canonical performance compiler | MG-01, MG-02, MG-06 | `done` | — | 2026-08-05 | Integrated at `842acb7`; repeat-compile deep-equality probe passes. |
 | MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | `done` | — | 2026-08-05 | Integrated at `7f2d487`; cancel-window semantics verified against the SoundFont backend. |
-| MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `done` | — | 2026-08-05 | Integrated at `ff6af91`; cumulative review passed on `13ba9f5`. |
+| MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | `done` | — | 2026-08-12 | Integrated at `ff6af91`; the working-tree listened-trigger correction keeps canonical crossings complete while limiting yellow canvas markers to audible note Part queries. |
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | `done` | — | 2026-08-05 | Integrated at `992a97e`; vault transaction ordering confirmed correct. |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | `done` | — | 2026-08-11 | Integrated at `7685bb6`; `fix/expose-native-instruments` adds an exhaustive native creation palette so native drums and future native kinds cannot remain hidden from Part assignment. |
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | `done` | — | 2026-08-05 | Integrated at `b00847a`; user confirmed the reference Composition working in a browser. |
@@ -151,6 +151,7 @@ the final column rather than relying on a statement that it was checked.
 
 | Packet | Commit | `npm test` | `npm run lint` | `npm run build` | Graphify | Manual/browser evidence | Reviewer |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| MG-09 listened-trigger correction | working tree | 64 files, 604 tests pass (exit 0 verified) | pass | pass | update refused safely: 1,912 extracted vs 1,972 existing nodes | The supplied multi-Head/multi-ring pattern detects all four Head/Boundary pairs but draws only the two pairs selected by audible note Parts. Restoring the old all-crossings overlay makes the component guard fail with 2 markers instead of 1. The focused production-preview check passes in Chromium and Firefox. A full browser run reached the new check in both engines, but the preview server later died while streaming an unrelated bundled-bank request; the remaining failures are connection refusals after that server loss. | Codex/root |
 | MG-11 correction | `fix/expose-native-instruments` based on `a9c801b` | 63 application files, 597 tests pass when `scripts/deploy.test.mjs` is excluded; exact `npm test` exits 1 on the pre-existing Vite/Rolldown imported-script shebang transform | pass | pass | 1,971 nodes / 4,590 edges | The pre-fix UI guard cannot find either native creation action and fails as intended. Chromium production preview passes creation of `native-drum`, all six voices, assignment to the default Part, and narrow-rail layout. Playwright then times out in plugin teardown; Firefox does not start before the bounded global timeout. | Codex/root |
 | MG-22 correction | `fix/spoke-gate-duration` based on `a9c801b` | 63 application files, 597 tests pass when `scripts/deploy.test.mjs` is excluded; exact `npm test` exits 1 because Vite/Rolldown moves the imported script's shebang after transformed imports | pass | pass | 1,969 nodes / 4,588 edges | The pre-fix compiler produced 2 notes from one wedge visit and failed the new one-note guard. The supplied 82 BPM rose/Spoke document now has its own compile-through-geometry regression. Chromium production-preview checks for persisted gate mapping and real Web Audio near/far note lifetimes pass twice with a fixed 0.25-beat, quantized Part. The Windows Firefox runner did not start its cases before timeout; the full browser run also timed out in an unrelated unavailable bundled-bank path. | Codex/root |
 | MG-24 | `4a87f1f` | 63 files, 592 tests pass (exit 0 verified) | pass | pass | 1,875 nodes / 4,163 edges | Playwright 1.62.1: Chromium 151 and Firefox 153, 27 checks per engine, 54 total. Real Web Audio keeps near/far attack counts equal while the far gate schedules a longer voice and more same-frequency automation. Retrigger mutation made live 6 vs 2, offline 88 vs 2, MIDI 87 vs 1, and agreement 122 vs 1, failing all intended guards. Both engines loaded the redistributable MIT MuseScore General SF3, digest `5b85b6c2c61d10b2b91cddd41efcce7b25cd31c8271d511c73afafbef20b6fa3`, and enumerated Grand Piano; the user-local fixture enumerated Saw Wave with Apache-2.0 provenance. | Codex/root |
@@ -256,6 +257,7 @@ sessions from reopening settled foundations accidentally.
 | D-005 | 2026-08-05 | One Wheel may carry several Heads/Traces; distinct motion families are distinct Wheels. | Locked | [Meaning of Wheel, Head, shape, and Trace](MUSIC-GENERATOR-BUILD-PLAN.md#meaning-of-wheel-head-shape-and-trace) |
 | D-006 | 2026-08-05 | MRP supplies algorithms and patterns only; it is not a runtime dependency. | Locked | [MRP reuse map](MUSIC-GENERATOR-BUILD-PLAN.md#mrp-reuse-map) |
 | D-007 | 2026-08-10 | A wedge-shaped Spoke is one outer gate: entry starts a held note, exit ends it, and interior oscillations modulate without retriggering. Decided by Michael Rose. | Locked | [MG-22](MUSIC-GENERATOR-BUILD-PLAN.md#mg-22--wedge-spoke-regions-and-exact-gate-spans) |
+| D-008 | 2026-08-12 | Yellow canvas trigger markers represent Encounters selected by the audible note mix, not every physical Boundary crossing. Decided by Michael Rose. | Locked | [MG-09](MUSIC-GENERATOR-BUILD-PLAN.md#mg-09--first-playable-generator-and-clean-model-cutover) |
 
 New decisions receive the next ID, name the deciding user/reviewer, and link the
 build-plan change or decision record that made them authoritative.
@@ -267,6 +269,7 @@ and releases. Do not log every edit.
 
 | UTC time | Agent | Packet | Event | Branch/commit | Summary and next step |
 | --- | --- | --- | --- | --- | --- |
+| 2026-08-12T16:49:52Z | Codex/root | MG-09 | Listened-trigger correction implemented | working tree | Canonical geometry still records every Head/Boundary crossing, but the yellow canvas overlay now filters through audible note Part queries. The exact two-Head/two-ring regression and its old-behavior mutation pass, as do 604 tests, lint, build, and the focused Chromium/Firefox production-preview check. Graphify preserved the existing graph after its safety check rejected a 60-node shrink. |
 | 2026-08-12T01:35:16Z | Codex/root | MG-11 | Native discovery correction implemented | `fix/expose-native-instruments` / based on `a9c801b` | The default workspace can now create native synth and native drum instances, configure every drum voice, and assign either to a Part. Mutation guard, 597 application tests, lint, build, and Chromium workflow pass; exact Vitest and Playwright exits retain separately recorded runner failures. |
 | 2026-08-12T01:00:17Z | Codex/root | MG-22 | Gate-ownership correction implemented | `fix/spoke-gate-duration` / based on `a9c801b` | Region entry/exit now overrides fixed duration and quantization; the supplied document regression, mutation, 597 application tests, lint, build, Graphify, and Chromium real-audio checks pass. Exact `npm test` remains red on the unrelated deploy-script shebang transform, and Firefox hangs before its filtered cases start. |
 | 2026-08-10T18:18:25Z | Codex/root | MG-24 | Integrated and closed | `4a87f1f` | Exact commit passes 592 tests, lint, build, 54 Chromium/Firefox checks, retrigger mutation, `git diff --check`, and Graphify refresh. All 24 planned packets and the region-gated expression milestone are complete. |
