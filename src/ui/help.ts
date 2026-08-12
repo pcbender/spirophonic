@@ -286,8 +286,8 @@ export const help = {
   'tuning.remove': 'Remove this tuning context.',
 
   // Instruments
-  'instrument.add':
-    'Add an Instrument by copying the last one. It is silent until a Part is pointed at it.',
+  'instrument.addNative':
+    'Add this built-in Instrument with playable defaults. It needs no sound bank and appears immediately in every Part’s Instrument picker.',
   'instrument.remove':
     'Remove this Instrument. Refused while any Part still plays through it, and a Composition must keep one.',
   'instrument.name': 'Names this Instrument in Part pickers.',

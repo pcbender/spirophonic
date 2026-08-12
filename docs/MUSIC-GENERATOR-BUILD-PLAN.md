@@ -382,7 +382,7 @@ sweep, it does not license silent scope growth.
 | MG-08 | Native instrument engine and live scheduler | MG-02, MG-07 | **done** |
 | MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | **done** |
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | **done** |
-| MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | **done** |
+| MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | **done** — native discovery correction validated 2026-08-11 |
 | MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | **done** |
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | **done** |
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | **done** |
@@ -766,6 +766,13 @@ packaging surface selected and proven in MG-10. The App, validation, and test
 paths are the explicit integration surface required for visible runtime
 readiness, page-reload restoration, the new required preset name, and the
 real-browser missing-digest transaction path.
+
+**Post-completion scope correction (2026-08-11):**
+`src/ui/help.ts`, `docs/MANUAL.md`, and `e2e/app.spec.ts` are included for the
+native-instrument discovery repair. `InstrumentPanel` must expose every native
+`InstrumentSpec` kind without requiring a SoundFont conversion first, the
+existing Part selector must receive the created Instrument instance, and the
+real narrow-rail layout must remain usable.
 
 **Deliverables:**
 

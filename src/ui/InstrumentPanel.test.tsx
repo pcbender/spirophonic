@@ -9,6 +9,7 @@ import {
   referenceComposition,
 } from '../core/defaultComposition'
 import { InstrumentPanel } from './InstrumentPanel'
+import { PartPanel } from './PartPanel'
 
 afterEach(cleanup)
 
@@ -95,20 +96,64 @@ describe('InstrumentPanel add and remove', () => {
     )
   }
 
-  it('adds an Instrument by copying the last, under a distinct name', () => {
+  const AssignmentHarness = ({ initial }: { initial: Composition }) => {
+    const [composition, setComposition] = useState(initial)
+    return (
+      <>
+        <InstrumentPanel composition={composition} onChange={setComposition} />
+        <PartPanel composition={composition} onChange={setComposition} />
+        <output aria-label="Composition valid">
+          {String(validateComposition(composition).ok)}
+        </output>
+      </>
+    )
+  }
+
+  it('creates every native kind and makes it assignable to a Part', () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    render(<AssignmentHarness initial={composition} />)
+
+    expect(
+      screen.getByRole('button', { name: 'Add native synth' }),
+    ).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Add native drum' }))
+
+    const instrument = screen.getByLabelText('Instrument part-1') as HTMLSelectElement
+    expect(
+      Array.from(instrument.options, (option) => [option.value, option.text]),
+    ).toEqual([
+      ['instrument-1', 'Native Synth'],
+      ['instrument-2', 'Native Drum'],
+    ])
+    fireEvent.change(instrument, { target: { value: 'instrument-2' } })
+
+    expect(instrument).toHaveValue('instrument-2')
+    const voice = screen.getByLabelText('Voice instrument-2') as HTMLSelectElement
+    expect(voice).toHaveValue('kick')
+    expect(Array.from(voice.options, (option) => option.value)).toEqual([
+      'kick',
+      'snare',
+      'hat',
+      'tom',
+      'clap',
+      'cymbal',
+    ])
+    expect(screen.getByLabelText('Composition valid')).toHaveTextContent('true')
+  })
+
+  it('adds another native synth under a distinct name', () => {
     const composition = structuredClone(defaultComposition) as Composition
     const before = composition.instruments.length
-    const last = composition.instruments[before - 1]
     render(<Harness initial={composition} />)
 
-    fireEvent.click(screen.getByRole('button', { name: 'Add Instrument' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Add native synth' }))
 
     expect(screen.getByLabelText('Instrument count')).toHaveTextContent(
       String(before + 1),
     )
-    // Copied, not invented: a soundfont template would otherwise produce an
-    // Instrument with no bank that validates and cannot play.
-    expect(screen.getByText(`${last.name} 2`, { selector: 'strong' })).toBeInTheDocument()
+    expect(
+      screen.getByText('Native Synth 2', { selector: 'strong' }),
+    ).toBeInTheDocument()
   })
 
   it('removes an Instrument no Part is using', () => {
