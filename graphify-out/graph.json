@@ -65,7 +65,7 @@
       "label": "bundleDialog()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L639",
+      "source_location": "L666",
       "_callable": true,
       "_origin": "ast",
       "id": "e2e_app_spec_bundledialog",
@@ -77,7 +77,7 @@
       "label": "confirmBundleExport()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L642",
+      "source_location": "L669",
       "_callable": true,
       "_origin": "ast",
       "id": "e2e_app_spec_confirmbundleexport",
@@ -89,7 +89,7 @@
       "label": "sampleBankFile()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L914",
+      "source_location": "L941",
       "_callable": true,
       "_origin": "ast",
       "id": "e2e_app_spec_samplebankfile",
@@ -101,7 +101,7 @@
       "label": "importSampleBank()",
       "file_type": "code",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L930",
+      "source_location": "L957",
       "_callable": true,
       "_origin": "ast",
       "id": "e2e_app_spec_importsamplebank",
@@ -1369,8 +1369,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app_test",
-      "community": 72,
-      "community_name": "Composition",
+      "community": 55,
+      "community_name": "defaultComposition",
       "norm_label": "app.test.tsx"
     },
     {
@@ -1381,8 +1381,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_app_test_clonedefault",
-      "community": 72,
-      "community_name": "Composition",
+      "community": 55,
+      "community_name": "defaultComposition",
       "norm_label": "clonedefault()"
     },
     {
@@ -1393,8 +1393,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_app_test_performancerequestfor",
-      "community": 67,
-      "community_name": "compilePerformance",
+      "community": 54,
+      "community_name": "transport.ts",
       "norm_label": "performancerequestfor()"
     },
     {
@@ -1513,7 +1513,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_audio_audio_integration_test",
-      "community": 87,
+      "community": 36,
       "community_name": "audio.integration.test.ts",
       "norm_label": "audio.integration.test.ts"
     },
@@ -1524,7 +1524,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_audio_audio_integration_test_request",
-      "community": 87,
+      "community": 36,
       "community_name": "audio.integration.test.ts",
       "norm_label": "request"
     },
@@ -1536,7 +1536,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_audio_integration_test_emptyvault",
-      "community": 87,
+      "community": 36,
       "community_name": "audio.integration.test.ts",
       "norm_label": "emptyvault()"
     },
@@ -1550,7 +1550,7 @@
       "_origin": "ast",
       "id": "src_audio_audio_integration_test_recordingnativeengine",
       "community": 87,
-      "community_name": "audio.integration.test.ts",
+      "community_name": "RecordingNativeEngine",
       "norm_label": "recordingnativeengine"
     },
     {
@@ -1562,7 +1562,7 @@
       "_origin": "ast",
       "id": "src_audio_audio_integration_test_recordingnativeengine_resume",
       "community": 87,
-      "community_name": "audio.integration.test.ts",
+      "community_name": "RecordingNativeEngine",
       "norm_label": ".resume()"
     },
     {
@@ -1574,7 +1574,7 @@
       "_origin": "ast",
       "id": "src_audio_audio_integration_test_recordingnativeengine_suspend",
       "community": 87,
-      "community_name": "audio.integration.test.ts",
+      "community_name": "RecordingNativeEngine",
       "norm_label": ".suspend()"
     },
     {
@@ -1586,7 +1586,7 @@
       "_origin": "ast",
       "id": "src_audio_audio_integration_test_recordingnativeengine_schedule",
       "community": 87,
-      "community_name": "audio.integration.test.ts",
+      "community_name": "RecordingNativeEngine",
       "norm_label": ".schedule()"
     },
     {
@@ -1598,7 +1598,7 @@
       "_origin": "ast",
       "id": "src_audio_audio_integration_test_recordingnativeengine_cancelscheduledfrom",
       "community": 87,
-      "community_name": "audio.integration.test.ts",
+      "community_name": "RecordingNativeEngine",
       "norm_label": ".cancelscheduledfrom()"
     },
     {
@@ -1610,7 +1610,7 @@
       "_origin": "ast",
       "id": "src_audio_audio_integration_test_recordingnativeengine_panic",
       "community": 87,
-      "community_name": "audio.integration.test.ts",
+      "community_name": "RecordingNativeEngine",
       "norm_label": ".panic()"
     },
     {
@@ -1622,7 +1622,7 @@
       "_origin": "ast",
       "id": "src_audio_audio_integration_test_recordingnativeengine_dispose",
       "community": 87,
-      "community_name": "audio.integration.test.ts",
+      "community_name": "RecordingNativeEngine",
       "norm_label": ".dispose()"
     },
     {
@@ -1633,7 +1633,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_audio_integration_test_soundfontenginefor",
-      "community": 87,
+      "community": 36,
       "community_name": "audio.integration.test.ts",
       "norm_label": "soundfontenginefor()"
     },
@@ -1691,8 +1691,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_audio_bundledsoundbank",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "bundledsoundbank.ts"
     },
     {
@@ -1702,8 +1702,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_audio_bundledsoundbank_bundledsoundbankpath",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "bundledsoundbankpath"
     },
     {
@@ -1713,8 +1713,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_audio_bundledsoundbank_bundledsoundbanklicensepath",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "bundledsoundbanklicensepath"
     },
     {
@@ -1724,8 +1724,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_audio_bundledsoundbank_bundledsoundbankbytes",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "bundledsoundbankbytes"
     },
     {
@@ -1737,8 +1737,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_bundledsoundbank_bundledbankstate",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "bundledbankstate"
     },
     {
@@ -1750,8 +1750,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_bundledsoundbank_ensurebundledbankoptions",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "ensurebundledbankoptions"
     },
     {
@@ -1763,7 +1763,7 @@
       "_origin": "ast",
       "id": "src_audio_bundledsoundbank_ensurebundledsoundbank",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "ensurebundledsoundbank()"
     },
     {
@@ -1949,7 +1949,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentengine",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "instrumentengine.ts"
     },
     {
@@ -1988,7 +1988,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentengine_scheduledmodulationsample",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "scheduledmodulationsample"
     },
     {
@@ -2001,7 +2001,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentengine_scheduledmodulationlane",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "scheduledmodulationlane"
     },
     {
@@ -2038,8 +2038,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_instrumentengine_instrumentengine",
-      "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community": 59,
+      "community_name": "performanceScheduler.ts",
       "norm_label": "instrumentengine"
     },
     {
@@ -2075,7 +2075,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentengine_instrumentengine_schedule",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".schedule()"
     },
     {
@@ -2110,8 +2110,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_instrumentengine_instrumentengine_dispose",
-      "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community": 59,
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".dispose()"
     },
     {
@@ -2122,7 +2122,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "instrumentrouter.test.ts"
     },
     {
@@ -2134,7 +2134,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_event",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "event()"
     },
     {
@@ -2145,7 +2145,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_native",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "native"
     },
     {
@@ -2157,7 +2157,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_soundfont",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "soundfont()"
     },
     {
@@ -2169,8 +2169,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakeengine",
-      "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community": 114,
+      "community_name": "FakeEngine",
       "norm_label": "fakeengine"
     },
     {
@@ -2181,8 +2181,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakeengine_constructor",
-      "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community": 114,
+      "community_name": "FakeEngine",
       "norm_label": ".constructor()"
     },
     {
@@ -2193,8 +2193,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakeengine_resume",
-      "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community": 114,
+      "community_name": "FakeEngine",
       "norm_label": ".resume()"
     },
     {
@@ -2205,8 +2205,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakeengine_suspend",
-      "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community": 114,
+      "community_name": "FakeEngine",
       "norm_label": ".suspend()"
     },
     {
@@ -2218,7 +2218,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakeengine_schedule",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".schedule()"
     },
     {
@@ -2229,8 +2229,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakeengine_cancelscheduledfrom",
-      "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community": 114,
+      "community_name": "FakeEngine",
       "norm_label": ".cancelscheduledfrom()"
     },
     {
@@ -2241,8 +2241,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakeengine_panic",
-      "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community": 114,
+      "community_name": "FakeEngine",
       "norm_label": ".panic()"
     },
     {
@@ -2253,8 +2253,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakeengine_dispose",
-      "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community": 114,
+      "community_name": "FakeEngine",
       "norm_label": ".dispose()"
     },
     {
@@ -2267,7 +2267,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakesoundfontengine",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "fakesoundfontengine"
     },
     {
@@ -2279,7 +2279,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakesoundfontengine_prepare",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".prepare()"
     },
     {
@@ -2291,7 +2291,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakesoundfontengine_isinstrumentready",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".isinstrumentready()"
     },
     {
@@ -2303,7 +2303,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakesoundfontengine_inspectbank",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".inspectbank()"
     },
     {
@@ -2315,7 +2315,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakesoundfontengine_audition",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".audition()"
     },
     {
@@ -2327,7 +2327,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_test_fakesoundfontengine_invalidatebank",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".invalidatebank()"
     },
     {
@@ -2338,7 +2338,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "instrumentrouter.ts"
     },
     {
@@ -2351,7 +2351,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_soundfontrouteengine",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "soundfontrouteengine"
     },
     {
@@ -2364,7 +2364,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouteroptions",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "instrumentrouteroptions"
     },
     {
@@ -2375,7 +2375,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_emptypreparation",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "emptypreparation"
     },
     {
@@ -2388,7 +2388,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "instrumentrouter"
     },
     {
@@ -2400,7 +2400,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_constructor",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -2412,7 +2412,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_currenttimeseconds",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".currenttimeseconds()"
     },
     {
@@ -2424,7 +2424,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_soundfontpreparation",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".soundfontpreparation()"
     },
     {
@@ -2436,7 +2436,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_prepare",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".prepare()"
     },
     {
@@ -2448,7 +2448,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_inspectbank",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".inspectbank()"
     },
     {
@@ -2460,7 +2460,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_audition",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".audition()"
     },
     {
@@ -2472,7 +2472,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_invalidatebank",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".invalidatebank()"
     },
     {
@@ -2484,7 +2484,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_resume",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".resume()"
     },
     {
@@ -2496,7 +2496,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_suspend",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".suspend()"
     },
     {
@@ -2508,7 +2508,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_schedule",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".schedule()"
     },
     {
@@ -2520,7 +2520,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_cancelscheduledfrom",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".cancelscheduledfrom()"
     },
     {
@@ -2532,7 +2532,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_panic",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".panic()"
     },
     {
@@ -2544,7 +2544,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_dispose",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".dispose()"
     },
     {
@@ -2556,7 +2556,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_translatetime",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".translatetime()"
     },
     {
@@ -2568,7 +2568,7 @@
       "_origin": "ast",
       "id": "src_audio_instrumentrouter_instrumentrouter_assertusable",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": ".assertusable()"
     },
     {
@@ -3056,7 +3056,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "performancescheduler.test.ts"
     },
     {
@@ -3068,7 +3068,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_synth",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "synth()"
     },
     {
@@ -3080,7 +3080,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_note",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "note()"
     },
     {
@@ -3092,7 +3092,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_performance",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "performance()"
     },
     {
@@ -3105,7 +3105,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_fakeclock",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "fakeclock"
     },
     {
@@ -3117,7 +3117,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_fakeclock_setinterval",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".setinterval()"
     },
     {
@@ -3129,7 +3129,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_fakeclock_clearinterval",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".clearinterval()"
     },
     {
@@ -3141,7 +3141,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_fakeclock_tick",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".tick()"
     },
     {
@@ -3154,7 +3154,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_fakeengine",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "fakeengine"
     },
     {
@@ -3166,7 +3166,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_fakeengine_resume",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".resume()"
     },
     {
@@ -3178,7 +3178,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_fakeengine_suspend",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".suspend()"
     },
     {
@@ -3190,7 +3190,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_fakeengine_schedule",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".schedule()"
     },
     {
@@ -3202,7 +3202,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_fakeengine_cancelscheduledfrom",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".cancelscheduledfrom()"
     },
     {
@@ -3214,7 +3214,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_fakeengine_panic",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".panic()"
     },
     {
@@ -3226,7 +3226,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_fakeengine_dispose",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": ".dispose()"
     },
     {
@@ -3237,8 +3237,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_lane",
-      "community": 34,
-      "community_name": "nativeSynthEngine.ts",
+      "community": 80,
+      "community_name": "recording.ts",
       "norm_label": "lane()"
     },
     {
@@ -3250,7 +3250,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_test_schedulerfor",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "schedulerfor()"
     },
     {
@@ -3260,7 +3260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_audio_performancescheduler",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "performancescheduler.ts"
     },
@@ -3273,7 +3273,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_playbackstatus",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "playbackstatus"
     },
@@ -3287,7 +3287,7 @@
       "_origin": "ast",
       "id": "src_audio_performancescheduler_schedulerclock",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "schedulerclock"
     },
     {
@@ -3299,7 +3299,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_performancestartoptions",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "performancestartoptions"
     },
@@ -3312,7 +3312,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_performanceeditboundary",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "performanceeditboundary"
     },
@@ -3325,7 +3325,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_performancescheduleroptions",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "performancescheduleroptions"
     },
@@ -3338,7 +3338,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_eventoccurrence",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "eventoccurrence"
     },
@@ -3351,7 +3351,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_pendingperformance",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "pendingperformance"
     },
@@ -3362,7 +3362,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "src_audio_performancescheduler_systemclock",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "systemclock"
     },
@@ -3374,7 +3374,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_comparetext",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "comparetext()"
     },
@@ -3386,7 +3386,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_compareevents",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "compareevents()"
     },
@@ -3398,7 +3398,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_requirepositive",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "requirepositive()"
     },
@@ -3410,7 +3410,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_requirenonnegative",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": "requirenonnegative()"
     },
@@ -3447,7 +3447,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_performancescheduler_performancescheduler_constructor",
-      "community": 84,
+      "community": 59,
       "community_name": "performanceScheduler.ts",
       "norm_label": ".constructor()"
     },
@@ -3770,7 +3770,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_test",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "soundbankstore.test.ts"
     },
     {
@@ -3782,7 +3782,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_test_digestbytes",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "digestbytes()"
     },
     {
@@ -3793,7 +3793,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_test_subtlecrypto",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "subtlecrypto"
     },
     {
@@ -3805,7 +3805,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_test_storefor",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "storefor()"
     },
     {
@@ -3817,7 +3817,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_test_input",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "input()"
     },
     {
@@ -3827,7 +3827,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_audio_soundbankstore",
-      "community": 88,
+      "community": 68,
       "community_name": "soundbankStore.ts",
       "norm_label": "soundbankstore.ts"
     },
@@ -3840,7 +3840,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstoreerrorcode",
-      "community": 88,
+      "community": 68,
       "community_name": "soundbankStore.ts",
       "norm_label": "soundbankstoreerrorcode"
     },
@@ -3853,7 +3853,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstoreerror",
-      "community": 88,
+      "community": 68,
       "community_name": "soundbankStore.ts",
       "norm_label": "soundbankstoreerror"
     },
@@ -3865,7 +3865,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstoreerror_constructor",
-      "community": 88,
+      "community": 68,
       "community_name": "soundbankStore.ts",
       "norm_label": ".constructor()"
     },
@@ -3879,7 +3879,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_storedsoundbankmetadata",
       "community": 67,
-      "community_name": "compilePerformance",
+      "community_name": "ImportExportPanel.test.tsx",
       "norm_label": "storedsoundbankmetadata"
     },
     {
@@ -3891,7 +3891,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_storedsoundbank",
-      "community": 88,
+      "community": 68,
       "community_name": "soundbankStore.ts",
       "norm_label": "storedsoundbank"
     },
@@ -3904,8 +3904,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankimport",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "soundbankimport"
     },
     {
@@ -3917,7 +3917,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankimportresult",
-      "community": 88,
+      "community": 68,
       "community_name": "soundbankStore.ts",
       "norm_label": "soundbankimportresult"
     },
@@ -3930,7 +3930,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstoreoptions",
-      "community": 88,
+      "community": 68,
       "community_name": "soundbankStore.ts",
       "norm_label": "soundbankstoreoptions"
     },
@@ -3943,7 +3943,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_storedsoundbankbytes",
-      "community": 88,
+      "community": 68,
       "community_name": "soundbankStore.ts",
       "norm_label": "storedsoundbankbytes"
     },
@@ -3955,7 +3955,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_aserror",
-      "community": 88,
+      "community": 68,
       "community_name": "soundbankStore.ts",
       "norm_label": "aserror()"
     },
@@ -3968,7 +3968,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstoreerrorfor",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": "soundbankstoreerrorfor()"
     },
     {
@@ -3980,7 +3980,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_clonebytes",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": "clonebytes()"
     },
     {
@@ -3991,7 +3991,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_isarraybuffervalue",
-      "community": 88,
+      "community": 68,
       "community_name": "soundbankStore.ts",
       "norm_label": "isarraybuffervalue()"
     },
@@ -4004,7 +4004,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_readbytes",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": "readbytes()"
     },
     {
@@ -4016,7 +4016,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_sha256hex",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "sha256hex()"
     },
     {
@@ -4028,7 +4028,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_requestresult",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": "requestresult()"
     },
     {
@@ -4040,7 +4040,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_transactioncomplete",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": "transactioncomplete()"
     },
     {
@@ -4052,7 +4052,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_validmetadata",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": "validmetadata()"
     },
     {
@@ -4063,7 +4063,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_validbytes",
-      "community": 88,
+      "community": 68,
       "community_name": "soundbankStore.ts",
       "norm_label": "validbytes()"
     },
@@ -4077,7 +4077,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": "soundbankstore"
     },
     {
@@ -4089,7 +4089,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_constructor",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -4101,7 +4101,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_importbank",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".importbank()"
     },
     {
@@ -4113,7 +4113,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_relink",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".relink()"
     },
     {
@@ -4125,7 +4125,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_get",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".get()"
     },
     {
@@ -4137,7 +4137,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_list",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".list()"
     },
     {
@@ -4149,7 +4149,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_delete",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".delete()"
     },
     {
@@ -4161,7 +4161,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_close",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".close()"
     },
     {
@@ -4172,8 +4172,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_toreference",
-      "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community": 68,
+      "community_name": "soundbankStore.ts",
       "norm_label": ".toreference()"
     },
     {
@@ -4185,7 +4185,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_digest",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".digest()"
     },
     {
@@ -4197,7 +4197,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_database",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".database()"
     },
     {
@@ -4209,7 +4209,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_requirecapacity",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".requirecapacity()"
     },
     {
@@ -4221,7 +4221,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_metadatafor",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".metadatafor()"
     },
     {
@@ -4233,7 +4233,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_metadata",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".metadata()"
     },
     {
@@ -4245,7 +4245,7 @@
       "_origin": "ast",
       "id": "src_audio_soundbankstore_soundbankstore_put",
       "community": 68,
-      "community_name": "SoundBankStore",
+      "community_name": "soundbankStore.ts",
       "norm_label": ".put()"
     },
     {
@@ -4597,7 +4597,7 @@
       "_origin": "ast",
       "id": "src_audio_soundfontengine_soundfontpreparation",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "soundfontpreparation"
     },
     {
@@ -5614,8 +5614,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_core_composition_test",
-      "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community": 40,
+      "community_name": "composition.ts",
       "norm_label": "composition.test.ts"
     },
     {
@@ -5638,8 +5638,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_compositionversion",
-      "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community": 40,
+      "community_name": "composition.ts",
       "norm_label": "compositionversion"
     },
     {
@@ -5677,8 +5677,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_meterspec",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "meterspec"
     },
     {
@@ -5703,8 +5703,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_transportspec",
-      "community": 54,
-      "community_name": "transport.ts",
+      "community": 43,
+      "community_name": "encounters.ts",
       "norm_label": "transportspec"
     },
     {
@@ -5794,8 +5794,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_motionspec",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 79,
+      "community_name": "motion.ts",
       "norm_label": "motionspec"
     },
     {
@@ -5872,8 +5872,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_headattachmentspec",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 79,
+      "community_name": "motion.ts",
       "norm_label": "headattachmentspec"
     },
     {
@@ -5925,7 +5925,7 @@
       "_origin": "ast",
       "id": "src_core_composition_wheelspec",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "wheelspec"
     },
     {
@@ -5937,8 +5937,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_boundarybase",
-      "community": 42,
-      "community_name": "FieldPanel.tsx",
+      "community": 40,
+      "community_name": "composition.ts",
       "norm_label": "boundarybase"
     },
     {
@@ -6067,8 +6067,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_ringfieldspec",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 111,
+      "community_name": "compositionValidation.test.ts",
       "norm_label": "ringfieldspec"
     },
     {
@@ -6093,8 +6093,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_ellipsefieldspec",
-      "community": 63,
-      "community_name": "fields.test.ts",
+      "community": 113,
+      "community_name": "mg13Fields.test.ts",
       "norm_label": "ellipsefieldspec"
     },
     {
@@ -6106,8 +6106,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_bandfieldspec",
-      "community": 63,
-      "community_name": "fields.test.ts",
+      "community": 113,
+      "community_name": "mg13Fields.test.ts",
       "norm_label": "bandfieldspec"
     },
     {
@@ -6119,8 +6119,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_gridfieldspec",
-      "community": 63,
-      "community_name": "fields.test.ts",
+      "community": 113,
+      "community_name": "mg13Fields.test.ts",
       "norm_label": "gridfieldspec"
     },
     {
@@ -6132,8 +6132,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_spiralfieldspec",
-      "community": 63,
-      "community_name": "fields.test.ts",
+      "community": 113,
+      "community_name": "mg13Fields.test.ts",
       "norm_label": "spiralfieldspec"
     },
     {
@@ -6380,7 +6380,7 @@
       "_origin": "ast",
       "id": "src_core_composition_gatemodulationmapping",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "gatemodulationmapping"
     },
     {
@@ -6406,7 +6406,7 @@
       "_origin": "ast",
       "id": "src_core_composition_notepartspec",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "notepartspec"
     },
     {
@@ -6431,8 +6431,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_partspec",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 65,
+      "community_name": "parts.ts",
       "norm_label": "partspec"
     },
     {
@@ -6496,8 +6496,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_soundfontinstrumentspec",
-      "community": 35,
-      "community_name": "soundfontEngine.ts",
+      "community": 36,
+      "community_name": "audio.integration.test.ts",
       "norm_label": "soundfontinstrumentspec"
     },
     {
@@ -6510,7 +6510,7 @@
       "_origin": "ast",
       "id": "src_core_composition_instrumentspec",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "instrumentspec"
     },
     {
@@ -6522,8 +6522,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_soundbankformat",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "soundbankformat"
     },
     {
@@ -6549,7 +6549,7 @@
       "_origin": "ast",
       "id": "src_core_composition_soundbankreference",
       "community": 36,
-      "community_name": "instrumentRouter.ts",
+      "community_name": "audio.integration.test.ts",
       "norm_label": "soundbankreference"
     },
     {
@@ -6561,8 +6561,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_variationlayerspec",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 40,
+      "community_name": "composition.ts",
       "norm_label": "variationlayerspec"
     },
     {
@@ -6574,8 +6574,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_variationspec",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 112,
+      "community_name": "VariationPanel.tsx",
       "norm_label": "variationspec"
     },
     {
@@ -6587,7 +6587,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_composition_composition",
-      "community": 72,
+      "community": 73,
       "community_name": "Composition",
       "norm_label": "composition"
     },
@@ -7091,8 +7091,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_core_compositionvalidation_test",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 111,
+      "community_name": "compositionValidation.test.ts",
       "norm_label": "compositionvalidation.test.ts"
     },
     {
@@ -7103,8 +7103,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_compositionvalidation_test_clonedefault",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 111,
+      "community_name": "compositionValidation.test.ts",
       "norm_label": "clonedefault()"
     },
     {
@@ -7114,8 +7114,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_core_compositionvalidation_test_ringfield",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 111,
+      "community_name": "compositionValidation.test.ts",
       "norm_label": "ringfield"
     },
     {
@@ -7125,8 +7125,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "src_core_compositionvalidation_test_notepart",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 111,
+      "community_name": "compositionValidation.test.ts",
       "norm_label": "notepart"
     },
     {
@@ -7136,8 +7136,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "src_core_compositionvalidation_test_motioncases",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 111,
+      "community_name": "compositionValidation.test.ts",
       "norm_label": "motioncases"
     },
     {
@@ -7148,8 +7148,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_compositionvalidation_test_issueat",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 111,
+      "community_name": "compositionValidation.test.ts",
       "norm_label": "issueat()"
     },
     {
@@ -7173,7 +7173,7 @@
       "_origin": "ast",
       "id": "src_core_compositionvalidation_compositionvalidationissue",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "compositionvalidationissue"
     },
     {
@@ -7919,8 +7919,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_crossings_boundaryinput",
-      "community": 43,
-      "community_name": "encounters.ts",
+      "community": 64,
+      "community_name": "crossings.ts",
       "norm_label": "boundaryinput"
     },
     {
@@ -7970,8 +7970,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_crossings_crossingscandiagnostic",
-      "community": 43,
-      "community_name": "encounters.ts",
+      "community": 64,
+      "community_name": "crossings.ts",
       "norm_label": "crossingscandiagnostic"
     },
     {
@@ -7996,8 +7996,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_crossings_crossingrefinementoptions",
-      "community": 43,
-      "community_name": "encounters.ts",
+      "community": 64,
+      "community_name": "crossings.ts",
       "norm_label": "crossingrefinementoptions"
     },
     {
@@ -8225,7 +8225,7 @@
       "_origin": "ast",
       "id": "src_core_defaultcomposition_test",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "defaultcomposition.test.ts"
     },
     {
@@ -8237,7 +8237,7 @@
       "_origin": "ast",
       "id": "src_core_defaultcomposition_test_clone",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "clone()"
     },
     {
@@ -8248,7 +8248,7 @@
       "_origin": "ast",
       "id": "src_core_defaultcomposition",
       "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community_name": "Composition",
       "norm_label": "defaultcomposition.ts"
     },
     {
@@ -8269,8 +8269,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_core_defaultcomposition_defaultcomposition",
-      "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community": 55,
+      "community_name": "defaultComposition",
       "norm_label": "defaultcomposition"
     },
     {
@@ -8280,8 +8280,8 @@
       "source_location": "L210",
       "_origin": "ast",
       "id": "src_core_defaultcomposition_blankcomposition",
-      "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community": 44,
+      "community_name": "App.tsx",
       "norm_label": "blankcomposition"
     },
     {
@@ -8292,7 +8292,7 @@
       "_origin": "ast",
       "id": "src_core_defaultcomposition_tracecolors",
       "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community_name": "Composition",
       "norm_label": "tracecolors"
     },
     {
@@ -8304,7 +8304,7 @@
       "_origin": "ast",
       "id": "src_core_defaultcomposition_referencehead",
       "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community_name": "Composition",
       "norm_label": "referencehead()"
     },
     {
@@ -8316,7 +8316,7 @@
       "_origin": "ast",
       "id": "src_core_defaultcomposition_referencewheel",
       "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community_name": "Composition",
       "norm_label": "referencewheel()"
     },
     {
@@ -8327,7 +8327,7 @@
       "_origin": "ast",
       "id": "src_core_defaultcomposition_referencecomposition",
       "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community_name": "Composition",
       "norm_label": "referencecomposition"
     },
     {
@@ -8502,8 +8502,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_encounters_boundarycrossingencounter",
-      "community": 7,
-      "community_name": "compositionRenderer.ts",
+      "community": 77,
+      "community_name": "core/gateModulation.ts",
       "norm_label": "boundarycrossingencounter"
     },
     {
@@ -8933,8 +8933,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_fields_fieldmotionof",
-      "community": 70,
-      "community_name": "fields.ts",
+      "community": 54,
+      "community_name": "transport.ts",
       "norm_label": "fieldmotionof()"
     },
     {
@@ -8945,8 +8945,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_fields_fieldplacementat",
-      "community": 77,
-      "community_name": "core/gateModulation.ts",
+      "community": 54,
+      "community_name": "transport.ts",
       "norm_label": "fieldplacementat()"
     },
     {
@@ -9414,7 +9414,7 @@
       "_origin": "ast",
       "id": "src_core_gatemodulation_test",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "gatemodulation.test.ts"
     },
     {
@@ -9426,7 +9426,7 @@
       "_origin": "ast",
       "id": "src_core_gatemodulation_test_compilefixture",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "compilefixture()"
     },
     {
@@ -9438,7 +9438,7 @@
       "_origin": "ast",
       "id": "src_core_gatemodulation_test_turningpoints",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "turningpoints()"
     },
     {
@@ -9460,7 +9460,7 @@
       "_origin": "ast",
       "id": "src_core_gatemodulation_gatemodulationlimits",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "gatemodulationlimits"
     },
     {
@@ -9472,8 +9472,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_gatemodulation_gatemodulationsample",
-      "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community": 77,
+      "community_name": "core/gateModulation.ts",
       "norm_label": "gatemodulationsample"
     },
     {
@@ -9486,7 +9486,7 @@
       "_origin": "ast",
       "id": "src_core_gatemodulation_gatemodulationlane",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "gatemodulationlane"
     },
     {
@@ -9872,8 +9872,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_core_mg13fields_test",
-      "community": 63,
-      "community_name": "fields.test.ts",
+      "community": 113,
+      "community_name": "mg13Fields.test.ts",
       "norm_label": "mg13fields.test.ts"
     },
     {
@@ -9884,8 +9884,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_mg13fields_test_circlecomposition",
-      "community": 63,
-      "community_name": "fields.test.ts",
+      "community": 113,
+      "community_name": "mg13Fields.test.ts",
       "norm_label": "circlecomposition()"
     },
     {
@@ -9895,8 +9895,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "src_core_mg13fields_test_request",
-      "community": 63,
-      "community_name": "fields.test.ts",
+      "community": 113,
+      "community_name": "mg13Fields.test.ts",
       "norm_label": "request"
     },
     {
@@ -9907,8 +9907,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_mg13fields_test_bandfield",
-      "community": 63,
-      "community_name": "fields.test.ts",
+      "community": 113,
+      "community_name": "mg13Fields.test.ts",
       "norm_label": "bandfield()"
     },
     {
@@ -9919,8 +9919,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_mg13fields_test_ellipsefield",
-      "community": 63,
-      "community_name": "fields.test.ts",
+      "community": 113,
+      "community_name": "mg13Fields.test.ts",
       "norm_label": "ellipsefield()"
     },
     {
@@ -9930,8 +9930,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_core_motion_test",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 79,
+      "community_name": "motion.ts",
       "norm_label": "motion.test.ts"
     },
     {
@@ -9941,8 +9941,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_core_motion_test_cases",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 79,
+      "community_name": "motion.ts",
       "norm_label": "cases"
     },
     {
@@ -10096,8 +10096,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_parts_mappedpitch",
-      "community": 65,
-      "community_name": "parts.ts",
+      "community": 60,
+      "community_name": "performance.ts",
       "norm_label": "mappedpitch"
     },
     {
@@ -10121,8 +10121,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_parts_interpretableencounter",
-      "community": 65,
-      "community_name": "parts.ts",
+      "community": 60,
+      "community_name": "performance.ts",
       "norm_label": "interpretableencounter"
     },
     {
@@ -10169,8 +10169,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_parts_selectpartencounters",
-      "community": 60,
-      "community_name": "performance.ts",
+      "community": 65,
+      "community_name": "parts.ts",
       "norm_label": "selectpartencounters()"
     },
     {
@@ -10217,8 +10217,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_parts_normalizeencountercontour",
-      "community": 60,
-      "community_name": "performance.ts",
+      "community": 65,
+      "community_name": "parts.ts",
       "norm_label": "normalizeencountercontour()"
     },
     {
@@ -10335,7 +10335,7 @@
       "_origin": "ast",
       "id": "src_core_performance_test",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "performance.test.ts"
     },
     {
@@ -10346,7 +10346,7 @@
       "_origin": "ast",
       "id": "src_core_performance_test_request",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "request"
     },
     {
@@ -10358,7 +10358,7 @@
       "_origin": "ast",
       "id": "src_core_performance_test_notepart",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "notepart()"
     },
     {
@@ -10370,7 +10370,7 @@
       "_origin": "ast",
       "id": "src_core_performance_test_ellipsecomposition",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "ellipsecomposition()"
     },
     {
@@ -10394,7 +10394,7 @@
       "_origin": "ast",
       "id": "src_core_performance_notemusicalevent",
       "community": 59,
-      "community_name": "instrumentEngine.ts",
+      "community_name": "performanceScheduler.ts",
       "norm_label": "notemusicalevent"
     },
     {
@@ -10505,8 +10505,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_performance_soundingevents",
-      "community": 84,
-      "community_name": "performanceScheduler.ts",
+      "community": 4,
+      "community_name": "midiExport.ts",
       "norm_label": "soundingevents()"
     },
     {
@@ -10529,7 +10529,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_performance_freezerequest",
-      "community": 67,
+      "community": 78,
       "community_name": "compilePerformance",
       "norm_label": "freezerequest()"
     },
@@ -10541,7 +10541,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_performance_emptyperformance",
-      "community": 67,
+      "community": 78,
       "community_name": "compilePerformance",
       "norm_label": "emptyperformance()"
     },
@@ -10565,8 +10565,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_performance_interpretableencounters",
-      "community": 67,
-      "community_name": "compilePerformance",
+      "community": 60,
+      "community_name": "performance.ts",
       "norm_label": "interpretableencounters()"
     },
     {
@@ -10650,7 +10650,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_performance_compileperformance",
-      "community": 67,
+      "community": 78,
       "community_name": "compilePerformance",
       "norm_label": "compileperformance()"
     },
@@ -10661,8 +10661,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_core_random",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "random.ts"
     },
     {
@@ -10672,8 +10672,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_core_random_randomversion",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "randomversion"
     },
     {
@@ -10684,8 +10684,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_random_hashstring",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "hashstring()"
     },
     {
@@ -10696,8 +10696,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_random_mulberry32",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "mulberry32()"
     },
     {
@@ -10708,8 +10708,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_random_scopekey",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "scopekey()"
     },
     {
@@ -10720,8 +10720,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_random_unitvalue",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "unitvalue()"
     },
     {
@@ -10732,8 +10732,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_random_signedunitvalue",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "signedunitvalue()"
     },
     {
@@ -10744,8 +10744,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_random_indexvalue",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "indexvalue()"
     },
     {
@@ -10756,8 +10756,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_random_createsequence",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "createsequence()"
     },
     {
@@ -10767,7 +10767,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_core_recording",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "recording.ts"
     },
@@ -10779,7 +10779,7 @@
       "_origin": "ast",
       "id": "src_core_recording_recordingversion",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "recordingversion"
     },
     {
@@ -10789,7 +10789,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_core_recording_engineversion",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "engineversion"
     },
@@ -10802,7 +10802,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_recording_recordingprovenance",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "recordingprovenance"
     },
@@ -10815,7 +10815,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_recording_recordinglimits",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "recordinglimits"
     },
@@ -10828,7 +10828,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_recording_recordingtruncation",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "recordingtruncation"
     },
@@ -10842,7 +10842,7 @@
       "_origin": "ast",
       "id": "src_core_recording_recording",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "recording"
     },
     {
@@ -10854,7 +10854,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_recording_recordingwindow",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "recordingwindow"
     },
@@ -10866,7 +10866,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_recording_truncate",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "truncate()"
     },
@@ -10878,7 +10878,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_recording_withinwindow",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "withinwindow()"
     },
@@ -10890,7 +10890,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_recording_capturemodulationlanes",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "capturemodulationlanes()"
     },
@@ -10902,7 +10902,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_recording_createrecording",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "createrecording()"
     },
@@ -10915,7 +10915,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_recording_provenancewarning",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "provenancewarning"
     },
@@ -10928,7 +10928,7 @@
       "_origin": "ast",
       "id": "src_core_recording_provenancewarnings",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "provenancewarnings()"
     },
     {
@@ -11194,8 +11194,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_relations_relationpairs",
-      "community": 60,
-      "community_name": "performance.ts",
+      "community": 52,
+      "community_name": "relations.ts",
       "norm_label": "relationpairs()"
     },
     {
@@ -11256,8 +11256,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_relations_controllane",
-      "community": 52,
-      "community_name": "relations.ts",
+      "community": 60,
+      "community_name": "performance.ts",
       "norm_label": "controllane"
     },
     {
@@ -11280,8 +11280,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_relations_compilecontrollane",
-      "community": 60,
-      "community_name": "performance.ts",
+      "community": 52,
+      "community_name": "relations.ts",
       "norm_label": "compilecontrollane()"
     },
     {
@@ -11292,7 +11292,7 @@
       "_origin": "ast",
       "id": "src_core_replay_test",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "replay.test.ts"
     },
     {
@@ -11303,7 +11303,7 @@
       "_origin": "ast",
       "id": "src_core_replay_test_request",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "request"
     },
     {
@@ -11315,7 +11315,7 @@
       "_origin": "ast",
       "id": "src_core_replay_test_notepart",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "notepart()"
     },
     {
@@ -11327,7 +11327,7 @@
       "_origin": "ast",
       "id": "src_core_replay_test_source",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "source()"
     },
     {
@@ -11339,7 +11339,7 @@
       "_origin": "ast",
       "id": "src_core_replay_test_gatedsource",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "gatedsource()"
     },
     {
@@ -11350,7 +11350,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_replay_test_record",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "record()"
     },
@@ -11362,7 +11362,7 @@
       "_origin": "ast",
       "id": "src_core_replay",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "replay.ts"
     },
     {
@@ -11375,7 +11375,7 @@
       "_origin": "ast",
       "id": "src_core_replay_replayresult",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "replayresult"
     },
     {
@@ -11387,7 +11387,7 @@
       "_origin": "ast",
       "id": "src_core_replay_replayrecording",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "replayrecording()"
     },
     {
@@ -11400,7 +11400,7 @@
       "_origin": "ast",
       "id": "src_core_replay_reinterpretationresult",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "reinterpretationresult"
     },
     {
@@ -11412,7 +11412,7 @@
       "_origin": "ast",
       "id": "src_core_replay_reinterpretrecording",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "reinterpretrecording()"
     },
     {
@@ -12018,8 +12018,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_traces_tracesegmentindex_size",
-      "community": 7,
-      "community_name": "compositionRenderer.ts",
+      "community": 92,
+      "community_name": "Point2",
       "norm_label": ".size()"
     },
     {
@@ -12125,7 +12125,7 @@
       "_origin": "ast",
       "id": "src_core_transport_performancerequest",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "performancerequest"
     },
     {
@@ -12208,8 +12208,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_transport_isrecord",
-      "community": 54,
-      "community_name": "transport.ts",
+      "community": 92,
+      "community_name": "Point2",
       "norm_label": "isrecord()"
     },
     {
@@ -12292,8 +12292,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_transport_normalizecyclerate",
-      "community": 76,
-      "community_name": "heads.ts",
+      "community": 54,
+      "community_name": "transport.ts",
       "norm_label": "normalizecyclerate()"
     },
     {
@@ -12316,8 +12316,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_transport_validateperformancerequest",
-      "community": 54,
-      "community_name": "transport.ts",
+      "community": 92,
+      "community_name": "Point2",
       "norm_label": "validateperformancerequest()"
     },
     {
@@ -12352,8 +12352,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_transport_beatstoseconds",
-      "community": 67,
-      "community_name": "compilePerformance",
+      "community": 54,
+      "community_name": "transport.ts",
       "norm_label": "beatstoseconds()"
     },
     {
@@ -12460,8 +12460,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_transport_iteratetimegrid",
-      "community": 43,
-      "community_name": "encounters.ts",
+      "community": 92,
+      "community_name": "Point2",
       "norm_label": "iteratetimegrid()"
     },
     {
@@ -12708,8 +12708,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_tuning_findtuningcontext",
-      "community": 65,
-      "community_name": "parts.ts",
+      "community": 69,
+      "community_name": "tuning.ts",
       "norm_label": "findtuningcontext()"
     },
     {
@@ -12755,8 +12755,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_core_variation_test",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "variation.test.ts"
     },
     {
@@ -12766,8 +12766,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_core_variation_test_request",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "request"
     },
     {
@@ -12778,8 +12778,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_variation_test_notepart",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "notepart()"
     },
     {
@@ -12790,8 +12790,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_variation_test_varied",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "varied()"
     },
     {
@@ -12801,8 +12801,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_core_variation",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "variation.ts"
     },
     {
@@ -12812,8 +12812,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_core_variation_variationbounds",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 112,
+      "community_name": "VariationPanel.tsx",
       "norm_label": "variationbounds"
     },
     {
@@ -12825,8 +12825,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_variation_variationrule",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "variationrule"
     },
     {
@@ -12838,7 +12838,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_variation_variationtraceentry",
-      "community": 2,
+      "community": 80,
       "community_name": "recording.ts",
       "norm_label": "variationtraceentry"
     },
@@ -12849,8 +12849,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_core_variation_disabledlayer",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "disabledlayer"
     },
     {
@@ -12861,8 +12861,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_variation_layerof",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "layerof()"
     },
     {
@@ -12873,8 +12873,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_variation_variationisactive",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "variationisactive()"
     },
     {
@@ -12885,8 +12885,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_variation_clampamount",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "clampamount()"
     },
     {
@@ -12897,8 +12897,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_variation_boundeddelta",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "boundeddelta()"
     },
     {
@@ -12910,8 +12910,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_variation_variationresult",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "variationresult"
     },
     {
@@ -12922,8 +12922,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_variation_traceentry",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "traceentry()"
     },
     {
@@ -12934,8 +12934,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_variation_applyinitialconditionvariation",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "applyinitialconditionvariation()"
     },
     {
@@ -12947,8 +12947,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_variation_interpretationvariation",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "interpretationvariation"
     },
     {
@@ -12959,8 +12959,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_variation_interpretationvariationfor",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "interpretationvariationfor()"
     },
     {
@@ -12972,8 +12972,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_variation_performancevariation",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "performancevariation"
     },
     {
@@ -12984,8 +12984,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_variation_performancevariationfor",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 88,
+      "community_name": "variation.ts",
       "norm_label": "performancevariationfor()"
     },
     {
@@ -12996,8 +12996,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_variation_variationversionwarning",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 84,
+      "community_name": "variation.test.ts",
       "norm_label": "variationversionwarning()"
     },
     {
@@ -13007,8 +13007,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_core_wheels_test",
-      "community": 76,
-      "community_name": "heads.ts",
+      "community": 54,
+      "community_name": "transport.ts",
       "norm_label": "wheels.test.ts"
     },
     {
@@ -13019,8 +13019,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_wheels_test_clonedefault",
-      "community": 76,
-      "community_name": "heads.ts",
+      "community": 54,
+      "community_name": "transport.ts",
       "norm_label": "clonedefault()"
     },
     {
@@ -13030,8 +13030,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_core_wheels",
-      "community": 76,
-      "community_name": "heads.ts",
+      "community": 54,
+      "community_name": "transport.ts",
       "norm_label": "wheels.ts"
     },
     {
@@ -13043,8 +13043,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_core_wheels_wheelstate",
-      "community": 76,
-      "community_name": "heads.ts",
+      "community": 54,
+      "community_name": "transport.ts",
       "norm_label": "wheelstate"
     },
     {
@@ -13067,8 +13067,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_wheels_wheelstateat",
-      "community": 76,
-      "community_name": "heads.ts",
+      "community": 54,
+      "community_name": "transport.ts",
       "norm_label": "wheelstateat()"
     },
     {
@@ -13079,8 +13079,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_core_wheels_wheelstatesat",
-      "community": 76,
-      "community_name": "heads.ts",
+      "community": 54,
+      "community_name": "transport.ts",
       "norm_label": "wheelstatesat()"
     },
     {
@@ -13091,7 +13091,7 @@
       "_origin": "ast",
       "id": "src_export_agreement_test",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "agreement.test.ts"
     },
     {
@@ -13103,7 +13103,7 @@
       "_origin": "ast",
       "id": "src_export_agreement_test_silentofflinecontext",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "silentofflinecontext()"
     },
     {
@@ -13113,8 +13113,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_export_audiorender_test",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": "audiorender.test.ts"
     },
     {
@@ -13124,8 +13124,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_export_audiorender_test_request",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": "request"
     },
     {
@@ -13137,8 +13137,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_export_audiorender_test_trace",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": "trace"
     },
     {
@@ -13149,8 +13149,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_audiorender_test_fakecontext",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": "fakecontext()"
     },
     {
@@ -13161,8 +13161,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_audiorender_test_factorywith",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": "factorywith()"
     },
     {
@@ -13173,8 +13173,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_audiorender_test_nativecomposition",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": "nativecomposition()"
     },
     {
@@ -13185,8 +13185,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_audiorender_test_renderdefault",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": "renderdefault()"
     },
     {
@@ -13209,8 +13209,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_export_audiorender_offlinerendercontext",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": "offlinerendercontext"
     },
     {
@@ -13222,8 +13222,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_export_audiorender_offlinecontextfactory",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": "offlinecontextfactory"
     },
     {
@@ -13248,8 +13248,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_export_audiorender_renderprogress",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": "renderprogress"
     },
     {
@@ -13311,8 +13311,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_export_audiorender_rendercancellederror",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": "rendercancellederror"
     },
     {
@@ -13323,8 +13323,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_audiorender_rendercancellederror_constructor",
-      "community": 55,
-      "community_name": "agreement.test.ts",
+      "community": 8,
+      "community_name": "audioRender.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -13417,7 +13417,7 @@
       "_origin": "ast",
       "id": "src_export_compositionjson_test",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "compositionjson.test.ts"
     },
     {
@@ -13429,7 +13429,7 @@
       "_origin": "ast",
       "id": "src_export_compositionjson_test_clonedefault",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "clonedefault()"
     },
     {
@@ -13440,7 +13440,7 @@
       "_origin": "ast",
       "id": "src_export_compositionjson",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "compositionjson.ts"
     },
     {
@@ -13453,7 +13453,7 @@
       "_origin": "ast",
       "id": "src_export_compositionjson_compositionjsonerrorcode",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "compositionjsonerrorcode"
     },
     {
@@ -13466,7 +13466,7 @@
       "_origin": "ast",
       "id": "src_export_compositionjson_compositionjsonimportresult",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "compositionjsonimportresult"
     },
     {
@@ -13478,7 +13478,7 @@
       "_origin": "ast",
       "id": "src_export_compositionjson_exportcompositiontojson",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "exportcompositiontojson()"
     },
     {
@@ -13490,7 +13490,7 @@
       "_origin": "ast",
       "id": "src_export_compositionjson_downloadcompositionjson",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "downloadcompositionjson()"
     },
     {
@@ -13502,7 +13502,7 @@
       "_origin": "ast",
       "id": "src_export_compositionjson_parsecompositionjson",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "parsecompositionjson()"
     },
     {
@@ -13514,7 +13514,7 @@
       "_origin": "ast",
       "id": "src_export_compositionjson_isobject",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "isobject()"
     },
     {
@@ -13526,7 +13526,7 @@
       "_origin": "ast",
       "id": "src_export_compositionjson_filestem",
       "community": 72,
-      "community_name": "Composition",
+      "community_name": "compositionJson.ts",
       "norm_label": "filestem()"
     },
     {
@@ -13594,8 +13594,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_export_midiexport_test",
-      "community": 4,
-      "community_name": "midiExport.ts",
+      "community": 55,
+      "community_name": "defaultComposition",
       "norm_label": "midiexport.test.ts"
     },
     {
@@ -13606,7 +13606,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_midiexport_test_compiledefault",
-      "community": 67,
+      "community": 78,
       "community_name": "compilePerformance",
       "norm_label": "compiledefault()"
     },
@@ -13618,8 +13618,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_midiexport_test_ascii",
-      "community": 4,
-      "community_name": "midiExport.ts",
+      "community": 55,
+      "community_name": "defaultComposition",
       "norm_label": "ascii()"
     },
     {
@@ -14148,7 +14148,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_test",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "projectbundle.test.ts"
     },
     {
@@ -14160,7 +14160,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_test_abcbytes",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "abcbytes()"
     },
     {
@@ -14172,7 +14172,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_test_freshstore",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "freshstore()"
     },
     {
@@ -14184,7 +14184,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_test_bankedcomposition",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "bankedcomposition()"
     },
     {
@@ -14196,7 +14196,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_test_stockedstore",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "stockedstore()"
     },
     {
@@ -14207,7 +14207,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "projectbundle.ts"
     },
     {
@@ -14218,7 +14218,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_projectbundleversion",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "projectbundleversion"
     },
     {
@@ -14231,7 +14231,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_bundleasset",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "bundleasset"
     },
     {
@@ -14244,7 +14244,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_projectbundle",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "projectbundle"
     },
     {
@@ -14257,7 +14257,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_embeddecision",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "embeddecision"
     },
     {
@@ -14270,7 +14270,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_createbundleoptions",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "createbundleoptions"
     },
     {
@@ -14283,7 +14283,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_createbundleresult",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "createbundleresult"
     },
     {
@@ -14296,7 +14296,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_bundleassetstatus",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "bundleassetstatus"
     },
     {
@@ -14308,8 +14308,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_export_projectbundle_bundleassetoutcome",
-      "community": 72,
-      "community_name": "Composition",
+      "community": 57,
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "bundleassetoutcome"
     },
     {
@@ -14322,7 +14322,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_importbundleresult",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "importbundleresult"
     },
     {
@@ -14335,7 +14335,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_bundleparseresult",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "bundleparseresult"
     },
     {
@@ -14347,7 +14347,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_sortkeysdeep",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "sortkeysdeep()"
     },
     {
@@ -14359,7 +14359,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_encodebase64",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "encodebase64()"
     },
     {
@@ -14371,7 +14371,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_decodebase64",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "decodebase64()"
     },
     {
@@ -14383,7 +14383,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_bundlefilename",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "bundlefilename()"
     },
     {
@@ -14395,7 +14395,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_createprojectbundle",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "createprojectbundle()"
     },
     {
@@ -14407,7 +14407,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_parseprojectbundle",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "parseprojectbundle()"
     },
     {
@@ -14419,7 +14419,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_importprojectbundle",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "importprojectbundle()"
     },
     {
@@ -14431,7 +14431,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_safeget",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "safeget()"
     },
     {
@@ -14443,7 +14443,7 @@
       "_origin": "ast",
       "id": "src_export_projectbundle_downloadprojectbundle",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "downloadprojectbundle()"
     },
     {
@@ -14454,7 +14454,7 @@
       "_origin": "ast",
       "id": "src_export_recordingjson",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "recordingjson.ts"
     },
     {
@@ -14467,7 +14467,7 @@
       "_origin": "ast",
       "id": "src_export_recordingjson_recordingparseresult",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "recordingparseresult"
     },
     {
@@ -14479,7 +14479,7 @@
       "_origin": "ast",
       "id": "src_export_recordingjson_sortkeysdeep",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "sortkeysdeep()"
     },
     {
@@ -14491,7 +14491,7 @@
       "_origin": "ast",
       "id": "src_export_recordingjson_exportrecordingtojson",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "exportrecordingtojson()"
     },
     {
@@ -14503,7 +14503,7 @@
       "_origin": "ast",
       "id": "src_export_recordingjson_parserecordingjson",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "parserecordingjson()"
     },
     {
@@ -14513,8 +14513,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_export_strudelexport_test",
-      "community": 67,
-      "community_name": "compilePerformance",
+      "community": 116,
+      "community_name": "strudelExport.test.ts",
       "norm_label": "strudelexport.test.ts"
     },
     {
@@ -14525,7 +14525,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_strudelexport_test_fixture",
-      "community": 67,
+      "community": 78,
       "community_name": "compilePerformance",
       "norm_label": "fixture()"
     },
@@ -14680,8 +14680,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_strudelexport_buildperformancepatternparts",
-      "community": 4,
-      "community_name": "midiExport.ts",
+      "community": 116,
+      "community_name": "strudelExport.test.ts",
       "norm_label": "buildperformancepatternparts()"
     },
     {
@@ -14692,8 +14692,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_strudelexport_exportperformancestrudel",
-      "community": 4,
-      "community_name": "midiExport.ts",
+      "community": 116,
+      "community_name": "strudelExport.test.ts",
       "norm_label": "exportperformancestrudel()"
     },
     {
@@ -14704,8 +14704,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_export_strudelexport_exportperformancestrudelwithdiagnostics",
-      "community": 4,
-      "community_name": "midiExport.ts",
+      "community": 116,
+      "community_name": "strudelExport.test.ts",
       "norm_label": "exportperformancestrudelwithdiagnostics()"
     },
     {
@@ -14716,7 +14716,7 @@
       "_origin": "ast",
       "id": "src_export_svgexport_test",
       "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community_name": "Composition",
       "norm_label": "svgexport.test.ts"
     },
     {
@@ -15700,7 +15700,7 @@
       "_origin": "ast",
       "id": "src_test_fixtures_gatemodulation",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "fixtures/gatemodulation.ts"
     },
     {
@@ -15711,7 +15711,7 @@
       "_origin": "ast",
       "id": "src_test_fixtures_gatemodulation_sinewedgeboundary",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "sinewedgeboundary"
     },
     {
@@ -15722,7 +15722,7 @@
       "_origin": "ast",
       "id": "src_test_fixtures_gatemodulation_speedmapping",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "speedmapping"
     },
     {
@@ -15734,7 +15734,7 @@
       "_origin": "ast",
       "id": "src_test_fixtures_gatemodulation_fixedfrequencysinegatefixture",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "fixedfrequencysinegatefixture()"
     },
     {
@@ -15746,7 +15746,7 @@
       "_origin": "ast",
       "id": "src_test_fixtures_gatemodulation_gatedmodulationcomposition",
       "community": 55,
-      "community_name": "agreement.test.ts",
+      "community_name": "defaultComposition",
       "norm_label": "gatedmodulationcomposition()"
     },
     {
@@ -15840,8 +15840,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_compositioncanvas_test",
-      "community": 7,
-      "community_name": "compositionRenderer.ts",
+      "community": 77,
+      "community_name": "core/gateModulation.ts",
       "norm_label": "compositioncanvas.test.tsx"
     },
     {
@@ -15851,8 +15851,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_ui_compositioncanvas_test_observation",
-      "community": 7,
-      "community_name": "compositionRenderer.ts",
+      "community": 77,
+      "community_name": "core/gateModulation.ts",
       "norm_label": "observation"
     },
     {
@@ -15862,8 +15862,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_ui_compositioncanvas_test_context",
-      "community": 7,
-      "community_name": "compositionRenderer.ts",
+      "community": 77,
+      "community_name": "core/gateModulation.ts",
       "norm_label": "context"
     },
     {
@@ -15922,8 +15922,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_compositiontree_test",
-      "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community": 32,
+      "community_name": "compositionEdits.ts",
       "norm_label": "compositiontree.test.tsx"
     },
     {
@@ -15934,8 +15934,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_compositiontree_test_base",
-      "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community": 32,
+      "community_name": "compositionEdits.ts",
       "norm_label": "base()"
     },
     {
@@ -15946,8 +15946,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_compositiontree_test_twowheels",
-      "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community": 32,
+      "community_name": "compositionEdits.ts",
       "norm_label": "twowheels()"
     },
     {
@@ -15958,8 +15958,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_compositiontree_test_setup",
-      "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community": 32,
+      "community_name": "compositionEdits.ts",
       "norm_label": "setup()"
     },
     {
@@ -15982,8 +15982,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_ui_compositiontree_treeselection",
-      "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community": 32,
+      "community_name": "compositionEdits.ts",
       "norm_label": "treeselection"
     },
     {
@@ -16043,8 +16043,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_controlpanel",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "controlpanel.tsx"
     },
     {
@@ -16056,8 +16056,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_ui_controlpanel_controlpanelprops",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "controlpanelprops"
     },
     {
@@ -16068,8 +16068,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_controlpanel_controlpanel",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "controlpanel()"
     },
     {
@@ -16081,8 +16081,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_ui_controlpanel_numberfieldprops",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "numberfieldprops"
     },
     {
@@ -16093,8 +16093,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_controlpanel_numberfield",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "numberfield()"
     },
     {
@@ -16104,8 +16104,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_fieldpanel_test",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 111,
+      "community_name": "compositionValidation.test.ts",
       "norm_label": "fieldpanel.test.tsx"
     },
     {
@@ -16116,8 +16116,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_fieldpanel_test_withoutfields",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 111,
+      "community_name": "compositionValidation.test.ts",
       "norm_label": "withoutfields()"
     },
     {
@@ -16128,8 +16128,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_fieldpanel_test_withrings",
-      "community": 40,
-      "community_name": "composition.ts",
+      "community": 111,
+      "community_name": "compositionValidation.test.ts",
       "norm_label": "withrings()"
     },
     {
@@ -16355,8 +16355,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_headpanel_test",
-      "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community": 56,
+      "community_name": "traceEncounters.ts",
       "norm_label": "headpanel.test.tsx"
     },
     {
@@ -16367,8 +16367,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_headpanel_test_base",
-      "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community": 56,
+      "community_name": "traceEncounters.ts",
       "norm_label": "base()"
     },
     {
@@ -16379,7 +16379,7 @@
       "_origin": "ast",
       "id": "src_ui_headpanel",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "headpanel.tsx"
     },
     {
@@ -16392,7 +16392,7 @@
       "_origin": "ast",
       "id": "src_ui_headpanel_headpanelprops",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "headpanelprops"
     },
     {
@@ -16403,8 +16403,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_headpanel_headpanel",
-      "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community": 56,
+      "community_name": "traceEncounters.ts",
       "norm_label": "headpanel()"
     },
     {
@@ -16417,7 +16417,7 @@
       "_origin": "ast",
       "id": "src_ui_headpanel_numberfieldprops",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "numberfieldprops"
     },
     {
@@ -16429,7 +16429,7 @@
       "_origin": "ast",
       "id": "src_ui_headpanel_numberfield",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "numberfield()"
     },
     {
@@ -16440,7 +16440,7 @@
       "_origin": "ast",
       "id": "src_ui_importexportpanel_test",
       "community": 67,
-      "community_name": "compilePerformance",
+      "community_name": "ImportExportPanel.test.tsx",
       "norm_label": "importexportpanel.test.tsx"
     },
     {
@@ -16452,7 +16452,7 @@
       "_origin": "ast",
       "id": "src_ui_importexportpanel_test_metadata",
       "community": 67,
-      "community_name": "compilePerformance",
+      "community_name": "ImportExportPanel.test.tsx",
       "norm_label": "metadata()"
     },
     {
@@ -16464,7 +16464,7 @@
       "_origin": "ast",
       "id": "src_ui_importexportpanel_test_compositionwithbanks",
       "community": 67,
-      "community_name": "compilePerformance",
+      "community_name": "ImportExportPanel.test.tsx",
       "norm_label": "compositionwithbanks()"
     },
     {
@@ -16476,7 +16476,7 @@
       "_origin": "ast",
       "id": "src_ui_importexportpanel_test_vaultholding",
       "community": 67,
-      "community_name": "compilePerformance",
+      "community_name": "ImportExportPanel.test.tsx",
       "norm_label": "vaultholding()"
     },
     {
@@ -16488,7 +16488,7 @@
       "_origin": "ast",
       "id": "src_ui_importexportpanel_test_renderpanel",
       "community": 67,
-      "community_name": "compilePerformance",
+      "community_name": "ImportExportPanel.test.tsx",
       "norm_label": "renderpanel()"
     },
     {
@@ -16500,7 +16500,7 @@
       "_origin": "ast",
       "id": "src_ui_importexportpanel_test_openbundledialog",
       "community": 67,
-      "community_name": "compilePerformance",
+      "community_name": "ImportExportPanel.test.tsx",
       "norm_label": "openbundledialog()"
     },
     {
@@ -16510,8 +16510,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_importexportpanel",
-      "community": 72,
-      "community_name": "Composition",
+      "community": 57,
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "importexportpanel.tsx"
     },
     {
@@ -16523,8 +16523,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_ui_importexportpanel_importexportpanelprops",
-      "community": 72,
-      "community_name": "Composition",
+      "community": 57,
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "importexportpanelprops"
     },
     {
@@ -16535,8 +16535,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_importexportpanel_megabytes",
-      "community": 72,
-      "community_name": "Composition",
+      "community": 57,
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "megabytes()"
     },
     {
@@ -16548,8 +16548,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_ui_importexportpanel_bundlesizeprops",
-      "community": 72,
-      "community_name": "Composition",
+      "community": 57,
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "bundlesizeprops"
     },
     {
@@ -16560,8 +16560,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_importexportpanel_plural",
-      "community": 72,
-      "community_name": "Composition",
+      "community": 57,
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "plural()"
     },
     {
@@ -16572,8 +16572,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_importexportpanel_approximatesize",
-      "community": 72,
-      "community_name": "Composition",
+      "community": 57,
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "approximatesize()"
     },
     {
@@ -16584,8 +16584,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_importexportpanel_bundlesize",
-      "community": 72,
-      "community_name": "Composition",
+      "community": 57,
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "bundlesize()"
     },
     {
@@ -16596,8 +16596,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_importexportpanel_importexportpanel",
-      "community": 72,
-      "community_name": "Composition",
+      "community": 57,
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "importexportpanel()"
     },
     {
@@ -16608,19 +16608,19 @@
       "_origin": "ast",
       "id": "src_ui_instrumentpanel_test",
       "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community_name": "Composition",
       "norm_label": "instrumentpanel.test.tsx"
     },
     {
       "label": "compositionWithSoundFont()",
       "file_type": "code",
       "source_file": "src/ui/InstrumentPanel.test.tsx",
-      "source_location": "L15",
+      "source_location": "L16",
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_instrumentpanel_test_compositionwithsoundfont",
       "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community_name": "Composition",
       "norm_label": "compositionwithsoundfont()"
     },
     {
@@ -16670,10 +16670,47 @@
       "norm_label": "drumvoices"
     },
     {
-      "label": "nativeSynthFallback()",
+      "label": "NativeInstrumentKind",
       "file_type": "code",
       "source_file": "src/ui/InstrumentPanel.tsx",
       "source_location": "L42",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "src_ui_instrumentpanel_nativeinstrumentkind",
+      "community": 32,
+      "community_name": "compositionEdits.ts",
+      "norm_label": "nativeinstrumentkind"
+    },
+    {
+      "label": "NativeInstrumentDefinitions",
+      "file_type": "code",
+      "source_file": "src/ui/InstrumentPanel.tsx",
+      "source_location": "L47",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "src_ui_instrumentpanel_nativeinstrumentdefinitions",
+      "community": 32,
+      "community_name": "compositionEdits.ts",
+      "norm_label": "nativeinstrumentdefinitions"
+    },
+    {
+      "label": "nativeInstrumentKinds",
+      "file_type": "code",
+      "source_file": "src/ui/InstrumentPanel.tsx",
+      "source_location": "L88",
+      "_origin": "ast",
+      "id": "src_ui_instrumentpanel_nativeinstrumentkinds",
+      "community": 32,
+      "community_name": "compositionEdits.ts",
+      "norm_label": "nativeinstrumentkinds"
+    },
+    {
+      "label": "nativeSynthFallback()",
+      "file_type": "code",
+      "source_file": "src/ui/InstrumentPanel.tsx",
+      "source_location": "L92",
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_instrumentpanel_nativesynthfallback",
@@ -16685,7 +16722,7 @@
       "label": "nativeDrumFallback()",
       "file_type": "code",
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L59",
+      "source_location": "L109",
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_instrumentpanel_nativedrumfallback",
@@ -16697,7 +16734,7 @@
       "label": "InstrumentPanel()",
       "file_type": "code",
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L70",
+      "source_location": "L120",
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_instrumentpanel_instrumentpanel",
@@ -16709,7 +16746,7 @@
       "label": "NumberFieldProps",
       "file_type": "code",
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L272",
+      "source_location": "L330",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
@@ -16722,7 +16759,7 @@
       "label": "NumberField()",
       "file_type": "code",
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L284",
+      "source_location": "L342",
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_instrumentpanel_numberfield",
@@ -16737,8 +16774,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_modaldialog_test",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 115,
+      "community_name": "ModalDialog.tsx",
       "norm_label": "modaldialog.test.tsx"
     },
     {
@@ -16749,8 +16786,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_modaldialog_test_harness",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 115,
+      "community_name": "ModalDialog.tsx",
       "norm_label": "harness()"
     },
     {
@@ -16760,8 +16797,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_modaldialog",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 115,
+      "community_name": "ModalDialog.tsx",
       "norm_label": "modaldialog.tsx"
     },
     {
@@ -16773,8 +16810,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_ui_modaldialog_modaldialogprops",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 115,
+      "community_name": "ModalDialog.tsx",
       "norm_label": "modaldialogprops"
     },
     {
@@ -16785,8 +16822,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_modaldialog_modaldialog",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 115,
+      "community_name": "ModalDialog.tsx",
       "norm_label": "modaldialog()"
     },
     {
@@ -16797,7 +16834,7 @@
       "_origin": "ast",
       "id": "src_ui_partpanel_test",
       "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community_name": "Composition",
       "norm_label": "partpanel.test.tsx"
     },
     {
@@ -16809,7 +16846,7 @@
       "_origin": "ast",
       "id": "src_ui_partpanel_test_base",
       "community": 73,
-      "community_name": "defaultComposition.ts",
+      "community_name": "Composition",
       "norm_label": "base()"
     },
     {
@@ -17139,7 +17176,7 @@
       "_origin": "ast",
       "id": "src_ui_railpanel",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "railpanel.tsx"
     },
     {
@@ -17152,7 +17189,7 @@
       "_origin": "ast",
       "id": "src_ui_railpanel_openmap",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "openmap"
     },
     {
@@ -17164,7 +17201,7 @@
       "_origin": "ast",
       "id": "src_ui_railpanel_readopenmap",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "readopenmap()"
     },
     {
@@ -17176,7 +17213,7 @@
       "_origin": "ast",
       "id": "src_ui_railpanel_writeopen",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "writeopen()"
     },
     {
@@ -17189,7 +17226,7 @@
       "_origin": "ast",
       "id": "src_ui_railpanel_railpanelprops",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "railpanelprops"
     },
     {
@@ -17201,7 +17238,7 @@
       "_origin": "ast",
       "id": "src_ui_railpanel_railpanel",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "railpanel()"
     },
     {
@@ -17211,8 +17248,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_recorderpanel_test",
-      "community": 67,
-      "community_name": "compilePerformance",
+      "community": 73,
+      "community_name": "Composition",
       "norm_label": "recorderpanel.test.tsx"
     },
     {
@@ -17222,8 +17259,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_ui_recorderpanel_test_request",
-      "community": 67,
-      "community_name": "compilePerformance",
+      "community": 73,
+      "community_name": "Composition",
       "norm_label": "request"
     },
     {
@@ -17234,8 +17271,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_recorderpanel_test_base",
-      "community": 67,
-      "community_name": "compilePerformance",
+      "community": 73,
+      "community_name": "Composition",
       "norm_label": "base()"
     },
     {
@@ -17246,8 +17283,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_recorderpanel_test_setup",
-      "community": 67,
-      "community_name": "compilePerformance",
+      "community": 73,
+      "community_name": "Composition",
       "norm_label": "setup()"
     },
     {
@@ -17258,7 +17295,7 @@
       "_origin": "ast",
       "id": "src_ui_recorderpanel",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "recorderpanel.tsx"
     },
     {
@@ -17271,7 +17308,7 @@
       "_origin": "ast",
       "id": "src_ui_recorderpanel_recorderpanelprops",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "recorderpanelprops"
     },
     {
@@ -17283,7 +17320,7 @@
       "_origin": "ast",
       "id": "src_ui_recorderpanel_download",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "download()"
     },
     {
@@ -17295,7 +17332,7 @@
       "_origin": "ast",
       "id": "src_ui_recorderpanel_recorderpanel",
       "community": 2,
-      "community_name": "recording.ts",
+      "community_name": "replay.test.ts",
       "norm_label": "recorderpanel()"
     },
     {
@@ -17585,8 +17622,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_soundbanksettings",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "soundbanksettings.tsx"
     },
     {
@@ -17611,8 +17648,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_ui_soundbanksettings_soundbanksettingsprops",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "soundbanksettingsprops"
     },
     {
@@ -17623,8 +17660,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_soundbanksettings_formatfor",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "formatfor()"
     },
     {
@@ -17635,8 +17672,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_soundbanksettings_bankidfor",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "bankidfor()"
     },
     {
@@ -17647,8 +17684,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_soundbanksettings_soundbanksettings",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "soundbanksettings()"
     },
     {
@@ -17660,8 +17697,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_ui_soundbanksettings_bankcardprops",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "bankcardprops"
     },
     {
@@ -17672,8 +17709,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_soundbanksettings_bankcard",
-      "community": 80,
-      "community_name": "SoundBankSettings.tsx",
+      "community": 45,
+      "community_name": "SoundBankPanel.tsx",
       "norm_label": "bankcard()"
     },
     {
@@ -17683,8 +17720,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_transport",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "transport.tsx"
     },
     {
@@ -17696,8 +17733,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_ui_transport_transportprops",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "transportprops"
     },
     {
@@ -17708,8 +17745,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_transport_transport",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "transport()"
     },
     {
@@ -17719,8 +17756,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_variationpanel_test",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 112,
+      "community_name": "VariationPanel.tsx",
       "norm_label": "variationpanel.test.tsx"
     },
     {
@@ -17731,8 +17768,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_variationpanel_test_base",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 112,
+      "community_name": "VariationPanel.tsx",
       "norm_label": "base()"
     },
     {
@@ -17742,8 +17779,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_ui_variationpanel_test_request",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 112,
+      "community_name": "VariationPanel.tsx",
       "norm_label": "request"
     },
     {
@@ -17753,8 +17790,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_variationpanel",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 112,
+      "community_name": "VariationPanel.tsx",
       "norm_label": "variationpanel.tsx"
     },
     {
@@ -17766,8 +17803,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_ui_variationpanel_variationpanelprops",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 112,
+      "community_name": "VariationPanel.tsx",
       "norm_label": "variationpanelprops"
     },
     {
@@ -17777,8 +17814,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_ui_variationpanel_layers",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 112,
+      "community_name": "VariationPanel.tsx",
       "norm_label": "layers"
     },
     {
@@ -17789,8 +17826,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_variationpanel_defaultvariation",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 112,
+      "community_name": "VariationPanel.tsx",
       "norm_label": "defaultvariation()"
     },
     {
@@ -17801,8 +17838,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_ui_variationpanel_variationpanel",
-      "community": 2,
-      "community_name": "recording.ts",
+      "community": 112,
+      "community_name": "VariationPanel.tsx",
       "norm_label": "variationpanel()"
     },
     {
@@ -17813,7 +17850,7 @@
       "_origin": "ast",
       "id": "src_ui_wheelpanel",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "wheelpanel.tsx"
     },
     {
@@ -17826,7 +17863,7 @@
       "_origin": "ast",
       "id": "src_ui_wheelpanel_wheelpanelprops",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "wheelpanelprops"
     },
     {
@@ -17837,7 +17874,7 @@
       "_origin": "ast",
       "id": "src_ui_wheelpanel_motionkinds",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "motionkinds"
     },
     {
@@ -17849,7 +17886,7 @@
       "_origin": "ast",
       "id": "src_ui_wheelpanel_wheelpanel",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "wheelpanel()"
     },
     {
@@ -17861,7 +17898,7 @@
       "_origin": "ast",
       "id": "src_ui_wheelpanel_motiondefaults",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "motiondefaults()"
     },
     {
@@ -17874,7 +17911,7 @@
       "_origin": "ast",
       "id": "src_ui_wheelpanel_numberfieldprops",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "numberfieldprops"
     },
     {
@@ -17886,7 +17923,7 @@
       "_origin": "ast",
       "id": "src_ui_wheelpanel_numberfield",
       "community": 66,
-      "community_name": "HeadPanel.tsx",
+      "community_name": "help.ts",
       "norm_label": "numberfield()"
     },
     {
@@ -17909,7 +17946,7 @@
       "_origin": "ast",
       "id": "src_ui_diagnostictext_test_error",
       "community": 57,
-      "community_name": "projectBundle.ts",
+      "community_name": "ImportExportPanel.tsx",
       "norm_label": "error()"
     },
     {
@@ -18002,8 +18039,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_help",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "help.ts"
     },
     {
@@ -18013,8 +18050,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_ui_help_help",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "help"
     },
     {
@@ -18026,8 +18063,8 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_ui_help_helpkey",
-      "community": 44,
-      "community_name": "App.tsx",
+      "community": 66,
+      "community_name": "help.ts",
       "norm_label": "helpkey"
     },
     {
@@ -18146,7 +18183,7 @@
       "_origin": "ast",
       "id": "src_workers_performanceworker",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "performanceworker.ts"
     },
     {
@@ -18159,7 +18196,7 @@
       "_origin": "ast",
       "id": "src_workers_performanceworker_compilerequestmessage",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "compilerequestmessage"
     },
     {
@@ -18172,7 +18209,7 @@
       "_origin": "ast",
       "id": "src_workers_performanceworker_compilereplymessage",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "compilereplymessage"
     },
     {
@@ -18183,7 +18220,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_test",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "useperformancecompiler.test.ts"
     },
     {
@@ -18194,7 +18231,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_test_request",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "request"
     },
     {
@@ -18207,7 +18244,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_test_stubworker",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "stubworker"
     },
     {
@@ -18219,7 +18256,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_test_stubworker_constructor",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": ".constructor()"
     },
     {
@@ -18231,7 +18268,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_test_stubworker_postmessage",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": ".postmessage()"
     },
     {
@@ -18243,7 +18280,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_test_stubworker_terminate",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": ".terminate()"
     },
     {
@@ -18255,7 +18292,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_test_stubworker_reply",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": ".reply()"
     },
     {
@@ -18267,7 +18304,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_test_usestubworker",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "usestubworker()"
     },
     {
@@ -18278,7 +18315,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "useperformancecompiler.ts"
     },
     {
@@ -18291,7 +18328,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_compilerstate",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "compilerstate"
     },
     {
@@ -18303,7 +18340,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_workersupported",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "workersupported()"
     },
     {
@@ -18315,7 +18352,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_compileorfail",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "compileorfail()"
     },
     {
@@ -18327,7 +18364,7 @@
       "_origin": "ast",
       "id": "src_workers_useperformancecompiler_useperformancecompiler",
       "community": 78,
-      "community_name": "usePerformanceCompiler.test.ts",
+      "community_name": "compilePerformance",
       "norm_label": "useperformancecompiler()"
     },
     {
@@ -20501,7 +20538,7 @@
       "label": "Variation",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L551",
+      "source_location": "L553",
       "_origin": "ast",
       "id": "docs_manual_variation",
       "community": 16,
@@ -20512,7 +20549,7 @@
       "label": "Recorder",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L577",
+      "source_location": "L579",
       "_origin": "ast",
       "id": "docs_manual_recorder",
       "community": 16,
@@ -20523,7 +20560,7 @@
       "label": "Performance",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L595",
+      "source_location": "L597",
       "_origin": "ast",
       "id": "docs_manual_performance",
       "community": 16,
@@ -20534,7 +20571,7 @@
       "label": "Files",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L609",
+      "source_location": "L611",
       "_origin": "ast",
       "id": "docs_manual_files",
       "community": 16,
@@ -20545,7 +20582,7 @@
       "label": "The Export bundle dialog",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L625",
+      "source_location": "L627",
       "_origin": "ast",
       "id": "docs_manual_the_export_bundle_dialog",
       "community": 16,
@@ -20556,7 +20593,7 @@
       "label": "Rules the app enforces",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L640",
+      "source_location": "L642",
       "_origin": "ast",
       "id": "docs_manual_rules_the_app_enforces",
       "community": 16,
@@ -20567,7 +20604,7 @@
       "label": "What the interface does not reach",
       "file_type": "document",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L654",
+      "source_location": "L656",
       "_origin": "ast",
       "id": "docs_manual_what_the_interface_does_not_reach",
       "community": 16,
@@ -20864,7 +20901,7 @@
       "label": "MG-12 \u2014 Concurrent multi-Wheel/multi-Head authoring",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L790",
+      "source_location": "L797",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_12_concurrent_multi_wheel_multi_head_authoring",
       "community": 37,
@@ -20875,7 +20912,7 @@
       "label": "MG-13 \u2014 Ellipse, band, grid, spiral, and moving Fields",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L840",
+      "source_location": "L847",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_13_ellipse_band_grid_spiral_and_moving_fields",
       "community": 37,
@@ -20886,7 +20923,7 @@
       "label": "MG-14 \u2014 Head-to-Head relations and continuous controls",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L882",
+      "source_location": "L889",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_14_head_to_head_relations_and_continuous_controls",
       "community": 37,
@@ -20897,7 +20934,7 @@
       "label": "MG-15 \u2014 Trace encounters and retained trace state",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L923",
+      "source_location": "L930",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_15_trace_encounters_and_retained_trace_state",
       "community": 37,
@@ -20908,7 +20945,7 @@
       "label": "MG-16 \u2014 Relationship tuning, melody, and harmony",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L963",
+      "source_location": "L970",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_16_relationship_tuning_melody_and_harmony",
       "community": 37,
@@ -20919,7 +20956,7 @@
       "label": "MG-17 \u2014 Seeded variation",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1011",
+      "source_location": "L1018",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_17_seeded_variation",
       "community": 37,
@@ -20930,7 +20967,7 @@
       "label": "MG-18 \u2014 Recorder, replay, and reinterpretation",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1047",
+      "source_location": "L1054",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_18_recorder_replay_and_reinterpretation",
       "community": 37,
@@ -20941,7 +20978,7 @@
       "label": "MG-19 \u2014 MIDI and Strudel exporter rebuild",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1086",
+      "source_location": "L1093",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_19_midi_and_strudel_exporter_rebuild",
       "community": 37,
@@ -20952,7 +20989,7 @@
       "label": "MG-20 \u2014 Offline audio and portable project bundles",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1126",
+      "source_location": "L1133",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_20_offline_audio_and_portable_project_bundles",
       "community": 37,
@@ -20963,7 +21000,7 @@
       "label": "MG-21 \u2014 Scalability hardening, example works, and release",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1200",
+      "source_location": "L1207",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_21_scalability_hardening_example_works_and_release",
       "community": 37,
@@ -20974,7 +21011,7 @@
       "label": "Packet-close audit, 2026-08-06",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1258",
+      "source_location": "L1265",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_packet_close_audit_2026_08_06",
       "community": 37,
@@ -20985,7 +21022,7 @@
       "label": "MG-22 \u2014 Wedge-spoke regions and exact gate spans",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1342",
+      "source_location": "L1349",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_22_wedge_spoke_regions_and_exact_gate_spans",
       "community": 37,
@@ -20996,7 +21033,7 @@
       "label": "MG-23 \u2014 In-gate modulation lanes and Trace notation",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1424",
+      "source_location": "L1431",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_23_in_gate_modulation_lanes_and_trace_notation",
       "community": 37,
@@ -21007,7 +21044,7 @@
       "label": "MG-24 \u2014 Modulated playback and export agreement",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1490",
+      "source_location": "L1497",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_mg_24_modulated_playback_and_export_agreement",
       "community": 37,
@@ -21018,7 +21055,7 @@
       "label": "Packet rules",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1545",
+      "source_location": "L1552",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_packet_rules",
       "community": 37,
@@ -21029,7 +21066,7 @@
       "label": "Definition of the first meaningful generator",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1570",
+      "source_location": "L1577",
       "_origin": "ast",
       "id": "docs_music_generator_build_plan_definition_of_the_first_meaningful_generator",
       "community": 37,
@@ -21150,7 +21187,7 @@
       "label": "Active packet records",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L198",
+      "source_location": "L199",
       "_origin": "ast",
       "id": "docs_music_generator_progress_active_packet_records",
       "community": 39,
@@ -21161,7 +21198,7 @@
       "label": "Blockers",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L207",
+      "source_location": "L208",
       "_origin": "ast",
       "id": "docs_music_generator_progress_blockers",
       "community": 39,
@@ -21172,7 +21209,7 @@
       "label": "Risk register",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L221",
+      "source_location": "L222",
       "_origin": "ast",
       "id": "docs_music_generator_progress_risk_register",
       "community": 39,
@@ -21183,7 +21220,7 @@
       "label": "Decision log",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L243",
+      "source_location": "L245",
       "_origin": "ast",
       "id": "docs_music_generator_progress_decision_log",
       "community": 39,
@@ -21194,7 +21231,7 @@
       "label": "Activity log",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L261",
+      "source_location": "L263",
       "_origin": "ast",
       "id": "docs_music_generator_progress_activity_log",
       "community": 39,
@@ -21205,7 +21242,7 @@
       "label": "Handoff records",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L345",
+      "source_location": "L348",
       "_origin": "ast",
       "id": "docs_music_generator_progress_handoff_records",
       "community": 39,
@@ -21216,7 +21253,7 @@
       "label": "2026-08-10 MG-24 completed handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L347",
+      "source_location": "L350",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_10_mg_24_completed_handoff",
       "community": 39,
@@ -21227,7 +21264,7 @@
       "label": "2026-08-10 MG-24 review-candidate handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L372",
+      "source_location": "L375",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_10_mg_24_review_candidate_handoff",
       "community": 39,
@@ -21238,7 +21275,7 @@
       "label": "2026-08-10 MG-23 completed handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L406",
+      "source_location": "L409",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_10_mg_23_completed_handoff",
       "community": 39,
@@ -21249,7 +21286,7 @@
       "label": "2026-08-10 MG-22 completed handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L427",
+      "source_location": "L430",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_10_mg_22_completed_handoff",
       "community": 39,
@@ -21260,7 +21297,7 @@
       "label": "2026-08-09 WIN-01 completed handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L446",
+      "source_location": "L449",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_09_win_01_completed_handoff",
       "community": 39,
@@ -21271,7 +21308,7 @@
       "label": "2026-08-05 MG-01 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L465",
+      "source_location": "L468",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_01_author_handoff",
       "community": 39,
@@ -21282,7 +21319,7 @@
       "label": "2026-08-05 MG-02 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L500",
+      "source_location": "L503",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_02_author_handoff",
       "community": 39,
@@ -21293,7 +21330,7 @@
       "label": "2026-08-05 MG-03 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L533",
+      "source_location": "L536",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_03_author_handoff",
       "community": 39,
@@ -21304,7 +21341,7 @@
       "label": "2026-08-05 MG-04 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L567",
+      "source_location": "L570",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_04_author_handoff",
       "community": 39,
@@ -21315,7 +21352,7 @@
       "label": "2026-08-05 MG-05 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L604",
+      "source_location": "L607",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_05_author_handoff",
       "community": 39,
@@ -21326,7 +21363,7 @@
       "label": "2026-08-05 MG-06 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L644",
+      "source_location": "L647",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_06_author_handoff",
       "community": 39,
@@ -21337,7 +21374,7 @@
       "label": "2026-08-05 MG-07 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L682",
+      "source_location": "L685",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_07_author_handoff",
       "community": 39,
@@ -21348,7 +21385,7 @@
       "label": "2026-08-05 MG-08 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L720",
+      "source_location": "L723",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_08_author_handoff",
       "community": 39,
@@ -21359,7 +21396,7 @@
       "label": "2026-08-05 MG-09 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L761",
+      "source_location": "L764",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_09_author_handoff",
       "community": 39,
@@ -21370,7 +21407,7 @@
       "label": "2026-08-05 MG-10 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L805",
+      "source_location": "L808",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_10_author_handoff",
       "community": 39,
@@ -21381,7 +21418,7 @@
       "label": "2026-08-05 MG-11 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L854",
+      "source_location": "L857",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_11_author_handoff",
       "community": 39,
@@ -21392,7 +21429,7 @@
       "label": "2026-08-05 MG-01\u2013MG-11 cumulative review",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L908",
+      "source_location": "L911",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_01_mg_11_cumulative_review",
       "community": 39,
@@ -21403,7 +21440,7 @@
       "label": "2026-08-05 MG-12 author handoff",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L971",
+      "source_location": "L974",
       "_origin": "ast",
       "id": "docs_music_generator_progress_2026_08_05_mg_12_author_handoff",
       "community": 39,
@@ -21414,7 +21451,7 @@
       "label": "Handoff template",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L1042",
+      "source_location": "L1045",
       "_origin": "ast",
       "id": "docs_music_generator_progress_handoff_template",
       "community": 39,
@@ -21425,7 +21462,7 @@
       "label": "Packet completion checklist",
       "file_type": "document",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L1068",
+      "source_location": "L1071",
       "_origin": "ast",
       "id": "docs_music_generator_progress_packet_completion_checklist",
       "community": 39,
@@ -23187,7 +23224,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L639",
+      "source_location": "L666",
       "weight": 1.0,
       "_origin": "ast",
       "source": "e2e_app_spec",
@@ -23220,7 +23257,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L642",
+      "source_location": "L669",
       "weight": 1.0,
       "_origin": "ast",
       "source": "e2e_app_spec",
@@ -23231,7 +23268,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L930",
+      "source_location": "L957",
       "weight": 1.0,
       "_origin": "ast",
       "source": "e2e_app_spec",
@@ -23264,7 +23301,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L914",
+      "source_location": "L941",
       "weight": 1.0,
       "_origin": "ast",
       "source": "e2e_app_spec",
@@ -23357,7 +23394,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L643",
+      "source_location": "L670",
       "weight": 1.0,
       "_origin": "ast",
       "source": "e2e_app_spec_confirmbundleexport",
@@ -23369,7 +23406,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "e2e/app.spec.ts",
-      "source_location": "L942",
+      "source_location": "L969",
       "weight": 1.0,
       "_origin": "ast",
       "source": "e2e_app_spec_importsamplebank",
@@ -42541,7 +42578,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L86",
+      "source_location": "L136",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel_instrumentpanel",
@@ -42613,7 +42650,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L86",
+      "source_location": "L136",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel_instrumentpanel",
@@ -43045,7 +43082,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L106",
+      "source_location": "L146",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel_instrumentpanel",
@@ -43069,7 +43106,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L91",
+      "source_location": "L141",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel_instrumentpanel",
@@ -68928,11 +68965,35 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/InstrumentPanel.test.tsx",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel_test",
       "target": "src_ui_instrumentpanel_test_compositionwithsoundfont",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/InstrumentPanel.test.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_ui_instrumentpanel_test",
+      "target": "src_ui_partpanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/InstrumentPanel.test.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_ui_instrumentpanel_test",
+      "target": "src_ui_partpanel_partpanel",
       "confidence_score": 1.0
     },
     {
@@ -68974,7 +69035,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L70",
+      "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel",
@@ -68996,7 +69057,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L59",
+      "source_location": "L109",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel",
@@ -69007,7 +69068,40 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/InstrumentPanel.tsx",
+      "source_location": "L57",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_ui_instrumentpanel",
+      "target": "src_ui_instrumentpanel_nativeinstrumentdefinitions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/InstrumentPanel.tsx",
       "source_location": "L42",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_ui_instrumentpanel",
+      "target": "src_ui_instrumentpanel_nativeinstrumentkind",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/InstrumentPanel.tsx",
+      "source_location": "L88",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_ui_instrumentpanel",
+      "target": "src_ui_instrumentpanel_nativeinstrumentkinds",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/InstrumentPanel.tsx",
+      "source_location": "L92",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel",
@@ -69018,7 +69112,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L284",
+      "source_location": "L342",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel",
@@ -69029,7 +69123,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L272",
+      "source_location": "L330",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel",
@@ -69076,7 +69170,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L199",
+      "source_location": "L257",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel_instrumentpanel",
@@ -69088,7 +69182,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/InstrumentPanel.tsx",
-      "source_location": "L211",
+      "source_location": "L269",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_instrumentpanel_instrumentpanel",
@@ -73554,7 +73648,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L609",
+      "source_location": "L611",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_manual_manual",
@@ -73598,7 +73692,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L595",
+      "source_location": "L597",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_manual_manual",
@@ -73609,7 +73703,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L577",
+      "source_location": "L579",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_manual_manual",
@@ -73620,7 +73714,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L640",
+      "source_location": "L642",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_manual_manual",
@@ -73686,7 +73780,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L551",
+      "source_location": "L553",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_manual_manual",
@@ -73697,7 +73791,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L654",
+      "source_location": "L656",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_manual_manual",
@@ -73873,7 +73967,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MANUAL.md",
-      "source_location": "L625",
+      "source_location": "L627",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_manual_files",
@@ -73961,7 +74055,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1570",
+      "source_location": "L1577",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74115,7 +74209,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L790",
+      "source_location": "L797",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74126,7 +74220,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L840",
+      "source_location": "L847",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74137,7 +74231,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L882",
+      "source_location": "L889",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74148,7 +74242,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L923",
+      "source_location": "L930",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74159,7 +74253,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L963",
+      "source_location": "L970",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74170,7 +74264,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1011",
+      "source_location": "L1018",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74181,7 +74275,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1047",
+      "source_location": "L1054",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74192,7 +74286,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1086",
+      "source_location": "L1093",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74203,7 +74297,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1126",
+      "source_location": "L1133",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74214,7 +74308,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1200",
+      "source_location": "L1207",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74225,7 +74319,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1342",
+      "source_location": "L1349",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74236,7 +74330,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1424",
+      "source_location": "L1431",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74247,7 +74341,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1490",
+      "source_location": "L1497",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74269,7 +74363,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1545",
+      "source_location": "L1552",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_spirophonic_music_generator_build_plan",
@@ -74357,7 +74451,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-BUILD-PLAN.md",
-      "source_location": "L1258",
+      "source_location": "L1265",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_build_plan_mg_21_scalability_hardening_example_works_and_release",
@@ -74390,7 +74484,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L198",
+      "source_location": "L199",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_spirophonic_music_generator_progress_tracker",
@@ -74401,7 +74495,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L261",
+      "source_location": "L263",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_spirophonic_music_generator_progress_tracker",
@@ -74412,7 +74506,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L207",
+      "source_location": "L208",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_spirophonic_music_generator_progress_tracker",
@@ -74434,7 +74528,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L243",
+      "source_location": "L245",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_spirophonic_music_generator_progress_tracker",
@@ -74445,7 +74539,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L345",
+      "source_location": "L348",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_spirophonic_music_generator_progress_tracker",
@@ -74456,7 +74550,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L1042",
+      "source_location": "L1045",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_spirophonic_music_generator_progress_tracker",
@@ -74489,7 +74583,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L1068",
+      "source_location": "L1071",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_spirophonic_music_generator_progress_tracker",
@@ -74511,7 +74605,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L221",
+      "source_location": "L222",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_spirophonic_music_generator_progress_tracker",
@@ -74555,7 +74649,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L465",
+      "source_location": "L468",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74566,7 +74660,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L908",
+      "source_location": "L911",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74577,7 +74671,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L500",
+      "source_location": "L503",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74588,7 +74682,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L533",
+      "source_location": "L536",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74599,7 +74693,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L567",
+      "source_location": "L570",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74610,7 +74704,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L604",
+      "source_location": "L607",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74621,7 +74715,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L644",
+      "source_location": "L647",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74632,7 +74726,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L682",
+      "source_location": "L685",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74643,7 +74737,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L720",
+      "source_location": "L723",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74654,7 +74748,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L761",
+      "source_location": "L764",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74665,7 +74759,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L805",
+      "source_location": "L808",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74676,7 +74770,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L854",
+      "source_location": "L857",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74687,7 +74781,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L971",
+      "source_location": "L974",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74698,7 +74792,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L446",
+      "source_location": "L449",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74709,7 +74803,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L427",
+      "source_location": "L430",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74720,7 +74814,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L406",
+      "source_location": "L409",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74731,7 +74825,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L347",
+      "source_location": "L350",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -74742,7 +74836,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/MUSIC-GENERATOR-PROGRESS.md",
-      "source_location": "L372",
+      "source_location": "L375",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_music_generator_progress_handoff_records",
@@ -76445,5 +76539,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a9c801b0d6c320397cf633e24ee860f98e787e04"
+  "built_at_commit": "d02cdcfd6c946795ecd34434824fcd41bf6fd28c"
 }

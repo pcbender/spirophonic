@@ -39,6 +39,56 @@ const drumVoices: Array<NativeDrumInstrumentSpec['voice']> = [
   'cymbal',
 ]
 
+type NativeInstrumentKind = Extract<
+  InstrumentSpec['kind'],
+  `native-${string}`
+>
+
+type NativeInstrumentDefinitions = {
+  [Kind in NativeInstrumentKind]: Readonly<{
+    label: string
+    template: Extract<InstrumentSpec, { kind: Kind }>
+  }>
+}
+
+// Deliberately exhaustive: a new native InstrumentSpec kind must gain a valid
+// creation template and visible label here, or TypeScript rejects the build
+// instead of leaving another engine capability hidden from the UI.
+const nativeInstrumentDefinitions = {
+  'native-synth': {
+    label: 'native synth',
+    template: {
+      id: 'native-synth-template',
+      name: 'Native Synth',
+      kind: 'native-synth',
+      gain: 0.5,
+      pan: 0,
+      waveform: 'triangle',
+      envelope: {
+        attackSeconds: 0.01,
+        decaySeconds: 0.08,
+        sustain: 0.7,
+        releaseSeconds: 0.15,
+      },
+    },
+  },
+  'native-drum': {
+    label: 'native drum',
+    template: {
+      id: 'native-drum-template',
+      name: 'Native Drum',
+      kind: 'native-drum',
+      gain: 0.5,
+      pan: 0,
+      voice: 'kick',
+    },
+  },
+} satisfies NativeInstrumentDefinitions
+
+const nativeInstrumentKinds = Object.keys(
+  nativeInstrumentDefinitions,
+) as Array<NativeInstrumentKind>
+
 const nativeSynthFallback = (
   instrument: SoundFontInstrumentSpec,
 ): NativeSynthInstrumentSpec => ({
@@ -91,23 +141,31 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
     onChange(removeInstrument(composition, id))
   }
 
+  const addNativeInstrument = (kind: NativeInstrumentKind) =>
+    onChange(
+      addInstrument(
+        composition,
+        nativeInstrumentDefinitions[kind].template,
+      ).composition,
+    )
+
   return (
     <RailPanel
       label="Instruments"
       title="Instruments"
       actions={
-        <button
-          type="button"
-          title={help['instrument.add']}
-          onClick={() => {
-            const template =
-              composition.instruments[composition.instruments.length - 1]
-            if (!template) return
-            onChange(addInstrument(composition, template).composition)
-          }}
-        >
-          Add Instrument
-        </button>
+        <div className="panel-actions">
+          {nativeInstrumentKinds.map((kind) => (
+            <button
+              key={kind}
+              type="button"
+              title={help['instrument.addNative']}
+              onClick={() => addNativeInstrument(kind)}
+            >
+              Add {nativeInstrumentDefinitions[kind].label}
+            </button>
+          ))}
+        </div>
       }
     >
       <ol className="voice-list">

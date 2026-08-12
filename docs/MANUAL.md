@@ -522,10 +522,11 @@ unavailable.
 
 Renders what Parts decide. Three kinds.
 
-**Add Instrument** copies the last one — copied rather than invented, because a
-`soundfont` Instrument carries a bank and a preset, and a synthesised default
-would validate and be unable to play. A new Instrument is silent until a Part
-is pointed at it.
+**Add native synth** and **Add native drum** expose every built-in Instrument
+kind directly. Both work offline and start with playable defaults. A new
+Instrument is silent until a Part is pointed at it; it appears immediately in
+every note Part's **Instrument** list. To create a `soundfont` Instrument, add a
+native slot and assign a preset to it from the Sound banks panel.
 
 **Remove** is refused, with a reason, while any *note* Part still plays through
 that Instrument, and a Composition must always keep one. Reassign those Parts
@@ -545,8 +546,9 @@ Common to all kinds: **Name**, **Gain**, **Pan**.
 | **native-drum** | **Voice** — kick, snare, hat, tom, clap, cymbal. |
 | **soundfont** | **Reverb** and **Chorus** sends. Bank, program, preset name, and the percussion flag come from the Sound banks panel when you assign a preset. |
 
-Buttons on each Instrument convert between kinds. Native instruments need no
-assets and work offline; SoundFont instruments need their bank present.
+SoundFont Instruments also offer explicit native synth and drum fallback
+buttons. Native instruments need no assets and work offline; SoundFont
+instruments need their bank present.
 
 ## Variation
 

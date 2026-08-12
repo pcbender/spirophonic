@@ -235,13 +235,13 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-BUILD-PLAN.md": {
-    "mtime": 1786496451.636131,
-    "ast_hash": "d70990f31d09e656a8ef21e9bb5e0a6d",
+    "mtime": 1786500352.1380606,
+    "ast_hash": "09549ed3075b5fe41377e54d831cdefd",
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1786496912.8970437,
-    "ast_hash": "7cbae0a118f97041ee222c4efde996ce",
+    "mtime": 1786500386.434632,
+    "ast_hash": "6109ff0ddf8395d601895b04f06d2457",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -360,13 +360,13 @@
     "semantic_hash": ""
   },
   "src/core/performance.test.ts": {
-    "mtime": 1786496552.001251,
-    "ast_hash": "b97e43f4caf695ae78405a583f67023c",
+    "mtime": 1786500352.1700373,
+    "ast_hash": "d0bb08407386654ea0fb5bf20f3ed0b9",
     "semantic_hash": ""
   },
   "src/core/performance.ts": {
-    "mtime": 1786495509.452139,
-    "ast_hash": "def8790251345c595008bf0f8a616317",
+    "mtime": 1786500352.1700373,
+    "ast_hash": "a866f5a946eb57677ecd1e845dee79e2",
     "semantic_hash": ""
   },
   "src/audio/instrumentEngine.ts": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "src/ui/InstrumentPanel.tsx": {
-    "mtime": 1786321732.7637098,
-    "ast_hash": "05f9f42003f3f54b81c26edae4e80932",
+    "mtime": 1786498451.8612847,
+    "ast_hash": "29f03e4af30ab41694a23406314770d8",
     "semantic_hash": ""
   },
   "src/ui/PartPanel.tsx": {
@@ -470,8 +470,8 @@
     "semantic_hash": ""
   },
   "src/ui/InstrumentPanel.test.tsx": {
-    "mtime": 1786321732.7637098,
-    "ast_hash": "d5c8d282393d4866b47cb0453f71abdf",
+    "mtime": 1786497594.7667415,
+    "ast_hash": "c47f8980f2c8c5afb39178410cbde732",
     "semantic_hash": ""
   },
   "src/ui/SoundBankPanel.test.tsx": {
@@ -530,8 +530,8 @@
     "semantic_hash": ""
   },
   "e2e/app.spec.ts": {
-    "mtime": 1786494600.3247612,
-    "ast_hash": "d59b5c371017500a9712d57470f3ae54",
+    "mtime": 1786498175.2747335,
+    "ast_hash": "207bee1ca40422086184872b94a661d9",
     "semantic_hash": ""
   },
   "playwright.config.ts": {
@@ -800,8 +800,8 @@
     "semantic_hash": ""
   },
   "src/ui/help.ts": {
-    "mtime": 1786495676.208133,
-    "ast_hash": "7429251a08306679418430ab4361485e",
+    "mtime": 1786500352.1700373,
+    "ast_hash": "ee9814d1359bc957ebb8f013cafbbb7a",
     "semantic_hash": ""
   },
   "src/ui/useSoundBankViews.ts": {
@@ -815,8 +815,8 @@
     "semantic_hash": ""
   },
   "docs/MANUAL.md": {
-    "mtime": 1786495676.9161513,
-    "ast_hash": "b6c7352cb11ccdb03a39fd6ac39ecaa8",
+    "mtime": 1786500352.1380606,
+    "ast_hash": "a9c61a6831427d2a7154738141ab54e8",
     "semantic_hash": ""
   },
   "src/core/gateModulation.test.ts": {
@@ -830,8 +830,8 @@
     "semantic_hash": ""
   },
   "src/test/fixtures/gateModulation.ts": {
-    "mtime": 1786495675.5610316,
-    "ast_hash": "874fb79703dcefefbb85339146cb23b9",
+    "mtime": 1786500352.1700373,
+    "ast_hash": "92a329989996d0f2ec1c95e18f893104",
     "semantic_hash": ""
   },
   "scripts/deploy.mjs": {

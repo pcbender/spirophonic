@@ -125,6 +125,33 @@ test('no panel overflows its rail horizontally', async ({ page }) => {
   expect(overflows).toEqual([])
 })
 
+test('every native Instrument can be created and assigned to a Part', async ({
+  page,
+}) => {
+  const instruments = page.getByRole('region', { name: 'Instruments' })
+  const parts = page.getByRole('region', { name: 'Parts' })
+
+  await expect(
+    instruments.getByRole('button', { name: 'Add native synth' }),
+  ).toBeVisible()
+  await instruments.getByRole('button', { name: 'Add native drum' }).click()
+  await expect(instruments.getByLabel('Voice instrument-2')).toHaveValue('kick')
+  await instruments.getByLabel('Voice instrument-2').selectOption('snare')
+
+  const assignment = parts.getByLabel('Instrument part-1')
+  await expect(assignment.locator('option')).toHaveText([
+    'Native Synth',
+    'Native Drum',
+  ])
+  await assignment.selectOption('instrument-2')
+  await expect(assignment).toHaveValue('instrument-2')
+
+  const overflow = await instruments.evaluate(
+    (panel) => panel.scrollWidth - panel.clientWidth,
+  )
+  expect(overflow).toBeLessThanOrEqual(1)
+})
+
 /*
  * A tree row puts the name on its own line and the actions under it.
  *
