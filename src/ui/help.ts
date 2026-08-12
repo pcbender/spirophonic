@@ -219,14 +219,15 @@ export const help = {
   'part.velocityGamma':
     'Bends the curve between the two. 1 is straight; below 1 favours louder, above 1 favours quieter.',
   'part.durationKind':
-    'What decides note length: a fixed value, the gap until this Part’s next note, or one exact visit inside a band or wedge.',
+    'What decides ordinary crossing-note length. A band or positive-width Spoke is always one physical gate: entry starts its note and the matching exit ends it.',
   'part.maxBeats':
     'Longest a note may run when its length comes from the gap to the next one — it also ends the final note of the loop.',
   'part.quantizeStrength':
     'How hard onsets are pulled to the grid. 0 leaves the geometry’s own timing; 1 snaps exactly.',
-  'part.duration': 'How long each note lasts, in beats.',
+  'part.duration':
+    'How long an ordinary crossing note lasts, in beats. Region-gated notes instead last exactly from entry to exit.',
   'part.grid':
-    'Quantization grid in beats. Onsets are pulled toward it, so crossings land musically.',
+    'Quantization grid in beats. Ordinary crossing onsets are pulled toward it; physical region entries stay on their exact gate edge.',
   'part.gateModulation':
     'Samples motion between one matched region entry and exit. Samples shape the held note and never create another onset.',
   'part.addGateModulation':
