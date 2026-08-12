@@ -311,7 +311,10 @@ describe('canonical performance compilation', () => {
       },
     ]
     const part = notePart('part-wedge', 'instrument-1', 60)
-    part.duration = { kind: 'inside-region' }
+    // Region geometry owns the gate lifetime. A generic fixed duration and
+    // note grid must not turn the wedge's entry and exit into separate notes.
+    part.duration = { kind: 'fixed', beats: 0.25 }
+    part.quantize = { gridBeats: 0.25, strength: 0.75 }
     part.encounterQuery.fieldIds = ['field-wedge']
     composition.parts = [part]
     const wedgeRequest = {
@@ -320,13 +323,18 @@ describe('canonical performance compilation', () => {
       sampleRateHz: 120,
     }
 
-    const performanceAtRadius = (radius: number) => {
-      const fixture = fixedFrequencySineGateFixture(radius)
-      return interpretEncounters(composition, wedgeRequest, fixture.encounters)
-    }
-
-    const near = performanceAtRadius(50)
-    const far = performanceAtRadius(100)
+    const nearFixture = fixedFrequencySineGateFixture(50)
+    const farFixture = fixedFrequencySineGateFixture(100)
+    const near = interpretEncounters(
+      composition,
+      wedgeRequest,
+      nearFixture.encounters,
+    )
+    const far = interpretEncounters(
+      composition,
+      wedgeRequest,
+      farFixture.encounters,
+    )
 
     expect(near.events).toHaveLength(1)
     expect(far.events).toHaveLength(1)
@@ -334,6 +342,118 @@ describe('canonical performance compilation', () => {
       near.events[0].durationSeconds,
     )
     expect(far.events[0].midiNote).toBe(near.events[0].midiNote)
+    for (const [result, fixture] of [
+      [near, nearFixture],
+      [far, farFixture],
+    ] as const) {
+      const event = result.events[0]
+      expect(event.sourceEncounterId).toBe(fixture.entry.id)
+      expect(event.timeSeconds).toBe(fixture.entry.timeSeconds)
+      expect(event.durationSeconds).toBeCloseTo(
+        fixture.exit.timeSeconds - fixture.entry.timeSeconds,
+        9,
+      )
+      expect(event.durationBeats).not.toBe(0.25)
+    }
+  })
+
+  it('holds each visit in the fixed-duration Spoke Test document until exit', () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    composition.name = 'Spoke Test'
+    composition.space = {
+      center: { x: 0, y: 0 },
+      scale: 1,
+      pitchReference: 180,
+    }
+    composition.transport = {
+      tempoBpm: 82,
+      meter: { beatsPerBar: 4, beatUnit: 4 },
+      loop: { startBeat: 0, lengthBeats: 16 },
+    }
+    composition.wheels[0].rate = { cycles: 1, beats: 4 }
+    composition.wheels[0].phase = 0
+    composition.wheels[0].direction = 'forward'
+    composition.wheels[0].motion = {
+      kind: 'rose',
+      numerator: 4,
+      denominator: 1,
+    }
+    composition.wheels[0].heads[0].phaseOffset = 0
+    composition.wheels[0].heads[0].offset = { x: 0, y: 0 }
+    composition.wheels[0].heads[0].attachment = {
+      kind: 'rose',
+      radiusScale: 80,
+      angularOffset: 0,
+    }
+    composition.fields = [
+      {
+        id: 'field-spokes-1',
+        name: 'Spoke Field',
+        enabled: true,
+        center: { x: 0, y: 0 },
+        kind: 'spokes',
+        rotation: 0,
+        boundaries: [
+          {
+            id: 'field-spokes-1-boundary-1',
+            name: 'Spoke 1',
+            enabled: true,
+            index: 0,
+            kind: 'spoke',
+            angle: 0,
+            length: 200,
+            angularWidth: 0.5,
+          },
+        ],
+      },
+    ]
+    const part = notePart('part-1', 'instrument-1', 60)
+    part.duration = { kind: 'fixed', beats: 0.25 }
+    part.quantize = { gridBeats: 0.25, strength: 0.75 }
+    composition.parts = [part]
+
+    const performance = compilePerformance(composition, {
+      startSeconds: 0,
+      durationSeconds: (16 * 60) / 82,
+      sampleRateHz: 120,
+    })
+    const completeEntries = performance.encounters.filter(
+      (entry) =>
+        entry.transition === 'enter' &&
+        performance.encounters.some(
+          (exit) =>
+            exit.timeSeconds > entry.timeSeconds &&
+            exit.wheelId === entry.wheelId &&
+            exit.headId === entry.headId &&
+            exit.fieldId === entry.fieldId &&
+            exit.boundaryId === entry.boundaryId &&
+            exit.transition === 'exit',
+        ),
+    )
+
+    expect(completeEntries.length).toBeGreaterThan(0)
+    expect(performance.interpretedEvents).toHaveLength(completeEntries.length)
+    for (const event of performance.interpretedEvents) {
+      const entry = performance.encounters.find(
+        (encounter) => encounter.id === event.sourceEncounterId,
+      )
+      const exit = performance.encounters.find(
+        (encounter) =>
+          encounter.timeSeconds > (entry?.timeSeconds ?? Number.POSITIVE_INFINITY) &&
+          encounter.wheelId === entry?.wheelId &&
+          encounter.headId === entry?.headId &&
+          encounter.fieldId === entry?.fieldId &&
+          encounter.boundaryId === entry?.boundaryId &&
+          encounter.transition === 'exit',
+      )
+      expect(entry?.transition).toBe('enter')
+      expect(event.timeSeconds).toBe(entry?.timeSeconds)
+      expect(event.durationSeconds).toBeCloseTo(
+        (exit?.timeSeconds ?? 0) - (entry?.timeSeconds ?? 0),
+        9,
+      )
+      expect(event.durationBeats).not.toBe(0.25)
+    }
   })
 
   it('adds modulation lanes without changing gate notes or Encounter identity', () => {

@@ -235,13 +235,13 @@
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-BUILD-PLAN.md": {
-    "mtime": 1786498543.2413912,
-    "ast_hash": "fe0c512c957432e11f0842d46a92d67a",
+    "mtime": 1786500352.1380606,
+    "ast_hash": "09549ed3075b5fe41377e54d831cdefd",
     "semantic_hash": ""
   },
   "docs/MUSIC-GENERATOR-PROGRESS.md": {
-    "mtime": 1786498602.344292,
-    "ast_hash": "74d5ff6c603a3d28ccba3e74957b3fa8",
+    "mtime": 1786500386.434632,
+    "ast_hash": "6109ff0ddf8395d601895b04f06d2457",
     "semantic_hash": ""
   },
   "docs/Spirophonic-Domain-Model.md": {
@@ -360,13 +360,13 @@
     "semantic_hash": ""
   },
   "src/core/performance.test.ts": {
-    "mtime": 1786497415.379809,
-    "ast_hash": "8b3fd800984ebe72ca803ca20c7ff521",
+    "mtime": 1786500352.1700373,
+    "ast_hash": "d0bb08407386654ea0fb5bf20f3ed0b9",
     "semantic_hash": ""
   },
   "src/core/performance.ts": {
-    "mtime": 1786497415.379809,
-    "ast_hash": "61d42cb5a04545a1cee8d01574f7283e",
+    "mtime": 1786500352.1700373,
+    "ast_hash": "a866f5a946eb57677ecd1e845dee79e2",
     "semantic_hash": ""
   },
   "src/audio/instrumentEngine.ts": {
@@ -800,8 +800,8 @@
     "semantic_hash": ""
   },
   "src/ui/help.ts": {
-    "mtime": 1786498452.5287702,
-    "ast_hash": "650743bea9c1a2a48d21b4ae38ebf552",
+    "mtime": 1786500352.1700373,
+    "ast_hash": "ee9814d1359bc957ebb8f013cafbbb7a",
     "semantic_hash": ""
   },
   "src/ui/useSoundBankViews.ts": {
@@ -815,8 +815,8 @@
     "semantic_hash": ""
   },
   "docs/MANUAL.md": {
-    "mtime": 1786497595.4168856,
-    "ast_hash": "3293f46bc45f50da0b38f22c3a3ad63b",
+    "mtime": 1786500352.1380606,
+    "ast_hash": "a9c61a6831427d2a7154738141ab54e8",
     "semantic_hash": ""
   },
   "src/core/gateModulation.test.ts": {
@@ -830,8 +830,8 @@
     "semantic_hash": ""
   },
   "src/test/fixtures/gateModulation.ts": {
-    "mtime": 1786497415.379809,
-    "ast_hash": "b2e5a6a5d7b536a81540b2d79ae55127",
+    "mtime": 1786500352.1700373,
+    "ast_hash": "92a329989996d0f2ec1c95e18f893104",
     "semantic_hash": ""
   },
   "scripts/deploy.mjs": {

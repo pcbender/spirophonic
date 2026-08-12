@@ -115,6 +115,9 @@ type NoteCandidate = Readonly<{
   velocity: number
 }>
 
+const isRegionEntry = (encounter: InterpretableEncounter) =>
+  encounter.transition === 'enter'
+
 const compareText = (left: string, right: string) =>
   left < right ? -1 : left > right ? 1 : 0
 
@@ -270,7 +273,9 @@ const quantizedCandidates = (
       candidates.push(
         Object.freeze({
           encounter,
-          absoluteBeat: part.quantize
+          // Area Boundaries are physical gates. Their onset must stay on the
+          // entry edge even when this Part quantizes ordinary point crossings.
+          absoluteBeat: part.quantize && !isRegionEntry(encounter)
             ? quantizeAbsoluteBeat(encounter.absoluteBeat, part.quantize)
             : encounter.absoluteBeat,
           pitch: mapEncounterPitch(
@@ -302,8 +307,15 @@ const quantizedCandidates = (
 
   if (!part.quantize) return candidates
 
+  const regionEntries: Array<NoteCandidate> = []
   const winners: Array<NoteCandidate & { slot: number }> = []
   for (const candidate of candidates) {
+    // A gate visit cannot lose its note-on by competing with an unrelated
+    // crossing in the Part's quantize slot.
+    if (isRegionEntry(candidate.encounter)) {
+      regionEntries.push(candidate)
+      continue
+    }
     const slot = Math.round(
       candidate.encounter.absoluteBeat / part.quantize.gridBeats,
     )
@@ -324,14 +336,17 @@ const quantizedCandidates = (
     }
   }
 
-  return winners.map((winner) =>
-    Object.freeze({
-      encounter: winner.encounter,
-      absoluteBeat: winner.absoluteBeat,
-      pitch: winner.pitch,
-      velocity: winner.velocity,
-    }),
-  )
+  return [
+    ...regionEntries,
+    ...winners.map((winner) =>
+      Object.freeze({
+        encounter: winner.encounter,
+        absoluteBeat: winner.absoluteBeat,
+        pitch: winner.pitch,
+        velocity: winner.velocity,
+      }),
+    ),
+  ]
 }
 
 const durationForCandidate = (
@@ -341,6 +356,24 @@ const durationForCandidate = (
   selected: ReadonlyArray<NoteCandidate>,
   allEncounters: ReadonlyArray<InterpretableEncounter>,
 ): number | undefined => {
+  if (isRegionEntry(candidate.encounter)) {
+    const nextPhysical = allEncounters.find(
+      (encounter) =>
+        encounter.timeSeconds > candidate.encounter.timeSeconds &&
+        encounter.wheelId === candidate.encounter.wheelId &&
+        encounter.headId === candidate.encounter.headId &&
+        encounter.fieldId === candidate.encounter.fieldId &&
+        encounter.boundaryId === candidate.encounter.boundaryId &&
+        encounter.transition === 'exit',
+    )
+    if (!nextPhysical) return undefined
+    const endBeat = nextPhysical.absoluteBeat
+
+    return endBeat > candidate.absoluteBeat + 1e-9
+      ? endBeat - candidate.absoluteBeat
+      : undefined
+  }
+
   if (part.duration.kind === 'fixed') return part.duration.beats
 
   if (part.duration.kind === 'until-next') {
@@ -412,20 +445,13 @@ const interpretNotePart = (
   variationTrace: Array<VariationTraceEntry>,
 ) => {
   const selectedByQuery = selectPartEncounters(part, allEncounters)
-  const usesRegionGate =
-    part.duration.kind === 'inside-band' ||
-    part.duration.kind === 'inside-region'
-  const selectedEncounters = usesRegionGate
-    ? selectedByQuery.filter((encounter) => encounter.transition === 'enter')
-    : selectedByQuery
-  // A region entry is the gate's note-on. Quantizing it would detach the note
-  // and its modulation lane from the physical opening edge.
-  const candidatePart =
-    usesRegionGate && part.quantize
-      ? Object.freeze({ ...part, quantize: undefined })
-      : part
+  // Every area Boundary owns its visit lifetime: entry is note-on and exit is
+  // note-off. Duration mappings continue to govern non-region encounters.
+  const selectedEncounters = selectedByQuery.filter(
+    (encounter) => encounter.transition !== 'exit',
+  )
   const candidates = quantizedCandidates(
-    candidatePart,
+    part,
     selectedEncounters,
     composition,
     diagnostics,
@@ -457,7 +483,7 @@ const interpretNotePart = (
         Object.freeze({
           severity: 'warning' as const,
           code: 'mapping-error' as const,
-          message: `Region entry "${candidate.encounter.id}" has no later matching exit after quantization; no note was emitted.`,
+          message: `Region entry "${candidate.encounter.id}" has no later matching exit; no note was emitted.`,
           partId: part.id,
           encounterId: candidate.encounter.id,
         }),
