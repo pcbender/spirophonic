@@ -283,11 +283,13 @@ A positive Spoke width makes a finite triangular wedge. **Length** is the
 distance from the Field centre to each distal vertex, and the edge connecting
 those vertices is part of the gate. A Head entering through either radial edge
 or that outer edge starts one held note; the matching exit through any edge ends
-it. Motion that remains inside belongs to that held note and does not create
-another onset. A zero-width Spoke is a finite point-crossing ray segment. Only
-visits whose entry and exit both occur in the compiled window become notes; a
-clipped or unmatched visit is skipped instead of being given a made-up duration
-or left hanging across a loop.
+it. This physical gate overrides the Part's ordinary **Fixed** or **Until next
+note** duration and its quantization grid: entry remains note-on and exit remains
+note-off. Motion that remains inside belongs to that held note and does not
+create another onset. A zero-width Spoke is a finite point-crossing ray segment.
+Only visits whose entry and exit both occur in the compiled window become notes;
+a clipped or unmatched visit is skipped instead of being given a made-up
+duration or left hanging across a loop.
 
 **Add Boundary** places the new one where it will not land on an existing one:
 rings, ellipses, and bands step outward from the widest sibling, while every
@@ -324,7 +326,7 @@ Turns Encounters into notes.
 | **Pitch mapping** | How an Encounter chooses a pitch. All eight are listed below; the parameters beneath the dropdown change with the choice. |
 | **Velocity** | Loudness from each Encounter's strength, or one constant value. |
 | **Vel min**, **Vel max**, **Vel curve** | Under Encounter strength: the velocity range, and the gamma bending the curve between them. 1 is straight, below 1 favours louder, above 1 quieter. |
-| **Duration** | `Fixed` a set length, `Until next note` the gap to this Part's next note, or `Time inside a region` — a Head entering a band or wedge starts one note and the exactly matched exit ends it. `Time inside a band` remains as the legacy saved spelling. |
+| **Duration** | For ordinary point crossings: `Fixed` is a set length and `Until next note` is the gap to this Part's next note. A band or positive-width Spoke is inherently region-gated regardless of this choice: entry starts one note and the exactly matched exit ends it. `Time inside a region` and `Time inside a band` remain valid explicit/legacy saved spellings. |
 | **Duration (beats)** / **Max (beats)** | The length, or the cap on one derived from the gap. |
 | **Grid (beats)** | Quantization grid. |
 | **Grid pull** | How hard onsets are pulled to it. 0 keeps the geometry's own timing; 1 snaps exactly. |
@@ -354,9 +356,9 @@ finite outer edge.
 
 Continuous mappings also style only the corresponding portion of the drawn
 Trace. Width and opacity show gain; hue shows brightness, pan, or pitch offset.
-The geometric line itself is unchanged. A mapping needs **Time inside a
-region** and a complete entry/exit pair; an incomplete visit is diagnosed and
-does not leave a lane or held note hanging.
+The geometric line itself is unchanged. A mapping needs a complete region
+entry/exit pair; an incomplete visit is diagnosed and does not leave a lane or
+held note hanging.
 
 The native synth applies all six targets to one voice: attack and initial
 velocity at note-on, then gain, pan, pitch offset, and low-pass brightness at

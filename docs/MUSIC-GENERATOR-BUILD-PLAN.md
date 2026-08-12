@@ -394,7 +394,7 @@ sweep, it does not license silent scope growth.
 | MG-20 | Offline audio and portable project bundles | MG-10, MG-11, MG-18, MG-19 | **done** |
 | MG-21 | Scalability hardening, example works, and release | MG-12–MG-20 | **done** |
 | WIN-01 | Native Windows development portability | MG-21 | **done** |
-| MG-22 | Wedge-spoke regions and exact gate spans | MG-21 | **done** |
+| MG-22 | Wedge-spoke regions and exact gate spans | MG-21 | **done** — gate-ownership correction validated 2026-08-11 |
 | MG-23 | In-gate modulation lanes and Trace notation | MG-22 | **done** |
 | MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | **done** |
 
@@ -1370,6 +1370,13 @@ require the same Boundary or distinguish entry from exit. Wedges and bands now
 share explicit region transitions and exact pairing by Head, Field, and
 Boundary. A legacy zero-width Spoke may keep point-crossing behaviour, but every
 newly authored Spoke has a positive angular width and uses gate semantics.
+
+**Contract clarification (2026-08-11):** gate semantics belong to the region
+Encounter, not to an optional Part duration setting. For a band or
+positive-width Spoke, entry always starts one note and the matching exit always
+ends it. A Part's fixed/until-next duration and quantization continue to govern
+ordinary point crossings, but cannot turn a region's two edges into separate
+notes or move its note-on away from the physical entry.
 
 **Deliverables:**
 

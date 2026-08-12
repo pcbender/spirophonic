@@ -134,8 +134,11 @@ export const gatedModulationComposition = (): Composition => {
   const part = structuredClone(composition.parts[0]) as NotePartSpec
   part.id = 'part-gate'
   part.name = 'Gate Part'
-  part.duration = { kind: 'inside-region' }
-  part.quantize = undefined
+  // The region owns note-off even when ordinary crossings on this Part use a
+  // fixed, quantized rhythm. This mirrors imported documents authored before
+  // the region-duration choice was selected explicitly.
+  part.duration = { kind: 'fixed', beats: 0.25 }
+  part.quantize = { gridBeats: 0.25, strength: 0.75 }
   part.encounterQuery.fieldIds = ['field-wedge']
   part.encounterQuery.boundaryIds = ['wedge-west']
   part.gateModulations = [{ ...speedMapping }]
