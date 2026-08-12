@@ -1,6 +1,9 @@
 import { expect, test, type Page } from '@playwright/test'
 
-import { compilePerformance } from '../src/core/performance'
+import type { Composition, NotePartSpec } from '../src/core/composition'
+import { defaultComposition } from '../src/core/defaultComposition'
+import { encounterMatchesQuery } from '../src/core/parts'
+import { audiblePartIds, compilePerformance } from '../src/core/performance'
 import { beatsToSeconds } from '../src/core/transport'
 import { gatedModulationComposition } from '../src/test/fixtures/gateModulation'
 
@@ -82,6 +85,51 @@ const loadReference = async (page: Page) => {
   ).toBeVisible()
 }
 
+const ownRingMultiHeadComposition = (): Composition => {
+  const composition = structuredClone(defaultComposition) as Composition
+  composition.id = 'own-ring-multi-head'
+  composition.name = 'Own Ring Multi-Head'
+  const wheel = composition.wheels[0]
+  const secondHead = structuredClone(wheel.heads[0])
+  secondHead.id = 'head-2'
+  secondHead.name = 'Head 2'
+  secondHead.phaseOffset = 0.25
+  wheel.heads.push(secondHead)
+
+  const rings = composition.fields.find((field) => field.kind === 'rings')
+  if (!rings) throw new Error('Expected the default Ring Field.')
+  rings.boundaries = [
+    {
+      id: 'ring-head-1',
+      name: 'Head 1 Ring',
+      enabled: true,
+      index: 0,
+      kind: 'ring',
+      radius: 24,
+    },
+    {
+      id: 'ring-head-2',
+      name: 'Head 2 Ring',
+      enabled: true,
+      index: 1,
+      kind: 'ring',
+      radius: 32.001,
+    },
+  ]
+  composition.fields = [rings]
+
+  const firstPart = composition.parts[0] as NotePartSpec
+  firstPart.encounterQuery.headIds = ['head-1']
+  firstPart.encounterQuery.boundaryIds = ['ring-head-1']
+  const secondPart = structuredClone(firstPart)
+  secondPart.id = 'part-2'
+  secondPart.name = 'Head 2 Part'
+  secondPart.encounterQuery.headIds = ['head-2']
+  secondPart.encounterQuery.boundaryIds = ['ring-head-2']
+  composition.parts = [firstPart, secondPart]
+  return composition
+}
+
 test('renders the composition canvas with visible geometry', async ({ page }) => {
   const canvas = page.locator('canvas')
   await expect(canvas).toBeVisible()
@@ -93,6 +141,68 @@ test('renders the composition canvas with visible geometry', async ({ page }) =>
   await expect
     .poll(async () => canvasInk(page), { timeout: 15_000 })
     .toBeGreaterThan(500)
+})
+
+test('canvas trigger markers show only crossings heard by the current mix', async ({
+  page,
+}) => {
+  const composition = ownRingMultiHeadComposition()
+  const request = {
+    startSeconds: 0,
+    durationSeconds: beatsToSeconds(
+      composition.transport.loop.lengthBeats,
+      composition.transport.tempoBpm,
+    ),
+    sampleRateHz: 120,
+  }
+  const performance = compilePerformance(composition, request)
+  const audible = audiblePartIds(composition)
+  const listeners = composition.parts.filter(
+    (part) => part.kind === 'note' && audible.has(part.id),
+  )
+  const listened = performance.encounters.filter((encounter) =>
+    listeners.some((part) =>
+      encounterMatchesQuery(encounter, part.encounterQuery),
+    ),
+  )
+  const countsAt = (timeSeconds: number) => ({
+    detected: performance.encounters.filter(
+      (encounter) =>
+        encounter.timeSeconds <= timeSeconds &&
+        timeSeconds - encounter.timeSeconds <= 0.35,
+    ).length,
+    listened: listened.filter(
+      (encounter) =>
+        encounter.timeSeconds <= timeSeconds &&
+        timeSeconds - encounter.timeSeconds <= 0.35,
+    ).length,
+  })
+  const renderTime = performance.encounters
+    .map((encounter) => Number(encounter.timeSeconds.toFixed(3)))
+    .find((timeSeconds) => {
+      const counts = countsAt(timeSeconds)
+      return counts.listened > 0 && counts.detected > counts.listened
+    })
+  if (renderTime === undefined) {
+    throw new Error('Expected overlapping listened and unlistened crossings.')
+  }
+  const expected = countsAt(renderTime)
+
+  await page.getByLabel('Import Composition JSON').setInputFiles({
+    name: 'own-ring-multi-head.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(composition)),
+  })
+  await expect(page.getByText('Imported Own Ring Multi-Head.')).toBeVisible()
+  await page
+    .getByRole('slider', { name: 'Transport position' })
+    .fill(String(renderTime))
+
+  expect(expected.detected).toBeGreaterThan(expected.listened)
+  await expect(page.locator('.composition-canvas-shell')).toHaveAttribute(
+    'data-recent-encounters',
+    String(expected.listened),
+  )
 })
 
 test('no panel overflows its rail horizontally', async ({ page }) => {
