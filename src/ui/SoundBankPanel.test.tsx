@@ -44,6 +44,7 @@ type HarnessProps = {
     reference: SoundBankReference,
     preset: SoundFontPreset,
     note: number,
+    oneShot?: boolean,
   ) => Promise<void>
   onOpenSettings?: () => void
 }
@@ -70,45 +71,130 @@ function Harness({
         audition={audition}
         onOpenSettings={onOpenSettings}
       />
-      <output aria-label="Instrument kind">
-        {composition.instruments[0]?.kind}
-      </output>
-      <output aria-label="Instrument preset">
-        {composition.instruments[0]?.kind === 'soundfont'
-          ? composition.instruments[0].presetName
-          : ''}
-      </output>
+      <output aria-label="Composition state">{JSON.stringify(composition)}</output>
     </>
   )
 }
 
 describe('SoundBankPanel', () => {
-  it('browses, auditions, and assigns a preset', async () => {
+  const currentComposition = () =>
+    JSON.parse(screen.getByLabelText('Composition state').textContent ?? '{}') as Composition
+
+  it('browses, previews, and appends uniquely named Instruments', async () => {
     const audition = vi.fn(async () => undefined)
     render(<Harness inspectBank={vi.fn(async () => presets)} audition={audition} />)
 
+    const initial = currentComposition()
+    const initialPartAssignments = initial.parts.map((part) => part.instrumentId)
+    const initialInstrumentIds = initial.instruments.map((instrument) => instrument.id)
+
     expect(await screen.findByText('ready')).toBeInTheDocument()
     expect(screen.getByLabelText('Preset bank-studio')).toHaveValue('0')
+    expect(
+      screen.getByLabelText('Preset bank-studio').querySelectorAll('option'),
+    ).toHaveLength(2)
+    expect(screen.queryByRole('option', { name: /drums$/ })).not.toBeInTheDocument()
 
     fireEvent.change(screen.getByLabelText('Find preset bank-studio'), {
       target: { value: 'strings' },
     })
     expect(screen.getByText('Preset (1)')).toBeInTheDocument()
 
-    fireEvent.click(screen.getByRole('button', { name: 'Audition C4 bank-studio' }))
+    expect(screen.getByLabelText('Instrument name bank-studio')).toHaveValue(
+      'Warm Strings',
+    )
+    fireEvent.change(screen.getByLabelText('Instrument name bank-studio'), {
+      target: { value: 'Strings' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Preview C4' }))
     await waitFor(() =>
       expect(audition).toHaveBeenCalledWith(
         expect.objectContaining({ digest }),
         presets[1],
         60,
+        false,
       ),
     )
 
-    fireEvent.click(screen.getByRole('button', { name: 'Use preset' }))
-    expect(screen.getByLabelText('Instrument kind')).toHaveTextContent('soundfont')
-    expect(screen.getByLabelText('Instrument preset')).toHaveTextContent(
-      'Warm Strings',
+    fireEvent.click(screen.getByRole('button', { name: 'Add instrument' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Add instrument' }))
+    const next = currentComposition()
+    expect(next.instruments.slice(0, initial.instruments.length).map(({ id }) => id))
+      .toEqual(initialInstrumentIds)
+    expect(next.parts.map((part) => part.instrumentId)).toEqual(
+      initialPartAssignments,
     )
+    expect(next.instruments.slice(-2)).toMatchObject([
+      { name: 'Strings', kind: 'soundfont', presetName: 'Warm Strings' },
+      { name: 'Strings 2', kind: 'soundfont', presetName: 'Warm Strings' },
+    ])
+    expect(screen.queryByLabelText('Assign preset bank-studio')).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Use preset' })).not.toBeInTheDocument()
+  })
+
+  it('shows only drum presets and adds one fixed drum note', async () => {
+    const audition = vi.fn(async () => undefined)
+    render(<Harness inspectBank={vi.fn(async () => presets)} audition={audition} />)
+
+    expect(await screen.findByText('ready')).toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText('Playback bank-studio'), {
+      target: { value: 'drums' },
+    })
+    expect(screen.getByLabelText('Playback bank-studio')).toHaveValue('drums')
+    expect(screen.getByText('Preset (1)')).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: /Standard Kit.*drums$/ }))
+      .toBeInTheDocument()
+    expect(screen.queryByRole('option', { name: /Grand Piano/ }))
+      .not.toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText('Find preset bank-studio'), {
+      target: { value: 'drums' },
+    })
+    expect(screen.getByText('Preset (1)')).toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText('Find preset bank-studio'), {
+      target: { value: '' },
+    })
+    fireEvent.change(screen.getByLabelText('MIDI note bank-studio'), {
+      target: { value: '36' },
+    })
+    fireEvent.change(screen.getByLabelText('Instrument name bank-studio'), {
+      target: { value: 'Kick' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Preview C2' }))
+
+    await waitFor(() =>
+      expect(audition).toHaveBeenCalledWith(
+        expect.objectContaining({ digest }),
+        presets[2],
+        36,
+        true,
+      ),
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Add instrument' }))
+
+    expect(currentComposition().instruments.at(-1)).toMatchObject({
+      name: 'Kick',
+      kind: 'soundfont',
+      bank: 15_360,
+      program: 0,
+      percussion: true,
+      trigger: { kind: 'one-shot', note: 36 },
+    })
+  })
+
+  it('disables drum authoring when a bank has no drum presets', async () => {
+    render(<Harness inspectBank={vi.fn(async () => presets.slice(0, 2))} />)
+
+    expect(await screen.findByText('ready')).toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText('Playback bank-studio'), {
+      target: { value: 'drums' },
+    })
+
+    expect(screen.getByText('Preset (0)')).toBeInTheDocument()
+    expect(screen.getByLabelText('Preset bank-studio')).toBeDisabled()
+    expect(screen.getByRole('option', { name: 'No matching presets' }))
+      .toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Preview C4' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Add instrument' })).toBeDisabled()
   })
 
   it('no longer carries the setup controls, which moved to Settings', async () => {
@@ -142,9 +228,7 @@ describe('SoundBankPanel', () => {
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Relink')
     // A native Instrument is untouched by a bank that cannot be reached.
-    expect(screen.getByLabelText('Instrument kind')).toHaveTextContent(
-      'native-synth',
-    )
+    expect(currentComposition().instruments[0].kind).toBe('native-synth')
     fireEvent.click(screen.getByRole('button', { name: 'Open Settings' }))
     expect(onOpenSettings).toHaveBeenCalled()
   })

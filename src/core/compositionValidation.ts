@@ -1110,6 +1110,7 @@ const validateInstrument = (
               'program',
               'presetName',
               'percussion',
+              'trigger',
               'reverb',
               'chorus',
             ]
@@ -1175,6 +1176,18 @@ const validateInstrument = (
       maxLength: 200,
     })
     context.boolean(instrument, 'percussion', `${path}.percussion`)
+    if (instrument.trigger !== undefined) {
+      const trigger = context.object(instrument.trigger, `${path}.trigger`)
+      if (trigger) {
+        context.knownKeys(trigger, `${path}.trigger`, ['kind', 'note'])
+        context.literal(trigger, 'kind', `${path}.trigger.kind`, ['one-shot'])
+        context.number(trigger, 'note', `${path}.trigger.note`, {
+          min: 0,
+          max: 127,
+          integer: true,
+        })
+      }
+    }
     context.number(instrument, 'reverb', `${path}.reverb`, { min: 0, max: 1 })
     context.number(instrument, 'chorus', `${path}.chorus`, { min: 0, max: 1 })
   }

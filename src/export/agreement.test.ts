@@ -85,6 +85,45 @@ const silentOfflineContext: OfflineContextFactory = (
 }
 
 describe('canonical export agreement', () => {
+  it('adapts every event from a fixed-note SoundFont Instrument to the same note', () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    const source = composition.instruments[0]
+    composition.instruments[0] = {
+      id: source.id,
+      name: 'Kick',
+      kind: 'soundfont',
+      gain: source.gain,
+      pan: source.pan,
+      soundBankId: composition.soundBanks[0].id,
+      bank: 0,
+      program: 0,
+      presetName: 'Drum Samples',
+      percussion: false,
+      trigger: { kind: 'one-shot', note: 36 },
+      reverb: 0.2,
+      chorus: 0,
+    }
+    const performance = compilePerformance(composition, {
+      startSeconds: 0,
+      durationSeconds: 4,
+      sampleRateHz: 120,
+    })
+
+    const midiNotes = buildPerformanceMidiTracks(performance, composition)
+      .flatMap((track) => track.notes)
+      .map((note) => note.note)
+    const strudelTokens = buildPerformancePatternParts(
+      performance,
+      composition,
+    )
+      .flatMap((part) => part.tokens)
+      .filter((token) => token !== '~')
+
+    expect(midiNotes).toHaveLength(performance.performedEvents.length)
+    expect(new Set(midiNotes)).toEqual(new Set([36]))
+    expect(new Set(strudelTokens)).toEqual(new Set(['c2']))
+  })
+
   it('uses the exact unmodulated note and consumer path when a mapping is disabled', async () => {
     const disabled = gatedModulationComposition()
     const part = disabled.parts[0]

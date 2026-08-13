@@ -5,7 +5,6 @@ import type {
   InstrumentSpec,
   NativeDrumInstrumentSpec,
   NativeSynthInstrumentSpec,
-  SoundFontInstrumentSpec,
 } from '../core/composition'
 import {
   addInstrument,
@@ -88,34 +87,6 @@ const nativeInstrumentDefinitions = {
 const nativeInstrumentKinds = Object.keys(
   nativeInstrumentDefinitions,
 ) as Array<NativeInstrumentKind>
-
-const nativeSynthFallback = (
-  instrument: SoundFontInstrumentSpec,
-): NativeSynthInstrumentSpec => ({
-  id: instrument.id,
-  name: `${instrument.name} · native fallback`,
-  kind: 'native-synth',
-  gain: instrument.gain,
-  pan: instrument.pan,
-  waveform: 'triangle',
-  envelope: {
-    attackSeconds: 0.01,
-    decaySeconds: 0.12,
-    sustain: 0.68,
-    releaseSeconds: 0.24,
-  },
-})
-
-const nativeDrumFallback = (
-  instrument: SoundFontInstrumentSpec,
-): NativeDrumInstrumentSpec => ({
-  id: instrument.id,
-  name: `${instrument.name} · native drum fallback`,
-  kind: 'native-drum',
-  gain: instrument.gain,
-  pan: instrument.pan,
-  voice: 'kick',
-})
 
 export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps) {
   // An impact either refuses (a note Part still plays through it, or it is the
@@ -215,9 +186,37 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
               <>
                 <p className="instrument-preset">
                   <strong>{instrument.presetName}</strong><br />
-                  Bank {instrument.bank} · Program {instrument.program}
+                  Preset {Math.floor(instrument.bank / 128)}:
+                  {instrument.bank % 128}:{instrument.program}
                   {instrument.percussion ? ' · drums' : ''}
+                  {instrument.trigger?.kind === 'one-shot'
+                    ? ` · one-shot note ${instrument.trigger.note}`
+                    : ''}
                 </p>
+                {instrument.trigger?.kind === 'one-shot' && (
+                  <NumberField
+                    label={`One-shot note ${instrument.id}`}
+                    shortLabel="One-shot note"
+                    hint={help['instrument.oneShotNote']}
+                    value={instrument.trigger.note}
+                    min={0}
+                    max={127}
+                    step={1}
+                    onChange={(note) =>
+                      update(instrument.id, (current) =>
+                        current.kind === 'soundfont' && current.trigger
+                          ? {
+                              ...current,
+                              trigger: {
+                                kind: 'one-shot',
+                                note: Math.round(note),
+                              },
+                            }
+                          : current,
+                      )
+                    }
+                  />
+                )}
                 <NumberField
                   label={`Reverb ${instrument.id}`}
                   shortLabel="Reverb" hint={help['instrument.reverb']}
@@ -248,32 +247,6 @@ export function InstrumentPanel({ composition, onChange }: InstrumentPanelProps)
                     )
                   }
                 />
-                <div className="panel-actions instrument-fallbacks">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      update(instrument.id, (current) =>
-                        current.kind === 'soundfont'
-                          ? nativeSynthFallback(current)
-                          : current,
-                      )
-                    }
-                  >
-                    Use native synth
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      update(instrument.id, (current) =>
-                        current.kind === 'soundfont'
-                          ? nativeDrumFallback(current)
-                          : current,
-                      )
-                    }
-                  >
-                    Use native drum
-                  </button>
-                </div>
               </>
             )}
           </li>

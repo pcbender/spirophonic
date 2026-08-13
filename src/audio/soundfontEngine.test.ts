@@ -389,6 +389,40 @@ describe('SoundFontEngine', () => {
     ])
   })
 
+  it('previews and plays a fixed melodic-preset note as a natural one-shot', async () => {
+    const bank = reference('bank-one')
+    const { engine, synths } = harness(new Set([bank.digest]), 1)
+    const drum = {
+      ...instrument('drum-sample', bank.id, presets[0]),
+      trigger: { kind: 'one-shot', note: 36 },
+    } satisfies SoundFontInstrumentSpec
+    await engine.prepare([bank], [drum])
+
+    await engine.audition(bank, presets[0], 36, 0.6, true)
+    engine.schedule(event('one', drum.id, 84), drum, 10.2)
+
+    const synth = synths[0]
+    expect(synth.channelCalls[0].drums.at(-1)).toBe(false)
+    expect(synth.noteOns).toEqual([
+      { channel: 15, values: [36, 105], time: 10.05 },
+      { channel: 0, values: [36, 91], time: 10.2 },
+    ])
+    expect(synth.noteOffs).toEqual([])
+
+    // The nominal event ended at 10.6, but a one-shot has no known sample end.
+    // It remains in the voice budget and is released only when capacity needs
+    // the channel, never merely because the Part duration elapsed.
+    engine.schedule(event('two', drum.id, 96), drum, 11)
+    expect(synth.noteOffs).toEqual([
+      { channel: 0, values: [36], time: 11 },
+    ])
+    expect(synth.noteOns.at(-1)).toEqual({
+      channel: 0,
+      values: [36, 117],
+      time: 11,
+    })
+  })
+
   it('preloads once and routes concurrent presets, drums, dynamics, and timing', async () => {
     const bank = reference('bank-one')
     const { engine, store, synths } = harness(new Set([bank.digest]))

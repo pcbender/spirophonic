@@ -1100,20 +1100,35 @@ test('the showcase runs the full workflow without errors', async ({ page }) => {
 /**
  * The SoundFont path, end to end, with a real bank.
  *
- * `spessasynth_core` generates an 890-byte SF2 carrying a single saw-wave
- * preset, so this drives the real import UI with a real bank without any bank
- * shipping in the repository. The bytes are generated in the test process and
- * handed to the file input, because the page runs the built bundle and cannot
- * resolve a bare module specifier at runtime.
+ * `spessasynth_core` generates a tiny saw-wave SF2. The fixture adds a second
+ * preset over the same sample and marks it as drums, so one real bank exercises
+ * both playback filters without shipping another binary in the repository.
+ * The bytes are generated in the test process and handed to the file input,
+ * because the page runs the built bundle and cannot resolve a bare module
+ * specifier at runtime.
  *
  * Until this existed the SoundFont path could only be reasoned about.
  */
 const sampleBankFile = async () => {
-  const { BasicSoundBank } = await import('spessasynth_core')
+  const { BasicPreset, BasicSoundBank, SoundBankLoader } = await import(
+    'spessasynth_core'
+  )
+  const bank = SoundBankLoader.fromArrayBuffer(
+    BasicSoundBank.getSampleSoundBankFile(),
+  )
+  const source = bank.presets[0]
+  const drums = new BasicPreset(bank)
+  drums.name = 'Sample Drums'
+  drums.program = source.program
+  drums.bankMSB = source.bankMSB
+  drums.bankLSB = source.bankLSB
+  drums.isGMGSDrum = true
+  for (const zone of source.zones) drums.createZone(zone.instrument)
+  bank.addPresets(drums)
   return {
-    name: 'sample-saw.sf2',
+    name: 'sample-pitched-and-drums.sf2',
     mimeType: 'application/octet-stream',
-    buffer: Buffer.from(BasicSoundBank.getSampleSoundBankFile()),
+    buffer: Buffer.from(bank.writeSF2()),
   }
 }
 
@@ -1177,13 +1192,29 @@ test('Settings opens as a true modal and closes on Escape', async ({ page }) => 
   await expect(dialog).toBeVisible()
 })
 
-test('a real SoundFont bank imports, exposes its preset, and assigns', async ({
-  page,
+test('a real SoundFont drum preset previews and appends a fixed-note Instrument', async ({
+  browser,
 }) => {
-  const file = await sampleBankFile()
-  expect(file.buffer.byteLength).toBe(890)
+  // Its own context: the shared beforeEach clears localStorage on every
+  // navigation, while this check must prove the new Instrument survives reload.
+  const context = await browser.newContext({
+    viewport: { width: 1600, height: 1000 },
+  })
+  const fresh = await context.newPage()
+  const errors: Array<string> = []
+  fresh.on('pageerror', (error) => errors.push(error.message))
+  fresh.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text())
+  })
+  await fresh.goto('/')
+  await expect(
+    fresh.getByRole('heading', { level: 1, name: 'Spirophonic' }),
+  ).toBeVisible()
 
-  const settings = await importSampleBank(page, {
+  const file = await sampleBankFile()
+  expect(file.buffer.byteLength).toBe(940)
+
+  const settings = await importSampleBank(fresh, {
     license: 'Apache-2.0',
     attribution: 'spessasynth_core',
   })
@@ -1192,13 +1223,13 @@ test('a real SoundFont bank imports, exposes its preset, and assigns', async ({
   await expect(settings).toContainText('Apache-2.0', { timeout: 30_000 })
   await expect(settings).toContainText('spessasynth_core')
 
-  await page.getByRole('button', { name: 'Close settings' }).click()
+  await fresh.getByRole('button', { name: 'Close settings' }).click()
   await expect(settings).toBeHidden()
 
   // The bank reaches the Composition and its presets are listed, which only
   // happens if the worklet registered and the bank actually parsed. Presets
   // live in a select, so the assertion reads its options rather than text.
-  const banks = page.getByRole('region', { name: 'Sound banks' })
+  const banks = fresh.getByRole('region', { name: 'Sound banks' })
   const presets = banks.getByLabel(/^Preset /)
   await expect(presets).toBeVisible({ timeout: 30_000 })
   await expect
@@ -1206,11 +1237,89 @@ test('a real SoundFont bank imports, exposes its preset, and assigns', async ({
       timeout: 30_000,
     })
     .toEqual(expect.arrayContaining([expect.stringMatching(/Saw Wave/i)]))
+  expect(await presets.locator('option').allTextContents()).toEqual([
+    expect.stringMatching(/Saw Wave/),
+  ])
 
-  // Assigning the preset to an Instrument must not break compilation.
-  await banks.getByLabel(/^Assign preset /).click()
-  const diagnostics = page.getByRole('region', { name: 'Compile diagnostics' })
+  const before = await fresh.evaluate(() => {
+    const stored = localStorage.getItem('spirophonic.composition.v1')
+    const composition = stored ? JSON.parse(stored) : null
+    return {
+      instrumentIds: composition?.instruments.map((item: { id: string }) => item.id),
+      partAssignments: composition?.parts.map(
+        (part: { instrumentId: string }) => part.instrumentId,
+      ),
+    }
+  })
+  await banks.getByLabel(/^Playback /).selectOption('drums')
+  await expect(presets.locator('option')).toHaveCount(1)
+  await expect(presets.locator('option').first()).toHaveText(/Sample Drums.*drums$/)
+  await banks.getByLabel(/^MIDI note /).fill('36')
+  await banks.getByLabel(/^Instrument name /).fill('Saw hit')
+  await banks.getByRole('button', { name: 'Preview C2' }).click()
+  await banks.getByRole('button', { name: 'Add instrument' }).click()
+
+  const diagnostics = fresh.getByRole('region', {
+    name: 'Compile diagnostics',
+  })
   await expect(diagnostics).not.toContainText('error')
+  await expect(
+    fresh.getByRole('region', { name: 'Instruments' }).getByText('Saw hit', {
+      selector: 'strong',
+    }),
+  ).toBeVisible()
+  const instruments = fresh.getByRole('region', { name: 'Instruments' })
+  await expect(
+    instruments.getByRole('button', { name: 'Use native synth' }),
+  ).toHaveCount(0)
+  await expect(
+    instruments.getByRole('button', { name: 'Use native drum' }),
+  ).toHaveCount(0)
+  await expect(
+    instruments.getByRole('button', { name: 'Add native synth' }),
+  ).toBeVisible()
+  await expect(
+    instruments.getByRole('button', { name: 'Add native drum' }),
+  ).toBeVisible()
+
+  await expect
+    .poll(() =>
+      fresh.evaluate(() => {
+        const stored = localStorage.getItem('spirophonic.composition.v1')
+        const composition = stored ? JSON.parse(stored) : null
+        return composition?.instruments.at(-1)
+      }),
+    )
+    .toMatchObject({
+      name: 'Saw hit',
+      kind: 'soundfont',
+      bank: 0,
+      percussion: true,
+      trigger: { kind: 'one-shot', note: 36 },
+    })
+  const after = await fresh.evaluate(() => {
+    const stored = localStorage.getItem('spirophonic.composition.v1')
+    const composition = stored ? JSON.parse(stored) : null
+    return {
+      existingInstrumentIds: composition?.instruments
+        .slice(0, -1)
+        .map((item: { id: string }) => item.id),
+      partAssignments: composition?.parts.map(
+        (part: { instrumentId: string }) => part.instrumentId,
+      ),
+    }
+  })
+  expect(after.existingInstrumentIds).toEqual(before.instrumentIds)
+  expect(after.partAssignments).toEqual(before.partAssignments)
+
+  await fresh.reload()
+  await expect(
+    fresh.getByRole('region', { name: 'Instruments' }).getByText('Saw hit', {
+      selector: 'strong',
+    }),
+  ).toBeVisible()
+  expect(errors, `page errors: ${errors.join(' | ')}`).toEqual([])
+  await context.close()
 })
 
 test('an imported SoundFont bank survives a reload', async ({ browser }) => {
@@ -1256,14 +1365,14 @@ test('an imported SoundFont bank survives a reload', async ({ browser }) => {
     return records.map((record) => record.bytes.byteLength)
   })
 
-  expect(storedBytes).toEqual([890])
+  expect(storedBytes).toEqual([940])
   expect(errors, `page errors: ${errors.join(' | ')}`).toEqual([])
   await context.close()
 })
 
 /**
  * The bundled General MIDI bank. This is the only place the real 38 MB file is
- * exercised: the unit tests stand a generated 890-byte SoundFont in for it,
+ * exercised: the unit tests stand a generated 940-byte SoundFont in for it,
  * because the policy under test there does not depend on which bytes arrive.
  */
 test('the bundled bank is served and matches its declared digest', async ({
@@ -1326,7 +1435,7 @@ test('the bundled bank reaches the vault and its presets load', async ({
   // fetched, digest-verified, stored, and parsed by the app's own engine, so it
   // is both a safer signal and a stronger one.
   const banks = fresh.getByRole('region', { name: 'Sound banks' })
-  // Exact: "Find preset …" and "Assign preset …" also contain this label.
+  // Exact: "Find preset …" also contains this label.
   const presets = banks.getByLabel('Preset bank-musescore-general', {
     exact: true,
   })

@@ -14,7 +14,7 @@ import {
   InstrumentRouter,
   type SoundFontRouteEngine,
 } from './instrumentRouter'
-import type { SoundFontPreparation } from './soundfontEngine'
+import type { SoundFontPreparation, SoundFontPreset } from './soundfontEngine'
 
 const event = (instrumentId: string): NoteMusicalEvent => ({
   id: `event-${instrumentId}`,
@@ -121,6 +121,11 @@ class FakeEngine implements InstrumentEngine {
 
 class FakeSoundFontEngine extends FakeEngine implements SoundFontRouteEngine {
   readonly ready = new Set<string>()
+  readonly auditions: Array<{
+    note: number
+    durationSeconds?: number
+    oneShot?: boolean
+  }> = []
   report: SoundFontPreparation = {
     readyInstrumentIds: [],
     issues: [],
@@ -157,12 +162,50 @@ class FakeSoundFontEngine extends FakeEngine implements SoundFontRouteEngine {
     return []
   }
 
-  async audition() {}
+  async audition(
+    _reference: SoundBankReference,
+    _preset: SoundFontPreset,
+    note: number,
+    durationSeconds?: number,
+    oneShot?: boolean,
+  ) {
+    this.auditions.push({ note, durationSeconds, oneShot })
+  }
 
   invalidateBank() {}
 }
 
 describe('InstrumentRouter', () => {
+  it('forwards one-shot preview intent to the reserved SoundFont route', async () => {
+    const soundFontEngine = new FakeSoundFontEngine(10)
+    const router = new InstrumentRouter({
+      nativeEngine: new FakeEngine(3),
+      soundFontEngine,
+    })
+    const reference: SoundBankReference = {
+      id: 'bank',
+      name: 'Bank',
+      digest: 'a'.repeat(64),
+      format: 'sf3',
+      source: 'local',
+      license: 'Test',
+      attribution: '',
+    }
+    const preset: SoundFontPreset = {
+      name: 'Drum Samples',
+      bankMSB: 0,
+      bankLSB: 0,
+      program: 0,
+      isDrum: false,
+    }
+
+    await router.audition(reference, preset, 36, true)
+
+    expect(soundFontEngine.auditions).toEqual([
+      { note: 36, durationSeconds: undefined, oneShot: true },
+    ])
+  })
+
   it('routes native and concurrent SoundFont instruments on aligned clocks', async () => {
     const nativeEngine = new FakeEngine(3)
     const soundFontEngine = new FakeSoundFontEngine(10)

@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Build Plan
 
-Status: **implementation contract; MG-01 through MG-25 and WIN-01 are complete.**
+Status: **implementation contract; MG-01 through MG-25 and WIN-01 are complete; MG-26 is in review.**
 
 This document turns [Spirophonic-Domain-Model.md](Spirophonic-Domain-Model.md)
 into a dependency-ordered build plan. It is the active contract for moving the
@@ -316,8 +316,9 @@ optionally `.dls` files are the first supported source.
 A bank reference contains a stable ID, SHA-256 digest, display name, format,
 and provenance/license metadata. The binary is stored in IndexedDB. Missing
 banks never silently fall back to a different timbre: the UI reports the
-missing digest and offers relink, while the user may explicitly choose the
-native fallback.
+missing digest and offers relink. A user can separately create a native
+Instrument and assign a Part to it, but a SoundFont Instrument is not converted
+in place.
 
 ## MRP reuse map
 
@@ -398,6 +399,7 @@ sweep, it does not license silent scope growth.
 | MG-23 | In-gate modulation lanes and Trace notation | MG-22 | **done** |
 | MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | **done** |
 | MG-25 | Closed radial waveform motion | MG-03, MG-04, MG-06, MG-09 | **done** — validated 2026-08-13 |
+| MG-26 | SoundFont creation and fixed-note one-shots | MG-11, MG-19, MG-20 | **in review** |
 
 The first user-visible milestone is MG-09. MG-11 makes that slice sound like a
 composition tool. MG-12 proves concurrent Wheels and Heads before advanced
@@ -1629,6 +1631,70 @@ sharp edges continuously rather than teleporting across Fields or Traces.
   Parts in Chromium and Firefox.
 - Intentionally ignoring waveform, amplitude, periodicity, or closure makes a
   targeted guard fail; all repository gates pass with their exit codes checked.
+
+## MG-26 — SoundFont creation and fixed-note one-shots
+
+**Goal:** Make a selected SoundFont preset create a new Instrument instead of
+replacing one, constrain the preset list to pitched or drum playback, and let a
+drum Instrument trigger one fixed MIDI note as a one-shot.
+
+**Files:** `src/core/composition.ts`, `src/core/compositionEdits.ts`,
+`src/core/compositionEdits.test.ts`, `src/core/compositionValidation.ts`,
+`src/core/compositionValidation.test.ts`, `src/audio/instrumentRouter.ts`,
+`src/audio/soundfontEngine.ts`, `src/audio/soundfontEngine.test.ts`,
+`src/export/compositionJson.test.ts`, `src/export/midiExport.ts`,
+`src/export/midiExport.test.ts`, `src/export/strudelExport.ts`,
+`src/export/strudelExport.test.ts`, `src/export/agreement.test.ts`,
+`src/ui/SoundBankPanel.tsx`, `src/ui/SoundBankPanel.test.tsx`,
+`src/ui/SoundBankSettings.tsx`,
+`src/ui/InstrumentPanel.tsx`, `src/ui/InstrumentPanel.test.tsx`,
+`src/ui/help.ts`, `src/App.tsx`, `src/App.test.tsx`, `src/App.css`,
+`e2e/app.spec.ts`, and `docs/MANUAL.md`
+
+**Scope note (2026-08-13):** This remains single-agent work. The tracker keeps
+one concise active record and final evidence; no packet claims, heartbeats, or
+ownership handoff ceremony is required.
+
+**One-shot contract:** One saved Instrument owns one SoundFont reference,
+preset, and MIDI note. A fixed-note trigger overrides performed-event pitch and
+does not schedule note-off, allowing a non-looping SF3 sample to finish under
+its own envelope. Stop, pause, panic, voice stealing, and disposal retain their
+existing cancellation authority. Looped SoundFont zones are outside this first
+slice and may sustain until one of those controls. MIDI and Strudel preserve
+the fixed note where possible but cannot carry the SF3 sample-envelope behavior;
+browser playback and rendered WAV remain authoritative for the one-shot tail.
+
+**Deliverables:**
+
+- Replace preset assignment with an editable `Instrument name` field and an
+  `Add instrument` action that appends through the existing unique ID/name
+  allocator and never changes Part assignment.
+- A Pitched/Drums choice that shows non-drum presets for Pitched and only preset
+  entries ending in `· drums` for Drums, with an explicit empty state when a
+  bank has no matching presets.
+- A complete MIDI note input and a `Preview` action that auditions the selected
+  drum preset and note without a scheduled note-off in Drums mode.
+- A strict saved fixed-note trigger created from a preset whose `percussion`
+  flag is true.
+- Live, offline, JSON, MIDI, Strudel, Instrument-panel, and real-browser
+  coverage through the existing canonical performed-event boundary.
+
+**Acceptance criteria:**
+
+- Adding a selected preset appends a SoundFont Instrument, leaves existing
+  Instruments and Part assignments unchanged, and suffixes duplicate names in
+  the same way as `Add native drum`.
+- A fixed-note Instrument always sends its saved integer MIDI note regardless
+  of Part pitch or tuning, preserves Part onset and velocity, and schedules no
+  ordinary duration-based note-off.
+- Pitched mode excludes drum presets, Drums mode excludes melodic presets, and
+  every displayed Drums option ends in `· drums`; preview and playback select
+  the same preset/note pair.
+- Invalid trigger kinds or MIDI notes outside 0 through 127 fail validation;
+  pitched SoundFont Instruments retain their current behavior.
+- Removing the fixed-note override, restoring duration-based note-off, or
+  replacing instead of appending makes a targeted guard fail; all repository
+  gates and the Chromium/Firefox author-preview-reload check pass.
 
 ## Packet rules
 

@@ -483,19 +483,29 @@ Uses SoundFont banks. Everything here is optional — every default Instrument i
 native and needs no bank.
 
 The work splits across two places. **This panel** is where you pick a sound:
-find a preset, hear it, give it to an Instrument. **Settings → Sound banks** is
+find a preset, hear it, and add a new Instrument. **Settings → Sound banks** is
 where banks themselves are managed — imported, relinked, removed. You set a bank
-up once; you assign presets constantly, so only the second lives in the rail.
+up once; you create playable Instruments constantly, so only that step lives in
+the rail.
 
 | Control | Notes |
 |---|---|
 | Bank name and state | `ready`, `loading`, or a failure. A bank that cannot be reached says why and offers **Open Settings**, which is where the fix is. |
 | **Find preset** | Filters the preset list. |
-| **Preset (n)** | The bank's presets; `n` is how many match the current filter. |
-| Audition keyboard | A row of note buttons (C3 upward) that play the selected preset without assigning it, so you can hear a preset before committing to it. |
-| **Assign to Instrument** | Chooses which Instrument the preset is destined for. |
-| **Use preset** | Applies the selected preset to that Instrument, converting it to a `soundfont` Instrument. It keeps the Instrument's id, gain, and pan — so every Part routed to it keeps playing — and replaces its name with the preset's. A native Instrument's waveform and envelope are discarded, because a preset carries its own. |
+| **Preset (n)** | The bank's presets matching both Playback and Find preset; `n` is the number shown. Pitched presets and entries ending in `· drums` never mix. |
+| **Playback** | `Pitched` lists non-drum presets and follows the Part's pitch and duration. `Drums` lists only entries ending in `· drums`, always triggers the saved MIDI note, and lets a non-looping SF3 sample finish naturally. |
+| **Preview note / MIDI note** | Integer MIDI note from 0 through 127. In Pitched mode it affects Preview only; in Drums mode it is saved on the Instrument. |
+| **Preview** | Plays the selected preset and note without adding or assigning anything. A one-shot Preview sends no scheduled note-off. |
+| **Instrument name** | Defaults to the preset name and remains editable. A duplicate receives the same numeric suffix used by **Add native drum**. |
+| **Add instrument** | Appends a new SoundFont Instrument. Existing Instruments and Part assignments are unchanged. The new Instrument is silent until a Part is pointed at it. |
 | **Manage banks** | Opens Settings. |
+
+Drums mode uses one-shot playback for non-looping sampled drums. Because the
+browser engine exposes note-on and note-off rather than a separate one-shot command,
+Spirophonic sends note-on and lets the sample end under its SoundFont envelope.
+A looping zone can therefore sustain until Stop, Pause, panic, or disposal.
+Rendered WAV uses the same engine and is authoritative for the tail. MIDI and
+Strudel preserve the fixed note but cannot carry the SF3 sample envelope.
 
 Banks are stored in IndexedDB and keyed by SHA-256 digest, so the same bank
 imported twice is stored once, and a Composition referencing a digest finds it
@@ -532,7 +542,8 @@ Renders what Parts decide. Three kinds.
 kind directly. Both work offline and start with playable defaults. A new
 Instrument is silent until a Part is pointed at it; it appears immediately in
 every note Part's **Instrument** list. To create a `soundfont` Instrument, add a
-native slot and assign a preset to it from the Sound banks panel.
+new one directly from the Sound banks panel. A SoundFont drum Instrument
+displays and allows editing its fixed MIDI note here.
 
 **Remove** is refused, with a reason, while any *note* Part still plays through
 that Instrument, and a Composition must always keep one. Reassign those Parts
@@ -550,11 +561,7 @@ Common to all kinds: **Name**, **Gain**, **Pan**.
 |---|---|
 | **native-synth** | **Waveform** — sine, triangle, square, sawtooth — and the full envelope: **Attack**, **Decay**, **Sustain**, **Release**. |
 | **native-drum** | **Voice** — kick, snare, hat, tom, clap, cymbal. |
-| **soundfont** | **Reverb** and **Chorus** sends. Bank, program, preset name, and the percussion flag come from the Sound banks panel when you assign a preset. |
-
-SoundFont Instruments also offer explicit native synth and drum fallback
-buttons. Native instruments need no assets and work offline; SoundFont
-instruments need their bank present.
+| **soundfont** | **Reverb** and **Chorus** sends. Bank, program, preset name, and the percussion flag come from the Sound banks panel when you add the Instrument. |
 
 ## Variation
 

@@ -358,6 +358,7 @@ export class SoundFontEngine implements InstrumentEngine {
     preset: SoundFontPreset,
     note: number,
     durationSeconds = 0.6,
+    oneShot = false,
   ) {
     const bank = await this.ensureBank(reference)
     const context = this.ensureContext()
@@ -375,9 +376,11 @@ export class SoundFontEngine implements InstrumentEngine {
     synthesizer.noteOn(channel, clamp(Math.round(note), 0, 127), 105, {
       time: at,
     })
-    synthesizer.noteOff(channel, clamp(Math.round(note), 0, 127), {
-      time: at + durationSeconds,
-    })
+    if (!oneShot) {
+      synthesizer.noteOff(channel, clamp(Math.round(note), 0, 127), {
+        time: at + durationSeconds,
+      })
+    }
   }
 
   invalidateBank(soundBankId: string) {
@@ -471,9 +474,12 @@ export class SoundFontEngine implements InstrumentEngine {
     // semitones, so anything between them is played as the nearest note plus a
     // pitch bend. Beyond the channel's configured range the bend would wrap, so
     // the event is played untuned rather than at a wrong pitch.
-    const exactMidi =
-      event.midiNote ??
-      (event.frequencyHz > 0 ? 69 + 12 * Math.log2(event.frequencyHz / 440) : 69)
+    const exactMidi = instrument.trigger?.kind === 'one-shot'
+      ? instrument.trigger.note
+      : event.midiNote ??
+        (event.frequencyHz > 0
+          ? 69 + 12 * Math.log2(event.frequencyHz / 440)
+          : 69)
     const note = clamp(Math.round(exactMidi), 0, 127)
     const detuneSemitones = exactMidi - note
     const options = { time: audioTimeSeconds }
@@ -525,9 +531,11 @@ export class SoundFontEngine implements InstrumentEngine {
       clamp(Math.round(initialVelocity ?? event.velocity), 1, 127),
       options,
     )
-    synthesizer.noteOff(channel, note, {
-      time: audioTimeSeconds + event.durationSeconds,
-    })
+    if (instrument.trigger?.kind !== 'one-shot') {
+      synthesizer.noteOff(channel, note, {
+        time: audioTimeSeconds + event.durationSeconds,
+      })
+    }
 
     for (const lane of activeLanes) {
       if (lane.target === 'initial-velocity') continue
@@ -614,6 +622,7 @@ export class SoundFontEngine implements InstrumentEngine {
         }
       }
     }
+    const eventEndSeconds = audioTimeSeconds + event.durationSeconds
     const trackedVoice = {
       synthesizer,
       channel,
@@ -622,14 +631,20 @@ export class SoundFontEngine implements InstrumentEngine {
       detuneSemitones,
       automation: activeLanes,
       startsAtSeconds: audioTimeSeconds,
-      endsAtSeconds: audioTimeSeconds + event.durationSeconds,
+      // The SoundFont API does not expose the natural end of a sample. Keep a
+      // one-shot in the capacity budget until it is stolen or transport
+      // control stops it; the Part's nominal duration must not truncate it.
+      endsAtSeconds:
+        instrument.trigger?.kind === 'one-shot'
+          ? Number.POSITIVE_INFINITY
+          : eventEndSeconds,
     }
     this.voices.push(trackedVoice)
     if (activeLanes.some((lane) => !lane.entryOnly)) {
       // Controllers and pitch wheels are channel state, unlike the note
       // itself. Restore the preset route at the physical gate exit so one
       // lane cannot leak into the next voice on that channel.
-      this.cancelVoiceAutomationFrom(trackedVoice, trackedVoice.endsAtSeconds)
+      this.cancelVoiceAutomationFrom(trackedVoice, eventEndSeconds)
     }
     return Object.freeze(diagnostics)
   }
