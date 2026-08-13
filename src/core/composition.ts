@@ -630,6 +630,11 @@ export type SoundFontInstrumentSpec = InstrumentBase & {
   program: number
   presetName: string
   percussion: boolean
+  /** Absent means the performed event supplies pitch and duration normally. */
+  trigger?: Readonly<{
+    kind: 'one-shot'
+    note: number
+  }>
   reverb: number
   chorus: number
 }

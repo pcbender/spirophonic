@@ -165,7 +165,7 @@ export function SoundBankSettings({
       <h3>Sound banks</h3>
       <p className="settings-note">
         Banks live in this browser, not in the Composition — which stores only a
-        digest, a licence, and an attribution. Assign presets to Instruments in
+        digest, a licence, and an attribution. Add preset Instruments in
         the Sound banks panel.
       </p>
       <div className="sound-bank-import">

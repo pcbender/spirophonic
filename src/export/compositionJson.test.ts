@@ -41,6 +41,30 @@ describe('v1 Composition JSON', () => {
     })
   })
 
+  it('round-trips a fixed-note SoundFont one-shot without normalization', () => {
+    const composition = cloneDefault()
+    composition.instruments.push({
+      id: 'instrument-one-shot',
+      name: 'Kick',
+      kind: 'soundfont',
+      gain: 0.5,
+      pan: 0,
+      soundBankId: composition.soundBanks[0].id,
+      bank: 0,
+      program: 0,
+      presetName: 'Drum Samples',
+      percussion: false,
+      trigger: { kind: 'one-shot', note: 36 },
+      reverb: 0.2,
+      chorus: 0,
+    })
+
+    expect(parseCompositionJson(exportCompositionToJson(composition))).toEqual({
+      ok: true,
+      composition,
+    })
+  })
+
   it('rejects invalid JSON with a specific code', () => {
     expect(parseCompositionJson('{not json')).toEqual({
       ok: false,

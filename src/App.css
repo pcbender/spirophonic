@@ -766,31 +766,15 @@ h1 {
   color: #ff7979;
 }
 
-.audition-keyboard {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 4px;
+.preset-preview {
+  display: flex;
+  align-items: end;
+  gap: 8px;
 }
 
-.audition-keyboard button {
-  min-width: 0;
-  min-height: 38px;
-  border: 1px solid rgba(246, 244, 239, 0.24);
-  border-radius: 4px;
-  padding: 3px;
-  color: #101014;
-  background: #e9e2d6;
-  font-size: 0.65rem;
-  cursor: pointer;
-}
-
-.audition-keyboard button:nth-child(2),
-.audition-keyboard button:nth-child(4),
-.audition-keyboard button:nth-child(7),
-.audition-keyboard button:nth-child(9),
-.audition-keyboard button:nth-child(11) {
-  color: #f6f4ef;
-  background: #18181f;
+.preset-preview .field {
+  flex: 1;
+  margin: 0;
 }
 
 .preset-assignment {
@@ -819,8 +803,7 @@ h1 {
   display: none;
 }
 
-.instrument-preset,
-.instrument-fallbacks {
+.instrument-preset {
   grid-column: 1 / -1;
 }
 

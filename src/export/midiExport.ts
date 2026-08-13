@@ -89,7 +89,9 @@ const exactMidiFor = (
 ) =>
   instrument.kind === 'native-drum'
     ? nativeDrumMidiNotes[instrument.voice]
-    : (event.midiNote ?? frequencyToMidi(event.frequencyHz))
+    : instrument.kind === 'soundfont' && instrument.trigger?.kind === 'one-shot'
+      ? instrument.trigger.note
+      : (event.midiNote ?? frequencyToMidi(event.frequencyHz))
 
 const trackForPart = (
   partId: string,

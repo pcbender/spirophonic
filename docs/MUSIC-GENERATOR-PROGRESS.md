@@ -14,13 +14,13 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 
 | Measure | Current value |
 | --- | --- |
-| Packets complete | 25 / 25 |
+| Packets complete | 25 / 26 |
 | Maintenance packets complete | 1 / 1 |
 | Packets active | 0 |
 | Packets blocked | 0 |
-| Next ready packet | None — all planned packets are complete |
+| Next ready packet | None — MG-26 is in review |
 | Active agents | None |
-| Integration branch | `main` |
+| Integration branch | `agent/soundfont-fixed-note-drums` |
 | Last tracker update | 2026-08-13 |
 
 ## Status rules
@@ -92,7 +92,8 @@ While working:
 
 ## Active claims
 
-There are no active claims.
+There is no active claim. MG-26 is in review on
+`agent/soundfont-fixed-note-drums` in `/home/mrose/spirophonic`.
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -127,6 +128,7 @@ their history.
 | MG-23 | In-gate modulation lanes and Trace notation | MG-22 | `done` | — | 2026-08-10 | Integrated at `3b8bfd4`; exact-commit unit, lint, build, two-engine browser, mutation, and Graphify gates pass. |
 | MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | `done` | — | 2026-08-10 | Integrated at `4a87f1f`; exact-commit unit, lint, build, two-engine browser, mutation, cancellation, capability, and Graphify gates pass. |
 | MG-25 | Closed radial waveform motion | MG-03, MG-04, MG-06, MG-09 | `done` | — | 2026-08-13 | Working tree passes core gates, targeted mutation guards, and the Chromium/Firefox radial-wave author/play/reload check. A loop-seam correction keeps the closing endpoint from doubling the repeated opening attack; see validation row. |
+| MG-26 | SoundFont creation and fixed-note one-shots | MG-11, MG-19, MG-20 | `in_review` | — | 2026-08-13 | Working tree passes 637 tests, lint, build, focused mutation guards, and the Chromium/Firefox real-SoundFont author/preview/reload check; see validation row. |
 
 When a packet becomes `done`, evaluate every direct dependent immediately and
 promote it from `waiting` to `ready` if all dependencies are complete.
@@ -145,6 +147,7 @@ promote it from `waiting` to `ready` if all dependencies are complete.
 | Native Windows portability | WIN-01 | Native Windows development works without changing the WSL2 workflow. | 1 / 1 — complete |
 | Region-gated expression | MG-22–MG-24 | Wedges create one held note per visit; interior motion modulates that voice consistently in notation, playback, Recording, and export. | 3 / 3 — complete |
 | Closed radial motion | MG-25 | Common waveforms close on one Wheel cycle and flow through authoring, Encounters, rendering, persistence, and playback. | 1 / 1 — complete |
+| SoundFont one-shots | MG-26 | Presets append Instruments and optionally trigger one fixed SF3 note without a duration-based note-off. | 0 / 1 — in review |
 
 ## Validation ledger
 
@@ -153,6 +156,7 @@ the final column rather than relying on a statement that it was checked.
 
 | Packet | Commit | `npm test` | `npm run lint` | `npm run build` | Graphify | Manual/browser evidence | Reviewer |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| MG-26 | working tree | 65 files, 637 tests pass (exit 0 verified) | pass | pass | update refused safely: 1,921 extracted vs 1,972 existing nodes | The Apache-2.0 940-byte SoundFont enumerates separate Saw Wave and Sample Drums presets; playback-family filtering, fixed C2 preview, append-only creation, unchanged Part routing, no per-item fallback conversion, saved trigger, and reload pass in Chromium and Firefox (2/2). The focused mutation guards fail as intended. | Codex/root |
 | MG-25 | working tree | 65 files, 626 tests pass (exit 0 verified) | pass | pass | update refused safely: 1,921 extracted vs 1,972 existing nodes | Radial-wave author/play/reload passes in Chromium and Firefox (2/2); the remaining functional browser matrix passes 60/60. The unfiltered run passes 61/62: only the pre-existing Firefox frame-gap budget fails (116 ms vs 100 ms), reproducing at 152 ms on an isolated clean `main`. The supplied square fixture has equal crossing time, speed, and strength through closure. Without the half-open scheduler filter, the seam guard fails with opening, repeated opening, and closing attacks instead of one seam attack. The earlier waveform mutations also fail their focused guards. | Codex/root |
 | MG-09 listened-trigger correction | working tree | 64 files, 604 tests pass (exit 0 verified) | pass | pass | update refused safely: 1,912 extracted vs 1,972 existing nodes | The supplied multi-Head/multi-ring pattern detects all four Head/Boundary pairs but draws only the two pairs selected by audible note Parts. Restoring the old all-crossings overlay makes the component guard fail with 2 markers instead of 1. The focused production-preview check passes in Chromium and Firefox. A full browser run reached the new check in both engines, but the preview server later died while streaming an unrelated bundled-bank request; the remaining failures are connection refusals after that server loss. | Codex/root |
 | MG-11 correction | `fix/expose-native-instruments` based on `a9c801b` | 63 application files, 597 tests pass when `scripts/deploy.test.mjs` is excluded; exact `npm test` exits 1 on the pre-existing Vite/Rolldown imported-script shebang transform | pass | pass | 1,971 nodes / 4,590 edges | The pre-fix UI guard cannot find either native creation action and fails as intended. Chromium production preview passes creation of `native-drum`, all six voices, assignment to the default Part, and narrow-rail layout. Playwright then times out in plugin teardown; Firefox does not start before the bounded global timeout. | Codex/root |
@@ -202,8 +206,21 @@ Validation rules:
 
 ## Active packet records
 
-MG-01 through MG-25 and WIN-01 are `done`; their records live in the Validation
-ledger, Activity log, and Handoff records below. There are no active packets.
+MG-01 through MG-25 and WIN-01 are `done`; MG-26 is `in_review`.
+
+### MG-26 review record
+
+- Branch/cwd: `agent/soundfont-fixed-note-drums` at
+  `/home/mrose/spirophonic`.
+- Complete: append-only preset creation with unique names; no Part reassignment;
+  playback-constrained preset browsing; pitched or drum-note authoring and
+  preview; strict JSON validation; fixed-note live, MIDI, and Strudel adaptation;
+  Instrument-panel editing without per-item fallback conversion; manual guidance.
+- Validation: 637 tests, lint, and build exit 0; Chromium and Firefox pass the
+  real-SoundFont author/preview/reload check; targeted mutations fail.
+- Explicit limit: non-looping SF3 zones finish naturally without note-off;
+  looped zones sustain until stop, pause, panic, voice stealing, or disposal.
+- Next: review, commit, push, and integrate before marking MG-26 `done`.
 
 Keep one subsection here for every `claimed`, `in_progress`, `blocked`, or
 `in_review` packet, then move each finished record into the Activity log,
@@ -261,6 +278,7 @@ sessions from reopening settled foundations accidentally.
 | D-006 | 2026-08-05 | MRP supplies algorithms and patterns only; it is not a runtime dependency. | Locked | [MRP reuse map](MUSIC-GENERATOR-BUILD-PLAN.md#mrp-reuse-map) |
 | D-007 | 2026-08-10 | A wedge-shaped Spoke is one outer gate: entry starts a held note, exit ends it, and interior oscillations modulate without retriggering. Decided by Michael Rose. | Locked | [MG-22](MUSIC-GENERATOR-BUILD-PLAN.md#mg-22--wedge-spoke-regions-and-exact-gate-spans) |
 | D-008 | 2026-08-12 | Yellow canvas trigger markers represent Encounters selected by the audible note mix, not every physical Boundary crossing. Decided by Michael Rose. | Locked | [MG-09](MUSIC-GENERATOR-BUILD-PLAN.md#mg-09--first-playable-generator-and-clean-model-cutover) |
+| D-009 | 2026-08-13 | Begin SF3 drums with one Instrument per preset/note and natural one-shot playback; defer a shared kit model until demonstrated necessary. Decided by Michael Rose. | Locked | [MG-26](MUSIC-GENERATOR-BUILD-PLAN.md#mg-26--soundfont-creation-and-fixed-note-one-shots) |
 
 New decisions receive the next ID, name the deciding user/reviewer, and link the
 build-plan change or decision record that made them authoritative.
@@ -272,6 +290,7 @@ and releases. Do not log every edit.
 
 | UTC time | Agent | Packet | Event | Branch/commit | Summary and next step |
 | --- | --- | --- | --- | --- | --- |
+| 2026-08-13T16:35:00Z | Codex/root | MG-26 | Author handoff | `agent/soundfont-fixed-note-drums` / uncommitted | Append-only SoundFont Instruments, playback-constrained preset lists, and fixed-note drum one-shots pass 637 tests, lint, build, targeted mutation checks, and the Chromium/Firefox real-SoundFont author/preview/reload regression. Review and commit are next. |
 | 2026-08-12T16:49:52Z | Codex/root | MG-09 | Listened-trigger correction implemented | working tree | Canonical geometry still records every Head/Boundary crossing, but the yellow canvas overlay now filters through audible note Part queries. The exact two-Head/two-ring regression and its old-behavior mutation pass, as do 604 tests, lint, build, and the focused Chromium/Firefox production-preview check. Graphify preserved the existing graph after its safety check rejected a 60-node shrink. |
 | 2026-08-12T01:35:16Z | Codex/root | MG-11 | Native discovery correction implemented | `fix/expose-native-instruments` / based on `a9c801b` | The default workspace can now create native synth and native drum instances, configure every drum voice, and assign either to a Part. Mutation guard, 597 application tests, lint, build, and Chromium workflow pass; exact Vitest and Playwright exits retain separately recorded runner failures. |
 | 2026-08-12T01:00:17Z | Codex/root | MG-22 | Gate-ownership correction implemented | `fix/spoke-gate-duration` / based on `a9c801b` | Region entry/exit now overrides fixed duration and quantization; the supplied document regression, mutation, 597 application tests, lint, build, Graphify, and Chromium real-audio checks pass. Exact `npm test` remains red on the unrelated deploy-script shebang transform, and Firefox hangs before its filtered cases start. |

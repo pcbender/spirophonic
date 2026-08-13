@@ -27,6 +27,7 @@ export type SoundFontRouteEngine = InstrumentEngine & {
     preset: SoundFontPreset,
     note: number,
     durationSeconds?: number,
+    oneShot?: boolean,
   ) => Promise<void>
   invalidateBank: (soundBankId: string) => void
 }
@@ -98,9 +99,16 @@ export class InstrumentRouter implements InstrumentEngine {
     reference: SoundBankReference,
     preset: SoundFontPreset,
     note: number,
+    oneShot = false,
   ) {
     this.assertUsable()
-    return this.soundFontEngine.audition(reference, preset, note)
+    return this.soundFontEngine.audition(
+      reference,
+      preset,
+      note,
+      undefined,
+      oneShot,
+    )
   }
 
   invalidateBank(soundBankId: string) {

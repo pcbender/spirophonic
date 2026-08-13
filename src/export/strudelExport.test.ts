@@ -44,6 +44,38 @@ describe('canonical performance Strudel export', () => {
     expect(tokens).toHaveLength(performance.performedEvents.length)
   })
 
+  it('exports every SoundFont one-shot event at the saved fixed note', () => {
+    const { composition } = fixture()
+    const source = composition.instruments[0]
+    composition.instruments[0] = {
+      id: source.id,
+      name: 'Kick',
+      kind: 'soundfont',
+      gain: source.gain,
+      pan: source.pan,
+      soundBankId: composition.soundBanks[0].id,
+      bank: 0,
+      program: 0,
+      presetName: 'Drum Samples',
+      percussion: false,
+      trigger: { kind: 'one-shot', note: 36 },
+      reverb: 0.2,
+      chorus: 0,
+    }
+    const performance = compilePerformance(composition, {
+      startSeconds: 0,
+      durationSeconds: beatsToSeconds(
+        composition.transport.loop.lengthBeats,
+        composition.transport.tempoBpm,
+      ),
+      sampleRateHz: 120,
+    })
+
+    const tokens = buildPerformancePatternParts(performance, composition)[0]
+      .tokens.filter((token) => token !== '~')
+    expect(new Set(tokens)).toEqual(new Set(['c2']))
+  })
+
   it('adds a bounded control pattern without increasing the note count', () => {
     const composition = gatedModulationComposition()
     const performance = compilePerformance(composition, {

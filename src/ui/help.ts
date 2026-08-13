@@ -310,6 +310,8 @@ export const help = {
   'instrument.release': 'Seconds to fade to silence after a note ends.',
   'instrument.reverb': 'Reverb send for this SoundFont Instrument.',
   'instrument.chorus': 'Chorus send for this SoundFont Instrument.',
+  'instrument.oneShotNote':
+    'The MIDI note this Instrument always triggers. Part pitch and duration do not select or stop the sample.',
 
   // Variation
   'variation.enable': 'Add controlled randomness, seeded so it stays reproducible.',
@@ -361,12 +363,18 @@ export const help = {
     'Redistribution terms, recorded with the bank. These travel with the file when a bundle embeds it.',
   'bank.attribution': 'Where this bank came from, recorded with it.',
   'bank.import': 'Add the chosen file to this browser’s bank vault.',
-  'bank.find': 'Filter the preset list.',
-  'bank.preset': 'Presets in this bank that match the filter.',
-  'bank.audition': 'Play this note on the selected preset, without assigning it.',
-  'bank.assign': 'Which Instrument the selected preset is destined for.',
-  'bank.usePreset':
-    'Apply the selected preset to that Instrument, converting it to a SoundFont Instrument.',
+  'bank.find': 'Filter presets within the selected Playback type.',
+  'bank.preset': 'Presets in this bank that match Playback and Find preset.',
+  'bank.playback':
+    'Pitched lists melodic presets. Drums lists only presets marked as drums and triggers one saved MIDI note as a natural one-shot.',
+  'bank.note':
+    'MIDI note 0 through 127. In Drums mode this becomes part of the saved Instrument; in Pitched mode it is used only for Preview.',
+  'bank.audition':
+    'Preview this MIDI note on the selected preset without adding or assigning an Instrument.',
+  'bank.instrumentName':
+    'Name for the new Instrument. Duplicate names receive a numeric suffix.',
+  'bank.addInstrument':
+    'Append a new SoundFont Instrument. Existing Instruments and Part assignments are unchanged.',
   'bank.relink':
     'Reconnect this bank reference to a file you supply — for a bundle that arrived without its audio.',
   'bank.removeBytes':

@@ -394,7 +394,8 @@ function App() {
       reference: Composition['soundBanks'][number],
       preset: Parameters<InstrumentRouter['audition']>[1],
       note: number,
-    ) => audio.router.audition(reference, preset, note),
+      oneShot = false,
+    ) => audio.router.audition(reference, preset, note, oneShot),
     [audio],
   )
   const invalidateSoundBank = useCallback(

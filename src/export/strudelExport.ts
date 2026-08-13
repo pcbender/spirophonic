@@ -63,6 +63,14 @@ const noteName = (event: NoteMusicalEvent) =>
   midiToName(Math.round(event.midiNote ?? frequencyToMidi(event.frequencyHz)))
     .toLowerCase()
 
+const instrumentNoteName = (
+  event: NoteMusicalEvent,
+  instrument: InstrumentSpec,
+) =>
+  instrument.kind === 'soundfont' && instrument.trigger?.kind === 'one-shot'
+    ? midiToName(instrument.trigger.note).toLowerCase()
+    : noteName(event)
+
 /**
  * A note token is a name when the event is equal-tempered and a frequency when
  * it is not. Ratio tuning cannot survive a note name, so those events emit Hz
@@ -119,6 +127,7 @@ const patternForPart = (
   // frequency to keep its tuning, the whole part is emitted as frequencies.
   const usesFrequency =
     instrument.kind !== 'native-drum' &&
+    !(instrument.kind === 'soundfont' && instrument.trigger?.kind === 'one-shot') &&
     slots.some((event) => event !== null && !isEqualTempered(event))
 
   const lanes = performance.modulationLanes.filter(
@@ -191,7 +200,9 @@ const patternForPart = (
       slots.map((event) => {
         if (!event) return REST
         if (instrument.kind === 'native-drum') return drumSounds[instrument.voice]
-        return usesFrequency ? pitchToken(event) : noteName(event)
+        return usesFrequency
+          ? pitchToken(event)
+          : instrumentNoteName(event, instrument)
       }),
     ),
     gains: Object.freeze(

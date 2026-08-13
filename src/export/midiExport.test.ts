@@ -42,6 +42,36 @@ describe('canonical performance MIDI export', () => {
     expect(ascii(bytes)).toContain('Boundary Melody')
   })
 
+  it('exports a SoundFont one-shot at its fixed note on melodic bank 0', () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    const source = composition.instruments[0]
+    composition.instruments[0] = {
+      id: source.id,
+      name: 'Kick',
+      kind: 'soundfont',
+      gain: source.gain,
+      pan: source.pan,
+      soundBankId: composition.soundBanks[0].id,
+      bank: 0,
+      program: 0,
+      presetName: 'Drum Samples',
+      percussion: false,
+      trigger: { kind: 'one-shot', note: 36 },
+      reverb: 0.2,
+      chorus: 0,
+    }
+
+    const track = buildPerformanceMidiTracks(
+      compileDefault(composition),
+      composition,
+    )[0]
+
+    expect(track.bankMSB).toBe(0)
+    expect(track.bankLSB).toBe(0)
+    expect(track.program).toBe(0)
+    expect(new Set(track.notes.map((note) => note.note))).toEqual(new Set([36]))
+  })
+
   it('changes tempo metadata without changing compiled Encounter order', () => {
     const first = structuredClone(defaultComposition) as Composition
     const second = structuredClone(defaultComposition) as Composition

@@ -9,12 +9,13 @@ import {
   soundFontBankNumber,
   type SoundFontPreset,
 } from '../audio/soundfontEngine'
+import { addInstrument } from '../core/compositionEdits'
 import { help } from './help'
 import { RailPanel } from './RailPanel'
 import { errorMessage, type BankView, type SoundBankViews } from './useSoundBankViews'
 
 /**
- * The working surface for sound banks: find a preset, hear it, assign it.
+ * The working surface for sound banks: find a preset, hear it, add it.
  *
  * Importing a bank, recording its licence, relinking it, and removing its bytes
  * are not here — they are setup, and they live in Settings. What remains is
@@ -30,12 +31,11 @@ export type SoundBankPanelProps = {
     reference: SoundBankReference,
     preset: SoundFontPreset,
     note: number,
+    oneShot?: boolean,
   ) => Promise<void>
   /** Opens Settings, where an unreachable bank is relinked. */
   onOpenSettings: () => void
 }
-
-const auditionNotes = [48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69]
 
 const noteNames = [
   'C',
@@ -66,40 +66,37 @@ export function SoundBankPanel({
   const [selectedPreset, setSelectedPreset] = useState<Record<string, number>>(
     {},
   )
-  const [assignmentTarget, setAssignmentTarget] = useState<
-    Record<string, string>
-  >({})
   const [search, setSearch] = useState<Record<string, string>>({})
 
-  const assign = (reference: SoundBankReference, preset: SoundFontPreset) => {
-    const target =
-      assignmentTarget[reference.id] ?? composition.instruments[0]?.id
-    if (!target) {
-      setMessage('Create an Instrument before assigning a preset.')
-      return
-    }
-    onChange({
-      ...composition,
-      instruments: composition.instruments.map((instrument) =>
-        instrument.id === target
-          ? ({
-              id: instrument.id,
-              name: preset.name,
-              kind: 'soundfont',
-              gain: instrument.gain,
-              pan: instrument.pan,
-              soundBankId: reference.id,
-              bank: soundFontBankNumber(preset),
-              program: preset.program,
-              presetName: preset.name,
-              percussion: preset.isDrum,
-              reverb: 0.2,
-              chorus: 0,
-            } satisfies SoundFontInstrumentSpec)
-          : instrument,
-      ),
-    })
-    setMessage(`Assigned ${preset.name} to ${target}.`)
+  const add = (
+    reference: SoundBankReference,
+    preset: SoundFontPreset,
+    requestedName: string,
+    oneShot: boolean,
+    note: number,
+  ) => {
+    const result = addInstrument(composition, {
+      id: 'soundfont-template',
+      name: requestedName.trim() || preset.name,
+      kind: 'soundfont',
+      gain: 0.5,
+      pan: 0,
+      soundBankId: reference.id,
+      bank: soundFontBankNumber(preset),
+      program: preset.program,
+      presetName: preset.name,
+      percussion: preset.isDrum,
+      ...(oneShot
+        ? { trigger: { kind: 'one-shot' as const, note } }
+        : {}),
+      reverb: 0.2,
+      chorus: 0,
+    } satisfies SoundFontInstrumentSpec)
+    const added = result.composition.instruments.find(
+      (instrument) => instrument.id === result.instrumentId,
+    )
+    onChange(result.composition)
+    setMessage(`Added ${added?.name ?? preset.name}.`)
   }
 
   return (
@@ -128,14 +125,8 @@ export function SoundBankPanel({
           <BankCard
             key={reference.id}
             reference={reference}
-            composition={composition}
             view={banks.views[reference.id] ?? { state: 'loading', presets: [] }}
             selectedIndex={selectedPreset[reference.id] ?? 0}
-            assignmentTarget={
-              assignmentTarget[reference.id] ??
-              composition.instruments[0]?.id ??
-              ''
-            }
             search={search[reference.id] ?? ''}
             onSearch={(value) =>
               setSearch((current) => ({ ...current, [reference.id]: value }))
@@ -146,15 +137,11 @@ export function SoundBankPanel({
                 [reference.id]: value,
               }))
             }
-            onTargetChange={(value) =>
-              setAssignmentTarget((current) => ({
-                ...current,
-                [reference.id]: value,
-              }))
+            onAdd={(preset, name, oneShot, note) =>
+              add(reference, preset, name, oneShot, note)
             }
-            onAssign={(preset) => assign(reference, preset)}
-            onAudition={(preset, note) =>
-              void audition(reference, preset, note).catch((error) =>
+            onAudition={(preset, note, oneShot) =>
+              void audition(reference, preset, note, oneShot).catch((error) =>
                 setMessage(errorMessage(error)),
               )
             }
@@ -168,43 +155,55 @@ export function SoundBankPanel({
 
 type BankCardProps = {
   reference: SoundBankReference
-  composition: Composition
   view: BankView
   selectedIndex: number
-  assignmentTarget: string
   search: string
   onSearch: (value: string) => void
   onPresetChange: (index: number) => void
-  onTargetChange: (id: string) => void
-  onAssign: (preset: SoundFontPreset) => void
-  onAudition: (preset: SoundFontPreset, note: number) => void
+  onAdd: (
+    preset: SoundFontPreset,
+    name: string,
+    oneShot: boolean,
+    note: number,
+  ) => void
+  onAudition: (preset: SoundFontPreset, note: number, oneShot: boolean) => void
   onOpenSettings: () => void
 }
 
 function BankCard({
   reference,
-  composition,
   view,
   selectedIndex,
-  assignmentTarget,
   search,
   onSearch,
   onPresetChange,
-  onTargetChange,
-  onAssign,
+  onAdd,
   onAudition,
   onOpenSettings,
 }: BankCardProps) {
+  const [oneShot, setOneShot] = useState(false)
   const filtered = useMemo(() => {
     const needle = search.trim().toLowerCase()
-    if (!needle) return view.presets
-    return view.presets.filter((preset) =>
-      `${preset.name} ${preset.bankMSB}:${preset.bankLSB}:${preset.program}`
-        .toLowerCase()
-        .includes(needle),
+    return view.presets.filter(
+      (preset) =>
+        preset.isDrum === oneShot &&
+        (!needle ||
+          `${preset.name} ${preset.bankMSB}:${preset.bankLSB}:${preset.program}${preset.isDrum ? ' drums' : ''}`
+            .toLowerCase()
+            .includes(needle)),
     )
-  }, [search, view.presets])
+  }, [oneShot, search, view.presets])
   const preset = filtered[Math.min(selectedIndex, filtered.length - 1)]
+  const [instrumentNames, setInstrumentNames] = useState<
+    Record<string, string>
+  >({})
+  const [note, setNote] = useState(60)
+  const presetKey = preset
+    ? `${preset.bankMSB}:${preset.bankLSB}:${preset.program}:${preset.name}`
+    : ''
+  const instrumentName = preset
+    ? (instrumentNames[presetKey] ?? preset.name)
+    : ''
 
   return (
     <li className="sound-bank-card">
@@ -228,8 +227,12 @@ function BankCard({
               title={help['bank.preset']}
               aria-label={`Preset ${reference.id}`}
               value={preset ? filtered.indexOf(preset) : ''}
+              disabled={filtered.length === 0}
               onChange={(event) => onPresetChange(Number(event.currentTarget.value))}
             >
+              {filtered.length === 0 && (
+                <option value="">No matching presets</option>
+              )}
               {filtered.map((item, index) => (
                 <option key={`${item.bankMSB}:${item.bankLSB}:${item.program}:${item.name}`} value={index}>
                   {item.name} · {item.bankMSB}:{item.bankLSB}:{item.program}{item.isDrum ? ' · drums' : ''}
@@ -237,35 +240,72 @@ function BankCard({
               ))}
             </select>
           </label>
-          <div className="audition-keyboard" aria-label={`Audition keyboard ${reference.id}`}>
-            {auditionNotes.map((note) => (
-              <button
-                key={note}
-                type="button"
-                disabled={!preset}
-                title={help['bank.audition']}
-                aria-label={`Audition ${noteName(note)} ${reference.id}`}
-                onClick={() => preset && onAudition(preset, note)}
-              >
-                {noteName(note)}
-              </button>
-            ))}
+          <label className="field" title={help['bank.playback']}>
+            <span>Playback</span>
+            <select
+              aria-label={`Playback ${reference.id}`}
+              value={oneShot ? 'drums' : 'pitched'}
+              onChange={(event) =>
+                setOneShot(event.currentTarget.value === 'drums')
+              }
+            >
+              <option value="pitched">Pitched</option>
+              <option value="drums">Drums</option>
+            </select>
+          </label>
+          <div className="preset-preview">
+            <label className="field" title={help['bank.note']}>
+              <span>{oneShot ? 'MIDI note' : 'Preview note'}</span>
+              <input
+                type="number"
+                min={0}
+                max={127}
+                step={1}
+                aria-label={`MIDI note ${reference.id}`}
+                value={note}
+                onChange={(event) =>
+                  setNote(
+                    Math.min(
+                      127,
+                      Math.max(0, Math.round(Number(event.currentTarget.value))),
+                    ),
+                  )
+                }
+              />
+            </label>
+            <button
+              type="button"
+              disabled={!preset}
+              title={help['bank.audition']}
+              onClick={() => preset && onAudition(preset, note, oneShot)}
+            >
+              Preview {noteName(note)}
+            </button>
           </div>
           <div className="preset-assignment">
-            <label className="field" title={help['bank.assign']}>
-              <span>Assign to Instrument</span>
-              <select
-                aria-label={`Assign preset ${reference.id}`}
-                value={assignmentTarget}
-                onChange={(event) => onTargetChange(event.currentTarget.value)}
-              >
-                {composition.instruments.map((instrument) => (
-                  <option key={instrument.id} value={instrument.id}>{instrument.name}</option>
-                ))}
-              </select>
+            <label className="field" title={help['bank.instrumentName']}>
+              <span>Instrument name</span>
+              <input
+                aria-label={`Instrument name ${reference.id}`}
+                value={instrumentName}
+                onChange={(event) => {
+                  const value = event.currentTarget.value
+                  setInstrumentNames((current) => ({
+                    ...current,
+                    [presetKey]: value,
+                  }))
+                }}
+              />
             </label>
-            <button type="button" disabled={!preset} onClick={() => preset && onAssign(preset)} title={help['bank.usePreset']}>
-              Use preset
+            <button
+              type="button"
+              disabled={!preset}
+              onClick={() =>
+                preset && onAdd(preset, instrumentName, oneShot, note)
+              }
+              title={help['bank.addInstrument']}
+            >
+              Add instrument
             </button>
           </div>
         </>

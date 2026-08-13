@@ -435,6 +435,43 @@ describe('Composition validation', () => {
     )
   })
 
+  it('accepts one-shot SoundFont notes and rejects invalid trigger contracts', () => {
+    const valid = cloneDefault()
+    valid.instruments.push({
+      id: 'instrument-one-shot',
+      name: 'Kick',
+      kind: 'soundfont',
+      gain: 0.8,
+      pan: 0,
+      soundBankId: valid.soundBanks[0].id,
+      bank: 0,
+      program: 0,
+      presetName: 'Drum Samples',
+      percussion: false,
+      trigger: { kind: 'one-shot', note: 36 },
+      reverb: 0.2,
+      chorus: 0,
+    })
+
+    expect(validateComposition(valid)).toEqual({ ok: true, composition: valid })
+
+    const invalidKind = structuredClone(valid) as unknown as Composition
+    ;(invalidKind.instruments.at(-1) as unknown as Record<string, unknown>)
+      .trigger = { kind: 'kit', note: 36 }
+    expect(
+      issueAt(invalidKind, '$.instruments[1].trigger.kind')?.message,
+    ).toContain('one of')
+
+    const invalidNote = structuredClone(valid)
+    const instrument = invalidNote.instruments.at(-1)
+    if (instrument?.kind === 'soundfont' && instrument.trigger) {
+      ;(instrument.trigger as { kind: 'one-shot'; note: number }).note = 128
+    }
+    expect(
+      issueAt(invalidNote, '$.instruments[1].trigger.note')?.message,
+    ).toContain('less than or equal to 127')
+  })
+
   it('requires every Spoke to have a positive finite length', () => {
     const missing = structuredClone(defaultComposition) as Composition
     const missingSpoke = missing.fields[1].boundaries[0] as unknown as Record<

@@ -4,6 +4,7 @@ import type { Composition } from './composition'
 import { validateComposition } from './compositionValidation'
 import {
   addHead,
+  addInstrument,
   addWheel,
   allCompositionIds,
   duplicateHead,
@@ -320,6 +321,28 @@ describe('names read as a series', () => {
 
     composition = addWheel(composition, composition.wheels[1]).composition
     expect(composition.wheels[2].name).toBe('Bass 3')
+  })
+
+  it('appends duplicate-named Instruments without changing Part assignments', () => {
+    const composition = base()
+    const originalAssignments = composition.parts.map(
+      (part) => part.instrumentId,
+    )
+    const template = {
+      ...composition.instruments[0],
+      name: 'Warm Strings',
+    }
+
+    const first = addInstrument(composition, template).composition
+    const second = addInstrument(first, template).composition
+
+    expect(second.instruments.slice(-2).map((instrument) => instrument.name)).toEqual([
+      'Warm Strings',
+      'Warm Strings 2',
+    ])
+    expect(second.parts.map((part) => part.instrumentId)).toEqual(
+      originalAssignments,
+    )
   })
 
   it('numbers a copy after the thing it copied, not inside its name', () => {

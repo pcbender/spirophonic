@@ -47,36 +47,56 @@ describe('InstrumentPanel SoundFont controls', () => {
     )
 
     expect(screen.getAllByText('Grand Piano', { selector: 'strong' })).toHaveLength(2)
-    expect(screen.getByText(/Bank 0 · Program 0/)).toBeInTheDocument()
+    expect(screen.getByText(/Preset 0:0:0/)).toBeInTheDocument()
     fireEvent.change(screen.getByLabelText('Reverb instrument-1'), {
       target: { value: '0.55' },
     })
     expect(updated.instruments[0]).toMatchObject({ kind: 'soundfont', reverb: 0.55 })
   })
 
-  it('provides explicit native synth and drum fallbacks', () => {
+  it('shows and edits a SoundFont one-shot note', () => {
     const composition = compositionWithSoundFont()
+    const instrument = composition.instruments[0]
+    if (instrument.kind !== 'soundfont') throw new Error('Expected SoundFont.')
+    instrument.trigger = { kind: 'one-shot', note: 36 }
     let updated = composition
-    const { rerender } = render(
-      <InstrumentPanel composition={composition} onChange={(next) => { updated = next }} />,
+
+    render(
+      <InstrumentPanel
+        composition={composition}
+        onChange={(next) => {
+          updated = next
+        }}
+      />,
     )
 
-    fireEvent.click(screen.getByRole('button', { name: 'Use native synth' }))
-    expect(updated.instruments[0]).toMatchObject({
-      id: 'instrument-1',
-      kind: 'native-synth',
-      waveform: 'triangle',
+    expect(screen.getByText(/one-shot note 36/)).toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText('One-shot note instrument-1'), {
+      target: { value: '38' },
     })
+    expect(updated.instruments[0]).toMatchObject({
+      trigger: { kind: 'one-shot', note: 38 },
+    })
+  })
 
-    rerender(
-      <InstrumentPanel composition={composition} onChange={(next) => { updated = next }} />,
+  it('keeps native creation separate from a SoundFont Instrument', () => {
+    const composition = compositionWithSoundFont()
+    render(
+      <InstrumentPanel composition={composition} onChange={() => undefined} />,
     )
-    fireEvent.click(screen.getByRole('button', { name: 'Use native drum' }))
-    expect(updated.instruments[0]).toMatchObject({
-      id: 'instrument-1',
-      kind: 'native-drum',
-      voice: 'kick',
-    })
+
+    expect(
+      screen.queryByRole('button', { name: 'Use native synth' }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Use native drum' }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Add native synth' }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Add native drum' }),
+    ).toBeInTheDocument()
   })
 })
 
