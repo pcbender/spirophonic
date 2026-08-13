@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Build Plan
 
-Status: **implementation contract; MG-01 through MG-24 and WIN-01 are complete.**
+Status: **implementation contract; MG-01 through MG-25 and WIN-01 are complete.**
 
 This document turns [Spirophonic-Domain-Model.md](Spirophonic-Domain-Model.md)
 into a dependency-ordered build plan. It is the active contract for moving the
@@ -397,6 +397,7 @@ sweep, it does not license silent scope growth.
 | MG-22 | Wedge-spoke regions and exact gate spans | MG-21 | **done** — gate-ownership correction validated 2026-08-11 |
 | MG-23 | In-gate modulation lanes and Trace notation | MG-22 | **done** |
 | MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | **done** |
+| MG-25 | Closed radial waveform motion | MG-03, MG-04, MG-06, MG-09 | **done** — validated 2026-08-13 |
 
 The first user-visible milestone is MG-09. MG-11 makes that slice sound like a
 composition tool. MG-12 proves concurrent Wheels and Heads before advanced
@@ -1561,6 +1562,73 @@ one held voice without retriggering that voice.
   consumer output; it does not take a parallel playback path.
 - Guards are verified by intentionally restoring per-cycle retriggering and
   confirming live, offline, and export agreement tests fail.
+
+## MG-25 — Closed radial waveform motion
+
+**Goal:** Add a regular, one-Wheel-cycle-closing radial motion family built from
+common waveform shapes without changing Transport, canonical events, or any
+playback/export consumer boundary.
+
+**Loop-seam correction (2026-08-13):** A compiled closed path retains both its
+opening and closing endpoints, with equal crossing speed and strength. Live
+loop playback treats the request window as half-open, `[start, end)`, so those
+equivalent endpoint events produce one attack rather than a doubled accent.
+
+**Files:** `src/core/composition.ts`, `src/core/compositionValidation.ts`,
+`src/core/compositionValidation.test.ts`, `src/core/curves.ts`,
+`src/core/curves.test.ts`, `src/core/motion.ts`, `src/core/motion.test.ts`,
+`src/core/heads.test.ts`, `src/core/encounters.test.ts`,
+`src/audio/performanceScheduler.ts`, `src/audio/performanceScheduler.test.ts`,
+`src/render/compositionRenderer.test.ts`, `src/export/compositionJson.test.ts`,
+`src/export/svgExport.test.ts`, `src/ui/WheelPanel.tsx`,
+`src/ui/HeadPanel.tsx`, `src/ui/help.ts`, `src/App.test.tsx`,
+`e2e/app.spec.ts`, and `docs/MANUAL.md`
+
+**Scope note (2026-08-13):** This is single-agent feature work, so the progress
+tracker records one row and final evidence rather than claims, owners,
+heartbeats, status-transition activity, or a formal handoff. The file boundary
+and repository gates remain authoritative because the feature extends the
+saved Composition and pure motion engine.
+
+**Geometry contract:** A wave Head follows a radial path
+`r = baseRadius + amplitude * waveform(periodicity * turn)`, projected as
+`(r*cos(turn), r*sin(turn))`. `waveform`, world-unit `amplitude`, and positive
+integer `periodicity` belong to the Wheel; `baseRadius` belongs to each Head.
+The supported first set is sine, triangle, square, and sawtooth. Square and
+sawtooth use fixed deterministic connector segments, so a Head traverses their
+sharp edges continuously rather than teleporting across Fields or Traces.
+
+**Deliverables:**
+
+- A `wave` MotionSpec and matching Head attachment with strict family-specific
+  validation and version-1.0 JSON round-trip support.
+- Pure normalized waveform evaluators and a radial adapter whose position is
+  exactly periodic after one Wheel cycle while retaining the unwrapped Wheel
+  clock for Transport and identity.
+- Wheel controls for waveform, amplitude, and periodicity; a Head control for
+  base radius; family defaults, concise help, and manual documentation.
+- Deterministic render, SVG, Encounter, multi-Head, persistence, and real-browser
+  coverage through the existing canonical pipeline.
+
+**Acceptance criteria:**
+
+- Every supported waveform returns to the same position after one Wheel cycle;
+  periodicity `N` produces `N` evenly repeated radial waves.
+- Amplitude changes radial excursion without changing Wheel rate, phase, or
+  Transport timing; amplitude zero produces a circle.
+- Two wave Heads share Wheel phase while their base radii and Head phase offsets
+  remain independent.
+- Square and sawtooth transitions remain finite and continuous, and their
+  Boundary Encounter results converge across the documented sampling range
+  without phantom teleport crossings.
+- Square crossings at a ring through the base radius remain evenly spaced with
+  equal speed and strength, including closure; loop playback schedules the
+  coincident closing/opening seam only once.
+- Switching to wave motion updates every Head attachment, saves and reloads as
+  valid version-1.0 JSON, draws on Canvas and SVG, and plays through existing
+  Parts in Chromium and Firefox.
+- Intentionally ignoring waveform, amplitude, periodicity, or closure makes a
+  targeted guard fail; all repository gates pass with their exit codes checked.
 
 ## Packet rules
 

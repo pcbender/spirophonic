@@ -143,6 +143,66 @@ test('renders the composition canvas with visible geometry', async ({ page }) =>
     .toBeGreaterThan(500)
 })
 
+test('authors, plays, and reloads a closed radial waveform', async ({ page }) => {
+  const wheel = page.getByRole('region', { name: 'Wheel controls' })
+  const head = page.getByRole('region', { name: 'Head controls' })
+  await expect.poll(() => canvasSignature(page)).not.toBe(-1)
+  const before = await canvasSignature(page)
+
+  await wheel.getByLabel('Wheel motion').selectOption('wave')
+  await wheel.getByLabel('Waveform').selectOption('square')
+  await wheel.getByLabel('Amplitude').fill('32')
+  await wheel.getByLabel('Periodicity').fill('7')
+  await head.getByLabel('Base radius').fill('150')
+
+  await expect(wheel.getByLabel('Waveform')).toHaveValue('square')
+  await expect(wheel.getByLabel('Amplitude')).toHaveValue('32')
+  await expect(wheel.getByLabel('Periodicity')).toHaveValue('7')
+  await expect(head.getByLabel('Base radius')).toHaveValue('150')
+  await expect.poll(() => canvasSignature(page)).not.toBe(before)
+
+  const saved = await page.evaluate(() => {
+    const value = localStorage.getItem('spirophonic.composition.v1')
+    return value ? JSON.parse(value) : null
+  })
+  expect(saved?.wheels[0].motion).toEqual({
+    kind: 'wave',
+    waveform: 'square',
+    amplitude: 32,
+    periodicity: 7,
+  })
+  expect(saved?.wheels[0].heads[0].attachment).toEqual({
+    kind: 'wave',
+    baseRadius: 150,
+  })
+
+  await page.getByRole('button', { name: 'Play' }).click()
+  await expect
+    .poll(
+      async () => Number(
+        await page.getByRole('slider', { name: 'Transport position' }).inputValue(),
+      ),
+      { timeout: 10_000 },
+    )
+    .toBeGreaterThan(0.15)
+  await page.getByRole('button', { name: 'Pause' }).click()
+
+  const fresh = await page.context().newPage()
+  const freshErrors: Array<string> = []
+  fresh.on('pageerror', (error) => freshErrors.push(error.message))
+  await fresh.goto('/')
+  const freshWheel = fresh.getByRole('region', { name: 'Wheel controls' })
+  const freshHead = fresh.getByRole('region', { name: 'Head controls' })
+  await expect(freshWheel.getByLabel('Wheel motion')).toHaveValue('wave')
+  await expect(freshWheel.getByLabel('Waveform')).toHaveValue('square')
+  await expect(freshWheel.getByLabel('Amplitude')).toHaveValue('32')
+  await expect(freshWheel.getByLabel('Periodicity')).toHaveValue('7')
+  await expect(freshHead.getByLabel('Base radius')).toHaveValue('150')
+  await expect.poll(() => canvasInk(fresh)).toBeGreaterThan(500)
+  expect(freshErrors).toEqual([])
+  await fresh.close()
+})
+
 test('canvas trigger markers show only crossings heard by the current mix', async ({
   page,
 }) => {

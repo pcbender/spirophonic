@@ -22,6 +22,25 @@ describe('v1 Composition JSON', () => {
     })
   })
 
+  it('round-trips a closed radial wave family without normalization', () => {
+    const composition = cloneDefault()
+    composition.wheels[0].motion = {
+      kind: 'wave',
+      waveform: 'square',
+      amplitude: 36,
+      periodicity: 8,
+    }
+    composition.wheels[0].heads[0].attachment = {
+      kind: 'wave',
+      baseRadius: 144,
+    }
+
+    expect(parseCompositionJson(exportCompositionToJson(composition))).toEqual({
+      ok: true,
+      composition,
+    })
+  })
+
   it('rejects invalid JSON with a specific code', () => {
     expect(parseCompositionJson('{not json')).toEqual({
       ok: false,

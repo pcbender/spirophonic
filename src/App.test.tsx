@@ -81,6 +81,53 @@ describe('MG-09 playable Composition app', () => {
     expect(cycles).toHaveValue(2)
   })
 
+  it('authors and persists a closed radial wave across every Head', async () => {
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: 'Add Head to Wheel 1' }))
+
+    fireEvent.change(screen.getByLabelText('Wheel motion'), {
+      target: { value: 'wave' },
+    })
+    const wheelControls = within(screen.getByLabelText('Wheel controls'))
+    const headControls = within(screen.getByLabelText('Head controls'))
+    fireEvent.change(wheelControls.getByLabelText('Waveform'), {
+      target: { value: 'square' },
+    })
+    fireEvent.change(wheelControls.getByLabelText('Amplitude'), {
+      target: { value: '32' },
+    })
+    fireEvent.change(wheelControls.getByLabelText('Periodicity'), {
+      target: { value: '7' },
+    })
+    fireEvent.change(headControls.getByLabelText('Base radius'), {
+      target: { value: '150' },
+    })
+
+    expect(wheelControls.getByLabelText('Waveform')).toHaveValue('square')
+    expect(wheelControls.getByLabelText('Amplitude')).toHaveValue(32)
+    expect(wheelControls.getByLabelText('Periodicity')).toHaveValue(7)
+    expect(headControls.getByLabelText('Base radius')).toHaveValue(150)
+
+    await waitFor(() => {
+      const parsed = parseCompositionJson(
+        localStorage.getItem('spirophonic.composition.v1') ?? '',
+      )
+      expect(parsed.ok).toBe(true)
+      if (!parsed.ok) return
+      expect(parsed.composition.wheels[0].motion).toEqual({
+        kind: 'wave',
+        waveform: 'square',
+        amplitude: 32,
+        periodicity: 7,
+      })
+      expect(parsed.composition.wheels[0].heads.map((head) => head.attachment))
+        .toEqual([
+          { kind: 'wave', baseRadius: 180 },
+          { kind: 'wave', baseRadius: 150 },
+        ])
+    })
+  })
+
   it('Wheel rate changes both the visible state and audible event schedule at fixed tempo', () => {
     const first = cloneDefault()
     const second = cloneDefault()

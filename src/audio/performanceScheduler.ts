@@ -493,9 +493,16 @@ export class PerformanceScheduler {
     }
 
     const duration = performance.request.durationSeconds
+    const endSeconds = performance.request.startSeconds + duration
     // Events variation has silenced stay in the performed layer but must not
     // be scheduled; they are rests, not notes.
     this.occurrences = [...soundingEvents(performance.performedEvents)]
+      // Canonical finite performances retain their closing endpoint. A live
+      // loop is half-open so that endpoint does not sound on top of the next
+      // iteration's opening event at the same timeline position.
+      .filter(
+        (event) => !this.looping || event.timeSeconds < endSeconds - epsilon,
+      )
       .sort(compareEvents)
       .flatMap((event) => {
         let nextTimelineSeconds = event.timeSeconds

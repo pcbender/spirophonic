@@ -95,6 +95,43 @@ const ellipseComposition = (): Composition => {
   return composition
 }
 
+const radialWaveComposition = (
+  waveform: 'sine' | 'triangle' | 'square' | 'sawtooth' = 'sawtooth',
+  periodicity = 3,
+): Composition => {
+  const composition = structuredClone(defaultComposition) as Composition
+  composition.wheels[0].motion = {
+    kind: 'wave',
+    waveform,
+    amplitude: 30,
+    periodicity,
+  }
+  composition.wheels[0].heads[0].attachment = {
+    kind: 'wave',
+    baseRadius: 100,
+  }
+  composition.fields = [
+    {
+      id: 'field-wave-ring',
+      name: 'Wave midpoint',
+      enabled: true,
+      kind: 'rings',
+      center: { x: 0, y: 0 },
+      boundaries: [
+        {
+          id: 'ring-wave-midpoint',
+          name: 'Base radius',
+          enabled: true,
+          index: 0,
+          kind: 'ring',
+          radius: 100,
+        },
+      ],
+    },
+  ]
+  return composition
+}
+
 describe('Boundary Encounter fixtures', () => {
   it('produces a byte-stable physical fixture from a hand-constructed path', () => {
     const first = handPath()
@@ -273,6 +310,67 @@ describe('Boundary Encounter fixtures', () => {
 })
 
 describe('Composition Encounter compilation', () => {
+  it('keeps square-wave base-radius crossings evenly spaced through closure', () => {
+    const composition = radialWaveComposition('square', 6)
+    if (composition.wheels[0].motion.kind !== 'wave') {
+      throw new Error('Expected a wave fixture.')
+    }
+    composition.wheels[0].motion.amplitude = 45
+    const compiled = compileBoundaryEncounters(
+      composition,
+      {
+        startSeconds: 0,
+        durationSeconds: 2,
+        sampleRateHz: 120,
+      },
+    )
+
+    expect(compiled.diagnostics).toEqual([])
+    expect(compiled.encounters).toHaveLength(13)
+    compiled.encounters.forEach((encounter, index) => {
+      expect(encounter.timeSeconds).toBeCloseTo(index / 6, 8)
+      expect(encounter.speed).toBeCloseTo(compiled.encounters[0].speed, 2)
+      expect(encounter.strength).toBeCloseTo(compiled.encounters[0].strength, 8)
+    })
+    expect(compiled.encounters.map((encounter) => encounter.direction)).toEqual(
+      Array.from({ length: 13 }, (_, index) =>
+        index % 2 === 0 ? 'outward' : 'inward',
+      ),
+    )
+  })
+
+  it('converges on regularized sawtooth connectors without phantom crossings', () => {
+    const composition = radialWaveComposition()
+    const at80Hz = compileBoundaryEncounters(composition, {
+      startSeconds: 0,
+      durationSeconds: 2,
+      sampleRateHz: 80,
+    })
+    const at320Hz = compileBoundaryEncounters(composition, {
+      startSeconds: 0,
+      durationSeconds: 2,
+      sampleRateHz: 320,
+    })
+
+    expect(at80Hz.diagnostics).toEqual([])
+    expect(at320Hz.diagnostics).toEqual([])
+    expect(at80Hz.encounters).toHaveLength(6)
+    expect(at320Hz.encounters).toHaveLength(6)
+    expect(at80Hz.encounters.map((encounter) => encounter.direction)).toEqual([
+      'outward',
+      'inward',
+      'outward',
+      'inward',
+      'outward',
+      'inward',
+    ])
+    at80Hz.encounters.forEach((encounter, index) => {
+      expect(
+        Math.abs(encounter.timeSeconds - at320Hz.encounters[index].timeSeconds),
+      ).toBeLessThan(1e-7)
+    })
+  })
+
   it('converges across supported sample rates and measures ring direction', () => {
     const composition = ellipseComposition()
     const at40Hz = compileBoundaryEncounters(composition, {

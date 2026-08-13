@@ -74,6 +74,9 @@ export function HeadPanel({
       {head.attachment.kind === 'harmonograph' && (
         <NumberField label="Amplitude scale" hint={help['head.amplitudeScale']} value={head.attachment.amplitudeScale} min={0.01} step={0.05} onChange={(amplitudeScale) => patchAttachment({ amplitudeScale })} />
       )}
+      {head.attachment.kind === 'wave' && (
+        <NumberField label="Base radius" hint={help['head.baseRadius']} value={head.attachment.baseRadius} min={1} step={1} onChange={(baseRadius) => patchAttachment({ baseRadius })} />
+      )}
       <label className="field" title={help['head.traceColor']}>
         <span>Trace color</span>
         <input aria-label="Trace color" type="color" value={head.trace.color} onChange={(event) => patch({ trace: { ...head.trace, color: event.currentTarget.value } })} />

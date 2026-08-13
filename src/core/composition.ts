@@ -89,12 +89,24 @@ export type HarmonographMotionSpec = {
   amplitudeY: number
 }
 
+export type WaveShape = 'sine' | 'triangle' | 'square' | 'sawtooth'
+
+export type WaveMotionSpec = {
+  kind: 'wave'
+  waveform: WaveShape
+  /** Radial excursion in world units. */
+  amplitude: number
+  /** Whole waveform repetitions during one Wheel cycle. */
+  periodicity: number
+}
+
 export type MotionSpec =
   | SpirogramMotionSpec
   | LissajousMotionSpec
   | RoseMotionSpec
   | SuperformulaMotionSpec
   | HarmonographMotionSpec
+  | WaveMotionSpec
 
 export type SpirogramHeadAttachment = {
   kind: 'spirogram'
@@ -128,12 +140,19 @@ export type HarmonographHeadAttachment = {
   phaseY: number
 }
 
+export type WaveHeadAttachment = {
+  kind: 'wave'
+  /** Radius around which the Wheel-level waveform oscillates. */
+  baseRadius: number
+}
+
 export type HeadAttachmentSpec =
   | SpirogramHeadAttachment
   | LissajousHeadAttachment
   | RoseHeadAttachment
   | SuperformulaHeadAttachment
   | HarmonographHeadAttachment
+  | WaveHeadAttachment
 
 export type TracePresentationSpec = {
   visible: boolean
