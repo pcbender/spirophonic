@@ -332,6 +332,27 @@ describe('PerformanceScheduler', () => {
     expect(engine.scheduled.at(-1)?.audioTimeSeconds).toBeCloseTo(2.1)
   })
 
+  it('schedules one attack for equivalent closing and opening loop endpoints', async () => {
+    const engine = new FakeEngine()
+    const clock = new FakeClock()
+    const scheduler = schedulerFor(engine, clock, { lookaheadSeconds: 1.4 })
+
+    await scheduler.start(
+      performance([note('opening', 0), note('closing', 1)]),
+      [synth('synth-a')],
+      { tempoBpm: 120, loop: true },
+    )
+
+    expect(engine.scheduled.map(({ event }) => event.id)).toEqual([
+      'opening',
+      'opening',
+    ])
+    expect(engine.scheduled.map(({ audioTimeSeconds }) => audioTimeSeconds)).toEqual([
+      0.1,
+      1.1,
+    ])
+  })
+
   it('translates one canonical lane per loop occurrence without retriggering its samples', async () => {
     const engine = new FakeEngine()
     const clock = new FakeClock()

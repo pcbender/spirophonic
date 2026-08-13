@@ -14,14 +14,14 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 
 | Measure | Current value |
 | --- | --- |
-| Packets complete | 24 / 24 |
+| Packets complete | 25 / 25 |
 | Maintenance packets complete | 1 / 1 |
 | Packets active | 0 |
 | Packets blocked | 0 |
 | Next ready packet | None — all planned packets are complete |
 | Active agents | None |
 | Integration branch | `main` |
-| Last tracker update | 2026-08-12 |
+| Last tracker update | 2026-08-13 |
 
 ## Status rules
 
@@ -126,6 +126,7 @@ their history.
 | MG-22 | Wedge-spoke regions and exact gate spans | MG-21 | `done` | — | 2026-08-11 | Integrated at `653aee1`; `fix/spoke-gate-duration` corrects gate ownership so fixed/quantized Parts still hold one region note from exact entry to exact exit. |
 | MG-23 | In-gate modulation lanes and Trace notation | MG-22 | `done` | — | 2026-08-10 | Integrated at `3b8bfd4`; exact-commit unit, lint, build, two-engine browser, mutation, and Graphify gates pass. |
 | MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | `done` | — | 2026-08-10 | Integrated at `4a87f1f`; exact-commit unit, lint, build, two-engine browser, mutation, cancellation, capability, and Graphify gates pass. |
+| MG-25 | Closed radial waveform motion | MG-03, MG-04, MG-06, MG-09 | `done` | — | 2026-08-13 | Working tree passes core gates, targeted mutation guards, and the Chromium/Firefox radial-wave author/play/reload check. A loop-seam correction keeps the closing endpoint from doubling the repeated opening attack; see validation row. |
 
 When a packet becomes `done`, evaluate every direct dependent immediately and
 promote it from `waiting` to `ready` if all dependencies are complete.
@@ -143,6 +144,7 @@ promote it from `waiting` to `ready` if all dependencies are complete.
 | Release | MG-21 | Reference works, performance budgets, browser checks, and full workflow pass. | 1 / 1 — complete |
 | Native Windows portability | WIN-01 | Native Windows development works without changing the WSL2 workflow. | 1 / 1 — complete |
 | Region-gated expression | MG-22–MG-24 | Wedges create one held note per visit; interior motion modulates that voice consistently in notation, playback, Recording, and export. | 3 / 3 — complete |
+| Closed radial motion | MG-25 | Common waveforms close on one Wheel cycle and flow through authoring, Encounters, rendering, persistence, and playback. | 1 / 1 — complete |
 
 ## Validation ledger
 
@@ -151,6 +153,7 @@ the final column rather than relying on a statement that it was checked.
 
 | Packet | Commit | `npm test` | `npm run lint` | `npm run build` | Graphify | Manual/browser evidence | Reviewer |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| MG-25 | working tree | 65 files, 626 tests pass (exit 0 verified) | pass | pass | update refused safely: 1,921 extracted vs 1,972 existing nodes | Radial-wave author/play/reload passes in Chromium and Firefox (2/2); the remaining functional browser matrix passes 60/60. The unfiltered run passes 61/62: only the pre-existing Firefox frame-gap budget fails (116 ms vs 100 ms), reproducing at 152 ms on an isolated clean `main`. The supplied square fixture has equal crossing time, speed, and strength through closure. Without the half-open scheduler filter, the seam guard fails with opening, repeated opening, and closing attacks instead of one seam attack. The earlier waveform mutations also fail their focused guards. | Codex/root |
 | MG-09 listened-trigger correction | working tree | 64 files, 604 tests pass (exit 0 verified) | pass | pass | update refused safely: 1,912 extracted vs 1,972 existing nodes | The supplied multi-Head/multi-ring pattern detects all four Head/Boundary pairs but draws only the two pairs selected by audible note Parts. Restoring the old all-crossings overlay makes the component guard fail with 2 markers instead of 1. The focused production-preview check passes in Chromium and Firefox. A full browser run reached the new check in both engines, but the preview server later died while streaming an unrelated bundled-bank request; the remaining failures are connection refusals after that server loss. | Codex/root |
 | MG-11 correction | `fix/expose-native-instruments` based on `a9c801b` | 63 application files, 597 tests pass when `scripts/deploy.test.mjs` is excluded; exact `npm test` exits 1 on the pre-existing Vite/Rolldown imported-script shebang transform | pass | pass | 1,971 nodes / 4,590 edges | The pre-fix UI guard cannot find either native creation action and fails as intended. Chromium production preview passes creation of `native-drum`, all six voices, assignment to the default Part, and narrow-rail layout. Playwright then times out in plugin teardown; Firefox does not start before the bounded global timeout. | Codex/root |
 | MG-22 correction | `fix/spoke-gate-duration` based on `a9c801b` | 63 application files, 597 tests pass when `scripts/deploy.test.mjs` is excluded; exact `npm test` exits 1 because Vite/Rolldown moves the imported script's shebang after transformed imports | pass | pass | 1,969 nodes / 4,588 edges | The pre-fix compiler produced 2 notes from one wedge visit and failed the new one-note guard. The supplied 82 BPM rose/Spoke document now has its own compile-through-geometry regression. Chromium production-preview checks for persisted gate mapping and real Web Audio near/far note lifetimes pass twice with a fixed 0.25-beat, quantized Part. The Windows Firefox runner did not start its cases before timeout; the full browser run also timed out in an unrelated unavailable bundled-bank path. | Codex/root |
@@ -199,7 +202,7 @@ Validation rules:
 
 ## Active packet records
 
-MG-01 through MG-24 and WIN-01 are `done`; their records live in the Validation
+MG-01 through MG-25 and WIN-01 are `done`; their records live in the Validation
 ledger, Activity log, and Handoff records below. There are no active packets.
 
 Keep one subsection here for every `claimed`, `in_progress`, `blocked`, or

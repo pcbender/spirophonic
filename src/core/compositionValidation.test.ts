@@ -61,6 +61,11 @@ const notePart: NotePartSpec = {
 
 const motionCases: Array<[string, MotionSpec, HeadAttachmentSpec]> = [
   [
+    'wave',
+    { kind: 'wave', waveform: 'sine', amplitude: 45, periodicity: 6 },
+    { kind: 'wave', baseRadius: 180 },
+  ],
+  [
     'lissajous',
     { kind: 'lissajous', frequencyX: 3, frequencyY: 2, delta: Math.PI / 2 },
     { kind: 'lissajous', scaleX: 160, scaleY: 160, phaseX: 0, phaseY: 0 },
@@ -282,6 +287,50 @@ describe('Composition validation', () => {
     expect(issueAt(composition, '$.wheels[0].motion.frequencyX')?.message).toBe(
       'Unknown property.',
     )
+  })
+
+  it('rejects invalid wave shape, amplitude, periodicity, and base radius', () => {
+    const invalid = () => {
+      const composition = cloneDefault()
+      composition.wheels[0].motion = {
+        kind: 'wave',
+        waveform: 'sine',
+        amplitude: 45,
+        periodicity: 6,
+      }
+      composition.wheels[0].heads[0].attachment = {
+        kind: 'wave',
+        baseRadius: 180,
+      }
+      return composition
+    }
+
+    const waveform = invalid()
+    ;(waveform.wheels[0].motion as unknown as Record<string, unknown>)
+      .waveform = 'noise'
+    expect(issueAt(waveform, '$.wheels[0].motion.waveform')?.message)
+      .toContain('one of')
+
+    const amplitude = invalid()
+    if (amplitude.wheels[0].motion.kind === 'wave') {
+      amplitude.wheels[0].motion.amplitude = -1
+    }
+    expect(issueAt(amplitude, '$.wheels[0].motion.amplitude')?.message)
+      .toContain('greater than or equal to 0')
+
+    const periodicity = invalid()
+    if (periodicity.wheels[0].motion.kind === 'wave') {
+      periodicity.wheels[0].motion.periodicity = 2.5
+    }
+    expect(issueAt(periodicity, '$.wheels[0].motion.periodicity')?.message)
+      .toContain('integer')
+
+    const baseRadius = invalid()
+    if (baseRadius.wheels[0].heads[0].attachment.kind === 'wave') {
+      baseRadius.wheels[0].heads[0].attachment.baseRadius = 0
+    }
+    expect(issueAt(baseRadius, '$.wheels[0].heads[0].attachment.baseRadius')?.message)
+      .toContain('greater than 0')
   })
 
   it('enforces non-empty required object lists', () => {

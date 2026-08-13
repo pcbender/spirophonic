@@ -6,6 +6,7 @@ import type {
 import {
   harmonographPointAtTheta,
   lissajousPointAtTheta,
+  radialWavePointAtTurn,
   rosePointAtTheta,
   superformulaPointAtTheta,
 } from './curves'
@@ -148,6 +149,22 @@ export const motionPointAt = (
           phaseY: attachment.phaseY,
           decayTheta: Math.max(0, elapsedCycles) * TAU,
         }),
+      ),
+    }
+  }
+
+  if (motion.kind === 'wave' && attachment.kind === 'wave') {
+    return {
+      cyclePosition,
+      elapsedCycles,
+      position: point(
+        radialWavePointAtTurn(
+          cyclePosition,
+          motion.waveform,
+          motion.amplitude,
+          motion.periodicity,
+          attachment.baseRadius,
+        ),
       ),
     }
   }

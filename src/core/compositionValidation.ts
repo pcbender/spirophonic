@@ -29,6 +29,7 @@ const motionKinds: Array<MotionSpec['kind']> = [
   'rose',
   'superformula',
   'harmonograph',
+  'wave',
 ]
 
 const attachmentKinds: Array<HeadAttachmentSpec['kind']> = [...motionKinds]
@@ -534,6 +535,28 @@ const validateMotion = (
       greaterThan: 0,
       max: 100_000,
     })
+  } else if (kind === 'wave') {
+    context.knownKeys(motion, path, [
+      'kind',
+      'waveform',
+      'amplitude',
+      'periodicity',
+    ])
+    context.literal(motion, 'waveform', `${path}.waveform`, [
+      'sine',
+      'triangle',
+      'square',
+      'sawtooth',
+    ])
+    context.number(motion, 'amplitude', `${path}.amplitude`, {
+      min: 0,
+      max: 100_000,
+    })
+    context.number(motion, 'periodicity', `${path}.periodicity`, {
+      min: 1,
+      max: 128,
+      integer: true,
+    })
   } else {
     context.knownKeys(motion, path, ['kind'])
   }
@@ -697,6 +720,12 @@ const validateAttachment = (
     })
     context.number(attachment, 'phaseX', `${path}.phaseX`)
     context.number(attachment, 'phaseY', `${path}.phaseY`)
+  } else if (kind === 'wave') {
+    context.knownKeys(attachment, path, ['kind', 'baseRadius'])
+    context.number(attachment, 'baseRadius', `${path}.baseRadius`, {
+      greaterThan: 0,
+      max: 100_000,
+    })
   } else {
     context.knownKeys(attachment, path, ['kind'])
   }

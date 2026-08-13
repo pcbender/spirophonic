@@ -87,6 +87,12 @@ export const help = {
   'wheel.n3': 'Superformula exponent 3. Bulges or pinches the lobes the other way.',
   'wheel.damping':
     'How fast the pendulum loses energy. Higher values spiral inward sooner.',
+  'wheel.waveform':
+    'The repeating radial contour: sine, triangle, square, or sawtooth. Square and sawtooth traverse short fixed connectors instead of teleporting.',
+  'wheel.amplitude':
+    'Maximum radial distance from each Head’s base radius, in world units. Zero produces a circle.',
+  'wheel.periodicity':
+    'Whole waveform repetitions in one Wheel cycle. Whole numbers make the radial Trace close exactly.',
 
   // Head and Trace
   'head.name': 'Names this Head in the tree and in Part filters.',
@@ -100,6 +106,8 @@ export const help = {
   'head.scaleY': 'Amplitude of this Head’s Y oscillation.',
   'head.radiusScale': 'Overall size of the curve this Head traces.',
   'head.amplitudeScale': 'Overall size of the pendulum swing.',
+  'head.baseRadius':
+    'The radius around which this Head follows its Wheel’s waveform.',
   'head.traceColor': 'Colour of this Head’s Trace on the canvas.',
   'head.traceWidth': 'Line width of the Trace.',
   'head.traceHistory':

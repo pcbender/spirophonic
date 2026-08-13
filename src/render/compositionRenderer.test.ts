@@ -95,6 +95,37 @@ const fields = (): [RingFieldSpec, SpokeFieldSpec] => [
 ]
 
 describe('Composition scene snapshots', () => {
+  it('samples a radial waveform as a closed Trace over one Wheel cycle', () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    composition.fields = []
+    composition.parts = []
+    composition.wheels[0].motion = {
+      kind: 'wave',
+      waveform: 'sine',
+      amplitude: 30,
+      periodicity: 6,
+    }
+    composition.wheels[0].heads[0].attachment = {
+      kind: 'wave',
+      baseRadius: 120,
+    }
+    const scene = buildCompositionScene(
+      composition,
+      2,
+      { startSeconds: 0, endSeconds: 2, sampleRateHz: 96 },
+      { traceMode: 'full' },
+    )
+    const points = scene.traces[0].points
+
+    expect(points[0].position).toEqual(points.at(-1)?.position)
+    const radii = points.map((item) => Math.hypot(
+      item.position.x,
+      item.position.y,
+    ))
+    expect(Math.max(...radii)).toBeCloseTo(150, 10)
+    expect(Math.min(...radii)).toBeCloseTo(90, 10)
+  })
+
   it('preserves Wheel and Head order with independent Trace styles', () => {
     const scene = buildCompositionScene(
       compositionWithTwoHeads(),

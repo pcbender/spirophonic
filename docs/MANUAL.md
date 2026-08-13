@@ -175,9 +175,14 @@ are locked in a 3:1 relationship at any tempo.
 | **rose** | Numerator, Denominator | Rose curves; petal count follows the ratio |
 | **superformula** | Symmetry, N1, N2, N3 | A general family covering polygons through organic blobs |
 | **harmonograph** | X frequency, Y frequency, Damping | Decaying pendulum figures that spiral inward |
+| **wave** | Waveform, Amplitude, Periodicity | A sine, triangle, square, or sawtooth wrapped around a circle |
 
-A curve closes when its ratio is rational, and the app uses that to decide how
-long a full cycle is. Irrational ratios never close.
+A Wheel cycle always comes from **Cycles / Cycle beats**, independently of
+whether its Trace closes. The wave family deliberately requires a whole-number
+Periodicity, so it draws that many evenly spaced radial waves and returns to its
+starting point after one Wheel cycle. Amplitude is the radial excursion in world
+units; `0` produces a circle. Square and sawtooth use short, fixed connector
+segments so the Head traverses their sharp edges instead of teleporting.
 
 ## Head and Trace
 
@@ -200,6 +205,7 @@ One parameter set, depending on the Wheel's motion family:
 | lissajous | **Head scale X**, **Head scale Y** |
 | rose, superformula | **Radius scale** |
 | harmonograph | **Amplitude scale** |
+| wave | **Base radius** — the radius around which the waveform oscillates |
 
 ### Trace
 

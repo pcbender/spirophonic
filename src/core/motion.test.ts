@@ -61,6 +61,15 @@ const cases: Array<{
       phaseY: 0.2,
     },
   },
+  {
+    motion: {
+      kind: 'wave',
+      waveform: 'triangle',
+      amplitude: 40,
+      periodicity: 5,
+    },
+    attachment: { kind: 'wave', baseRadius: 160 },
+  },
 ]
 
 describe('motionPointAt', () => {
@@ -96,5 +105,43 @@ describe('motionPointAt', () => {
         0,
       ),
     ).toThrow('does not match')
+  })
+
+  it.each(['sine', 'triangle', 'square', 'sawtooth'] as const)(
+    'closes the %s radial waveform exactly after one Wheel cycle',
+    (waveform) => {
+      const motion: MotionSpec = {
+        kind: 'wave',
+        waveform,
+        amplitude: 45,
+        periodicity: 6,
+      }
+      const attachment: HeadAttachmentSpec = {
+        kind: 'wave',
+        baseRadius: 180,
+      }
+
+      expect(motionPointAt(motion, attachment, 1, 1).position).toEqual(
+        motionPointAt(motion, attachment, 0, 0).position,
+      )
+    },
+  )
+
+  it('makes waveform, amplitude, and periodicity independently observable', () => {
+    const attachment: HeadAttachmentSpec = { kind: 'wave', baseRadius: 100 }
+    const pointAt = (
+      waveform: Extract<MotionSpec, { kind: 'wave' }>['waveform'],
+      amplitude: number,
+      periodicity: number,
+    ) => motionPointAt(
+      { kind: 'wave', waveform, amplitude, periodicity },
+      attachment,
+      1 / 16,
+      1 / 16,
+    ).position
+
+    expect(pointAt('sine', 20, 2)).not.toEqual(pointAt('triangle', 20, 2))
+    expect(pointAt('sine', 0, 2)).not.toEqual(pointAt('sine', 20, 2))
+    expect(pointAt('sine', 20, 2)).not.toEqual(pointAt('sine', 20, 4))
   })
 })

@@ -20,6 +20,7 @@ const motionKinds: Array<MotionSpec['kind']> = [
   'rose',
   'superformula',
   'harmonograph',
+  'wave',
 ]
 
 export function WheelPanel({
@@ -153,6 +154,21 @@ export function WheelPanel({
           <NumberField label="Damping" hint={help['wheel.damping']} value={wheel.motion.damping} min={0} step={0.005} onChange={(damping) => patchMotion({ damping })} />
         </>
       )}
+      {wheel.motion.kind === 'wave' && (
+        <>
+          <label className="field" title={help['wheel.waveform']}>
+            <span>Waveform</span>
+            <select aria-label="Waveform" value={wheel.motion.waveform} onChange={(event) => patchMotion({ waveform: event.currentTarget.value as Extract<MotionSpec, { kind: 'wave' }>['waveform'] })}>
+              <option value="sine">Sine</option>
+              <option value="triangle">Triangle</option>
+              <option value="square">Square</option>
+              <option value="sawtooth">Sawtooth</option>
+            </select>
+          </label>
+          <NumberField label="Amplitude" hint={help['wheel.amplitude']} value={wheel.motion.amplitude} min={0} step={1} onChange={(amplitude) => patchMotion({ amplitude })} />
+          <NumberField label="Periodicity" hint={help['wheel.periodicity']} value={wheel.motion.periodicity} min={1} step={1} onChange={(periodicity) => patchMotion({ periodicity })} />
+        </>
+      )}
     </RailPanel>
   )
 }
@@ -193,6 +209,16 @@ const motionDefaults = (
           amplitudeY: 180,
         },
         attachment: { kind, amplitudeScale: 1, phaseX: 0, phaseY: 0 },
+      }
+    case 'wave':
+      return {
+        motion: {
+          kind,
+          waveform: 'sine',
+          amplitude: 45,
+          periodicity: 6,
+        },
+        attachment: { kind, baseRadius: 180 },
       }
   }
 }

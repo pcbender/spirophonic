@@ -5,6 +5,35 @@ import { defaultComposition } from '../core/defaultComposition'
 import { exportCompositionToSvg } from './svgExport'
 
 describe('Composition SVG export', () => {
+  it('exports radial waveform geometry through the shared scene plan', () => {
+    const wave = structuredClone(defaultComposition) as Composition
+    wave.fields = []
+    wave.wheels[0].motion = {
+      kind: 'wave',
+      waveform: 'triangle',
+      amplitude: 40,
+      periodicity: 5,
+    }
+    wave.wheels[0].heads[0].attachment = {
+      kind: 'wave',
+      baseRadius: 140,
+    }
+    const circle = structuredClone(wave)
+    if (circle.wheels[0].motion.kind === 'wave') {
+      circle.wheels[0].motion.amplitude = 0
+    }
+    const observation = {
+      startSeconds: 0,
+      endSeconds: 2,
+      sampleRateHz: 120,
+    }
+    const waveSvg = exportCompositionToSvg(wave, observation)
+
+    expect(waveSvg).toBe(exportCompositionToSvg(wave, observation))
+    expect(waveSvg).toContain('data-head-id="head-1"')
+    expect(waveSvg).not.toBe(exportCompositionToSvg(circle, observation))
+  })
+
   it('renders the same v1 scene plan deterministically', () => {
     const composition = structuredClone(defaultComposition) as Composition
     const observation = {

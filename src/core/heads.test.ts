@@ -101,6 +101,34 @@ describe('Head state', () => {
     expect(afterTwoCycles.radius).toBeLessThan(afterOneCycle.radius)
   })
 
+  it('keeps wave Heads on one clock with independent base radii', () => {
+    const composition = cloneDefault()
+    composition.wheels[0].motion = {
+      kind: 'wave',
+      waveform: 'triangle',
+      amplitude: 20,
+      periodicity: 4,
+    }
+    composition.wheels[0].heads[0].attachment = {
+      kind: 'wave',
+      baseRadius: 100,
+    }
+    composition.wheels[0].heads.push({
+      ...structuredClone(composition.wheels[0].heads[0]),
+      id: 'head-wave-2',
+      name: 'Wave Head 2',
+      phaseOffset: 0.125,
+      attachment: { kind: 'wave', baseRadius: 160 },
+    })
+
+    const states = headStatesAt(composition, 'wheel-1', 0.5)
+
+    expect(states[0].wheelPhase).toBe(states[1].wheelPhase)
+    expect(states[0].headPhase).not.toBe(states[1].headPhase)
+    expect(states[0].position).not.toEqual(states[1].position)
+    expect(states[0].radius).not.toBe(states[1].radius)
+  })
+
   it('depends only on Composition and requested time', () => {
     const composition = cloneDefault()
     const first = headStateAt(composition, 'head-1', 0.123456)
