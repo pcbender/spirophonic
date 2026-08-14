@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Build Plan
 
-Status: **implementation contract; MG-01 through MG-25 and WIN-01 are complete; MG-26 is in review.**
+Status: **implementation contract; MG-01 through MG-26 and WIN-01 are complete; MG-27 is in review.**
 
 This document turns [Spirophonic-Domain-Model.md](Spirophonic-Domain-Model.md)
 into a dependency-ordered build plan. It is the active contract for moving the
@@ -384,7 +384,7 @@ sweep, it does not license silent scope growth.
 | MG-09 | First playable generator and clean model cutover | MG-01–MG-08 | **done** — listened-trigger correction validated 2026-08-12 |
 | MG-10 | Sound bank vault and SoundFont engine decision | MG-01, MG-08 | **done** |
 | MG-11 | SoundFont playback and instrument browser | MG-07, MG-08, MG-10 | **done** — native discovery correction validated 2026-08-11 |
-| MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | **done** |
+| MG-12 | Concurrent multi-Wheel/multi-Head authoring | MG-09, MG-11 | **done** — Part duplication correction validated 2026-08-14 |
 | MG-13 | Ellipse, band, grid, spiral, and moving Fields | MG-05, MG-06, MG-12 | **done** |
 | MG-14 | Head-to-Head relations and continuous controls | MG-06, MG-07, MG-12 | **done** |
 | MG-15 | Trace encounters and retained trace state | MG-04, MG-06, MG-12 | **done** |
@@ -399,7 +399,8 @@ sweep, it does not license silent scope growth.
 | MG-23 | In-gate modulation lanes and Trace notation | MG-22 | **done** |
 | MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | **done** |
 | MG-25 | Closed radial waveform motion | MG-03, MG-04, MG-06, MG-09 | **done** — validated 2026-08-13 |
-| MG-26 | SoundFont creation and fixed-note one-shots | MG-11, MG-19, MG-20 | **in review** |
+| MG-26 | SoundFont creation and fixed-note one-shots | MG-11, MG-19, MG-20 | **done** |
+| MG-27 | Figure-sequence pitch mapping | MG-16, MG-18, MG-19 | **in review** |
 
 The first user-visible milestone is MG-09. MG-11 makes that slice sound like a
 composition tool. MG-12 proves concurrent Wheels and Heads before advanced
@@ -837,6 +838,12 @@ reporting belong in a pure `src/core/compositionEdits.ts` rather than in
 `wheels.ts`, which owns Wheel state derivation. The reference Composition ships
 beside the default in `src/core/defaultComposition.ts` so the simple starting
 Composition stays the first-run experience.
+
+**Post-completion scope correction (2026-08-14):** `src/ui/help.ts`,
+`e2e/app.spec.ts`, and `docs/MANUAL.md` are included for Part duplication.
+Duplicate is a structural authoring operation beside Remove for note and
+Control Parts; it preserves authored references and settings while allocating
+fresh identities for the Part and any nested gate-modulation mappings.
 
 **Deliverables:**
 
@@ -1695,6 +1702,68 @@ browser playback and rendered WAV remain authoritative for the one-shot tail.
 - Removing the fixed-note override, restoring duration-based note-off, or
   replacing instead of appending makes a targeted guard fail; all repository
   gates and the Chromium/Firefox author-preview-reload check pass.
+
+## MG-27 — Figure-sequence pitch mapping
+
+**Goal:** Let a deterministic Encounter stream play through an authored phrase,
+row, motif, chord progression, or other ordered collection of pitch figures,
+with collection-level melodic transforms and no state in an Instrument or
+exporter.
+
+**Files:** `src/core/composition.ts`, `src/core/compositionValidation.ts`,
+`src/core/compositionValidation.test.ts`, `src/core/figureSequence.ts`,
+`src/core/figureSequence.test.ts`, `src/core/parts.ts`,
+`src/core/parts.test.ts`, `src/core/performance.ts`,
+`src/core/performance.test.ts`, `src/core/replay.test.ts`,
+`src/export/compositionJson.test.ts`, `src/export/strudelExport.ts`,
+`src/export/strudelExport.test.ts`,
+`src/ui/PartPanel.tsx`, `src/ui/PartPanel.test.tsx`, `src/ui/help.ts`,
+`e2e/app.spec.ts`, `docs/MANUAL.md`, and
+`docs/examples/FIGURE-SEQUENCE-PITCH-MAPPINGS.md`
+
+**Scope note (2026-08-14):** Sequence position is derived purely from the
+Part's stable, selected Encounter order and an explicit reset segment. It is
+not a mutable cursor owned by playback, so compiling, seeking, reinterpreting,
+and exporting the same request cannot disagree. A chord expands one source
+Encounter into simultaneous canonical note events with stable tone IDs; audio
+engines and exporters continue to consume the canonical layer without reading
+the mapping. Strudel's existing single-event slot is widened to an explicit
+chord token so that consumer does not silently discard simultaneous tones.
+Rhythmic augmentation and diminution are excluded because pitch figures do not
+own duration in the current model.
+
+**Deliverables:**
+
+- A `figure-sequence` PitchMapping with note, chord, scale-degree,
+  pitch-class-set, and relative-interval figures.
+- FIFO, LIFO, and deterministic indexed access from event ordinal, Boundary
+  index, or bar index; loop, hold, and silence exhaustion; and restart at the
+  performance window, bar, or primary Wheel cycle.
+- Prime, retrograde, inversion, and retrograde-inversion transforms, plus
+  semitone transposition and interval expansion/compression around an authored
+  MIDI axis. Transforms belong to the collection and never mutate its figures.
+- Strict version-1.0 JSON validation and round-trip, Part-editor authoring,
+  two example configurations, and concise manual guidance.
+- Pure-core coverage for access, exhaustion, reset, transforms, chord
+  expansion, validation, and deterministic recompilation/reinterpretation.
+
+**Acceptance criteria:**
+
+- FIFO and LIFO traverse the same authored figures in opposite directions;
+  indexed access reads only declared deterministic Encounter metadata.
+- Loop wraps, hold repeats the traversal's last figure, and silence emits no
+  note after exhaustion. Bar and Wheel-cycle restart begin a new traversal
+  without hidden playback state.
+- Retrograde reverses figure order; inversion reflects every resolved pitch
+  around the declared axis; retrograde-inversion combines both; transpose and
+  interval scaling are reproducible and validated into the MIDI range.
+- One chord figure produces simultaneous canonical notes with unique stable
+  IDs and the same source Encounter, onset, duration, and velocity.
+- Repeated compilation is deep-equal, exact replay uses captured events, and
+  reinterpretation of the same recorded Encounters rebuilds the same sequence.
+- Removing sequence advancement or a collection transform makes a focused
+  guard fail; repository gates and the Chromium/Firefox author-save-reload
+  check pass with exit codes verified.
 
 ## Packet rules
 

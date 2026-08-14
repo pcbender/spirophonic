@@ -11,6 +11,7 @@ import type {
 } from './composition'
 import type { BoundaryCrossingEncounter } from './encounters'
 import type { RelationEncounter } from './relations'
+import { buildFigureSequencePitches } from './figureSequence'
 import { buildMelodicContour, normalizeSeries } from './melody'
 import {
   findTuningContext,
@@ -270,6 +271,12 @@ export const mapEncounterPitch = (
     return Object.freeze({ midiNote, frequencyHz: midiToFrequency(midiNote) })
   }
 
+  if (mapping.kind === 'figure-sequence') {
+    throw new RangeError(
+      'A figure-sequence pitch mapping must be resolved across the Part\'s ordered Encounter stream.',
+    )
+  }
+
   if (mapping.kind === 'fixed-midi') {
     return Object.freeze({
       midiNote: mapping.note,
@@ -362,6 +369,16 @@ export const buildPartMelody = (
       : undefined,
   ).map((step) => step.midiNote)
 }
+
+/** The authored figure(s) selected for each Encounter, or undefined. */
+export const buildPartFigureSequence = (
+  part: NotePartSpec,
+  encounters: ReadonlyArray<InterpretableEncounter>,
+  composition: Composition,
+): ReadonlyArray<ReadonlyArray<MappedPitch>> | undefined =>
+  part.pitch.kind === 'figure-sequence'
+    ? buildFigureSequencePitches(part.pitch, encounters, composition)
+    : undefined
 
 export const validatePartMusicalRange = (
   part: PartSpec,

@@ -320,7 +320,7 @@ Turns Encounters into notes.
 
 | Control | Notes |
 |---|---|
-| Enable checkbox, **Name**, **Remove** | |
+| Enable checkbox, **Name**, **Duplicate**, **Remove** | **Duplicate** creates an independently editable copy immediately after this Part, preserving its complete event, pitch, instrument, velocity, duration, quantization, and modulation settings. |
 | **Listens to → kinds** | Which kinds of Encounter this Part turns into notes: boundary, trace, and the six Relation kinds. Check none and it accepts every kind. The caption says how many are chosen, and names anything that cannot fire yet — a trace kind with fewer than two observing Heads, or a Relation kind with no Relation. |
 | **Listens to → Wheels** | Which Wheels this Part hears. Check none and it hears every Wheel — the caption under the row always says which. |
 | **Listens to → Heads** | Which Heads, among those on the Wheels above. Check none and it hears all of them. Only Heads on listened-to Wheels are offered, because a Head on any other Wheel could never match. |
@@ -329,7 +329,7 @@ Turns Encounters into notes.
 | **Listens to → Relations** | Which named Relations it fires on, shown once a Relation kind is accepted. Check none and it hears every Relation of those kinds. |
 | **Min strength** | Ignore Encounters weaker than this, 0 to 1. A glancing crossing is weak, a square-on one strong, so this thins a Part to its firmest hits. |
 | **Instrument** | Which Instrument renders this Part's notes. |
-| **Pitch mapping** | How an Encounter chooses a pitch. All eight are listed below; the parameters beneath the dropdown change with the choice. |
+| **Pitch mapping** | How an Encounter chooses a pitch or chord. All nine are listed below; the parameters beneath the dropdown change with the choice. |
 | **Velocity** | Loudness from each Encounter's strength, or one constant value. |
 | **Vel min**, **Vel max**, **Vel curve** | Under Encounter strength: the velocity range, and the gamma bending the curve between them. 1 is straight, below 1 favours louder, above 1 quieter. |
 | **Duration** | For ordinary point crossings: `Fixed` is a set length and `Until next note` is the gap to this Part's next note. A band or positive-width Spoke is inherently region-gated regardless of this choice: entry starts one note and the exactly matched exit ends it. `Time inside a region` and `Time inside a band` remain valid explicit/legacy saved spellings. |
@@ -397,6 +397,7 @@ SoundFont engine path as live playback.
 | **Spatial** | Source, Root, Scale, Octaves | *Where* the Encounter happened — its x, y, distance from centre, or angle — mapped onto the scale. |
 | **Contour** | Source, Root, Scale, Octaves | The same measurement, but normalised across this Part's own Encounters, so the full range is always used. |
 | **Melodic line** | Source, Scale, Root, Restart, Max step, Direction bias, Low/High/Start degree | A line that *walks* the scale. The source steers direction rather than picking notes outright, so the result moves stepwise instead of leaping. |
+| **Figure sequence** | Access, At end, Restart, Root, Scale, Transform, Transpose, Axis, Interval scale, Figures | The next authored note, chord, scale degree, pitch-class set, or relative interval structure. Geometry supplies timing; the sequence supplies the phrase or harmony. |
 | **Ratio** | Root (Hz), Octave fold | Which Boundary was crossed, as a whole-number frequency ratio above the root. |
 | **Tuned ratio** | Tuning, and either an explicit numerator/denominator or a Wheel's motion | An exact interval. Taking it from a Lissajous or rose Wheel makes a 3:2 figure sound an actual perfect fifth. |
 
@@ -428,6 +429,33 @@ Part points at changes nothing.
 
 **Scales** are chromatic, major, minor, dorian, pentatonic-major, and
 pentatonic-minor.
+
+##### Figure sequences
+
+**FIFO** reads the Figures list from first to last. **LIFO** reads it from last
+to first. **Indexed** selects with this Part's event count, the Encounter's
+stable Boundary index, or its bar index. At the end, **Loop** wraps, **Hold**
+repeats the traversal's last figure, and **Silence** emits no note. Restarting
+per performance is the default; bar and primary-Wheel-cycle restarts make a
+short motif line up with an explicit musical or geometric boundary.
+
+A compile derives every position from the Part's stable selected-Encounter
+order. There is no playback cursor to leak across stop, seek, render, or export.
+Exact replay reads the recorded canonical notes, while reinterpretation runs
+the same deterministic sequence over the recorded Encounters.
+
+Transforms apply to the collection. **Retrograde** reverses Figure order;
+**Inversion** reflects every resolved MIDI pitch around Axis; **Retrograde
+inversion** combines them. Transpose then shifts chromatically, and Interval
+scale expands values above 1 or compresses values below 1 around the same Axis,
+rounding to the nearest semitone. A result outside MIDI 0–127 is rejected at
+the JSON/editor validation boundary.
+
+One chord Figure makes simultaneous canonical note events with one source
+Encounter and separate stable tone IDs. No audio engine or exporter reads the
+Figure list. Rhythmic augmentation/diminution is not a pitch transform here:
+duration remains the Part's independent mapping. Two copyable JSON mappings are
+in [Figure-sequence pitch mappings](examples/FIGURE-SEQUENCE-PITCH-MAPPINGS.md).
 
 **Spatial is calibrated by Pitch reference**, in the Composition panel. Set it
 near the size of your geometry — the shipped Compositions use 180, the radius

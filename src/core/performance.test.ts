@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest'
 
 import type {
   Composition,
+  FigureSequencePitchMapping,
   NotePartSpec,
   TraceObservationSpec,
 } from './composition'
 import { defaultComposition } from './defaultComposition'
+import type { BoundaryCrossingEncounter } from './encounters'
 import { compilePerformance, interpretEncounters } from './performance'
 import { fixedFrequencySineGateFixture } from '../test/fixtures/gateModulation'
 
@@ -40,6 +42,50 @@ const notePart = (
   pitch: { kind: 'fixed-midi', note },
   velocity: { kind: 'encounter-strength', min: 40, max: 120, gamma: 1 },
   duration: { kind: 'fixed', beats: 0.5 },
+})
+
+const figureSequence = (
+  overrides: Partial<FigureSequencePitchMapping> = {},
+): FigureSequencePitchMapping => ({
+  kind: 'figure-sequence',
+  accessMode: 'fifo',
+  endBehavior: 'loop',
+  resetOn: 'performance',
+  root: 60,
+  scale: 'major',
+  transform: { kind: 'prime', transpose: 0, axis: 60, intervalScale: 1 },
+  figures: [
+    { kind: 'note', note: 60 },
+    { kind: 'chord', notes: [64, 67, 71] },
+  ],
+  ...overrides,
+})
+
+const recordedEncounter = (
+  index: number,
+  overrides: Partial<BoundaryCrossingEncounter> = {},
+): BoundaryCrossingEncounter => ({
+  id: `encounter-${index}`,
+  kind: 'boundary-crossing',
+  timeSeconds: index * 0.25,
+  subjectIds: ['wheel-1', 'head-1'],
+  wheelId: 'wheel-1',
+  headId: 'head-1',
+  fieldId: 'field-rings',
+  boundaryId: `ring-${index}`,
+  boundaryIndex: index,
+  boundaryKind: 'ring',
+  position: { x: 60 + index, y: 0 },
+  direction: 'outward',
+  strength: 0.75,
+  speed: 1,
+  incidenceAngle: 0,
+  wheelPhase: index / 8,
+  absoluteBeat: index * 0.5,
+  barIndex: 0,
+  beatInBar: index * 0.5,
+  barPhase: index / 8,
+  ...overrides,
 })
 
 const ellipseComposition = (): Composition => {
@@ -85,6 +131,45 @@ const ellipseComposition = (): Composition => {
 }
 
 describe('canonical performance compilation', () => {
+  it('expands a figure-sequence chord into stable simultaneous canonical notes', () => {
+    const composition = structuredClone(defaultComposition) as Composition
+    const part = notePart('part-figures', 'instrument-1', 60)
+    part.pitch = figureSequence()
+    composition.parts = [part]
+    // Input order is deliberately scrambled: the mapping reads canonical
+    // Encounter time/identity order rather than caller array order.
+    const encounters = [2, 0, 1].map((index) => recordedEncounter(index))
+
+    const first = interpretEncounters(composition, request, encounters)
+    const second = interpretEncounters(composition, request, encounters)
+
+    expect(first).toEqual(second)
+    expect(first.diagnostics).toEqual([])
+    expect(first.events.map((event) => event.midiNote)).toEqual([
+      60,
+      64,
+      67,
+      71,
+      60,
+    ])
+    const chord = first.events.filter(
+      (event) => event.sourceEncounterId === 'encounter-1',
+    )
+    expect(new Set(chord.map((event) => event.id)).size).toBe(3)
+    expect(chord.map((event) => event.id)).toEqual([
+      'musical-event/part-figures/encounter-1/tone/0',
+      'musical-event/part-figures/encounter-1/tone/1',
+      'musical-event/part-figures/encounter-1/tone/2',
+    ])
+    expect(chord.every((event) => event.timeSeconds === 0.25)).toBe(true)
+    expect(new Set(chord.map((event) => event.durationBeats))).toEqual(
+      new Set([0.5]),
+    )
+    expect(new Set(chord.map((event) => event.velocity))).toEqual(
+      new Set([100]),
+    )
+  })
+
   it('lets two Parts interpret one Encounter as different Instruments and pitches', () => {
     const composition = ellipseComposition()
     composition.parts = [

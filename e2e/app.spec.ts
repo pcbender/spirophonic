@@ -203,6 +203,133 @@ test('authors, plays, and reloads a closed radial waveform', async ({ page }) =>
   await fresh.close()
 })
 
+test('duplicates a Part beside its source with all settings', async ({ page }) => {
+  const parts = page.getByRole('region', { name: 'Parts' })
+  const sourceId = 'part-1'
+  const sourceName = await parts.getByLabel(`Name ${sourceId}`).inputValue()
+
+  await parts
+    .getByLabel(`Pitch mapping ${sourceId}`)
+    .selectOption('figure-sequence')
+  await parts.getByLabel(`Figure access ${sourceId}`).selectOption('lifo')
+  await parts
+    .getByLabel(`Figure transform ${sourceId}`)
+    .selectOption('retrograde')
+
+  const duplicate = parts.getByLabel(`Duplicate ${sourceId}`)
+  const remove = parts.getByLabel(`Remove ${sourceId}`)
+  const duplicateBox = await duplicate.boundingBox()
+  const removeBox = await remove.boundingBox()
+  expect(duplicateBox).not.toBeNull()
+  expect(removeBox).not.toBeNull()
+  expect(Math.abs(duplicateBox!.y - removeBox!.y)).toBeLessThan(2)
+  expect(duplicateBox!.x).toBeLessThan(removeBox!.x)
+
+  await duplicate.click()
+  const saved = await page.evaluate(() => {
+    const value = localStorage.getItem('spirophonic.composition.v1')
+    return value ? JSON.parse(value) : null
+  })
+  const [source, copy] = saved.parts
+  const { id: sourceIdentity, name: savedSourceName, ...sourceSettings } = source
+  const { id: copyIdentity, name: copyName, ...copySettings } = copy
+
+  expect(sourceIdentity).toBe(sourceId)
+  expect(copyIdentity).not.toBe(sourceIdentity)
+  expect(savedSourceName).toBe(sourceName)
+  expect(copyName).toBe(`${sourceName} copy`)
+  expect(copySettings).toEqual(sourceSettings)
+  await expect(parts.getByLabel(`Name ${copyIdentity}`)).toHaveValue(copyName)
+  await expect(parts.getByLabel(`Pitch mapping ${copyIdentity}`)).toHaveValue(
+    'figure-sequence',
+  )
+  await expect(parts.getByLabel(`Figure access ${copyIdentity}`)).toHaveValue(
+    'lifo',
+  )
+})
+
+test('authors, plays, and reloads a transformed figure sequence', async ({ page }) => {
+  const parts = page.getByRole('region', { name: 'Parts' })
+  const partId = 'part-1'
+
+  await parts.getByLabel(`Pitch mapping ${partId}`).selectOption('figure-sequence')
+
+  const figuresBox = await parts
+    .getByRole('group', { name: 'Figures' })
+    .boundingBox()
+  const intervalScaleBox = await parts
+    .getByLabel(`Figure interval scale ${partId}`)
+    .boundingBox()
+  const velocityBox = await parts.getByLabel(`Velocity ${partId}`).boundingBox()
+  expect(figuresBox).not.toBeNull()
+  expect(intervalScaleBox).not.toBeNull()
+  expect(velocityBox).not.toBeNull()
+  expect(figuresBox!.width).toBeGreaterThan(intervalScaleBox!.width * 2)
+  expect(intervalScaleBox!.height).toBeLessThan(60)
+  expect(velocityBox!.height).toBeLessThan(60)
+
+  await parts.getByLabel(`Figure access ${partId}`).selectOption('indexed')
+  await parts
+    .getByLabel(`Figure index source ${partId}`)
+    .selectOption('boundary-index')
+  await parts
+    .getByLabel(`Figure transform ${partId}`)
+    .selectOption('retrograde-inversion')
+  await parts.getByLabel(`Figure kind ${partId} 0`).selectOption('chord')
+  const chord = parts.getByLabel(`Chord notes ${partId} 0`)
+  await chord.fill('60, 63, 67')
+  await chord.press('Tab')
+
+  await expect(parts.getByLabel(`Figure access ${partId}`)).toHaveValue('indexed')
+  await expect(parts.getByLabel(`Figure transform ${partId}`)).toHaveValue(
+    'retrograde-inversion',
+  )
+  await expect(chord).toHaveValue('60, 63, 67')
+
+  const saved = await page.evaluate(() => {
+    const value = localStorage.getItem('spirophonic.composition.v1')
+    return value ? JSON.parse(value) : null
+  })
+  expect(saved?.parts[0].pitch).toMatchObject({
+    kind: 'figure-sequence',
+    accessMode: 'indexed',
+    indexSource: 'boundary-index',
+    transform: { kind: 'retrograde-inversion' },
+  })
+  expect(saved?.parts[0].pitch.figures[0]).toEqual({
+    kind: 'chord',
+    notes: [60, 63, 67],
+  })
+
+  await page.getByRole('button', { name: 'Play' }).click()
+  await expect
+    .poll(
+      async () => Number(
+        await page.getByRole('slider', { name: 'Transport position' }).inputValue(),
+      ),
+      { timeout: 10_000 },
+    )
+    .toBeGreaterThan(0.15)
+  await page.getByRole('button', { name: 'Pause' }).click()
+
+  const fresh = await page.context().newPage()
+  const freshErrors: Array<string> = []
+  fresh.on('pageerror', (error) => freshErrors.push(error.message))
+  await fresh.goto('/')
+  const freshParts = fresh.getByRole('region', { name: 'Parts' })
+  await expect(freshParts.getByLabel(`Pitch mapping ${partId}`)).toHaveValue(
+    'figure-sequence',
+  )
+  await expect(freshParts.getByLabel(`Figure access ${partId}`)).toHaveValue(
+    'indexed',
+  )
+  await expect(freshParts.getByLabel(`Chord notes ${partId} 0`)).toHaveValue(
+    '60, 63, 67',
+  )
+  expect(freshErrors).toEqual([])
+  await fresh.close()
+})
+
 test('canvas trigger markers show only crossings heard by the current mix', async ({
   page,
 }) => {

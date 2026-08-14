@@ -15,6 +15,7 @@ import {
   type EncounterScanOptions,
 } from './encounters'
 import {
+  buildPartFigureSequence,
   buildPartMelody,
   mapEncounterPitch,
   normalizeEncounterContour,
@@ -111,7 +112,7 @@ export type PerformanceCompileOptions = EncounterScanOptions
 type NoteCandidate = Readonly<{
   encounter: InterpretableEncounter
   absoluteBeat: number
-  pitch: MappedPitch
+  pitches: ReadonlyArray<MappedPitch>
   velocity: number
 }>
 
@@ -266,10 +267,29 @@ const quantizedCandidates = (
   // A melodic line is stateful across the Part's Encounters, so it is built
   // once for the whole selection rather than per Encounter.
   const melody = buildPartMelody(part, encounters, composition.space)
+  // A figure sequence is likewise resolved over the whole stable selection.
+  // This is where its deterministic traversal state begins and ends.
+  const figureSequence = buildPartFigureSequence(part, encounters, composition)
   const candidates: Array<NoteCandidate> = []
 
   encounters.forEach((encounter, index) => {
     try {
+      const pitches = figureSequence?.[index] ?? [
+        mapEncounterPitch(
+          encounter,
+          part.pitch,
+          composition.space,
+          contour?.[index],
+          {
+            composition,
+            tuningContextId: part.tuningContextId,
+            melodyMidiNote: melody?.[index],
+          },
+        ),
+      ]
+      // `silence` still consumes this Encounter's sequence position, but it
+      // deliberately creates no candidate and therefore no Musical Event.
+      if (pitches.length === 0) return
       candidates.push(
         Object.freeze({
           encounter,
@@ -278,17 +298,7 @@ const quantizedCandidates = (
           absoluteBeat: part.quantize && !isRegionEntry(encounter)
             ? quantizeAbsoluteBeat(encounter.absoluteBeat, part.quantize)
             : encounter.absoluteBeat,
-          pitch: mapEncounterPitch(
-            encounter,
-            part.pitch,
-            composition.space,
-            contour?.[index],
-            {
-              composition,
-              tuningContextId: part.tuningContextId,
-              melodyMidiNote: melody?.[index],
-            },
-          ),
+          pitches,
           velocity: mapStrengthToVelocity(encounter.strength, part.velocity),
         }),
       )
@@ -342,7 +352,7 @@ const quantizedCandidates = (
       Object.freeze({
         encounter: winner.encounter,
         absoluteBeat: winner.absoluteBeat,
-        pitch: winner.pitch,
+        pitches: winner.pitches,
         velocity: winner.velocity,
       }),
     ),
@@ -447,9 +457,17 @@ const interpretNotePart = (
   const selectedByQuery = selectPartEncounters(part, allEncounters)
   // Every area Boundary owns its visit lifetime: entry is note-on and exit is
   // note-off. Duration mappings continue to govern non-region encounters.
-  const selectedEncounters = selectedByQuery.filter(
+  const selectedWithoutExits = selectedByQuery.filter(
     (encounter) => encounter.transition !== 'exit',
   )
+  const selectedEncounters =
+    part.pitch.kind === 'figure-sequence'
+      ? [...selectedWithoutExits].sort(
+          (left, right) =>
+            left.timeSeconds - right.timeSeconds ||
+            compareText(left.id, right.id),
+        )
+      : selectedWithoutExits
   const candidates = quantizedCandidates(
     part,
     selectedEncounters,
@@ -466,7 +484,8 @@ const interpretNotePart = (
     part.pitch.kind === 'spatial' ||
     part.pitch.kind === 'contour'
       ? part.pitch.scale
-      : part.pitch.kind === 'melodic-contour'
+      : part.pitch.kind === 'melodic-contour' ||
+          part.pitch.kind === 'figure-sequence'
         ? part.pitch.scale
         : undefined
 
@@ -508,46 +527,52 @@ const interpretNotePart = (
       1,
     )
     variationTrace.push(...interpretation.trace)
-    const shiftedMidi =
-      candidate.pitch.midiNote === undefined || interpretation.degreeShift === 0
-        ? candidate.pitch.midiNote
-        : shiftMidiByScaleDegrees(
-            candidate.pitch.midiNote,
-            interpretation.degreeShift,
-            scaleForPart,
-          )
-    const variedPitch =
-      shiftedMidi === undefined || shiftedMidi === candidate.pitch.midiNote
-        ? candidate.pitch
-        : {
-            midiNote: shiftedMidi,
-            frequencyHz: midiToFrequency(shiftedMidi),
-          }
+    return candidate.pitches.map((pitch, toneIndex) => {
+      const shiftedMidi =
+        pitch.midiNote === undefined || interpretation.degreeShift === 0
+          ? pitch.midiNote
+          : shiftMidiByScaleDegrees(
+              pitch.midiNote,
+              interpretation.degreeShift,
+              scaleForPart,
+            )
+      const variedPitch =
+        shiftedMidi === undefined || shiftedMidi === pitch.midiNote
+          ? pitch
+          : {
+              midiNote: shiftedMidi,
+              frequencyHz: midiToFrequency(shiftedMidi),
+            }
+      const baseId = eventId(part.id, candidate.encounter.id)
 
-    return [Object.freeze({
-      id: eventId(part.id, candidate.encounter.id),
-      sourceEncounterId: candidate.encounter.id,
-      partId: part.id,
-      instrumentId: part.instrumentId,
-      kind: 'note',
-      timeSeconds,
-      absoluteBeat: candidate.absoluteBeat,
-      barIndex: address.barIndex,
-      beatInBar: address.beatInBar,
-      barPhase: address.barPhase,
-      ...(variedPitch.midiNote === undefined
-        ? {}
-        : { midiNote: variedPitch.midiNote }),
-      frequencyHz: variedPitch.frequencyHz,
-      velocity: candidate.velocity,
-      durationBeats,
-      durationSeconds: beatsToSeconds(
+      return Object.freeze({
+        id:
+          candidate.pitches.length === 1
+            ? baseId
+            : `${baseId}/tone/${toneIndex}`,
+        sourceEncounterId: candidate.encounter.id,
+        partId: part.id,
+        instrumentId: part.instrumentId,
+        kind: 'note' as const,
+        timeSeconds,
+        absoluteBeat: candidate.absoluteBeat,
+        barIndex: address.barIndex,
+        beatInBar: address.beatInBar,
+        barPhase: address.barPhase,
+        ...(variedPitch.midiNote === undefined
+          ? {}
+          : { midiNote: variedPitch.midiNote }),
+        frequencyHz: variedPitch.frequencyHz,
+        velocity: candidate.velocity,
         durationBeats,
-        composition.transport.tempoBpm,
-      ),
-      rest: !interpretation.sounds,
-      probability: interpretation.sounds ? 1 : 0,
-    })]
+        durationSeconds: beatsToSeconds(
+          durationBeats,
+          composition.transport.tempoBpm,
+        ),
+        rest: !interpretation.sounds,
+        probability: interpretation.sounds ? 1 : 0,
+      })
+    })
   })
 }
 

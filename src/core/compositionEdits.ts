@@ -54,7 +54,12 @@ export const allCompositionIds = (
   for (const relation of composition.relations ?? []) ids.add(relation.id)
   for (const tuning of composition.tuningContexts ?? []) ids.add(tuning.id)
   for (const instrument of composition.instruments) ids.add(instrument.id)
-  for (const part of composition.parts) ids.add(part.id)
+  for (const part of composition.parts) {
+    ids.add(part.id)
+    if (part.kind === 'note') {
+      for (const mapping of part.gateModulations ?? []) ids.add(mapping.id)
+    }
+  }
   for (const bank of composition.soundBanks) ids.add(bank.id)
   return ids
 }
@@ -658,6 +663,48 @@ export const setHeadTraceVisible = (
 // ---------------------------------------------------------------------------
 // Part performance state
 // ---------------------------------------------------------------------------
+
+/**
+ * Copies a complete Part directly after its source.
+ *
+ * References to Wheels, Heads, Relations, Instruments, and tuning contexts are
+ * settings and stay intact. The Part and any nested modulation mappings are
+ * identities, so those receive fresh globally unique IDs.
+ */
+export const duplicatePart = (
+  composition: Composition,
+  partId: string,
+): { composition: Composition; partId: string } => {
+  const index = composition.parts.findIndex((part) => part.id === partId)
+  if (index < 0) throw new RangeError(`Unknown Part "${partId}".`)
+
+  const source = composition.parts[index]
+  const newPartId = nextCompositionId(
+    composition,
+    source.kind === 'control' ? 'control' : 'part',
+  )
+  const reserved = new Set([newPartId])
+  const copy = structuredClone(source)
+  copy.id = newPartId
+  copy.name = uniqueName(
+    composition.parts.map((part) => part.name),
+    `${source.name} copy`,
+  )
+  if (copy.kind === 'note' && copy.gateModulations) {
+    copy.gateModulations = copy.gateModulations.map((mapping) => {
+      const id = nextCompositionId(composition, 'gate-modulation', reserved)
+      reserved.add(id)
+      return { ...mapping, id }
+    })
+  }
+
+  const parts = [...composition.parts]
+  parts.splice(index + 1, 0, copy)
+  return {
+    composition: { ...composition, parts },
+    partId: newPartId,
+  }
+}
 
 export const setPartMuted = (
   composition: Composition,

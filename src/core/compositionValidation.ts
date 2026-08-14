@@ -2,11 +2,13 @@ import {
   compositionVersion,
   type Composition,
   type EncounterDirection,
+  type FigureSequencePitchMapping,
   type HeadAttachmentSpec,
   type MotionSpec,
   type RelationEventKind,
   type ScaleName,
 } from './composition'
+import { transformedFigureSequence } from './figureSequence'
 
 export type CompositionValidationIssue = {
   path: string
@@ -1582,6 +1584,7 @@ const validatePitch = (
     'contour',
     'tuned-ratio',
     'melodic-contour',
+    'figure-sequence',
   ])
 
   if (kind === 'fixed-midi') {
@@ -1640,6 +1643,8 @@ const validatePitch = (
         }
       }
     }
+  } else if (kind === 'figure-sequence') {
+    validateFigureSequencePitch(context, pitch, path)
   } else if (kind === 'melodic-contour') {
     context.knownKeys(pitch, path, [
       'kind',
@@ -1708,6 +1713,207 @@ const validatePitch = (
     validateScalePitch(context, pitch, path)
   } else {
     context.knownKeys(pitch, path, ['kind'])
+  }
+}
+
+const validateNumericFigureItems = (
+  context: ValidationContext,
+  values: ReadonlyArray<unknown>,
+  path: string,
+  options: { min: number; max: number },
+) => {
+  const seen = new Set<number>()
+  values.forEach((value, index) => {
+    const itemPath = `${path}[${index}]`
+    if (
+      typeof value !== 'number' ||
+      !Number.isFinite(value) ||
+      !Number.isInteger(value)
+    ) {
+      context.issue(itemPath, 'Expected a finite integer.')
+      return
+    }
+    const number = value as number
+    if (number < options.min || number > options.max) {
+      context.issue(
+        itemPath,
+        `Expected a value from ${options.min} through ${options.max}.`,
+      )
+    }
+    if (seen.has(number)) context.issue(itemPath, `Duplicate value ${number}.`)
+    seen.add(number)
+  })
+}
+
+const validateFigureSequencePitch = (
+  context: ValidationContext,
+  pitch: JsonObject,
+  path: string,
+) => {
+  const issueCount = context.issues.length
+  context.knownKeys(pitch, path, [
+    'kind',
+    'accessMode',
+    'indexSource',
+    'endBehavior',
+    'resetOn',
+    'root',
+    'scale',
+    'transform',
+    'figures',
+  ])
+  const accessMode = context.literal(
+    pitch,
+    'accessMode',
+    `${path}.accessMode`,
+    ['fifo', 'lifo', 'indexed'],
+  )
+  if (accessMode === 'indexed') {
+    context.literal(pitch, 'indexSource', `${path}.indexSource`, [
+      'event-index',
+      'boundary-index',
+      'bar-index',
+    ])
+  } else if (pitch.indexSource !== undefined) {
+    context.issue(
+      `${path}.indexSource`,
+      'indexSource is only valid when accessMode is indexed.',
+    )
+  }
+  context.literal(pitch, 'endBehavior', `${path}.endBehavior`, [
+    'loop',
+    'hold',
+    'silence',
+  ])
+  context.literal(pitch, 'resetOn', `${path}.resetOn`, [
+    'performance',
+    'bar',
+    'wheel-cycle',
+  ])
+  context.number(pitch, 'root', `${path}.root`, {
+    min: 0,
+    max: 127,
+    integer: true,
+  })
+  context.literal(pitch, 'scale', `${path}.scale`, scaleNames)
+
+  const transform = context.object(pitch.transform, `${path}.transform`)
+  if (transform) {
+    context.knownKeys(transform, `${path}.transform`, [
+      'kind',
+      'transpose',
+      'axis',
+      'intervalScale',
+    ])
+    context.literal(transform, 'kind', `${path}.transform.kind`, [
+      'prime',
+      'retrograde',
+      'inversion',
+      'retrograde-inversion',
+    ])
+    context.number(transform, 'transpose', `${path}.transform.transpose`, {
+      min: -127,
+      max: 127,
+      integer: true,
+    })
+    context.number(transform, 'axis', `${path}.transform.axis`, {
+      min: 0,
+      max: 127,
+      integer: true,
+    })
+    context.number(
+      transform,
+      'intervalScale',
+      `${path}.transform.intervalScale`,
+      { greaterThan: 0, max: 8 },
+    )
+  }
+
+  const figures = context.array(pitch, 'figures', `${path}.figures`, {
+    min: 1,
+    max: 256,
+  })
+  figures?.forEach((value, index) => {
+    const figurePath = `${path}.figures[${index}]`
+    const figure = context.object(value, figurePath)
+    if (!figure) return
+    const figureKind = context.literal(figure, 'kind', `${figurePath}.kind`, [
+      'note',
+      'chord',
+      'scale-degree',
+      'pitch-class-set',
+      'interval-structure',
+    ])
+    if (figureKind === 'note') {
+      context.knownKeys(figure, figurePath, ['kind', 'note'])
+      context.number(figure, 'note', `${figurePath}.note`, {
+        min: 0,
+        max: 127,
+        integer: true,
+      })
+    } else if (figureKind === 'chord') {
+      context.knownKeys(figure, figurePath, ['kind', 'notes'])
+      const notes = context.array(figure, 'notes', `${figurePath}.notes`, {
+        min: 1,
+        max: 32,
+      })
+      if (notes) {
+        validateNumericFigureItems(context, notes, `${figurePath}.notes`, {
+          min: 0,
+          max: 127,
+        })
+      }
+    } else if (figureKind === 'scale-degree') {
+      context.knownKeys(figure, figurePath, ['kind', 'degree'])
+      context.number(figure, 'degree', `${figurePath}.degree`, {
+        min: -128,
+        max: 128,
+        integer: true,
+      })
+    } else if (figureKind === 'pitch-class-set') {
+      context.knownKeys(figure, figurePath, ['kind', 'pitchClasses'])
+      const pitchClasses = context.array(
+        figure,
+        'pitchClasses',
+        `${figurePath}.pitchClasses`,
+        { min: 1, max: 12 },
+      )
+      if (pitchClasses) {
+        validateNumericFigureItems(
+          context,
+          pitchClasses,
+          `${figurePath}.pitchClasses`,
+          { min: 0, max: 11 },
+        )
+      }
+    } else if (figureKind === 'interval-structure') {
+      context.knownKeys(figure, figurePath, ['kind', 'intervals'])
+      const intervals = context.array(
+        figure,
+        'intervals',
+        `${figurePath}.intervals`,
+        { min: 1, max: 32 },
+      )
+      if (intervals) {
+        validateNumericFigureItems(
+          context,
+          intervals,
+          `${figurePath}.intervals`,
+          { min: -127, max: 127 },
+        )
+      }
+    }
+  })
+
+  if (context.issues.length === issueCount) {
+    try {
+      transformedFigureSequence(pitch as FigureSequencePitchMapping)
+    } catch (error) {
+      context.issue(
+        `${path}.transform`,
+        error instanceof Error ? error.message : String(error),
+      )
+    }
   }
 }
 

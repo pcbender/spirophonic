@@ -44,6 +44,38 @@ describe('canonical performance Strudel export', () => {
     expect(tokens).toHaveLength(performance.performedEvents.length)
   })
 
+  it('preserves a simultaneous figure as an explicit chord token', () => {
+    const { composition } = fixture()
+    const part = composition.parts[0]
+    if (part.kind !== 'note') throw new Error('Expected a note Part.')
+    part.pitch = {
+      kind: 'figure-sequence',
+      accessMode: 'fifo',
+      endBehavior: 'loop',
+      resetOn: 'performance',
+      root: 60,
+      scale: 'major',
+      transform: { kind: 'prime', transpose: 0, axis: 60, intervalScale: 1 },
+      figures: [{ kind: 'chord', notes: [60, 64, 67] }],
+    }
+    const performance = compilePerformance(composition, {
+      startSeconds: 0,
+      durationSeconds: beatsToSeconds(
+        composition.transport.loop.lengthBeats,
+        composition.transport.tempoBpm,
+      ),
+      sampleRateHz: 120,
+    })
+    const tokens = buildPerformancePatternParts(performance, composition)[0]
+      .tokens.filter((token) => token !== '~')
+
+    expect(tokens.length * 3).toBe(performance.performedEvents.length)
+    expect(new Set(tokens)).toEqual(new Set(['[c4,e4,g4]']))
+    expect(exportPerformanceStrudel(performance, composition)).toContain(
+      '[c4,e4,g4]',
+    )
+  })
+
   it('exports every SoundFont one-shot event at the saved fixed note', () => {
     const { composition } = fixture()
     const source = composition.instruments[0]

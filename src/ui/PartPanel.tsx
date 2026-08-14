@@ -6,8 +6,10 @@ import type {
   GateModulationMapping,
   GateModulationSource,
   GateModulationTarget,
+  FigureSequencePitchMapping,
   NotePartSpec,
   PartSpec,
+  PitchFigure,
   PitchMapping,
   RelationEventKind,
   RelationSpec,
@@ -17,6 +19,7 @@ import type {
 } from '../core/composition'
 import {
   allCompositionIds,
+  duplicatePart,
   nextCompositionId,
   uniqueName,
 } from '../core/compositionEdits'
@@ -354,6 +357,8 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
   )
   const commit = (nextParts: Array<Composition['parts'][number]>) =>
     onChange({ ...composition, parts: nextParts })
+  const duplicate = (partId: string) =>
+    onChange(duplicatePart(composition, partId).composition)
   const update = (id: string, next: (part: NotePartSpec) => NotePartSpec) =>
     commit(
       composition.parts.map((part) =>
@@ -671,18 +676,28 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                   />
                   <span>{part.name}</span>
                 </label>
-                <button
-                  type="button"
-                  title={help['part.remove']}
-                  aria-label={`Remove ${part.id}`}
-                  onClick={() =>
-                    commit(
-                      composition.parts.filter((item) => item.id !== part.id),
-                    )
-                  }
-                >
-                  Remove
-                </button>
+                <div className="panel-actions">
+                  <button
+                    type="button"
+                    title={help['part.duplicate']}
+                    aria-label={`Duplicate ${part.id}`}
+                    onClick={() => duplicate(part.id)}
+                  >
+                    Duplicate
+                  </button>
+                  <button
+                    type="button"
+                    title={help['part.remove']}
+                    aria-label={`Remove ${part.id}`}
+                    onClick={() =>
+                      commit(
+                        composition.parts.filter((item) => item.id !== part.id),
+                      )
+                    }
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
               <label title={help['control.source']}>
                 <span>Source</span>
@@ -772,8 +787,18 @@ export function PartPanel({ composition, onChange }: PartPanelProps) {
                 />
                 <span>{part.name}</span>
               </label>
-              <button type="button" title={help['part.remove']}
-                  aria-label={`Remove ${part.id}`} onClick={() => commit(composition.parts.filter((item) => item.id !== part.id))}>Remove</button>
+              <div className="panel-actions">
+                <button
+                  type="button"
+                  title={help['part.duplicate']}
+                  aria-label={`Duplicate ${part.id}`}
+                  onClick={() => duplicate(part.id)}
+                >
+                  Duplicate
+                </button>
+                <button type="button" title={help['part.remove']}
+                    aria-label={`Remove ${part.id}`} onClick={() => commit(composition.parts.filter((item) => item.id !== part.id))}>Remove</button>
+              </div>
             </div>
             <label>
               <span>Name</span>
@@ -1073,6 +1098,7 @@ const pitchKinds: ReadonlyArray<readonly [PitchMapping['kind'], string]> = [
   ['spatial', 'Spatial'],
   ['contour', 'Contour'],
   ['melodic-contour', 'Melodic line'],
+  ['figure-sequence', 'Figure sequence'],
   ['ratio', 'Ratio'],
   ['tuned-ratio', 'Tuned ratio'],
 ]
@@ -1117,6 +1143,28 @@ const defaultPitchFor = (kind: PitchMapping['kind']): PitchMapping => {
         highDegree: 12,
         startDegree: 4,
       },
+    }
+  }
+  if (kind === 'figure-sequence') {
+    return {
+      kind,
+      accessMode: 'fifo',
+      endBehavior: 'loop',
+      resetOn: 'performance',
+      root: 60,
+      scale: 'major',
+      transform: {
+        kind: 'prime',
+        transpose: 0,
+        axis: 60,
+        intervalScale: 1,
+      },
+      figures: [
+        { kind: 'note', note: 60 },
+        { kind: 'note', note: 64 },
+        { kind: 'chord', notes: [67, 71, 74] },
+        { kind: 'note', note: 69 },
+      ],
     }
   }
   if (kind === 'tuned-ratio') {
@@ -1260,6 +1308,16 @@ function PitchControls({
     )
   }
 
+  if (pitch.kind === 'figure-sequence') {
+    return (
+      <FigureSequenceControls
+        partId={part.id}
+        pitch={pitch}
+        onPitch={onPitch}
+      />
+    )
+  }
+
   if (pitch.kind === 'ratio') {
     return (
       <>
@@ -1343,6 +1401,252 @@ function PitchControls({
           </select>
         </label>
       )}
+    </>
+  )
+}
+
+const figureKinds: ReadonlyArray<readonly [PitchFigure['kind'], string]> = [
+  ['note', 'Note'],
+  ['chord', 'Chord'],
+  ['scale-degree', 'Scale degree'],
+  ['pitch-class-set', 'Pitch-class set'],
+  ['interval-structure', 'Interval structure'],
+]
+
+const defaultFigure = (
+  kind: PitchFigure['kind'],
+  root: number,
+): PitchFigure => {
+  if (kind === 'chord') return { kind, notes: [root, root + 4, root + 7] }
+  if (kind === 'scale-degree') return { kind, degree: 0 }
+  if (kind === 'pitch-class-set') {
+    return { kind, pitchClasses: [0, 4, 7] }
+  }
+  if (kind === 'interval-structure') return { kind, intervals: [0, 4, 7] }
+  return { kind: 'note', note: root }
+}
+
+const parseIntegerList = (value: string) =>
+  value
+    .split(/[\s,]+/)
+    .filter(Boolean)
+    .map(Number)
+    .filter((item) => Number.isFinite(item) && Number.isInteger(item))
+
+function FigureSequenceControls({
+  partId,
+  pitch,
+  onPitch,
+}: {
+  partId: string
+  pitch: FigureSequencePitchMapping
+  onPitch: (pitch: PitchMapping) => void
+}) {
+  const updateFigure = (index: number, figure: PitchFigure) =>
+    onPitch({
+      ...pitch,
+      figures: pitch.figures.map((current, currentIndex) =>
+        currentIndex === index ? figure : current,
+      ),
+    })
+  const listField = (
+    index: number,
+    label: string,
+    values: ReadonlyArray<number>,
+    update: (values: Array<number>) => PitchFigure,
+  ) => (
+    <label title={help['part.figureValues']}>
+      <span>{label}</span>
+      <input
+        key={values.join(',')}
+        aria-label={`${label} ${partId} ${index}`}
+        defaultValue={values.join(', ')}
+        onBlur={(event) => updateFigure(index, update(parseIntegerList(event.currentTarget.value)))}
+      />
+    </label>
+  )
+
+  return (
+    <>
+      <label title={help['part.figureAccess']}>
+        <span>Access</span>
+        <select
+          aria-label={`Figure access ${partId}`}
+          value={pitch.accessMode}
+          onChange={(event) => {
+            const accessMode = event.currentTarget.value as FigureSequencePitchMapping['accessMode']
+            onPitch({
+              ...pitch,
+              accessMode,
+              ...(accessMode === 'indexed'
+                ? { indexSource: pitch.indexSource ?? 'event-index' }
+                : { indexSource: undefined }),
+            })
+          }}
+        >
+          <option value="fifo">FIFO — first to last</option>
+          <option value="lifo">LIFO — last to first</option>
+          <option value="indexed">Indexed</option>
+        </select>
+      </label>
+      {pitch.accessMode === 'indexed' && (
+        <label title={help['part.figureIndex']}>
+          <span>Index from</span>
+          <select
+            aria-label={`Figure index source ${partId}`}
+            value={pitch.indexSource ?? 'event-index'}
+            onChange={(event) =>
+              onPitch({
+                ...pitch,
+                indexSource: event.currentTarget.value as NonNullable<FigureSequencePitchMapping['indexSource']>,
+              })
+            }
+          >
+            <option value="event-index">Event count</option>
+            <option value="boundary-index">Boundary index</option>
+            <option value="bar-index">Bar index</option>
+          </select>
+        </label>
+      )}
+      <label title={help['part.figureEnd']}>
+        <span>At end</span>
+        <select
+          aria-label={`Figure end behavior ${partId}`}
+          value={pitch.endBehavior}
+          onChange={(event) =>
+            onPitch({
+              ...pitch,
+              endBehavior: event.currentTarget.value as FigureSequencePitchMapping['endBehavior'],
+            })
+          }
+        >
+          <option value="loop">Loop</option>
+          <option value="hold">Hold final figure</option>
+          <option value="silence">Silence</option>
+        </select>
+      </label>
+      <label title={help['part.figureReset']}>
+        <span>Restart</span>
+        <select
+          aria-label={`Figure reset ${partId}`}
+          value={pitch.resetOn}
+          onChange={(event) =>
+            onPitch({
+              ...pitch,
+              resetOn: event.currentTarget.value as FigureSequencePitchMapping['resetOn'],
+            })
+          }
+        >
+          <option value="performance">Each performance</option>
+          <option value="bar">Each bar</option>
+          <option value="wheel-cycle">Each Wheel cycle</option>
+        </select>
+      </label>
+      <RootField
+        label={`Figure root ${partId}`}
+        value={pitch.root}
+        onChange={(root) => onPitch({ ...pitch, root })}
+      />
+      <label title={help['part.scale']}>
+        <span>Scale</span>
+        <select
+          aria-label={`Figure scale ${partId}`}
+          value={pitch.scale}
+          onChange={(event) =>
+            onPitch({ ...pitch, scale: event.currentTarget.value as ScaleName })
+          }
+        >
+          {scaleNames.map((scale) => (
+            <option key={scale} value={scale}>{scale}</option>
+          ))}
+        </select>
+      </label>
+      <label title={help['part.figureTransform']}>
+        <span>Transform</span>
+        <select
+          aria-label={`Figure transform ${partId}`}
+          value={pitch.transform.kind}
+          onChange={(event) =>
+            onPitch({
+              ...pitch,
+              transform: {
+                ...pitch.transform,
+                kind: event.currentTarget.value as FigureSequencePitchMapping['transform']['kind'],
+              },
+            })
+          }
+        >
+          <option value="prime">Prime</option>
+          <option value="retrograde">Retrograde</option>
+          <option value="inversion">Inversion</option>
+          <option value="retrograde-inversion">Retrograde inversion</option>
+        </select>
+      </label>
+      <NumberField label={`Figure transpose ${partId}`} shortLabel="Transpose" hint={help['part.figureTranspose']} value={pitch.transform.transpose} min={-127} max={127} step={1} onChange={(transpose) => onPitch({ ...pitch, transform: { ...pitch.transform, transpose } })} />
+      <NumberField label={`Figure axis ${partId}`} shortLabel={`Axis (${midiToName(pitch.transform.axis)})`} hint={help['part.figureAxis']} value={pitch.transform.axis} min={0} max={127} step={1} onChange={(axis) => onPitch({ ...pitch, transform: { ...pitch.transform, axis } })} />
+      <NumberField label={`Figure interval scale ${partId}`} shortLabel="Interval scale" hint={help['part.figureIntervalScale']} value={pitch.transform.intervalScale} min={0.01} max={8} step={0.05} onChange={(intervalScale) => onPitch({ ...pitch, transform: { ...pitch.transform, intervalScale } })} />
+
+      <fieldset className="figure-sequence-editor">
+        <legend title={help['part.figureSequence']}>Figures</legend>
+        <ol>
+          {pitch.figures.map((figure, index) => (
+            <li key={index}>
+              <label title={help['part.figureKind']}>
+                <span>Figure {index + 1}</span>
+                <select
+                  aria-label={`Figure kind ${partId} ${index}`}
+                  value={figure.kind}
+                  onChange={(event) =>
+                    updateFigure(
+                      index,
+                      defaultFigure(
+                        event.currentTarget.value as PitchFigure['kind'],
+                        pitch.root,
+                      ),
+                    )
+                  }
+                >
+                  {figureKinds.map(([kind, label]) => (
+                    <option key={kind} value={kind}>{label}</option>
+                  ))}
+                </select>
+              </label>
+              {figure.kind === 'note' && (
+                <NumberField label={`Figure note ${partId} ${index}`} shortLabel={`MIDI note (${midiToName(figure.note)})`} value={figure.note} min={0} max={127} step={1} onChange={(note) => updateFigure(index, { kind: 'note', note })} />
+              )}
+              {figure.kind === 'chord' && listField(index, 'Chord notes', figure.notes, (notes) => ({ kind: 'chord', notes }))}
+              {figure.kind === 'scale-degree' && (
+                <NumberField label={`Figure degree ${partId} ${index}`} shortLabel="Scale degree" value={figure.degree} min={-128} max={128} step={1} onChange={(degree) => updateFigure(index, { kind: 'scale-degree', degree })} />
+              )}
+              {figure.kind === 'pitch-class-set' && listField(index, 'Pitch classes', figure.pitchClasses, (pitchClasses) => ({ kind: 'pitch-class-set', pitchClasses }))}
+              {figure.kind === 'interval-structure' && listField(index, 'Intervals', figure.intervals, (intervals) => ({ kind: 'interval-structure', intervals }))}
+              <button
+                type="button"
+                disabled={pitch.figures.length === 1}
+                onClick={() =>
+                  onPitch({
+                    ...pitch,
+                    figures: pitch.figures.filter((_, currentIndex) => currentIndex !== index),
+                  })
+                }
+              >
+                Remove figure
+              </button>
+            </li>
+          ))}
+        </ol>
+        <button
+          type="button"
+          onClick={() =>
+            onPitch({
+              ...pitch,
+              figures: [...pitch.figures, defaultFigure('note', pitch.root)],
+            })
+          }
+        >
+          Add figure
+        </button>
+      </fieldset>
     </>
   )
 }

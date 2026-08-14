@@ -566,3 +566,82 @@ describe('space pitch reference', () => {
     ).toBe(false)
   })
 })
+
+describe('figure-sequence pitch validation', () => {
+  const withPitch = (pitch: NotePartSpec['pitch']) => {
+    const composition = cloneDefault()
+    composition.fields = [structuredClone(ringField)]
+    composition.parts = [{ ...structuredClone(notePart), mute: false, pitch }]
+    return composition
+  }
+
+  const validPitch = (): NotePartSpec['pitch'] => ({
+    kind: 'figure-sequence',
+    accessMode: 'indexed',
+    indexSource: 'boundary-index',
+    endBehavior: 'loop',
+    resetOn: 'bar',
+    root: 60,
+    scale: 'major',
+    transform: {
+      kind: 'retrograde-inversion',
+      transpose: 2,
+      axis: 60,
+      intervalScale: 0.5,
+    },
+    figures: [
+      { kind: 'note', note: 60 },
+      { kind: 'chord', notes: [64, 67, 71] },
+      { kind: 'scale-degree', degree: 4 },
+      { kind: 'pitch-class-set', pitchClasses: [0, 4, 7] },
+      { kind: 'interval-structure', intervals: [0, 3, 7] },
+    ],
+  })
+
+  it('accepts every figure kind and collection transform', () => {
+    expect(validateComposition(withPitch(validPitch()))).toMatchObject({
+      ok: true,
+    })
+  })
+
+  it('requires a non-empty sequence and an index source for indexed access', () => {
+    const empty = validPitch()
+    if (empty.kind !== 'figure-sequence') throw new Error('unreachable')
+    empty.figures = []
+    expect(
+      issueAt(withPitch(empty), '$.parts[0].pitch.figures')?.message,
+    ).toMatch(/at least 1/)
+
+    const missing = validPitch()
+    if (missing.kind !== 'figure-sequence') throw new Error('unreachable')
+    delete missing.indexSource
+    expect(
+      issueAt(withPitch(missing), '$.parts[0].pitch.indexSource')?.message,
+    ).toMatch(/Expected one of/)
+  })
+
+  it('rejects duplicate chord tones and transformed notes outside MIDI', () => {
+    const duplicate = validPitch()
+    if (duplicate.kind !== 'figure-sequence') throw new Error('unreachable')
+    duplicate.figures = [{ kind: 'chord', notes: [60, 60] }]
+    expect(
+      issueAt(
+        withPitch(duplicate),
+        '$.parts[0].pitch.figures[0].notes[1]',
+      )?.message,
+    ).toBe('Duplicate value 60.')
+
+    const overflow = validPitch()
+    if (overflow.kind !== 'figure-sequence') throw new Error('unreachable')
+    overflow.figures = [{ kind: 'note', note: 127 }]
+    overflow.transform = {
+      kind: 'prime',
+      transpose: 1,
+      axis: 60,
+      intervalScale: 1,
+    }
+    expect(
+      issueAt(withPitch(overflow), '$.parts[0].pitch.transform')?.message,
+    ).toMatch(/produced MIDI note 128/)
+  })
+})

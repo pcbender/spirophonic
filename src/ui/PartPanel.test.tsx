@@ -86,6 +86,37 @@ describe('MG-14 relation and control authoring', () => {
       'approach-rate',
     )
   })
+
+  it('duplicates a Control Part from its row', () => {
+    const onChange = vi.fn()
+    let composition = base()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Add Relation' }))
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    cleanup()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Add Control' }))
+    composition = onChange.mock.calls.at(-1)?.[0] as Composition
+    const source = composition.parts.find((part) => part.kind === 'control')
+    if (!source || source.kind !== 'control') {
+      throw new Error('Expected a Control Part.')
+    }
+    source.control.source = 'approach-rate'
+
+    cleanup()
+    render(<PartPanel composition={composition} onChange={onChange} />)
+    fireEvent.click(screen.getByLabelText(`Duplicate ${source.id}`))
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    const controls = next.parts.filter((part) => part.kind === 'control')
+
+    expect(controls).toHaveLength(2)
+    expect(controls[1].id).not.toBe(source.id)
+    expect(controls[1].name).toBe('Control 1 copy')
+    expect(controls[1].control).toEqual(source.control)
+    expect(controls[1].control).not.toBe(source.control)
+    expect(validateComposition(next).ok).toBe(true)
+  })
 })
 
 describe('MG-16 tuning authoring', () => {
@@ -348,6 +379,66 @@ describe('Part targeting', () => {
     expect(validateComposition(composition).ok).toBe(true)
   })
 
+  it('duplicates a Part with independent settings and fresh identities', () => {
+    const onChange = vi.fn()
+    const composition = twoWheels()
+    const source = composition.parts[0]
+    if (source.kind !== 'note') throw new Error('Expected a note Part.')
+    source.name = 'Motif'
+    source.encounterQuery.wheelIds = ['wheel-2']
+    source.pitch = {
+      kind: 'figure-sequence',
+      accessMode: 'lifo',
+      endBehavior: 'hold',
+      resetOn: 'bar',
+      root: 62,
+      scale: 'dorian',
+      transform: {
+        kind: 'retrograde-inversion',
+        transpose: 3,
+        axis: 65,
+        intervalScale: 1.5,
+      },
+      figures: [
+        { kind: 'note', note: 62 },
+        { kind: 'chord', notes: [65, 69, 72] },
+      ],
+    }
+    source.gateModulations = [
+      {
+        id: 'gate-modulation-1',
+        name: 'Brightness arc',
+        enabled: true,
+        source: 'speed',
+        target: 'brightness',
+        sampleRateHz: 60,
+        minimum: 0.2,
+        maximum: 0.9,
+        curve: 1.5,
+        smoothingSeconds: 0.02,
+      },
+    ]
+    const original = structuredClone(source)
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.click(screen.getByLabelText(`Duplicate ${source.id}`))
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    const copy = next.parts[1]
+
+    expect(next.parts[0]).toEqual(original)
+    expect(copy.kind).toBe('note')
+    expect(copy.id).not.toBe(source.id)
+    expect(copy.name).toBe('Motif copy')
+    expect(copy.encounterQuery).toEqual(source.encounterQuery)
+    expect(copy.encounterQuery).not.toBe(source.encounterQuery)
+    expect(copy.kind === 'note' && copy.pitch).toEqual(source.pitch)
+    expect(copy.kind === 'note' && copy.pitch).not.toBe(source.pitch)
+    expect(copy.kind === 'note' && copy.gateModulations?.[0].id).not.toBe(
+      source.gateModulations[0].id,
+    )
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
   it('retargets an existing Part onto a chosen Wheel', () => {
     const onChange = vi.fn()
     const composition = twoWheels()
@@ -424,6 +515,7 @@ describe('pitch mappings', () => {
     'spatial',
     'contour',
     'melodic-contour',
+    'figure-sequence',
     'ratio',
     'tuned-ratio',
   ] as const
@@ -573,6 +665,63 @@ describe('pitch mappings', () => {
         part.pitch.kind === 'melodic-contour' &&
         part.pitch.contour.maxStep,
     ).toBe(5)
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('authors indexed transformed figures and chord values', () => {
+    const onChange = vi.fn()
+    let composition = base()
+    const partId = composition.parts[0].id
+    const rerenderWithLastChange = () => {
+      composition = onChange.mock.calls.at(-1)?.[0] as Composition
+      cleanup()
+      render(<PartPanel composition={composition} onChange={onChange} />)
+    }
+    render(<PartPanel composition={composition} onChange={onChange} />)
+
+    fireEvent.change(screen.getByLabelText(`Pitch mapping ${partId}`), {
+      target: { value: 'figure-sequence' },
+    })
+    rerenderWithLastChange()
+    expect(screen.getByLabelText(`Figure access ${partId}`)).toHaveValue('fifo')
+    expect(screen.getAllByRole('option', { name: 'Chord' }).length).toBeGreaterThan(0)
+
+    fireEvent.change(screen.getByLabelText(`Figure access ${partId}`), {
+      target: { value: 'indexed' },
+    })
+    rerenderWithLastChange()
+    fireEvent.change(screen.getByLabelText(`Figure index source ${partId}`), {
+      target: { value: 'boundary-index' },
+    })
+    rerenderWithLastChange()
+    fireEvent.change(screen.getByLabelText(`Figure transform ${partId}`), {
+      target: { value: 'retrograde-inversion' },
+    })
+    rerenderWithLastChange()
+    fireEvent.change(screen.getByLabelText(`Figure kind ${partId} 0`), {
+      target: { value: 'chord' },
+    })
+    rerenderWithLastChange()
+    fireEvent.blur(screen.getByLabelText(`Chord notes ${partId} 0`), {
+      target: { value: '60, 63, 67' },
+    })
+
+    const next = onChange.mock.calls.at(-1)?.[0] as Composition
+    const part = next.parts[0]
+    expect(
+      part.kind === 'note' &&
+        part.pitch.kind === 'figure-sequence' && {
+          accessMode: part.pitch.accessMode,
+          indexSource: part.pitch.indexSource,
+          transform: part.pitch.transform.kind,
+          figure: part.pitch.figures[0],
+        },
+    ).toEqual({
+      accessMode: 'indexed',
+      indexSource: 'boundary-index',
+      transform: 'retrograde-inversion',
+      figure: { kind: 'chord', notes: [60, 63, 67] },
+    })
     expect(validateComposition(next).ok).toBe(true)
   })
 })

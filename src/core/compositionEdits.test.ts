@@ -8,6 +8,7 @@ import {
   addWheel,
   allCompositionIds,
   duplicateHead,
+  duplicatePart,
   duplicateWheel,
   moveHead,
   moveWheel,
@@ -242,6 +243,101 @@ describe('enable, mute, and visibility stay separate concerns', () => {
       ...composition.wheels[0],
       enabled: false,
     })
+  })
+})
+
+describe('Part duplication', () => {
+  it('deep-copies a note Part and refreshes nested identities', () => {
+    const composition = base()
+    const source = composition.parts[0]
+    if (source.kind !== 'note') throw new Error('Expected a note Part.')
+    source.name = 'Motif'
+    source.gateModulations = [
+      {
+        id: 'gate-modulation-1',
+        name: 'Brightness arc',
+        enabled: true,
+        source: 'speed',
+        target: 'brightness',
+        sampleRateHz: 60,
+        minimum: 0.2,
+        maximum: 0.9,
+        curve: 1,
+        smoothingSeconds: 0.02,
+      },
+    ]
+
+    const { composition: next, partId } = duplicatePart(
+      composition,
+      source.id,
+    )
+    const copy = next.parts[1]
+
+    expect(copy.id).toBe(partId)
+    expect(copy.name).toBe('Motif copy')
+    expect(copy.encounterQuery).toEqual(source.encounterQuery)
+    expect(copy.encounterQuery).not.toBe(source.encounterQuery)
+    expect(copy.kind === 'note' && copy.pitch).toEqual(source.pitch)
+    expect(copy.kind === 'note' && copy.pitch).not.toBe(source.pitch)
+    expect(copy.kind === 'note' && copy.gateModulations?.[0].id).not.toBe(
+      source.gateModulations[0].id,
+    )
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('copies a Control Part directly after its source', () => {
+    const composition = base()
+    composition.parts.push({
+      id: 'control-1',
+      name: 'Pan lane',
+      enabled: false,
+      mute: true,
+      solo: false,
+      kind: 'control',
+      encounterQuery: {
+        kinds: ['conjunction'],
+        wheelIds: [],
+        headIds: [],
+        fieldIds: [],
+        boundaryIds: [],
+        directions: [],
+        minStrength: 0.25,
+        relationIds: [],
+      },
+      instrumentId: composition.instruments[0].id,
+      control: {
+        name: 'pan',
+        source: 'distance',
+        min: -0.75,
+        max: 0.75,
+        sampleRateHz: 45,
+        smoothingSeconds: 0.2,
+      },
+    })
+
+    const { composition: next, partId } = duplicatePart(
+      composition,
+      'control-1',
+    )
+    const copy = next.parts[2]
+
+    expect(partId).toBe('control-2')
+    expect(copy).toMatchObject({
+      id: 'control-2',
+      name: 'Pan lane copy',
+      kind: 'control',
+      enabled: false,
+      mute: true,
+      encounterQuery: { minStrength: 0.25 },
+      control: { sampleRateHz: 45, smoothingSeconds: 0.2 },
+    })
+    expect(validateComposition(next).ok).toBe(true)
+  })
+
+  it('rejects an unknown Part identity', () => {
+    expect(() => duplicatePart(base(), 'part-missing')).toThrow(
+      'Unknown Part "part-missing".',
+    )
   })
 })
 

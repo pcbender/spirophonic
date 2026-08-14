@@ -65,6 +65,38 @@ describe('v1 Composition JSON', () => {
     })
   })
 
+  it('round-trips a transformed figure sequence without normalization', () => {
+    const composition = cloneDefault()
+    const part = composition.parts[0]
+    if (part.kind !== 'note') throw new Error('Expected the default note Part.')
+    part.pitch = {
+      kind: 'figure-sequence',
+      accessMode: 'lifo',
+      endBehavior: 'hold',
+      resetOn: 'wheel-cycle',
+      root: 62,
+      scale: 'dorian',
+      transform: {
+        kind: 'retrograde-inversion',
+        transpose: -2,
+        axis: 62,
+        intervalScale: 1.5,
+      },
+      figures: [
+        { kind: 'note', note: 62 },
+        { kind: 'chord', notes: [65, 69, 72] },
+        { kind: 'scale-degree', degree: 5 },
+        { kind: 'pitch-class-set', pitchClasses: [0, 3, 7] },
+        { kind: 'interval-structure', intervals: [0, 5, 10] },
+      ],
+    }
+
+    expect(parseCompositionJson(exportCompositionToJson(composition))).toEqual({
+      ok: true,
+      composition,
+    })
+  })
+
   it('rejects invalid JSON with a specific code', () => {
     expect(parseCompositionJson('{not json')).toEqual({
       ok: false,
