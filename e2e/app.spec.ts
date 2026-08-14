@@ -143,6 +143,107 @@ test('renders the composition canvas with visible geometry', async ({ page }) =>
     .toBeGreaterThan(500)
 })
 
+test('serves generated guides from the app without replacing the workspace', async ({
+  page,
+  request,
+}) => {
+  const documentation = page.getByRole('navigation', {
+    name: 'Documentation',
+  })
+  const manualLink = documentation.getByRole('link', { name: 'Manual' })
+
+  await expect(manualLink).toHaveAttribute('href', '/docs/manual.html')
+  await expect(manualLink).toHaveAttribute('target', '_blank')
+
+  const popupPromise = page.context().waitForEvent('page')
+  await manualLink.click()
+  const manual = await popupPromise
+  await expect(manual).toHaveURL(/\/docs\/manual\.html$/)
+  await expect(
+    manual.getByRole('heading', { level: 1, name: 'Manual' }),
+  ).toBeVisible()
+  await expect(manual.locator('body')).not.toContainText('Generated from docs/')
+  await expect(manual.locator('body')).not.toContainText(
+    'Markdown is the source of truth.',
+  )
+  await manual.close()
+
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Spirophonic' }),
+  ).toBeVisible()
+
+  const generatedPages = [
+    [
+      '/docs/getting-started.html',
+      '<h1 id="getting-started">',
+      'id="read-performance-before-editing"',
+    ],
+    ['/docs/manual.html', '<h1 id="manual">', ''],
+    ['/docs/domain-model.html', '<h1 id="spirophonic-domain-model">', ''],
+  ] as const
+
+  for (const [path, heading, currentContent] of generatedPages) {
+    const response = await request.get(path)
+    expect(response.ok(), `${path} should be served`).toBe(true)
+    const html = await response.text()
+    expect(html).toContain(heading)
+    if (currentContent) expect(html).toContain(currentContent)
+  }
+})
+
+test('the Getting Started first-sound workflow matches the current app', async ({
+  page,
+}) => {
+  const transport = page.getByLabel('Transport status')
+  const diagnostics = page.getByLabel('Compile diagnostics')
+
+  await expect(page.getByLabel('Composition name')).toHaveValue(
+    'Simple Ring Crossing',
+  )
+  await expect(transport).toContainText('12 events')
+  await expect(diagnostics).toContainText('No compile diagnostics.')
+
+  await page.getByRole('button', { name: 'New' }).click()
+  await page.getByRole('button', { name: 'Discard and start new' }).click()
+  await expect(page.getByLabel('Composition name')).toHaveValue('Untitled')
+  await expect(transport).toContainText('0 events')
+  await expect(diagnostics).toContainText(
+    'No Fields, so nothing is crossed and no Encounters happen.',
+  )
+
+  await page
+    .getByRole('region', { name: 'Fields' })
+    .getByRole('button', { name: 'Add rings' })
+    .click()
+  await expect(transport).toContainText('0 events')
+  await expect(diagnostics).toContainText(
+    'No Parts, so Encounters happen but nothing interprets them as notes.',
+  )
+
+  await page
+    .getByRole('region', { name: 'Parts' })
+    .getByRole('button', { name: 'Add Part' })
+    .click()
+  await expect(transport).toContainText('6 events')
+  await expect(diagnostics).toContainText('No compile diagnostics.')
+
+  await page
+    .getByRole('region', { name: 'Fields' })
+    .getByRole('button', { name: 'Add Boundary' })
+    .click()
+  const loopLength = page.getByLabel('Loop length (beats)')
+  for (const [beats, events] of [
+    ['4', 6],
+    ['8', 12],
+    ['16', 23],
+    ['32', 46],
+    ['64', 93],
+  ] as const) {
+    await loopLength.fill(beats)
+    await expect(transport).toContainText(`${events} events`)
+  }
+})
+
 test('authors, plays, and reloads a closed radial waveform', async ({ page }) => {
   const wheel = page.getByRole('region', { name: 'Wheel controls' })
   const head = page.getByRole('region', { name: 'Head controls' })

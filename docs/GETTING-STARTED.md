@@ -1,8 +1,11 @@
 # Getting started
 
-Spirophonic is a browser instrument where **geometry decides the music**. You
-set shapes in motion, you place things for them to cross, and the crossings
-become notes. Nothing is drawn from the audio and nothing is sequenced by hand.
+Spirophonic is a browser instrument where **geometry produces the event stream**.
+You set shapes in motion, place things for them to cross, and let Parts turn
+those Encounters into notes, chords, or control changes. Geometry supplies the
+timing; a Part can derive pitch from the geometry or play through an authored
+figure sequence. The drawing and the music come from the same model — neither
+is reconstructed from the other.
 
 This page takes you from a blank screen to a sound you made on purpose. It
 should take about ten minutes. It does not explain everything — see
@@ -23,17 +26,46 @@ this guide is native — synthesised in the browser — so the app is fully play
 offline and from the first second. The bank only matters when you want a piano
 instead of a triangle wave.
 
-## What you see on first load
+## What you see on a first visit
 
-A Composition called **Simple Ring Crossing**, already built and already making
-sound. Press **Play**, under the canvas. A dot travels a looping curve, and you
-hear a short pattern of notes. The readout beside the transport says
-`13 events` — that Composition produces thirteen notes per loop.
+In a browser with no saved Spirophonic session, the app opens a Composition
+called **Simple Ring Crossing**. It is built and ready to play, but it does not
+start by itself. The transport readout beneath the canvas says `0.00s · 12
+events`: the current four-beat loop has compiled twelve notes, whether or not
+the playhead is moving.
 
-That is the demo. Now build one yourself, because the four clicks that make a
-sound are also the four ideas the whole app is made of.
+Press **Play**. A dot travels its curve and you hear the twelve-note pattern.
+Press **Pause** or **Stop** when you have heard enough.
 
-## Your first sound, in four clicks
+If you have used Spirophonic in this browser before, the app restores your last
+session instead and says so in the top bar. That is expected. The tutorial
+below begins with **New**, so it works from either starting point.
+
+## Read Performance before editing
+
+At the top of the right rail is **Performance**. It is a report, not a set of
+controls. In the healthy Simple Ring Crossing demo it says:
+
+> No compile diagnostics.
+
+This panel is the first place to look when the event count is zero, a Part is
+silent, or playback does not match an edit. Depending on the state, its title
+may expand to **Performance diagnostics**, and it can show:
+
+- a plain-language explanation for structural silence, such as a missing Field
+  or Part;
+- compiler warnings and errors, including which Part or setting they concern;
+- runtime playback errors.
+
+Warnings identify a limitation or omitted result without blocking playback;
+errors block playback until they are resolved. While an edit is being compiled,
+the transport adds `compiling…` and keeps the last completed performance on
+screen until the new one is ready.
+
+That is the demo. Now build one yourself so you can see the Performance report
+explain each missing link in the chain.
+
+## Build your first sound
 
 Press **New** in the top right, then **Discard and start new**.
 
@@ -42,33 +74,38 @@ else. That is as empty as a Composition is allowed to be. The canvas shows a
 single dot and the transport says `0 events`. Press Play and you will hear
 nothing at all — correctly.
 
-The **Performance** panel, top right, tells you why:
+The **Performance** panel tells you why. Its complete message is:
 
-> No Fields, so nothing is crossed and no Encounters happen.
+> No Fields, so nothing is crossed and no Encounters happen. Add a Field to
+> give the Heads something to meet.
 
 Follow it.
 
 **1. Add something to cross.** In the **Fields** panel, click **Add rings**. A
 circle appears on the canvas at radius 50. Still `0 events`, and Performance
-now says something new:
+now says:
 
-> No Parts, so Encounters happen but nothing interprets them as notes.
+> No Parts, so Encounters happen but nothing interprets them as notes. Add a
+> Part to turn them into music.
 
 The dot is crossing that ring. The app knows. It just has no instructions about
 what a crossing *means* yet.
 
 **2. Say what a crossing means.** In the **Parts** panel, click **Add Part**.
 
-The readout jumps to `6 events`.
+When `compiling…` clears, the readout says `6 events` and Performance returns
+to `No compile diagnostics.`
 
-**3. Play.** You hear six evenly-ish spaced notes per loop, all the same pitch.
+**3. Play.** Click **Play** under the canvas. You hear six unevenly spaced notes
+per loop, all the same pitch.
 
 That is the whole machine. You added a thing to cross and a rule for
 interpreting crossings, and the geometry did the rest.
 
 ## What actually happened
 
-Six words, in order. Each one is a panel on screen.
+Seven terms, in signal order. Most are objects or panels in the editor;
+**Encounter** is the event connecting geometry to musical interpretation.
 
 | | | |
 |---|---|---|
@@ -81,9 +118,10 @@ Six words, in order. Each one is a panel on screen.
 | **Instrument** | renders what a Part decided | never sees the geometry |
 
 The important join is in the middle. **An Encounter is not a note.** It is a
-recorded fact that a crossing happened at a certain time, in a certain
-direction, with a certain force. A Part is what turns that fact into music —
-and several Parts may read the same Encounter and disagree about what it means.
+recorded fact that a crossing or spatial relationship happened at a certain
+time, in a certain direction, with a certain strength. A Part is what turns
+that fact into music — and several Parts may read the same Encounter and
+disagree about what it means.
 
 That is why the empty Composition was silent in two different ways, and said so
 in two different sentences.
@@ -105,6 +143,10 @@ pitches.
 Boundary degree comes with a **Scale** (default `pentatonic-minor`), a root of
 MIDI 48, and a three-octave span. Pentatonic minor is a forgiving default:
 almost any set of crossings lands on something that sounds intentional.
+
+For a stored melody, row, motif, or chord progression, choose **Figure
+sequence** instead. Encounters still decide *when* something happens; the
+ordered figures decide which note or chord comes next.
 
 ## "I changed something and nothing happened"
 
@@ -139,7 +181,7 @@ crossed, no matter how long the loop. Move the ring, or change the Wheel.
 | | What you get |
 |---|---|
 | **New** | A clean slate. One Wheel, one Head, one Instrument. Silent until you add a Field and a Part. |
-| First-ever load | **Simple Ring Crossing** — one Wheel, two Fields, one Part, 13 events. The small demo. |
+| First-ever load | **Simple Ring Crossing** — one Wheel, two Fields, one Part, 12 events. The small demo. |
 | **Load example** | **Concurrent Wheels Reference** — four Wheels, twelve Heads, four Instruments, 110 BPM over an 8-beat loop. What a real Composition looks like. |
 
 Both **New** and **Load example** replace everything and ask before they do.
@@ -150,8 +192,8 @@ lives in one browser on one machine. Anything you care about, export.
 
 ## Where things are
 
-- **Top bar** — New and Load example on the right; the file actions on the row
-  below.
+- **Top bar** — New, Load example, links to these guides, file actions, and
+  Settings. It wraps onto another row when the window needs the space.
 - **Left rail** — Composition (name, tempo, meter, loop), Composition tree
   (the Wheel/Head/Part structure), and the controls for whichever Wheel and
   Head you have selected in the tree.
@@ -190,9 +232,9 @@ you what it rejected rather than partly applying it.
   what the interface cannot reach.
 - [`docs/Spirophonic-Domain-Model.md`](Spirophonic-Domain-Model.md) — the
   precise definitions of every term used above.
-- [`docs/SOUND-AND-MIDI-DESIGN.md`](SOUND-AND-MIDI-DESIGN.md) — how Parts,
-  Instruments, and export agree with each other. This one is a contract.
+- [`docs/SOUND-AND-MIDI-DESIGN.md`](SOUND-AND-MIDI-DESIGN.md) — historical
+  background for the earlier curve sonifier; useful context, but not the
+  current implementation contract.
 - [`docs/VISION.md`](VISION.md) — what the instrument is for.
-- [`docs/WHAT-IS-MISSING.md`](WHAT-IS-MISSING.md) — where the instrument is
-  going. The ratio-and-pitch question it opened is now answered in the app;
-  what remains is that nothing develops over time. Exploration, not a spec.
+- [`docs/WHAT-IS-MISSING.md`](WHAT-IS-MISSING.md) — older exploration notes.
+  Treat them as questions and historical context rather than a current roadmap.

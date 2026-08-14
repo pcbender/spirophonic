@@ -59,6 +59,32 @@ h1 {
   min-width: 0;
 }
 
+.topbar-docs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.topbar-docs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  border: 1px solid rgba(246, 244, 239, 0.22);
+  border-radius: 6px;
+  padding: 0 10px;
+  color: #d8d3ca;
+  background: #18181f;
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.topbar-docs a:hover,
+.topbar-docs a:focus-visible {
+  border-color: rgba(66, 202, 253, 0.8);
+  color: #f6f4ef;
+}
+
 /* Starting over and loading the example sit apart from the file actions: they
    replace the workspace rather than move it in or out of a file. */
 .topbar-workspace {

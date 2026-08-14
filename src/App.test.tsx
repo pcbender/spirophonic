@@ -56,6 +56,28 @@ describe('MG-09 playable Composition app', () => {
     expect(screen.getByLabelText('Transport status')).toHaveTextContent('events')
   })
 
+  it('links every generated guide without replacing the active workspace', () => {
+    render(<App />)
+    const documentation = within(
+      screen.getByRole('navigation', { name: 'Documentation' }),
+    )
+
+    for (const [name, href] of [
+      ['Getting Started', '/docs/getting-started.html'],
+      ['Manual', '/docs/manual.html'],
+      ['Domain Model', '/docs/domain-model.html'],
+    ]) {
+      expect(documentation.getByRole('link', { name })).toHaveAttribute(
+        'href',
+        href,
+      )
+      expect(documentation.getByRole('link', { name })).toHaveAttribute(
+        'target',
+        '_blank',
+      )
+    }
+  })
+
   it('passes compiled gate-modulation lanes to the canvas', async () => {
     const composition = gatedModulationComposition()
     localStorage.setItem(
