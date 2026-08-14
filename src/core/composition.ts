@@ -416,6 +416,38 @@ export type ScaleName =
   | 'pentatonic-major'
   | 'pentatonic-minor'
 
+export type PitchFigure =
+  | { kind: 'note'; note: number }
+  | { kind: 'chord'; notes: Array<number> }
+  | { kind: 'scale-degree'; degree: number }
+  | { kind: 'pitch-class-set'; pitchClasses: Array<number> }
+  | { kind: 'interval-structure'; intervals: Array<number> }
+
+export type FigureSequenceTransform = {
+  kind: 'prime' | 'retrograde' | 'inversion' | 'retrograde-inversion'
+  /** Chromatic semitones applied after inversion and interval scaling. */
+  transpose: number
+  /** MIDI pitch around which inversion and interval scaling operate. */
+  axis: number
+  /** 1 preserves intervals, values above/below 1 expand/compress them. */
+  intervalScale: number
+}
+
+export type FigureSequencePitchMapping = {
+  kind: 'figure-sequence'
+  accessMode: 'fifo' | 'lifo' | 'indexed'
+  /** Required only by indexed access. */
+  indexSource?: 'event-index' | 'boundary-index' | 'bar-index'
+  endBehavior: 'loop' | 'hold' | 'silence'
+  /** A compile always starts fresh; these options restart within its window. */
+  resetOn: 'performance' | 'bar' | 'wheel-cycle'
+  /** Register/key anchor for relative figures. */
+  root: number
+  scale: ScaleName
+  transform: FigureSequenceTransform
+  figures: Array<PitchFigure>
+}
+
 export type PitchMapping =
   | { kind: 'fixed-midi'; note: number }
   | { kind: 'fixed-frequency'; frequencyHz: number }
@@ -466,6 +498,7 @@ export type PitchMapping =
       anchor: 'none' | 'bar'
       contour: MelodyContourSpec
     }
+  | FigureSequencePitchMapping
 
 /**
  * A shared pitch reference several Parts can derive from, so they land in the

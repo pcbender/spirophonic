@@ -120,6 +120,37 @@ const record = (composition: Composition) => {
 }
 
 describe('MG-18 acceptance', () => {
+  it('replays and reinterprets a figure sequence without a mutable cursor', () => {
+    const composition = source()
+    const sequencedPart = notePart('part-sequence', 60)
+    sequencedPart.pitch = {
+      kind: 'figure-sequence',
+      accessMode: 'fifo',
+      endBehavior: 'loop',
+      resetOn: 'performance',
+      root: 60,
+      scale: 'major',
+      transform: { kind: 'retrograde', transpose: 0, axis: 60, intervalScale: 1 },
+      figures: [
+        { kind: 'note', note: 60 },
+        { kind: 'chord', notes: [64, 67] },
+        { kind: 'scale-degree', degree: 4 },
+      ],
+    }
+    composition.parts = [sequencedPart]
+    const recording = record(composition)
+
+    expect(recording.performedEvents.length).toBeGreaterThan(
+      recording.encounters.length,
+    )
+    expect(replayRecording(recording).events).toEqual(
+      recording.performedEvents,
+    )
+    expect(reinterpretRecording(recording, [sequencedPart])).toEqual(
+      reinterpretRecording(recording, [sequencedPart]),
+    )
+  })
+
   it('replays after the source Wheels and Fields are removed', () => {
     const composition = source()
     const recording = record(composition)

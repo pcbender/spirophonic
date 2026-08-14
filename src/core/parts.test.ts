@@ -7,6 +7,7 @@ import type {
 } from './composition'
 import type { BoundaryCrossingEncounter } from './encounters'
 import {
+  buildPartFigureSequence,
   encounterMatchesQuery,
   mapEncounterPitch,
   normalizeEncounterContour,
@@ -120,6 +121,37 @@ describe('Part Encounter queries', () => {
 })
 
 describe('Part pitch mappings', () => {
+  it('resolves a figure sequence over the Part Encounter stream', () => {
+    const events = [encounter({ id: 'one' }), encounter({ id: 'two' })]
+    const composition = {
+      wheels: [{
+        id: 'wheel-1',
+        rate: { cycles: 1, beats: 4 },
+        phase: 0,
+        direction: 'forward',
+      }],
+    } as unknown as import('./composition').Composition
+    const pitches = buildPartFigureSequence(
+      part({
+        pitch: {
+          kind: 'figure-sequence',
+          accessMode: 'fifo',
+          endBehavior: 'loop',
+          resetOn: 'performance',
+          root: 60,
+          scale: 'major',
+          transform: { kind: 'prime', transpose: 0, axis: 60, intervalScale: 1 },
+          figures: [{ kind: 'note', note: 60 }, { kind: 'chord', notes: [64, 67] }],
+        },
+      }),
+      events,
+      composition,
+    )
+
+    expect(pitches?.map((figure) => figure.map((pitch) => pitch.midiNote)))
+      .toEqual([[60], [64, 67]])
+  })
+
   it('maps fixed MIDI, exact frequency, and stable Boundary degree pitches', () => {
     expect(
       mapEncounterPitch(

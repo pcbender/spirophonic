@@ -176,6 +176,8 @@ export const help = {
     'Add a shared pitch reference, so several Parts land in the same key.',
   'part.enabled': 'Include this Part. A disabled Part is never heard and cannot solo.',
   'part.name': 'Names this Part in the tree.',
+  'part.duplicate':
+    'Copy this Part and all of its settings into a new, independently editable Part.',
   'part.remove': 'Remove this Part.',
   'part.kinds':
     'Which kinds of Encounter this Part turns into notes. Boundary crossings are the default; trace crossings need Observe Trace on a Head, and the alignment kinds need a Relation. Check none and it accepts every kind.',
@@ -189,7 +191,7 @@ export const help = {
     'Listen only to crossings going one way — inward, outward, or around — or to any of them.',
   'part.instrument': 'Which Instrument renders this Part’s notes.',
   'part.pitchMapping':
-    'How an Encounter chooses a pitch. Fixed MIDI repeats one note, giving the rhythm alone. Boundary degree lets which Boundary was crossed pick the note. Spatial and Contour read where the Encounter happened, Melodic line walks the scale instead of sampling it, and the ratio mappings turn a Wheel’s own relationship into an interval.',
+    'How an Encounter chooses pitch. Figure sequence plays through an authored phrase or chord progression; the other mappings derive one pitch from a constant, geometry, contour, or ratio.',
   'part.pitchSource':
     'Which measurement of the Encounter drives pitch: its x, its y, its distance from centre, or its angle. Angle is the only one independent of Space scale.',
   'part.octaves': 'How many octaves the degrees are spread across.',
@@ -211,6 +213,27 @@ export const help = {
   'part.lowDegree': 'Lowest scale degree the line may reach.',
   'part.highDegree': 'Highest scale degree the line may reach.',
   'part.startDegree': 'Scale degree the line begins on.',
+  'part.figureSequence':
+    'An ordered collection of notes, chords, scale degrees, pitch classes, or relative intervals. Every selected Encounter asks for one figure.',
+  'part.figureAccess':
+    'FIFO reads first to last, LIFO reads last to first, and Indexed chooses from deterministic Encounter metadata.',
+  'part.figureIndex':
+    'Which deterministic number selects the figure: this Part’s event count, the Boundary index, or the bar index.',
+  'part.figureEnd':
+    'Loop wraps to the beginning, Hold repeats the traversal’s final figure, and Silence emits no note after exhaustion.',
+  'part.figureReset':
+    'Start sequence counting over for each compile, each bar, or each primary Wheel cycle. Replay of recorded notes does not rerun it.',
+  'part.figureTransform':
+    'Prime preserves order, Retrograde reverses it, Inversion reflects pitches around the axis, and Retrograde inversion combines both.',
+  'part.figureTranspose':
+    'Chromatic semitones applied to every figure after inversion and interval scaling.',
+  'part.figureAxis':
+    'The MIDI pitch around which inversion and interval expansion or compression operate.',
+  'part.figureIntervalScale':
+    'Scale every distance from the axis. 1 preserves intervals, above 1 expands them, and below 1 compresses them to the nearest semitone.',
+  'part.figureKind': 'The musical object this sequence step returns.',
+  'part.figureValues':
+    'Comma- or space-separated MIDI notes, pitch classes 0–11, or semitone intervals, depending on the figure kind.',
   'part.midiNote': 'The single MIDI note every Encounter plays. 60 is middle C.',
   'part.root':
     'The root note the scale is built on, as a MIDI number — the note name beside the label tracks it. Degree 0 lands here.',

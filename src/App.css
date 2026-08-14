@@ -416,6 +416,36 @@ h1 {
   font-size: 0.78rem;
 }
 
+/* A sequence is a row-level editor, not one more scalar control. Keeping it
+   in a single auto-fit column makes its tall figure list stretch the inputs
+   beside it to the same height. */
+.figure-sequence-editor {
+  grid-column: 1 / -1;
+  margin: 10px 0 0;
+  border: 1px solid rgba(246, 244, 239, 0.16);
+  border-radius: 8px;
+  padding: 8px 10px 10px;
+  min-width: 0;
+}
+
+.figure-sequence-editor legend {
+  padding: 0 6px;
+  color: #a9a297;
+  font-size: 0.78rem;
+}
+
+.figure-sequence-editor ol {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px 18px;
+  margin: 0 0 10px;
+  padding-left: 24px;
+}
+
+.figure-sequence-editor li {
+  min-width: 0;
+}
+
 .query-toggles {
   display: flex;
   flex-wrap: wrap;

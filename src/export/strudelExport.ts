@@ -105,9 +105,9 @@ const patternForPart = (
   )
   const gridBeats = part.quantize?.gridBeats ?? 0.25
   const steps = Math.max(1, Math.min(256, Math.round(durationBeats / gridBeats)))
-  const slots: Array<NoteMusicalEvent | null> = Array.from(
+  const slots: Array<Array<NoteMusicalEvent>> = Array.from(
     { length: steps },
-    () => null,
+    () => [],
   )
 
   // A silenced event leaves its slot empty, which Strudel already writes as a
@@ -119,16 +119,28 @@ const patternForPart = (
       Math.round(((event.absoluteBeat - startBeat) / durationBeats) * steps) %
       steps
     const held = slots[slot]
-    if (!held || event.velocity > held.velocity) slots[slot] = event
+    if (held.length === 0) {
+      slots[slot] = [event]
+    } else if (
+      held[0].sourceEncounterId === event.sourceEncounterId &&
+      Math.abs(held[0].absoluteBeat - event.absoluteBeat) <= 1e-9
+    ) {
+      // One figure-sequence chord: retain every simultaneous canonical tone.
+      slots[slot] = [...held, event]
+    } else if (event.velocity > Math.max(...held.map((item) => item.velocity))) {
+      // Preserve the existing exporter-grid collision policy for unrelated
+      // Encounters: the stronger event group owns the slot.
+      slots[slot] = [event]
+    }
   }
 
-  const firstEvent = slots.find((event) => event !== null)
+  const firstEvent = slots.find((events) => events.length > 0)?.[0]
   // One pattern cannot mix note names and frequencies, so if any event needs a
   // frequency to keep its tuning, the whole part is emitted as frequencies.
   const usesFrequency =
     instrument.kind !== 'native-drum' &&
     !(instrument.kind === 'soundfont' && instrument.trigger?.kind === 'one-shot') &&
-    slots.some((event) => event !== null && !isEqualTempered(event))
+    slots.some((events) => events.some((event) => !isEqualTempered(event)))
 
   const lanes = performance.modulationLanes.filter(
     (lane) => lane.partId === part.id,
@@ -197,21 +209,28 @@ const patternForPart = (
     label: part.name,
     usesFrequency,
     tokens: Object.freeze(
-      slots.map((event) => {
-        if (!event) return REST
-        if (instrument.kind === 'native-drum') return drumSounds[instrument.voice]
-        return usesFrequency
-          ? pitchToken(event)
-          : instrumentNoteName(event, instrument)
+      slots.map((events) => {
+        if (events.length === 0) return REST
+        const tokens = events.map((event) => {
+          if (instrument.kind === 'native-drum') return drumSounds[instrument.voice]
+          return usesFrequency
+            ? pitchToken(event)
+            : instrumentNoteName(event, instrument)
+        })
+        return tokens.length === 1 ? tokens[0] : `[${tokens.join(',')}]`
       }),
     ),
     gains: Object.freeze(
-      slots.map((event) =>
-        event
+      slots.map((events) =>
+        events.length > 0
           ? String(
               Number(
-                (((entryVelocity.get(event.id) ?? event.velocity) as number) /
-                  127).toFixed(2),
+                (Math.max(
+                  ...events.map(
+                    (event) =>
+                      (entryVelocity.get(event.id) ?? event.velocity) as number,
+                  ),
+                ) / 127).toFixed(2),
               ),
             )
           : REST,
