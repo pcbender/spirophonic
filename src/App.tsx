@@ -571,6 +571,25 @@ function App() {
           )}
         </div>
         <div className="topbar-io">
+          <nav className="topbar-docs" aria-label="Documentation">
+            <a
+              href="/docs/getting-started.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Getting Started
+            </a>
+            <a href="/docs/manual.html" target="_blank" rel="noreferrer">
+              Manual
+            </a>
+            <a
+              href="/docs/domain-model.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Domain Model
+            </a>
+          </nav>
           <ImportExportPanel
             composition={compiledComposition}
             performance={performance}

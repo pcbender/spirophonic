@@ -3,6 +3,11 @@
 Spirophonic is a static Vite application. The deployment script builds `dist/`
 and copies it to a pre-authorized web root over SSH and rsync.
 
+The build regenerates `public/docs/*.html` from `GETTING-STARTED.md`,
+`MANUAL.md`, and `Spirophonic-Domain-Model.md` before Vite copies the pages into
+`dist/docs/`. The app's documentation links therefore ship the same current
+Markdown content to staging and production without a separate deployment step.
+
 ## Prerequisites
 
 The deployment machine needs Node.js, npm, OpenSSH, and rsync. The remote server

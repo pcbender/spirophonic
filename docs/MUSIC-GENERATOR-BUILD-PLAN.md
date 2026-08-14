@@ -1,6 +1,6 @@
 # Spirophonic Music Generator Build Plan
 
-Status: **implementation contract; MG-01 through MG-26 and WIN-01 are complete; MG-27 is in review.**
+Status: **implementation contract; MG-01 through MG-27 and WIN-01 are complete; DOC-01 is in review.**
 
 This document turns [Spirophonic-Domain-Model.md](Spirophonic-Domain-Model.md)
 into a dependency-ordered build plan. It is the active contract for moving the
@@ -400,7 +400,8 @@ sweep, it does not license silent scope growth.
 | MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | **done** |
 | MG-25 | Closed radial waveform motion | MG-03, MG-04, MG-06, MG-09 | **done** — validated 2026-08-13 |
 | MG-26 | SoundFont creation and fixed-note one-shots | MG-11, MG-19, MG-20 | **done** |
-| MG-27 | Figure-sequence pitch mapping | MG-16, MG-18, MG-19 | **in review** |
+| MG-27 | Figure-sequence pitch mapping | MG-16, MG-18, MG-19 | **done** — integrated by PR 16 at `55e1c8c` |
+| DOC-01 | Generated web documentation | MG-09, MG-21 | **in review** |
 
 The first user-visible milestone is MG-09. MG-11 makes that slice sound like a
 composition tool. MG-12 proves concurrent Wheels and Heads before advanced
@@ -1764,6 +1765,69 @@ own duration in the current model.
 - Removing sequence advancement or a collection transform makes a focused
   guard fail; repository gates and the Chromium/Firefox author-save-reload
   check pass with exit codes verified.
+
+## DOC-01 — Generated web documentation
+
+**Goal:** Publish the current Getting Started guide, Manual, and Domain Model
+as readable static HTML linked from the application in local development and
+every deployed build.
+
+**Files:** `.gitignore`, `package.json`, `package-lock.json`,
+`scripts/build-docs.mjs`, `scripts/build-docs.test.mjs`, `src/App.tsx`,
+`src/App.css`, `src/App.test.tsx`, `e2e/app.spec.ts`, `README.md`,
+`docs/GETTING-STARTED.md`, `docs/MANUAL.md`, `docs/DEPLOYMENT.md`,
+`docs/MUSIC-GENERATOR-BUILD-PLAN.md`, and
+`docs/MUSIC-GENERATOR-PROGRESS.md`; Graphify refresh outputs
+`graphify-out/.graphify_labels.json`, `graphify-out/GRAPH_REPORT.md`,
+`graphify-out/graph.html`, `graphify-out/graph.json`, and
+`graphify-out/manifest.json`.
+
+**Scope note (2026-08-14):** Markdown remains the only authored source. A
+build-only renderer writes ignored pages beneath `public/docs/` before Vite
+starts or builds; Vite then serves or copies those pages without maintaining a
+second checked-in document set. The guarded deploy command already invokes
+`npm run build`, so staging and production share the same freshness contract.
+
+**Review amendment (2026-08-14):** Generated reader-facing pages contain only
+product documentation and navigation. Repository provenance and commands for
+regenerating the HTML belong in contributor documentation, not on the
+published pages.
+
+**Guide-accuracy amendment (2026-08-14):** The Getting Started walkthrough is
+part of the maintained product surface. Its first-visit, restored-session,
+Performance-panel, event-count, and first-sound claims must match the current
+UI and default/blank Compositions, with a browser workflow guarding the steps.
+
+**Deliverables:**
+
+- A deterministic Markdown-to-HTML generator for `GETTING-STARTED.md`,
+  `MANUAL.md`, and `Spirophonic-Domain-Model.md` with readable responsive
+  styling, heading anchors, cross-document navigation, and a route back to the
+  application.
+- `predev` and `prebuild` lifecycle integration so local and deployed pages are
+  regenerated from the current Markdown sources.
+- Visible application links to all three generated pages.
+- A current Getting Started walkthrough that distinguishes first visits from
+  restored sessions and teaches the Performance report before editing.
+- Unit and real-browser checks for rendered content, internal link rewriting,
+  app navigation, and production-preview availability.
+
+**Acceptance criteria:**
+
+- `npm run dev` serves all three pages under stable `/docs/*.html` URLs, and
+  `npm run build` places the same pages in `dist/docs/`.
+- Each generated page preserves tables/code/blockquote content and gives
+  headings stable fragment IDs used by the authored table of contents, without
+  displaying repository provenance or build instructions.
+- Links between the three published documents stay on the deployed site;
+  links to repository Markdown outside this published set resolve to the
+  corresponding GitHub source rather than a dead `.md` URL.
+- The app's documentation links remain usable at desktop and narrow widths and
+  open without replacing the active composition workspace.
+- The documented New → Add rings → Add Part workflow matches the UI's actual
+  structural-silence explanations and event count.
+- Generated HTML is ignored rather than reviewed as authored source, and a
+  source-content mutation makes the generator freshness guard fail.
 
 ## Packet rules
 

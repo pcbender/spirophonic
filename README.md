@@ -26,6 +26,13 @@ npm run dev
 
 Vite prints a local URL, normally <http://localhost:5173/>.
 
+The dev/build lifecycle generates browser-ready copies of the Getting Started
+guide, Manual, and Domain Model from their Markdown sources. They are linked in
+the app header and served under `/docs/` (for example,
+<http://localhost:5173/docs/manual.html>). Run `npm run build:docs` when you
+want to refresh only those generated pages; the generated HTML is intentionally
+not committed.
+
 On Windows, stop running Vite/Vitest processes before `npm ci` or changing
 dependency versions. Windows cannot replace a native `.node` binding while a
 Node process has it loaded. A normal first-time `npm install` is unaffected.
@@ -163,6 +170,10 @@ Tests live beside the modules they cover; benchmarks with checked-in budgets sit
 in `*.bench.test.ts`.
 
 ## Docs
+
+The first three guides below are also available from the running app. Their
+Markdown files remain the source of truth, and `npm run dev`, `npm run build`,
+and every deployment regenerate their HTML copies.
 
 - [Getting started](docs/GETTING-STARTED.md) — blank screen to first sound, in
   about ten minutes

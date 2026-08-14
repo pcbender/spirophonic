@@ -3,8 +3,8 @@
 Every control in the interface, what it does, and what it affects.
 
 This is a reference, not a tutorial. If you have never used Spirophonic, read
-[GETTING-STARTED.md](GETTING-STARTED.md) first — it builds a sound in four
-clicks and explains the chain that makes it work.
+[GETTING-STARTED.md](GETTING-STARTED.md) first — it builds a first sound,
+teaches the Performance report, and explains the chain that makes it work.
 
 This document describes **the interface**. For the precise definitions behind
 the vocabulary — what an Encounter *is*, what guarantees a Trace makes — see

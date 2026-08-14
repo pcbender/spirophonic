@@ -14,12 +14,12 @@ dependencies, file lists, architectural invariants, and acceptance criteria.
 
 | Measure | Current value |
 | --- | --- |
-| Packets complete | 26 / 27 |
-| Maintenance packets complete | 1 / 1 |
-| Packets active | 0 |
+| Packets complete | 27 / 27 |
+| Maintenance packets complete | 1 / 2 |
+| Packets active | 1 |
 | Packets blocked | 0 |
-| Next ready packet | None — MG-27 is in review |
-| Active agents | None |
+| Next ready packet | None — DOC-01 is in review |
+| Active agents | Codex/root on DOC-01 review candidate |
 | Integration branch | `main` |
 | Last tracker update | 2026-08-14 |
 
@@ -92,9 +92,10 @@ While working:
 
 ## Active claims
 
-There is no active claim. MG-27 is in review on
-`agent/figure-sequence-pitch-mapping` in
+DOC-01 is owned by Codex/root on `agent/generated-web-documentation` in
 `/home/mrose/spirophonic`.
+Claimed at `2026-08-14T18:18:07Z`; last updated at
+`2026-08-14T19:07:55Z`.
 
 Move completed or abandoned claims to the Activity log rather than erasing
 their history.
@@ -130,7 +131,8 @@ their history.
 | MG-24 | Modulated playback and export agreement | MG-19, MG-20, MG-23 | `done` | — | 2026-08-10 | Integrated at `4a87f1f`; exact-commit unit, lint, build, two-engine browser, mutation, cancellation, capability, and Graphify gates pass. |
 | MG-25 | Closed radial waveform motion | MG-03, MG-04, MG-06, MG-09 | `done` | — | 2026-08-13 | Working tree passes core gates, targeted mutation guards, and the Chromium/Firefox radial-wave author/play/reload check. A loop-seam correction keeps the closing endpoint from doubling the repeated opening attack; see validation row. |
 | MG-26 | SoundFont creation and fixed-note one-shots | MG-11, MG-19, MG-20 | `done` | — | 2026-08-14 | Integrated by PR 15 at `89179eb`; author validation covered 637 tests, lint, build, focused mutation guards, and the Chromium/Firefox real-SoundFont author/preview/reload check. |
-| MG-27 | Figure-sequence pitch mapping | MG-16, MG-18, MG-19 | `in_review` | — | 2026-08-14 | Working tree passes 659 tests, lint, build, advancement/inversion mutation guards, and the Chromium/Firefox author/play/reload check; review and commit are next. |
+| MG-27 | Figure-sequence pitch mapping | MG-16, MG-18, MG-19 | `done` | — | 2026-08-14 | Integrated by PR 16 at `55e1c8c`; author validation passed 659 tests, lint, build, focused mutation guards, and Chromium/Firefox workflows. |
+| DOC-01 | Generated web documentation | MG-09, MG-21 | `in_review` | Codex/root | 2026-08-14 | Getting Started now matches current first-visit/restored behavior, teaches Performance diagnostics, and has a two-engine workflow guard for every documented event count. Review and integration are next. |
 
 When a packet becomes `done`, evaluate every direct dependent immediately and
 promote it from `waiting` to `ready` if all dependencies are complete.
@@ -150,7 +152,8 @@ promote it from `waiting` to `ready` if all dependencies are complete.
 | Region-gated expression | MG-22–MG-24 | Wedges create one held note per visit; interior motion modulates that voice consistently in notation, playback, Recording, and export. | 3 / 3 — complete |
 | Closed radial motion | MG-25 | Common waveforms close on one Wheel cycle and flow through authoring, Encounters, rendering, persistence, and playback. | 1 / 1 — complete |
 | SoundFont one-shots | MG-26 | Presets append Instruments and optionally trigger one fixed SF3 note without a duration-based note-off. | 1 / 1 — complete |
-| Figure sequences | MG-27 | Encounter streams deterministically traverse and transform authored pitch figures, including chords. | 0 / 1 — in review |
+| Figure sequences | MG-27 | Encounter streams deterministically traverse and transform authored pitch figures, including chords. | 1 / 1 — complete |
+| Web documentation | DOC-01 | Current guides are generated, linked, and deployed with the application. | 0 / 1 — in review |
 
 ## Validation ledger
 
@@ -159,6 +162,7 @@ the final column rather than relying on a statement that it was checked.
 
 | Packet | Commit | `npm test` | `npm run lint` | `npm run build` | Graphify | Manual/browser evidence | Reviewer |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| DOC-01 | working tree on `55e1c8c` | 67 files, 662 tests pass in isolated gate (exit 0 verified) | pass | pass; three pages copied to `dist/docs/`; existing >500 kB advisory | 1,979 nodes / 4,370 edges | `npm run dev` regenerated the pages and served the app plus all three `/docs/*.html` routes with HTTP 200. The pre-change app-link guard, stale-output mutation, and visible build-note guard each failed as intended. Generated routes and the audited Getting Started workflow pass in Chromium and Firefox (4/4): first visit is 12 events; New reports No Fields; Add rings reports No Parts; Add Part produces 6 events; the documented 4/8/16/32/64-beat counts are 6/12/23/46/93. A parallel gate run timed out one existing five-second benchmark under build load; the immediate isolated `npm test` rerun passed all 662. The earlier full browser run's sole pre-existing Firefox frame-gap failure reproduced with the new links removed. | Codex/root |
 | MG-12 Part duplication correction | working tree | 66 files, 659 tests pass (exit 0 verified) | pass | pass; existing >500 kB advisory | update refused safely: 1,959 extracted vs 1,972 existing nodes | The pre-change UI guard fails because `Duplicate part-1` is absent. Chromium and Firefox place Duplicate immediately before Remove, persist a complete settings copy, and expose the new Part for independent editing (2/2). Core and panel coverage includes note and Control Parts plus fresh gate-modulation identities. | Codex/root |
 | MG-27 | working tree | 66 files, 654 tests pass (exit 0 verified) | pass | pass; existing >500 kB advisory | update refused safely: 1,958 extracted vs 1,972 existing nodes | Chromium and Firefox both author indexed retrograde-inversion, edit a chord, play, persist, and reload (2/2). Disabling sequence advancement and inversion made their focused guards fail with the wrong pitch streams. Strudel preserves simultaneous tones as documented `[c4,e4,g4]` polyphony. | Codex/root |
 | MG-26 | working tree | 65 files, 637 tests pass (exit 0 verified) | pass | pass | update refused safely: 1,921 extracted vs 1,972 existing nodes | The Apache-2.0 940-byte SoundFont enumerates separate Saw Wave and Sample Drums presets; playback-family filtering, fixed C2 preview, append-only creation, unchanged Part routing, no per-item fallback conversion, saved trigger, and reload pass in Chromium and Firefox (2/2). The focused mutation guards fail as intended. | Codex/root |
@@ -211,24 +215,23 @@ Validation rules:
 
 ## Active packet records
 
-MG-01 through MG-26 and WIN-01 are `done`; MG-27 is `in_review`.
+MG-01 through MG-27 and WIN-01 are `done`; DOC-01 is `in_review`.
 
-### MG-27 review record
+### DOC-01 active record
 
-- Branch/cwd: `agent/figure-sequence-pitch-mapping` at
+- Branch/cwd: `agent/generated-web-documentation` at
   `/home/mrose/spirophonic`.
-- Complete: pure deterministic sequence resolution; five figure kinds; three
-  access modes; three exhaustion policies; performance/bar/Wheel-cycle reset;
-  four collection transforms; transpose and interval scaling; canonical chord
-  expansion; strict validation and JSON; Part-editor authoring; replay and
-  reinterpretation; Strudel chord preservation; examples and manual guidance.
-- Validation: 659 tests, lint, and build exit 0; Chromium and Firefox pass the
-  author/play/persist/reload regression; advancement and inversion mutations
-  fail their focused guards. Graphify refused a safe update because the new AST
-  extraction had 1,958 nodes versus 1,972 in the existing graph.
-- Explicit limit: rhythmic augmentation/diminution is deferred because current
-  pitch figures do not own event duration.
-- Next: review and integrate the feature branch before marking MG-27 `done`.
+- Started: `2026-08-14T18:18:07Z`; last updated:
+  `2026-08-14T19:07:55Z`.
+- Scope: generated HTML for the Getting Started guide, Manual, and Domain
+  Model; `predev`/`prebuild` freshness; top-bar links; unit and browser checks.
+- Result: Getting Started now distinguishes first visits from restored work,
+  describes the default as ready rather than already sounding, uses the live
+  12-event count, teaches Performance diagnostics before editing, covers
+  Figure sequence mapping, and corrects stale historical references. Its
+  first-sound and loop-length claims pass in both browser engines.
+- Next: review and commit the working tree, then mark DOC-01 `done` in both
+  tracking documents after integration.
 
 Keep one subsection here for every `claimed`, `in_progress`, `blocked`, or
 `in_review` packet, then move each finished record into the Activity log,
@@ -298,6 +301,14 @@ and releases. Do not log every edit.
 
 | UTC time | Agent | Packet | Event | Branch/commit | Summary and next step |
 | --- | --- | --- | --- | --- | --- |
+| 2026-08-14T19:07:55Z | Codex/root | DOC-01 | Publish branch created | `agent/generated-web-documentation` / uncommitted | Scoped working tree moved from updated `main`; commit, push, and draft PR are next. |
+| 2026-08-14T19:03:10Z | Codex/root | DOC-01 | Guide review completed | `main` / uncommitted | Getting Started now matches the live first-visit and New workflows, foregrounds Performance diagnostics, and has Chromium/Firefox guards for all stated event counts. Repository gates pass; review and commit are next. |
+| 2026-08-14T18:55:40Z | Codex/root | DOC-01 | Guide review requested | `main` / uncommitted | Audit Getting Started for current first-load behavior and add an explicit, accurate explanation of the Performance report and diagnostics. |
+| 2026-08-14T18:42:18Z | Codex/root | DOC-01 | Review correction completed | `main` / uncommitted | Removed the two build-oriented reader notes; their regression guard, 662 tests, lint, build, Graphify, and the focused Chromium/Firefox workflow pass. Review and commit are next. |
+| 2026-08-14T18:40:21Z | Codex/root | DOC-01 | Review correction requested | `main` / uncommitted | Remove source-provenance and regeneration instructions from reader-facing generated pages; retain those details only in contributor documentation. |
+| 2026-08-14T18:28:56Z | Codex/root | DOC-01 | Author handoff | `main` / uncommitted | Three Markdown guides now generate during dev/build, ship in `dist/docs/`, and open from the app. Unit, lint, build, freshness mutation, and focused Chromium/Firefox checks pass; review and commit are next. |
+| 2026-08-14T18:18:07Z | Codex/root | DOC-01 | Packet claimed | `main` / `55e1c8c` | Scope generated web documentation before editing implementation files; convert three authored guides during dev/build and expose them from the app. |
+| 2026-08-14T18:05:51Z | Codex/root | MG-27 | Integrated and closed | `main` / `55e1c8c` | PR 16 merged the deterministic figure-sequence mapper, canonical chords, editor, exports, docs, UI layout correction, and Part duplication. |
 | 2026-08-14T17:50:09Z | Codex/root | MG-12 | Part duplication correction implemented | `main` / uncommitted | Note and Control Parts now duplicate beside their source with complete settings, unique Part and gate-modulation identities, adjacent Duplicate/Remove actions, and passing unit plus Chromium/Firefox coverage. |
 | 2026-08-14T16:55:01Z | Codex/root | MG-27 | Author handoff | `main` / uncommitted | Figure-sequence mapping, canonical chords, strict JSON/editor authoring, replay, Strudel polyphony, docs, and examples pass 654 tests, lint, build, two browser engines, and two mutation guards. Review and commit are next. |
 | 2026-08-14T16:37:05Z | Codex/root | MG-27 | Packet claimed | `main` / `89179eb` | MG-16, MG-18, and MG-19 are done, MG-26 is merged, and no active claim overlaps. Define the packet contract before changing its named source files. |
@@ -382,6 +393,47 @@ and releases. Do not log every edit.
 | 2026-08-05T22:10:11Z | Claude Opus 5 | MG-12 | Author handoff | `b00847a` | Structural editing with cascade impact, Part solo/mute, the composition tree, selection-driven panels, and the four-Wheel reference Composition all pass 243 tests, lint, build, and Graphify. Browser/audio check on the reference Composition remains before `done`. |
 
 ## Handoff records
+
+### 2026-08-14 DOC-01 review-candidate handoff
+
+- Packet: DOC-01 — Generated web documentation
+- State: `in_review`
+- Agent: Codex/root
+- Branch/cwd: `agent/generated-web-documentation` at
+  `/home/mrose/spirophonic`
+- Commit: uncommitted review candidate based on `55e1c8c`
+- Acceptance criteria complete: the three authored Markdown guides generate as
+  responsive static HTML with stable anchors, cross-guide navigation, live
+  repository links for unpublished Markdown, and an app return route; `predev`
+  and `prebuild` keep local and deployed output current; app links open without
+  replacing the workspace.
+- Validation: 67 files / 662 tests, lint, production build, focused two-engine
+  browser workflow, `git diff --check`, and Graphify at 1,979 nodes / 4,370
+  edges pass. The stale-output mutation and missing-navigation guard both fail
+  as intended. `dist/docs/` contains exactly the three generated pages, and a
+  live `npm run dev` smoke served the app and all three docs with HTTP 200.
+- Review correction: reader-facing source provenance and regeneration
+  instructions were removed from the template. The new unit guard failed
+  against the prior template, and the corrected pages pass in both browser
+  engines without either sentence.
+- Guide audit: the live default exposed the stale 13-event claim by producing
+  12. Getting Started now distinguishes first visits from restored sessions,
+  explains Performance and compilation state before edits, describes Figure
+  sequence mapping, and corrects stale historical links. Chromium and Firefox
+  pass the full documented New → Add rings → Add Part workflow and every
+  published loop-length count (4/4 checks including generated-page coverage).
+- Browser evidence: the docs workflow passes in Chromium and Firefox. The full
+  run passes 67/68; only the pre-existing Firefox frame-gap benchmark fails at
+  118 ms versus 100 ms. It repeats at 111 ms and, with these links temporarily
+  removed, 145 ms, so this packet does not cause that timing failure.
+- Edited docs: `README.md`, `docs/GETTING-STARTED.md`, `docs/MANUAL.md`,
+  `docs/DEPLOYMENT.md`,
+  `docs/MUSIC-GENERATOR-BUILD-PLAN.md`, and
+  `docs/MUSIC-GENERATOR-PROGRESS.md`.
+- Blockers or risks: no feature blocker. The existing >500 kB Vite advisory and
+  Firefox timing-budget failure remain outside this packet.
+- Next exact action: commit and push `agent/generated-web-documentation`, open a
+  draft PR against `main`, then mark DOC-01 `done` after integration.
 
 ### 2026-08-14 MG-27 review-candidate handoff
 
